@@ -1,0 +1,7 @@
+{
+  "name": "bidder-material-intake",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.bidder_material_intake.skill:BidderMaterialIntakeSkill",
+  "capabilities": ["bidder.material_intake", "bidder.profile_building"],
+  "required_permissions": ["document.read", "bidder.read"]
+}

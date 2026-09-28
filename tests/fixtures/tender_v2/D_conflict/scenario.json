@@ -1,0 +1,14 @@
+{
+  "scenario_id": "D_conflict",
+  "purpose": "Valid and invalid or contradictory evidence versions are uploaded together.",
+  "as_of": "2026-08-17",
+  "tender_file": "tender_requirements.json",
+  "correction_file": "correction_notice.json",
+  "bidder_file": "bidder_materials.json",
+  "ground_truth_file": "ground_truth.json",
+  "visible_files": [
+    "tender_requirements.json",
+    "correction_notice.json",
+    "bidder_materials.json"
+  ]
+}

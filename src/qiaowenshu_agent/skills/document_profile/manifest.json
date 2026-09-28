@@ -1,0 +1,7 @@
+{
+  "name": "document-profile",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.document_profile.skill:DocumentProfileSkill",
+  "capabilities": ["document.profile", "document.anatomy"],
+  "required_permissions": ["document.read"]
+}

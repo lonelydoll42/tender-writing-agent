@@ -1,0 +1,7 @@
+{
+  "name": "compliance-review",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.compliance_review.skill:ComplianceReviewSkill",
+  "capabilities": ["tender.compliance_review", "tender.submission_gate"],
+  "required_permissions": ["document.read"]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "requirement-ledger",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.requirement_ledger.skill:RequirementLedgerSkill",
+  "capabilities": ["tender.requirement_ledger", "tender.coverage_trace"],
+  "required_permissions": ["document.read"]
+}

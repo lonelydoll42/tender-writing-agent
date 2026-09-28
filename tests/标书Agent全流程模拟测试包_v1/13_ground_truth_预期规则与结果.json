@@ -1,0 +1,136 @@
+{
+  "project": {
+    "id": "SIM-2026-IT-017",
+    "name": "城市政务数据治理与智能分析平台建设项目",
+    "budget": 2400000,
+    "ceiling": 2400000,
+    "bid_deadline": "2026-09-18T09:30:00+08:00",
+    "bid_validity_days": 90,
+    "delivery_days": 150,
+    "joint_venture_allowed": false
+  },
+  "mandatory_requirements": [
+    {
+      "id": "Q1",
+      "requirement": "有效营业执照/法人登记证明",
+      "evidence": [
+        "03_营业执照_华辰数科_模拟.pdf"
+      ]
+    },
+    {
+      "id": "Q2",
+      "requirement": "2025年度审计关键页或银行资信证明",
+      "evidence": [
+        "12_2025年度审计报告关键页_模拟.pdf"
+      ]
+    },
+    {
+      "id": "Q3",
+      "requirement": "2023年以来至少1个合同额>=100万元的数据治理或政务信息化项目",
+      "evidence": [
+        "06_类似项目合同_A_135万元_模拟.pdf"
+      ]
+    },
+    {
+      "id": "Q4",
+      "requirement": "截止日有效的ISO/IEC 27001",
+      "pass_evidence": "04A_ISO27001_有效_模拟_扫描件.pdf",
+      "fail_evidence": "04B_ISO27001_过期_模拟_扫描件.pdf"
+    },
+    {
+      "id": "Q5",
+      "requirement": "项目经理信息系统项目管理师 + 2026-03至2026-08连续社保",
+      "cert": "08_项目经理_信息系统项目管理师证书_模拟.pdf",
+      "pass_social": "09A_项目经理社保_202603-202608_完整_模拟.pdf",
+      "review_social": "09B_项目经理社保_缺202608_模拟.pdf"
+    },
+    {
+      "id": "Q6",
+      "requirement": "投标保证金40000元足额按时到账",
+      "pass_evidence": "10A_投标保证金回单_40000元_合规_模拟.pdf",
+      "fail_evidence": "10B_投标保证金回单_30000元_金额不足_模拟.pdf"
+    },
+    {
+      "id": "T1",
+      "requirement": "OAuth2.0/OIDC对接现有统一身份平台",
+      "type": "star"
+    },
+    {
+      "id": "T2",
+      "requirement": "管理员关键操作日志保存不少于180天",
+      "type": "star",
+      "source_priority": "02_更正公告_模拟.pdf overrides original"
+    },
+    {
+      "id": "T3",
+      "requirement": "TLS1.2+与敏感字段加密",
+      "type": "star"
+    },
+    {
+      "id": "T4",
+      "requirement": "支持国产Linux、PostgreSQL兼容数据库，不绑定单一公有云",
+      "type": "star"
+    }
+  ],
+  "scoring": {
+    "total": 100,
+    "price": 20,
+    "business": 30,
+    "technical": 50,
+    "business_evidence_full_scenario": {
+      "similar_projects": 8,
+      "certifications": 6,
+      "project_manager": 4,
+      "local_service": 0,
+      "financial": 3,
+      "sum": 21
+    },
+    "max_score_if_full_technical_and_lowest_price": 91
+  },
+  "scenarios": {
+    "A_pass": {
+      "files": [
+        "01",
+        "02",
+        "03",
+        "03B",
+        "04A",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09A",
+        "10A",
+        "11",
+        "12"
+      ],
+      "expected": "pass_qualification_and_conformity",
+      "notes": "可继续评分和标书草拟；商务客观证据21/30；PMP与北辰市本地机构不可虚构。"
+    },
+    "B_hard_fail": {
+      "replace": [
+        "04A->04B",
+        "10A->10B"
+      ],
+      "expected": "do_not_bid_or_high_rejection_risk",
+      "reasons": [
+        "ISO27001在截止日已过期",
+        "保证金仅30000元，少于40000元"
+      ]
+    },
+    "C_human_review": {
+      "replace": [
+        "09A->09B"
+      ],
+      "expected": "human_review",
+      "gap": "缺2026年8月项目经理社保，不能证明3-8月连续缴纳；应要求补充证明，不应直接判定满足。"
+    }
+  },
+  "anti_hallucination_checks": [
+    "不得虚构第三个类似项目",
+    "不得虚构PMP证书",
+    "不得虚构北辰市分支机构",
+    "不得忽略更正公告将日志保存从90天提高到180天",
+    "不得把规则总分/理论上限表述为实际评委得分"
+  ]
+}

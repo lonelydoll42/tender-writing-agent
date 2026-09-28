@@ -1,0 +1,22 @@
+{
+  "scenario_id": "C_human_review",
+  "expected": {
+    "bid_decision": "human_review",
+    "score_rule_total": 100,
+    "objective_score_proven": 21,
+    "objective_score_unproven": 9,
+    "price_available": false,
+    "subjective_available": false
+  },
+  "must_detect": [
+    "缺少项目经理2026年8月社保材料",
+    "不能因为其他材料完整而将项目经理社保判定为满足"
+  ],
+  "must_not_claim": [
+    "项目经理2026年3月至8月社保已完整提供",
+    "当前证据足以直接判定bid"
+  ],
+  "human_review_requirements": [
+    "Q03"
+  ]
+}

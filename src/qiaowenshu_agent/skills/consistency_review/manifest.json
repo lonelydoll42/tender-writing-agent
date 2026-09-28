@@ -1,0 +1,7 @@
+{
+  "name": "consistency-review",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.consistency_review.skill:ConsistencyReviewSkill",
+  "capabilities": ["tender.consistency", "tender.canonical_facts"],
+  "required_permissions": ["document.read"]
+}

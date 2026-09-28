@@ -1,0 +1,26 @@
+{
+  "scenario_id": "D_conflict",
+  "expected": {
+    "bid_decision": "human_review",
+    "score_rule_total": 100,
+    "objective_score_proven": 18,
+    "objective_score_unproven": 12,
+    "price_available": false,
+    "subjective_available": false
+  },
+  "must_detect": [
+    "ISO/IEC 27001同时存在有效和过期版本",
+    "项目经理社保同时存在完整和不完整材料",
+    "投标保证金同时存在40000元和30000元材料",
+    "冲突材料不能直接合并为满足"
+  ],
+  "must_not_claim": [
+    "可以任意选择有效材料并忽略冲突材料",
+    "当前证据足以直接判定bid"
+  ],
+  "conflict_requirements": [
+    "Q02",
+    "Q03",
+    "Q07"
+  ]
+}

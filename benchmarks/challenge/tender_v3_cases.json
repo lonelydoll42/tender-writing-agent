@@ -1,0 +1,599 @@
+{
+  "protocol_version": "3.0",
+  "benchmark_name": "qiaowenshu-tender-v3-challenge",
+  "evaluation_mode": "holdout",
+  "cases": [
+    {
+      "id": "HN_ISO9001_FOR_ISO27001",
+      "kind": "hard_negative",
+      "input": {
+        "project_id": "v3-hn-iso",
+        "as_of": "2026-08-17",
+        "requirements": [
+          {
+            "requirement_id": "HN-ISO-1",
+            "category": "qualification",
+            "title": "ISO27001认证有效",
+            "description": "投标人应提供有效的ISO27001认证证书。",
+            "mandatory": true,
+            "evidence_required": ["ISO27001"],
+            "check_rule": {"validity_required": true}
+          }
+        ],
+        "materials": [
+          {
+            "material_id": "HN-ISO-M1",
+            "material_type": "ISO9001",
+            "title": "ISO9001质量管理体系认证",
+            "valid_until": "2027-12-31",
+            "metadata": {"status": "valid"}
+          }
+        ]
+      },
+      "mutations": [
+        {
+          "id": "replace_with_exact_iso27001",
+          "input_overrides": {
+            "materials": [
+              {
+                "material_id": "HN-ISO-M1",
+                "material_type": "ISO27001",
+                "title": "ISO27001信息安全管理体系认证",
+                "valid_until": "2027-12-31",
+                "metadata": {"status": "valid"}
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "HN_EXPIRED_ISO27001",
+      "kind": "hard_negative",
+      "input": {
+        "project_id": "v3-hn-expired",
+        "as_of": "2026-08-17",
+        "requirements": [
+          {
+            "requirement_id": "HN-ISO-EXPIRED",
+            "category": "qualification",
+            "title": "ISO27001认证有效",
+            "description": "投标人应提供有效的ISO27001认证证书。",
+            "mandatory": true,
+            "evidence_required": ["ISO27001"],
+            "check_rule": {"validity_required": true}
+          }
+        ],
+        "materials": [
+          {
+            "material_id": "HN-ISO-EXPIRED-M1",
+            "material_type": "ISO27001",
+            "title": "ISO27001信息安全管理体系认证",
+            "valid_until": "2026-01-31",
+            "metadata": {"status": "valid"}
+          }
+        ]
+      }
+    },
+    {
+      "id": "COMPOUND_CASES_COMPLETE",
+      "kind": "compound_rule",
+      "input": {
+        "project_id": "v3-compound-complete",
+        "as_of": "2026-08-17",
+        "requirements": [
+          {
+            "requirement_id": "CMP-CASE-1",
+            "category": "qualification",
+            "title": "近三年政务信息化项目业绩",
+            "description": "近三年不少于3个金额不低于200万元的政务信息化项目，且每个项目均须提供合同和验收证明。",
+            "mandatory": true,
+            "check_rule": {
+              "rule_ast": {
+                "op": "bundle_count",
+                "group_by": "case_id",
+                "evidence_types": ["contract", "acceptance"],
+                "where": {
+                  "completion_date": {"within_years": 3},
+                  "amount": {"minimum": 2000000},
+                  "project_category": {"equals": "gov_it"}
+                },
+                "minimum": 3
+              }
+            }
+          }
+        ],
+        "materials": [
+          {
+            "material_id": "CMP-A-CONTRACT",
+            "material_type": "contract",
+            "title": "政务数据治理项目A合同",
+            "metadata": {
+              "case_id": "case-a",
+              "amount": 2500000,
+              "project_category": "gov_it",
+              "completion_date": "2025-10-01",
+              "status": "valid"
+            }
+          },
+          {
+            "material_id": "CMP-A-ACCEPTANCE",
+            "material_type": "acceptance",
+            "title": "政务数据治理项目A验收报告",
+            "metadata": {"case_id": "case-a", "status": "valid"}
+          },
+          {
+            "material_id": "CMP-B-CONTRACT",
+            "material_type": "contract",
+            "title": "政务数据治理项目B合同",
+            "metadata": {
+              "case_id": "case-b",
+              "amount": 2100000,
+              "project_category": "gov_it",
+              "completion_date": "2026-01-10",
+              "status": "valid"
+            }
+          },
+          {
+            "material_id": "CMP-B-ACCEPTANCE",
+            "material_type": "acceptance",
+            "title": "政务数据治理项目B验收报告",
+            "metadata": {"case_id": "case-b", "status": "valid"}
+          },
+          {
+            "material_id": "CMP-C-CONTRACT",
+            "material_type": "contract",
+            "title": "政务信息系统项目C合同",
+            "metadata": {
+              "case_id": "case-c",
+              "amount": 3000000,
+              "project_category": "gov_it",
+              "completion_date": "2024-09-01",
+              "status": "valid"
+            }
+          },
+          {
+            "material_id": "CMP-C-ACCEPTANCE",
+            "material_type": "acceptance",
+            "title": "政务信息系统项目C验收报告",
+            "metadata": {"case_id": "case-c", "status": "valid"}
+          },
+          {
+            "material_id": "CMP-D-CONTRACT",
+            "material_type": "contract",
+            "title": "制造业系统项目D合同",
+            "metadata": {
+              "case_id": "case-d",
+              "amount": 4000000,
+              "project_category": "manufacturing_it",
+              "completion_date": "2025-06-01",
+              "status": "valid"
+            }
+          },
+          {
+            "material_id": "CMP-D-ACCEPTANCE",
+            "material_type": "acceptance",
+            "title": "制造业系统项目D验收报告",
+            "metadata": {"case_id": "case-d", "status": "valid"}
+          }
+        ]
+      }
+    },
+    {
+      "id": "COMPOUND_CASES_HARD_NEGATIVES",
+      "kind": "compound_rule",
+      "input": {
+        "project_id": "v3-compound-negative",
+        "as_of": "2026-08-17",
+        "requirements": [
+          {
+            "requirement_id": "CMP-CASE-NEG",
+            "category": "qualification",
+            "title": "近三年政务信息化项目业绩",
+            "description": "近三年不少于3个金额不低于200万元的政务信息化项目，且每个项目均须提供合同和验收证明。",
+            "mandatory": true,
+            "check_rule": {
+              "rule_ast": {
+                "op": "bundle_count",
+                "group_by": "case_id",
+                "evidence_types": ["contract", "acceptance"],
+                "where": {
+                  "completion_date": {"within_years": 3},
+                  "amount": {"minimum": 2000000},
+                  "project_category": {"equals": "gov_it"}
+                },
+                "minimum": 3
+              }
+            }
+          }
+        ],
+        "materials": [
+          {
+            "material_id": "NEG-OLD-CONTRACT",
+            "material_type": "contract",
+            "title": "政务项目旧合同",
+            "metadata": {
+              "case_id": "neg-old",
+              "amount": 2500000,
+              "project_category": "gov_it",
+              "completion_date": "2022-01-01",
+              "status": "valid"
+            }
+          },
+          {
+            "material_id": "NEG-OLD-ACCEPTANCE",
+            "material_type": "acceptance",
+            "title": "政务项目旧验收",
+            "metadata": {"case_id": "neg-old", "status": "valid"}
+          },
+          {
+            "material_id": "NEG-LOW-CONTRACT",
+            "material_type": "contract",
+            "title": "政务项目低金额合同",
+            "metadata": {
+              "case_id": "neg-low",
+              "amount": 1500000,
+              "project_category": "gov_it",
+              "completion_date": "2026-02-01",
+              "status": "valid"
+            }
+          },
+          {
+            "material_id": "NEG-LOW-ACCEPTANCE",
+            "material_type": "acceptance",
+            "title": "政务项目低金额验收",
+            "metadata": {"case_id": "neg-low", "status": "valid"}
+          },
+          {
+            "material_id": "NEG-WRONG-CONTRACT",
+            "material_type": "contract",
+            "title": "制造业项目合同",
+            "metadata": {
+              "case_id": "neg-wrong",
+              "amount": 2500000,
+              "project_category": "manufacturing_it",
+              "completion_date": "2025-06-01",
+              "status": "valid"
+            }
+          },
+          {
+            "material_id": "NEG-WRONG-ACCEPTANCE",
+            "material_type": "acceptance",
+            "title": "制造业项目验收",
+            "metadata": {"case_id": "neg-wrong", "status": "valid"}
+          },
+          {
+            "material_id": "NEG-MISSING-CONTRACT",
+            "material_type": "contract",
+            "title": "政务项目缺验收合同",
+            "metadata": {
+              "case_id": "neg-missing",
+              "amount": 2500000,
+              "project_category": "gov_it",
+              "completion_date": "2025-05-01",
+              "status": "valid"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "OCR_REVIEW_RECALL",
+      "kind": "ocr",
+      "input": {
+        "project_id": "v3-ocr-recall",
+        "as_of": "2026-08-17",
+        "requirements": [
+          {
+            "requirement_id": "OCR-LOW-LICENSE",
+            "category": "qualification",
+            "title": "营业执照",
+            "description": "提供有效营业执照。",
+            "mandatory": true,
+            "evidence_required": ["business_license"]
+          },
+          {
+            "requirement_id": "OCR-LOW-ISO",
+            "category": "qualification",
+            "title": "ISO27001认证",
+            "description": "提供有效ISO27001认证。",
+            "mandatory": true,
+            "evidence_required": ["ISO27001"]
+          },
+          {
+            "requirement_id": "OCR-HIGH-BOND",
+            "category": "commercial",
+            "title": "投标保证金",
+            "description": "提供投标保证金凭证。",
+            "mandatory": true,
+            "evidence_required": ["bid_bond"]
+          }
+        ],
+        "materials": [
+          {
+            "material_id": "OCR-LICENSE-M1",
+            "material_type": "business_license",
+            "title": "营业执照扫描件",
+            "metadata": {"status": "valid"},
+            "source_references": [
+              {
+                "document_id": "ocr-license.pdf",
+                "page": 1,
+                "confidence": 0.61,
+                "extraction_method": "ocr"
+              }
+            ]
+          },
+          {
+            "material_id": "OCR-ISO-M1",
+            "material_type": "ISO27001",
+            "title": "ISO27001扫描证书",
+            "valid_until": "2027-12-31",
+            "metadata": {"status": "valid"},
+            "source_references": [
+              {
+                "document_id": "ocr-iso.pdf",
+                "page": 1,
+                "confidence": 0.65,
+                "extraction_method": "ocr"
+              }
+            ]
+          },
+          {
+            "material_id": "OCR-BOND-M1",
+            "material_type": "bid_bond",
+            "title": "投标保证金回单",
+            "metadata": {"status": "valid"},
+            "source_references": [
+              {
+                "document_id": "bond.pdf",
+                "page": 1,
+                "confidence": 0.8,
+                "extraction_method": "ocr"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "VERSION_CONFLICT_NO_PRIORITY",
+      "kind": "version_conflict",
+      "input": {
+        "project_id": "v3-version-conflict",
+        "as_of": "2026-08-17",
+        "requirements": [
+          {
+            "requirement_id": "VER-ISO-1",
+            "category": "qualification",
+            "title": "ISO27001认证有效",
+            "description": "提供有效ISO27001认证。",
+            "mandatory": true,
+            "evidence_required": ["ISO27001"],
+            "check_rule": {"validity_required": true}
+          }
+        ],
+        "materials": [
+          {
+            "material_id": "VER-ISO-VALID",
+            "material_type": "ISO27001",
+            "title": "ISO27001有效证书",
+            "valid_until": "2027-12-31",
+            "metadata": {"status": "valid"},
+            "source_references": [
+              {"document_id": "iso-v2.pdf", "page": 1, "source_version": "v2"}
+            ]
+          },
+          {
+            "material_id": "VER-ISO-EXPIRED",
+            "material_type": "ISO27001",
+            "title": "ISO27001旧证书",
+            "valid_until": "2026-01-31",
+            "metadata": {"status": "valid"},
+            "source_references": [
+              {"document_id": "iso-v1.pdf", "page": 1, "source_version": "v1"}
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "AMENDMENT_AMOUNT_CHANGE",
+      "kind": "amendment",
+      "input": {
+        "project_id": "v3-amendment-amount-original",
+        "as_of": "2026-08-17",
+        "requirements": [
+          {
+            "requirement_id": "AMT-CASE-1",
+            "category": "qualification",
+            "title": "类似项目金额门槛",
+            "description": "至少1个类似项目合同金额达到原要求。",
+            "mandatory": true,
+            "check_rule": {
+              "rule_ast": {
+                "op": "count",
+                "evidence_types": ["project_case"],
+                "where": {"amount": {"minimum": 1000000}},
+                "minimum": 1
+              }
+            }
+          }
+        ],
+        "materials": [
+          {
+            "material_id": "AMT-CASE-M1",
+            "material_type": "project_case",
+            "title": "软件平台项目案例",
+            "metadata": {"amount": 1200000, "status": "valid"}
+          }
+        ]
+      },
+      "variants": [
+        {
+          "id": "original-1000000",
+          "input": {
+            "project_id": "v3-amendment-amount-original",
+            "as_of": "2026-08-17",
+            "requirements": [
+              {
+                "requirement_id": "AMT-CASE-1",
+                "category": "qualification",
+                "title": "类似项目金额门槛",
+                "description": "至少1个类似项目合同金额达到原要求。",
+                "mandatory": true,
+                "check_rule": {
+                  "rule_ast": {
+                    "op": "count",
+                    "evidence_types": ["project_case"],
+                    "where": {"amount": {"minimum": 1000000}},
+                    "minimum": 1
+                  }
+                }
+              }
+            ],
+            "materials": [
+              {
+                "material_id": "AMT-CASE-M1",
+                "material_type": "project_case",
+                "title": "软件平台项目案例",
+                "metadata": {"amount": 1200000, "status": "valid"}
+              }
+            ]
+          }
+        },
+        {
+          "id": "amended-2000000",
+          "input": {
+            "project_id": "v3-amendment-amount-amended",
+            "as_of": "2026-08-17",
+            "requirements": [
+              {
+                "requirement_id": "AMT-CASE-1",
+                "category": "qualification",
+                "title": "类似项目金额门槛",
+                "description": "补遗将金额门槛提高到200万元。",
+                "mandatory": true,
+                "check_rule": {
+                  "rule_ast": {
+                    "op": "count",
+                    "evidence_types": ["project_case"],
+                    "where": {"amount": {"minimum": 2000000}},
+                    "minimum": 1
+                  }
+                }
+              }
+            ],
+            "materials": [
+              {
+                "material_id": "AMT-CASE-M1",
+                "material_type": "project_case",
+                "title": "软件平台项目案例",
+                "metadata": {"amount": 1200000, "status": "valid"}
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "AMENDMENT_DATE_CHANGE",
+      "kind": "amendment",
+      "input": {
+        "project_id": "v3-amendment-date-original",
+        "as_of": "2026-08-17",
+        "requirements": [
+          {
+            "requirement_id": "DATE-CASE-1",
+            "category": "qualification",
+            "title": "案例完成日期",
+            "description": "案例应在原规定期限内完成。",
+            "mandatory": true,
+            "check_rule": {
+              "rule_ast": {
+                "op": "count",
+                "evidence_types": ["project_case"],
+                "where": {"completion_date": {"within_years": 3}},
+                "minimum": 1
+              }
+            }
+          }
+        ],
+        "materials": [
+          {
+            "material_id": "DATE-CASE-M1",
+            "material_type": "project_case",
+            "title": "平台建设项目案例",
+            "metadata": {"completion_date": "2024-09-01", "status": "valid"}
+          }
+        ]
+      },
+      "variants": [
+        {
+          "id": "original-3-years",
+          "input": {
+            "project_id": "v3-amendment-date-original",
+            "as_of": "2026-08-17",
+            "requirements": [
+              {
+                "requirement_id": "DATE-CASE-1",
+                "category": "qualification",
+                "title": "案例完成日期",
+                "description": "案例应在三年内完成。",
+                "mandatory": true,
+                "check_rule": {
+                  "rule_ast": {
+                    "op": "count",
+                    "evidence_types": ["project_case"],
+                    "where": {"completion_date": {"within_years": 3}},
+                    "minimum": 1
+                  }
+                }
+              }
+            ],
+            "materials": [
+              {
+                "material_id": "DATE-CASE-M1",
+                "material_type": "project_case",
+                "title": "平台建设项目案例",
+                "metadata": {"completion_date": "2024-09-01", "status": "valid"}
+              }
+            ]
+          }
+        },
+        {
+          "id": "amended-365-days",
+          "input": {
+            "project_id": "v3-amendment-date-amended",
+            "as_of": "2026-08-17",
+            "requirements": [
+              {
+                "requirement_id": "DATE-CASE-1",
+                "category": "qualification",
+                "title": "案例完成日期",
+                "description": "补遗将期限修改为近一年。",
+                "mandatory": true,
+                "check_rule": {
+                  "rule_ast": {
+                    "op": "count",
+                    "evidence_types": ["project_case"],
+                    "where": {"completion_date": {"within_days": 365}},
+                    "minimum": 1
+                  }
+                }
+              }
+            ],
+            "materials": [
+              {
+                "material_id": "DATE-CASE-M1",
+                "material_type": "project_case",
+                "title": "平台建设项目案例",
+                "metadata": {"completion_date": "2024-09-01", "status": "valid"}
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

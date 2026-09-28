@@ -1,0 +1,7 @@
+{
+  "name": "evidence-matching",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.evidence_matching.skill:EvidenceMatchingSkill",
+  "capabilities": ["tender.evidence.match", "tender.evidence.coverage"],
+  "required_permissions": ["document.read"]
+}

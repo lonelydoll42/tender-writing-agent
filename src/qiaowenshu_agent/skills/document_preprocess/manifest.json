@@ -1,0 +1,12 @@
+{
+  "name": "document-preprocess",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.document_preprocess.skill:DocumentPreprocessSkill",
+  "capabilities": [
+    "document.normalize",
+    "document.ocr",
+    "document.artifact",
+    "bid.rejection.preprocess"
+  ],
+  "required_permissions": ["document.read", "document.write"]
+}

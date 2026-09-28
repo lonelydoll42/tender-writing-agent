@@ -1,0 +1,1132 @@
+{
+  "protocol_version": "3.0",
+  "benchmark_name": "qiaowenshu-tender-v3-challenge",
+  "evaluation_mode": "holdout",
+  "case_count": 8,
+  "cases": [
+    {
+      "case_id": "HN_ISO9001_FOR_ISO27001",
+      "kind": "hard_negative",
+      "observed": {
+        "decision": "human_review",
+        "evidence_statuses": {
+          "HN-ISO-1": "missing"
+        },
+        "feasibility_statuses": {
+          "HN-ISO-1": "unknown"
+        },
+        "evidence_matches": [
+          {
+            "requirement_id": "HN-ISO-1",
+            "material_id": null,
+            "status": "missing",
+            "confidence": 0.0,
+            "reason": "未找到与必需项证据要求匹配的材料：ISO27001。",
+            "source_references": []
+          }
+        ],
+        "feasibility_checks": [
+          {
+            "requirement_id": "HN-ISO-1",
+            "status": "unknown",
+            "reason": "缺少证明材料：ISO27001",
+            "mandatory": true,
+            "source_references": [],
+            "title": "ISO27001认证有效"
+          }
+        ]
+      },
+      "metrics": {
+        "decision_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "feasibility_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 1,
+          "false_pass_ids": []
+        },
+        "hard_negative_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 1,
+          "false_pass_ids": []
+        },
+        "conflict_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_precision": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        }
+      },
+      "mutations": [
+        {
+          "mutation_id": "replace_with_exact_iso27001",
+          "observed": {
+            "decision": "bid",
+            "evidence_statuses": {
+              "HN-ISO-1": "matched"
+            },
+            "feasibility_statuses": {
+              "HN-ISO-1": "pass"
+            },
+            "evidence_matches": [
+              {
+                "requirement_id": "HN-ISO-1",
+                "material_id": "HN-ISO-M1",
+                "status": "matched",
+                "confidence": 0.75,
+                "reason": "必需项证据要求已全部覆盖（1/1），材料通过有效性检查。",
+                "source_references": []
+              }
+            ],
+            "feasibility_checks": [
+              {
+                "requirement_id": "HN-ISO-1",
+                "status": "pass",
+                "reason": "已找到有效证明材料：ISO27001",
+                "mandatory": true,
+                "source_references": [],
+                "title": "ISO27001认证有效"
+              }
+            ]
+          },
+          "expected_delta": {
+            "decision_changed": true,
+            "decision_changed_to": "bid",
+            "status_changes": {
+              "HN-ISO-1": {
+                "from": "unknown",
+                "to": "pass"
+              }
+            }
+          },
+          "actual_delta": {
+            "decision_from": "human_review",
+            "decision_to": "bid",
+            "decision_changed": true,
+            "status_changes": {
+              "HN-ISO-1": {
+                "from": "unknown",
+                "to": "pass"
+              }
+            }
+          },
+          "passed": true
+        }
+      ],
+      "variants": []
+    },
+    {
+      "case_id": "HN_EXPIRED_ISO27001",
+      "kind": "hard_negative",
+      "observed": {
+        "decision": "no_bid",
+        "evidence_statuses": {
+          "HN-ISO-EXPIRED": "invalid"
+        },
+        "feasibility_statuses": {
+          "HN-ISO-EXPIRED": "fail"
+        },
+        "evidence_matches": [
+          {
+            "requirement_id": "HN-ISO-EXPIRED",
+            "material_id": "HN-ISO-EXPIRED-M1",
+            "status": "invalid",
+            "confidence": 0.69,
+            "reason": "相关材料无法作为有效证据：材料已于 2026-01-31 过期",
+            "source_references": []
+          }
+        ],
+        "feasibility_checks": [
+          {
+            "requirement_id": "HN-ISO-EXPIRED",
+            "status": "fail",
+            "reason": "证明材料 ISO27001 均无效或已过期",
+            "mandatory": true,
+            "source_references": [],
+            "title": "ISO27001认证有效"
+          }
+        ]
+      },
+      "metrics": {
+        "decision_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "feasibility_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 1,
+          "false_pass_ids": []
+        },
+        "hard_negative_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 1,
+          "false_pass_ids": []
+        },
+        "conflict_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_precision": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        }
+      },
+      "mutations": [],
+      "variants": []
+    },
+    {
+      "case_id": "COMPOUND_CASES_COMPLETE",
+      "kind": "compound_rule",
+      "observed": {
+        "decision": "bid",
+        "evidence_statuses": {
+          "CMP-CASE-1": "matched"
+        },
+        "feasibility_statuses": {
+          "CMP-CASE-1": "pass"
+        },
+        "evidence_matches": [
+          {
+            "requirement_id": "CMP-CASE-1",
+            "material_id": "CMP-A-CONTRACT",
+            "status": "matched",
+            "confidence": 0.95,
+            "reason": "规则要求至少 3 个完整证据包，当前有 3 个",
+            "source_references": []
+          }
+        ],
+        "feasibility_checks": [
+          {
+            "requirement_id": "CMP-CASE-1",
+            "status": "pass",
+            "reason": "规则要求至少 3 个完整证据包，当前有 3 个",
+            "mandatory": true,
+            "source_references": [],
+            "title": "近三年政务信息化项目业绩"
+          }
+        ]
+      },
+      "metrics": {
+        "decision_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "feasibility_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_recall": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        },
+        "hard_negative_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        },
+        "conflict_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_precision": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        }
+      },
+      "mutations": [],
+      "variants": []
+    },
+    {
+      "case_id": "COMPOUND_CASES_HARD_NEGATIVES",
+      "kind": "compound_rule",
+      "observed": {
+        "decision": "human_review",
+        "evidence_statuses": {
+          "CMP-CASE-NEG": "partial"
+        },
+        "feasibility_statuses": {
+          "CMP-CASE-NEG": "unknown"
+        },
+        "evidence_matches": [
+          {
+            "requirement_id": "CMP-CASE-NEG",
+            "material_id": "NEG-OLD-CONTRACT",
+            "status": "partial",
+            "confidence": 0.55,
+            "reason": "存在相关案例材料，但合同、验收或其他组合条件未闭合",
+            "source_references": []
+          }
+        ],
+        "feasibility_checks": [
+          {
+            "requirement_id": "CMP-CASE-NEG",
+            "status": "unknown",
+            "reason": "存在相关案例材料，但合同、验收或其他组合条件未闭合",
+            "mandatory": true,
+            "source_references": [],
+            "title": "近三年政务信息化项目业绩"
+          }
+        ]
+      },
+      "metrics": {
+        "decision_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "feasibility_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 1,
+          "false_pass_ids": []
+        },
+        "hard_negative_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 1,
+          "false_pass_ids": []
+        },
+        "conflict_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_precision": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        }
+      },
+      "mutations": [],
+      "variants": []
+    },
+    {
+      "case_id": "OCR_REVIEW_RECALL",
+      "kind": "ocr",
+      "observed": {
+        "decision": "human_review",
+        "evidence_statuses": {
+          "OCR-LOW-LICENSE": "human_review",
+          "OCR-LOW-ISO": "human_review",
+          "OCR-HIGH-BOND": "matched"
+        },
+        "feasibility_statuses": {
+          "OCR-LOW-LICENSE": "unknown",
+          "OCR-LOW-ISO": "unknown",
+          "OCR-HIGH-BOND": "pass"
+        },
+        "evidence_matches": [
+          {
+            "requirement_id": "OCR-LOW-LICENSE",
+            "material_id": "OCR-LICENSE-M1",
+            "status": "human_review",
+            "confidence": 0.61,
+            "reason": "必需项证据要求已全部覆盖（1/1），材料通过有效性检查。 OCR来源置信度为 0.61，低于人工复核阈值 0.66，不能直接认定为已覆盖。",
+            "source_references": [
+              {
+                "document_id": "ocr-license.pdf",
+                "page": 1,
+                "section": "",
+                "quote": "",
+                "locator": "",
+                "bbox": null,
+                "confidence": 0.61,
+                "extraction_method": "ocr",
+                "source_version": ""
+              }
+            ]
+          },
+          {
+            "requirement_id": "OCR-LOW-ISO",
+            "material_id": "OCR-ISO-M1",
+            "status": "human_review",
+            "confidence": 0.65,
+            "reason": "必需项证据要求已全部覆盖（1/1），材料通过有效性检查。 OCR来源置信度为 0.65，低于人工复核阈值 0.66，不能直接认定为已覆盖。",
+            "source_references": [
+              {
+                "document_id": "ocr-iso.pdf",
+                "page": 1,
+                "section": "",
+                "quote": "",
+                "locator": "",
+                "bbox": null,
+                "confidence": 0.65,
+                "extraction_method": "ocr",
+                "source_version": ""
+              }
+            ]
+          },
+          {
+            "requirement_id": "OCR-HIGH-BOND",
+            "material_id": "OCR-BOND-M1",
+            "status": "matched",
+            "confidence": 0.75,
+            "reason": "必需项证据要求已全部覆盖（1/1），材料通过有效性检查。",
+            "source_references": [
+              {
+                "document_id": "bond.pdf",
+                "page": 1,
+                "section": "",
+                "quote": "",
+                "locator": "",
+                "bbox": null,
+                "confidence": 0.8,
+                "extraction_method": "ocr",
+                "source_version": ""
+              }
+            ]
+          }
+        ],
+        "feasibility_checks": [
+          {
+            "requirement_id": "OCR-LOW-LICENSE",
+            "status": "unknown",
+            "reason": "已找到有效证明材料：business_license OCR来源置信度为 0.61，低于人工复核阈值 0.66，需人工核验。",
+            "mandatory": true,
+            "source_references": [
+              {
+                "document_id": "ocr-license.pdf",
+                "page": 1,
+                "section": "",
+                "quote": "",
+                "locator": "",
+                "bbox": null,
+                "confidence": 0.61,
+                "extraction_method": "ocr",
+                "source_version": ""
+              }
+            ],
+            "title": "营业执照"
+          },
+          {
+            "requirement_id": "OCR-LOW-ISO",
+            "status": "unknown",
+            "reason": "已找到有效证明材料：ISO27001 OCR来源置信度为 0.65，低于人工复核阈值 0.66，需人工核验。",
+            "mandatory": true,
+            "source_references": [
+              {
+                "document_id": "ocr-iso.pdf",
+                "page": 1,
+                "section": "",
+                "quote": "",
+                "locator": "",
+                "bbox": null,
+                "confidence": 0.65,
+                "extraction_method": "ocr",
+                "source_version": ""
+              }
+            ],
+            "title": "ISO27001认证"
+          },
+          {
+            "requirement_id": "OCR-HIGH-BOND",
+            "status": "pass",
+            "reason": "已找到有效证明材料：bid_bond",
+            "mandatory": true,
+            "source_references": [
+              {
+                "document_id": "bond.pdf",
+                "page": 1,
+                "section": "",
+                "quote": "",
+                "locator": "",
+                "bbox": null,
+                "confidence": 0.8,
+                "extraction_method": "ocr",
+                "source_version": ""
+              }
+            ],
+            "title": "投标保证金"
+          }
+        ]
+      },
+      "metrics": {
+        "decision_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_status_accuracy": {
+          "value": 1.0,
+          "numerator": 3,
+          "denominator": 3
+        },
+        "feasibility_status_accuracy": {
+          "value": 1.0,
+          "numerator": 3,
+          "denominator": 3
+        },
+        "evidence_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        },
+        "hard_negative_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        },
+        "conflict_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_precision": {
+          "value": 1.0,
+          "numerator": 2,
+          "denominator": 2
+        },
+        "ocr_human_review_recall": {
+          "value": 1.0,
+          "numerator": 2,
+          "denominator": 2
+        },
+        "ocr_critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 2,
+          "false_pass_ids": []
+        }
+      },
+      "mutations": [],
+      "variants": []
+    },
+    {
+      "case_id": "VERSION_CONFLICT_NO_PRIORITY",
+      "kind": "version_conflict",
+      "observed": {
+        "decision": "human_review",
+        "evidence_statuses": {
+          "VER-ISO-1": "conflict"
+        },
+        "feasibility_statuses": {
+          "VER-ISO-1": "unknown"
+        },
+        "evidence_matches": [
+          {
+            "requirement_id": "VER-ISO-1",
+            "material_id": "VER-ISO-VALID",
+            "status": "conflict",
+            "confidence": 0.69,
+            "reason": "同一证据要求同时存在有效和无效材料，不能合并认定为已覆盖：ISO27001。",
+            "source_references": [
+              {
+                "document_id": "iso-v2.pdf",
+                "page": 1,
+                "section": "",
+                "quote": "",
+                "locator": "",
+                "bbox": null,
+                "confidence": null,
+                "extraction_method": "",
+                "source_version": "v2"
+              }
+            ]
+          }
+        ],
+        "feasibility_checks": [
+          {
+            "requirement_id": "VER-ISO-1",
+            "status": "unknown",
+            "reason": "证明材料 ISO27001 同时存在有效和无效版本，无法确认采用哪一版本",
+            "mandatory": true,
+            "source_references": [
+              {
+                "document_id": "iso-v2.pdf",
+                "page": 1,
+                "section": "",
+                "quote": "",
+                "locator": "",
+                "bbox": null,
+                "confidence": null,
+                "extraction_method": "",
+                "source_version": "v2"
+              },
+              {
+                "document_id": "iso-v1.pdf",
+                "page": 1,
+                "section": "",
+                "quote": "",
+                "locator": "",
+                "bbox": null,
+                "confidence": null,
+                "extraction_method": "",
+                "source_version": "v1"
+              }
+            ],
+            "title": "ISO27001认证有效"
+          }
+        ]
+      },
+      "metrics": {
+        "decision_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "feasibility_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 1,
+          "false_pass_ids": []
+        },
+        "hard_negative_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 1,
+          "false_pass_ids": []
+        },
+        "conflict_recall": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "ocr_human_review_precision": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        }
+      },
+      "mutations": [],
+      "variants": []
+    },
+    {
+      "case_id": "AMENDMENT_AMOUNT_CHANGE",
+      "kind": "amendment",
+      "observed": {
+        "decision": "bid",
+        "evidence_statuses": {
+          "AMT-CASE-1": "matched"
+        },
+        "feasibility_statuses": {
+          "AMT-CASE-1": "pass"
+        },
+        "evidence_matches": [
+          {
+            "requirement_id": "AMT-CASE-1",
+            "material_id": "AMT-CASE-M1",
+            "status": "matched",
+            "confidence": 0.95,
+            "reason": "规则要求至少 1 个，当前有 1 个符合条件",
+            "source_references": []
+          }
+        ],
+        "feasibility_checks": [
+          {
+            "requirement_id": "AMT-CASE-1",
+            "status": "pass",
+            "reason": "规则要求至少 1 个，当前有 1 个符合条件",
+            "mandatory": true,
+            "source_references": [],
+            "title": "类似项目金额门槛"
+          }
+        ]
+      },
+      "metrics": {
+        "decision_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "feasibility_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        },
+        "hard_negative_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        },
+        "conflict_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_precision": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        }
+      },
+      "mutations": [],
+      "variants": [
+        {
+          "variant_id": "original-1000000",
+          "observed": {
+            "decision": "bid",
+            "evidence_statuses": {
+              "AMT-CASE-1": "matched"
+            },
+            "feasibility_statuses": {
+              "AMT-CASE-1": "pass"
+            },
+            "evidence_matches": [
+              {
+                "requirement_id": "AMT-CASE-1",
+                "material_id": "AMT-CASE-M1",
+                "status": "matched",
+                "confidence": 0.95,
+                "reason": "规则要求至少 1 个，当前有 1 个符合条件",
+                "source_references": []
+              }
+            ],
+            "feasibility_checks": [
+              {
+                "requirement_id": "AMT-CASE-1",
+                "status": "pass",
+                "reason": "规则要求至少 1 个，当前有 1 个符合条件",
+                "mandatory": true,
+                "source_references": [],
+                "title": "类似项目金额门槛"
+              }
+            ]
+          },
+          "passed": true
+        },
+        {
+          "variant_id": "amended-2000000",
+          "observed": {
+            "decision": "no_bid",
+            "evidence_statuses": {
+              "AMT-CASE-1": "invalid"
+            },
+            "feasibility_statuses": {
+              "AMT-CASE-1": "fail"
+            },
+            "evidence_matches": [
+              {
+                "requirement_id": "AMT-CASE-1",
+                "material_id": "AMT-CASE-M1",
+                "status": "invalid",
+                "confidence": 0.85,
+                "reason": "存在证据材料，但没有材料满足组合条件",
+                "source_references": []
+              }
+            ],
+            "feasibility_checks": [
+              {
+                "requirement_id": "AMT-CASE-1",
+                "status": "fail",
+                "reason": "存在证据材料，但没有材料满足组合条件",
+                "mandatory": true,
+                "source_references": [],
+                "title": "类似项目金额门槛"
+              }
+            ]
+          },
+          "passed": true
+        }
+      ]
+    },
+    {
+      "case_id": "AMENDMENT_DATE_CHANGE",
+      "kind": "amendment",
+      "observed": {
+        "decision": "bid",
+        "evidence_statuses": {
+          "DATE-CASE-1": "matched"
+        },
+        "feasibility_statuses": {
+          "DATE-CASE-1": "pass"
+        },
+        "evidence_matches": [
+          {
+            "requirement_id": "DATE-CASE-1",
+            "material_id": "DATE-CASE-M1",
+            "status": "matched",
+            "confidence": 0.95,
+            "reason": "规则要求至少 1 个，当前有 1 个符合条件",
+            "source_references": []
+          }
+        ],
+        "feasibility_checks": [
+          {
+            "requirement_id": "DATE-CASE-1",
+            "status": "pass",
+            "reason": "规则要求至少 1 个，当前有 1 个符合条件",
+            "mandatory": true,
+            "source_references": [],
+            "title": "案例完成日期"
+          }
+        ]
+      },
+      "metrics": {
+        "decision_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "feasibility_status_accuracy": {
+          "value": 1.0,
+          "numerator": 1,
+          "denominator": 1
+        },
+        "evidence_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        },
+        "hard_negative_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        },
+        "conflict_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_precision": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_human_review_recall": {
+          "value": null,
+          "numerator": 0,
+          "denominator": 0
+        },
+        "ocr_critical_false_pass": {
+          "value": 0,
+          "numerator": 0,
+          "denominator": 0,
+          "false_pass_ids": []
+        }
+      },
+      "mutations": [],
+      "variants": [
+        {
+          "variant_id": "original-3-years",
+          "observed": {
+            "decision": "bid",
+            "evidence_statuses": {
+              "DATE-CASE-1": "matched"
+            },
+            "feasibility_statuses": {
+              "DATE-CASE-1": "pass"
+            },
+            "evidence_matches": [
+              {
+                "requirement_id": "DATE-CASE-1",
+                "material_id": "DATE-CASE-M1",
+                "status": "matched",
+                "confidence": 0.95,
+                "reason": "规则要求至少 1 个，当前有 1 个符合条件",
+                "source_references": []
+              }
+            ],
+            "feasibility_checks": [
+              {
+                "requirement_id": "DATE-CASE-1",
+                "status": "pass",
+                "reason": "规则要求至少 1 个，当前有 1 个符合条件",
+                "mandatory": true,
+                "source_references": [],
+                "title": "案例完成日期"
+              }
+            ]
+          },
+          "passed": true
+        },
+        {
+          "variant_id": "amended-365-days",
+          "observed": {
+            "decision": "no_bid",
+            "evidence_statuses": {
+              "DATE-CASE-1": "invalid"
+            },
+            "feasibility_statuses": {
+              "DATE-CASE-1": "fail"
+            },
+            "evidence_matches": [
+              {
+                "requirement_id": "DATE-CASE-1",
+                "material_id": "DATE-CASE-M1",
+                "status": "invalid",
+                "confidence": 0.85,
+                "reason": "存在证据材料，但没有材料满足组合条件",
+                "source_references": []
+              }
+            ],
+            "feasibility_checks": [
+              {
+                "requirement_id": "DATE-CASE-1",
+                "status": "fail",
+                "reason": "存在证据材料，但没有材料满足组合条件",
+                "mandatory": true,
+                "source_references": [],
+                "title": "案例完成日期"
+              }
+            ]
+          },
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "decision_accuracy": {
+      "value": 1.0,
+      "numerator": 8,
+      "denominator": 8,
+      "case_count": 8
+    },
+    "evidence_status_accuracy": {
+      "value": 1.0,
+      "numerator": 10,
+      "denominator": 10,
+      "case_count": 8
+    },
+    "feasibility_status_accuracy": {
+      "value": 1.0,
+      "numerator": 10,
+      "denominator": 10,
+      "case_count": 8
+    },
+    "evidence_recall": {
+      "value": 1.0,
+      "numerator": 1,
+      "denominator": 1,
+      "case_count": 1
+    },
+    "critical_false_pass": {
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 4,
+      "case_count": 8
+    },
+    "hard_negative_false_pass": {
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 4,
+      "case_count": 8
+    },
+    "conflict_recall": {
+      "value": 1.0,
+      "numerator": 1,
+      "denominator": 1,
+      "case_count": 1
+    },
+    "ocr_human_review_precision": {
+      "value": 1.0,
+      "numerator": 2,
+      "denominator": 2,
+      "case_count": 1
+    },
+    "ocr_human_review_recall": {
+      "value": 1.0,
+      "numerator": 2,
+      "denominator": 2,
+      "case_count": 1
+    },
+    "ocr_critical_false_pass": {
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 2,
+      "case_count": 8
+    }
+  },
+  "mutation_summary": {
+    "total": 1,
+    "passed": 1,
+    "value": 1.0
+  },
+  "variant_summary": {
+    "total": 4,
+    "passed": 4,
+    "value": 1.0
+  }
+}

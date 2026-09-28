@@ -1,0 +1,41 @@
+{
+  "document_id": "correction_notice.json",
+  "version": "v2",
+  "effective": true,
+  "effective_date": "2026-08-10",
+  "changes": [
+    {
+      "old_requirement": "日志保存不少于90天",
+      "new_requirement": "日志保存不少于180天",
+      "effective_value": "180天"
+    },
+    {
+      "old_requirement": "项目经理社保覆盖2026年2月至7月",
+      "new_requirement": "项目经理社保覆盖2026年3月至8月",
+      "effective_value": "2026-03至2026-08"
+    },
+    {
+      "old_requirement": "投标保证金30000元",
+      "new_requirement": "投标保证金40000元",
+      "effective_value": 40000
+    }
+  ],
+  "technical_star_terms": [
+    "OAuth2.0/OIDC",
+    "不更换现有身份系统",
+    "日志不少于180天",
+    "日志查询和导出",
+    "TLS1.2+",
+    "敏感字段加密",
+    "国产Linux",
+    "PostgreSQL兼容",
+    "不绑定单一公有云"
+  ],
+  "source_references": [
+    {
+      "document_id": "correction_notice.json",
+      "page": 1,
+      "section": "更正内容"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "scoring-strategy",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.scoring_strategy.skill:ScoringStrategySkill",
+  "capabilities": [
+    "tender.scoring_strategy",
+    "tender.evidence_coverage",
+    "tender.priority"
+  ],
+  "required_permissions": ["document.read"]
+}

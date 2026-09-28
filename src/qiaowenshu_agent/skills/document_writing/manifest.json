@@ -1,0 +1,12 @@
+{
+  "name": "document-writing",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.document_writing.skill:DocumentWritingSkill",
+  "capabilities": [
+    "tender.draft",
+    "tender.technical_writing",
+    "tender.commercial_writing",
+    "tender.evidence_grounded_generation"
+  ],
+  "required_permissions": ["document.read", "document.write"]
+}

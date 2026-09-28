@@ -1,0 +1,7 @@
+{
+  "name": "tender-intake",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.tender_intake.skill:TenderIntakeSkill",
+  "capabilities": ["tender.profile", "tender.sections", "tender.evidence"],
+  "required_permissions": ["document.read"]
+}

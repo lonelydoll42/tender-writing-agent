@@ -1,0 +1,7 @@
+{
+  "name": "bid-feasibility",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.bid_feasibility.skill:BidFeasibilitySkill",
+  "capabilities": ["tender.feasibility", "tender.eligibility", "tender.evidence"],
+  "required_permissions": ["document.read", "bidder.read"]
+}

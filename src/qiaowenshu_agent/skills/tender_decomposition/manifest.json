@@ -1,0 +1,7 @@
+{
+  "name": "tender-decomposition",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.tender_decomposition.skill:TenderDecompositionSkill",
+  "capabilities": ["tender.requirements", "tender.checklists", "tender.scoring"],
+  "required_permissions": ["document.read"]
+}

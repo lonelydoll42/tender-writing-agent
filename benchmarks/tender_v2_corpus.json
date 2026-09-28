@@ -1,0 +1,242 @@
+{
+  "protocol_version": "2.0",
+  "benchmark_name": "qiaowenshu-tender-v2",
+  "cases": [
+    {
+      "id": "A_normal_bid",
+      "kind": "tender_v2",
+      "scenario_id": "A_normal_bid",
+      "expected": {
+        "hard_requirement_ids": [
+          "Q01",
+          "Q02",
+          "Q03",
+          "Q04",
+          "Q05",
+          "Q06",
+          "Q07",
+          "Q08",
+          "Q09",
+          "Q10",
+          "Q11"
+        ],
+        "scoring_item_ids": [
+          "S01",
+          "S02",
+          "S03",
+          "S04",
+          "S05",
+          "S06",
+          "S07",
+          "S08"
+        ],
+        "evidence_covered_ids": [
+          "Q01",
+          "Q02",
+          "Q03",
+          "Q04",
+          "Q05",
+          "Q06",
+          "Q07",
+          "Q08",
+          "Q09",
+          "Q10",
+          "Q11",
+          "S01",
+          "S02",
+          "S03",
+          "S04",
+          "S05",
+          "S08"
+        ],
+        "critical_requirement_ids": [],
+        "conflict_ids": []
+      }
+    },
+    {
+      "id": "B_no_bid",
+      "kind": "tender_v2",
+      "scenario_id": "B_no_bid",
+      "expected": {
+        "hard_requirement_ids": [
+          "Q01",
+          "Q02",
+          "Q03",
+          "Q04",
+          "Q05",
+          "Q06",
+          "Q07",
+          "Q08",
+          "Q09",
+          "Q10",
+          "Q11"
+        ],
+        "scoring_item_ids": [
+          "S01",
+          "S02",
+          "S03",
+          "S04",
+          "S05",
+          "S06",
+          "S07",
+          "S08"
+        ],
+        "evidence_covered_ids": [
+          "Q01",
+          "Q03",
+          "Q04",
+          "Q05",
+          "Q06",
+          "Q08",
+          "Q09",
+          "Q10",
+          "Q11",
+          "S01",
+          "S02",
+          "S04",
+          "S05",
+          "S08"
+        ],
+        "critical_requirement_ids": ["Q02", "Q07"],
+        "conflict_ids": []
+      }
+    },
+    {
+      "id": "C_human_review",
+      "kind": "tender_v2",
+      "scenario_id": "C_human_review",
+      "expected": {
+        "hard_requirement_ids": [
+          "Q01",
+          "Q02",
+          "Q03",
+          "Q04",
+          "Q05",
+          "Q06",
+          "Q07",
+          "Q08",
+          "Q09",
+          "Q10",
+          "Q11"
+        ],
+        "scoring_item_ids": [
+          "S01",
+          "S02",
+          "S03",
+          "S04",
+          "S05",
+          "S06",
+          "S07",
+          "S08"
+        ],
+        "evidence_covered_ids": [
+          "Q01",
+          "Q02",
+          "Q03",
+          "Q04",
+          "Q05",
+          "Q06",
+          "Q07",
+          "Q08",
+          "Q09",
+          "Q10",
+          "Q11",
+          "S01",
+          "S02",
+          "S03",
+          "S04",
+          "S05",
+          "S08"
+        ],
+        "critical_requirement_ids": ["Q03"],
+        "conflict_ids": []
+      }
+    },
+    {
+      "id": "D_conflict",
+      "kind": "tender_v2",
+      "scenario_id": "D_conflict",
+      "expected": {
+        "hard_requirement_ids": [
+          "Q01",
+          "Q02",
+          "Q03",
+          "Q04",
+          "Q05",
+          "Q06",
+          "Q07",
+          "Q08",
+          "Q09",
+          "Q10",
+          "Q11"
+        ],
+        "scoring_item_ids": [
+          "S01",
+          "S02",
+          "S03",
+          "S04",
+          "S05",
+          "S06",
+          "S07",
+          "S08"
+        ],
+        "evidence_covered_ids": [
+          "Q01",
+          "Q04",
+          "Q05",
+          "Q06",
+          "Q08",
+          "Q09",
+          "Q10",
+          "Q11",
+          "S01",
+          "S02",
+          "S04",
+          "S05",
+          "S08"
+        ],
+        "critical_requirement_ids": ["Q02", "Q03", "Q07"],
+        "conflict_ids": ["Q02", "Q03", "Q07"]
+      }
+    },
+    {
+      "id": "ocr_low_confidence",
+      "kind": "evidence_matching",
+      "input": {
+        "requirements": [
+          {
+            "requirement_id": "ocr-license",
+            "category": "qualification",
+            "title": "Business license",
+            "description": "Provide a valid business license.",
+            "mandatory": true,
+            "evidence_required": ["business_license"]
+          }
+        ],
+        "materials": [
+          {
+            "material_id": "ocr-license-material",
+            "material_type": "business_license",
+            "content": "business license valid",
+            "source_references": [
+              {
+                "document_id": "scan-license.pdf",
+                "page": 1,
+                "confidence": 0.61,
+                "extraction_method": "ocr",
+                "source_version": "scan-license:v1"
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "evidence_covered_ids": [],
+        "critical_requirement_ids": [],
+        "conflict_ids": [],
+        "ocr_targets": ["ocr-license"],
+        "human_review_targets": ["ocr-license"]
+      }
+    }
+  ]
+}

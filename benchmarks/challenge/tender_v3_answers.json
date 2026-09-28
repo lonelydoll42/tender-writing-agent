@@ -1,0 +1,122 @@
+{
+  "protocol_version": "3.0",
+  "cases": [
+    {
+      "id": "HN_ISO9001_FOR_ISO27001",
+      "expected": {
+        "decision": "human_review",
+        "evidence_statuses": {"HN-ISO-1": "missing"},
+        "feasibility_statuses": {"HN-ISO-1": "unknown"},
+        "critical_requirement_ids": ["HN-ISO-1"],
+        "non_pass_requirement_ids": ["HN-ISO-1"]
+      },
+      "mutations": {
+        "replace_with_exact_iso27001": {
+          "expected_delta": {
+            "decision_changed": true,
+            "decision_changed_to": "bid",
+            "status_changes": {"HN-ISO-1": {"from": "unknown", "to": "pass"}}
+          }
+        }
+      }
+    },
+    {
+      "id": "HN_EXPIRED_ISO27001",
+      "expected": {
+        "decision": "no_bid",
+        "evidence_statuses": {"HN-ISO-EXPIRED": "invalid"},
+        "feasibility_statuses": {"HN-ISO-EXPIRED": "fail"},
+        "critical_requirement_ids": ["HN-ISO-EXPIRED"],
+        "non_pass_requirement_ids": ["HN-ISO-EXPIRED"]
+      }
+    },
+    {
+      "id": "COMPOUND_CASES_COMPLETE",
+      "expected": {
+        "decision": "bid",
+        "evidence_statuses": {"CMP-CASE-1": "matched"},
+        "feasibility_statuses": {"CMP-CASE-1": "pass"},
+        "evidence_matched_ids": ["CMP-CASE-1"]
+      }
+    },
+    {
+      "id": "COMPOUND_CASES_HARD_NEGATIVES",
+      "expected": {
+        "decision": "human_review",
+        "evidence_statuses": {"CMP-CASE-NEG": "partial"},
+        "feasibility_statuses": {"CMP-CASE-NEG": "unknown"},
+        "critical_requirement_ids": ["CMP-CASE-NEG"],
+        "non_pass_requirement_ids": ["CMP-CASE-NEG"]
+      }
+    },
+    {
+      "id": "OCR_REVIEW_RECALL",
+      "expected": {
+        "decision": "human_review",
+        "evidence_statuses": {
+          "OCR-LOW-LICENSE": "human_review",
+          "OCR-LOW-ISO": "human_review",
+          "OCR-HIGH-BOND": "matched"
+        },
+        "feasibility_statuses": {
+          "OCR-LOW-LICENSE": "unknown",
+          "OCR-LOW-ISO": "unknown",
+          "OCR-HIGH-BOND": "pass"
+        },
+        "ocr_targets": ["OCR-LOW-LICENSE", "OCR-LOW-ISO", "OCR-HIGH-BOND"],
+        "human_review_targets": ["OCR-LOW-LICENSE", "OCR-LOW-ISO"]
+      }
+    },
+    {
+      "id": "VERSION_CONFLICT_NO_PRIORITY",
+      "expected": {
+        "decision": "human_review",
+        "evidence_statuses": {"VER-ISO-1": "conflict"},
+        "feasibility_statuses": {"VER-ISO-1": "unknown"},
+        "conflict_ids": ["VER-ISO-1"],
+        "critical_requirement_ids": ["VER-ISO-1"],
+        "non_pass_requirement_ids": ["VER-ISO-1"]
+      }
+    },
+    {
+      "id": "AMENDMENT_AMOUNT_CHANGE",
+      "expected": {
+        "decision": "bid",
+        "evidence_statuses": {"AMT-CASE-1": "matched"},
+        "feasibility_statuses": {"AMT-CASE-1": "pass"}
+      },
+      "variants": {
+        "original-1000000": {
+          "decision": "bid",
+          "evidence_statuses": {"AMT-CASE-1": "matched"},
+          "feasibility_statuses": {"AMT-CASE-1": "pass"}
+        },
+        "amended-2000000": {
+          "decision": "no_bid",
+          "evidence_statuses": {"AMT-CASE-1": "invalid"},
+          "feasibility_statuses": {"AMT-CASE-1": "fail"}
+        }
+      }
+    },
+    {
+      "id": "AMENDMENT_DATE_CHANGE",
+      "expected": {
+        "decision": "bid",
+        "evidence_statuses": {"DATE-CASE-1": "matched"},
+        "feasibility_statuses": {"DATE-CASE-1": "pass"}
+      },
+      "variants": {
+        "original-3-years": {
+          "decision": "bid",
+          "evidence_statuses": {"DATE-CASE-1": "matched"},
+          "feasibility_statuses": {"DATE-CASE-1": "pass"}
+        },
+        "amended-365-days": {
+          "decision": "no_bid",
+          "evidence_statuses": {"DATE-CASE-1": "invalid"},
+          "feasibility_statuses": {"DATE-CASE-1": "fail"}
+        }
+      }
+    }
+  ]
+}

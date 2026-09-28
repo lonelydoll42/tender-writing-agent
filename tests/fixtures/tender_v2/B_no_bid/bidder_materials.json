@@ -1,0 +1,273 @@
+{
+  "bidder_id": "bidder-b-v2",
+  "bidder_name": "测试科技有限公司",
+  "materials": [
+    {
+      "material_id": "B-M01",
+      "material_type": "business_license",
+      "title": "营业执照",
+      "content": "企业营业执照，主体资格有效。",
+      "metadata": {
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 1,
+          "section": "营业执照"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M02",
+      "material_type": "ISO9001",
+      "title": "ISO9001质量管理体系认证",
+      "content": "ISO9001认证有效。",
+      "valid_until": "2027-12-31",
+      "metadata": {
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 2,
+          "section": "认证证书"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M03",
+      "material_type": "ISO/IEC 27001",
+      "title": "ISO/IEC 27001信息安全管理体系认证",
+      "content": "ISO/IEC 27001认证已于2025-12-31过期。",
+      "valid_until": "2025-12-31",
+      "metadata": {
+        "status": "expired"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 3,
+          "section": "认证证书"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M04",
+      "material_type": "project_manager_social_security",
+      "title": "项目经理社保2026-03至2026-08",
+      "content": "项目经理王某，2026年3月至8月连续缴纳社保。",
+      "metadata": {
+        "coverage": "2026-03至2026-08",
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 4,
+          "section": "人员社保"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M05",
+      "material_type": "enterprise_tax_payment",
+      "title": "企业依法纳税证明",
+      "content": "企业依法纳税证明，材料期间符合要求。",
+      "metadata": {
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 5,
+          "section": "纳税证明"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M06",
+      "material_type": "enterprise_social_security",
+      "title": "企业社会保障缴纳证明",
+      "content": "企业社会保障缴纳证明。",
+      "metadata": {
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 6,
+          "section": "企业社保"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M07",
+      "material_type": "commercial_reputation",
+      "title": "商业信誉及无重大违法记录证明",
+      "content": "商业信誉良好，无重大违法记录。",
+      "metadata": {
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 7,
+          "section": "商业信誉"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M08",
+      "material_type": "bid_bond",
+      "title": "投标保证金缴纳凭证30000元",
+      "content": "投标保证金缴纳凭证，金额30000元。",
+      "metadata": {
+        "amount": 30000,
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 8,
+          "section": "投标保证金"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M09",
+      "material_type": "star_technical_response",
+      "title": "★技术条款响应确认函",
+      "content": "完整响应：OAuth2.0/OIDC；不更换现有身份系统；日志不少于180天；日志查询和导出；TLS1.2+；敏感字段加密；国产Linux；PostgreSQL兼容；不绑定单一公有云。",
+      "metadata": {
+        "status": "valid",
+        "all_star_terms_responded": true
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 9,
+          "section": "★技术条款响应"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M10",
+      "material_type": "information_system_project_manager_certificate",
+      "title": "项目经理信息系统项目管理师证书",
+      "content": "项目经理王某持有招标文件指定的信息系统项目管理师证书。",
+      "metadata": {
+        "status": "valid",
+        "certificate_name": "信息系统项目管理师"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 10,
+          "section": "项目经理证书"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M11",
+      "material_type": "financial_statement",
+      "title": "企业财务状况证明",
+      "content": "企业财务状况证明及审计财务报表。",
+      "metadata": {
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 11,
+          "section": "财务材料"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M12",
+      "material_type": "case_90_contract",
+      "title": "case_90_contract_合同签章页",
+      "content": "case_90_contract，合同金额900000元，合同正文及正式签章页完整，甲乙双方公章清晰。",
+      "metadata": {
+        "amount": 900000,
+        "signature_page_complete": true,
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 12,
+          "section": "90万元项目合同"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M13",
+      "material_type": "case_90_acceptance",
+      "title": "case_90_acceptance_验收报告",
+      "content": "case_90_acceptance，项目验收报告完整。",
+      "metadata": {
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 13,
+          "section": "90万元项目验收"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M14",
+      "material_type": "case_120_contract",
+      "title": "case_120_contract_合同签章页",
+      "content": "case_120_contract，合同金额1200000元，合同正文及正式签章页完整，甲乙双方公章清晰。",
+      "metadata": {
+        "amount": 1200000,
+        "signature_page_complete": true,
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 14,
+          "section": "120万元项目合同"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M15",
+      "material_type": "case_120_acceptance",
+      "title": "case_120_acceptance_验收报告",
+      "content": "case_120_acceptance，项目验收报告完整。",
+      "metadata": {
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 15,
+          "section": "120万元项目验收"
+        }
+      ]
+    },
+    {
+      "material_id": "B-M16",
+      "material_type": "case_qualification_summary",
+      "title": "类似项目资格门槛核验汇总",
+      "content": "仅合同金额不低于100万元且材料完整的项目计入资格门槛；case_120_contract符合，case_90_contract不满足100万元资格门槛；符合项目数为1。",
+      "metadata": {
+        "qualifying_case_count": 1,
+        "status": "valid"
+      },
+      "source_references": [
+        {
+          "document_id": "bidder_materials.json",
+          "page": 16,
+          "section": "类似业绩资格核验"
+        }
+      ]
+    }
+  ]
+}

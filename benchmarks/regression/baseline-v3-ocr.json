@@ -1,0 +1,20 @@
+{
+  "baseline_id": "baseline-v3-ocr",
+  "frozen_on": "2026-08-17",
+  "tests": "89 passed",
+  "ruff": "passed",
+  "legacy_eval": {"weighted_score": 100.0},
+  "tender_v2": {"passed": true},
+  "benchmark_v2": {
+    "hard_requirement_recall": 1.0,
+    "scoring_item_recall": 1.0,
+    "source_reference_accuracy": 1.0,
+    "conflict_recall": 1.0,
+    "critical_false_pass": 0,
+    "ocr_human_review_precision": 1.0
+  },
+  "capability": {
+    "TC01-TC09": "supported",
+    "TC10": "unsupported"
+  }
+}

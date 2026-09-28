@@ -1,0 +1,7 @@
+{
+  "name": "analysis-report",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.analysis_report.skill:AnalysisReportSkill",
+  "capabilities": ["tender.analysis_report", "tender.machine_json"],
+  "required_permissions": ["document.read"]
+}

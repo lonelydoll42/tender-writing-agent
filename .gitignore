@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest-basetemp-*/
+.ruff_cache/
+.qiaowenshu/
+.venv/
+tmp_pdf_render/
+dist/
+build/
+*.egg-info/
+.env
+trace-*.json

@@ -1,0 +1,36 @@
+{
+  "protocol_version": "2.0",
+  "purpose": "Independent A/B/C/D tender-analysis regression scenarios.",
+  "scenarios": [
+    {
+      "id": "A_normal_bid",
+      "directory": "A_normal_bid",
+      "expected_decision": "bid"
+    },
+    {
+      "id": "B_no_bid",
+      "directory": "B_no_bid",
+      "expected_decision": "no_bid"
+    },
+    {
+      "id": "C_human_review",
+      "directory": "C_human_review",
+      "expected_decision": "human_review"
+    },
+    {
+      "id": "D_conflict",
+      "directory": "D_conflict",
+      "expected_decision": "human_review"
+    }
+  ],
+  "evaluation_input_roles": [
+    "tender_requirements",
+    "correction_notice",
+    "bidder_materials"
+  ],
+  "ignored_for_business_judgement": [
+    "ground_truth.json",
+    "README.md",
+    "test_answer.json"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "quotation-check",
+  "version": "0.1.0",
+  "entrypoint": "qiaowenshu_agent.skills.quotation_check.skill:QuotationCheckSkill",
+  "capabilities": ["tender.quotation_validation", "tender.price_formula"],
+  "required_permissions": ["document.read"]
+}

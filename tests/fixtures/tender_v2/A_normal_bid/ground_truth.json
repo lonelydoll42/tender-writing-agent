@@ -1,0 +1,41 @@
+{
+  "scenario_id": "A_normal_bid",
+  "expected": {
+    "bid_decision": "bid",
+    "writing_status": "not_started",
+    "score_rule_total": 100,
+    "objective_score_proven": 21,
+    "objective_score_unproven": 9,
+    "price_available": false,
+    "subjective_available": false
+  },
+  "must_detect": [
+    "投标截止时间为2026-09-18 09:30",
+    "有效投标保证金为40000元",
+    "更正后日志保存不少于180天",
+    "项目经理社保要求为2026年3月至8月",
+    "企业依法纳税证明已提供",
+    "企业社会保障缴纳证明已提供",
+    "商业信誉及无重大违法记录材料已提供",
+    "星号技术条款九项均有响应材料",
+    "90万元项目合同签章页已补充"
+  ],
+  "must_not_claim": [
+    "企业具有PMP证书",
+    "企业拥有北辰市本地服务机构",
+    "企业具有第三个类似项目",
+    "90万元项目满足100万元资格门槛"
+  ],
+  "version_rules": [
+    {
+      "old": "不少于90天",
+      "new": "不少于180天",
+      "expected_effective": "180天"
+    },
+    {
+      "old": "项目经理社保覆盖2026年2月至7月",
+      "new": "项目经理社保覆盖2026年3月至8月",
+      "expected_effective": "2026-03至2026-08"
+    }
+  ]
+}

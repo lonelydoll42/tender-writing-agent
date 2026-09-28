@@ -1,0 +1,386 @@
+{
+  "project": {
+    "project_id": "tender-v2-2026",
+    "project_name": "统一身份认证与安全运营平台建设项目",
+    "tender_number": "THGY-2026-001",
+    "procurement_scope": "统一身份认证、安全运营平台建设及相关服务",
+    "budget": 2400000,
+    "service_period": "12个月",
+    "service_location": "采购人指定地点",
+    "bid_deadline": "2026-09-18 09:30",
+    "bid_bond_amount": 40000,
+    "consortium_allowed": false,
+    "subcontracting": "未经采购人书面同意不得分包",
+    "effective_version": "更正公告 v2",
+    "source_references": [
+      {
+        "document_id": "tender_requirements.json",
+        "page": 1,
+        "section": "项目概况"
+      },
+      {
+        "document_id": "correction_notice.json",
+        "page": 1,
+        "section": "更正内容"
+      }
+    ]
+  },
+  "requirements": [
+    {
+      "requirement_id": "Q01",
+      "category": "qualification",
+      "title": "营业执照有效",
+      "description": "投标人应具有有效营业执照。",
+      "mandatory": true,
+      "evidence_required": [
+        "business_license"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 8,
+          "section": "资格条件"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q02",
+      "category": "qualification",
+      "title": "ISO/IEC 27001认证有效",
+      "description": "投标人应提供有效的ISO/IEC 27001认证。",
+      "mandatory": true,
+      "evidence_required": [
+        "ISO/IEC 27001"
+      ],
+      "check_rule": {
+        "validity_required": true
+      },
+      "source_references": [
+        {
+          "document_id": "correction_notice.json",
+          "page": 2,
+          "section": "资格条件修订"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q03",
+      "category": "qualification",
+      "title": "项目经理社保覆盖2026年3月至8月",
+      "description": "项目经理应提供2026年3月至8月连续社保缴纳证明。",
+      "mandatory": true,
+      "evidence_required": [
+        "project_manager_social_security"
+      ],
+      "check_rule": {
+        "attribute": "coverage",
+        "expected": "2026-03至2026-08",
+        "evidence_types": [
+          "project_manager_social_security"
+        ]
+      },
+      "source_references": [
+        {
+          "document_id": "correction_notice.json",
+          "page": 2,
+          "section": "人员要求修订"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q04",
+      "category": "qualification",
+      "title": "企业依法纳税",
+      "description": "投标人应提供依法纳税证明。",
+      "mandatory": true,
+      "evidence_required": [
+        "enterprise_tax_payment"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 9,
+          "section": "资格条件"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q05",
+      "category": "qualification",
+      "title": "企业社会保障缴纳",
+      "description": "投标人应提供企业社会保障缴纳证明。",
+      "mandatory": true,
+      "evidence_required": [
+        "enterprise_social_security"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 9,
+          "section": "资格条件"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q06",
+      "category": "qualification",
+      "title": "商业信誉及无重大违法记录",
+      "description": "投标人应提供商业信誉良好且无重大违法记录证明。",
+      "mandatory": true,
+      "evidence_required": [
+        "commercial_reputation"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 10,
+          "section": "资格条件"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q07",
+      "category": "commercial",
+      "title": "投标保证金足额",
+      "description": "投标保证金不得低于40000元。",
+      "mandatory": true,
+      "check_rule": {
+        "type": "bid_bond",
+        "attribute": "amount",
+        "minimum": 40000,
+        "evidence_types": [
+          "bid_bond"
+        ]
+      },
+      "evidence_required": [
+        "bid_bond"
+      ],
+      "source_references": [
+        {
+          "document_id": "correction_notice.json",
+          "page": 3,
+          "section": "保证金修订"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q08",
+      "category": "technical",
+      "title": "星号技术条款完整响应",
+      "description": "必须响应OAuth2.0/OIDC、不更换现有身份系统、日志不少于180天、日志查询和导出、TLS1.2+、敏感字段加密、国产Linux、PostgreSQL兼容及不绑定单一公有云。",
+      "mandatory": true,
+      "evidence_required": [
+        "star_technical_response"
+      ],
+      "source_references": [
+        {
+          "document_id": "correction_notice.json",
+          "page": 4,
+          "section": "技术参数修订"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q09",
+      "category": "qualification",
+      "title": "项目经理指定证书",
+      "description": "项目经理应提供招标文件指定的信息系统项目管理师证书。",
+      "mandatory": true,
+      "evidence_required": [
+        "information_system_project_manager_certificate"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 12,
+          "section": "项目团队"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q10",
+      "category": "qualification",
+      "title": "财务状况证明",
+      "description": "投标人应提供招标文件要求的财务状况证明。",
+      "mandatory": true,
+      "evidence_required": [
+        "financial_statement"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 11,
+          "section": "资格条件"
+        }
+      ]
+    },
+    {
+      "requirement_id": "Q11",
+      "category": "qualification",
+      "title": "至少一个合同额不低于100万元的类似项目",
+      "description": "资格审查仅统计合同金额不低于100万元且材料完整的类似项目。",
+      "mandatory": true,
+      "evidence_required": [
+        "case_qualification_summary"
+      ],
+      "check_rule": {
+        "type": "similar_case",
+        "attribute": "qualifying_case_count",
+        "minimum": 1,
+        "evidence_types": [
+          "case_qualification_summary"
+        ]
+      },
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 13,
+          "section": "类似业绩资格门槛"
+        }
+      ]
+    }
+  ],
+  "scoring_items": [
+    {
+      "item_id": "S01",
+      "title": "类似项目案例",
+      "max_score": 8,
+      "score_type": "objective",
+      "criteria": "提供两个完整类似项目材料，每个完整材料得4分；本评分项门槛为合同金额不低于80万元。",
+      "evidence_required": [
+        "case_90_contract",
+        "case_90_acceptance",
+        "case_120_contract",
+        "case_120_acceptance"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 20,
+          "section": "商务评分"
+        }
+      ]
+    },
+    {
+      "item_id": "S02",
+      "title": "ISO9001认证",
+      "max_score": 3,
+      "score_type": "objective",
+      "criteria": "提供有效ISO9001认证得3分。",
+      "evidence_required": [
+        "ISO9001"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 21,
+          "section": "商务评分"
+        }
+      ]
+    },
+    {
+      "item_id": "S03",
+      "title": "ISO/IEC 27001认证加分",
+      "max_score": 3,
+      "score_type": "objective",
+      "criteria": "提供有效ISO/IEC 27001认证得3分。",
+      "evidence_required": [
+        "ISO/IEC 27001"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 21,
+          "section": "商务评分"
+        }
+      ]
+    },
+    {
+      "item_id": "S04",
+      "title": "信息系统项目管理师",
+      "max_score": 4,
+      "score_type": "objective",
+      "criteria": "提供招标文件指定的信息系统项目管理师证书得4分。",
+      "evidence_required": [
+        "information_system_project_manager_certificate"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 22,
+          "section": "商务评分"
+        }
+      ]
+    },
+    {
+      "item_id": "S05",
+      "title": "财务状况",
+      "max_score": 3,
+      "score_type": "objective",
+      "criteria": "按招标文件要求提供财务状况证明得3分。",
+      "evidence_required": [
+        "financial_statement"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 22,
+          "section": "商务评分"
+        }
+      ]
+    },
+    {
+      "item_id": "S06",
+      "title": "本地服务机构",
+      "max_score": 9,
+      "score_type": "objective",
+      "criteria": "提供符合招标文件要求的本地服务机构证明得9分。",
+      "evidence_required": [
+        "local_service_organization"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 23,
+          "section": "商务评分"
+        }
+      ]
+    },
+    {
+      "item_id": "S07",
+      "title": "投标报价",
+      "max_score": 20,
+      "score_type": "price",
+      "criteria": "价格分按评标基准价及招标文件公式计算，当前材料未提供评标基准价。",
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 24,
+          "section": "价格评分"
+        }
+      ]
+    },
+    {
+      "item_id": "S08",
+      "title": "技术方案及实施方案",
+      "max_score": 50,
+      "score_type": "subjective",
+      "criteria": "由评审专家根据技术方案、实施方案和服务保障方案综合评价。",
+      "evidence_required": [
+        "star_technical_response"
+      ],
+      "source_references": [
+        {
+          "document_id": "tender_requirements.json",
+          "page": 25,
+          "section": "技术评分"
+        }
+      ]
+    }
+  ],
+  "original_version_facts": {
+    "log_retention": "不少于90天",
+    "project_manager_social_security": "2026年2月至7月",
+    "bid_bond_amount": 30000
+  }
+}

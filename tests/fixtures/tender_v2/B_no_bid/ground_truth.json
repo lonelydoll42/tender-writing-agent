@@ -1,0 +1,23 @@
+{
+  "scenario_id": "B_no_bid",
+  "expected": {
+    "bid_decision": "no_bid",
+    "score_rule_total": 100,
+    "objective_score_proven": 18,
+    "objective_score_unproven": 12,
+    "price_available": false,
+    "subjective_available": false
+  },
+  "must_detect": [
+    "ISO/IEC 27001已过期",
+    "投标保证金仅为30000元，低于40000元"
+  ],
+  "must_not_claim": [
+    "ISO/IEC 27001有效",
+    "投标保证金满足40000元要求"
+  ],
+  "hard_failures": [
+    "Q02",
+    "Q07"
+  ]
+}
