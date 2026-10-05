@@ -1,0 +1,65 @@
+{
+  "version": "raw-file-eval-v1",
+  "text_cases": {
+    "minimal_repro": [
+      {
+        "path": "fixtures/minimal_repro_tender.txt",
+        "role": "tender"
+      },
+      {
+        "path": "fixtures/contract_135wan.txt",
+        "role": "bidder_material"
+      },
+      {
+        "path": "fixtures/bond_40000.txt",
+        "role": "bidder_material"
+      }
+    ],
+    "cross_page_score": [
+      {
+        "path": "fixtures/cross_page_score.txt",
+        "role": "tender"
+      }
+    ],
+    "conflicting_scores": [
+      {
+        "path": "fixtures/conflicting_scores.txt",
+        "role": "tender"
+      }
+    ],
+    "amount_boundaries": [
+      {
+        "path": "fixtures/amount_boundary_tender.txt",
+        "role": "tender"
+      },
+      {
+        "path": "fixtures/contract_unprovided_next_bond.txt",
+        "role": "bidder_material"
+      },
+      {
+        "path": "fixtures/contract_negative_amount.txt",
+        "role": "bidder_material"
+      }
+    ],
+    "correction_conflict": [
+      {
+        "path": "fixtures/correction_original.txt",
+        "role": "tender"
+      },
+      {
+        "path": "fixtures/更正公告_notice.txt",
+        "role": "clarification"
+      }
+    ],
+    "iso_standard_mismatch": [
+      {
+        "path": "fixtures/iso27001_requirement.txt",
+        "role": "tender"
+      },
+      {
+        "path": "fixtures/ISO9001证明.txt",
+        "role": "bidder_material"
+      }
+    ]
+  }
+}

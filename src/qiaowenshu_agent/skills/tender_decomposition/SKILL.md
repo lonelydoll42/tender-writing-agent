@@ -21,3 +21,5 @@ commercial, scoring, format, and evidence requirements.
 - Keep requirement IDs stable across reruns when the source version is stable.
 - Preserve source references for every requirement.
 - Do not decide bidder eligibility; that belongs to `bid-feasibility`.
+- When local parsing has warnings or receives correction/clarification files,
+  retain the warning and request human review instead of inferring precedence.

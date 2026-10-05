@@ -1,6 +1,6 @@
 {
   "name": "document-writing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "entrypoint": "qiaowenshu_agent.skills.document_writing.skill:DocumentWritingSkill",
   "capabilities": [
     "tender.draft",

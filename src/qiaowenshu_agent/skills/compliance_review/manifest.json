@@ -2,6 +2,115 @@
   "name": "compliance-review",
   "version": "0.1.0",
   "entrypoint": "qiaowenshu_agent.skills.compliance_review.skill:ComplianceReviewSkill",
+  "description": "Review supplied tender compliance evidence and report a scoped business status without certifying overall final-submission readiness.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "project_id": {"type": "string"},
+      "ledger": {
+        "type": "object",
+        "properties": {
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "requirement_id": {"type": "string"},
+                "id": {"type": "string"},
+                "status": {"type": "string"},
+                "mandatory": {"type": "boolean"},
+                "not_applicable_reason": {"type": "string"}
+              }
+            }
+          }
+        }
+      },
+      "ledger_entries": {"type": "array"},
+      "requirements": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "requirement_id": {"type": "string"},
+            "id": {"type": "string"},
+            "mandatory": {"type": "boolean"},
+            "required": {"type": "boolean"}
+          }
+        }
+      },
+      "consistency_result": {"type": "object"},
+      "quotation_result": {"type": "object"},
+      "required_attachments": {"type": "array"},
+      "present_attachments": {"type": "array"},
+      "signatures": {"type": "object"},
+      "draft": {"type": ["object", "string"]}
+    }
+  },
+  "output_schema": {
+    "type": "object",
+    "required": [
+      "findings",
+      "summary",
+      "needs_human_review",
+      "business_status",
+      "checked",
+      "submission_allowed",
+      "scoped_gate_passed",
+      "check_coverage"
+    ],
+    "properties": {
+      "business_status": {
+        "type": "string",
+        "enum": ["passed", "failed", "needs_review", "not_checked"]
+      },
+      "checked": {"type": "boolean"},
+      "submission_allowed": {"type": "boolean", "const": false},
+      "scoped_gate_passed": {"type": "boolean"},
+      "needs_human_review": {"type": "boolean"},
+      "findings": {"type": "array"},
+      "summary": {
+        "type": "object",
+        "required": ["passed", "severity_counts"],
+        "properties": {
+          "passed": {"type": "boolean"},
+          "severity_counts": {"type": "object"}
+        }
+      },
+      "check_coverage": {
+        "type": "object",
+        "required": [
+          "requested_checks",
+          "completed_checks",
+          "pending_checks",
+          "requirement_coverage_complete",
+          "scope_limited",
+          "final_submission_readiness_certified"
+        ],
+        "properties": {
+          "requested_checks": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "completed_checks": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "pending_checks": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "requirement_coverage_complete": {
+            "type": ["boolean", "null"]
+          },
+          "scope_limited": {"type": "boolean", "const": true},
+          "final_submission_readiness_certified": {
+            "type": "boolean",
+            "const": false
+          }
+        }
+      }
+    }
+  },
   "capabilities": ["tender.compliance_review", "tender.submission_gate"],
   "required_permissions": ["document.read"]
 }

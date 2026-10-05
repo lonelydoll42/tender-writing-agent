@@ -389,13 +389,50 @@ class AgentRunResult:
     budget: dict[str, int] = field(default_factory=dict)
     elapsed_ms: int = 0
 
+    @property
+    def execution_status(self) -> str:
+        return _execution_status(self.status)
+
+    @property
+    def business_status(self) -> str:
+        return _result_business_assessment(self.steps, self.output)[
+            "business_status"
+        ]
+
+    @property
+    def needs_human_review(self) -> bool:
+        return _result_business_assessment(self.steps, self.output)[
+            "needs_human_review"
+        ]
+
+    @property
+    def submission_allowed(self) -> bool:
+        return False
+
+    @property
+    def scoped_gate_passed(self) -> bool:
+        return _result_business_assessment(self.steps, self.output)[
+            "scoped_gate_passed"
+        ]
+
     def to_dict(self) -> dict[str, Any]:
+        assessment = _result_business_assessment(self.steps, self.output)
         return {
             "run_id": self.run_id,
             "status": self.status,
+            "execution_status": self.execution_status,
+            "business_status": assessment["business_status"],
+            "needs_human_review": (
+                assessment["needs_human_review"]
+                or self.execution_status == "running"
+            ),
+            "submission_allowed": False,
+            "scoped_gate_passed": assessment["scoped_gate_passed"],
             "output": self.output,
             "message": self.message,
             "steps": [step.to_dict() for step in self.steps],
+            "warnings": assessment["warnings"],
+            "risks": assessment["risks"],
             "trace": list(self.trace),
             "events": list(self.events),
             "budget": dict(self.budget),
@@ -444,8 +481,6 @@ class AgentRuntime:
         record = self.store.get_run(run_id)
         if record is None:
             raise KeyError(f"run not found: {run_id}")
-        if record.status in {"success", "partial"}:
-            return _agent_result_from_record(record)
         request = _request_from_dict(record.request)
         plan = [
             PlanStep(
@@ -459,12 +494,65 @@ class AgentRuntime:
             for item in record.plan
             if str(item.get("skill_name") or "").strip()
         ]
+        completed_count = (
+            len(record.artifact_ids)
+            if record.status in {"success", "partial"}
+            else max(0, record.next_step_index)
+        )
+        dependency_issues = self._run_dependency_issues(
+            request,
+            plan,
+            record.artifact_ids[:completed_count],
+        )
+        if dependency_issues:
+            return _blocked_stale_run_result(record, dependency_issues)
+        if record.status in {"success", "partial"}:
+            return _agent_result_from_record(record)
         return await self._execute(
             request,
             run_id=record.run_id,
             resume_record=record,
             plan=plan,
         )
+
+    def inspect_run(self, run_id: str) -> dict[str, Any] | None:
+        """Return a read-only run snapshot with current runtime assessments."""
+
+        record = self.store.get_run(run_id)
+        if record is None:
+            return None
+        request = _request_from_dict(record.request)
+        plan = [
+            PlanStep(
+                str(item.get("skill_name") or ""),
+                dict(item.get("input"))
+                if isinstance(item.get("input"), dict)
+                else None,
+            )
+            for item in record.plan
+            if str(item.get("skill_name") or "").strip()
+        ]
+        completed_count = (
+            len(record.artifact_ids)
+            if record.status in {"success", "partial"}
+            else max(0, record.next_step_index)
+        )
+        issues = self._run_dependency_issues(
+            request,
+            plan,
+            record.artifact_ids[:completed_count],
+        )
+        result = (
+            _blocked_stale_run_result(record, issues)
+            if issues
+            else _agent_result_from_record(record)
+        )
+        snapshot = record.to_dict()
+        snapshot.update(result.to_dict())
+        snapshot["persisted_status"] = record.status
+        snapshot["dependency_status"] = "stale" if issues else "valid"
+        snapshot["dependency_issues"] = issues
+        return snapshot
 
     async def _execute(
         self,
@@ -549,6 +637,49 @@ class AgentRuntime:
             max(0, resume_record.next_step_index) if resume_record else 0
         )
         created_at = _record_created_at(resume_record)
+        dependency_issues = self._run_dependency_issues(
+            request,
+            plan,
+            artifact_ids[:start_index],
+        )
+        if dependency_issues:
+            context.emit(
+                "run_failed",
+                payload={
+                    "error_code": "STALE_RUN_DEPENDENCIES",
+                    "dependency_issues": dependency_issues,
+                },
+            )
+            result = self._result(
+                context,
+                started,
+                status="blocked",
+                output={
+                    "error_code": "STALE_RUN_DEPENDENCIES",
+                    "dependency_issues": dependency_issues,
+                },
+                message="run dependencies are stale or missing; start a new run",
+                steps=steps,
+                previous_events=previous_events,
+                previous_trace=previous_trace,
+                elapsed_base=previous_elapsed,
+            )
+            self._persist_run(
+                request=request,
+                plan=plan,
+                context=context,
+                steps=steps,
+                status=result.status,
+                output=result.output,
+                message=result.message,
+                artifact_ids=artifact_ids,
+                next_step_index=start_index,
+                created_at=created_at,
+                previous_events=previous_events,
+                previous_trace=previous_trace,
+                elapsed_ms=result.elapsed_ms,
+            )
+            return result
         self._persist_run(
             request=request,
             plan=plan,
@@ -604,6 +735,54 @@ class AgentRuntime:
                         artifact_ids[index]
                     )
                 continue
+
+            gate_kind = _capability_gate_kind(step.skill_name, self.registry)
+            if gate_kind is not None:
+                assessment = _business_assessment(steps)
+                if gate_kind == "submission":
+                    reason = (
+                        "final submission is not authorized by the scoped review; "
+                        "submission_allowed remains false"
+                    )
+                elif not assessment["scoped_gate_passed"]:
+                    reason = (
+                        "writing/export requires a checked scoped compliance pass "
+                        "with no blockers; current business_status is "
+                        f"{assessment['business_status']}"
+                    )
+                else:
+                    reason = ""
+                if reason:
+                    final_result = SkillResult(
+                        status="blocked",
+                        data={
+                            "error_code": "COMPLIANCE_GATE_BLOCKED",
+                            "gate_reason": reason,
+                            "business_status": assessment["business_status"],
+                            "scoped_gate_passed": assessment[
+                                "scoped_gate_passed"
+                            ],
+                        },
+                        message=reason,
+                        error_code="COMPLIANCE_GATE_BLOCKED",
+                    )
+                    _set_step(
+                        steps,
+                        index,
+                        AgentStepResult(step.skill_name, final_result),
+                    )
+                    context.emit(
+                        "run_failed",
+                        payload={
+                            "error_code": "COMPLIANCE_GATE_BLOCKED",
+                            "skill_name": step.skill_name,
+                            "gate_reason": reason,
+                            "business_status": assessment["business_status"],
+                        },
+                    )
+                    next_step_index = index
+                    break
+
             if not context.budget.reserve_step():
                 final_result = SkillResult.blocked(
                     message="agent step budget exhausted",
@@ -668,6 +847,52 @@ class AgentRuntime:
                 )
                 break
 
+            dependency_issues = self._artifact_dependency_issues(
+                _dependency_artifact_ids(step.input, completed_artifacts)
+            )
+            dependency_issues.extend(
+                _validate_file_references(
+                    resolved_input,
+                    self.services.get("file_registry"),
+                    str(request.input.get("project_id") or "").strip(),
+                )
+            )
+            dependency_issues.extend(
+                _validate_file_references(
+                    request.input,
+                    self.services.get("file_registry"),
+                    str(request.input.get("project_id") or "").strip(),
+                )
+            )
+            dependency_issues = _unique_issue_dicts(dependency_issues)
+            if dependency_issues:
+                final_result = SkillResult(
+                    status="blocked",
+                    data={
+                        "error_code": "STALE_RUN_DEPENDENCIES",
+                        "dependency_issues": dependency_issues,
+                    },
+                    message=(
+                        "step dependencies are stale or missing; start a new run"
+                    ),
+                    error_code="STALE_RUN_DEPENDENCIES",
+                )
+                _set_step(
+                    steps,
+                    index,
+                    AgentStepResult(step.skill_name, final_result),
+                )
+                context.emit(
+                    "run_failed",
+                    payload={
+                        "error_code": "STALE_RUN_DEPENDENCIES",
+                        "skill_name": step.skill_name,
+                        "dependency_issues": dependency_issues,
+                    },
+                )
+                next_step_index = index
+                break
+
             skill_request = SkillRequest(
                 request_id=request.request_id,
                 input=resolved_input,
@@ -689,6 +914,8 @@ class AgentRuntime:
                     error_code="SKILL_EXECUTION_FAILED",
                     retryable=True,
                 )
+            if step.skill_name == "compliance-review":
+                _normalize_compliance_result(result)
             result.trace_id = run_id
             context.state[step.skill_name] = result.data
             _set_step(steps, index, AgentStepResult(step.skill_name, result))
@@ -737,14 +964,39 @@ class AgentRuntime:
                 message="agent produced no result",
                 error_code="EMPTY_AGENT_RESULT",
             )
+        final_dependency_issues: list[dict[str, Any]] = []
+        if _execution_status(final_result.status) == "completed":
+            final_dependency_issues = self._run_dependency_issues(
+                request,
+                plan,
+                artifact_ids,
+            )
+        if final_dependency_issues:
+            final_result = SkillResult.blocked(
+                message="run dependencies changed during execution; start a new run",
+                error_code="STALE_RUN_DEPENDENCIES",
+            )
+            final_result.data = {
+                "error_code": "STALE_RUN_DEPENDENCIES",
+                "dependency_issues": final_dependency_issues,
+            }
+        final_status = _aggregate_run_status(final_result.status, steps)
+        terminal_payload = {
+            "status": final_status,
+            "execution_status": _execution_status(final_status),
+        }
+        if final_result.error_code == "STALE_RUN_DEPENDENCIES":
+            terminal_payload.update(final_result.data)
         context.emit(
-            "run_finished" if final_result.ok else "run_failed",
-            payload={"status": final_result.status},
+            "run_finished"
+            if _execution_status(final_status) == "completed"
+            else "run_failed",
+            payload=terminal_payload,
         )
         result = self._result(
             context,
             started,
-            status=final_result.status,
+            status=final_status,
             output=final_result.data,
             message=final_result.message,
             steps=steps,
@@ -752,7 +1004,11 @@ class AgentRuntime:
             previous_trace=previous_trace,
             elapsed_base=previous_elapsed,
         )
-        final_next_index = len(plan) if final_result.ok else next_step_index
+        final_next_index = (
+            len(plan)
+            if result.execution_status == "completed"
+            else next_step_index
+        )
         self._persist_run(
             request=request,
             plan=plan,
@@ -788,7 +1044,33 @@ class AgentRuntime:
         if not project_id:
             return None
         dependencies = _dependency_artifact_ids(step.input, completed_artifacts)
-        source_versions = _source_file_versions(resolved_input, file_registry)
+        source_versions = _unique_strings(
+            _source_file_versions(resolved_input, file_registry)
+            + _source_file_versions(request.input, file_registry)
+        )
+        stale_issues = self._artifact_dependency_issues(dependencies)
+        stale_issues.extend(
+            _validate_file_references(
+                resolved_input,
+                file_registry,
+                project_id,
+            )
+        )
+        stale_issues.extend(
+            _validate_file_references(
+                request.input,
+                file_registry,
+                project_id,
+            )
+        )
+        stale_issues.extend(
+            _validate_file_references(
+                result.data,
+                file_registry,
+                project_id,
+            )
+        )
+        stale_issues = _unique_issue_dicts(stale_issues)
         artifact = file_registry.save_artifact(
             result.data,
             project_id=project_id,
@@ -798,9 +1080,111 @@ class AgentRuntime:
             source_file_versions=source_versions,
             dependencies=dependencies,
             created_by_run=run_id,
-            status="valid" if result.ok else "error",
+            status=(
+                "stale"
+                if stale_issues
+                else "valid" if result.ok else "error"
+            ),
         )
         return str(artifact["artifact_id"])
+
+    def _run_dependency_issues(
+        self,
+        request: SkillRequest,
+        plan: list[PlanStep],
+        completed_artifact_ids: list[str],
+    ) -> list[dict[str, Any]]:
+        file_registry = self.services.get("file_registry")
+        project_id = str(request.input.get("project_id") or "").strip()
+        issues = _validate_file_references(
+            request.input,
+            file_registry,
+            project_id,
+        )
+        for step in plan:
+            issues.extend(
+                _validate_file_references(
+                    step.input or {},
+                    file_registry,
+                    project_id,
+                )
+            )
+        issues.extend(self._artifact_dependency_issues(completed_artifact_ids))
+        return _unique_issue_dicts(issues)
+
+    def _artifact_dependency_issues(
+        self,
+        artifact_ids: list[str],
+    ) -> list[dict[str, Any]]:
+        file_registry = self.services.get("file_registry")
+        visited: set[str] = set()
+        visiting: set[str] = set()
+        issues: list[dict[str, Any]] = []
+
+        def visit(artifact_id: str) -> None:
+            if artifact_id in visited:
+                return
+            if artifact_id in visiting:
+                issues.append(
+                    {
+                        "type": "artifact_dependency_cycle",
+                        "artifact_id": artifact_id,
+                    }
+                )
+                return
+            getter = getattr(self.store, "get_artifact", None)
+            artifact = getter(artifact_id) if callable(getter) else None
+            if artifact is None:
+                issues.append(
+                    {"type": "artifact_missing", "artifact_id": artifact_id}
+                )
+                visited.add(artifact_id)
+                return
+            visiting.add(artifact_id)
+            if artifact.status != "valid":
+                issues.append(
+                    {
+                        "type": "artifact_not_valid",
+                        "artifact_id": artifact_id,
+                        "status": artifact.status,
+                    }
+                )
+            for source_version in artifact.source_file_versions:
+                file_id, version = _parse_source_file_version(source_version)
+                if file_id is None:
+                    issues.append(
+                        {
+                            "type": "invalid_source_file_version",
+                            "artifact_id": artifact_id,
+                            "source_file_version": source_version,
+                        }
+                    )
+                    continue
+                issues.extend(
+                    _validate_file_id_version(
+                        file_id,
+                        version,
+                        file_registry,
+                        artifact.project_id,
+                        artifact_id=artifact_id,
+                    )
+                )
+            issues.extend(
+                _validate_file_references(
+                    artifact.content,
+                    file_registry,
+                    artifact.project_id,
+                )
+            )
+            for dependency_id in artifact.dependencies:
+                visit(str(dependency_id))
+            visiting.remove(artifact_id)
+            visited.add(artifact_id)
+
+        for artifact_id in _unique_strings(artifact_ids):
+            if artifact_id:
+                visit(artifact_id)
+        return _unique_issue_dicts(issues)
 
     def _persist_run(
         self,
@@ -908,6 +1292,607 @@ def _budget_value(record: AgentRun | None, key: str) -> int:
         return 0
 
 
+def _execution_status(status: str) -> str:
+    if status in {"success", "partial"}:
+        return "completed"
+    if status == "running":
+        return "running"
+    if status == "blocked":
+        return "blocked"
+    return "failed"
+
+
+def _aggregate_run_status(
+    status: str,
+    steps: list[AgentStepResult],
+) -> str:
+    if status != "success":
+        return status
+    assessment = _business_assessment(steps)
+    has_compliance_review = any(
+        step.skill_name == "compliance-review" for step in steps
+    )
+    if (
+        any(step.result.status == "partial" for step in steps)
+        or assessment["business_status"] in {"failed", "needs_review"}
+        or (
+            has_compliance_review
+            and assessment["business_status"] == "not_checked"
+        )
+    ):
+        return "partial"
+    return status
+
+
+def _compliance_assessment(
+    data: Mapping[str, Any],
+    *,
+    execution_status: str | None = None,
+) -> dict[str, Any]:
+    summary = data.get("summary")
+    summary = summary if isinstance(summary, Mapping) else {}
+    raw_business_status = str(data.get("business_status") or "").strip().lower()
+    explicit_checked = data.get("checked")
+    summary_passed = summary.get("passed")
+    blocker_count = _nonnegative_int(summary.get("blocker_count"))
+    if explicit_checked is None:
+        checked = (
+            raw_business_status in {"passed", "failed", "needs_review"}
+            or isinstance(summary_passed, bool)
+            or "blocker_count" in summary
+        )
+    else:
+        checked = explicit_checked is True
+
+    if raw_business_status == "failed" or blocker_count > 0:
+        business_status = "failed"
+    elif raw_business_status == "not_checked":
+        business_status = "not_checked"
+    elif (
+        raw_business_status == "needs_review"
+        or data.get("needs_human_review") is True
+        or summary_passed is False
+        or execution_status == "partial"
+    ):
+        business_status = "needs_review"
+    elif (
+        raw_business_status == "not_checked"
+        or (
+            raw_business_status
+            and raw_business_status
+            not in {"passed", "failed", "needs_review", "not_checked"}
+        )
+        or not checked
+        or summary_passed is not True
+        or execution_status in {"error", "retryable_error", "blocked"}
+    ):
+        business_status = "not_checked"
+    else:
+        business_status = "passed"
+
+    scoped_gate_passed = bool(
+        checked
+        and business_status == "passed"
+        and summary_passed is True
+        and blocker_count == 0
+        and data.get("needs_human_review") is not True
+        and data.get("scoped_gate_passed") is not False
+    )
+    return {
+        "business_status": business_status,
+        "checked": checked,
+        "needs_human_review": business_status in {"failed", "needs_review"},
+        "scoped_gate_passed": scoped_gate_passed,
+        "blocker_count": blocker_count,
+        "summary_passed": summary_passed is True,
+    }
+
+
+def _normalize_compliance_result(result: SkillResult) -> None:
+    data = dict(result.data)
+    assessment = _compliance_assessment(data, execution_status=result.status)
+    data.update(
+        {
+            "business_status": assessment["business_status"],
+            "checked": assessment["checked"],
+            "needs_human_review": (
+                data.get("needs_human_review") is True
+                or assessment["business_status"] in {"failed", "needs_review"}
+            ),
+            "submission_allowed": False,
+            "scoped_gate_passed": assessment["scoped_gate_passed"],
+        }
+    )
+    result.data = data
+    if result.ok and assessment["business_status"] != "passed":
+        result.status = "partial"  # type: ignore[assignment]
+
+
+def _business_assessment(steps: list[AgentStepResult]) -> dict[str, Any]:
+    warnings: list[str] = []
+    risks: list[str] = []
+    compliance_results: list[dict[str, Any]] = []
+    other_statuses: list[str] = []
+    has_partial = False
+    has_review_signal = False
+
+    for step in steps:
+        result = step.result
+        data = result.data if isinstance(result.data, Mapping) else {}
+        compliance_assessment = (
+            _compliance_assessment(data, execution_status=result.status)
+            if step.skill_name == "compliance-review"
+            else None
+        )
+        unchecked_compliance = bool(
+            compliance_assessment
+            and compliance_assessment["business_status"] == "not_checked"
+        )
+        step_warnings = _collect_warning_messages(data) + [
+            str(item) for item in result.warnings if str(item).strip()
+        ]
+        step_risks = _collect_risk_messages(data)
+        warnings.extend(step_warnings)
+        risks.extend(step_risks)
+        if compliance_assessment is not None:
+            compliance_results.append(compliance_assessment)
+        else:
+            other_statuses.extend(_explicit_business_statuses(data))
+        if result.status == "partial" and not unchecked_compliance:
+            has_partial = True
+            risks.append(f"{step.skill_name} returned a partial result")
+        if data.get("needs_human_review") is True and not unchecked_compliance:
+            has_review_signal = True
+        if not unchecked_compliance and (step_warnings or step_risks):
+            has_review_signal = True
+
+    warnings = _unique_strings(warnings)
+    risks = _unique_strings(risks)
+    compliance_statuses = [
+        item["business_status"] for item in compliance_results
+    ]
+    statuses = compliance_statuses + other_statuses
+    if "failed" in statuses:
+        business_status = "failed"
+    elif (
+        "needs_review" in statuses
+        or has_partial
+        or has_review_signal
+    ):
+        business_status = "needs_review"
+    elif "not_checked" in statuses:
+        business_status = "not_checked"
+    elif compliance_results and all(
+        item["scoped_gate_passed"] for item in compliance_results
+    ):
+        business_status = "passed"
+    else:
+        business_status = "not_checked"
+
+    scoped_gate_passed = bool(
+        business_status == "passed"
+        and compliance_results
+        and all(item["scoped_gate_passed"] for item in compliance_results)
+    )
+    return {
+        "business_status": business_status,
+        "needs_human_review": business_status != "passed",
+        "submission_allowed": False,
+        "scoped_gate_passed": scoped_gate_passed,
+        "warnings": warnings,
+        "risks": risks,
+    }
+
+
+def _result_business_assessment(
+    steps: list[AgentStepResult],
+    output: Mapping[str, Any],
+) -> dict[str, Any]:
+    assessment = _business_assessment(steps)
+    if output.get("error_code") == "STALE_RUN_DEPENDENCIES":
+        assessment["business_status"] = "not_checked"
+        assessment["needs_human_review"] = True
+        assessment["submission_allowed"] = False
+        assessment["scoped_gate_passed"] = False
+        assessment["risks"] = _unique_strings(
+            list(assessment["risks"])
+            + ["run dependencies are stale or missing"]
+        )
+    return assessment
+
+
+def _explicit_business_statuses(value: Any) -> list[str]:
+    found: list[str] = []
+    if isinstance(value, Mapping):
+        if "business_status" in value:
+            raw = value.get("business_status")
+            if isinstance(raw, str) and raw in {
+                "failed",
+                "needs_review",
+                "not_checked",
+            }:
+                found.append(raw)
+            elif not isinstance(raw, str) or raw not in {
+                "passed",
+                "failed",
+                "needs_review",
+                "not_checked",
+            }:
+                found.append("not_checked")
+        for child in value.values():
+            found.extend(_explicit_business_statuses(child))
+    elif isinstance(value, list):
+        for child in value:
+            found.extend(_explicit_business_statuses(child))
+    return found
+
+
+def _collect_warning_messages(value: Any) -> list[str]:
+    found: list[str] = []
+    if isinstance(value, Mapping):
+        for key, child in value.items():
+            if str(key).lower() == "warnings":
+                found.extend(_warning_values(child))
+            else:
+                found.extend(_collect_warning_messages(child))
+    elif isinstance(value, list):
+        for child in value:
+            found.extend(_collect_warning_messages(child))
+    return found
+
+
+def _warning_values(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value.strip()] if value.strip() else []
+    if isinstance(value, Mapping):
+        return [
+            str(value.get("message") or value.get("warning") or value).strip()
+        ]
+    if isinstance(value, list):
+        return [item for child in value for item in _warning_values(child)]
+    return []
+
+
+def _collect_risk_messages(value: Any) -> list[str]:
+    found: list[str] = []
+    severe_levels = {"blocker", "critical", "high", "high_risk", "failed"}
+    if isinstance(value, Mapping):
+        business_status = value.get("business_status")
+        if isinstance(business_status, str) and business_status in {
+            "failed",
+            "needs_review",
+        }:
+            found.append(f"business_status={business_status}")
+        if (
+            value.get("needs_human_review") is True
+            and business_status != "not_checked"
+        ):
+            found.append("step requires human review")
+        if _nonnegative_int(value.get("blocker_count")):
+            found.append(
+                f"blocking findings: {_nonnegative_int(value.get('blocker_count'))}"
+            )
+        for key in ("risk_level", "risk_status", "severity"):
+            level = str(value.get(key) or "").strip().lower()
+            if level in severe_levels:
+                detail = str(value.get("message") or value.get("reason") or level)
+                found.append(detail)
+        fatal_risks = value.get("fatal_risks")
+        if isinstance(fatal_risks, list):
+            found.extend(str(item).strip() for item in fatal_risks if str(item).strip())
+        findings = value.get("findings")
+        if isinstance(findings, list):
+            for finding in findings:
+                if not isinstance(finding, Mapping):
+                    continue
+                severity = str(finding.get("severity") or "").lower()
+                if severity in severe_levels:
+                    found.append(
+                        str(
+                            finding.get("message")
+                            or finding.get("finding_id")
+                            or severity
+                        ).strip()
+                    )
+        for key, child in value.items():
+            if key not in {"fatal_risks", "findings"}:
+                found.extend(_collect_risk_messages(child))
+    elif isinstance(value, list):
+        for child in value:
+            found.extend(_collect_risk_messages(child))
+    return _unique_strings([item for item in found if item])
+
+
+def _nonnegative_int(value: Any) -> int:
+    try:
+        return max(0, int(value))
+    except (TypeError, ValueError):
+        return 0
+
+
+def _capability_gate_kind(
+    skill_name: str,
+    registry: SkillRegistry,
+) -> str | None:
+    normalized_name = skill_name.lower().replace("_", "-")
+    if normalized_name == "compliance-review":
+        return None
+    if any(token in normalized_name for token in ("submit", "submission")):
+        return "submission"
+    if any(
+        token in normalized_name
+        for token in ("document-writing", "writer", "writing", "draft", "export")
+    ):
+        return "scoped"
+    skill = registry.get(skill_name)
+    capabilities = getattr(getattr(skill, "manifest", None), "capabilities", ())
+    for capability in capabilities:
+        value = str(capability).lower()
+        if value.endswith("submission_gate"):
+            continue
+        if any(token in value for token in ("submit", "submission")):
+            return "submission"
+        if any(
+            token in value
+            for token in (
+                "document.write",
+                "technical_writing",
+                "commercial_writing",
+                ".draft",
+                ".export",
+            )
+        ):
+            return "scoped"
+    return None
+
+
+def _is_restricted_capability(skill_name: str, registry: SkillRegistry) -> bool:
+    return _capability_gate_kind(skill_name, registry) is not None
+
+
+def _blocked_stale_run_result(
+    record: AgentRun,
+    dependency_issues: list[dict[str, Any]],
+) -> AgentRunResult:
+    payload = {
+        "error_code": "STALE_RUN_DEPENDENCIES",
+        "dependency_issues": dependency_issues,
+    }
+    events = list(record.events) + [
+        {
+            "event_type": "run_failed",
+            "run_id": record.run_id,
+            "skill_name": None,
+            "payload": payload,
+            "created_at": _timestamp(),
+        }
+    ]
+    return AgentRunResult(
+        run_id=record.run_id,
+        status="blocked",
+        output=payload,
+        message="run dependencies are stale or missing; start a new run",
+        steps=_steps_from_record(record),
+        trace=list(record.trace),
+        events=events,
+        budget={
+            str(key): int(value)
+            for key, value in record.budget.items()
+            if _is_int(value)
+        },
+        elapsed_ms=record.elapsed_ms,
+    )
+
+
+def _validate_file_references(
+    value: Any,
+    file_registry: Any,
+    project_id: str,
+) -> list[dict[str, Any]]:
+    file_ids = _explicit_file_ids(value)
+    issues: list[dict[str, Any]] = []
+    getter = getattr(file_registry, "get", None)
+    for file_id in file_ids:
+        if not project_id:
+            if not callable(getter) or getter(file_id) is None:
+                continue
+        issues.extend(
+            _validate_file_id_version(
+                file_id,
+                None,
+                file_registry,
+                project_id,
+            )
+        )
+    issues.extend(
+        _validate_structured_source_references(
+            value,
+            file_registry,
+            project_id,
+        )
+    )
+    return _unique_issue_dicts(issues)
+
+
+def _validate_structured_source_references(
+    value: Any,
+    file_registry: Any,
+    project_id: str,
+) -> list[dict[str, Any]]:
+    issues: list[dict[str, Any]] = []
+
+    def visit(item: Any) -> None:
+        if isinstance(item, Mapping):
+            source_version = item.get("source_version")
+            if isinstance(source_version, str) and ":v" in source_version:
+                file_id, version = _parse_source_file_version(source_version)
+                if file_id is None or version is None:
+                    issues.append(
+                        {
+                            "type": "invalid_source_file_version",
+                            "source_file_version": source_version,
+                        }
+                    )
+                else:
+                    issues.extend(
+                        _validate_file_id_version(
+                            file_id,
+                            version,
+                            file_registry,
+                            project_id,
+                        )
+                    )
+            document_id = item.get("document_id")
+            getter = getattr(file_registry, "get", None)
+            if isinstance(document_id, str) and callable(getter):
+                try:
+                    registered_document = getter(document_id)
+                except Exception:
+                    registered_document = None
+                if registered_document is not None:
+                    issues.extend(
+                        _validate_file_id_version(
+                            document_id,
+                            None,
+                            file_registry,
+                            project_id,
+                        )
+                    )
+            for child in item.values():
+                visit(child)
+        elif isinstance(item, list):
+            for child in item:
+                visit(child)
+
+    visit(value)
+    return _unique_issue_dicts(issues)
+
+
+def _explicit_file_ids(value: Any) -> list[str]:
+    file_keys = {"file_id", "file_ids", "bidder_file_ids"}
+    found: list[str] = []
+
+    def append_ids(item: Any) -> None:
+        if isinstance(item, str) and item.strip():
+            found.append(item.strip())
+        elif isinstance(item, (list, tuple)):
+            for child in item:
+                append_ids(child)
+
+    def visit(item: Any) -> None:
+        if isinstance(item, Mapping):
+            for key, child in item.items():
+                if str(key) in file_keys:
+                    append_ids(child)
+                visit(child)
+        elif isinstance(item, list):
+            for child in item:
+                visit(child)
+
+    visit(value)
+    return _unique_strings(found)
+
+
+def _parse_source_file_version(value: Any) -> tuple[str | None, int | None]:
+    text = str(value or "")
+    if ":v" not in text:
+        return (text, None) if text else (None, None)
+    file_id, raw_version = text.rsplit(":v", 1)
+    try:
+        version = int(raw_version)
+    except ValueError:
+        return None, None
+    return (file_id, version) if file_id else (None, None)
+
+
+def _validate_file_id_version(
+    file_id: str,
+    version: int | None,
+    file_registry: Any,
+    project_id: str,
+    *,
+    artifact_id: str | None = None,
+) -> list[dict[str, Any]]:
+    context = {"artifact_id": artifact_id} if artifact_id else {}
+    if file_registry is None or not callable(getattr(file_registry, "get", None)):
+        return [
+            {
+                "type": "file_registry_unavailable",
+                "file_id": file_id,
+                **context,
+            }
+        ]
+    record = file_registry.get(file_id)
+    if record is None:
+        return [{"type": "file_missing", "file_id": file_id, **context}]
+    issues: list[dict[str, Any]] = []
+    if project_id and record.project_id != project_id:
+        issues.append(
+            {
+                "type": "file_project_mismatch",
+                "file_id": file_id,
+                "expected_project_id": project_id,
+                "actual_project_id": record.project_id,
+                **context,
+            }
+        )
+    if version is not None and record.version != version:
+        issues.append(
+            {
+                "type": "source_file_version_changed",
+                "file_id": file_id,
+                "expected_version": version,
+                "actual_version": record.version,
+                **context,
+            }
+        )
+
+    try:
+        project_files = file_registry.list(record.project_id)
+    except Exception:
+        project_files = []
+    by_id = {item.file_id: item for item in project_files}
+    for candidate in project_files:
+        cursor = candidate
+        seen: set[str] = set()
+        while cursor.supersedes:
+            previous_id = str(cursor.supersedes)
+            if previous_id == file_id:
+                issues.append(
+                    {
+                        "type": "file_superseded",
+                        "file_id": file_id,
+                        "superseded_by": candidate.file_id,
+                        **context,
+                    }
+                )
+                break
+            if previous_id in seen or previous_id not in by_id:
+                break
+            seen.add(previous_id)
+            cursor = by_id[previous_id]
+        if any(
+            issue.get("type") == "file_superseded"
+            and issue.get("superseded_by") == candidate.file_id
+            for issue in issues
+        ):
+            break
+    return _unique_issue_dicts(issues)
+
+
+def _unique_issue_dicts(
+    issues: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    result: list[dict[str, Any]] = []
+    seen: set[tuple[tuple[str, str], ...]] = set()
+    for issue in issues:
+        key = tuple(sorted((str(name), repr(value)) for name, value in issue.items()))
+        if key not in seen:
+            seen.add(key)
+            result.append(issue)
+    return result
+
+
 def _request_to_dict(request: SkillRequest) -> dict[str, Any]:
     return {
         "request_id": request.request_id,
@@ -983,12 +1968,13 @@ def _steps_from_record(record: AgentRun | None) -> list[AgentStepResult]:
 
 
 def _agent_result_from_record(record: AgentRun) -> AgentRunResult:
+    steps = _steps_from_record(record)
     return AgentRunResult(
         run_id=record.run_id,
-        status=record.status,
+        status=_aggregate_run_status(record.status, steps),
         output=dict(record.output),
         message=record.message,
-        steps=_steps_from_record(record),
+        steps=steps,
         trace=list(record.trace),
         events=list(record.events),
         budget={
@@ -1029,10 +2015,18 @@ def _dependency_artifact_ids(
     def visit(value: Any) -> None:
         if isinstance(value, Mapping):
             reference = value.get("$ref")
-            if isinstance(reference, str) and reference.startswith("$state/"):
+            if reference == "$state":
+                found.extend(
+                    artifact_ids[-1]
+                    for artifact_ids in completed_artifacts.values()
+                    if artifact_ids
+                )
+            elif isinstance(reference, str) and reference.startswith("$state/"):
                 path = reference[len("$state/") :].split("/")
                 if path:
-                    found.extend(completed_artifacts.get(path[0], []))
+                    artifact_ids = completed_artifacts.get(path[0], [])
+                    if artifact_ids:
+                        found.append(artifact_ids[-1])
             for item in value.values():
                 visit(item)
         elif isinstance(value, list):

@@ -139,7 +139,7 @@ def _normalize_output(raw: Any, *, project_id: str) -> dict[str, Any]:
         scoring_items = _scoring_items_from_requirements(requirements)
     checklists = checklist_by_category(requirements)
     mandatory_count = sum(1 for item in requirements if item.mandatory)
-    return {
+    result = {
         "project_id": project_id,
         "requirements": [item.to_dict() for item in requirements],
         "scoring_items": [item.to_dict() for item in scoring_items],
@@ -152,6 +152,13 @@ def _normalize_output(raw: Any, *, project_id: str) -> dict[str, Any]:
         },
         "warnings": [str(item) for item in (body.get("warnings") or [])],
     }
+    if "needs_human_review" in body:
+        result["needs_human_review"] = bool(body["needs_human_review"])
+    if "business_status" in body:
+        result["business_status"] = str(body["business_status"])
+    if "extraction_complete" in body:
+        result["extraction_complete"] = bool(body["extraction_complete"])
+    return result
 
 
 def _scoring_items_from_requirements(

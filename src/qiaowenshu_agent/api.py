@@ -127,10 +127,10 @@ def create_app(
 
     @local_app.get("/v1/agent/runs/{run_id}")
     async def get_agent_run(run_id: str) -> dict[str, Any]:
-        record = local_runtime.store.get_run(run_id)
-        if record is None:
+        run_snapshot = local_runtime.inspect_run(run_id)
+        if run_snapshot is None:
             raise HTTPException(status_code=404, detail="run not found")
-        return {"run": record.to_dict()}
+        return {"run": run_snapshot}
 
     @local_app.post("/v1/agent/runs/{run_id}/resume")
     async def resume_agent_run(run_id: str) -> dict[str, Any]:

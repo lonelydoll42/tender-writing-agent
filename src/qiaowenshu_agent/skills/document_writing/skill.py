@@ -14,6 +14,10 @@ from qiaowenshu_agent.core.contracts import (
     SkillResult,
 )
 from qiaowenshu_agent.llm import LLMError, parse_json_object
+from qiaowenshu_agent.skills.document_writing.verification import (
+    resolve_as_of,
+    verify_chapter,
+)
 
 
 class WritingLLM(Protocol):
@@ -25,16 +29,15 @@ class WritingLLM(Protocol):
         model: str | None = None,
         temperature: float | None = None,
         max_tokens: int | None = None,
-    ) -> Any:
-        ...
+    ) -> Any: ...
 
 
 MANIFEST = SkillManifest(
     name="document-writing",
-    version="0.1.0",
+    version="0.1.1",
     description=(
-        "Write evidence-grounded tender chapters from parsed requirements "
-        "and bidder materials."
+        "Write draft tender chapters and independently verify selected "
+        "high-risk claims against supplied evidence."
     ),
     input_schema={
         "type": "object",
@@ -50,6 +53,16 @@ MANIFEST = SkillManifest(
             },
             "bidder_profile": {"type": "object"},
             "materials": {"type": "array", "items": {"type": "object"}},
+            "confirmed_facts": {
+                "type": ["array", "object"],
+                "items": {"type": "object"},
+            },
+            "approved_commitments": {
+                "type": ["array", "object"],
+                "items": {"type": "object"},
+            },
+            "as_of": {"type": "string", "format": "date"},
+            "bid_deadline": {"type": "string"},
             "evidence_matches": {
                 "type": "array",
                 "items": {"type": "object"},
@@ -68,6 +81,12 @@ MANIFEST = SkillManifest(
             "chapters",
             "markdown",
             "needs_human_review",
+            "business_status",
+            "verification_as_of",
+            "submission_allowed",
+            "verification_findings",
+            "claim_evidence_mapping",
+            "unsupported_claims",
         ],
     },
     capabilities=(
@@ -138,7 +157,7 @@ class DocumentWritingSkill(Skill):
                 break
             purpose = _purpose_for_section(section)
             try:
-                raw, usage = await _call_section(
+                raw, usage, section_context = await _call_section(
                     llm,
                     payload,
                     section,
@@ -149,6 +168,39 @@ class DocumentWritingSkill(Skill):
                 context.budget.commit_tokens(actual_tokens, estimated=max_tokens)
                 _merge_usage(total_usage, usage)
                 chapter = _normalize_chapter(raw, payload, section)
+                verification = verify_chapter(
+                    raw,
+                    content=chapter["content_markdown"],
+                    payload=payload,
+                    section=section,
+                    section_context=section_context,
+                    as_of=payload["as_of"],
+                )
+                chapter.update(
+                    {
+                        key: verification[key]
+                        for key in (
+                            "section_id",
+                            "model_reported_section_id",
+                            "reported_evidence_used",
+                            "evidence_used",
+                            "requirement_coverage",
+                            "scoring_coverage",
+                            "claims_scanned",
+                            "claim_evidence_mapping",
+                            "unsupported_claims",
+                            "verification_findings",
+                            "integrity_failed",
+                        )
+                    }
+                )
+                chapter["source_references"] = _chapter_references(
+                    section_context,
+                    section,
+                    chapter["requirement_coverage"],
+                    chapter["scoring_coverage"],
+                    verification["verified_material_ids"],
+                )
                 generated.append(chapter)
                 models_used[purpose] = _configured_model(
                     llm,
@@ -179,15 +231,49 @@ class DocumentWritingSkill(Skill):
         markdown = _build_markdown(payload, generated, failures)
         missing_materials = _missing_materials(payload)
         chapter_unknowns = [
-            unknown
-            for chapter in generated
-            for unknown in chapter["unknowns"]
+            unknown for chapter in generated for unknown in chapter["unknowns"]
         ]
-        needs_review = bool(failures or missing_materials or chapter_unknowns)
+        verification_findings = [
+            finding
+            for chapter in generated
+            for finding in chapter["verification_findings"]
+        ]
+        claim_evidence_mapping = [
+            claim
+            for chapter in generated
+            for claim in chapter["claim_evidence_mapping"]
+        ]
+        unsupported_claims = [
+            claim for chapter in generated for claim in chapter["unsupported_claims"]
+        ]
+        integrity_failed = any(chapter["integrity_failed"] for chapter in generated)
+        fallback_used = any(
+            "structured_output_fallback" in chapter["risk_flags"]
+            for chapter in generated
+        )
+        needs_review = bool(
+            failures
+            or missing_materials
+            or chapter_unknowns
+            or verification_findings
+            or unsupported_claims
+            or fallback_used
+        )
+        if integrity_failed:
+            business_status = "failed"
+        elif needs_review:
+            business_status = "needs_review"
+        else:
+            business_status = "passed"
         if failures:
             warnings.append(f"有 {len(failures)} 个章节未生成")
         if missing_materials:
             warnings.append("存在未匹配或未提供的证明材料，生成内容必须人工核验")
+        if verification_findings or unsupported_claims:
+            warnings.append("独立事实核验发现未验证内容或引用问题，需人工处理")
+        if fallback_used:
+            warnings.append("至少一个章节使用非结构化文本回退，必须人工复核")
+        warnings.append("本输出仅为草案，submission_allowed=false，不能直接提交")
         data = {
             "project_id": payload["project_id"],
             "model": configured_model,
@@ -196,13 +282,30 @@ class DocumentWritingSkill(Skill):
             "chapters": generated,
             "markdown": markdown,
             "missing_materials": missing_materials,
-            "unsupported_claims": chapter_unknowns,
+            "model_unknowns": chapter_unknowns,
+            "unsupported_claims": unsupported_claims,
+            "verification_findings": verification_findings,
+            "claim_evidence_mapping": claim_evidence_mapping,
+            "business_status": business_status,
+            "verification_as_of": {
+                "date": payload["as_of"],
+                "basis": payload["as_of_basis"],
+            },
+            "submission_allowed": False,
             "needs_human_review": needs_review,
+            "verification_scope": (
+                "确定性规则仅扫描已实现的高风险声明模式；不构成通用自然语言事实核验，"
+                "业务核验通过也不代表草案获准提交。"
+            ),
             "summary": {
                 "requested_sections": len(sections),
                 "generated_sections": len(generated),
                 "failed_sections": len(failures),
                 "unknown_count": len(chapter_unknowns),
+                "verification_finding_count": len(verification_findings),
+                "scanned_claim_count": len(claim_evidence_mapping),
+                "unsupported_claim_count": len(unsupported_claims),
+                "business_status": business_status,
             },
         }
         artifacts = [
@@ -223,7 +326,7 @@ class DocumentWritingSkill(Skill):
             )
         return SkillResult.success(
             data,
-            message="投标文件草案生成完成",
+            message="投标文件草案生成完成；业务核验通过不等于获准提交",
             warnings=warnings,
             artifacts=artifacts,
             usage=total_usage,
@@ -237,6 +340,11 @@ def _parse_input(data: Mapping[str, Any]) -> dict[str, Any]:
     project_id = str(data.get("project_id") or profile.get("project_id") or "").strip()
     if not project_id:
         raise ValueError("project_id is required")
+    verification_date, verification_date_basis = resolve_as_of(
+        data.get("as_of"),
+        profile,
+        bid_deadline=data.get("bid_deadline"),
+    )
     sections = _mapping_list(data.get("sections"), "sections")
     requirements = _mapping_list(data.get("requirements"), "requirements")
     scoring_items = _mapping_list(data.get("scoring_items"), "scoring_items")
@@ -263,6 +371,10 @@ def _parse_input(data: Mapping[str, Any]) -> dict[str, Any]:
         "bidder_profile": bidder_profile,
         "materials": materials,
         "evidence_matches": matches,
+        "confirmed_facts": _fact_input(data.get("confirmed_facts")),
+        "approved_commitments": _fact_input(data.get("approved_commitments")),
+        "as_of": verification_date.isoformat(),
+        "as_of_basis": verification_date_basis,
         "tender_text": str(data.get("tender_text") or data.get("source_text") or ""),
         "writing_scope": writing_scope,
         "model": str(data.get("model") or "").strip() or None,
@@ -279,9 +391,7 @@ def _select_sections(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
     scope = {str(item).casefold() for item in payload["writing_scope"]}
     if scope:
         filtered = [
-            section
-            for section in sections
-            if _section_matches_scope(section, scope)
+            section for section in sections if _section_matches_scope(section, scope)
         ]
         if filtered:
             sections = filtered
@@ -348,7 +458,7 @@ async def _call_section(
     *,
     purpose: str,
     model: str | None,
-) -> tuple[dict[str, Any], dict[str, int]]:
+) -> tuple[dict[str, Any], dict[str, int], dict[str, Any]]:
     context_payload = _section_context(payload, section)
     messages = [
         {
@@ -402,7 +512,7 @@ async def _call_section(
         raise ValueError("LLM writing response must be an object")
     body_dict = dict(body)
     if _has_writing_content(body_dict) or not hasattr(llm, "complete"):
-        return body_dict, usage
+        return body_dict, usage, context_payload
 
     # Some Qwen reasoning models honor JSON mode but still return a citation
     # object when the context is long. A plain-text retry is safer than
@@ -420,8 +530,7 @@ async def _call_section(
         {
             "role": "user",
             "content": (
-                messages[1]["content"]
-                + "\n请直接输出章节正文，正文不能为空。"
+                messages[1]["content"] + "\n请直接输出章节正文，正文不能为空。"
             ),
         },
     ]
@@ -444,17 +553,21 @@ async def _call_section(
     except LLMError:
         fallback_json = {}
     if _has_writing_content(fallback_json):
-        return dict(fallback_json), usage
-    return {
-        "section_id": section["section_id"],
-        "title": section.get("title") or "未命名章节",
-        "content_markdown": _strip_code_fence(text),
-        "evidence_used": [],
-        "unknowns": ["模型未按结构化格式返回，正文使用文本回退，需人工复核"],
-        "risk_flags": ["structured_output_fallback"],
-        "requirement_coverage": [],
-        "scoring_coverage": [],
-    }, usage
+        return dict(fallback_json), usage, context_payload
+    return (
+        {
+            "section_id": section["section_id"],
+            "title": section.get("title") or "未命名章节",
+            "content_markdown": _strip_code_fence(text),
+            "evidence_used": [],
+            "unknowns": ["模型未按结构化格式返回，正文使用文本回退，需人工复核"],
+            "risk_flags": ["structured_output_fallback"],
+            "requirement_coverage": [],
+            "scoring_coverage": [],
+        },
+        usage,
+        context_payload,
+    )
 
 
 def _section_context(
@@ -500,13 +613,22 @@ def _section_context(
         ]
     else:
         selected_scoring = scoring_items[:80]
+    bidder_profile = {
+        key: value
+        for key, value in payload["bidder_profile"].items()
+        if key != "materials"
+    }
     return {
         "tender_profile": payload["tender_profile"],
         "requirements": selected_requirements,
         "scoring_items": selected_scoring,
-        "bidder_profile": payload["bidder_profile"],
+        "bidder_profile": bidder_profile,
         "materials": payload["materials"][:100],
         "evidence_matches": payload["evidence_matches"][:100],
+        "confirmed_facts": payload["confirmed_facts"],
+        "approved_commitments": payload["approved_commitments"],
+        "verification_as_of": payload["as_of"],
+        "verification_as_of_basis": payload["as_of_basis"],
         "source_excerpt": _clip(payload["tender_text"], 24000),
         "source_section": _clip(str(section.get("source_content") or ""), 12000),
     }
@@ -524,12 +646,6 @@ def _normalize_chapter(
     scoring_coverage = _string_list(raw.get("scoring_coverage"))
     unknowns = _string_list(raw.get("unknowns"))
     risk_flags = _string_list(raw.get("risk_flags"))
-    source_references = _chapter_references(
-        payload,
-        section,
-        requirement_coverage,
-        scoring_coverage,
-    )
     return {
         "section_id": str(raw.get("section_id") or section["section_id"]),
         "title": str(raw.get("title") or section.get("title") or "未命名章节"),
@@ -540,7 +656,7 @@ def _normalize_chapter(
         "risk_flags": risk_flags,
         "requirement_coverage": requirement_coverage,
         "scoring_coverage": scoring_coverage,
-        "source_references": source_references,
+        "source_references": [],
     }
 
 
@@ -559,42 +675,66 @@ def _strip_code_fence(value: str) -> str:
 
 
 def _chapter_references(
-    payload: Mapping[str, Any],
+    section_context: Mapping[str, Any],
     section: Mapping[str, Any],
     requirement_ids: list[str],
     scoring_ids: list[str],
+    material_ids: list[str],
 ) -> list[dict[str, Any]]:
     refs: list[dict[str, Any]] = []
     seen: set[str] = set()
-    selected = set(requirement_ids) | set(scoring_ids)
-    for item in payload["requirements"] + payload["scoring_items"]:
-        item_id = str(
-            item.get("requirement_id")
-            or item.get("item_id")
-            or item.get("id")
-            or ""
-        )
-        if selected and item_id not in selected:
+    selected_requirements = set(requirement_ids)
+    selected_scoring = set(scoring_ids)
+    for item in section_context["requirements"]:
+        item_id = str(item.get("requirement_id") or item.get("id") or "")
+        if item_id not in selected_requirements:
             continue
         for reference in item.get("source_references") or []:
-            if not isinstance(reference, Mapping):
-                continue
-            key = json.dumps(
-                dict(reference), ensure_ascii=False, sort_keys=True, default=str
-            )
-            if key not in seen:
-                seen.add(key)
-                refs.append(dict(reference))
-    for reference in section.get("source_references") or []:
-        if not isinstance(reference, Mapping):
+            _append_reference(refs, seen, reference)
+    for item in section_context["scoring_items"]:
+        item_id = str(item.get("item_id") or item.get("id") or "")
+        if item_id not in selected_scoring:
             continue
-        key = json.dumps(
-            dict(reference), ensure_ascii=False, sort_keys=True, default=str
-        )
-        if key not in seen:
-            seen.add(key)
-            refs.append(dict(reference))
+        for reference in item.get("source_references") or []:
+            _append_reference(refs, seen, reference)
+
+    if selected_requirements or selected_scoring:
+        for reference in section.get("source_references") or []:
+            _append_reference(refs, seen, reference)
+
+    selected_materials = set(material_ids)
+    for material in section_context["materials"]:
+        material_id = str(material.get("material_id") or material.get("id") or "")
+        if material_id not in selected_materials:
+            continue
+        for reference in material.get("source_references") or []:
+            _append_reference(refs, seen, reference)
     return refs
+
+
+def _append_reference(
+    refs: list[dict[str, Any]],
+    seen: set[str],
+    reference: Any,
+) -> None:
+    if not isinstance(reference, Mapping):
+        return
+    key = json.dumps(dict(reference), ensure_ascii=False, sort_keys=True, default=str)
+    if key not in seen:
+        seen.add(key)
+        refs.append(dict(reference))
+
+
+def _fact_input(value: Any) -> Any:
+    if value is None:
+        return []
+    if isinstance(value, (list, tuple)):
+        return [dict(item) if isinstance(item, Mapping) else item for item in value]
+    if isinstance(value, Mapping):
+        return dict(value)
+    raise ValueError(
+        "confirmed_facts and approved_commitments must be lists or objects"
+    )
 
 
 def _build_markdown(
@@ -606,7 +746,8 @@ def _build_markdown(
     title = str(profile.get("project_name") or payload["project_id"])
     lines = [f"# {title} 投标文件草案", "", f"项目编号：{payload['project_id']}", ""]
     lines.append(
-        "> 本文件由 Agent 生成，提交前必须完成证据、合规、签章和金额人工复核。"
+        "> 本文件为 Agent 生成的投标文件草案，submission_allowed=false；"
+        "不代表获准提交。提交前必须完成证据、合规、签章和金额人工复核。"
     )
     lines.append("")
     for index, chapter in enumerate(chapters, start=1):
@@ -621,6 +762,19 @@ def _build_markdown(
         if chapter["unknowns"]:
             lines.extend(["**待补材料/待确认：**", ""])
             lines.extend(f"- {item}" for item in chapter["unknowns"])
+            lines.append("")
+        if chapter["unsupported_claims"]:
+            lines.extend(["**待人工核验的高风险事实：**", ""])
+            lines.extend(
+                f"- {item['claim_text']}（{item['reason']}）"
+                for item in chapter["unsupported_claims"]
+            )
+            lines.append("")
+        if chapter["verification_findings"]:
+            lines.extend(["**独立核验发现：**", ""])
+            lines.extend(
+                f"- {item['message']}" for item in chapter["verification_findings"]
+            )
             lines.append("")
     if failures:
         lines.extend(["## 生成失败章节", ""])
@@ -712,9 +866,7 @@ def _string_list(value: Any) -> list[str]:
         return []
     if isinstance(value, str):
         return [
-            item.strip()
-            for item in value.replace("，", ",").split(",")
-            if item.strip()
+            item.strip() for item in value.replace("，", ",").split(",") if item.strip()
         ]
     if isinstance(value, (list, tuple, set)):
         return [str(item).strip() for item in value if str(item).strip()]

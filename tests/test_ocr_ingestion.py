@@ -21,6 +21,10 @@ from qiaowenshu_agent.skills.local_backends import RegistryBidderMaterialBackend
 
 FIXTURE_ROOT = Path(__file__).parent / "标书Agent全流程模拟测试包_v1"
 SCANNED_PDF = next(FIXTURE_ROOT.glob("04A_ISO27001*.pdf"))
+POPPLER_AVAILABLE = all(
+    shutil.which(name) or shutil.which(f"{name}.exe")
+    for name in ("pdftotext", "pdftoppm")
+)
 
 
 class FakeOCR:
@@ -34,9 +38,8 @@ class FakeOCR:
 
 
 @pytest.mark.skipif(
-    shutil.which("pdftotext.exe") is None
-    or shutil.which("pdftoppm.exe") is None,
-    reason="native Poppler executables are required",
+    not POPPLER_AVAILABLE,
+    reason="Poppler pdftotext and pdftoppm are required",
 )
 def test_scanned_pdf_ocr_provenance_and_low_confidence_are_preserved() -> None:
     backend = FakeOCR(
@@ -66,9 +69,8 @@ def test_scanned_pdf_ocr_provenance_and_low_confidence_are_preserved() -> None:
 
 
 @pytest.mark.skipif(
-    shutil.which("pdftotext.exe") is None
-    or shutil.which("pdftoppm.exe") is None,
-    reason="native Poppler executables are required",
+    not POPPLER_AVAILABLE,
+    reason="Poppler pdftotext and pdftoppm are required",
 )
 def test_ocr_without_confidence_requires_review_warning() -> None:
     backend = FakeOCR({"text": "OCR text without a score"})
@@ -213,9 +215,8 @@ async def test_low_confidence_evidence_flows_to_ledger_and_compliance() -> None:
 
 
 @pytest.mark.skipif(
-    shutil.which("pdftotext.exe") is None
-    or shutil.which("pdftoppm.exe") is None,
-    reason="native Poppler executables are required",
+    not POPPLER_AVAILABLE,
+    reason="Poppler pdftotext and pdftoppm are required",
 )
 def test_api_injects_ocr_backend_for_file_parse() -> None:
     backend = FakeOCR({"text": "OCR API text", "confidence": 0.8})

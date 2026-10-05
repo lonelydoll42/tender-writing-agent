@@ -117,6 +117,33 @@ Benchmark V2 的语料和指标说明位于 `benchmarks/README.md`。报告分�
 召回、评分项召回、来源引用准确率、证据精确率/召回率、冲突召回、关键项误放行和
 OCR 人工复核精确率，不压缩成单一总分。
 
+## 本地解析可靠性与原始文件评测
+
+当前本地默认解析范围是招标分析与证据核对。对原始全文的本地抽取只生成候选项，
+不声明要求已完整抽取：`extraction_complete=false`、
+`needs_human_review=true`、`business_status=needs_review`，解析告警仍独立保留。
+显式结构化 `requirements` / `scoring_items` 输入保持原有状态行为；注入的解析
+backend 按其自身输出合约处理。
+
+`execution_status` 表示流程执行情况，`business_status` 表示业务判断；只有新鲜
+来源文件上的结果可用于本次判断，旧的 `stale` 或 `blocked` 运行必须重新执行，
+不能沿用旧的通过状态。当前能力未认证为多人生产环境，不应据此自动形成资格通过
+结论或提交投标文件。
+
+原始PDF和最小文本回归说明、分母与边界见 `benchmarks/raw_file/README.md` 和
+`docs/reliability_acceptance.md`。运行时可将报告写到独立路径：
+
+```powershell
+.venv\Scripts\python.exe scripts\run_raw_file_eval.py `
+  --output .qiaowenshu\acceptance\raw-file-run.json
+```
+
+未传 `--output` 时报告写到标准输出；评测不会自动覆盖既有报告。当前原始文件结果
+是文本约束覆盖 `4/10`、金额归一化 `6/6`、评分上限 `2/2`、关键负例误放行 `0/7`。
+其中 `0/7` 主要验证本地默认门禁保守阻断，不能解释为资格识别准确率。模拟OCR只
+验证低置信与来源传递，不代表真实OCR准确率；Poppler不可用时PDF指标为
+`not_run`，不计作通过。
+
 当配置了 `QIAOWENSHU_LLM_API_BASE_URL` 和 `QIAOWENSHU_LLM_API_KEY` 后，默认注册表会自动注入 OpenAI-compatible Qwen 客户端。客户端请求
 本项目的客户端使用 OpenAI-compatible 地址
 `https://<host>/compatible-mode/v1`，并请求 `{base_url}/chat/completions`。

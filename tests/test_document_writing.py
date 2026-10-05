@@ -97,9 +97,7 @@ async def test_document_writing_keeps_missing_evidence_reviewable() -> None:
                         "category": "technical",
                         "title": "项目实施",
                         "description": "提供项目组织和进度计划",
-                        "source_references": [
-                            {"document_id": "tender.pdf", "page": 7}
-                        ],
+                        "source_references": [{"document_id": "tender.pdf", "page": 7}],
                     }
                 ],
                 "scoring_items": [
@@ -123,6 +121,8 @@ async def test_document_writing_keeps_missing_evidence_reviewable() -> None:
 
     assert result.status == "partial"
     assert result.data["needs_human_review"] is True
+    assert result.data["business_status"] == "needs_review"
+    assert result.data["submission_allowed"] is False
     assert result.data["summary"]["generated_sections"] == 1
     assert result.data["missing_materials"][0]["requirement_id"] == "tech-1"
     assert result.data["chapters"][0]["source_references"][0]["page"] == 7
@@ -184,3 +184,5 @@ async def test_document_writing_falls_back_from_citation_json_to_markdown() -> N
     assert result.data["chapters"][0]["content_markdown"].startswith("## 实施方案")
     assert "structured_output_fallback" in result.data["chapters"][0]["risk_flags"]
     assert result.data["needs_human_review"] is True
+    assert result.data["submission_allowed"] is False
+    assert result.data["business_status"] == "needs_review"

@@ -8,6 +8,7 @@ from qiaowenshu_agent.core.files import ProjectFileRegistry
 from qiaowenshu_agent.core.runtime import AgentRuntime
 from qiaowenshu_agent.skills import build_default_registry
 from qiaowenshu_agent.skills.consistency_review import ConsistencyReviewSkill
+from qiaowenshu_agent.skills.compliance_review import ComplianceReviewSkill
 from qiaowenshu_agent.skills.quotation_check import QuotationCheckSkill
 from qiaowenshu_agent.skills.requirement_ledger import RequirementLedgerSkill
 
@@ -134,6 +135,43 @@ def test_requirement_ledger_joins_evidence_and_response_location() -> None:
     assert entry["response_location"] == "资格文件 3.2"
 
 
+def test_compliance_review_has_scoped_pass_without_final_readiness_claim() -> None:
+    import asyncio
+
+    result = asyncio.run(
+        _run_skill(
+            ComplianceReviewSkill(),
+            {
+                "project_id": "project-1",
+                "requirements": [
+                    {"requirement_id": "Q-001", "mandatory": True}
+                ],
+                "ledger": {
+                    "entries": [
+                        {
+                            "requirement_id": "Q-001",
+                            "mandatory": True,
+                            "status": "matched",
+                        }
+                    ]
+                },
+            },
+        )
+    )
+
+    assert result.status == "success"
+    assert result.data["business_status"] == "passed"
+    assert result.data["checked"] is True
+    assert result.data["submission_allowed"] is False
+    assert result.data["scoped_gate_passed"] is True
+    assert result.data["summary"]["passed"] is True
+    assert result.data["check_coverage"]["scope_limited"] is True
+    assert (
+        result.data["check_coverage"]["final_submission_readiness_certified"]
+        is False
+    )
+
+
 def test_file_backed_runtime_reaches_bidder_profile_and_ledger() -> None:
     registry = ProjectFileRegistry()
     tender = registry.register(
@@ -177,6 +215,19 @@ def test_file_backed_runtime_reaches_bidder_profile_and_ledger() -> None:
         )
     )
     assert result.status == "partial"
+    assert result.execution_status == "completed"
+    assert result.business_status == "needs_review"
+    assert result.needs_human_review is True
+    assert result.submission_allowed is False
+    assert result.scoped_gate_passed is False
+    compliance = result.steps[-3].result
+    assert compliance.data["submission_allowed"] is False
+    assert compliance.data["scoped_gate_passed"] is (
+        compliance.data["business_status"] == "passed"
+    )
+    assert compliance.data["summary"]["passed"] is (
+        compliance.data["business_status"] == "passed"
+    )
     assert [step.skill_name for step in result.steps] == [
         "document-preprocess",
         "tender-intake",
