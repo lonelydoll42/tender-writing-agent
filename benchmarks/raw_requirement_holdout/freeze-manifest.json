@@ -1,0 +1,94 @@
+{
+  "schema": "raw-requirement-holdout-freeze-v1",
+  "status": "input_oracle_frozen_pending_implementation_freeze_notice",
+  "prepared_on": "2026-10-06",
+  "baseline_commit": "3ed30579e76a63788f31803386856c75b1e9b14c",
+  "implementation_patch_read": false,
+  "registry_runtime_evaluation_run": false,
+  "inputs": {
+    "directory": "raw/",
+    "document_count": 8,
+    "format": "UTF-8 plain text; form-feed marks a page boundary",
+    "documents": [
+      {
+        "path": "raw/holdout-01-qualification-finance.txt",
+        "bytes": 1177,
+        "pages": 2,
+        "sha256": "69ac7a0260462b3e94c3641356d738d5d65536fac013f1037773b0de0e2b730a"
+      },
+      {
+        "path": "raw/holdout-02-legal-credit-table.txt",
+        "bytes": 1291,
+        "pages": 1,
+        "sha256": "aaf92a210ebbdd0a39601c3a3113568885ee85a2202b02cd4c4bd58bfa62226a"
+      },
+      {
+        "path": "raw/holdout-03-manager-social-positive.txt",
+        "bytes": 1278,
+        "pages": 2,
+        "sha256": "e3ecbf14e0f23f974101a1dc27f5c9eb23c65042cde511a30ad37610c07f336a"
+      },
+      {
+        "path": "raw/holdout-04-manager-social-gap.txt",
+        "bytes": 1084,
+        "pages": 2,
+        "sha256": "0dcf7b65869edc740de8e5d3afca4d608ef6ea130a95a425f507c7d8ec42bc4d"
+      },
+      {
+        "path": "raw/holdout-05-identity-oauth-no-replace.txt",
+        "bytes": 1196,
+        "pages": 1,
+        "sha256": "d0f6663c9b47e7b4d516931f22da57d769c7160db7317672304daf971af79eb7"
+      },
+      {
+        "path": "raw/holdout-06-identity-replacement-negative.txt",
+        "bytes": 839,
+        "pages": 1,
+        "sha256": "5e69ed68dcb2acb723686f2dcae0539326ee1685c60debcfa4dad386947bc06b"
+      },
+      {
+        "path": "raw/holdout-07-transport-db-crypto-manual.txt",
+        "bytes": 1194,
+        "pages": 1,
+        "sha256": "7cac058fae9f6cf43e0a9e0fa7c514c1c7f5f0c24cfbb9ae7de47d0e6a6fa1de"
+      },
+      {
+        "path": "raw/holdout-08-platform-portability-positive.txt",
+        "bytes": 1132,
+        "pages": 2,
+        "sha256": "c62fb12061cd61ca5d47589b9dde7167aaa705fc68a175556061ec32a138f916"
+      }
+    ]
+  },
+  "oracle": {
+    "path": "oracle/expected-semantics.md",
+    "sha256": "692d0cfbab05ca443682ae22d0226ab17c38dc1a83ab745826c40935b5c89e10"
+  },
+  "bundle_fingerprint": {
+    "algorithm": "SHA-256",
+    "value": "32bb872bb1c809b671974423fc267bb9c87437d6142126aaa09dd04aa1658066",
+    "canonical_input": "UTF-8 without BOM; sorted relative paths using forward slashes; each line is path, TAB, lowercase file SHA-256, LF; includes all 8 raw documents and the oracle; excludes this manifest"
+  },
+  "coverage_dimensions": [
+    "entity qualification with alternative evidence",
+    "financial/credit evidence with alternative branches",
+    "project-manager certificate and same-person continuous monthly evidence",
+    "existing identity integration, protocol alternative, and non-replacement constraint",
+    "transport security threshold and sensitive-database cryptography requiring expert equivalence review",
+    "domestic operating-system compatibility, database-version floor, and cloud portability conjunction"
+  ],
+  "cross_cutting_dimensions": [
+    "AND/OR preservation",
+    "negative and expired evidence",
+    "no evidence aggregation across unrelated people or clauses",
+    "numeric and date-range interpretation",
+    "tables, noise controls, and form-feed page boundaries",
+    "document, source_version, page, and exact-quote provenance",
+    "manual disposition for unresolved technical equivalence"
+  ],
+  "limitations": [
+    "Synthetic fixtures do not establish generalization to unseen real procurement projects.",
+    "No real LLM or OCR was used; page anchors are text form-feed boundaries, not PDF-rendered pages.",
+    "Access isolation from implementation agents was not audited. Any case seen by an implementation agent before freeze must be disclosed as exposed public regression, not blind holdout."
+  ]
+}

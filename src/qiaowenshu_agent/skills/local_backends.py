@@ -20,6 +20,9 @@ from qiaowenshu_agent.domain.models import SourceReference
 from qiaowenshu_agent.skills.local_requirement_logic import (
     build_local_requirement_rule,
 )
+from qiaowenshu_agent.skills.local_requirement_groups import (
+    group_requirement_records,
+)
 
 
 class FileRegistryNotConfigured(RuntimeError):
@@ -166,7 +169,11 @@ class RegistryTenderDecompositionBackend:
         scoring_items: list[dict[str, Any]] = []
         seen: dict[tuple[str, tuple[tuple[str, str], ...]], int] = {}
         warnings: list[str] = []
-        for line, source_references in _candidate_records(sections):
+        records = group_requirement_records(
+            sections,
+            _candidate_records(sections),
+        )
+        for line, source_references, group_rule in records:
             normalized = _normalize(line)
             source_key = tuple(
                 sorted(
@@ -211,7 +218,7 @@ class RegistryTenderDecompositionBackend:
                 )
                 continue
             category = _category_from_line(line)
-            if not _is_requirement_line(line, category):
+            if group_rule is None and not _is_requirement_line(line, category):
                 continue
             if duplicate_key in seen:
                 existing = requirements[seen[duplicate_key]]
@@ -225,13 +232,14 @@ class RegistryTenderDecompositionBackend:
                 "category": category,
                 "title": _title_from_line(line),
                 "description": line,
-                "mandatory": category
+                "mandatory": group_rule is not None
+                or category
                 in {"disqualification", "qualification", "compliance"}
                 or _is_mandatory_clause(line),
                 "evidence_required": _evidence_hints(line),
                 "source_references": source_references,
             }
-            check_rule = _check_rule_from_line(line)
+            check_rule = group_rule or _check_rule_from_line(line)
             if check_rule:
                 requirement["check_rule"] = check_rule
             requirements.append(requirement)
@@ -1065,6 +1073,9 @@ def _is_heading_line(line: str) -> bool:
             line,
         )
         and not re.search(r"[。；;！？!?]$", line)
+        and not _is_mandatory_clause(line)
+        and not _is_eligibility_statement(line)
+        and not _has_qualification_evidence_context(line)
     )
 
 

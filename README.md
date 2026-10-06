@@ -154,22 +154,61 @@ legacy 覆盖`8/10`，strict 六类文本覆盖`6/6`、有限条件特征`6/6`�
 matcher 限制，strict matcher 已覆盖实际 T4 原句，不能把 legacy 分数称为所有
 原始文件准确率。原始文件评测中的 OCR 仍是模拟 backend，未测真实 OCR 准确率。
 
-8 份构造独立 TXT 与 frozen oracle 已预冻结 SHA，但不是真实未见业务 PDF。独立 v2
-报告为
-`.qiaowenshu/acceptance/raw-requirement-holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.json`：
+8 份构造 TXT 与 frozen oracle 已预冻结 fingerprint；raw 源文件字节保持不变，但它们
+不是真实未见业务 PDF。历史 v2 报告（基线 `9ac022b`）为
+[`raw-requirement-holdout-acceptance-v2-final-20261006-rerun.json`](benchmarks/raw_requirement_holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.json)；
+复跑入口为
+[`scripts/run_raw_requirement_holdout_eval.py`](scripts/run_raw_requirement_holdout_eval.py)。
+该固定集今后作为公开回归使用，不再称为 blind holdout。报告中的旧 status 是静态人工
+注记，不是当前机器评测结果：
 8/8 实际执行 decomposition，分别产生`2、2、2、1、1、1、4、3`条结果；
 16/16 来源引用通过文件、页码、版本 token、精确 quote 和物理行号核验。
 但 8/8 必要约束或跨段关系仍为`partial`，不能称独立集完整性通过；business
 evidence 为`not_run/8`，没有可用正确通过率或误阻断率。冻结 raw/oracle hash 未变。
 
 D 首版因 validator 错误按`run.status`判为`not_run`，已保留并标记`invalid`，不计
-通过或失败；不能引用不存在的 knowledge-retrieval 失败。主验收最新冻结全量为
-`353 passed`、1 条既有 Starlette warning；Ruff 与`git diff --check`通过。
+通过或失败；不能引用不存在的 knowledge-retrieval 失败。`9ac022b` 验收记录中的全量为
+`353 passed`、1 条既有 Starlette warning；这是历史结果，不代表本轮当前全量结果。
 
-固定原 PDF 六类专项的 strict 漏洞已修复；但通用、跨段、多级编号的原始文件完整性
-验收不通过，不生产可用，也不扩大使用范围。下一阶段应处理关系分组、多级编号与
-独立语料，而不是继续凭增加关键词宣称 production。
+固定原 PDF 六类专项的 strict 历史验收结果为`6/6 passed`；但通用、跨段、多级编号的
+原始文件完整性验收不通过，不具备生产可用性，也不扩大使用范围。
 Poppler不可用时PDF指标为`not_run`，不计作通过。
+
+### 当前验收摘要
+
+冻结副本验收为`406 passed`，另有 1 条既有 Starlette warning；global Ruff 与
+`git diff --cached --check`通过。资产可复现入库检查通过。固定原 PDF 六类专项为 strict 文本、有限语义和
+来源引用各`6/6`，自动核验支持`0/6`；legacy 为`8/10`，金额归一化`6/6`，固定七个原始
+文件关键负例误放行为`0`，评分`2/2`。这些固定专项结果不代表通用解析或生产验收。
+
+标题 P2 修复经独立矩阵`32/32`通过，纯标题负例仍被过滤。既有 27-case 限定复测中，
+写作正例正确通过`6/6`、负例误放行`0/12`；Runtime 正例正确通过`2/2`、负例 writer
+及模型调用均为`0/7`。以上限定复测均未调用真实 LLM。
+
+公开回归报告路径为
+[`public-regression-final-20261007.json`](benchmarks/raw_requirement_holdout/reports/public-regression-final-20261007.json)。报告元数据记录生成时间`2026-10-07T03:05:30.763776+08:00`、源码树 SHA-256
+`b3a1b85a5a24d90a49c9f19f349fb4bb1b7d838b966543b5265dbc15be32b042`、运行时 Git
+revision `9ac022b4e969231fdf0e8a16c3217b43fec32bbc`及 dirty 状态。该 Git revision
+是运行时记录；被测源码快照以报告中的 source tree hash 为准。
+
+该公开集 8/8 个 case 均实际执行；有限 machine checks 为`0/8 passed`、
+`8 failed`、`not_run=0`。输出引用`18/18`的文档 ID、source version token、页码、
+locator 和物理行 quote 均精确核验；business evidence 为`not_run/8`。
+有限 machine oracle 与历史报告中的静态人工注记口径不同；`failed`表示已执行检查未满足，
+不表示 parser 未执行。runner 可复跑：
+
+```powershell
+.venv\Scripts\python.exe -X utf8 scripts\run_raw_requirement_holdout_eval.py
+```
+
+CLI 退出码取决于有限 checks；`8 failed`时退出码为 1，这不表示脚本或 parser
+未运行。公开有限回归未通过，不代表第三步完整验收或生产可用。
+
+支持范围仅包括明确前置 frame、同一 scope 内相邻编号条款的同级 AND/OR 分组、
+inline license OR 再 AND audit，以及明确的同人日期关系；分组仍为
+`manual_review` / `partial`，自动核验不受支持（unsupported）。跨编号引用、字母分支、递归嵌套列表和
+通用完整性不受支持。原 PDF 六类、标题 P2 矩阵、资产复现与安全测试各自通过，
+不代表第三步完整通过或产品可用于生产；公开有限回归为`0/8 passed`。
 
 ## 复审整改限定评测
 

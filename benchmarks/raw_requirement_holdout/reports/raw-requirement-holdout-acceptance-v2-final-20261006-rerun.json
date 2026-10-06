@@ -1,0 +1,1868 @@
+{
+  "schema": "raw-requirement-holdout-acceptance-v2-final",
+  "status": "completed",
+  "generated_at": "2026-10-06T23:37:52.680070+08:00",
+  "validator_status": "fixed",
+  "historical_invalid_report": "raw-requirement-holdout-acceptance-invalid-validator.json",
+  "freeze": {
+    "inputs_oracle": {
+      "manifest_status": "input_oracle_frozen_pending_implementation_freeze_notice",
+      "baseline_commit": "3ed30579e76a63788f31803386856c75b1e9b14c",
+      "files": [
+        {
+          "path": "raw/holdout-01-qualification-finance.txt",
+          "expected": "69ac7a0260462b3e94c3641356d738d5d65536fac013f1037773b0de0e2b730a",
+          "actual": "69ac7a0260462b3e94c3641356d738d5d65536fac013f1037773b0de0e2b730a",
+          "unchanged": true
+        },
+        {
+          "path": "raw/holdout-02-legal-credit-table.txt",
+          "expected": "aaf92a210ebbdd0a39601c3a3113568885ee85a2202b02cd4c4bd58bfa62226a",
+          "actual": "aaf92a210ebbdd0a39601c3a3113568885ee85a2202b02cd4c4bd58bfa62226a",
+          "unchanged": true
+        },
+        {
+          "path": "raw/holdout-03-manager-social-positive.txt",
+          "expected": "e3ecbf14e0f23f974101a1dc27f5c9eb23c65042cde511a30ad37610c07f336a",
+          "actual": "e3ecbf14e0f23f974101a1dc27f5c9eb23c65042cde511a30ad37610c07f336a",
+          "unchanged": true
+        },
+        {
+          "path": "raw/holdout-04-manager-social-gap.txt",
+          "expected": "0dcf7b65869edc740de8e5d3afca4d608ef6ea130a95a425f507c7d8ec42bc4d",
+          "actual": "0dcf7b65869edc740de8e5d3afca4d608ef6ea130a95a425f507c7d8ec42bc4d",
+          "unchanged": true
+        },
+        {
+          "path": "raw/holdout-05-identity-oauth-no-replace.txt",
+          "expected": "d0f6663c9b47e7b4d516931f22da57d769c7160db7317672304daf971af79eb7",
+          "actual": "d0f6663c9b47e7b4d516931f22da57d769c7160db7317672304daf971af79eb7",
+          "unchanged": true
+        },
+        {
+          "path": "raw/holdout-06-identity-replacement-negative.txt",
+          "expected": "5e69ed68dcb2acb723686f2dcae0539326ee1685c60debcfa4dad386947bc06b",
+          "actual": "5e69ed68dcb2acb723686f2dcae0539326ee1685c60debcfa4dad386947bc06b",
+          "unchanged": true
+        },
+        {
+          "path": "raw/holdout-07-transport-db-crypto-manual.txt",
+          "expected": "7cac058fae9f6cf43e0a9e0fa7c514c1c7f5f0c24cfbb9ae7de47d0e6a6fa1de",
+          "actual": "7cac058fae9f6cf43e0a9e0fa7c514c1c7f5f0c24cfbb9ae7de47d0e6a6fa1de",
+          "unchanged": true
+        },
+        {
+          "path": "raw/holdout-08-platform-portability-positive.txt",
+          "expected": "c62fb12061cd61ca5d47589b9dde7167aaa705fc68a175556061ec32a138f916",
+          "actual": "c62fb12061cd61ca5d47589b9dde7167aaa705fc68a175556061ec32a138f916",
+          "unchanged": true
+        },
+        {
+          "path": "oracle/expected-semantics.md",
+          "expected": "692d0cfbab05ca443682ae22d0226ab17c38dc1a83ab745826c40935b5c89e10",
+          "actual": "692d0cfbab05ca443682ae22d0226ab17c38dc1a83ab745826c40935b5c89e10",
+          "unchanged": true
+        }
+      ],
+      "all_match": true
+    },
+    "product": {
+      "files": [
+        {
+          "path": "src/qiaowenshu_agent/skills/local_backends.py",
+          "expected": "4D6E1D758F1603CF1F024AA08D83A48093A7814011B9CCD5ECBDB658C7C24B68",
+          "actual": "4D6E1D758F1603CF1F024AA08D83A48093A7814011B9CCD5ECBDB658C7C24B68",
+          "unchanged": true
+        },
+        {
+          "path": "src/qiaowenshu_agent/skills/local_requirement_logic.py",
+          "expected": "E9A7C056272AD386365DB6B00E59FB4708BF9B8791ECCC213996169E546F6B75",
+          "actual": "E9A7C056272AD386365DB6B00E59FB4708BF9B8791ECCC213996169E546F6B75",
+          "unchanged": true
+        },
+        {
+          "path": "src/qiaowenshu_agent/skills/rule_engine.py",
+          "expected": "266236E534F68031580035240B18F37F4AA4944884B476DD861617A78328C15C",
+          "actual": "266236E534F68031580035240B18F37F4AA4944884B476DD861617A78328C15C",
+          "unchanged": true
+        }
+      ],
+      "all_match": true
+    }
+  },
+  "scope": {
+    "business_evidence": "not_run",
+    "business_evidence_denominator": 8,
+    "raw_files_are_tender_only": true,
+    "no_false_block_rate_claim": true,
+    "synthetic_txt_not_real_pdf": true,
+    "ocr_and_real_model_used": false
+  },
+  "evaluation_method": {
+    "parser_source": "step_data={step.skill_name: step.result.data for step in result.steps}",
+    "decomposition_source": "step_data['tender-decomposition']",
+    "overall_runtime_status_is_not_parser_gate": true,
+    "semantic_rule": "logical clauses, AND/OR, time, negation, subject identity and provenance; no keyword-only pass"
+  },
+  "cases": [
+    {
+      "file_name": "holdout-01-qualification-finance.txt",
+      "file_id": "file_27559fff58464254",
+      "registry_file_version_token": "file_27559fff58464254:v1",
+      "execution_status": "completed",
+      "execution_message": "analysis report completed with follow-up items",
+      "business_status": "needs_review",
+      "needs_human_review": true,
+      "workflow_steps": [
+        {
+          "skill_name": "document-preprocess",
+          "status": "success",
+          "message": "document preprocessing completed"
+        },
+        {
+          "skill_name": "tender-intake",
+          "status": "success",
+          "message": "tender intake completed"
+        },
+        {
+          "skill_name": "consistency-review",
+          "status": "success",
+          "message": "consistency review completed with conflicts"
+        },
+        {
+          "skill_name": "tender-decomposition",
+          "status": "success",
+          "message": "tender decomposition completed"
+        },
+        {
+          "skill_name": "evidence-matching",
+          "status": "success",
+          "message": "evidence matching completed"
+        },
+        {
+          "skill_name": "bid-feasibility",
+          "status": "success",
+          "message": "bid feasibility completed: human_review"
+        },
+        {
+          "skill_name": "requirement-ledger",
+          "status": "success",
+          "message": "requirement ledger built"
+        },
+        {
+          "skill_name": "compliance-review",
+          "status": "partial",
+          "message": "compliance review status: needs_review"
+        },
+        {
+          "skill_name": "scoring-strategy",
+          "status": "partial",
+          "message": "scoring strategy completed with no scoring items"
+        },
+        {
+          "skill_name": "analysis-report",
+          "status": "partial",
+          "message": "analysis report completed with follow-up items"
+        }
+      ],
+      "parser": {
+        "status": "executed",
+        "step_status": "success",
+        "step_message": "tender decomposition completed",
+        "requirements": [
+          {
+            "requirement_id": "R-001",
+            "category": "compliance",
+            "title": "1.1 投标人应提交以下主体证明材料之一",
+            "description": "1.1 投标人应提交以下主体证明材料之一：",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_27559fff58464254",
+                "page": 1,
+                "section": "",
+                "quote": "1.1 投标人应提交以下主体证明材料之一：",
+                "locator": "artifact_file_27559fff58464254_1:p1:l7",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_27559fff58464254:v1"
+              }
+            ]
+          },
+          {
+            "requirement_id": "R-002",
+            "category": "compliance",
+            "title": "2.1 投标人应提供下列材料之一",
+            "description": "2.1 投标人应提供下列材料之一：",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_27559fff58464254",
+                "page": 1,
+                "section": "",
+                "quote": "2.1 投标人应提供下列材料之一：",
+                "locator": "artifact_file_27559fff58464254_1:p1:l15",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_27559fff58464254:v1"
+              }
+            ]
+          }
+        ],
+        "source_references": [
+          {
+            "document_id": "file_27559fff58464254",
+            "page": 1,
+            "section": "",
+            "quote": "1.1 投标人应提交以下主体证明材料之一：",
+            "locator": "artifact_file_27559fff58464254_1:p1:l7",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_27559fff58464254:v1"
+          },
+          {
+            "document_id": "file_27559fff58464254",
+            "page": 1,
+            "section": "",
+            "quote": "2.1 投标人应提供下列材料之一：",
+            "locator": "artifact_file_27559fff58464254_1:p1:l15",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_27559fff58464254:v1"
+          }
+        ],
+        "extraction_complete": false,
+        "needs_human_review": true,
+        "business_status": "needs_review",
+        "warnings": []
+      },
+      "business_evidence": {
+        "status": "not_run",
+        "denominator": 8
+      },
+      "oracle_comparison": {
+        "case_id": "H01",
+        "oracle_semantic_assessment": {
+          "status": "partial",
+          "retained": "仅保留两条材料标题，未保留营业执照/法人登记 OR、审计关键页/银行资信 OR 的必要条件。",
+          "omissions": [
+            "主体证明 OR 分支",
+            "财务/资信 OR 分支",
+            "2025 审计关键页约束"
+          ]
+        },
+        "parser_status": "executed",
+        "requirement_count": 2,
+        "semantic_anchor_observation": {
+          "营业执照": false,
+          "法人登记": false,
+          "2025": false,
+          "审计": false,
+          "银行资信": false,
+          "OR": false
+        },
+        "missing_anchor_text": [
+          "营业执照",
+          "法人登记",
+          "2025",
+          "审计",
+          "银行资信",
+          "OR"
+        ],
+        "interpretation": "manual_review_required",
+        "source_refs": [
+          {
+            "document_id": "file_27559fff58464254",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_27559fff58464254:v1",
+            "quote": "1.1 投标人应提交以下主体证明材料之一：",
+            "locator": "artifact_file_27559fff58464254_1:p1:l7",
+            "actual_line": 7,
+            "raw_file": "holdout-01-qualification-finance.txt"
+          },
+          {
+            "document_id": "file_27559fff58464254",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_27559fff58464254:v1",
+            "quote": "2.1 投标人应提供下列材料之一：",
+            "locator": "artifact_file_27559fff58464254_1:p1:l15",
+            "actual_line": 15,
+            "raw_file": "holdout-01-qualification-finance.txt"
+          }
+        ],
+        "source_ref_count": 2,
+        "scope_note": "anchor presence is diagnostic only; isolated keyword presence is not a pass"
+      }
+    },
+    {
+      "file_name": "holdout-02-legal-credit-table.txt",
+      "file_id": "file_fa52f574bef442e8",
+      "registry_file_version_token": "file_fa52f574bef442e8:v1",
+      "execution_status": "completed",
+      "execution_message": "analysis report completed with follow-up items",
+      "business_status": "needs_review",
+      "needs_human_review": true,
+      "workflow_steps": [
+        {
+          "skill_name": "document-preprocess",
+          "status": "success",
+          "message": "document preprocessing completed"
+        },
+        {
+          "skill_name": "tender-intake",
+          "status": "success",
+          "message": "tender intake completed"
+        },
+        {
+          "skill_name": "consistency-review",
+          "status": "success",
+          "message": "consistency review completed"
+        },
+        {
+          "skill_name": "tender-decomposition",
+          "status": "success",
+          "message": "tender decomposition completed"
+        },
+        {
+          "skill_name": "evidence-matching",
+          "status": "success",
+          "message": "evidence matching completed"
+        },
+        {
+          "skill_name": "bid-feasibility",
+          "status": "success",
+          "message": "bid feasibility completed: human_review"
+        },
+        {
+          "skill_name": "requirement-ledger",
+          "status": "success",
+          "message": "requirement ledger built"
+        },
+        {
+          "skill_name": "compliance-review",
+          "status": "partial",
+          "message": "compliance review status: needs_review"
+        },
+        {
+          "skill_name": "scoring-strategy",
+          "status": "partial",
+          "message": "scoring strategy completed with no scoring items"
+        },
+        {
+          "skill_name": "analysis-report",
+          "status": "partial",
+          "message": "analysis report completed with follow-up items"
+        }
+      ],
+      "parser": {
+        "status": "executed",
+        "step_status": "success",
+        "step_message": "tender decomposition completed",
+        "requirements": [
+          {
+            "requirement_id": "R-001",
+            "category": "qualification",
+            "title": "说明",
+            "description": "说明：A、B 是二选一的 OR 分支；只要 A 有效，本项即可成立，不得因缺少一份新的营业执照而判定不合格。统一社会信用代码、办公地址和法定代表人姓名仅为核对信息。",
+            "mandatory": true,
+            "evidence_required": [
+              "business_license"
+            ],
+            "check_rule": {
+              "rule_ast": {
+                "op": "manual_review",
+                "reason": "阶段B仅保留条件结构，自动核验不支持",
+                "source_text": "说明：A、B 是二选一的 OR 分支；只要 A 有效，本项即可成立，不得因缺少一份新的营业执照而判定不合格。统一社会信用代码、办公地址和法定代表人姓名仅为核对信息。",
+                "condition_logic": {
+                  "op": "evidence",
+                  "material_type": "business_license",
+                  "source_terms": [
+                    "营业执照"
+                  ],
+                  "validity": {
+                    "required": true,
+                    "source_terms": [
+                      "有效",
+                      "营业执照"
+                    ]
+                  }
+                },
+                "coverage_status": "partial"
+              },
+              "condition_logic": {
+                "op": "evidence",
+                "material_type": "business_license",
+                "source_terms": [
+                  "营业执照"
+                ],
+                "validity": {
+                  "required": true,
+                  "source_terms": [
+                    "有效",
+                    "营业执照"
+                  ]
+                }
+              },
+              "coverage_status": "partial",
+              "source_text": "说明：A、B 是二选一的 OR 分支；只要 A 有效，本项即可成立，不得因缺少一份新的营业执照而判定不合格。统一社会信用代码、办公地址和法定代表人姓名仅为核对信息。",
+              "evaluation_capability": {
+                "automatic": "unsupported",
+                "human_review": true
+              }
+            },
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_fa52f574bef442e8",
+                "page": 1,
+                "section": "",
+                "quote": "说明：A、B 是二选一的 OR 分支；只要 A 有效，本项即可成立，不得因缺少一份新的营业执照而判定不合格。统一社会信用代码、办公地址和法定代表人姓名仅为核对信息。",
+                "locator": "artifact_file_fa52f574bef442e8_1:p1:l11",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_fa52f574bef442e8:v1"
+              }
+            ]
+          },
+          {
+            "requirement_id": "R-002",
+            "category": "qualification",
+            "title": "2.1 银行资信证明由开户银行于 2026-08-17 出具",
+            "description": "2.1 银行资信证明由开户银行于 2026-08-17 出具，明确写有“资信状况良好”，可作为本项材料。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {
+              "rule_ast": {
+                "op": "manual_review",
+                "reason": "阶段B仅保留条件结构，自动核验不支持",
+                "source_text": "2.1 银行资信证明由开户银行于 2026-08-17 出具，明确写有“资信状况良好”，可作为本项材料。",
+                "condition_logic": {
+                  "op": "all",
+                  "conditions": [
+                    {
+                      "op": "evidence",
+                      "material_type": "bank_credit_reference",
+                      "source_terms": [
+                        "银行资信",
+                        "资信证明"
+                      ]
+                    }
+                  ],
+                  "source_text": "2.1 银行资信证明由开户银行于 2026-08-17 出具，明确写有“资信状况良好”，可作为本项材料。"
+                },
+                "coverage_status": "partial"
+              },
+              "condition_logic": {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "evidence",
+                    "material_type": "bank_credit_reference",
+                    "source_terms": [
+                      "银行资信",
+                      "资信证明"
+                    ]
+                  }
+                ],
+                "source_text": "2.1 银行资信证明由开户银行于 2026-08-17 出具，明确写有“资信状况良好”，可作为本项材料。"
+              },
+              "coverage_status": "partial",
+              "source_text": "2.1 银行资信证明由开户银行于 2026-08-17 出具，明确写有“资信状况良好”，可作为本项材料。",
+              "evaluation_capability": {
+                "automatic": "unsupported",
+                "human_review": true
+              }
+            },
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_fa52f574bef442e8",
+                "page": 1,
+                "section": "",
+                "quote": "2.1 银行资信证明由开户银行于 2026-08-17 出具，明确写有“资信状况良好”，可作为本项材料。",
+                "locator": "artifact_file_fa52f574bef442e8_1:p1:l15",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_fa52f574bef442e8:v1"
+              }
+            ]
+          }
+        ],
+        "source_references": [
+          {
+            "document_id": "file_fa52f574bef442e8",
+            "page": 1,
+            "section": "",
+            "quote": "说明：A、B 是二选一的 OR 分支；只要 A 有效，本项即可成立，不得因缺少一份新的营业执照而判定不合格。统一社会信用代码、办公地址和法定代表人姓名仅为核对信息。",
+            "locator": "artifact_file_fa52f574bef442e8_1:p1:l11",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_fa52f574bef442e8:v1"
+          },
+          {
+            "document_id": "file_fa52f574bef442e8",
+            "page": 1,
+            "section": "",
+            "quote": "2.1 银行资信证明由开户银行于 2026-08-17 出具，明确写有“资信状况良好”，可作为本项材料。",
+            "locator": "artifact_file_fa52f574bef442e8_1:p1:l15",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_fa52f574bef442e8:v1"
+          }
+        ],
+        "extraction_complete": false,
+        "needs_human_review": true,
+        "business_status": "needs_review",
+        "warnings": []
+      },
+      "business_evidence": {
+        "status": "not_run",
+        "denominator": 8
+      },
+      "oracle_comparison": {
+        "case_id": "H02",
+        "oracle_semantic_assessment": {
+          "status": "partial",
+          "retained": "保留了 OR 说明、有效性与银行资信日期，但没有完整提取法人登记有效分支和营业执照过期分支。",
+          "omissions": [
+            "法人登记分支",
+            "营业执照过期事实",
+            "OR 两分支的结构化闭合"
+          ]
+        },
+        "parser_status": "executed",
+        "requirement_count": 2,
+        "semantic_anchor_observation": {
+          "法人登记": false,
+          "2025/02/28": false,
+          "银行资信": true,
+          "OR": true
+        },
+        "missing_anchor_text": [
+          "法人登记",
+          "2025/02/28"
+        ],
+        "interpretation": "manual_review_required",
+        "source_refs": [
+          {
+            "document_id": "file_fa52f574bef442e8",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_fa52f574bef442e8:v1",
+            "quote": "说明：A、B 是二选一的 OR 分支；只要 A 有效，本项即可成立，不得因缺少一份新的营业执照而判定不合格。统一社会信用代码、办公地址和法定代表人姓名仅为核对信息。",
+            "locator": "artifact_file_fa52f574bef442e8_1:p1:l11",
+            "actual_line": 11,
+            "raw_file": "holdout-02-legal-credit-table.txt"
+          },
+          {
+            "document_id": "file_fa52f574bef442e8",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_fa52f574bef442e8:v1",
+            "quote": "2.1 银行资信证明由开户银行于 2026-08-17 出具，明确写有“资信状况良好”，可作为本项材料。",
+            "locator": "artifact_file_fa52f574bef442e8_1:p1:l15",
+            "actual_line": 15,
+            "raw_file": "holdout-02-legal-credit-table.txt"
+          }
+        ],
+        "source_ref_count": 2,
+        "scope_note": "anchor presence is diagnostic only; isolated keyword presence is not a pass"
+      }
+    },
+    {
+      "file_name": "holdout-03-manager-social-positive.txt",
+      "file_id": "file_e82bdb9aa65343c2",
+      "registry_file_version_token": "file_e82bdb9aa65343c2:v1",
+      "execution_status": "completed",
+      "execution_message": "analysis report completed with follow-up items",
+      "business_status": "needs_review",
+      "needs_human_review": true,
+      "workflow_steps": [
+        {
+          "skill_name": "document-preprocess",
+          "status": "success",
+          "message": "document preprocessing completed"
+        },
+        {
+          "skill_name": "tender-intake",
+          "status": "success",
+          "message": "tender intake completed"
+        },
+        {
+          "skill_name": "consistency-review",
+          "status": "success",
+          "message": "consistency review completed with conflicts"
+        },
+        {
+          "skill_name": "tender-decomposition",
+          "status": "success",
+          "message": "tender decomposition completed"
+        },
+        {
+          "skill_name": "evidence-matching",
+          "status": "success",
+          "message": "evidence matching completed"
+        },
+        {
+          "skill_name": "bid-feasibility",
+          "status": "success",
+          "message": "bid feasibility completed: human_review"
+        },
+        {
+          "skill_name": "requirement-ledger",
+          "status": "success",
+          "message": "requirement ledger built"
+        },
+        {
+          "skill_name": "compliance-review",
+          "status": "partial",
+          "message": "compliance review status: needs_review"
+        },
+        {
+          "skill_name": "scoring-strategy",
+          "status": "partial",
+          "message": "scoring strategy completed with no scoring items"
+        },
+        {
+          "skill_name": "analysis-report",
+          "status": "partial",
+          "message": "analysis report completed with follow-up items"
+        }
+      ],
+      "parser": {
+        "status": "executed",
+        "step_status": "success",
+        "step_message": "tender decomposition completed",
+        "requirements": [
+          {
+            "requirement_id": "R-001",
+            "category": "technical",
+            "title": "1.1 拟派项目经理须持有“信息系统项目管理师”证书",
+            "description": "1.1 拟派项目经理须持有“信息系统项目管理师”证书，证书姓名应与投标文件中的项目经理姓名一致；并由",
+            "mandatory": true,
+            "evidence_required": [
+              "personnel_certificate"
+            ],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_e82bdb9aa65343c2",
+                "page": 1,
+                "section": "",
+                "quote": "1.1 拟派项目经理须持有“信息系统项目管理师”证书，证书姓名应与投标文件中的项目经理姓名一致；并由",
+                "locator": "artifact_file_e82bdb9aa65343c2_1:p1:l7",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_e82bdb9aa65343c2:v1"
+              }
+            ]
+          },
+          {
+            "requirement_id": "R-002",
+            "category": "compliance",
+            "title": "1.2 本条是 AND 关系",
+            "description": "1.2 本条是 AND 关系：证书条件和同人、同一投标人、连续六个月的社保条件必须同时满足。只提供任意一项不能通过。",
+            "mandatory": true,
+            "evidence_required": [
+              "social_security",
+              "personnel_certificate"
+            ],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_e82bdb9aa65343c2",
+                "page": 2,
+                "section": "",
+                "quote": "1.2 本条是 AND 关系：证书条件和同人、同一投标人、连续六个月的社保条件必须同时满足。只提供任意一项不能通过。",
+                "locator": "artifact_file_e82bdb9aa65343c2_1:p2:l3",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_e82bdb9aa65343c2:v1"
+              }
+            ]
+          }
+        ],
+        "source_references": [
+          {
+            "document_id": "file_e82bdb9aa65343c2",
+            "page": 1,
+            "section": "",
+            "quote": "1.1 拟派项目经理须持有“信息系统项目管理师”证书，证书姓名应与投标文件中的项目经理姓名一致；并由",
+            "locator": "artifact_file_e82bdb9aa65343c2_1:p1:l7",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_e82bdb9aa65343c2:v1"
+          },
+          {
+            "document_id": "file_e82bdb9aa65343c2",
+            "page": 2,
+            "section": "",
+            "quote": "1.2 本条是 AND 关系：证书条件和同人、同一投标人、连续六个月的社保条件必须同时满足。只提供任意一项不能通过。",
+            "locator": "artifact_file_e82bdb9aa65343c2_1:p2:l3",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_e82bdb9aa65343c2:v1"
+          }
+        ],
+        "extraction_complete": false,
+        "needs_human_review": true,
+        "business_status": "needs_review",
+        "warnings": []
+      },
+      "business_evidence": {
+        "status": "not_run",
+        "denominator": 8
+      },
+      "oracle_comparison": {
+        "case_id": "H03",
+        "oracle_semantic_assessment": {
+          "status": "partial",
+          "retained": "保留证书条件和 AND/连续六个月提示，但未把同一自然人、同一投标人及 2026-03 至 2026-08 月份集合结构化。",
+          "omissions": [
+            "同一自然人约束",
+            "同一投标人约束",
+            "六个月时间范围"
+          ]
+        },
+        "parser_status": "executed",
+        "requirement_count": 2,
+        "semantic_anchor_observation": {
+          "项目经理": true,
+          "信息系统项目管理师": true,
+          "2026": false,
+          "连续": true,
+          "AND": true
+        },
+        "missing_anchor_text": [
+          "2026"
+        ],
+        "interpretation": "manual_review_required",
+        "source_refs": [
+          {
+            "document_id": "file_e82bdb9aa65343c2",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_e82bdb9aa65343c2:v1",
+            "quote": "1.1 拟派项目经理须持有“信息系统项目管理师”证书，证书姓名应与投标文件中的项目经理姓名一致；并由",
+            "locator": "artifact_file_e82bdb9aa65343c2_1:p1:l7",
+            "actual_line": 7,
+            "raw_file": "holdout-03-manager-social-positive.txt"
+          },
+          {
+            "document_id": "file_e82bdb9aa65343c2",
+            "file_id": null,
+            "page": 2,
+            "source_version": "file_e82bdb9aa65343c2:v1",
+            "quote": "1.2 本条是 AND 关系：证书条件和同人、同一投标人、连续六个月的社保条件必须同时满足。只提供任意一项不能通过。",
+            "locator": "artifact_file_e82bdb9aa65343c2_1:p2:l3",
+            "actual_line": 12,
+            "raw_file": "holdout-03-manager-social-positive.txt"
+          }
+        ],
+        "source_ref_count": 2,
+        "scope_note": "anchor presence is diagnostic only; isolated keyword presence is not a pass"
+      }
+    },
+    {
+      "file_name": "holdout-04-manager-social-gap.txt",
+      "file_id": "file_51a99647ad114e8f",
+      "registry_file_version_token": "file_51a99647ad114e8f:v1",
+      "execution_status": "completed",
+      "execution_message": "analysis report completed with follow-up items",
+      "business_status": "needs_review",
+      "needs_human_review": true,
+      "workflow_steps": [
+        {
+          "skill_name": "document-preprocess",
+          "status": "success",
+          "message": "document preprocessing completed"
+        },
+        {
+          "skill_name": "tender-intake",
+          "status": "success",
+          "message": "tender intake completed"
+        },
+        {
+          "skill_name": "consistency-review",
+          "status": "success",
+          "message": "consistency review completed with conflicts"
+        },
+        {
+          "skill_name": "tender-decomposition",
+          "status": "success",
+          "message": "tender decomposition completed"
+        },
+        {
+          "skill_name": "evidence-matching",
+          "status": "success",
+          "message": "evidence matching completed"
+        },
+        {
+          "skill_name": "bid-feasibility",
+          "status": "success",
+          "message": "bid feasibility completed: human_review"
+        },
+        {
+          "skill_name": "requirement-ledger",
+          "status": "success",
+          "message": "requirement ledger built"
+        },
+        {
+          "skill_name": "compliance-review",
+          "status": "partial",
+          "message": "compliance review status: needs_review"
+        },
+        {
+          "skill_name": "scoring-strategy",
+          "status": "partial",
+          "message": "scoring strategy completed with no scoring items"
+        },
+        {
+          "skill_name": "analysis-report",
+          "status": "partial",
+          "message": "analysis report completed with follow-up items"
+        }
+      ],
+      "parser": {
+        "status": "executed",
+        "step_status": "success",
+        "step_message": "tender decomposition completed",
+        "requirements": [
+          {
+            "requirement_id": "R-001",
+            "category": "qualification",
+            "title": "项目负责人资格要求同时包含证书和 2026/03-08 的同人连续社保",
+            "description": "项目负责人资格要求同时包含证书和 2026/03-08 的同人连续社保。王珊的单月记录不得用来填补陈立的 2026 年 05 月缺口；不得把两个人的记录拼成一个满足项。",
+            "mandatory": true,
+            "evidence_required": [
+              "social_security",
+              "personnel_certificate"
+            ],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_51a99647ad114e8f",
+                "page": 2,
+                "section": "",
+                "quote": "项目负责人资格要求同时包含证书和 2026/03-08 的同人连续社保。王珊的单月记录不得用来填补陈立的 2026 年 05 月缺口；不得把两个人的记录拼成一个满足项。",
+                "locator": "artifact_file_51a99647ad114e8f_1:p2:l11",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_51a99647ad114e8f:v1"
+              }
+            ]
+          }
+        ],
+        "source_references": [
+          {
+            "document_id": "file_51a99647ad114e8f",
+            "page": 2,
+            "section": "",
+            "quote": "项目负责人资格要求同时包含证书和 2026/03-08 的同人连续社保。王珊的单月记录不得用来填补陈立的 2026 年 05 月缺口；不得把两个人的记录拼成一个满足项。",
+            "locator": "artifact_file_51a99647ad114e8f_1:p2:l11",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_51a99647ad114e8f:v1"
+          }
+        ],
+        "extraction_complete": false,
+        "needs_human_review": true,
+        "business_status": "needs_review",
+        "warnings": []
+      },
+      "business_evidence": {
+        "status": "not_run",
+        "denominator": 8
+      },
+      "oracle_comparison": {
+        "case_id": "H04",
+        "oracle_semantic_assessment": {
+          "status": "partial",
+          "retained": "保留同人连续社保、王珊不得填补陈立缺口及不可跨人拼接。",
+          "omissions": [
+            "证书条件的完整文本",
+            "AND 结构字段",
+            "2026-03 至 2026-08 的完整月份约束"
+          ]
+        },
+        "parser_status": "executed",
+        "requirement_count": 1,
+        "semantic_anchor_observation": {
+          "陈立": true,
+          "信息系统项目管理师": false,
+          "王珊": true,
+          "2026": true,
+          "AND": false
+        },
+        "missing_anchor_text": [
+          "信息系统项目管理师",
+          "AND"
+        ],
+        "interpretation": "manual_review_required",
+        "source_refs": [
+          {
+            "document_id": "file_51a99647ad114e8f",
+            "file_id": null,
+            "page": 2,
+            "source_version": "file_51a99647ad114e8f:v1",
+            "quote": "项目负责人资格要求同时包含证书和 2026/03-08 的同人连续社保。王珊的单月记录不得用来填补陈立的 2026 年 05 月缺口；不得把两个人的记录拼成一个满足项。",
+            "locator": "artifact_file_51a99647ad114e8f_1:p2:l11",
+            "actual_line": 22,
+            "raw_file": "holdout-04-manager-social-gap.txt"
+          }
+        ],
+        "source_ref_count": 1,
+        "scope_note": "anchor presence is diagnostic only; isolated keyword presence is not a pass"
+      }
+    },
+    {
+      "file_name": "holdout-05-identity-oauth-no-replace.txt",
+      "file_id": "file_55dff5c2c58947f7",
+      "registry_file_version_token": "file_55dff5c2c58947f7:v1",
+      "execution_status": "completed",
+      "execution_message": "analysis report completed with follow-up items",
+      "business_status": "needs_review",
+      "needs_human_review": true,
+      "workflow_steps": [
+        {
+          "skill_name": "document-preprocess",
+          "status": "success",
+          "message": "document preprocessing completed"
+        },
+        {
+          "skill_name": "tender-intake",
+          "status": "success",
+          "message": "tender intake completed"
+        },
+        {
+          "skill_name": "consistency-review",
+          "status": "success",
+          "message": "consistency review completed"
+        },
+        {
+          "skill_name": "tender-decomposition",
+          "status": "success",
+          "message": "tender decomposition completed"
+        },
+        {
+          "skill_name": "evidence-matching",
+          "status": "success",
+          "message": "evidence matching completed"
+        },
+        {
+          "skill_name": "bid-feasibility",
+          "status": "success",
+          "message": "bid feasibility completed: human_review"
+        },
+        {
+          "skill_name": "requirement-ledger",
+          "status": "success",
+          "message": "requirement ledger built"
+        },
+        {
+          "skill_name": "compliance-review",
+          "status": "partial",
+          "message": "compliance review status: needs_review"
+        },
+        {
+          "skill_name": "scoring-strategy",
+          "status": "partial",
+          "message": "scoring strategy completed with no scoring items"
+        },
+        {
+          "skill_name": "analysis-report",
+          "status": "partial",
+          "message": "analysis report completed with follow-up items"
+        }
+      ],
+      "parser": {
+        "status": "executed",
+        "step_status": "success",
+        "step_message": "tender decomposition completed",
+        "requirements": [
+          {
+            "requirement_id": "R-001",
+            "category": "technical",
+            "title": "b）不得以新建登录中心、迁移账号或其他方式替换采购人现有身份系统",
+            "description": "b）不得以新建登录中心、迁移账号或其他方式替换采购人现有身份系统。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_55dff5c2c58947f7",
+                "page": 1,
+                "section": "",
+                "quote": "（b）不得以新建登录中心、迁移账号或其他方式替换采购人现有身份系统。",
+                "locator": "artifact_file_55dff5c2c58947f7_1:p1:l13",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_55dff5c2c58947f7:v1"
+              }
+            ]
+          }
+        ],
+        "source_references": [
+          {
+            "document_id": "file_55dff5c2c58947f7",
+            "page": 1,
+            "section": "",
+            "quote": "（b）不得以新建登录中心、迁移账号或其他方式替换采购人现有身份系统。",
+            "locator": "artifact_file_55dff5c2c58947f7_1:p1:l13",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_55dff5c2c58947f7:v1"
+          }
+        ],
+        "extraction_complete": false,
+        "needs_human_review": true,
+        "business_status": "needs_review",
+        "warnings": []
+      },
+      "business_evidence": {
+        "status": "not_run",
+        "denominator": 8
+      },
+      "oracle_comparison": {
+        "case_id": "H05",
+        "oracle_semantic_assessment": {
+          "status": "partial",
+          "retained": "保留禁止替换条件。",
+          "omissions": [
+            "OAuth2.0/OIDC OR 协议条件",
+            "与现有身份系统完成对接",
+            "两个条件的 AND 结构"
+          ]
+        },
+        "parser_status": "executed",
+        "requirement_count": 1,
+        "semantic_anchor_observation": {
+          "OAuth": false,
+          "OIDC": false,
+          "不得": true,
+          "替换": true,
+          "AND": false
+        },
+        "missing_anchor_text": [
+          "OAuth",
+          "OIDC",
+          "AND"
+        ],
+        "interpretation": "manual_review_required",
+        "source_refs": [
+          {
+            "document_id": "file_55dff5c2c58947f7",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_55dff5c2c58947f7:v1",
+            "quote": "（b）不得以新建登录中心、迁移账号或其他方式替换采购人现有身份系统。",
+            "locator": "artifact_file_55dff5c2c58947f7_1:p1:l13",
+            "actual_line": 13,
+            "raw_file": "holdout-05-identity-oauth-no-replace.txt"
+          }
+        ],
+        "source_ref_count": 1,
+        "scope_note": "anchor presence is diagnostic only; isolated keyword presence is not a pass"
+      }
+    },
+    {
+      "file_name": "holdout-06-identity-replacement-negative.txt",
+      "file_id": "file_198c3bf31cb94383",
+      "registry_file_version_token": "file_198c3bf31cb94383:v1",
+      "execution_status": "completed",
+      "execution_message": "analysis report completed with follow-up items",
+      "business_status": "needs_review",
+      "needs_human_review": true,
+      "workflow_steps": [
+        {
+          "skill_name": "document-preprocess",
+          "status": "success",
+          "message": "document preprocessing completed"
+        },
+        {
+          "skill_name": "tender-intake",
+          "status": "success",
+          "message": "tender intake completed"
+        },
+        {
+          "skill_name": "consistency-review",
+          "status": "success",
+          "message": "consistency review completed"
+        },
+        {
+          "skill_name": "tender-decomposition",
+          "status": "success",
+          "message": "tender decomposition completed"
+        },
+        {
+          "skill_name": "evidence-matching",
+          "status": "success",
+          "message": "evidence matching completed"
+        },
+        {
+          "skill_name": "bid-feasibility",
+          "status": "success",
+          "message": "bid feasibility completed: human_review"
+        },
+        {
+          "skill_name": "requirement-ledger",
+          "status": "success",
+          "message": "requirement ledger built"
+        },
+        {
+          "skill_name": "compliance-review",
+          "status": "partial",
+          "message": "compliance review status: needs_review"
+        },
+        {
+          "skill_name": "scoring-strategy",
+          "status": "partial",
+          "message": "scoring strategy completed with no scoring items"
+        },
+        {
+          "skill_name": "analysis-report",
+          "status": "partial",
+          "message": "analysis report completed with follow-up items"
+        }
+      ],
+      "parser": {
+        "status": "executed",
+        "step_status": "success",
+        "step_message": "tender decomposition completed",
+        "requirements": [
+          {
+            "requirement_id": "R-001",
+            "category": "technical",
+            "title": "本方案确实列出了 OAuth2.0/OIDC 协议",
+            "description": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {
+              "rule_ast": {
+                "op": "manual_review",
+                "reason": "阶段B仅保留条件结构，自动核验不支持",
+                "source_text": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。",
+                "condition_logic": {
+                  "op": "all",
+                  "conditions": [
+                    {
+                      "op": "any",
+                      "conditions": [
+                        {
+                          "op": "evidence",
+                          "material_type": "oauth2",
+                          "source_terms": [
+                            "OAuth2.0"
+                          ]
+                        },
+                        {
+                          "op": "evidence",
+                          "material_type": "oidc",
+                          "source_terms": [
+                            "OIDC"
+                          ]
+                        }
+                      ],
+                      "source_text": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。"
+                    },
+                    {
+                      "op": "evidence",
+                      "material_type": "existing_identity_system",
+                      "source_terms": [
+                        "现有身份平台",
+                        "现有身份系统"
+                      ]
+                    }
+                  ],
+                  "source_text": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。"
+                },
+                "coverage_status": "partial"
+              },
+              "condition_logic": {
+                "op": "all",
+                "conditions": [
+                  {
+                    "op": "any",
+                    "conditions": [
+                      {
+                        "op": "evidence",
+                        "material_type": "oauth2",
+                        "source_terms": [
+                          "OAuth2.0"
+                        ]
+                      },
+                      {
+                        "op": "evidence",
+                        "material_type": "oidc",
+                        "source_terms": [
+                          "OIDC"
+                        ]
+                      }
+                    ],
+                    "source_text": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。"
+                  },
+                  {
+                    "op": "evidence",
+                    "material_type": "existing_identity_system",
+                    "source_terms": [
+                      "现有身份平台",
+                      "现有身份系统"
+                    ]
+                  }
+                ],
+                "source_text": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。"
+              },
+              "coverage_status": "partial",
+              "source_text": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。",
+              "evaluation_capability": {
+                "automatic": "unsupported",
+                "human_review": true
+              }
+            },
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_198c3bf31cb94383",
+                "page": 1,
+                "section": "",
+                "quote": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。",
+                "locator": "artifact_file_198c3bf31cb94383_1:p1:l18",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_198c3bf31cb94383:v1"
+              }
+            ]
+          }
+        ],
+        "source_references": [
+          {
+            "document_id": "file_198c3bf31cb94383",
+            "page": 1,
+            "section": "",
+            "quote": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。",
+            "locator": "artifact_file_198c3bf31cb94383_1:p1:l18",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_198c3bf31cb94383:v1"
+          }
+        ],
+        "extraction_complete": false,
+        "needs_human_review": true,
+        "business_status": "needs_review",
+        "warnings": []
+      },
+      "business_evidence": {
+        "status": "not_run",
+        "denominator": 8
+      },
+      "oracle_comparison": {
+        "case_id": "H06",
+        "oracle_semantic_assessment": {
+          "status": "partial",
+          "retained": "保留 OAuth2.0/OIDC 与替换冲突的叙述，并识别为 manual_review/partial。",
+          "omissions": [
+            "迁移账号事实",
+            "关闭原登录入口事实",
+            "新 IAM 独占认证事实的独立结构"
+          ]
+        },
+        "parser_status": "executed",
+        "requirement_count": 1,
+        "semantic_anchor_observation": {
+          "OAuth": true,
+          "OIDC": true,
+          "导入": false,
+          "关闭": false,
+          "不得": false
+        },
+        "missing_anchor_text": [
+          "导入",
+          "关闭",
+          "不得"
+        ],
+        "interpretation": "manual_review_required",
+        "source_refs": [
+          {
+            "document_id": "file_198c3bf31cb94383",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_198c3bf31cb94383:v1",
+            "quote": "本方案确实列出了 OAuth2.0/OIDC 协议，但其前提是用新 IAM 替换现有身份系统。若采购要求是“与现有身份系统对接且禁止替换”，本方案不能作为满足依据。",
+            "locator": "artifact_file_198c3bf31cb94383_1:p1:l18",
+            "actual_line": 18,
+            "raw_file": "holdout-06-identity-replacement-negative.txt"
+          }
+        ],
+        "source_ref_count": 1,
+        "scope_note": "anchor presence is diagnostic only; isolated keyword presence is not a pass"
+      }
+    },
+    {
+      "file_name": "holdout-07-transport-db-crypto-manual.txt",
+      "file_id": "file_0ab29ef6dffd4497",
+      "registry_file_version_token": "file_0ab29ef6dffd4497:v1",
+      "execution_status": "completed",
+      "execution_message": "analysis report completed with follow-up items",
+      "business_status": "needs_review",
+      "needs_human_review": true,
+      "workflow_steps": [
+        {
+          "skill_name": "document-preprocess",
+          "status": "success",
+          "message": "document preprocessing completed"
+        },
+        {
+          "skill_name": "tender-intake",
+          "status": "success",
+          "message": "tender intake completed"
+        },
+        {
+          "skill_name": "consistency-review",
+          "status": "success",
+          "message": "consistency review completed"
+        },
+        {
+          "skill_name": "tender-decomposition",
+          "status": "success",
+          "message": "tender decomposition completed"
+        },
+        {
+          "skill_name": "evidence-matching",
+          "status": "success",
+          "message": "evidence matching completed"
+        },
+        {
+          "skill_name": "bid-feasibility",
+          "status": "success",
+          "message": "bid feasibility completed: human_review"
+        },
+        {
+          "skill_name": "requirement-ledger",
+          "status": "success",
+          "message": "requirement ledger built"
+        },
+        {
+          "skill_name": "compliance-review",
+          "status": "partial",
+          "message": "compliance review status: needs_review"
+        },
+        {
+          "skill_name": "scoring-strategy",
+          "status": "partial",
+          "message": "scoring strategy completed with no scoring items"
+        },
+        {
+          "skill_name": "analysis-report",
+          "status": "partial",
+          "message": "analysis report completed with follow-up items"
+        }
+      ],
+      "parser": {
+        "status": "executed",
+        "step_status": "success",
+        "step_message": "tender decomposition completed",
+        "requirements": [
+          {
+            "requirement_id": "R-001",
+            "category": "compliance",
+            "title": "1.1 所有外部接口和管理接口的加密传输协议最低为 TLS 1.2",
+            "description": "1.1 所有外部接口和管理接口的加密传输协议最低为 TLS 1.2；TLS 1.0 和 TLS 1.1 不得启用。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_0ab29ef6dffd4497",
+                "page": 1,
+                "section": "",
+                "quote": "1.1 所有外部接口和管理接口的加密传输协议最低为 TLS 1.2；TLS 1.0 和 TLS 1.1 不得启用。",
+                "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l7",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_0ab29ef6dffd4497:v1"
+              }
+            ]
+          },
+          {
+            "requirement_id": "R-002",
+            "category": "compliance",
+            "title": "2.1 身份证号、银行卡号等敏感字段须采用国密算法保护",
+            "description": "2.1 身份证号、银行卡号等敏感字段须采用国密算法保护，或采用经独立测评确认安全强度等效的算法。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_0ab29ef6dffd4497",
+                "page": 1,
+                "section": "",
+                "quote": "2.1 身份证号、银行卡号等敏感字段须采用国密算法保护，或采用经独立测评确认安全强度等效的算法。",
+                "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l11",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_0ab29ef6dffd4497:v1"
+              }
+            ]
+          },
+          {
+            "requirement_id": "R-003",
+            "category": "technical",
+            "title": "2.2 “等效强度”不能仅凭算法名称或关键词判定",
+            "description": "2.2 “等效强度”不能仅凭算法名称或关键词判定，需结合密码算法、密钥长度、模式、密钥管理和测评结论人工核验。若投标材料只写“支持国密/高强度加密”，不得直接视为数据库敏感字段已经满足。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_0ab29ef6dffd4497",
+                "page": 1,
+                "section": "",
+                "quote": "2.2 “等效强度”不能仅凭算法名称或关键词判定，需结合密码算法、密钥长度、模式、密钥管理和测评结论人工核验。若投标材料只写“支持国密/高强度加密”，不得直接视为数据库敏感字段已经满足。",
+                "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l13",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_0ab29ef6dffd4497:v1"
+              }
+            ]
+          },
+          {
+            "requirement_id": "R-004",
+            "category": "compliance",
+            "title": "本条由传输版本条件与数据库字段保护条件组成",
+            "description": "本条由传输版本条件与数据库字段保护条件组成。任一条件缺少可核验事实时，整体不得依据关键词直接标记为 matched；应保留实际页码、文档、source_version 和原文 quote，并将技术等效性送人工复核。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_0ab29ef6dffd4497",
+                "page": 1,
+                "section": "",
+                "quote": "本条由传输版本条件与数据库字段保护条件组成。任一条件缺少可核验事实时，整体不得依据关键词直接标记为 matched；应保留实际页码、文档、source_version 和原文 quote，并将技术等效性送人工复核。",
+                "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l24",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_0ab29ef6dffd4497:v1"
+              }
+            ]
+          }
+        ],
+        "source_references": [
+          {
+            "document_id": "file_0ab29ef6dffd4497",
+            "page": 1,
+            "section": "",
+            "quote": "1.1 所有外部接口和管理接口的加密传输协议最低为 TLS 1.2；TLS 1.0 和 TLS 1.1 不得启用。",
+            "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l7",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_0ab29ef6dffd4497:v1"
+          },
+          {
+            "document_id": "file_0ab29ef6dffd4497",
+            "page": 1,
+            "section": "",
+            "quote": "2.1 身份证号、银行卡号等敏感字段须采用国密算法保护，或采用经独立测评确认安全强度等效的算法。",
+            "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l11",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_0ab29ef6dffd4497:v1"
+          },
+          {
+            "document_id": "file_0ab29ef6dffd4497",
+            "page": 1,
+            "section": "",
+            "quote": "2.2 “等效强度”不能仅凭算法名称或关键词判定，需结合密码算法、密钥长度、模式、密钥管理和测评结论人工核验。若投标材料只写“支持国密/高强度加密”，不得直接视为数据库敏感字段已经满足。",
+            "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l13",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_0ab29ef6dffd4497:v1"
+          },
+          {
+            "document_id": "file_0ab29ef6dffd4497",
+            "page": 1,
+            "section": "",
+            "quote": "本条由传输版本条件与数据库字段保护条件组成。任一条件缺少可核验事实时，整体不得依据关键词直接标记为 matched；应保留实际页码、文档、source_version 和原文 quote，并将技术等效性送人工复核。",
+            "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l24",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_0ab29ef6dffd4497:v1"
+          }
+        ],
+        "extraction_complete": false,
+        "needs_human_review": true,
+        "business_status": "needs_review",
+        "warnings": []
+      },
+      "business_evidence": {
+        "status": "not_run",
+        "denominator": 8
+      },
+      "oracle_comparison": {
+        "case_id": "H07",
+        "oracle_semantic_assessment": {
+          "status": "partial",
+          "retained": "原始必要条件文本和人工核验限制均被逐条保留。",
+          "omissions": [
+            "TLS 条件与数据库条件的 AND 结构化 check_rule",
+            "禁止关键词直接 matched 的规则字段"
+          ]
+        },
+        "parser_status": "executed",
+        "requirement_count": 4,
+        "semantic_anchor_observation": {
+          "TLS": true,
+          "1.2": true,
+          "国密": true,
+          "等效": true,
+          "人工": true
+        },
+        "missing_anchor_text": [],
+        "interpretation": "manual_review_required",
+        "source_refs": [
+          {
+            "document_id": "file_0ab29ef6dffd4497",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_0ab29ef6dffd4497:v1",
+            "quote": "1.1 所有外部接口和管理接口的加密传输协议最低为 TLS 1.2；TLS 1.0 和 TLS 1.1 不得启用。",
+            "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l7",
+            "actual_line": 7,
+            "raw_file": "holdout-07-transport-db-crypto-manual.txt"
+          },
+          {
+            "document_id": "file_0ab29ef6dffd4497",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_0ab29ef6dffd4497:v1",
+            "quote": "2.1 身份证号、银行卡号等敏感字段须采用国密算法保护，或采用经独立测评确认安全强度等效的算法。",
+            "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l11",
+            "actual_line": 11,
+            "raw_file": "holdout-07-transport-db-crypto-manual.txt"
+          },
+          {
+            "document_id": "file_0ab29ef6dffd4497",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_0ab29ef6dffd4497:v1",
+            "quote": "2.2 “等效强度”不能仅凭算法名称或关键词判定，需结合密码算法、密钥长度、模式、密钥管理和测评结论人工核验。若投标材料只写“支持国密/高强度加密”，不得直接视为数据库敏感字段已经满足。",
+            "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l13",
+            "actual_line": 13,
+            "raw_file": "holdout-07-transport-db-crypto-manual.txt"
+          },
+          {
+            "document_id": "file_0ab29ef6dffd4497",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_0ab29ef6dffd4497:v1",
+            "quote": "本条由传输版本条件与数据库字段保护条件组成。任一条件缺少可核验事实时，整体不得依据关键词直接标记为 matched；应保留实际页码、文档、source_version 和原文 quote，并将技术等效性送人工复核。",
+            "locator": "artifact_file_0ab29ef6dffd4497_1:p1:l24",
+            "actual_line": 24,
+            "raw_file": "holdout-07-transport-db-crypto-manual.txt"
+          }
+        ],
+        "source_ref_count": 4,
+        "scope_note": "anchor presence is diagnostic only; isolated keyword presence is not a pass"
+      }
+    },
+    {
+      "file_name": "holdout-08-platform-portability-positive.txt",
+      "file_id": "file_28fc1c7c41724998",
+      "registry_file_version_token": "file_28fc1c7c41724998:v1",
+      "execution_status": "completed",
+      "execution_message": "analysis report completed with follow-up items",
+      "business_status": "needs_review",
+      "needs_human_review": true,
+      "workflow_steps": [
+        {
+          "skill_name": "document-preprocess",
+          "status": "success",
+          "message": "document preprocessing completed"
+        },
+        {
+          "skill_name": "tender-intake",
+          "status": "success",
+          "message": "tender intake completed"
+        },
+        {
+          "skill_name": "consistency-review",
+          "status": "success",
+          "message": "consistency review completed"
+        },
+        {
+          "skill_name": "tender-decomposition",
+          "status": "success",
+          "message": "tender decomposition completed"
+        },
+        {
+          "skill_name": "evidence-matching",
+          "status": "success",
+          "message": "evidence matching completed"
+        },
+        {
+          "skill_name": "bid-feasibility",
+          "status": "success",
+          "message": "bid feasibility completed: human_review"
+        },
+        {
+          "skill_name": "requirement-ledger",
+          "status": "success",
+          "message": "requirement ledger built"
+        },
+        {
+          "skill_name": "compliance-review",
+          "status": "partial",
+          "message": "compliance review status: needs_review"
+        },
+        {
+          "skill_name": "scoring-strategy",
+          "status": "partial",
+          "message": "scoring strategy completed with no scoring items"
+        },
+        {
+          "skill_name": "analysis-report",
+          "status": "partial",
+          "message": "analysis report completed with follow-up items"
+        }
+      ],
+      "parser": {
+        "status": "executed",
+        "step_status": "success",
+        "step_message": "tender decomposition completed",
+        "requirements": [
+          {
+            "requirement_id": "R-001",
+            "category": "technical",
+            "title": "1.1 软件应能够在国产 Linux 操作系统上稳定部署",
+            "description": "1.1 软件应能够在国产 Linux 操作系统上稳定部署，至少完成对麒麟或统信服务器版的适配验证。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_28fc1c7c41724998",
+                "page": 1,
+                "section": "",
+                "quote": "1.1 软件应能够在国产 Linux 操作系统上稳定部署，至少完成对麒麟或统信服务器版的适配验证。",
+                "locator": "artifact_file_28fc1c7c41724998_1:p1:l7",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_28fc1c7c41724998:v1"
+              }
+            ]
+          },
+          {
+            "requirement_id": "R-002",
+            "category": "technical",
+            "title": "2.1 方案不得绑定单一公有云厂商",
+            "description": "2.1 方案不得绑定单一公有云厂商。除云环境外，应支持采购人自有机房或其他符合条件的基础设施独立运行；不得把某一家云厂商的专有服务作为系统不可替代的前置条件。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_28fc1c7c41724998",
+                "page": 2,
+                "section": "",
+                "quote": "2.1 方案不得绑定单一公有云厂商。除云环境外，应支持采购人自有机房或其他符合条件的基础设施独立运行；不得把某一家云厂商的专有服务作为系统不可替代的前置条件。",
+                "locator": "artifact_file_28fc1c7c41724998_1:p2:l3",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_28fc1c7c41724998:v1"
+              }
+            ]
+          },
+          {
+            "requirement_id": "R-003",
+            "category": "technical",
+            "title": "系统可以提供阿里云、腾讯云或其他云平台的适配插件",
+            "description": "系统可以提供阿里云、腾讯云或其他云平台的适配插件，但插件属于可选扩展。云插件数量、容器编排工具名称和监控产品名称，不能替代“不得绑定单一公有云厂商”的约束。",
+            "mandatory": true,
+            "evidence_required": [],
+            "check_rule": {},
+            "max_score": null,
+            "response_guidance": "",
+            "source_references": [
+              {
+                "document_id": "file_28fc1c7c41724998",
+                "page": 2,
+                "section": "",
+                "quote": "系统可以提供阿里云、腾讯云或其他云平台的适配插件，但插件属于可选扩展。云插件数量、容器编排工具名称和监控产品名称，不能替代“不得绑定单一公有云厂商”的约束。",
+                "locator": "artifact_file_28fc1c7c41724998_1:p2:l16",
+                "bbox": null,
+                "confidence": 1.0,
+                "extraction_method": "native_text",
+                "source_version": "file_28fc1c7c41724998:v1"
+              }
+            ]
+          }
+        ],
+        "source_references": [
+          {
+            "document_id": "file_28fc1c7c41724998",
+            "page": 1,
+            "section": "",
+            "quote": "1.1 软件应能够在国产 Linux 操作系统上稳定部署，至少完成对麒麟或统信服务器版的适配验证。",
+            "locator": "artifact_file_28fc1c7c41724998_1:p1:l7",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_28fc1c7c41724998:v1"
+          },
+          {
+            "document_id": "file_28fc1c7c41724998",
+            "page": 2,
+            "section": "",
+            "quote": "2.1 方案不得绑定单一公有云厂商。除云环境外，应支持采购人自有机房或其他符合条件的基础设施独立运行；不得把某一家云厂商的专有服务作为系统不可替代的前置条件。",
+            "locator": "artifact_file_28fc1c7c41724998_1:p2:l3",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_28fc1c7c41724998:v1"
+          },
+          {
+            "document_id": "file_28fc1c7c41724998",
+            "page": 2,
+            "section": "",
+            "quote": "系统可以提供阿里云、腾讯云或其他云平台的适配插件，但插件属于可选扩展。云插件数量、容器编排工具名称和监控产品名称，不能替代“不得绑定单一公有云厂商”的约束。",
+            "locator": "artifact_file_28fc1c7c41724998_1:p2:l16",
+            "bbox": null,
+            "confidence": 1.0,
+            "extraction_method": "native_text",
+            "source_version": "file_28fc1c7c41724998:v1"
+          }
+        ],
+        "extraction_complete": false,
+        "needs_human_review": true,
+        "business_status": "needs_review",
+        "warnings": []
+      },
+      "business_evidence": {
+        "status": "not_run",
+        "denominator": 8
+      },
+      "oracle_comparison": {
+        "case_id": "H08",
+        "oracle_semantic_assessment": {
+          "status": "partial",
+          "retained": "保留国产 Linux 和不得绑定单一公有云，并保留可选云插件不能替代约束的说明。",
+          "omissions": [
+            "PostgreSQL 14 及以上条件",
+            "三项 AND 结构",
+            "插件可选与核心条件的非替代关系字段"
+          ]
+        },
+        "parser_status": "executed",
+        "requirement_count": 3,
+        "semantic_anchor_observation": {
+          "国产": true,
+          "PostgreSQL": false,
+          "14": false,
+          "不得绑定": true,
+          "AND": false
+        },
+        "missing_anchor_text": [
+          "PostgreSQL",
+          "14",
+          "AND"
+        ],
+        "interpretation": "manual_review_required",
+        "source_refs": [
+          {
+            "document_id": "file_28fc1c7c41724998",
+            "file_id": null,
+            "page": 1,
+            "source_version": "file_28fc1c7c41724998:v1",
+            "quote": "1.1 软件应能够在国产 Linux 操作系统上稳定部署，至少完成对麒麟或统信服务器版的适配验证。",
+            "locator": "artifact_file_28fc1c7c41724998_1:p1:l7",
+            "actual_line": 7,
+            "raw_file": "holdout-08-platform-portability-positive.txt"
+          },
+          {
+            "document_id": "file_28fc1c7c41724998",
+            "file_id": null,
+            "page": 2,
+            "source_version": "file_28fc1c7c41724998:v1",
+            "quote": "2.1 方案不得绑定单一公有云厂商。除云环境外，应支持采购人自有机房或其他符合条件的基础设施独立运行；不得把某一家云厂商的专有服务作为系统不可替代的前置条件。",
+            "locator": "artifact_file_28fc1c7c41724998_1:p2:l3",
+            "actual_line": 14,
+            "raw_file": "holdout-08-platform-portability-positive.txt"
+          },
+          {
+            "document_id": "file_28fc1c7c41724998",
+            "file_id": null,
+            "page": 2,
+            "source_version": "file_28fc1c7c41724998:v1",
+            "quote": "系统可以提供阿里云、腾讯云或其他云平台的适配插件，但插件属于可选扩展。云插件数量、容器编排工具名称和监控产品名称，不能替代“不得绑定单一公有云厂商”的约束。",
+            "locator": "artifact_file_28fc1c7c41724998_1:p2:l16",
+            "actual_line": 27,
+            "raw_file": "holdout-08-platform-portability-positive.txt"
+          }
+        ],
+        "source_ref_count": 3,
+        "scope_note": "anchor presence is diagnostic only; isolated keyword presence is not a pass"
+      }
+    }
+  ]
+}

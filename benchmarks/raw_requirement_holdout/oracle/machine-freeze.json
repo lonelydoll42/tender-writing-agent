@@ -1,0 +1,7 @@
+{
+  "schema": "raw-requirement-holdout-machine-freeze-v1",
+  "cases_path": "oracle/cases.json",
+  "cases_sha256": "85e249fa17a8757f87590b120b4070db51eb8f6bc4dd110c92a618d813edb119",
+  "case_count": 8,
+  "scope": "separately frozen public finite structural regression supplement; not the frozen Markdown oracle"
+}

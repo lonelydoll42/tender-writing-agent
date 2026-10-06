@@ -5,6 +5,7 @@ from qiaowenshu_agent.core.contracts import SkillRequest
 from qiaowenshu_agent.core.files import ProjectFileRegistry
 from qiaowenshu_agent.skills.local_backends import (
     RegistryTenderDecompositionBackend,
+    _is_heading_line,
 )
 
 
@@ -210,6 +211,113 @@ def test_real_registry_pdf_keeps_page_five_clauses_around_layout_noise() -> None
         item["description"] == "申请人的资格要求"
         for item in result["requirements"]
     )
+
+
+def test_numbered_no_punctuation_requirements_are_not_filtered_as_headings() -> None:
+    cases = (
+        "一、投标人须提供有效ISO/IEC 27001认证",
+        "一、投标人须提供有效ISO/IEC 27001认证。",
+        "（一）投标人应提交有效营业执照",
+        "1、技术上禁止更换现有身份系统",
+        "1.1 投标人须提交有效营业执照",
+        "一、投标人具有独立承担民事责任的能力",
+    )
+    assert all(not _is_heading_line(case) for case in cases)
+
+    result = _extract(
+        [
+            {
+                "title": "requirements.txt",
+                "content": "\n".join(cases),
+            }
+        ]
+    )
+    descriptions = [item["description"] for item in result["requirements"]]
+    assert any("有效ISO/IEC 27001认证" in text for text in descriptions)
+    assert any("有效营业执照" in text for text in descriptions)
+    assert any("禁止更换现有身份系统" in text for text in descriptions)
+    assert sum("有效营业执照" in text for text in descriptions) >= 2
+    assert any("独立承担民事责任的能力" in text for text in descriptions)
+
+
+def test_punctuation_free_qualification_heading_is_still_filtered() -> None:
+    headings = (
+        "二、申请人的资格要求",
+        "二、营业执照提供要求",
+    )
+    assert all(_is_heading_line(line) for line in headings)
+    result = _extract(
+        [{"title": "requirements.txt", "content": "\n".join(headings)}]
+    )
+    assert result["requirements"] == []
+
+
+def test_grouped_any_requirement_keeps_line_source_references() -> None:
+    lines = (
+        "投标人须提供以下两项任选一项",
+        "（1）有效营业执照",
+        "（2）法人登记证明",
+    )
+    page_reference = {
+        "document_id": "doc",
+        "source_version": "v1",
+        "page": 1,
+        "locator": "doc:p1",
+        "quote": "\n".join(lines),
+    }
+
+    result = _extract(
+        [
+            {
+                "title": "requirements.txt",
+                "content": "\n".join(lines),
+                "source_references": [page_reference],
+            }
+        ]
+    )
+
+    assert len(result["requirements"]) == 1
+    requirement = result["requirements"][0]
+    assert requirement["mandatory"] is True
+    assert "以下两项任选一项" in requirement["description"]
+    assert requirement["check_rule"]["condition_logic"]["op"] == "any"
+    assert requirement["check_rule"]["rule_ast"]["op"] == "manual_review"
+    assert requirement["check_rule"]["coverage_status"] == "partial"
+    references = requirement["source_references"]
+    assert [reference["quote"] for reference in references] == list(lines)
+    assert [reference["locator"] for reference in references] == [
+        "doc:p1:l1",
+        "doc:p1:l2",
+        "doc:p1:l3",
+    ]
+    assert all(reference["document_id"] == "doc" for reference in references)
+    assert all(reference["source_version"] == "v1" for reference in references)
+    assert all(reference["page"] == 1 for reference in references)
+
+
+def test_grouped_any_requirement_without_source_references() -> None:
+    lines = (
+        "投标人须提供以下两项任选一项",
+        "（1）有效营业执照",
+        "（2）法人登记证明",
+    )
+    result = _extract(
+        [
+            {
+                "title": "requirements.txt",
+                "content": "\n".join(lines),
+            }
+        ]
+    )
+
+    assert len(result["requirements"]) == 1
+    requirement = result["requirements"][0]
+    assert requirement["mandatory"] is True
+    assert "以下两项任选一项" in requirement["description"]
+    assert requirement["check_rule"]["condition_logic"]["op"] == "any"
+    assert requirement["check_rule"]["rule_ast"]["op"] == "manual_review"
+    assert requirement["check_rule"]["coverage_status"] == "partial"
+    assert requirement["source_references"] == []
 
 
 def test_real_pdf_six_requirement_families_use_manual_review_rules() -> None:

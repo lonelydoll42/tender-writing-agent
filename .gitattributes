@@ -1,0 +1,12 @@
+benchmarks/raw_requirement_holdout/freeze-manifest.json -text
+benchmarks/raw_requirement_holdout/raw/*.txt -text
+benchmarks/raw_requirement_holdout/oracle/expected-semantics.md -text
+benchmarks/raw_requirement_holdout/oracle/cases.json -text
+benchmarks/raw_requirement_holdout/oracle/machine-freeze.json -text
+benchmarks/raw_requirement_holdout/errata/*.md -text
+# Preserve the original erratum's extra EOF blank line without changing its bytes.
+benchmarks/raw_requirement_holdout/errata/source-version-token-erratum.md -text whitespace=-blank-at-eof
+# Recognize archived CRLF endings while retaining real trailing-space checks.
+benchmarks/raw_requirement_holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.json -text whitespace=cr-at-eol
+benchmarks/raw_requirement_holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.md -text whitespace=cr-at-eol
+benchmarks/raw_requirement_holdout/reports/validate_holdout_v2.py.txt -text

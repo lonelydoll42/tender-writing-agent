@@ -1,0 +1,358 @@
+{
+  "schema": "raw-requirement-holdout-structured-oracle-v1",
+  "case_policy": "Public finite structural regression checks, not the historical full semantic assessment; business evidence is not evaluated or scored.",
+  "cases": [
+    {
+      "case_id": "H01",
+      "file": "raw/holdout-01-qualification-finance.txt",
+      "source_version": "2026-09-18-r2",
+      "required_text_groups": [
+        ["营业执照", "法人登记证明"],
+        ["2025", "审计"],
+        ["银行资信"]
+      ],
+      "logic": [
+        {
+          "op": "any",
+          "branches": [
+            ["business_license", "营业执照"],
+            ["legal_entity_registration", "法人登记"]
+          ]
+        },
+        {
+          "op": "any",
+          "branches": [
+            ["audit_report_key_pages", "审计关键页"],
+            ["bank_credit_reference", "银行资信"]
+          ]
+        }
+      ],
+      "quotes": [
+        "（1）在投标截止日仍处于有效期内的营业执照；",
+        "（2）依法登记的法人登记证明。",
+        "2025 年度审计报告中的资产负债表和利润表",
+        "关键页；"
+      ],
+      "anchor_scope": {
+        "（1）在投标截止日仍处于有效期内的营业执照；": "embedded_evidence_not_evaluated_business",
+        "（2）依法登记的法人登记证明。": "embedded_evidence_not_evaluated_business",
+        "2025 年度审计报告中的资产负债表和利润表": "embedded_evidence_not_evaluated_business",
+        "关键页；": "requirement_anchor_diagnostic"
+      }
+    },
+    {
+      "case_id": "H02",
+      "file": "raw/holdout-02-legal-credit-table.txt",
+      "source_version": "2026-09-21-r1",
+      "required_text_groups": [
+        ["法人登记"],
+        ["2025/02/28"],
+        ["银行资信", "2026-08-17"]
+      ],
+      "logic": [
+        {
+          "op": "any",
+          "branches": [
+            ["business_license", "营业执照"],
+            ["legal_entity_registration", "法人登记"]
+          ]
+        },
+        {
+          "op": "any",
+          "branches": [
+            ["audit_report_key_pages", "审计关键页"],
+            ["bank_credit_reference", "银行资信"]
+          ]
+        }
+      ],
+      "quotes": [
+        "法人登记证，登记机关为市级市场监督管理部门，登记日期 2023/11/06",
+        "营业执照，载明有效期至 2025/02/28",
+        "银行资信证明由开户银行于 2026-08-17 出具"
+      ],
+      "anchor_scope": {
+        "法人登记证，登记机关为市级市场监督管理部门，登记日期 2023/11/06": "embedded_evidence_not_evaluated_business",
+        "营业执照，载明有效期至 2025/02/28": "embedded_evidence_not_evaluated_business",
+        "银行资信证明由开户银行于 2026-08-17 出具": "embedded_evidence_not_evaluated_business"
+      }
+    },
+    {
+      "case_id": "H03",
+      "file": "raw/holdout-03-manager-social-positive.txt",
+      "source_version": "2026-09-24-r3",
+      "required_text_groups": [
+        ["信息系统项目管理师"],
+        ["同一自然人", "连续"],
+        ["2026 年 03 月", "2026 年 08 月"]
+      ],
+      "logic": [
+        {
+          "op": "and",
+          "branches": [
+            ["personnel_certificate", "project_manager_certificate"],
+            ["social_security_record"],
+            ["bidder_employer_relationship"]
+          ]
+        },
+        {
+          "op": "sameperson",
+          "person_aliases": ["personnel_certificate", "social_security_record"],
+          "employer_aliases": ["bidder_employer_relationship"],
+          "date_field": "social_security_month",
+          "start": "2026-03",
+          "end": "2026-08",
+          "continuous": true
+        },
+        {"op": "date_range", "start": "2026-03", "end": "2026-08", "continuous": true}
+      ],
+      "quotes": [
+        "拟派项目经理须持有“信息系统项目管理师”证书",
+        "同一自然人作为投标人本单位人员连续缴纳 2026 年 03 月至 2026 年 08 月的社会保险。",
+        "2026/03 | 周岚 | 华东智联科技有限公司 | 已缴",
+        "2026/08 | 周岚 | 华东智联科技有限公司 | 已缴"
+      ],
+      "anchor_scope": {
+        "拟派项目经理须持有“信息系统项目管理师”证书": "requirement_anchor_diagnostic",
+        "同一自然人作为投标人本单位人员连续缴纳 2026 年 03 月至 2026 年 08 月的社会保险。": "requirement_anchor_diagnostic",
+        "2026/03 | 周岚 | 华东智联科技有限公司 | 已缴": "embedded_evidence_not_evaluated_business",
+        "2026/08 | 周岚 | 华东智联科技有限公司 | 已缴": "embedded_evidence_not_evaluated_business"
+      }
+    },
+    {
+      "case_id": "H04",
+      "file": "raw/holdout-04-manager-social-gap.txt",
+      "source_version": "2026-09-26-r1",
+      "required_text_groups": [
+        ["陈立"],
+        ["信息系统项目管理师"]
+      ],
+      "logic": [
+        {
+          "op": "and",
+          "branches": [
+            ["project_manager_certificate", "personnel_certificate"],
+            ["social_security_record"],
+            ["bidder_employer_relationship"]
+          ]
+        },
+        {
+          "op": "sameperson",
+          "person_aliases": ["person_id", "social_security_record"],
+          "employer_aliases": ["bidder_employer_relationship"],
+          "date_field": "social_security_month",
+          "start": "2026-03",
+          "end": "2026-08",
+          "continuous": true
+        },
+        {"op": "date_range", "start": "2026-03", "end": "2026-08", "continuous": true},
+        {
+          "op": "not",
+          "target": {
+            "field": "social_security_gap_filled_by_other_person",
+            "operator": "eq",
+            "value": true
+          }
+        }
+      ],
+      "quotes": [
+        "投标人申报的项目负责人为陈立，所附证书为信息系统项目管理师",
+        "2026 年 05 月 | 王珊 | 北辰软件服务有限公司 | 正常",
+        "王珊的单月记录不得用来填补陈立的 2026 年 05 月缺口"
+      ],
+      "anchor_scope": {
+        "投标人申报的项目负责人为陈立，所附证书为信息系统项目管理师": "requirement_anchor_diagnostic",
+        "2026 年 05 月 | 王珊 | 北辰软件服务有限公司 | 正常": "embedded_evidence_not_evaluated_business",
+        "王珊的单月记录不得用来填补陈立的 2026 年 05 月缺口": "embedded_evidence_not_evaluated_business"
+      }
+    },
+    {
+      "case_id": "H05",
+      "file": "raw/holdout-05-identity-oauth-no-replace.txt",
+      "source_version": "2026-09-29-r2",
+      "required_text_groups": [
+        ["OAuth2.0", "OIDC"],
+        ["现有身份系统"],
+        ["不得", "替换"]
+      ],
+      "logic": [
+        {
+          "op": "and",
+          "branches": [
+            ["existing_identity_system"],
+            ["identity_integration"]
+          ]
+        },
+        {
+          "op": "any",
+          "branches": [["oauth2"], ["oidc"]]
+        },
+        {
+          "op": "not",
+          "target": {
+            "field": "identity_system_changed",
+            "operator": "eq",
+            "value": true
+          }
+        }
+      ],
+      "quotes": [
+        "通过 OAuth2.0 或 OpenID Connect（OIDC）与现有身份系统完成身份对接",
+        "不得以新建登录中心、迁移账号或其他方式替换采购人现有身份系统",
+        "LDAP 支持不能替代本条规定的 OAuth2.0/OIDC 对接"
+      ],
+      "anchor_scope": {
+        "通过 OAuth2.0 或 OpenID Connect（OIDC）与现有身份系统完成身份对接": "requirement_anchor_diagnostic",
+        "不得以新建登录中心、迁移账号或其他方式替换采购人现有身份系统": "requirement_anchor_diagnostic",
+        "LDAP 支持不能替代本条规定的 OAuth2.0/OIDC 对接": "requirement_anchor_diagnostic"
+      }
+    },
+    {
+      "case_id": "H06",
+      "file": "raw/holdout-06-identity-replacement-negative.txt",
+      "source_version": "2026-10-01-r1",
+      "required_text_groups": [
+        ["OAuth 2.0", "OIDC"]
+      ],
+      "logic": [
+        {
+          "op": "any",
+          "branches": [["oauth2"], ["oidc"]]
+        },
+        {
+          "op": "and",
+          "branches": [
+            ["identity_account_migration"],
+            ["legacy_login_disabled"],
+            ["sole_authentication_authority"]
+          ]
+        },
+        {
+          "op": "not",
+          "target": {
+            "field": "identity_system_changed",
+            "operator": "eq",
+            "value": true
+          }
+        }
+      ],
+      "quotes": [
+        "本方案提供新的 IAM 中心，支持 OAuth 2.0、OIDC 和 LDAP。",
+        "将现有账号导入新 IAM",
+        "关闭原有登录入口",
+        "由新 IAM 负责全部认证"
+      ],
+      "anchor_scope": {
+        "本方案提供新的 IAM 中心，支持 OAuth 2.0、OIDC 和 LDAP。": "embedded_evidence_not_evaluated_business",
+        "将现有账号导入新 IAM": "embedded_evidence_not_evaluated_business",
+        "关闭原有登录入口": "embedded_evidence_not_evaluated_business",
+        "由新 IAM 负责全部认证": "embedded_evidence_not_evaluated_business"
+      }
+    },
+    {
+      "case_id": "H07",
+      "file": "raw/holdout-07-transport-db-crypto-manual.txt",
+      "source_version": "2026-10-02-r4",
+      "required_text_groups": [
+        ["TLS 1.2"],
+        ["TLS 1.0", "TLS 1.1"],
+        ["国密算法"],
+        ["等效"],
+        ["人工核验"]
+      ],
+      "logic": [
+        {
+          "op": "and",
+          "branches": [
+            ["external_interfaces"],
+            ["administrative_interfaces"],
+            ["tls_version"]
+          ]
+        },
+        {"op": "threshold", "field": "tls_version", "operator": "gte", "value": "1.2"},
+        {
+          "op": "not",
+          "target": {
+            "field": "tls_version",
+            "operator": "in",
+            "value": ["1.0", "1.1"]
+          }
+        },
+        {
+          "op": "and",
+          "branches": [
+            ["sensitive_database_fields"],
+            ["database_encryption"]
+          ]
+        },
+        {
+          "op": "any",
+          "branches": [
+            ["national_cryptography"],
+            ["equivalent_strength_encryption"]
+          ]
+        },
+        {"op": "manual", "target": "sensitive_database_fields"}
+      ],
+      "quotes": [
+        "最低为 TLS 1.2；TLS 1.0 和 TLS 1.1 不得启用。",
+        "身份证号、银行卡号等敏感字段须采用国密算法保护",
+        "或采用经独立测评确认安全强度等效的算法",
+        "需结合密码算法、密钥长度、模式、密钥管理和测评结论人工核验",
+        "数据库存储使用 AES-256-GCM"
+      ],
+      "anchor_scope": {
+        "最低为 TLS 1.2；TLS 1.0 和 TLS 1.1 不得启用。": "requirement_anchor_diagnostic",
+        "身份证号、银行卡号等敏感字段须采用国密算法保护": "requirement_anchor_diagnostic",
+        "或采用经独立测评确认安全强度等效的算法": "requirement_anchor_diagnostic",
+        "需结合密码算法、密钥长度、模式、密钥管理和测评结论人工核验": "requirement_anchor_diagnostic",
+        "数据库存储使用 AES-256-GCM": "embedded_evidence_not_evaluated_business"
+      }
+    },
+    {
+      "case_id": "H08",
+      "file": "raw/holdout-08-platform-portability-positive.txt",
+      "source_version": "2026-10-04-r2",
+      "required_text_groups": [
+        ["国产 Linux"],
+        ["PostgreSQL"],
+        ["14"],
+        ["不得绑定单一公有云"]
+      ],
+      "logic": [
+        {
+          "op": "and",
+          "branches": [
+            ["domestic_linux"],
+            ["postgresql_compatibility"],
+            ["single_public_cloud_binding"],
+            ["purchaser_owned_infrastructure", "purchaser_owned_data_center"]
+          ]
+        },
+        {"op": "version_floor", "product": "PostgreSQL", "minimum": 14},
+        {
+          "op": "not",
+          "target": {
+            "field": "single_public_cloud_binding",
+            "operator": "eq",
+            "value": true
+          }
+        }
+      ],
+      "aliases": {
+        "purchaser_owned_infrastructure": ["采购人自有机房", "自有机房"]
+      },
+      "quotes": [
+        "国产 Linux 操作系统上稳定部署",
+        "兼容 PostgreSQL 14 及以上版本",
+        "不得绑定单一公有云厂商",
+        "1.1、1.2 和 2.1 为 AND 关系"
+      ],
+      "anchor_scope": {
+        "国产 Linux 操作系统上稳定部署": "requirement_anchor_diagnostic",
+        "兼容 PostgreSQL 14 及以上版本": "requirement_anchor_diagnostic",
+        "不得绑定单一公有云厂商": "requirement_anchor_diagnostic",
+        "1.1、1.2 和 2.1 为 AND 关系": "requirement_anchor_diagnostic"
+      }
+    }
+  ]
+}

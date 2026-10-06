@@ -1,0 +1,439 @@
+"""Independent raw-holdout validator.
+
+This validator deliberately separates workflow completion from parser
+availability.  A partial/failed AgentRuntime run may still contain a
+successful tender-decomposition step and must be evaluated from that step's
+result.data.
+"""
+
+from __future__ import annotations
+
+import argparse
+import asyncio
+import hashlib
+import json
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Mapping
+
+from qiaowenshu_agent.core.contracts import SkillRequest
+from qiaowenshu_agent.core.files import ProjectFileRegistry
+from qiaowenshu_agent.core.runtime import AgentRuntime
+from qiaowenshu_agent.skills import build_default_registry
+
+
+ROOT = Path(__file__).resolve().parents[4]
+HOLDOUT = ROOT / ".qiaowenshu" / "acceptance" / "raw-requirement-holdout"
+MANIFEST = HOLDOUT / "freeze-manifest.json"
+RAW = HOLDOUT / "raw"
+REPORTS = HOLDOUT / "reports"
+EXPECTED_PRODUCT_HASHES = {
+    "src/qiaowenshu_agent/skills/local_backends.py": "4D6E1D758F1603CF1F024AA08D83A48093A7814011B9CCD5ECBDB658C7C24B68",
+    "src/qiaowenshu_agent/skills/local_requirement_logic.py": "E9A7C056272AD386365DB6B00E59FB4708BF9B8791ECCC213996169E546F6B75",
+    "src/qiaowenshu_agent/skills/rule_engine.py": "266236E534F68031580035240B18F37F4AA4944884B476DD861617A78328C15C",
+}
+ORACLE_ASSESSMENTS = {
+    "01": {
+        "status": "partial",
+        "retained": "仅保留两条材料标题，未保留营业执照/法人登记 OR、审计关键页/银行资信 OR 的必要条件。",
+        "omissions": ["主体证明 OR 分支", "财务/资信 OR 分支", "2025 审计关键页约束"],
+    },
+    "02": {
+        "status": "partial",
+        "retained": "保留了 OR 说明、有效性与银行资信日期，但没有完整提取法人登记有效分支和营业执照过期分支。",
+        "omissions": ["法人登记分支", "营业执照过期事实", "OR 两分支的结构化闭合"],
+    },
+    "03": {
+        "status": "partial",
+        "retained": "保留证书条件和 AND/连续六个月提示，但未把同一自然人、同一投标人及 2026-03 至 2026-08 月份集合结构化。",
+        "omissions": ["同一自然人约束", "同一投标人约束", "六个月时间范围"],
+    },
+    "04": {
+        "status": "partial",
+        "retained": "保留同人连续社保、王珊不得填补陈立缺口及不可跨人拼接。",
+        "omissions": ["证书条件的完整文本", "AND 结构字段", "2026-03 至 2026-08 的完整月份约束"],
+    },
+    "05": {
+        "status": "partial",
+        "retained": "保留禁止替换条件。",
+        "omissions": ["OAuth2.0/OIDC OR 协议条件", "与现有身份系统完成对接", "两个条件的 AND 结构"],
+    },
+    "06": {
+        "status": "partial",
+        "retained": "保留 OAuth2.0/OIDC 与替换冲突的叙述，并识别为 manual_review/partial。",
+        "omissions": ["迁移账号事实", "关闭原登录入口事实", "新 IAM 独占认证事实的独立结构"],
+    },
+    "07": {
+        "status": "partial",
+        "retained": "原始必要条件文本和人工核验限制均被逐条保留。",
+        "omissions": ["TLS 条件与数据库条件的 AND 结构化 check_rule", "禁止关键词直接 matched 的规则字段"],
+    },
+    "08": {
+        "status": "partial",
+        "retained": "保留国产 Linux 和不得绑定单一公有云，并保留可选云插件不能替代约束的说明。",
+        "omissions": ["PostgreSQL 14 及以上条件", "三项 AND 结构", "插件可选与核心条件的非替代关系字段"],
+    },
+}
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def freeze_snapshot() -> dict[str, Any]:
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    files = []
+    for item in manifest["inputs"]["documents"]:
+        path = HOLDOUT / item["path"]
+        files.append(
+            {
+                "path": item["path"],
+                "expected": item["sha256"],
+                "actual": sha256(path),
+                "unchanged": sha256(path) == item["sha256"],
+            }
+        )
+    oracle_path = HOLDOUT / manifest["oracle"]["path"]
+    files.append(
+        {
+            "path": manifest["oracle"]["path"],
+            "expected": manifest["oracle"]["sha256"],
+            "actual": sha256(oracle_path),
+            "unchanged": sha256(oracle_path) == manifest["oracle"]["sha256"],
+        }
+    )
+    return {
+        "manifest_status": manifest.get("status"),
+        "baseline_commit": manifest.get("baseline_commit"),
+        "files": files,
+        "all_match": all(item["unchanged"] for item in files),
+    }
+
+
+def product_snapshot() -> dict[str, Any]:
+    files = []
+    for relative, expected in EXPECTED_PRODUCT_HASHES.items():
+        path = ROOT / relative
+        actual = sha256(path).upper()
+        files.append(
+            {
+                "path": relative,
+                "expected": expected,
+                "actual": actual,
+                "unchanged": actual == expected,
+            }
+        )
+    return {"files": files, "all_match": all(item["unchanged"] for item in files)}
+
+
+def extract_parser_data(result: Any) -> dict[str, Any]:
+    """Extract parser output from raw step.result.data, never run status."""
+    step_data = {
+        step.skill_name: step.result.data
+        for step in result.steps
+        if isinstance(step.result.data, Mapping)
+    }
+    decomposition = step_data.get("tender-decomposition")
+    decomposition_steps = [
+        step for step in result.steps if step.skill_name == "tender-decomposition"
+    ]
+    if not decomposition_steps or decomposition is None:
+        return {
+            "status": "not_run",
+            "reason": "no tender-decomposition step.result.data",
+            "requirements": [],
+            "source_references": [],
+        }
+
+    step = decomposition_steps[-1]
+    data = decomposition
+    requirements = list(data.get("requirements") or [])
+    references = [
+        reference
+        for requirement in requirements
+        if isinstance(requirement, Mapping)
+        for reference in (requirement.get("source_references") or [])
+        if isinstance(reference, Mapping)
+    ]
+    return {
+        "status": "executed" if requirements else "executed_empty",
+        "step_status": step.result.status,
+        "step_message": step.result.message,
+        "requirements": requirements,
+        "source_references": references,
+        "extraction_complete": data.get("extraction_complete"),
+        "needs_human_review": data.get("needs_human_review"),
+        "business_status": data.get("business_status"),
+        "warnings": list(data.get("warnings") or []),
+    }
+
+
+def _line_for_quote(path: Path, quote: str) -> int | None:
+    if not quote:
+        return None
+    for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        if quote in line:
+            return number
+    return None
+
+
+def _all_text(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, sort_keys=True)
+
+
+def evaluate_case(case: dict[str, Any], path: Path) -> dict[str, Any]:
+    """Conservative oracle comparison; no isolated keyword is a pass."""
+    parser = case["parser"]
+    requirements = parser.get("requirements") or []
+    text = _all_text(requirements)
+    refs = parser.get("source_references") or []
+    ref_checks = []
+    for ref in refs:
+        quote = str(ref.get("quote") or ref.get("text") or ref.get("exact_quote") or "")
+        ref_checks.append(
+            {
+                "document_id": ref.get("document_id") or ref.get("file_id"),
+                "file_id": ref.get("file_id"),
+                "page": ref.get("page") or ref.get("page_number"),
+                "source_version": ref.get("source_version"),
+                "quote": quote,
+                "locator": ref.get("locator"),
+                "actual_line": _line_for_quote(path, quote),
+                "raw_file": path.name,
+            }
+        )
+
+    case_id = path.stem.split("-", 2)[1]
+    expected = {
+        "01": ["营业执照", "法人登记", "2025", "审计", "银行资信", "OR"],
+        "02": ["法人登记", "2025/02/28", "银行资信", "OR"],
+        "03": ["项目经理", "信息系统项目管理师", "2026", "连续", "AND"],
+        "04": ["陈立", "信息系统项目管理师", "王珊", "2026", "AND"],
+        "05": ["OAuth", "OIDC", "不得", "替换", "AND"],
+        "06": ["OAuth", "OIDC", "导入", "关闭", "不得"],
+        "07": ["TLS", "1.2", "国密", "等效", "人工"],
+        "08": ["国产", "PostgreSQL", "14", "不得绑定", "AND"],
+    }[case_id]
+    observed = {term: term in text for term in expected}
+    missing = [term for term, present in observed.items() if not present]
+    return {
+        "case_id": f"H{case_id}",
+        "oracle_semantic_assessment": ORACLE_ASSESSMENTS[case_id],
+        "parser_status": parser.get("status"),
+        "requirement_count": len(requirements),
+        "semantic_anchor_observation": observed,
+        "missing_anchor_text": missing,
+        "interpretation": (
+            "manual_review_required" if missing or parser.get("needs_human_review")
+            else "text_and_structure_requires_oracle_review"
+        ),
+        "source_refs": ref_checks,
+        "source_ref_count": len(ref_checks),
+        "scope_note": "anchor presence is diagnostic only; isolated keyword presence is not a pass",
+    }
+
+
+async def run_case(path: Path) -> dict[str, Any]:
+    project_id = f"raw-holdout-v2-{path.stem}"
+    registry = ProjectFileRegistry()
+    registration = registry.register(
+        project_id=project_id,
+        file_name=path.name,
+        file_role="tender",
+        content=path.read_bytes(),
+    )
+    file_id = registration.file.file_id
+    runtime = AgentRuntime(
+        build_default_registry(file_registry=registry),
+        services={"file_registry": registry},
+    )
+    result = await runtime.run(
+        SkillRequest.create(
+            {
+                "project_id": project_id,
+                "file_ids": [file_id],
+                "bidder_file_ids": [],
+                "bidder_id": "acceptance-bidder",
+                "bidder_name": "验收占位投标人",
+                "as_of": "2026-10-06T00:00:00+08:00",
+                "task": "这个项目能不能投？",
+            }
+        )
+    )
+    parser = extract_parser_data(result)
+    case = {
+        "file_name": path.name,
+        "file_id": file_id,
+        "registry_file_version_token": registry.file_version_token(file_id),
+        "execution_status": result.execution_status,
+        "execution_message": result.message,
+        "business_status": result.business_status,
+        "needs_human_review": result.needs_human_review,
+        "workflow_steps": [
+            {
+                "skill_name": step.skill_name,
+                "status": step.result.status,
+                "message": step.result.message,
+            }
+            for step in result.steps
+        ],
+        "parser": parser,
+        "business_evidence": {
+            "status": "not_run",
+            "denominator": 8,
+        },
+    }
+    case["oracle_comparison"] = evaluate_case(case, path)
+    return case
+
+
+async def run_final_report() -> None:
+    input_freeze = freeze_snapshot()
+    product_freeze = product_snapshot()
+    if not input_freeze["all_match"]:
+        raise SystemExit("raw/oracle freeze hash mismatch; final acceptance refused")
+    if not product_freeze["all_match"]:
+        raise SystemExit("product hash mismatch; final acceptance refused")
+
+    cases = []
+    for path in sorted(RAW.glob("*.txt")):
+        cases.append(await run_case(path))
+    report = {
+        "schema": "raw-requirement-holdout-acceptance-v2-final",
+        "status": "completed",
+        "generated_at": datetime.now().astimezone().isoformat(),
+        "validator_status": "fixed",
+        "historical_invalid_report": "raw-requirement-holdout-acceptance-invalid-validator.json",
+        "freeze": {"inputs_oracle": input_freeze, "product": product_freeze},
+        "scope": {
+            "business_evidence": "not_run",
+            "business_evidence_denominator": 8,
+            "raw_files_are_tender_only": True,
+            "no_false_block_rate_claim": True,
+            "synthetic_txt_not_real_pdf": True,
+            "ocr_and_real_model_used": False,
+        },
+        "evaluation_method": {
+            "parser_source": "step_data={step.skill_name: step.result.data for step in result.steps}",
+            "decomposition_source": "step_data['tender-decomposition']",
+            "overall_runtime_status_is_not_parser_gate": True,
+            "semantic_rule": "logical clauses, AND/OR, time, negation, subject identity and provenance; no keyword-only pass",
+        },
+        "cases": cases,
+    }
+    stamp = "20261006-rerun"
+    out = REPORTS / f"raw-requirement-holdout-acceptance-v2-final-{stamp}.json"
+    md = REPORTS / f"raw-requirement-holdout-acceptance-v2-final-{stamp}.md"
+    out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    lines = [
+        "# Raw Requirement Holdout Acceptance v2 Final",
+        "",
+        f"- 状态：`{report['status']}`",
+        "- 历史错误报告：`invalid-validator`，未覆盖。",
+        "- parser 数据源：`step_data[step.skill_name] = step.result.data`，整体 failed/partial 不阻断 decomposition 评估。",
+        "- business evidence：`not_run`，分母 8；不换算为 FalseBlock 率。",
+        f"- 输入/oracle hash：`{input_freeze['all_match']}`；产品 hash：`{product_freeze['all_match']}`。",
+        "",
+        "## 逐例结果",
+        "",
+    ]
+    for case in cases:
+        p = case["parser"]
+        o = case["oracle_comparison"]
+        lines.extend(
+            [
+                f"### {o['case_id']} {case['file_name']}",
+                f"- runtime：`{case['execution_status']}`；decomposition step：`{p.get('step_status', 'not_run')}`；parser：`{p.get('status')}`；requirements：`{o['requirement_count']}`",
+                f"- 缺失锚点诊断：`{o['missing_anchor_text']}`",
+                f"- oracle 语义评估：`{o['oracle_semantic_assessment']['status']}`；保留：{o['oracle_semantic_assessment']['retained']}",
+                f"- 逻辑遗漏：`{o['oracle_semantic_assessment']['omissions']}`；解释：`{o['interpretation']}`；source refs：`{o['source_ref_count']}`",
+                f"- source refs：`{json.dumps(o['source_refs'], ensure_ascii=False)}`",
+                "",
+            ]
+        )
+    md.write_text("\n".join(lines), encoding="utf-8")
+    print(json.dumps({"json": str(out), "md": str(md), "cases": len(cases)}, ensure_ascii=False))
+
+
+def write_deferred_report() -> None:
+    snapshot = freeze_snapshot()
+    report = {
+        "schema": "raw-requirement-holdout-acceptance-v2",
+        "status": "deferred_until_new_implementation_freeze",
+        "validator_status": "fixed",
+        "old_report_status": "invalid-validator",
+        "reason": (
+            "旧报告错误地以整体 runtime failed/partial 推断 parser 未运行；"
+            "v2 按 tender-decomposition step/result.data 独立提取 parser 输出。"
+        ),
+        "freeze": snapshot,
+        "evaluation": {
+            "executed": False,
+            "reason": "等待 A 修正后主通知新的产品 hash 并重新 freeze",
+            "raw_oracle_modified": False,
+            "product_modified": False,
+            "business_evidence": {"status": "not_run", "denominator": 8},
+        },
+        "parser_gate_rule": {
+            "eligible_when": "result.steps contains tender-decomposition",
+            "source": "step_data['tender-decomposition'] where step_data maps step.skill_name to raw step.result.data",
+            "overall_runtime_status_is_not_a_parser_gate": True,
+            "failed_or_partial_run_may_still_be_parser_evaluable": True,
+            "empty_output_is_not_not_run": True,
+        },
+    }
+    out = REPORTS / "raw-requirement-holdout-acceptance-v2-deferred.json"
+    out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    md = REPORTS / "raw-requirement-holdout-acceptance-v2-deferred.md"
+    md.write_text(
+        "\n".join(
+            [
+                "# Raw Requirement Holdout Acceptance v2",
+                "",
+                "- 状态：`deferred_until_new_implementation_freeze`",
+                "- 旧报告：`invalid-validator`，保留原文件，不覆盖。",
+                "- 修正：只要 `result.steps` 含 `tender-decomposition`，就读取该 Step 的 `result.data.requirements`、`check_rule`、`source_references`。",
+                "- `execution_status=failed/partial` 只表示整体流程状态，不再清空 parser 结果或标记 `parser_not_run`。",
+                "- 当前未重跑，等待 A 修正后主通知新 hash 并重新 freeze。",
+                "- raw/oracle/product：本次均未修改。",
+                "",
+                "## 旧报告错误",
+                "",
+                "旧报告逐例已经显示 `document-preprocess`、`tender-intake`、`tender-decomposition` 成功，并继续到 `analysis-report`；却错误写成 knowledge-retrieval 前阻断、0/8 到 decomposition。该判断无效。",
+                "",
+                "## 下一次验收",
+                "",
+                "先校验新 freeze hash，再执行本 validator；从 decomposition step data 评估六 family 文本、结构和 source references，最终业务状态单独记录，business evidence 仍保持 `not_run/8`。",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    print(json.dumps({"json": str(out), "md": str(md), "freeze_all_match": snapshot["all_match"]}, ensure_ascii=False))
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--defer-until-refreeze",
+        action="store_true",
+        help="Write a deferred validator report without running acceptance.",
+    )
+    parser.add_argument(
+        "--run-final",
+        action="store_true",
+        help="Run the eight frozen raw inputs through the real runtime.",
+    )
+    args = parser.parse_args()
+    if args.defer_until_refreeze:
+        write_deferred_report()
+        return
+    if args.run_final:
+        asyncio.run(run_final_report())
+        return
+    raise SystemExit("refuse to run final acceptance before explicit new freeze")
+
+
+if __name__ == "__main__":
+    main()

@@ -12,6 +12,33 @@ def build_local_requirement_rule(text: str) -> dict[str, Any]:
     if not isinstance(text, str) or not text.strip():
         return {}
     source = re.sub(r"\s+", " ", text).strip()
+    explicit_parts = _split_explicit_all(source)
+    if len(explicit_parts) > 1:
+        conditions: list[dict[str, Any]] = []
+        for part in explicit_parts:
+            part_rule = build_local_requirement_rule(part)
+            part_logic = part_rule.get("condition_logic")
+            if (
+                isinstance(part_logic, dict)
+                and part_logic.get("op") == "all"
+                and len(part_logic.get("conditions") or []) == 1
+            ):
+                part_logic = part_logic["conditions"][0]
+            if isinstance(part_logic, dict):
+                part_logic.setdefault("source_text", part)
+            conditions.append(
+                part_logic
+                if isinstance(part_logic, dict)
+                else {
+                    "op": "manual_review",
+                    "reason": "并列条件叶子无法可靠解析",
+                    "source_text": part,
+                }
+            )
+        return _rule(
+            source,
+            {"op": "all", "conditions": conditions, "source_text": source},
+        )
     compact = _compact(source)
     logic: dict[str, Any] | None = None
 
@@ -164,19 +191,27 @@ def build_local_requirement_rule(text: str) -> dict[str, Any]:
         )
         conditions[0] = protocol
         logic = _join(source, conditions, operator="all")
-    elif _has(compact, "tls") and _has_any(compact, "敏感字段", "国密"):
+    elif _has(compact, "tls") and _has_any(
+        compact, "敏感字段", "国密", "不得低于", "最低为", "不低于"
+    ):
         conditions = []
         tls = re.search(
-            r"TLS\s*([0-9]+(?:\.[0-9]+)?)\s*(?:及以上|\+|以上)", source, re.I
+            r"(?:最低为|不得低于|不低于)\s*TLS\s*"
+            r"([0-9]+(?:\.[0-9]+)?)"
+            r"|TLS\s*([0-9]+(?:\.[0-9]+)?)\s*"
+            r"(?:及以上|\+|以上|不得低于|不低于|最低为)",
+            source,
+            re.I,
         )
         if tls:
+            version = tls.group(1) or tls.group(2)
             conditions.append(
                 {
                     "op": "comparison",
                     "field": "tls_version",
                     "operator": "gte",
-                    "value": tls.group(1),
-                    "source_terms": ["TLS", tls.group(1)],
+                    "value": version,
+                    "source_terms": ["TLS", version],
                 }
             )
         else:
@@ -212,6 +247,17 @@ def build_local_requirement_rule(text: str) -> dict[str, Any]:
             _evidence("domestic_linux", ["国产Linux"]),
             _evidence("postgresql_compatibility", ["PostgreSQL", "兼容"]),
         ]
+        version = _postgresql_minimum(source)
+        if version:
+            conditions.append(
+                {
+                    "op": "comparison",
+                    "field": "postgresql_version",
+                    "operator": "gte",
+                    "value": version,
+                    "source_terms": ["PostgreSQL", version],
+                }
+            )
         if _has_any(compact, "不绑定单一公有云", "不得绑定单一公有云"):
             conditions.append(
                 {
@@ -223,6 +269,22 @@ def build_local_requirement_rule(text: str) -> dict[str, Any]:
                         "value": True,
                         "source_terms": ["不绑定单一公有云", "不得绑定单一公有云"],
                     },
+                }
+            )
+        logic = _join(source, conditions, operator="all")
+    elif _postgresql_minimum(source):
+        version = _postgresql_minimum(source)
+        conditions = [
+            _evidence("postgresql_compatibility", ["PostgreSQL", "兼容"])
+        ]
+        if version:
+            conditions.append(
+                {
+                    "op": "comparison",
+                    "field": "postgresql_version",
+                    "operator": "gte",
+                    "value": version,
+                    "source_terms": ["PostgreSQL", version],
                 }
             )
         logic = _join(source, conditions, operator="all")
@@ -312,6 +374,36 @@ def _month_range(source: str) -> tuple[str, str] | None:
     if not 1 <= start_month <= 12 or not 1 <= end_month <= 12:
         return None
     return f"{start_year:04d}-{start_month:02d}", f"{end_year:04d}-{end_month:02d}"
+
+
+def _split_explicit_all(source: str) -> list[str]:
+    compact = _compact(source)
+    if not (
+        _has_any(compact, "营业执照", "法人登记")
+        and _has(compact, "审计报告")
+        and _has(compact, "或")
+    ):
+        return [source]
+    parts = re.split(
+        r"\s*(?:，\s*(?:并提供|并提交|并须提供|并应提供)"
+        r"|(?:且须提供|且应提供|同时提供|同时提交))\s*",
+        source,
+    )
+    return [part.strip(" ，；;") for part in parts if part.strip(" ，；;")]
+
+
+def _postgresql_minimum(source: str) -> str | None:
+    match = re.search(
+        r"PostgreSQL\s*(?:版本)?\s*(?:不得低于|不低于|及以上|以上|>=)\s*"
+        r"(\d+(?:\.\d+){0,2})"
+        r"|PostgreSQL\s*(\d+(?:\.\d+){0,2})\s*"
+        r"(?:及以上|以上|不得低于|不低于)",
+        source,
+        re.I,
+    )
+    if not match:
+        return None
+    return match.group(1) or match.group(2)
 
 
 def _compact(value: str) -> str:
