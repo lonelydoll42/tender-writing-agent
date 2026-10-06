@@ -140,11 +140,35 @@ backend 按其自身输出合约处理。
 
 未传 `--output` 时报告写到标准输出；评测不会自动覆盖既有报告。本轮独立原始文件
 回归报告为
-`.qiaowenshu/acceptance/raw-file-followup-acceptance.json`：要求文本覆盖`4/10`、
-金额归一化`6/6`、评分上限`2/2`、关键负例误放行`0/7`且`inconclusive=0`；
-Poppler可用、`run_status=completed`。4/10有6项约束遗漏，仍未修复或验收通过；
-0/7主要反映本地默认门禁保守阻断，不是资格识别准确率。模拟OCR以固定文本和
-置信度`0.61`调用一次，只验证告警与来源传递，不代表真实OCR准确率。
+`.qiaowenshu/acceptance/raw-requirement-final-noise-fixed-20261006.json`：
+legacy 覆盖`8/10`，strict 六类文本覆盖`6/6`、有限条件特征`6/6`、来源引用`6/6`、
+自动核验支持`0/6`。strict 六类保持`coverage_status=partial`和`manual_review`，
+不是生产或通用语义认证。金额归一化`6/6`、评分上限`2/2`、关键负例误放行`0/7`
+且`inconclusive=0`；后者主要反映保守阻断，不是资格识别准确率。
+
+该报告同时记录噪声修复后的两负三正精度回归；该回归范围不外推为原始文件整体
+准确率。
+
+`3ed3057` 的历史 baseline 为`4/10`，旧报告保留且未覆盖。当前 legacy `8/10`
+完全保留旧 oracle；剩余 Q5 同年简写和 T4“不得绑定单一公有云”词形属于 legacy
+matcher 限制，strict matcher 已覆盖实际 T4 原句，不能把 legacy 分数称为所有
+原始文件准确率。原始文件评测中的 OCR 仍是模拟 backend，未测真实 OCR 准确率。
+
+8 份构造独立 TXT 与 frozen oracle 已预冻结 SHA，但不是真实未见业务 PDF。独立 v2
+报告为
+`.qiaowenshu/acceptance/raw-requirement-holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.json`：
+8/8 实际执行 decomposition，分别产生`2、2、2、1、1、1、4、3`条结果；
+16/16 来源引用通过文件、页码、版本 token、精确 quote 和物理行号核验。
+但 8/8 必要约束或跨段关系仍为`partial`，不能称独立集完整性通过；business
+evidence 为`not_run/8`，没有可用正确通过率或误阻断率。冻结 raw/oracle hash 未变。
+
+D 首版因 validator 错误按`run.status`判为`not_run`，已保留并标记`invalid`，不计
+通过或失败；不能引用不存在的 knowledge-retrieval 失败。主验收最新冻结全量为
+`353 passed`、1 条既有 Starlette warning；Ruff 与`git diff --check`通过。
+
+固定原 PDF 六类专项的 strict 漏洞已修复；但通用、跨段、多级编号的原始文件完整性
+验收不通过，不生产可用，也不扩大使用范围。下一阶段应处理关系分组、多级编号与
+独立语料，而不是继续凭增加关键词宣称 production。
 Poppler不可用时PDF指标为`not_run`，不计作通过。
 
 ## 复审整改限定评测
@@ -170,9 +194,10 @@ fixture与oracle分离；oracle在样本运行结束后加载，不进入Runtime
 ```
 
 27样本followup runner使用固定模拟模型，不调用真实模型或OCR，也不处理PDF；其
-`raw_file_baseline`字段仍是历史引用，不是本轮原文件结果。主验收332项测试包含
+`raw_file_baseline`字段仍是历史引用，不是本轮原文件结果。主验收全量测试包含
 `tests/evals/test_raw_file_benchmark.py`，该测试调用`run_raw_file_eval`；此外另有
-上述独立原文件报告。4/10仅表示约束文本覆盖，不表示已生成正确、完整的可执行规则；
+上述独立原文件报告。legacy `8/10`仅表示旧 matcher 的固定约束覆盖；strict `6/6`
+也不表示已生成生产可执行或通用语义规则；
 详见
 [`docs/reliability_acceptance.md`](docs/reliability_acceptance.md)、
 [`benchmarks/reliability_followup/README.md`](benchmarks/reliability_followup/README.md)。
@@ -189,8 +214,8 @@ Ruff和`git diff --check`通过。报告保存在
 修复前报告`.qiaowenshu/acceptance/reliability-followup-expanded-before-fix.json`均作为
 历史记录保留；后者包含3例已复现的误放行，不代表修复后结果。
 
-本轮未调用真实模型或真实OCR；原文件回归中的模拟OCR不测识别准确率，6项原文约束
-遗漏仍未修复、未验收通过。此项限定评测不认证生产权限、Word交付或整体投标流程可靠性；
+本轮未调用真实模型或真实OCR；原文件回归中的模拟OCR不测识别准确率。此项限定
+评测不认证生产权限、Word交付或整体投标流程可靠性；
 此前“可靠性专项全部通过”的笼统表述已撤回。
 
 当配置了 `QIAOWENSHU_LLM_API_BASE_URL` 和 `QIAOWENSHU_LLM_API_KEY` 后，默认注册表会自动注入 OpenAI-compatible Qwen 客户端。客户端请求

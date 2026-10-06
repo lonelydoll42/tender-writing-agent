@@ -7,6 +7,9 @@ import pytest
 from scripts.run_raw_file_eval import (
     EXPECTED_WORKFLOW,
     MUST_NOT_PASS,
+    _strict_source_check,
+    _strict_tree_check,
+    _strict_text_match,
     _requirement_metrics,
     run_raw_file_eval,
 )
@@ -195,6 +198,14 @@ def test_unrun_pdf_requirement_metric_is_null_not_a_zero_error_result() -> None:
     assert metric["matched_count"] is None
     assert metric["omission_count"] is None
     assert metric["omission_rate"] is None
+    strict = metric["strict_local_rule"]
+    assert strict["status"] == "not_run"
+    assert strict["family_count"] == 6
+    assert strict["text_coverage"]["denominator"] == 6
+    assert strict["text_coverage"]["not_run_count"] == 6
+    assert strict["structure_tree"]["denominator"] == 6
+    assert strict["automatic_verification_support"]["supported_count"] is None
+    assert strict["automatic_verification_support"]["denominator"] == 6
 
 
 def test_hard_false_release_denominator_excludes_inconclusive_cases(
@@ -237,3 +248,258 @@ def test_pdf_metric_and_ocr_simulation_are_explicit_about_boundaries(
     assert simulated["is_real_ocr_accuracy_measurement"] is False
     assert "+08:00" in report["generated_at"]
     assert report["timezone"] == "Asia/Shanghai"
+
+
+def test_strict_text_oracle_normalizes_hidden_same_year_end_month() -> None:
+    matched, groups, missing = _strict_text_match(
+        "Q5",
+        "拟任项目经理持有信息系统项目管理师证书，并提供2026年3月至8月社会保险证明。",
+    )
+
+    assert matched is True
+    assert {item["group_id"] for item in groups} == {1, 2, 3, 4, 5}
+    assert missing == []
+
+
+def test_strict_text_oracle_does_not_join_unrelated_requirements() -> None:
+    q5 = "拟任项目经理持有信息系统项目管理师证书。"
+    social = "投标人应提供2026年3月至8月社会保险证明。"
+    assert _strict_text_match("Q5", q5)[0] is False
+    assert _strict_text_match("Q5", social)[0] is False
+
+
+def test_strict_text_oracle_accepts_actual_t4_prohibition_wording() -> None:
+    matched, groups, missing = _strict_text_match(
+        "T4",
+        "应支持采购人现有国产 Linux、PostgreSQL 兼容数据库环境，"
+        "不得绑定单一公有云",
+    )
+
+    assert matched is True
+    assert {item["group_id"] for item in groups} == {1, 2, 3}
+    assert missing == []
+
+
+def test_strict_source_validation_requires_registry_identity_version_page_and_quote(
+) -> None:
+    provenance = [
+        {
+            "artifact_id": "artifact_file-tender",
+            "file_id": "file-tender",
+            "source_version": "file-tender:v1",
+            "pages": [
+                {
+                    "page_number": 2,
+                    "text": "页眉\n原始条款：提供有效营业执照。\n页脚",
+                }
+            ],
+        }
+    ]
+    requirement = {
+        "source_references": [
+            {
+                "document_id": "file-tender",
+                "page": 2,
+                "source_version": "file-tender:v1",
+                "quote": "原始条款：提供有效营业执照。",
+                "locator": "artifact_file-tender:p2:l2",
+            }
+        ]
+    }
+    result = _strict_source_check(requirement, provenance)
+    assert result["all_valid"] is True
+
+    tampered_line = {
+        "source_references": [
+            {
+                "document_id": "file-tender",
+                "page": 2,
+                "source_version": "file-tender:v1",
+                "quote": "原始条款：提供有效营业执照。",
+                "locator": "artifact_file-tender:p2:l1",
+            }
+        ]
+    }
+    assert _strict_source_check(tampered_line, provenance)["all_valid"] is False
+
+    truncated_quote = {
+        "source_references": [
+            {
+                "document_id": "file-tender",
+                "page": 2,
+                "source_version": "file-tender:v1",
+                "quote": "提供有效营业执照。",
+                "locator": "artifact_file-tender:p2:l2",
+            }
+        ]
+    }
+    assert _strict_source_check(truncated_quote, provenance)["all_valid"] is False
+
+    wrong_version = {
+        "source_references": [
+            {
+                "document_id": "file-tender",
+                "page": 2,
+                "source_version": "file-tender:v2",
+                "quote": "原始条款：提供有效营业执照。",
+                "locator": "artifact_file-tender:p2:l2",
+            }
+        ]
+    }
+    assert _strict_source_check(wrong_version, provenance)["all_valid"] is False
+
+    unrelated_document = {
+        "source_references": [
+            {
+                "document_id": "productdescription",
+                "page": 2,
+                "source_version": "file-tender:v1",
+                "quote": "原始条款：提供有效营业执照。",
+                "locator": "artifact_file-tender:p2:l2",
+            }
+        ]
+    }
+    assert _strict_source_check(unrelated_document, provenance)["all_valid"] is False
+
+
+def test_strict_metrics_keep_tree_presence_separate_from_automatic_support(
+    report: dict[str, Any],
+) -> None:
+    strict = report["metrics"]["strict_local_rule"]
+    assert strict["status"] == "measured"
+    assert strict["text_coverage"]["denominator"] == 6
+    assert strict["automatic_verification_support"]["supported_count"] == 0
+    assert strict["structure_tree"]["denominator"] == 6
+    assert strict["source_reference_validation"]["denominator"] == 6
+    assert all(
+        not item["automatic_supported"]
+        for item in strict["items"]
+    )
+
+
+def test_strict_tree_oracle_uses_frozen_semantic_mappings() -> None:
+    q5 = {
+        "condition_logic": {
+            "op": "all",
+            "conditions": [
+                {
+                    "op": "sameperson",
+                    "person_field": "person_id",
+                    "conditions": [
+                        {
+                            "op": "all",
+                            "conditions": [
+                                {
+                                    "op": "evidence",
+                                    "material_type": "personnel_certificate",
+                                },
+                                {
+                                    "op": "evidence",
+                                    "material_type": "social_security_record",
+                                },
+                                {
+                                    "op": "evidence",
+                                    "material_type": "bidder_employer_relationship",
+                                    "source_terms": ["投标人", "缴纳"],
+                                },
+                                {
+                                    "op": "date_range",
+                                    "field": "social_security_month",
+                                    "start": "2026-03",
+                                    "end": "2026-08",
+                                    "continuous": True,
+                                },
+                            ],
+                        }
+                    ],
+                }
+            ],
+        }
+    }
+    assert _strict_tree_check("Q5", q5)["semantic_completeness"]["correct"]
+
+    t1 = {
+        "condition_logic": {
+            "op": "all",
+            "source_text": "支持与现有身份平台通过OAuth2.0/OIDC对接",
+            "conditions": [
+                {
+                    "op": "any",
+                    "conditions": [
+                        {
+                            "op": "evidence",
+                            "material_type": "oauth2",
+                            "source_terms": ["OAuth2.0"],
+                        },
+                        {
+                            "op": "evidence",
+                            "material_type": "oidc",
+                            "source_terms": ["OIDC"],
+                        },
+                    ],
+                },
+                {"op": "evidence", "material_type": "existing_identity_system"},
+                {
+                    "op": "not",
+                    "condition": {
+                        "op": "comparison",
+                        "field": "identity_system_changed",
+                        "operator": "eq",
+                        "value": True,
+                    },
+                },
+            ],
+        }
+    }
+    assert _strict_tree_check("T1", t1)["semantic_completeness"]["correct"]
+
+    t1_without_not = {
+        "condition_logic": {
+            **t1["condition_logic"],
+            "conditions": t1["condition_logic"]["conditions"][:2],
+        }
+    }
+    assert not _strict_tree_check(
+        "T1", t1_without_not
+    )["semantic_completeness"]["correct"]
+
+    t4 = {
+        "condition_logic": {
+            "op": "all",
+            "conditions": [
+                {"op": "evidence", "material_type": "domestic_linux"},
+                {"op": "evidence", "material_type": "postgresql_compatibility"},
+                {
+                    "op": "not",
+                    "condition": {
+                        "op": "comparison",
+                        "field": "single_public_cloud_binding",
+                        "operator": "eq",
+                        "value": True,
+                    },
+                },
+            ],
+        }
+    }
+    assert _strict_tree_check("T4", t4)["semantic_completeness"]["correct"]
+
+    t4_wrong_polarity = {
+        "condition_logic": {
+            **t4["condition_logic"],
+            "conditions": t4["condition_logic"]["conditions"][:2]
+            + [
+                {
+                    "op": "not",
+                    "condition": {
+                        "op": "comparison",
+                        "field": "single_public_cloud_binding",
+                        "operator": "eq",
+                        "value": False,
+                    },
+                }
+            ],
+        }
+    }
+    assert not _strict_tree_check(
+        "T4", t4_wrong_polarity
+    )["semantic_completeness"]["correct"]

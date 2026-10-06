@@ -17,6 +17,9 @@ from qiaowenshu_agent.core.files import (
     ProjectFileRegistry,
 )
 from qiaowenshu_agent.domain.models import SourceReference
+from qiaowenshu_agent.skills.local_requirement_logic import (
+    build_local_requirement_rule,
+)
 
 
 class FileRegistryNotConfigured(RuntimeError):
@@ -161,15 +164,34 @@ class RegistryTenderDecompositionBackend:
         text = _sections_text(sections)
         requirements: list[dict[str, Any]] = []
         scoring_items: list[dict[str, Any]] = []
-        seen: set[str] = set()
+        seen: dict[tuple[str, tuple[tuple[str, str], ...]], int] = {}
         warnings: list[str] = []
         for line, source_references in _candidate_records(sections):
             normalized = _normalize(line)
-            if normalized in seen:
-                continue
-            seen.add(normalized)
+            source_key = tuple(
+                sorted(
+                    {
+                        (
+                            str(reference.get("document_id") or ""),
+                            str(
+                                reference.get("source_version")
+                                or reference.get("source_file_version")
+                                or ""
+                            ),
+                        )
+                        for reference in source_references
+                    }
+                )
+            )
+            duplicate_key = (normalized, source_key)
             score = _score_from_line(line)
             if score is not None and _looks_like_score(line):
+                if duplicate_key in seen:
+                    existing = scoring_items[seen[duplicate_key]]
+                    existing["source_references"] = _merge_source_references(
+                        existing["source_references"], source_references
+                    )
+                    continue
                 item_id = f"S-{len(scoring_items) + 1:03d}"
                 scoring_items.append(
                     {
@@ -181,6 +203,7 @@ class RegistryTenderDecompositionBackend:
                         "source_references": source_references,
                     }
                 )
+                seen[duplicate_key] = len(scoring_items) - 1
                 continue
             if _looks_like_score(line):
                 warnings.append(
@@ -189,6 +212,12 @@ class RegistryTenderDecompositionBackend:
                 continue
             category = _category_from_line(line)
             if not _is_requirement_line(line, category):
+                continue
+            if duplicate_key in seen:
+                existing = requirements[seen[duplicate_key]]
+                existing["source_references"] = _merge_source_references(
+                    existing["source_references"], source_references
+                )
                 continue
             requirement_id = f"R-{len(requirements) + 1:03d}"
             requirement = {
@@ -206,6 +235,7 @@ class RegistryTenderDecompositionBackend:
             if check_rule:
                 requirement["check_rule"] = check_rule
             requirements.append(requirement)
+            seen[duplicate_key] = len(requirements) - 1
         clarification_titles = _clarification_titles(sections)
         if clarification_titles:
             warnings.append(
@@ -713,20 +743,28 @@ def _candidate_records(
 
         for page_number, page_text in enumerate(content.split("\f"), start=1):
             page_references = references_by_page.get(page_number, [])
-            for raw_line in re.split(r"[\r\n]+", page_text):
-                line = _clean_candidate_line(raw_line)
-                if not line or _is_noise(line):
+            for line_number, raw_line in enumerate(page_text.splitlines(), start=1):
+                if _is_heading_line(re.sub(r"\s+", " ", raw_line).strip()):
                     continue
+                line = _clean_candidate_line(raw_line)
+                if not line or _is_noise(line) or _is_layout_noise(line):
+                    continue
+                line_references = _line_source_references(
+                    page_references,
+                    raw_line,
+                    page_number,
+                    line_number,
+                )
                 if section_records and _should_join_lines(section_records[-1][0], line):
                     previous, previous_references = section_records[-1]
                     section_records[-1] = (
                         f"{previous} {line}",
                         _merge_source_references(
-                            previous_references, page_references
+                            previous_references, line_references
                         ),
                     )
                 else:
-                    section_records.append((line, list(page_references)))
+                    section_records.append((line, line_references))
         records.extend(section_records)
 
     return [
@@ -752,7 +790,7 @@ def _clarification_titles(sections: list[Any]) -> list[str]:
 
 def _clean_candidate_line(raw_line: str) -> str:
     line = re.sub(
-        r"^[\s\-•●▪一二三四五六七八九十、.()（）]+",
+        r"^[\s\-•●▪★一二三四五六七八九十、.()（）]+",
         "",
         raw_line,
     ).strip()
@@ -781,6 +819,28 @@ def _should_join_lines(previous: str, current: str) -> bool:
         return True
     if re.search(r"(?:得|计)\s*\d+(?:\.\d+)?$", previous) and current.startswith("分"):
         return True
+    if current.startswith(
+        (
+            "对接",
+            "及以上",
+            "天",
+            "万元",
+            "兼容",
+            "社会保险",
+            "月份",
+            "月社会保险",
+            "证明",
+            "材料",
+        )
+    ):
+        return True
+    if re.search(
+        r"(?:OAuth2\.?0|OIDC|TLS1\.?2|PostgreSQL|Linux|"
+        r"\d{4}\s*年\s*\d+\s*月\s*至)$",
+        previous,
+        flags=re.IGNORECASE,
+    ):
+        return True
     if re.match(r"^(?:最高|满分|累计|不超过|上限|无上限|不封顶)", current):
         return _looks_like_score(previous) or _contains_any(
             previous, "合同", "每项", "每个", "得", "计", "评分", "得分"
@@ -800,16 +860,41 @@ def _merge_source_references(
     second: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     result: list[dict[str, Any]] = []
-    seen: set[tuple[str, int | None, str]] = set()
+    seen: set[tuple[str, int | None, str, str]] = set()
     for reference in [*first, *second]:
         key = (
             str(reference.get("document_id") or ""),
             reference.get("page"),
             str(reference.get("locator") or ""),
+            str(
+                reference.get("source_version")
+                or reference.get("source_file_version")
+                or ""
+            ),
         )
         if key not in seen:
             seen.add(key)
             result.append(reference)
+    return result
+
+
+def _line_source_references(
+    page_references: list[dict[str, Any]],
+    raw_line: str,
+    page_number: int,
+    line_number: int,
+) -> list[dict[str, Any]]:
+    fragment = re.sub(r"\s+", " ", raw_line).strip()
+    result: list[dict[str, Any]] = []
+    for reference in page_references:
+        item = dict(reference)
+        if fragment:
+            item["quote"] = raw_line.strip()
+        locator = str(item.get("locator") or "")
+        item["locator"] = f"{locator}:l{line_number}" if locator else (
+            f"p{page_number}:l{line_number}"
+        )
+        result.append(item)
     return result
 
 
@@ -828,7 +913,14 @@ def _category_from_line(line: str) -> str:
     if _contains_any(line, "废标", "无效投标", "否决", "一票否决"):
         return "disqualification"
     if _is_eligibility_statement(line) or _contains_any(
-        line, "资格条件", "资格要求", "资质证书", "营业执照", "法人登记证明"
+        line,
+        "资格条件",
+        "资格要求",
+        "资质证书",
+        "营业执照",
+        "法人登记证明",
+        "审计报告",
+        "银行资信",
     ):
         return "qualification"
     if _contains_any(line, "评分", "得分", "分值"):
@@ -845,9 +937,75 @@ def _category_from_line(line: str) -> str:
 
 
 def _is_requirement_line(line: str, category: str) -> bool:
+    if _is_heading_line(line) or _is_non_requirement_context(line):
+        return False
     return _is_eligibility_statement(line) or _is_mandatory_clause(line) or (
         category in {"qualification", "disqualification"}
-        and _contains_any(line, "需", "应", "须", "必须", "不得", "要求")
+        and (
+            _contains_any(line, "需", "应", "须", "必须", "不得", "要求")
+            or _has_qualification_evidence_context(line)
+        )
+    )
+
+
+def _has_qualification_evidence_context(line: str) -> bool:
+    evidence_terms = (
+        "营业执照",
+        "法人登记证明",
+        "审计报告关键页",
+        "银行资信证明",
+        "资信证明",
+    )
+    if not _contains_any(line, *evidence_terms):
+        return False
+    submission_action = _contains_any(
+        line,
+        "提供",
+        "提交",
+        "出具",
+        "递交",
+        "附上",
+        "附：",
+        "作为证明",
+    )
+    qualification_context = _contains_any(
+        line,
+        "资格审查",
+        "资格要求",
+        "资格条件",
+        "资格证明",
+        "审查材料",
+    )
+    license_context = _contains_any(
+        line,
+        "营业执照",
+        "法人登记证明",
+    ) and _contains_any(line, "有效", "依法登记", "投标人", "供应商")
+    return submission_action and (
+        qualification_context
+        or license_context
+        or _contains_any(line, "审计报告关键页", "银行资信证明", "资信证明")
+        or _contains_any(line, "投标人", "供应商", "申请人", "响应人")
+    )
+
+
+def _is_non_requirement_context(line: str) -> bool:
+    has_hard_action = _has_hard_requirement_action(line)
+    if "不作为资格审查条件" in line:
+        return not has_hard_action
+    if _contains_any(line, "可选材料", "背景资料"):
+        return not has_hard_action
+    return "企业介绍" in line and not has_hard_action
+
+
+def _has_hard_requirement_action(line: str) -> bool:
+    return bool(
+        re.search(
+            r"(?:必须|须|应当|不得|严禁|禁止)"
+            r".{0,24}(?:提供|提交|出具|递交|附上|附：|具有|具备|满足|符合)"
+            r"|应(?=提供|提交|出具|递交|附上|附：|具有|具备|满足|符合)",
+            line,
+        )
     )
 
 
@@ -888,9 +1046,9 @@ def _is_eligibility_statement(line: str) -> bool:
 def _is_mandatory_clause(line: str) -> bool:
     return bool(
         re.search(
-            r"(?:应当|应(?=提供|提交|具有|具备|满足|符合|遵守|配置|支持|"
+            r"(?:应当|应(?=提供|提交|具有|具备|满足|符合|遵守|配置|支持|采用|"
             r"达到|按|在|于|履行|保证|响应)"
-            r"|须(?=提供|提交|具有|具备|满足|符合|遵守|按|在|于|履行|保证|"
+            r"|须(?=提供|提交|具有|具备|持有|满足|符合|遵守|采用|按|在|于|履行|保证|"
             r"完成|达到|响应)"
             r"|必须"
             r"|不得|严禁|禁止|不应|不得少于|不少于|不低于|不超过|"
@@ -898,6 +1056,29 @@ def _is_mandatory_clause(line: str) -> bool:
             line,
         )
     )
+
+
+def _is_heading_line(line: str) -> bool:
+    return bool(
+        re.match(
+            r"^[一二三四五六七八九十百]+、",
+            line,
+        )
+        and not re.search(r"[。；;！？!?]$", line)
+    )
+
+
+def _is_layout_noise(line: str) -> bool:
+    compact = re.sub(r"\s+", "", line)
+    watermark_chars = set("料资试测拟模★")
+    if compact and set(compact) <= watermark_chars:
+        return True
+    return compact.rstrip("★") in {
+        "统一身份与权限",
+        "日志审计",
+        "数据安全",
+        "部署兼容",
+    }
 
 
 def _looks_like_score(line: str) -> bool:
@@ -1007,6 +1188,9 @@ def _iso_standard_identifiers(line: str) -> list[str]:
 
 
 def _check_rule_from_line(line: str) -> dict[str, Any]:
+    local_rule = build_local_requirement_rule(line)
+    if local_rule:
+        return local_rule
     standards = _iso_standard_identifiers(line)
     if len(standards) != 1:
         return {}

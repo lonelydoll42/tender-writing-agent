@@ -171,9 +171,48 @@ REQUIREMENT_MATCHERS: dict[str, tuple[tuple[str, ...], ...]] = {
     "T4": (
         ("国产Linux", "国产 Linux", "国产化 Linux"),
         ("PostgreSQL", "PostgreSQL兼容数据库"),
-        ("不绑定单一公有云", "不依赖单一公有云", "不锁定单一公有云"),
+        (
+            "不绑定单一公有云",
+            "不依赖单一公有云",
+            "不锁定单一公有云",
+        ),
     ),
 }
+
+# Frozen, evaluator-owned expectations for the six high-risk local-rule
+# families.  These predicates deliberately do not call the local parser.
+STRICT_RULE_FAMILIES: dict[str, tuple[tuple[str, ...], ...]] = {
+    "Q1": (("营业执照", "法人登记证明", "法人登记"),),
+    "Q2": (("审计报告", "银行资信", "资信证明"),),
+    "Q5": (
+        ("项目经理", "项目负责人"),
+        ("信息系统项目管理师", "系统项目管理师"),
+        ("2026-03", "2026年3月", "2026/03"),
+        ("2026-08", "2026年8月", "2026/08"),
+        ("社保", "社会保险", "社会保障"),
+    ),
+    "T1": (
+        ("OAuth2.0", "OAuth2", "OIDC"),
+        ("对接", "接入", "集成"),
+        ("统一身份平台", "统一身份", "身份系统"),
+    ),
+    "T3": (
+        ("TLS1.2", "TLS 1.2"),
+        ("敏感字段", "敏感信息"),
+        ("加密", "加密传输", "国密"),
+    ),
+    "T4": (
+        ("国产Linux", "国产 Linux", "国产化 Linux"),
+        ("PostgreSQL", "PostgreSQL兼容数据库"),
+        (
+            "不绑定单一公有云",
+            "不得绑定单一公有云",
+            "不依赖单一公有云",
+            "不锁定单一公有云",
+        ),
+    ),
+}
+STRICT_FAMILY_ORACLE = frozenset(STRICT_RULE_FAMILIES)
 
 
 def _which(name: str) -> str | None:
@@ -366,9 +405,18 @@ def _execute_case(
             )
             continue
         record = registry.require(file_id)
+        source_version = registry.file_version_token(file_id)
+        full_raw_text = "\f".join(
+            str(page.get("text") or "") for page in artifact.get("pages") or []
+        )
         pages.append(
             {
+                "artifact_id": artifact.get("artifact_id"),
+                "file_id": record.file_id,
                 "file_name": record.file_name,
+                "source_version": source_version,
+                "version": record.version,
+                "fullrawtext": full_raw_text,
                 "pages": [
                     {
                         "page_number": page.get("page_number"),
@@ -376,6 +424,7 @@ def _execute_case(
                         "extraction_method": page.get("extraction_method"),
                         "confidence": page.get("confidence"),
                         "warnings": list(page.get("warnings") or []),
+                        "text": str(page.get("text") or ""),
                         "text_excerpt": str(page.get("text") or "")[:180],
                     }
                     for page in artifact.get("pages") or []
@@ -680,6 +729,549 @@ def _score_metrics(cases: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def _strict_fold(value: Any) -> str:
+    return re.sub(r"\s+", "", str(value or "")).casefold()
+
+
+def _strict_group_hits(text: str, alternatives: tuple[str, ...]) -> list[str]:
+    folded = _strict_fold(text)
+    return [
+        term for term in alternatives if _strict_fold(term) in folded
+    ]
+
+
+def _strict_text_match(
+    family_id: str,
+    description: str,
+) -> tuple[bool, list[dict[str, Any]], list[dict[str, Any]]]:
+    groups = STRICT_RULE_FAMILIES[family_id]
+    matched: list[dict[str, Any]] = []
+    missing: list[dict[str, Any]] = []
+    for group_id, alternatives in enumerate(groups, start=1):
+        hits = _strict_group_hits(description, alternatives)
+        if family_id == "Q5" and group_id == 4 and _strict_group_hits(
+            description, ("2026年3月至8月", "2026年3月到8月", "2026-03至2026-08")
+        ):
+            hits = ["2026年3月至8月"]
+        if hits:
+            matched.append(
+                {
+                    "group_id": group_id,
+                    "matched_terms": sorted(set(hits)),
+                }
+            )
+        else:
+            missing.append(
+                {"group_id": group_id, "alternatives": list(alternatives)}
+            )
+    return not missing, matched, missing
+
+
+def _strict_walk_nodes(node: Any) -> list[Mapping[str, Any]]:
+    if not isinstance(node, Mapping):
+        return []
+    result = [node]
+    for child in node.get("conditions") or []:
+        result.extend(_strict_walk_nodes(child))
+    result.extend(_strict_walk_nodes(node.get("condition")))
+    return result
+
+
+def _strict_comparisons_outside_not(node: Any) -> list[Mapping[str, Any]]:
+    if not isinstance(node, Mapping):
+        return []
+    if str(node.get("op") or "") == "not":
+        return []
+    result = []
+    if str(node.get("op") or "") == "comparison":
+        result.append(node)
+    for child in node.get("conditions") or []:
+        result.extend(_strict_comparisons_outside_not(child))
+    return result
+
+
+def _strict_tree_check(
+    family_id: str,
+    check_rule: Mapping[str, Any],
+) -> dict[str, Any]:
+    logic = check_rule.get("condition_logic")
+    nodes = _strict_walk_nodes(logic)
+    operators = [str(node.get("op") or "") for node in nodes]
+    required_root = "any" if family_id in {"Q1", "Q2"} else "all"
+    shape_correct = (
+        isinstance(logic, Mapping)
+        and str(logic.get("op") or "") == required_root
+    )
+    if family_id == "Q5":
+        shape_correct = (
+            shape_correct
+            and "sameperson" in operators
+            and "date_range" in operators
+        )
+    else:
+        shape_correct = shape_correct and len(nodes) > 1
+    semantic_missing: list[str] = []
+    leaves = [
+        node for node in nodes if str(node.get("op") or "") == "evidence"
+    ]
+    leaf_types = {
+        str(node.get("material_type") or "") for node in leaves
+    }
+    comparisons = [
+        node for node in nodes if str(node.get("op") or "") == "comparison"
+    ]
+    date_ranges = [
+        node for node in nodes if str(node.get("op") or "") == "date_range"
+    ]
+    samepersons = [
+        node for node in nodes if str(node.get("op") or "") == "sameperson"
+    ]
+    if family_id == "Q1":
+        if str(logic.get("op") if isinstance(logic, Mapping) else "") != "any":
+            semantic_missing.append("root_any")
+        if not {"business_license", "legal_entity_registration"} <= leaf_types:
+            semantic_missing.append("license_or_registration_leaves")
+    elif family_id == "Q2":
+        if str(logic.get("op") if isinstance(logic, Mapping) else "") != "any":
+            semantic_missing.append("root_any")
+        if not {"audit_report_key_pages", "bank_credit_reference"} <= leaf_types:
+            semantic_missing.append("audit_or_bank_leaves")
+        if not any(node.get("year") == 2025 for node in nodes):
+            semantic_missing.append("audit_year_2025")
+    elif family_id == "Q5":
+        if str(logic.get("op") if isinstance(logic, Mapping) else "") != "all":
+            semantic_missing.append("root_all")
+        if not samepersons:
+            semantic_missing.append("sameperson")
+        else:
+            sameperson = samepersons[0]
+            if sameperson.get("person_field") != "person_id":
+                semantic_missing.append("sameperson_person_id")
+            nested = _strict_walk_nodes(sameperson)
+            nested_types = {
+                str(node.get("material_type") or "")
+                for node in nested
+                if str(node.get("op") or "") == "evidence"
+            }
+            if not {"personnel_certificate", "social_security_record"} <= nested_types:
+                semantic_missing.append("certificate_and_social_leaves")
+            if not any(
+                node.get("field") == "social_security_month"
+                and node.get("start") == "2026-03"
+                and node.get("end") == "2026-08"
+                and node.get("continuous") is True
+                for node in date_ranges
+            ):
+                semantic_missing.append("continuous_2026_03_to_08")
+            relationship_leaves = {
+                str(node.get("material_type") or "")
+                for node in nested
+                if str(node.get("op") or "") == "evidence"
+            }
+            if "bidder_employer_relationship" not in relationship_leaves:
+                semantic_missing.append("employer_binding")
+    elif family_id == "T1":
+        protocol_or_nodes = [
+            node for node in nodes
+            if str(node.get("op") or "") == "any"
+            and {"oauth2", "oidc"} & {
+                str(child.get("material_type") or "")
+                for child in node.get("conditions") or []
+                if isinstance(child, Mapping)
+            }
+        ]
+        if not protocol_or_nodes:
+            semantic_missing.append("protocol_or")
+        if "existing_identity_system" not in leaf_types:
+            semantic_missing.append("existing_identity_leaf")
+        if not any(
+            str(node.get("material_type") or "") in {"oauth2", "oidc"}
+            and node.get("source_terms")
+            for node in nodes
+            if str(node.get("op") or "") == "evidence"
+        ):
+            semantic_missing.append("protocol_leaf_terms")
+        if not any(
+            str(node.get("op") or "") == "not"
+            and isinstance(node.get("condition"), Mapping)
+            and node["condition"].get("field") == "identity_system_changed"
+            and node["condition"].get("operator") == "eq"
+            and node["condition"].get("value") is True
+            for node in nodes
+        ):
+            semantic_missing.append("not_identity_system_changed")
+        root_source = (
+            str(logic.get("source_text") or "")
+            if isinstance(logic, Mapping)
+            else ""
+        )
+        if not any(
+            term in _strict_fold(root_source)
+            for term in ("对接", "接入", "集成")
+        ):
+            semantic_missing.append("integration_context")
+    elif family_id == "T3":
+        if not {"sensitive_database_fields"} <= leaf_types:
+            semantic_missing.append("sensitive_fields_leaf")
+        if not any(
+            node.get("field") == "tls_version"
+            and node.get("operator") == "gte"
+            and str(node.get("value") or "") in {"1.2", "1.20"}
+            for node in comparisons
+        ):
+            semantic_missing.append("tls_gte_1_2")
+        crypto_types = {
+            "national_cryptography",
+            "equivalent_strength_encryption",
+        }
+        crypto_nodes = [
+            node for node in nodes
+            if str(node.get("op") or "") == "any"
+            and crypto_types & {
+                str(child.get("material_type") or "")
+                for child in node.get("conditions") or []
+                if isinstance(child, Mapping)
+            }
+        ]
+        if not crypto_nodes:
+            semantic_missing.append("crypto_or")
+    elif family_id == "T4":
+        if not {
+            "domestic_linux",
+            "postgresql_compatibility",
+        } <= leaf_types:
+            semantic_missing.append("linux_and_postgresql_leaves")
+        direct_false = any(
+            node.get("field") == "single_public_cloud_binding"
+            and node.get("operator") == "eq"
+            and node.get("value") is False
+            for node in _strict_comparisons_outside_not(logic)
+        )
+        negated_true = any(
+            str(node.get("op") or "") == "not"
+            and isinstance(node.get("condition"), Mapping)
+            and node["condition"].get("field") == "single_public_cloud_binding"
+            and node["condition"].get("operator") == "eq"
+            and node["condition"].get("value") is True
+            for node in nodes
+        )
+        if not (direct_false or negated_true):
+            semantic_missing.append("single_public_cloud_false")
+    return {
+        "tree_present": isinstance(logic, Mapping),
+        "shape_correct": bool(shape_correct),
+        "semantic_completeness": {
+            "status": "measured",
+            "correct": not semantic_missing,
+            "missing": semantic_missing,
+        },
+        "root_op": logic.get("op") if isinstance(logic, Mapping) else None,
+        "operators": operators,
+    }
+
+
+def _strict_source_check(
+    requirement: Mapping[str, Any],
+    provenance: list[Mapping[str, Any]],
+) -> dict[str, Any]:
+    by_file = {
+        str(source.get("file_id") or ""): source
+        for source in provenance
+        if source.get("file_id")
+    }
+    refs = list(requirement.get("source_references") or [])
+    checks: list[dict[str, Any]] = []
+    for reference in refs:
+        if not isinstance(reference, Mapping):
+            checks.append({"valid": False, "reason": "reference is not an object"})
+            continue
+        document_id = str(
+            reference.get("document_id") or reference.get("file_id") or ""
+        )
+        source = by_file.get(document_id)
+        page_number = reference.get("page")
+        page = next(
+            (
+                item
+                for item in (source or {}).get("pages") or []
+                if item.get("page_number") == page_number
+            ),
+            None,
+        )
+        expected_version = str((source or {}).get("source_version") or "")
+        actual_version = str(
+            reference.get("source_version")
+            or reference.get("file_version")
+            or ""
+        )
+        quote = str(reference.get("quote") or "").strip()
+        locator = str(reference.get("locator") or "")
+        page_text = str((page or {}).get("text") or "")
+        artifact_id = str((source or {}).get("artifact_id") or "")
+        locator_match = re.fullmatch(
+            r"(?P<artifact>[^:]+):p(?P<page>\d+):l(?P<line>\d+)",
+            locator,
+        )
+        locator_valid = bool(
+            locator_match
+            and locator_match.group("artifact") == artifact_id
+            and locator_match.group("page") == str(page_number)
+        )
+        line_number = (
+            int(locator_match.group("line"))
+            if locator_match
+            else None
+        )
+        raw_lines = page_text.splitlines()
+        line_text = (
+            raw_lines[line_number - 1].strip()
+            if line_number and 1 <= line_number <= len(raw_lines)
+            else ""
+        )
+        exact_line_quote = bool(quote and quote == line_text)
+        checks.append(
+            {
+                "document_id": document_id,
+                "page": page_number,
+                "source_version": actual_version,
+                "quote": quote,
+                "locator": locator,
+                "line_number": line_number,
+                "line_text": line_text,
+                "valid": bool(
+                    source
+                    and page
+                    and actual_version == expected_version
+                    and quote
+                    and exact_line_quote
+                    and locator_valid
+                ),
+                "reasons": [
+                    reason
+                    for reason, failed in (
+                        ("document_not_in_registry", source is None),
+                        ("page_not_in_registry", source is not None and page is None),
+            (
+                "version_mismatch",
+                bool(source) and actual_version != expected_version,
+            ),
+                        ("quote_missing", not quote),
+                        (
+                            "quote_not_found_in_page",
+                            not exact_line_quote,
+                        ),
+                        ("line_locator_missing_or_invalid", not locator_valid),
+                    )
+                    if failed
+                ],
+            }
+        )
+    return {
+        "reference_count": len(refs),
+        "valid_count": sum(item["valid"] for item in checks),
+        "all_valid": bool(refs) and all(item["valid"] for item in checks),
+        "checks": checks,
+    }
+
+
+def _strict_semantic_conflict(family_id: str, description: str) -> bool:
+    folded = _strict_fold(description)
+    negative_terms = {
+        "Q1": ("无需营业执照", "不提供营业执照", "无需法人登记"),
+        "Q2": ("无需审计报告", "无需银行资信", "不提供审计报告"),
+        "Q5": ("无需社保", "不要求社保", "无需项目经理证书"),
+        "T1": ("无需对接", "不支持对接", "无需统一身份"),
+        "T3": ("无需加密", "不采用加密", "不要求tls"),
+        "T4": ("无需postgresql", "不支持postgresql", "允许绑定单一公有云"),
+    }
+    return any(_strict_fold(term) in folded for term in negative_terms[family_id])
+
+
+def _strict_candidate(
+    family_id: str,
+    candidate: Mapping[str, Any],
+    provenance: list[Mapping[str, Any]],
+) -> dict[str, Any]:
+    description = str(candidate.get("description") or "")
+    text_ok, matched, missing = _strict_text_match(family_id, description)
+    rule = candidate.get("check_rule") or {}
+    capability = rule.get("evaluation_capability") or {}
+    tree = _strict_tree_check(family_id, rule)
+    source = _strict_source_check(candidate, provenance)
+    semantic_conflict = _strict_semantic_conflict(family_id, description)
+    manual_review_guard = (
+        (rule.get("rule_ast") or {}).get("op") == "manual_review"
+        and capability.get("automatic") == "unsupported"
+        and capability.get("human_review") is True
+    )
+    return {
+        "requirement_id": candidate.get("requirement_id"),
+        "description": description,
+        "text_covered": text_ok,
+        "matched_groups": matched,
+        "missing_groups": missing,
+        "tree": tree,
+        "source": source,
+        "evaluation_capability": dict(capability),
+        "semantic_conflict": semantic_conflict,
+        "manual_review_guard": manual_review_guard,
+        "automatic_supported": capability.get("automatic") == "supported",
+    }
+
+
+def _strict_rule_metrics(
+    primary_pdf_case: dict[str, Any] | None,
+    *,
+    unavailable_status: str = "not_run",
+) -> dict[str, Any]:
+    if primary_pdf_case is None:
+        return {
+            "status": unavailable_status,
+            "family_count": len(STRICT_FAMILY_ORACLE),
+            "text_coverage": {
+                "status": unavailable_status,
+                "denominator": len(STRICT_FAMILY_ORACLE),
+                "not_run_count": len(STRICT_FAMILY_ORACLE),
+            },
+            "structure_tree": {
+                "status": unavailable_status,
+                "denominator": len(STRICT_FAMILY_ORACLE),
+                "not_run_count": len(STRICT_FAMILY_ORACLE),
+            },
+            "automatic_verification_support": {
+                "status": unavailable_status,
+                "supported_count": None,
+                "denominator": len(STRICT_FAMILY_ORACLE),
+                "not_run_count": len(STRICT_FAMILY_ORACLE),
+            },
+            "source_reference_validation": {
+                "status": unavailable_status,
+                "valid_count": None,
+                "denominator": len(STRICT_FAMILY_ORACLE),
+                "not_run_count": len(STRICT_FAMILY_ORACLE),
+            },
+            "items": [],
+        }
+
+    provenance = list(primary_pdf_case.get("parse_provenance") or [])
+    observed = list(primary_pdf_case.get("requirements") or [])
+    items: list[dict[str, Any]] = []
+    for family_id in sorted(STRICT_FAMILY_ORACLE):
+        candidates = [
+            _strict_candidate(family_id, item, provenance)
+            for item in observed
+            if _strict_text_match(
+                family_id, str(item.get("description") or "")
+            )[0]
+        ]
+        covered = any(
+            item["text_covered"]
+            and not item["semantic_conflict"]
+            for item in candidates
+        )
+        tree_present = any(item["tree"]["tree_present"] for item in candidates)
+        tree_shape_correct = any(
+            item["tree"]["shape_correct"]
+            and not item["semantic_conflict"]
+            for item in candidates
+        )
+        tree_semantic_correct = any(
+            item["tree"]["semantic_completeness"]["correct"]
+            and not item["semantic_conflict"]
+            for item in candidates
+        )
+        automatic_supported = any(
+            item["automatic_supported"] and not item["semantic_conflict"]
+            for item in candidates
+        )
+        source_valid = any(
+            item["source"]["all_valid"]
+            and not item["semantic_conflict"]
+            for item in candidates
+        )
+        items.append(
+            {
+                "family_id": family_id,
+                "candidate_count": len(candidates),
+                "candidate_requirement_ids": [
+                    item["requirement_id"] for item in candidates
+                ],
+                "text_covered": covered,
+                "ambiguous": len(candidates) > 1
+                or any(item["semantic_conflict"] for item in candidates),
+                "semantic_conflict": any(
+                    item["semantic_conflict"] for item in candidates
+                ),
+                "tree_present": tree_present,
+                "tree_shape_correct": tree_shape_correct,
+                "tree_semantic_correct": tree_semantic_correct,
+                "automatic_supported": automatic_supported,
+                "source_valid": source_valid,
+                "candidates": candidates,
+            }
+        )
+
+    covered = [item for item in items if item["text_covered"]]
+    trees = [item for item in items if item["tree_present"]]
+    shape_correct_trees = [
+        item for item in items if item["tree_shape_correct"]
+    ]
+    semantic_correct_trees = [
+        item for item in items if item["tree_semantic_correct"]
+    ]
+    automatic = [item for item in items if item["automatic_supported"]]
+    source_valid = [item for item in items if item["source_valid"]]
+    return {
+        "status": "measured",
+        "family_count": len(items),
+        "text_coverage": {
+            "status": "measured",
+            "matched_count": len(covered),
+            "denominator": len(items),
+            "error_count": len(items) - len(covered),
+            "ambiguous_count": sum(item["ambiguous"] for item in items),
+        },
+        "structure_tree": {
+            "status": "measured",
+            "present_count": len(trees),
+            "shape_correct_count": len(shape_correct_trees),
+            "semantic_correct_count": len(semantic_correct_trees),
+            "semantic_completeness": "measured",
+            "denominator": len(items),
+            "missing_count": len(items) - len(trees),
+            "shape_incorrect_count": len(trees) - len(shape_correct_trees),
+            "semantic_incorrect_count": len(trees) - len(semantic_correct_trees),
+        },
+        "automatic_verification_support": {
+            "status": "measured",
+            "supported_count": len(automatic),
+            "denominator": len(items),
+            "unsupported_count": len(items) - len(automatic),
+            "interpretation": (
+                "六类新逻辑本阶段均须人工核验；结构树存在不计入自动执行能力。"
+            ),
+        },
+        "source_reference_validation": {
+            "status": "measured",
+            "valid_count": len(source_valid),
+            "denominator": len(items),
+            "invalid_count": len(items) - len(source_valid),
+            "candidate_reference_count": sum(
+                sum(
+                    candidate["source"]["reference_count"]
+                    for candidate in item["candidates"]
+                )
+                for item in items
+            ),
+            "interpretation": (
+                "仅依据Registry实际解析页文本、document_id、page和source_version"
+                "验证原句quote；不使用产品描述自证。"
+            ),
+        },
+        "items": items,
+    }
+
+
 def _requirement_metrics(
     primary_pdf_case: dict[str, Any] | None,
     ground_truth: Mapping[str, Any],
@@ -704,6 +1296,10 @@ def _requirement_metrics(
                 "status": "not_measured",
                 "value": None,
             },
+            "strict_local_rule": _strict_rule_metrics(
+                None,
+                unavailable_status=unavailable_status,
+            ),
         }
     observed = [
         {
@@ -827,6 +1423,10 @@ def _requirement_metrics(
             "status": "not_measured",
             "value": None,
         },
+        "strict_local_rule": _strict_rule_metrics(
+            primary_pdf_case,
+            unavailable_status=unavailable_status,
+        ),
     }
 
 
@@ -951,6 +1551,7 @@ def _assemble_report(
         "simulated_ocr": dict(simulated_ocr),
         "metrics": {
             "requirement_omission": requirement_metrics,
+            "strict_local_rule": requirement_metrics["strict_local_rule"],
             "amount_normalization": amount_metrics["known_amounts"],
             "amount_unknown_safety": amount_metrics["unknown_amount_safety"],
             "score_maximum": score_metrics["max_score"],

@@ -116,6 +116,12 @@ def _evaluate(
         if evaluation.status in {"conflict", "human_review"}:
             return evaluation
         return _with_status(evaluation, "matched", "否定条件未被证据满足")
+    if operator == "manual_review":
+        return RuleEvaluation(
+            "human_review",
+            str(ast.get("reason") or "该规则需要人工复核"),
+            details={"source_text": ast.get("source_text", "")},
+        )
     if operator == "exists":
         return _evaluate_count(ast, materials, as_of=as_of, default_minimum=1)
     if operator == "count":

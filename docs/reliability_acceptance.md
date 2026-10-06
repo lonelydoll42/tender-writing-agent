@@ -48,7 +48,7 @@ review 与 writer 输入范围相同。该评分项未被单独核验，因此 o
 | Runtime（9：2 正 / 7 负） | 2/2（100%） | 0/2（0%） | 0/7（0%） | 0 / 0 | 2 / 2 |
 
 Runtime 七个负例均未调用 writer 或模型；两个正例各调用 writer 和模型一次。
-主验收全量测试为 `332 passed`，伴随 1 条既有 Starlette 弃用告警；Ruff 和
+该次 final-2 验收全量测试为 `332 passed`，伴随 1 条既有 Starlette 弃用告警；Ruff 和
 `git diff --check` 通过。全量测试包含
 `tests/evals/test_raw_file_benchmark.py`，该测试调用 `run_raw_file_eval`。27 样本
 followup 本身使用模拟模型，未调用真实模型或 OCR，也不处理 PDF。
@@ -73,26 +73,58 @@ followup 本身使用模拟模型，未调用真实模型或 OCR，也不处理 
 
 ## 原始文件回归补测
 
-主验收全量测试包含原文件评测测试；此外，原文件评测被单独运行并保存为
-`.qiaowenshu/acceptance/raw-file-followup-acceptance.json`。报告状态为
-`completed`，Poppler 可用，结果如下：
+2026-10-06 主验收对当前原始文件评测重新实测，报告保存为
+`.qiaowenshu/acceptance/raw-requirement-final-noise-fixed-20261006.json`，
+未覆盖旧报告：
 
-| 指标 | 结果 | 本轮处理 |
+| 指标 | 结果 | 口径 |
 | --- | ---: | --- |
-| 招标约束文本覆盖 | 4/10，遗漏 6 项 | 本轮独立原文件回归实测；6 项遗漏仍未修复、未验收通过 |
-| 金额归一化 | 6/6 | 本轮独立原文件回归实测 |
-| 评分上限 | 2/2 | 本轮独立原文件回归实测 |
-| 关键负例误放行 | 0/7，`inconclusive=0` | 本轮独立原文件回归实测；主要反映保守阻断，不代表资格识别准确率 |
+| legacy 要求覆盖 | 8/10 | 完全保留 legacy oracle；Q5 同年简写、T4“不得绑定”词形仍是 legacy matcher 限制 |
+| strict 六类文本覆盖 | 6/6 | strict 独立 matcher 已覆盖实际 T4 原句 |
+| strict 有限条件特征 | 6/6 | 仅核对冻结的有限结构和语义映射 |
+| strict 来源引用 | 6/6 | 核对 Registry 文件、版本、页码、原始行 quote 和 locator |
+| strict 自动核验支持 | 0/6 | 六类均为 `partial` / `manual_review`，不宣称自动执行 |
+| 金额归一化 | 6/6 | 原始文件回归实测 |
+| 评分上限 | 2/2 | 原始文件回归实测 |
+| 关键负例误放行 | 0/7，`inconclusive=0` | 保守阻断结果，不证明资格识别准确率 |
+| 精度回归 | 2 个负例、3 个正例 | 噪声修复后的限定回归，不外推为原始文件整体准确率 |
 
-27 样本报告 `reliability-followup-final-2.json` 中的 `raw_file_baseline` 字段仍是
-历史引用（`status=not_retested_in_this_followup`）：该 runner 不测 PDF，该字段不是
-上述本轮原文件回归结果。原文约束的 4/10 只表示固定必要约束组的文本覆盖，不表示
-要求已转为正确、完整的可执行规则；0/7 只表示这组负例未被门禁放行，不证明资格
-识别准确率。
+`3ed3057` 的历史 baseline 为 `4/10`，此前“六项遗漏”只属于该历史口径，
+不能描述为当前 raw 结果。当前 legacy `8/10` 仍保留旧 matcher 限制：Q5 的同年
+区间简写和 T4 的“不得绑定单一公有云”词形未纳入 legacy matcher。strict 结果已
+覆盖这些实际原句，因此两套分数不可混为一个准确率，也不能称为所有原始文件准确率。
 
-该原文件报告中的 OCR 为固定文本、置信度 `0.61` 的模拟 backend，调用 1 次，只测
-告警和来源传递，不测真实 OCR 准确率；本轮未调用真实 OCR。6 项约束遗漏仍待修复
-并验收。
+strict 保留 `coverage_status=partial` 与 `manual_review` 能力边界；有限条件特征
+存在不代表生产可执行或通用语义认证。原始文件评测中的 OCR 仍为模拟 backend，
+不测真实 OCR 准确率。
+
+### 独立八份构造集
+
+8 份构造独立 TXT 与 frozen oracle 已预冻结 SHA，用于后续独立运行；它们不是真实
+未见业务 PDF。v2 实际报告为
+`.qiaowenshu/acceptance/raw-requirement-holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.json`。
+8/8 均实际执行 decomposition，分别产生 `2、2、2、1、1、1、4、3` 条结果；
+冻结的 8 份 raw 与 oracle hash 未变化。
+
+| 指标 | 结果 | 边界 |
+| --- | ---: | --- |
+| decomposition 执行 | 8/8 | 证明执行发生，不证明要求完整 |
+| 来源定位核验 | 16/16 | 文件、页码、版本 token、精确 quote、物理行号均真实 |
+| 必要约束/跨段关系完整 | 0/8 | 8/8 均为 `partial`，不构成独立集完整性通过 |
+| business evidence 注册 | `not_run/8` | 独立 bidder material 未注册，不能计算正确通过率或误阻断率 |
+
+瓶颈已定位为跨段结构关系而非继续增加关键词：H01/H02 丢失跨编号 OR 分支；
+H03/H04 的同人和连续月份关联不足；H05 丢失身份协议与禁替换 AND；H06
+方案替换事实不全；H07 保留文本但 TLS 与数据库跨条 AND 不完整；H08 遗漏
+PostgreSQL 14+ 与三项 AND。首版因 validator 错误判定为 `not_run`，已保留但标记
+`invalid`，不计入通过或失败；不能引用不存在的 knowledge-retrieval 失败。
+
+因此，本轮只说明固定原 PDF 六类专项的 strict 漏洞已修复并达到 `6/6`；通用、
+跨段、多级编号原始文件完整性验收不通过，不扩大使用范围，不构成生产可用结论。
+下一阶段应建设关系分组、多级编号和独立语料验收，不以继续加词的方式宣称生产能力。
+
+主验收最新冻结全量为 `353 passed`、1 条既有 Starlette warning；Ruff 与
+`git diff --check` 通过。
 
 ## 运行
 
