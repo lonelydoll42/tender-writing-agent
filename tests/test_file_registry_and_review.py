@@ -224,6 +224,7 @@ def test_file_backed_runtime_reaches_bidder_profile_and_ledger() -> None:
     assert compliance.data["submission_allowed"] is False
     assert compliance.data["scoped_gate_passed"] is (
         compliance.data["business_status"] == "passed"
+        and compliance.data["runtime_scope_binding"]["status"] == "bound"
     )
     assert compliance.data["summary"]["passed"] is (
         compliance.data["business_status"] == "passed"

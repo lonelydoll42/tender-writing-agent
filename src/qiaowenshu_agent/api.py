@@ -501,6 +501,22 @@ def _project_analysis_plan(payload: ProjectAnalyzeRequest) -> list[dict[str, Any
                 "skill_name": "compliance-review",
                 "input": {
                     "project_id": {"$ref": "$request/project_id"},
+                    "tender_profile": {
+                        "$ref": "$state/tender-intake/profile"
+                    },
+                    "requirements": {
+                        "$ref": "$state/tender-decomposition/requirements"
+                    },
+                    "scoring_items": {
+                        "$ref": "$state/tender-decomposition/scoring_items"
+                    },
+                    "sections": {"$ref": "$state/tender-intake/sections"},
+                    "bidder_profile": bidder_ref,
+                    "materials": material_ref,
+                    "as_of": {"$ref": "$request/as_of"},
+                    "evidence_matches": {
+                        "$ref": "$state/evidence-matching/matches"
+                    },
                     "ledger": {"$ref": "$state/requirement-ledger"},
                     "consistency_result": {"$ref": "$state/consistency-review"},
                 },

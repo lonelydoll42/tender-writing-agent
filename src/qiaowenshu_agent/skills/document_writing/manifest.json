@@ -1,7 +1,72 @@
 {
   "name": "document-writing",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "entrypoint": "qiaowenshu_agent.skills.document_writing.skill:DocumentWritingSkill",
+  "output_schema": {
+    "type": "object",
+    "required": ["claim_verification", "notices"],
+    "properties": {
+      "notices": {
+        "type": "array",
+        "items": {"type": "string"}
+      },
+      "claim_verification": {
+        "type": "object",
+        "required": [
+          "status",
+          "detected_claim_count",
+          "supported_claim_count",
+          "unsupported_claim_count",
+          "coverage"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "no_claims_detected",
+              "needs_review",
+              "not_checked"
+            ]
+          },
+          "detected_claim_count": {"type": "integer", "minimum": 0},
+          "supported_claim_count": {"type": "integer", "minimum": 0},
+          "unsupported_claim_count": {"type": "integer", "minimum": 0},
+          "coverage": {
+            "type": "object",
+            "required": [
+              "status",
+              "scanned_sentence_count",
+              "recognized_claim_count",
+              "unclassified_high_risk_claim_count",
+              "unclassified_high_risk_snippets",
+              "recognized_patterns"
+            ],
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": ["complete", "partial", "not_scanned"]
+              },
+              "scanned_sentence_count": {"type": "integer", "minimum": 0},
+              "recognized_claim_count": {"type": "integer", "minimum": 0},
+              "unclassified_high_risk_claim_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "unclassified_high_risk_snippets": {
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "recognized_patterns": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "capabilities": [
     "tender.draft",
     "tender.technical_writing",

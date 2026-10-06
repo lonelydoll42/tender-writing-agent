@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from typing import Any, Mapping
@@ -34,14 +35,19 @@ _INVALID_STATUSES = {
     "未验证",
 }
 _ISO_RE = re.compile(
-    r"(?<![A-Za-z0-9])ISO\s*(?:[/／]\s*IEC)?\s*[- ]?"
-    r"(\d{4,5})(?:\s*:\s*\d{4})?(?!\d)",
+    r"(?<![A-Za-z0-9-])ISO\s*(?P<iec>[/／]\s*IEC)?\s*[- ]?"
+    r"(?P<number>\d{4,5})(?:\s*[:：]\s*(?P<edition>\d{4}))?"
+    r"(?![A-Za-z0-9-])",
     re.IGNORECASE,
 )
+_ISO_IEC_ALIAS_NUMBERS = {"27001"}
 _OTHER_CERT_RE = re.compile(
-    r"(?<![A-Za-z0-9])(CMMI|ITSS|PMP)\s*[- ]?([1-5])?(?![A-Za-z0-9])",
+    r"(?<![A-Za-z0-9-])(?P<family>CMMI|ITSS)"
+    r"(?:\s*(?:[-–—]\s*)?(?:(?:LEVEL|级别|等级)\s*)?"
+    r"(?P<level>[1-5]))?(?![A-Za-z0-9-])",
     re.IGNORECASE,
 )
+_PMP_RE = re.compile(r"(?<![A-Za-z0-9])PMP(?![A-Za-z0-9])", re.IGNORECASE)
 _PERSONNEL_QUALIFICATION_RE = re.compile(r"信息系统项目管理师|信息系统项目管理工程师")
 _QUALIFICATION_WORD_RE = re.compile(r"认证|资质|资格|证书|证照|职称")
 _QUALIFICATION_PHRASE_RE = re.compile(
@@ -50,12 +56,16 @@ _QUALIFICATION_PHRASE_RE = re.compile(
     r"(?:认证|资质|资格|证书|证照|职称))"
 )
 _COUNT_RE = re.compile(
-    r"(?P<number>\d[\d,]*|[零〇一二两三四五六七八九十百千万]+)"
-    r"\s*(?:个|项|套|次|例|份)\s*(?:类似|成功|相关)?"
-    r"(?:项目案例|项目经验|案例|项目|合同)"
+    r"(?P<number>\d[\d,]*|[零〇一二两三四五六七八九十百千万]+|"
+    r"数十|数百|数千|几十|几百|几千|十余|百余|千余)"
+    r"\s*(?:个|项|套|次|例|份)\s*"
+    r"[\u4e00-\u9fffA-Za-z]{0,16}?"
+    r"(?:类似|成功|相关|大型|重点|政务|政府)?"
+    r"(?:项目案例|项目经验|案例|项目|合同|客户)"
     r"|(?:案例|项目经验|项目|合同)"
     r"(?:数量|数目|总数|共计)\s*[:：为]?\s*"
-    r"(?P<number_after>\d[\d,]*|[零〇一二两三四五六七八九十百千万]+)"
+    r"(?P<number_after>\d[\d,]*|[零〇一二两三四五六七八九十百千万]+|"
+    r"数十|数百|数千|几十|几百|几千|十余|百余|千余)"
     r"\s*(?:个|项|套|次|例|份)"
 )
 _AMOUNT_RE = re.compile(
@@ -113,6 +123,105 @@ _TENDER_REQUEST_RE = re.compile(
 _COMPANY_ASSERTION_RE = re.compile(
     r"我方|我司|我公司|本公司|本企业|本单位|投标人已|已通过|已取得|"
     r"具备|拥有|持有|获得|完成了|实施了|交付了|中标"
+)
+_UNCLASSIFIED_COMPANY_RISK_RE = re.compile(
+    r"(?:我方|我司|我公司|本公司|本企业|本单位|投标人|供应商)"
+    r".{0,36}(?:累计|已经|已|曾|承接|实施|交付|完成|中标|取得|获得|具备|"
+    r"拥有|持有|服务|提供|承诺|保证|确保)"
+    r".{0,48}(?:资质|证书|认证|项目|合同|案例|经验|客户|人员|团队|金额|"
+    r"业绩|能力|服务|交付|承诺)",
+    re.IGNORECASE,
+)
+_HOLDER_LABEL_RE = re.compile(
+    r"(?:证书持有人|持证主体|认证主体|获证组织|获证单位|认证单位|持证人)"
+    r"\s*(?:为|是|[:：])\s*"
+    r"(?P<holder>[^，,；;。()\r\n]{2,80})"
+)
+_EXPLICIT_REGISTRATION_ID_RE = re.compile(
+    r"(?:统一社会信用代码|社会信用代码|信用代码|注册号)"
+    r"\s*[:：]?\s*([A-Za-z0-9][A-Za-z0-9-]{7,31})",
+    re.IGNORECASE,
+)
+_CERTIFICATE_NUMBER_LABEL_RE = re.compile(
+    r"(?:证书编号|证书号|证号|编号|certificate\s*(?:no\.?|number))"
+    r"\s*[:：]?\s*[A-Za-z0-9][A-Za-z0-9./_-]*",
+    re.IGNORECASE,
+)
+_BIDDER_NAME_FIELDS = (
+    "bidder_name",
+    "name",
+    "company_name",
+    "enterprise_name",
+    "organization_name",
+    "legal_name",
+)
+_REGISTRATION_ID_FIELDS = (
+    "unified_social_credit_code",
+    "social_credit_code",
+    "credit_code",
+    "registration_id",
+    "registration_number",
+    "registered_id",
+    "uscc",
+)
+_FLAT_METADATA_HOLDER_ID_FIELDS = (
+    "unified_social_credit_code",
+    "social_credit_code",
+    "credit_code",
+)
+_ISSUER_FIELDS = (
+    "issuer",
+    "issuer_name",
+    "issuing_authority",
+    "certificate_issuer",
+    "accreditation_body",
+    "发证机构",
+    "认证机构",
+    "签发机构",
+)
+_ISSUER_REGISTRATION_ID_FIELDS = (
+    "issuer_registration_id",
+    "issuer_credit_code",
+    "issuer_unified_social_credit_code",
+    "issuing_authority_registration_id",
+    "issuing_authority_credit_code",
+)
+_ISSUER_CONTEXT_RE = re.compile(r"发证机构|认证机构|颁证机构|签发机构|认证服务机构")
+_HOLDER_NAME_FIELDS = (
+    "holder",
+    "holder_name",
+    "certificate_holder",
+    "certificate_holder_name",
+    "certification_holder",
+    "subject_name",
+    "certification_subject",
+)
+_BUSINESS_OWNER_FIELDS = (
+    "owner_name",
+    "business_owner",
+    "evidence_owner",
+    "subject_owner",
+)
+_BUSINESS_ENTITY_NAME_PATTERN = (
+    r"[\u4e00-\u9fffA-Za-z0-9·（）()]{1,48}?"
+    r"(?:有限责任公司|股份有限公司|集团有限公司|有限公司|集团|公司|企业)"
+)
+_BUSINESS_OWNER_LABEL_RE = re.compile(
+    r"(?:业绩主体|材料主体|企业主体|公司主体|主体)"
+    r"\s*(?:为|是|[:：])\s*"
+    rf"(?P<holder>{_BUSINESS_ENTITY_NAME_PATTERN})"
+)
+_BUSINESS_ENTITY_PREFIX_RE = re.compile(
+    rf"^\s*(?P<owner>{_BUSINESS_ENTITY_NAME_PATTERN})"
+    r"(?=\s*(?:累计|历史|历年|合同金额|合同|业绩|项目|政务|承接|完成|"
+    r"案例|台账|清单|经验))"
+)
+_CERTIFICATION_STANDARD_FIELDS = (
+    "certificate_type",
+    "certification_type",
+    "certification_standard",
+    "certificate_standard",
+    "standard",
 )
 _MATERIAL_REFERENCE_FIELDS = ("source_references", "references", "sources")
 
@@ -231,11 +340,51 @@ def verify_chapter(
 
     sources = _business_sources(payload, section_context)
     claims = scan_high_risk_claims(content, section_id=expected_section_id)
+    coverage = _claim_scan_coverage(content, claims)
     claim_mapping: list[dict[str, Any]] = []
     supported_material_ids: set[str] = set()
     mapped_reported_ids: set[str] = set()
 
+    if coverage["status"] == "not_scanned":
+        findings.append(
+            _finding(
+                expected_section_id,
+                "claim_scan_not_run",
+                "warning",
+                "章节正文为空，无法执行高风险声明扫描。",
+            )
+        )
     for claim in claims:
+        if claim["category"] != "unclassified_high_risk_assertion":
+            continue
+        claim_mapping.append(
+            {
+                **claim,
+                "status": "needs_review",
+                "scope": "enterprise_fact",
+                "supports_enterprise_fact": False,
+                "evidence": [],
+                "rejected_evidence": [],
+                "reason": (
+                    "检测到企业高风险陈述，但当前模式无法完整分类"
+                    "或提取其事实值。"
+                ),
+            }
+        )
+        findings.append(
+            _finding(
+                expected_section_id,
+                "unclassified_high_risk_claim",
+                "warning",
+                "存在未能完整解析的企业高风险陈述，需人工核验。",
+                claim_id=claim["claim_id"],
+            )
+        )
+
+    bidder_identity = _bidder_identity(payload)
+    for claim in claims:
+        if claim["category"] == "unclassified_high_risk_assertion":
+            continue
         tender_statement = _is_tender_request(claim["claim_text"])
         if tender_statement and not _is_company_assertion(claim["claim_text"]):
             tender_evidence = _matching_tender_sources(
@@ -257,22 +406,113 @@ def verify_chapter(
                         ),
                     }
                 )
-                continue
+            else:
+                claim_mapping.append(
+                    {
+                        **claim,
+                        "status": "needs_review",
+                        "scope": "tender_requirement_only",
+                        "supports_enterprise_fact": False,
+                        "evidence": [],
+                        "rejected_evidence": [],
+                        "reason": "未在招标上下文中找到足以核对该要求的来源。",
+                    }
+                )
+                findings.append(
+                    _finding(
+                        expected_section_id,
+                        "unverified_tender_requirement_statement",
+                        "warning",
+                        "正文复述的招标要求未能与招标上下文核对。",
+                        claim_id=claim["claim_id"],
+                    )
+                )
+            continue
 
         matched_sources: list[dict[str, Any]] = []
         rejected_sources: list[dict[str, Any]] = []
+        certification_audits: list[dict[str, Any]] = []
+        subject_audits: list[dict[str, Any]] = []
         for source in sources:
-            if not _source_supports_claim(source, claim):
-                conflict_reason = _source_conflict_reason(source, claim)
-                if conflict_reason:
-                    rejected_sources.append(
-                        {
-                            "source_id": source["source_id"],
-                            "source_type": source["source_type"],
-                            "title": source.get("title", ""),
-                            "reason": conflict_reason,
-                        }
+            certification_audit = None
+            subject_audit = None
+            if claim["category"] == "certification":
+                certification_audit = _certification_source_check(
+                    source,
+                    claim,
+                    bidder_identity,
+                )
+                if not certification_audit["relevant"]:
+                    continue
+                certification_audits.append(certification_audit)
+                source_supports = certification_audit["supported"]
+                conflict_reason = certification_audit["reason"]
+            elif claim["category"] == "qualification_assertion":
+                source_has_claim = _source_supports_claim(source, claim)
+                if source_has_claim:
+                    subject_audit = {
+                        "subject_check": _enterprise_subject_check(
+                            source,
+                            bidder_identity,
+                        )
+                    }
+                    subject_audits.append(subject_audit)
+                    source_supports = (
+                        subject_audit["subject_check"]["status"] == "matched"
                     )
+                    conflict_reason = (
+                        ""
+                        if source_supports
+                        else subject_audit["subject_check"]["reason"]
+                    )
+                else:
+                    source_supports = False
+                    conflict_reason = _source_conflict_reason(source, claim)
+            elif _requires_business_subject_check(claim):
+                source_has_claim = _source_supports_claim(source, claim)
+                if source_has_claim:
+                    subject_audit = {
+                        "subject_check": _business_subject_check(
+                            source,
+                            bidder_identity,
+                        )
+                    }
+                    subject_audits.append(subject_audit)
+                    source_supports = (
+                        subject_audit["subject_check"]["status"] == "matched"
+                    )
+                    conflict_reason = (
+                        ""
+                        if source_supports
+                        else subject_audit["subject_check"]["reason"]
+                    )
+                else:
+                    source_supports = False
+                    conflict_reason = _source_conflict_reason(source, claim)
+            else:
+                source_supports = _source_supports_claim(source, claim)
+                conflict_reason = _source_conflict_reason(source, claim)
+
+            if not source_supports:
+                if conflict_reason:
+                    rejected = {
+                        "source_id": source["source_id"],
+                        "source_type": source["source_type"],
+                        "title": source.get("title", ""),
+                        "reason": conflict_reason,
+                    }
+                    if certification_audit:
+                        rejected.update(
+                            {
+                                "standard_check": certification_audit[
+                                    "standard_check"
+                                ],
+                                "subject_check": certification_audit["subject_check"],
+                            }
+                        )
+                    if subject_audit:
+                        rejected["subject_check"] = subject_audit["subject_check"]
+                    rejected_sources.append(rejected)
                 continue
             usable, reason = _business_source_usable(
                 source,
@@ -284,6 +524,15 @@ def verify_chapter(
                 "source_type": source["source_type"],
                 "title": source.get("title", ""),
             }
+            if certification_audit:
+                evidence.update(
+                    {
+                        "standard_check": certification_audit["standard_check"],
+                        "subject_check": certification_audit["subject_check"],
+                    }
+                )
+            if subject_audit:
+                evidence["subject_check"] = subject_audit["subject_check"]
             if usable:
                 matched_sources.append(evidence)
                 if source["source_type"] == "material":
@@ -294,9 +543,37 @@ def verify_chapter(
                 rejected_sources.append({**evidence, "reason": reason})
 
         if matched_sources:
+            audit_fields = (
+                _claim_certification_audit(
+                    claim,
+                    certification_audits,
+                    bidder_identity,
+                )
+                if claim["category"] == "certification"
+                else (
+                    {
+                        "subject_check": _claim_generic_subject_audit(
+                            subject_audits,
+                            bidder_identity,
+                        )
+                    }
+                    if claim["category"] == "qualification_assertion"
+                    else (
+                        {
+                            "subject_check": _claim_business_subject_audit(
+                                subject_audits,
+                                bidder_identity,
+                            )
+                        }
+                        if _requires_business_subject_check(claim)
+                        else {}
+                    )
+                )
+            )
             claim_mapping.append(
                 {
                     **claim,
+                    **audit_fields,
                     "status": "supported",
                     "scope": "enterprise_fact",
                     "supports_enterprise_fact": True,
@@ -323,14 +600,50 @@ def verify_chapter(
                     claim_id=claim["claim_id"],
                 )
             )
+        elif claim["category"] == "certification":
+            reason = _certification_failure_reason(certification_audits)
         elif tender_statement and _matching_tender_sources(claim, section_context):
             reason = (
                 "招标要求只能证明采购方提出了要求，不能证明企业已具备"
                 "资质、履历或已批准承诺。"
             )
+        business_subject_check = (
+            _claim_business_subject_audit(subject_audits, bidder_identity)
+            if _requires_business_subject_check(claim) and subject_audits
+            else {}
+        )
+        if business_subject_check:
+            if business_subject_check["status"] in {"missing", "unknown"}:
+                status = "needs_review"
+                reason = business_subject_check["reason"]
+            elif business_subject_check["status"] == "conflict":
+                reason = business_subject_check["reason"]
+        audit_fields = (
+            _claim_certification_audit(
+                claim,
+                certification_audits,
+                bidder_identity,
+            )
+            if claim["category"] == "certification"
+            else (
+                {
+                    "subject_check": _claim_generic_subject_audit(
+                        subject_audits,
+                        bidder_identity,
+                    )
+                }
+                if claim["category"] == "qualification_assertion"
+                else (
+                    {"subject_check": business_subject_check}
+                    if business_subject_check
+                    else {}
+                )
+            )
+        )
         claim_mapping.append(
             {
                 **claim,
+                **audit_fields,
                 "status": status,
                 "scope": "enterprise_fact",
                 "supports_enterprise_fact": False,
@@ -376,6 +689,11 @@ def verify_chapter(
         "requirement_coverage": reported_requirements,
         "scoring_coverage": reported_scoring,
         "claims_scanned": len(claim_mapping),
+        "claim_verification": _claim_verification_result(
+            content,
+            claim_mapping,
+            coverage,
+        ),
         "claim_evidence_mapping": claim_mapping,
         "unsupported_claims": unsupported_claims,
         "verification_findings": findings,
@@ -397,38 +715,49 @@ def scan_high_risk_claims(
         candidates: list[tuple[str, dict[str, Any]]] = []
 
         for match in _ISO_RE.finditer(sentence):
+            standard = _standard_identity(
+                "ISO",
+                match.group("number"),
+                match.group("edition"),
+                iec=bool(match.group("iec")),
+            )
             candidates.append(
                 (
                     "certification",
                     {
-                        "standard": match.group(1),
+                        "standard": standard["canonical_id"],
+                        "asserted_standard": standard,
                         "polarity": _claim_polarity(sentence),
                     },
                 )
             )
         for match in _OTHER_CERT_RE.finditer(sentence):
-            standard = match.group(1).upper() + (match.group(2) or "")
-            if standard == "PMP":
-                candidates.append(
-                    (
-                        "personnel_qualification",
-                        {
-                            "qualification": standard,
-                            "person": _PERSON_NAME_RE.findall(sentence),
-                            "polarity": _claim_polarity(sentence),
-                        },
-                    )
+            standard = _standard_identity(
+                match.group("family").upper(),
+                match.group("level"),
+            )
+            candidates.append(
+                (
+                    "certification",
+                    {
+                        "standard": standard["canonical_id"],
+                        "asserted_standard": standard,
+                        "polarity": _claim_polarity(sentence),
+                    },
                 )
-            else:
-                candidates.append(
-                    (
-                        "certification",
-                        {
-                            "standard": standard,
-                            "polarity": _claim_polarity(sentence),
-                        },
-                    )
+            )
+
+        if _PMP_RE.search(sentence):
+            candidates.append(
+                (
+                    "personnel_qualification",
+                    {
+                        "qualification": "PMP",
+                        "person": _PERSON_NAME_RE.findall(sentence),
+                        "polarity": _claim_polarity(sentence),
+                    },
                 )
+            )
 
         for match in _PERSONNEL_QUALIFICATION_RE.finditer(sentence):
             candidates.append(
@@ -451,18 +780,36 @@ def scan_high_risk_claims(
             and _QUALIFICATION_WORD_RE.search(sentence)
             and _is_company_assertion(sentence)
         ):
-            phrase = _QUALIFICATION_PHRASE_RE.search(sentence)
-            candidates.append(
-                (
-                    "qualification_assertion",
-                    {
-                        "credential": (
-                            phrase.group(1) if phrase else _normalize_compact(sentence)
-                        ),
-                        "polarity": _claim_polarity(sentence),
-                    },
+            if re.search(
+                r"(?<![A-Za-z0-9-])(?:ISO|CMMI|ITSS)(?![A-Za-z0-9])",
+                sentence,
+                re.IGNORECASE,
+            ):
+                candidates.append(
+                    (
+                        "unclassified_high_risk_assertion",
+                        {
+                            "scan_status": "partial",
+                            "polarity": _claim_polarity(sentence),
+                        },
+                    )
                 )
-            )
+            else:
+                phrase = _QUALIFICATION_PHRASE_RE.search(sentence)
+                candidates.append(
+                    (
+                        "qualification_assertion",
+                        {
+                            "credential": (
+                                phrase.group(1)
+                                if phrase
+                                else _normalize_compact(sentence)
+                            ),
+                            "polarity": _claim_polarity(sentence),
+                        },
+                    )
+                )
+
         for match in _COUNT_RE.finditer(sentence):
             number = match.group("number") or match.group("number_after")
             if number:
@@ -475,6 +822,7 @@ def scan_high_risk_claims(
                         },
                     )
                 )
+
         for match in _AMOUNT_RE.finditer(sentence):
             amount = _amount_yuan(match.group(1), match.group(2))
             if amount is not None:
@@ -489,10 +837,12 @@ def scan_high_risk_claims(
                         },
                     )
                 )
+
         for match in _DATE_RE.finditer(sentence):
             day = int(match.group(3)) if match.group(3) else None
             month = int(match.group(2))
             if month <= 12 and (day is None or day <= 31):
+                role = _date_role(sentence)
                 candidates.append(
                     (
                         "date",
@@ -502,8 +852,8 @@ def scan_high_risk_claims(
                                 if day is None
                                 else f"{int(match.group(1)):04d}-{month:02d}-{day:02d}"
                             ),
-                            "role": _date_role(sentence),
-                            "role_ambiguous": _date_role(sentence) is None,
+                            "role": role,
+                            "role_ambiguous": role is None,
                             "polarity": _claim_polarity(sentence),
                         },
                     )
@@ -543,6 +893,18 @@ def scan_high_risk_claims(
                 )
             )
 
+        categories = {category for category, _ in candidates}
+        if _has_unclassified_company_risk(sentence, categories):
+            candidates.append(
+                (
+                    "unclassified_high_risk_assertion",
+                    {
+                        "scan_status": "partial",
+                        "polarity": _claim_polarity(sentence),
+                    },
+                )
+            )
+
         for category, markers in candidates:
             key = (category, sentence, repr(sorted(markers.items())))
             if key in seen:
@@ -560,6 +922,199 @@ def scan_high_risk_claims(
                 }
             )
     return result
+
+
+def _has_unclassified_company_risk(
+    sentence: str,
+    recognized_categories: set[str],
+) -> bool:
+    if not _UNCLASSIFIED_COMPANY_RISK_RE.search(sentence):
+        return False
+    if not _is_company_assertion(sentence):
+        return False
+    if re.search(
+        r"(?<![A-Za-z0-9-])(?:ISO|CMMI|ITSS)(?![A-Za-z0-9])",
+        sentence,
+        re.IGNORECASE,
+    ) and "certification" not in recognized_categories:
+        return True
+    if (
+        re.search(r"资质|资格|证书|证照|认证", sentence)
+        and not recognized_categories.intersection(
+            {"certification", "personnel_qualification", "qualification_assertion"}
+        )
+    ):
+        return True
+    if re.search(r"项目|合同|案例|业绩|客户|经验", sentence):
+        has_quantity_marker = bool(
+            re.search(
+                r"(?:\d|[零〇一二两三四五六七八九十百千万]|数十|数百|数千|"
+                r"几十|几百|几千|多个|若干|多项|众多)",
+                sentence,
+            )
+        )
+        if has_quantity_marker and "case_quantity" not in recognized_categories:
+            return True
+        if not recognized_categories:
+            return True
+    return not recognized_categories
+
+
+def _claim_scan_coverage(
+    content: str,
+    claims: list[dict[str, Any]],
+) -> dict[str, Any]:
+    sentence_count = len(_sentences(content))
+    recognized = [
+        claim
+        for claim in claims
+        if claim["category"] != "unclassified_high_risk_assertion"
+    ]
+    unclassified = [
+        claim
+        for claim in claims
+        if claim["category"] == "unclassified_high_risk_assertion"
+    ]
+    recognized_patterns = {claim["category"] for claim in recognized}
+    if unclassified:
+        recognized_patterns.add("unclassified_high_risk_assertion")
+    status = (
+        "not_scanned"
+        if not str(content or "").strip()
+        else "partial"
+        if unclassified
+        else "complete"
+    )
+    return {
+        "status": status,
+        "scanned_sentence_count": sentence_count,
+        "recognized_claim_count": len(recognized),
+        "unclassified_high_risk_claim_count": len(unclassified),
+        "unclassified_high_risk_snippets": list(
+            dict.fromkeys(claim["claim_text"] for claim in unclassified)
+        ),
+        "recognized_patterns": sorted(recognized_patterns),
+        "scanner": "selected_high_risk_patterns_v2",
+    }
+
+
+def _claim_verification_result(
+    content: str,
+    claims: list[dict[str, Any]],
+    coverage: Mapping[str, Any],
+) -> dict[str, Any]:
+    detected_count = len(claims)
+    supported_count = sum(claim.get("status") == "supported" for claim in claims)
+    unsupported_count = detected_count - supported_count
+    if coverage.get("status") == "not_scanned":
+        status = "not_checked"
+    elif coverage.get("status") != "complete" or unsupported_count:
+        status = "needs_review"
+    elif detected_count == 0:
+        status = "no_claims_detected"
+    else:
+        status = "verified"
+    return {
+        "status": status,
+        "detected_claim_count": detected_count,
+        "supported_claim_count": supported_count,
+        "unsupported_claim_count": unsupported_count,
+        "coverage": dict(coverage),
+        "interpretation": (
+            "模式扫描未发现声明不等于对正文事实作出验证；扫描范围是已实现的有限高风险模式。"
+            if detected_count == 0
+            else "本结果仅反映已识别的声明及未分类高风险片段。"
+        ),
+    }
+
+
+def _claim_certification_audit(
+    claim: Mapping[str, Any],
+    audits: list[dict[str, Any]],
+    bidder_identity: Mapping[str, Any],
+) -> dict[str, Any]:
+    expected = claim.get("markers", {}).get("asserted_standard", {})
+    if not isinstance(expected, Mapping):
+        expected = {}
+    standard_audits = [
+        audit.get("standard_check")
+        for audit in audits
+        if isinstance(audit.get("standard_check"), Mapping)
+    ]
+    subject_audits = [
+        audit.get("subject_check")
+        for audit in audits
+        if isinstance(audit.get("subject_check"), Mapping)
+    ]
+    standard_check = _select_audit(standard_audits)
+    subject_check = _select_audit(subject_audits)
+    if not standard_check:
+        standard_check = {
+            "status": "unknown",
+            "expected": _standard_display(expected),
+            "structured": [],
+            "body": [],
+            "observed": [],
+            "reason": "未找到可核对的认证标准证据。",
+        }
+    if not subject_check:
+        subject_check = _enterprise_subject_check(
+            {"row": {}},
+            bidder_identity,
+        )
+    return {
+        "asserted_standard": dict(expected),
+        "standard_check": standard_check,
+        "subject_check": subject_check,
+    }
+
+
+def _claim_generic_subject_audit(
+    audits: list[dict[str, Any]],
+    bidder_identity: Mapping[str, Any],
+) -> dict[str, Any]:
+    subject_audits = [
+        audit["subject_check"]
+        for audit in audits
+        if isinstance(audit.get("subject_check"), Mapping)
+    ]
+    chosen = _select_audit(subject_audits)
+    if chosen:
+        return chosen
+    return _enterprise_subject_check({"row": {}}, bidder_identity)
+
+
+def _claim_business_subject_audit(
+    audits: list[dict[str, Any]],
+    bidder_identity: Mapping[str, Any],
+) -> dict[str, Any]:
+    subject_audits = [
+        audit["subject_check"]
+        for audit in audits
+        if isinstance(audit.get("subject_check"), Mapping)
+    ]
+    chosen = _select_audit(subject_audits)
+    if chosen:
+        return chosen
+    return _business_subject_check({"row": {}}, bidder_identity)
+
+
+def _select_audit(audits: list[Mapping[str, Any]]) -> dict[str, Any]:
+    if not audits:
+        return {}
+    for status in ("matched", "conflict", "mismatch", "missing", "unknown"):
+        for audit in audits:
+            if audit.get("status") == status:
+                return dict(audit)
+    return dict(audits[0])
+
+
+def _certification_failure_reason(audits: list[dict[str, Any]]) -> str:
+    for audit in audits:
+        reason = str(audit.get("reason") or "")
+        if reason:
+            return reason
+    return "未找到能够核对完整认证标准和企业持证主体的来源。"
 
 
 def resolve_as_of(
@@ -715,6 +1270,895 @@ def _business_sources(
     return sources
 
 
+def _standard_identity(
+    family: str,
+    value: Any = None,
+    edition: Any = None,
+    *,
+    iec: bool = False,
+) -> dict[str, Any]:
+    normalized_family = str(family or "").strip().upper()
+    if normalized_family == "ISO":
+        number = re.sub(r"\D", "", str(value or ""))
+        if not number:
+            return {}
+        normalized_edition = re.sub(r"\D", "", str(edition or "")) or None
+        iso_iec = iec or number in _ISO_IEC_ALIAS_NUMBERS
+        display_family = "ISO/IEC" if iso_iec else "ISO"
+        canonical_family = "iso/iec" if iso_iec else "iso"
+        identifier = f"{display_family} {number}"
+        if normalized_edition:
+            identifier = f"{identifier}:{normalized_edition}"
+        return {
+            "type": display_family,
+            "id": identifier,
+            "canonical_id": f"{canonical_family}:{number}",
+            "edition": normalized_edition,
+        }
+    if normalized_family in {"CMMI", "ITSS"}:
+        level = re.sub(r"\D", "", str(value or "")) or None
+        identifier = normalized_family + (f" Level {level}" if level else "")
+        return {
+            "type": normalized_family,
+            "id": identifier,
+            "canonical_id": normalized_family.casefold()
+            + (f":{level}" if level else ""),
+            "level": level,
+        }
+    return {}
+
+
+def _standard_from_text(text: str) -> list[dict[str, Any]]:
+    scrubbed = _CERTIFICATE_NUMBER_LABEL_RE.sub(" ", str(text or ""))
+    standards: list[dict[str, Any]] = []
+    for match in _ISO_RE.finditer(scrubbed):
+        standards.append(
+            _standard_identity(
+                "ISO",
+                match.group("number"),
+                match.group("edition"),
+                iec=bool(match.group("iec")),
+            )
+        )
+    for match in _OTHER_CERT_RE.finditer(scrubbed):
+        standards.append(
+            _standard_identity(
+                match.group("family"),
+                match.group("level"),
+            )
+        )
+    return _unique_standards(standards)
+
+
+def _typed_standard_values(
+    row: Mapping[str, Any],
+) -> tuple[bool, list[dict[str, Any]]]:
+    metadata = row.get("metadata")
+    metadata = metadata if isinstance(metadata, Mapping) else {}
+    found_field = False
+    standards: list[dict[str, Any]] = []
+    for container in (row, metadata):
+        for key in _CERTIFICATION_STANDARD_FIELDS:
+            value = container.get(key)
+            if value in (None, ""):
+                continue
+            found_field = True
+            if isinstance(value, Mapping):
+                value = (
+                    value.get("value")
+                    or value.get("text")
+                    or value.get("standard")
+                    or value.get("certificate_type")
+                    or ""
+                )
+            if isinstance(value, (list, tuple, set)):
+                values = list(value)
+            else:
+                values = [value]
+            for item in values:
+                if isinstance(item, (str, int, float)):
+                    standards.extend(_standard_from_text(str(item)))
+    return found_field, _unique_standards(standards)
+
+
+def _certificate_body_texts(source: Mapping[str, Any]) -> list[str]:
+    row = source.get("row")
+    if not isinstance(row, Mapping):
+        return [str(source.get("text") or "")]
+    parts = [
+        row.get("material_type"),
+        row.get("type"),
+        row.get("title"),
+        row.get("name"),
+        row.get("content"),
+        row.get("text"),
+    ]
+    metadata = row.get("metadata")
+    if isinstance(metadata, Mapping):
+        parts.extend(
+            metadata.get(key)
+            for key in (
+                "description",
+                "extracted_text",
+                "ocr_text",
+                "certificate_content",
+            )
+        )
+    return [str(part) for part in parts if part not in (None, "")]
+
+
+def _certification_source_check(
+    source: Mapping[str, Any],
+    claim: Mapping[str, Any],
+    bidder_identity: Mapping[str, Any],
+) -> dict[str, Any]:
+    row = source.get("row")
+    row = row if isinstance(row, Mapping) else {}
+    structured_present, structured_standards = _typed_standard_values(row)
+    body_texts = _certificate_body_texts(source)
+    body_standards = _drop_unspecific_standard_variants(
+        _unique_standards(
+            standard
+            for text in body_texts
+            for standard in _standard_from_text(text)
+        )
+    )
+    source_labels = " ".join(
+        [
+            str(source.get("title") or ""),
+            str(row.get("material_type") or ""),
+            str(row.get("type") or ""),
+        ]
+    )
+    metadata = row.get("metadata")
+    metadata = metadata if isinstance(metadata, Mapping) else {}
+    relevant = bool(
+        structured_present
+        or body_standards
+        or re.search(
+            r"认证|资质|证书|certificate|ISO|CMMI|ITSS",
+            source_labels,
+            re.IGNORECASE,
+        )
+        or metadata.get("certificate_no")
+    )
+    if not relevant:
+        return {"relevant": False}
+
+    expected = claim.get("markers", {}).get("asserted_standard", {})
+    if not isinstance(expected, Mapping):
+        expected = {}
+    standard_status = "unknown"
+    standard_reason = "来源未提供可识别的完整认证标准标识。"
+    observed = structured_standards or body_standards
+    if structured_present and not structured_standards:
+        standard_status = "unknown"
+        standard_reason = "结构化认证标准字段存在，但未能解析完整标准标识。"
+    elif len(structured_standards) > 1 or (
+        not structured_standards and len(body_standards) > 1
+    ):
+        standard_status = "conflict"
+        standard_reason = "来源包含多个可能的认证标准，无法唯一确定证书标准。"
+    elif structured_standards and body_standards and not _same_standard_sets(
+        structured_standards,
+        body_standards,
+    ):
+        standard_status = "conflict"
+        standard_reason = "metadata.certificate_type 与证书正文/标题标准相互矛盾。"
+    else:
+        candidate_standards = _drop_unspecific_standard_variants(
+            _unique_standards([*body_standards, *structured_standards])
+        )
+        if candidate_standards and expected:
+            if any(
+                _claim_standard_matches(expected, candidate)
+                for candidate in candidate_standards
+            ) and len(candidate_standards) == 1:
+                standard_status = "matched"
+                standard_reason = "完整标准类型与标识一致。"
+            else:
+                standard_status = "mismatch"
+                standard_reason = "来源认证标准与正文声明的完整标准标识不一致。"
+
+    subject_check = _enterprise_subject_check(source, bidder_identity)
+    polarity_matches = (
+        _claim_polarity(_claim_source_text(source))
+        == claim.get("markers", {}).get("polarity")
+    )
+    reason = ""
+    if standard_status != "matched":
+        reason = standard_reason
+    elif subject_check["status"] != "matched":
+        reason = str(subject_check["reason"])
+    elif not polarity_matches:
+        reason = "来源对认证状态的肯定/否定记载与正文相反。"
+    return {
+        "relevant": True,
+        "standard_check": {
+            "status": standard_status,
+            "expected": _standard_display(expected),
+            "structured": [_standard_display(item) for item in structured_standards],
+            "body": [_standard_display(item) for item in body_standards],
+            "observed": [_standard_display(item) for item in observed],
+            "reason": standard_reason,
+        },
+        "subject_check": subject_check,
+        "polarity_matches": polarity_matches,
+        "supported": (
+            standard_status == "matched"
+            and subject_check["status"] == "matched"
+            and polarity_matches
+        ),
+        "reason": reason,
+        "source_id": source.get("source_id"),
+        "source_type": source.get("source_type"),
+        "title": source.get("title", ""),
+    }
+
+
+def _enterprise_subject_check(
+    source: Mapping[str, Any],
+    bidder_identity: Mapping[str, Any],
+) -> dict[str, Any]:
+    row = source.get("row")
+    row = row if isinstance(row, Mapping) else {}
+    metadata = row.get("metadata")
+    metadata = metadata if isinstance(metadata, Mapping) else {}
+    metadata_holder = _structured_holder_identity(row, metadata)
+    body_holders, unassigned_body_ids, excluded_body_ids = _body_holder_identities(
+        _certificate_body_texts(source)
+    )
+    body_holder = _merge_identities(body_holders)
+    holder = _merge_identities([metadata_holder, body_holder])
+    unassigned_registration_ids = {
+        "metadata": list(metadata_holder.get("_unassigned_registration_ids", [])),
+        "body": unassigned_body_ids,
+    }
+    has_unassigned_registration_ids = any(unassigned_registration_ids.values())
+    excluded_other_party_ids = sorted(
+        set(metadata_holder.get("_excluded_other_party_registration_ids", []))
+        | set(excluded_body_ids)
+    )
+    bidder = _public_identity(bidder_identity)
+    metadata_public = _public_identity(metadata_holder)
+
+    if (
+        bidder_identity.get("conflict")
+        or metadata_holder.get("conflict")
+        or body_holder.get("conflict")
+        or holder.get("conflict")
+        or _identities_conflict(metadata_holder, body_holder)
+    ):
+        status = "conflict"
+        reason = "投标主体或证据中的持证主体字段相互矛盾。"
+        matching_basis = None
+    elif not bidder.get("names") and not bidder.get("registration_ids"):
+        status = "missing"
+        reason = "缺少 bidder_profile.bidder_name 或可比较的注册标识。"
+        matching_basis = None
+    elif not holder.get("names") and not holder.get("registration_ids"):
+        status = "missing"
+        reason = "证据未提供可核对的企业持证主体。"
+        matching_basis = None
+    elif has_unassigned_registration_ids:
+        status = "unknown"
+        reason = "存在无法明确归属到持证主体的登记标识，不能仅凭名称判定一致。"
+        matching_basis = None
+    else:
+        name_match = bool(
+            set(bidder_identity.get("_normalized_names", []))
+            & set(holder.get("_normalized_names", []))
+        )
+        id_match = bool(
+            set(bidder_identity.get("_normalized_registration_ids", []))
+            & set(holder.get("_normalized_registration_ids", []))
+        )
+        if _identities_conflict(bidder_identity, holder):
+            status = "conflict"
+            reason = "投标主体与证据持证主体名称或注册标识不一致。"
+            matching_basis = None
+        elif name_match or id_match:
+            status = "matched"
+            reason = "投标主体与持证主体通过精确名称或注册标识匹配。"
+            matching_basis = (
+                "registration_id" if id_match else "exact_legal_name"
+            )
+        else:
+            status = "unknown"
+            reason = "投标主体与持证主体没有可精确比较的共同身份字段。"
+            matching_basis = None
+
+    return {
+        "status": status,
+        "bidder": bidder,
+        "holder": _public_identity(holder),
+        "metadata_holder": metadata_public,
+        "body_holders": [_public_identity(item) for item in body_holders],
+        "unassigned_registration_ids": unassigned_registration_ids,
+        "excluded_other_party_registration_ids": excluded_other_party_ids,
+        "matching_basis": matching_basis,
+        "reason": reason,
+    }
+
+
+def _business_subject_check(
+    source: Mapping[str, Any],
+    bidder_identity: Mapping[str, Any],
+) -> dict[str, Any]:
+    row_layers = _business_source_row_layers(source)
+    metadata_owner, unassigned_metadata_ids, excluded_metadata_ids = (
+        _business_metadata_owner_identity(row_layers)
+    )
+    title_texts = [str(source.get("title") or "")]
+    body_texts: list[str] = []
+    for row in row_layers:
+        for key in ("title", "name"):
+            value = row.get(key)
+            if value not in (None, ""):
+                title_texts.append(str(value))
+        for key in ("content", "text", "claim", "fact", "value"):
+            value = row.get(key)
+            if value not in (None, ""):
+                body_texts.append(str(value))
+
+    title_owners = _business_text_owner_identities(title_texts)
+    body_label_owners, unassigned_body_ids, excluded_body_ids = (
+        _body_holder_identities(
+            body_texts,
+            holder_label_re=_BUSINESS_OWNER_LABEL_RE,
+        )
+    )
+    body_prefix_owners = _business_text_owner_identities(
+        body_texts,
+        include_labels=False,
+    )
+    body_owners = [*body_label_owners, *body_prefix_owners]
+    title_owner = _merge_identities(title_owners)
+    body_owner = _merge_identities(body_owners)
+    document_owner = _merge_identities([title_owner, body_owner])
+    evidence_owner = _merge_identities([metadata_owner, document_owner])
+    bidder = _public_identity(bidder_identity)
+    unassigned_registration_ids = {
+        "metadata": unassigned_metadata_ids,
+        "body": unassigned_body_ids,
+    }
+    excluded_other_party_ids = sorted(
+        set(excluded_metadata_ids) | set(excluded_body_ids)
+    )
+
+    source_identity_conflict = bool(
+        metadata_owner.get("conflict")
+        or title_owner.get("conflict")
+        or body_owner.get("conflict")
+        or evidence_owner.get("conflict")
+        or _identities_conflict(metadata_owner, document_owner)
+        or _identities_conflict(title_owner, body_owner)
+    )
+    if source_identity_conflict or bidder_identity.get("conflict"):
+        status = "conflict"
+        reason = "数值证据的metadata、标题或正文主体相互矛盾。"
+        matching_basis = None
+    elif not bidder.get("names") and not bidder.get("registration_ids"):
+        status = "missing"
+        reason = "缺少可核对的投标主体身份。"
+        matching_basis = None
+    elif any(unassigned_registration_ids.values()):
+        status = "unknown"
+        reason = "存在无法明确归属到企业主体的登记标识，不能仅凭名称判定一致。"
+        matching_basis = None
+    elif not evidence_owner.get("names") and not evidence_owner.get(
+        "registration_ids"
+    ):
+        status = "missing"
+        reason = "数值证据没有明确的企业归属主体。"
+        matching_basis = None
+    elif _identities_conflict(bidder_identity, evidence_owner):
+        status = "conflict"
+        reason = "数值证据归属主体与投标主体不一致。"
+        matching_basis = None
+    else:
+        name_match = bool(
+            set(bidder_identity.get("_normalized_names", []))
+            & set(evidence_owner.get("_normalized_names", []))
+        )
+        id_match = bool(
+            set(bidder_identity.get("_normalized_registration_ids", []))
+            & set(evidence_owner.get("_normalized_registration_ids", []))
+        )
+        if name_match or id_match:
+            status = "matched"
+            reason = "数值证据归属主体与投标主体通过精确名称或注册标识匹配。"
+            matching_basis = "registration_id" if id_match else "exact_legal_name"
+        else:
+            status = "unknown"
+            reason = "数值证据归属主体与投标主体没有可精确比较的共同身份字段。"
+            matching_basis = None
+
+    return {
+        "status": status,
+        "bidder": bidder,
+        "metadata_owner": _public_identity(metadata_owner),
+        "title_owners": [_public_identity(item) for item in title_owners],
+        "body_owners": [_public_identity(item) for item in body_owners],
+        "evidence_owner": _public_identity(evidence_owner),
+        "unassigned_registration_ids": unassigned_registration_ids,
+        "excluded_other_party_registration_ids": excluded_other_party_ids,
+        "matching_basis": matching_basis,
+        "reason": reason,
+    }
+
+
+def _business_source_row_layers(source: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+    layers: list[Mapping[str, Any]] = []
+    row = source.get("row")
+    while isinstance(row, Mapping):
+        if any(row is existing for existing in layers):
+            break
+        layers.append(row)
+        row = row.get("row")
+    return layers
+
+
+def _business_metadata_owner_identity(
+    row_layers: list[Mapping[str, Any]],
+) -> tuple[dict[str, Any], list[str], list[str]]:
+    identities: list[dict[str, Any]] = []
+    unassigned_registration_ids: list[str] = []
+    excluded_registration_ids: list[str] = []
+    owner_name_targets = {
+        "owner_name": "holder_name",
+        "business_owner": "certificate_holder_name",
+        "evidence_owner": "certification_holder",
+        "subject_owner": "subject_name",
+    }
+    owner_id_targets = {
+        "owner_registration_id": "holder_registration_id",
+        "owner_credit_code": "holder_credit_code",
+        "owner_unified_social_credit_code": "holder_unified_social_credit_code",
+    }
+    for row in row_layers:
+        metadata = row.get("metadata")
+        metadata = metadata if isinstance(metadata, Mapping) else {}
+        projected_row: dict[str, Any] = {}
+        identity_metadata_fields = (
+            *_ISSUER_FIELDS,
+            *_ISSUER_REGISTRATION_ID_FIELDS,
+            *_FLAT_METADATA_HOLDER_ID_FIELDS,
+        )
+        projected_metadata = {
+            key: metadata[key]
+            for key in identity_metadata_fields
+            if key in metadata
+        }
+
+        for key, target in owner_name_targets.items():
+            if row.get(key) not in (None, ""):
+                projected_row[target] = row[key]
+            if metadata.get(key) not in (None, ""):
+                projected_metadata[target] = metadata[key]
+        for key, target in owner_id_targets.items():
+            if row.get(key) not in (None, ""):
+                projected_row[target] = row[key]
+            if metadata.get(key) not in (None, ""):
+                projected_metadata[target] = metadata[key]
+
+        explicit_row_owner = any(
+            _identity_from_mapping(value).get("names")
+            if isinstance(value, Mapping)
+            else _normalize_entity_name(value)
+            for key in owner_name_targets
+            if (value := row.get(key)) not in (None, "")
+        )
+        row_flat_ids = [
+            row.get(key)
+            for key in _FLAT_METADATA_HOLDER_ID_FIELDS
+            if row.get(key) not in (None, "")
+        ]
+        holder = _structured_holder_identity(projected_row, projected_metadata)
+        if row_flat_ids and explicit_row_owner and not _has_issuer_identity(metadata):
+            holder = _merge_identities(
+                [holder, _make_identity([], row_flat_ids)]
+            )
+        elif row_flat_ids:
+            unassigned_registration_ids.extend(row_flat_ids)
+
+        identities.append(holder)
+        unassigned_registration_ids.extend(
+            holder.get("_unassigned_registration_ids", [])
+        )
+        excluded_registration_ids.extend(
+            holder.get("_excluded_other_party_registration_ids", [])
+        )
+
+    return (
+        _merge_identities(identities),
+        _normalized_registration_ids(unassigned_registration_ids),
+        _normalized_registration_ids(excluded_registration_ids),
+    )
+
+
+def _business_text_owner_identities(
+    texts: list[str],
+    *,
+    include_labels: bool = True,
+) -> list[dict[str, Any]]:
+    identities: list[dict[str, Any]] = []
+    for text in dict.fromkeys(value.strip() for value in texts if value.strip()):
+        if include_labels:
+            for match in _BUSINESS_OWNER_LABEL_RE.finditer(text):
+                identities.append(_make_identity([match.group("holder")], []))
+        prefix_match = _BUSINESS_ENTITY_PREFIX_RE.match(text)
+        if prefix_match:
+            identities.append(_make_identity([prefix_match.group("owner")], []))
+
+    unique: dict[tuple[tuple[str, ...], tuple[str, ...]], dict[str, Any]] = {}
+    for identity in identities:
+        key = (
+            tuple(identity.get("_normalized_names", [])),
+            tuple(identity.get("_normalized_registration_ids", [])),
+        )
+        if key != ((), ()):
+            unique.setdefault(key, identity)
+    return list(unique.values())
+
+
+def _bidder_identity(payload: Mapping[str, Any]) -> dict[str, Any]:
+    profile = payload.get("bidder_profile")
+    profile = profile if isinstance(profile, Mapping) else {}
+    attributes = profile.get("attributes")
+    attributes = attributes if isinstance(attributes, Mapping) else {}
+    names = [
+        profile.get(key)
+        for key in _BIDDER_NAME_FIELDS
+        if profile.get(key) not in (None, "")
+    ]
+    registration_ids = [
+        container.get(key)
+        for container in (profile, attributes)
+        for key in _REGISTRATION_ID_FIELDS
+        if container.get(key) not in (None, "")
+    ]
+    return _make_identity(names, registration_ids)
+
+
+def _structured_holder_identity(
+    row: Mapping[str, Any],
+    metadata: Mapping[str, Any],
+) -> dict[str, Any]:
+    identities: list[dict[str, Any]] = []
+    explicit_holder_name = False
+    for container in (row, metadata):
+        for key in _HOLDER_NAME_FIELDS:
+            value = container.get(key)
+            if value in (None, ""):
+                continue
+            if isinstance(value, Mapping):
+                identity = _identity_from_mapping(value)
+                explicit_holder_name = explicit_holder_name or bool(
+                    identity.get("names")
+                )
+                identities.append(identity)
+            elif isinstance(value, (str, int)):
+                identity = _make_identity([str(value)], [])
+                explicit_holder_name = explicit_holder_name or bool(
+                    identity.get("names")
+                )
+                identities.append(identity)
+
+    holder_registration_ids = [
+        container.get(key)
+        for container in (row, metadata)
+        for key in (
+            "holder_registration_id",
+            "holder_credit_code",
+            "holder_unified_social_credit_code",
+        )
+        if container.get(key) not in (None, "")
+    ]
+    flat_registration_ids = [
+        metadata.get(key)
+        for key in _FLAT_METADATA_HOLDER_ID_FIELDS
+        if metadata.get(key) not in (None, "")
+    ]
+    issuer_ambiguity = _has_issuer_identity(metadata)
+    unassigned_registration_ids: list[Any] = []
+    if flat_registration_ids and explicit_holder_name and not issuer_ambiguity:
+        holder_registration_ids.extend(flat_registration_ids)
+    else:
+        unassigned_registration_ids.extend(flat_registration_ids)
+
+    if holder_registration_ids:
+        identities.append(_make_identity([], holder_registration_ids))
+    result = _merge_identities(identities)
+    result["_unassigned_registration_ids"] = _normalized_registration_ids(
+        unassigned_registration_ids
+    )
+    result["_excluded_other_party_registration_ids"] = _normalized_registration_ids(
+        [
+            metadata.get(key)
+            for key in _ISSUER_REGISTRATION_ID_FIELDS
+            if metadata.get(key) not in (None, "")
+        ]
+    )
+    return result
+
+
+def _identity_from_mapping(value: Mapping[str, Any]) -> dict[str, Any]:
+    names = [
+        value.get(key)
+        for key in (
+            "name",
+            "holder_name",
+            "bidder_name",
+            "company_name",
+            "enterprise_name",
+            "organization_name",
+            "legal_name",
+        )
+        if value.get(key) not in (None, "")
+    ]
+    registration_ids = [
+        value.get(key)
+        for key in _REGISTRATION_ID_FIELDS
+        if value.get(key) not in (None, "")
+    ]
+    return _make_identity(names, registration_ids)
+
+
+def _body_holder_identities(
+    texts: list[str],
+    *,
+    holder_label_re: re.Pattern[str] = _HOLDER_LABEL_RE,
+) -> tuple[list[dict[str, Any]], list[str], list[str]]:
+    identities: list[dict[str, Any]] = []
+    unassigned_registration_ids: list[str] = []
+    excluded_other_party_ids: list[str] = []
+    for text in texts:
+        holders = list(holder_label_re.finditer(text))
+        holder_registration_ids: list[list[str]] = [[] for _ in holders]
+        issuer_labels = list(_ISSUER_CONTEXT_RE.finditer(text))
+        for registration_match in _EXPLICIT_REGISTRATION_ID_RE.finditer(text):
+            registration_id = registration_match.group(1)
+            preceding_holders = [
+                (index, holder)
+                for index, holder in enumerate(holders)
+                if holder.end() <= registration_match.start()
+            ]
+            previous_holder_end = (
+                preceding_holders[-1][1].end() if preceding_holders else -1
+            )
+            issuer_after_holder = any(
+                previous_holder_end <= label.start() < registration_match.start()
+                for label in issuer_labels
+            )
+            if issuer_after_holder:
+                excluded_other_party_ids.append(
+                    _normalize_registration_id(registration_id)
+                )
+                continue
+
+            if preceding_holders:
+                holder_index, holder = preceding_holders[-1]
+                between = text[holder.end() : registration_match.start()]
+                if (
+                    len(between) <= 16
+                    and re.fullmatch(r"[\s。.!！?？；;，,:：、]*", between)
+                ):
+                    holder_registration_ids[holder_index].append(registration_id)
+                    continue
+
+            unassigned_registration_ids.append(
+                _normalize_registration_id(registration_id)
+            )
+
+        identities.extend(
+            _make_identity([match.group("holder").strip()], registration_ids)
+            for match, registration_ids in zip(holders, holder_registration_ids)
+        )
+
+    return (
+        identities,
+        sorted(set(unassigned_registration_ids)),
+        sorted(set(excluded_other_party_ids)),
+    )
+
+
+def _has_issuer_identity(metadata: Mapping[str, Any]) -> bool:
+    return any(metadata.get(key) not in (None, "") for key in _ISSUER_FIELDS)
+
+
+def _normalized_registration_ids(values: list[Any]) -> list[str]:
+    return sorted(
+        {
+            normalized
+            for value in values
+            if (normalized := _normalize_registration_id(value))
+        }
+    )
+
+
+def _make_identity(names: Any, registration_ids: Any) -> dict[str, Any]:
+    unique_names: dict[str, str] = {}
+    for value in names if isinstance(names, (list, tuple, set)) else [names]:
+        if isinstance(value, Mapping):
+            value = value.get("name") or value.get("value") or ""
+        normalized = _normalize_entity_name(value)
+        if normalized:
+            unique_names.setdefault(normalized, str(value).strip())
+    unique_ids = {
+        _normalize_registration_id(value)
+        for value in (
+            registration_ids
+            if isinstance(registration_ids, (list, tuple, set))
+            else [registration_ids]
+        )
+        if _normalize_registration_id(value)
+    }
+    return {
+        "names": sorted(unique_names.values()),
+        "registration_ids": sorted(unique_ids),
+        "_normalized_names": sorted(unique_names),
+        "_normalized_registration_ids": sorted(unique_ids),
+        "conflict": len(unique_names) > 1 or len(unique_ids) > 1,
+    }
+
+
+def _merge_identities(identities: list[Mapping[str, Any]]) -> dict[str, Any]:
+    names = [name for identity in identities for name in identity.get("names", [])]
+    registration_ids = [
+        identifier
+        for identity in identities
+        for identifier in identity.get("registration_ids", [])
+    ]
+    merged = _make_identity(names, registration_ids)
+    merged["conflict"] = merged["conflict"] or any(
+        bool(identity.get("conflict")) for identity in identities
+    )
+    return merged
+
+
+def _public_identity(identity: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "names": list(identity.get("names", [])),
+        "registration_ids": list(identity.get("registration_ids", [])),
+    }
+
+
+def _identities_conflict(
+    left: Mapping[str, Any],
+    right: Mapping[str, Any],
+) -> bool:
+    left_names = set(left.get("_normalized_names", []))
+    right_names = set(right.get("_normalized_names", []))
+    left_ids = set(left.get("_normalized_registration_ids", []))
+    right_ids = set(right.get("_normalized_registration_ids", []))
+    return bool(
+        (left_names and right_names and not left_names.intersection(right_names))
+        or (left_ids and right_ids and not left_ids.intersection(right_ids))
+    )
+
+
+def _normalize_entity_name(value: Any) -> str:
+    text = unicodedata.normalize("NFKC", str(value or "")).casefold()
+    normalized = re.sub(r"\s+", "", text)
+    if normalized in {"本公司", "本企业", "本单位", "我方", "我司", "投标人"}:
+        return ""
+    return normalized
+
+
+def _normalize_registration_id(value: Any) -> str:
+    return re.sub(
+        r"[^A-Za-z0-9]+",
+        "",
+        unicodedata.normalize("NFKC", str(value or "")),
+    ).upper()
+
+
+def _unique_standards(values: Any) -> list[dict[str, Any]]:
+    unique: dict[tuple[str, str | None], dict[str, Any]] = {}
+    for value in values:
+        if not isinstance(value, Mapping) or not value.get("canonical_id"):
+            continue
+        key = (str(value["canonical_id"]), value.get("edition"))
+        unique.setdefault(key, dict(value))
+    return [
+        unique[key]
+        for key in sorted(unique, key=lambda item: (item[0], item[1] or ""))
+    ]
+
+
+def _drop_unspecific_standard_variants(
+    standards: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    families_with_levels = {
+        str(standard.get("type", "")).upper()
+        for standard in standards
+        if standard.get("level")
+    }
+    standards_with_editions = {
+        str(standard.get("canonical_id", ""))
+        for standard in standards
+        if standard.get("edition")
+    }
+    return [
+        standard
+        for standard in standards
+        if not (
+            standard.get("type") in {"CMMI", "ITSS"}
+            and not standard.get("level")
+            and str(standard.get("type", "")).upper() in families_with_levels
+        )
+        and not (
+            str(standard.get("type", "")).startswith("ISO")
+            and not standard.get("edition")
+            and str(standard.get("canonical_id", "")) in standards_with_editions
+        )
+    ]
+
+
+def _standard_display(value: Mapping[str, Any]) -> str:
+    return str(value.get("id") or value.get("canonical_id") or "")
+
+
+def _standards_equivalent(left: Mapping[str, Any], right: Mapping[str, Any]) -> bool:
+    return bool(
+        left.get("canonical_id") == right.get("canonical_id")
+        and not (
+            left.get("edition")
+            and right.get("edition")
+            and left.get("edition") != right.get("edition")
+        )
+    )
+
+
+def _claim_standard_matches(
+    asserted: Mapping[str, Any],
+    evidence: Mapping[str, Any],
+) -> bool:
+    return bool(
+        _standards_equivalent(asserted, evidence)
+        and (
+            not asserted.get("edition")
+            or asserted.get("edition") == evidence.get("edition")
+        )
+    )
+
+
+def _same_standard_sets(
+    left: list[dict[str, Any]],
+    right: list[dict[str, Any]],
+) -> bool:
+    def family_key(standard: Mapping[str, Any]) -> str:
+        family = str(standard.get("type", "")).upper()
+        if family in {"CMMI", "ITSS"}:
+            return family
+        return str(standard.get("canonical_id", ""))
+
+    left_groups: dict[str, list[Mapping[str, Any]]] = {}
+    right_groups: dict[str, list[Mapping[str, Any]]] = {}
+    for standard in left:
+        left_groups.setdefault(family_key(standard), []).append(standard)
+    for standard in right:
+        right_groups.setdefault(family_key(standard), []).append(standard)
+    if left_groups.keys() != right_groups.keys():
+        return False
+
+    for family, left_items in left_groups.items():
+        right_items = right_groups[family]
+        qualifier = "level" if family in {"CMMI", "ITSS"} else "edition"
+        left_values = {
+            str(item[qualifier]) for item in left_items if item.get(qualifier)
+        }
+        right_values = {
+            str(item[qualifier]) for item in right_items if item.get(qualifier)
+        }
+        if len(left_values) > 1 or len(right_values) > 1:
+            return False
+        if left_values and right_values and left_values != right_values:
+            return False
+    return True
+
+
 def _fact_rows(
     value: Any,
     default_type: str,
@@ -807,11 +2251,16 @@ def _source_supports_claim(source: Mapping[str, Any], claim: Mapping[str, Any]) 
     source_type = str(source.get("source_type") or "")
 
     if category == "certification":
-        standard = str(markers.get("standard") or "").casefold()
-        if not standard or standard not in normalized:
-            return False
-        source_polarity = _claim_polarity(text)
-        return source_polarity == markers.get("polarity")
+        audit = _certification_source_check(
+            source,
+            claim,
+            _make_identity([], []),
+        )
+        return bool(
+            audit.get("relevant")
+            and audit.get("standard_check", {}).get("status") == "matched"
+            and audit.get("polarity_matches")
+        )
     if category == "personnel_qualification":
         return _qualification_evidence_matches(
             text,
@@ -897,17 +2346,40 @@ def _source_supports_claim(source: Mapping[str, Any], claim: Mapping[str, Any]) 
     return False
 
 
+def _requires_business_subject_check(claim: Mapping[str, Any]) -> bool:
+    category = claim.get("category")
+    if category == "case_quantity":
+        return True
+    if category != "amount":
+        return False
+    role = claim.get("markers", {}).get("role")
+    return bool(claim.get("company_assertion")) or role in {
+        "contract_amount",
+        "project_amount",
+        "award_amount",
+        "registered_capital",
+        "revenue",
+    }
+
+
 def _source_conflict_reason(
     source: Mapping[str, Any],
     claim: Mapping[str, Any],
 ) -> str:
     text = str(source.get("text") or "")
-    normalized = _normalize_compact(text)
     category = claim["category"]
     markers = claim["markers"]
     if category == "certification":
-        standard = str(markers.get("standard") or "").casefold()
-        if standard in normalized and _claim_polarity(text) != markers.get("polarity"):
+        audit = _certification_source_check(
+            source,
+            claim,
+            _make_identity([], []),
+        )
+        if not audit.get("relevant"):
+            return ""
+        if audit.get("standard_check", {}).get("status") != "matched":
+            return str(audit.get("reason") or "来源标准与声明不匹配。")
+        if not audit.get("polarity_matches"):
             return "来源对该资质记载的肯定/否定状态与正文相反"
     elif category == "personnel_qualification":
         qualification = str(markers.get("qualification") or "")
@@ -1084,7 +2556,10 @@ def _business_source_usable(
         "approved_commitment",
         "unconfirmed_fact",
     }:
-        return _explicit_fact_usable(row, str(source.get("source_type")))
+        fact_row = row.get("row")
+        if not isinstance(fact_row, Mapping):
+            fact_row = row
+        return _explicit_fact_usable(fact_row, str(source.get("source_type")))
     identifier = str(source.get("source_id") or "")
     return _material_usable(row, as_of, match_status.get(identifier, []))
 
@@ -1250,8 +2725,12 @@ def _tender_text_supports(text: str, claim: Mapping[str, Any]) -> bool:
     markers = claim["markers"]
     compact = _normalize_compact(text)
     if category == "certification":
+        asserted = markers.get("asserted_standard", {})
+        standards = _standard_from_text(text)
         return (
-            str(markers.get("standard") or "").casefold() in compact
+            isinstance(asserted, Mapping)
+            and len(standards) == 1
+            and _claim_standard_matches(asserted, standards[0])
             and _claim_polarity(text) == markers.get("polarity")
             and bool(
                 re.search(

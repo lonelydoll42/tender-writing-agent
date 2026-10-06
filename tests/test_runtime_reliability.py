@@ -167,15 +167,55 @@ async def test_review_required_blocks_writing_and_allows_report() -> None:
 async def test_scoped_pass_allows_draft_but_never_authorizes_submission() -> None:
     writer = CountingSkill("document-writing")
     runtime = _runtime([ComplianceReviewSkill(), writer])
+    scoped_requirement = {
+        "requirement_id": "R-PASS",
+        "category": "technical",
+        "title": "技术要求",
+        "description": "交付方案需符合项目要求",
+        "mandatory": True,
+    }
+    scoped_review = {
+        "project_id": "project-1",
+        "requirements": [scoped_requirement],
+        "scoring_items": [],
+        "ledger": {
+            "entries": [
+                {
+                    "requirement_id": "R-PASS",
+                    "mandatory": True,
+                    "status": "matched",
+                }
+            ]
+        },
+        "sections": [
+            {
+                "section_id": "technical",
+                "title": "技术方案",
+                "kind": "technical",
+                "requirement_ids": ["R-PASS"],
+            }
+        ],
+        "writing_scope": ["technical"],
+    }
+    scoped_writer_input = {
+        "project_id": "project-1",
+        "requirements": [scoped_requirement],
+        "scoring_items": [],
+        "sections": scoped_review["sections"],
+        "writing_scope": ["technical"],
+    }
     result = await runtime.run(
         SkillRequest.create(
             {
                 "plan": [
                     {
                         "skill_name": "compliance-review",
-                        "input": _checked_passing_ledger(),
+                        "input": scoped_review,
                     },
-                    {"skill_name": "document-writing", "input": {}},
+                    {
+                        "skill_name": "document-writing",
+                        "input": scoped_writer_input,
+                    },
                 ]
             }
         )

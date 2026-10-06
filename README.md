@@ -138,11 +138,60 @@ backend 按其自身输出合约处理。
   --output .qiaowenshu\acceptance\raw-file-run.json
 ```
 
-未传 `--output` 时报告写到标准输出；评测不会自动覆盖既有报告。当前原始文件结果
-是文本约束覆盖 `4/10`、金额归一化 `6/6`、评分上限 `2/2`、关键负例误放行 `0/7`。
-其中 `0/7` 主要验证本地默认门禁保守阻断，不能解释为资格识别准确率。模拟OCR只
-验证低置信与来源传递，不代表真实OCR准确率；Poppler不可用时PDF指标为
-`not_run`，不计作通过。
+未传 `--output` 时报告写到标准输出；评测不会自动覆盖既有报告。本轮独立原始文件
+回归报告为
+`.qiaowenshu/acceptance/raw-file-followup-acceptance.json`：要求文本覆盖`4/10`、
+金额归一化`6/6`、评分上限`2/2`、关键负例误放行`0/7`且`inconclusive=0`；
+Poppler可用、`run_status=completed`。4/10有6项约束遗漏，仍未修复或验收通过；
+0/7主要反映本地默认门禁保守阻断，不是资格识别准确率。模拟OCR以固定文本和
+置信度`0.61`调用一次，只验证告警与来源传递，不代表真实OCR准确率。
+Poppler不可用时PDF指标为`not_run`，不计作通过。
+
+## 复审整改限定评测
+
+此前“可靠性专项全部通过”的笼统结论已撤回。本轮新增的正负例只复测独立复审指出
+的认证标准与主体核验、中文项目数量扫描、Runtime审查范围绑定等固定反例，并用有
+效正例统计误阻断。它不是通用事实核验、原始文件解析或生产可用性认证。
+
+fixture与oracle分离；oracle在样本运行结束后加载，不进入Runtime、Skill或模拟LLM
+输入。模拟LLM只回放固定草稿，不代表真实模型准确率。结果分别报告写作与Runtime
+的正确通过率、正例误阻断率、负例误放行率、分母、`not_run`、`inconclusive`、
+模型调用次数、写作调用次数、Runtime拒绝原因及`claim_verification.coverage`扫描
+状态。`needs_review`与`blocked`保留在有效正例的误阻断统计中；未报告扫描覆盖不能
+视为扫描完整。
+
+```powershell
+# 运行固定样例并输出JSON到控制台
+.venv\Scripts\python.exe scripts\run_reliability_followup_eval.py
+
+# 显式指定一个新的报告路径；已有目标会拒绝覆盖
+.venv\Scripts\python.exe scripts\run_reliability_followup_eval.py `
+  --output .qiaowenshu\acceptance\reliability-followup-NEW.json
+```
+
+27样本followup runner使用固定模拟模型，不调用真实模型或OCR，也不处理PDF；其
+`raw_file_baseline`字段仍是历史引用，不是本轮原文件结果。主验收332项测试包含
+`tests/evals/test_raw_file_benchmark.py`，该测试调用`run_raw_file_eval`；此外另有
+上述独立原文件报告。4/10仅表示约束文本覆盖，不表示已生成正确、完整的可执行规则；
+详见
+[`docs/reliability_acceptance.md`](docs/reliability_acceptance.md)、
+[`benchmarks/reliability_followup/README.md`](benchmarks/reliability_followup/README.md)。
+
+主验收对 final-2 固定集合独立重跑：写作18例（6正/12负），正确通过6/6、误阻断
+0/6、误放行0/12；Runtime 9例（2正/7负），正确通过2/2、误阻断0/2、误放行0/7。
+两领域 `not_run` 与 `inconclusive` 均为0；Runtime七个负例的模型和writer调用均为
+0，两个正例各调用一次。全量测试为`332 passed`，有1条既有Starlette弃用告警；
+Ruff和`git diff --check`通过。报告保存在
+`.qiaowenshu/acceptance/reliability-followup-final-2.json`。
+
+自然语言数量/金额扫描仅依赖当前实现的有限模式，不代表对任意说法的完整语义识别。
+早期23样本报告`.qiaowenshu/acceptance/reliability-followup-final.json`及新增样本
+修复前报告`.qiaowenshu/acceptance/reliability-followup-expanded-before-fix.json`均作为
+历史记录保留；后者包含3例已复现的误放行，不代表修复后结果。
+
+本轮未调用真实模型或真实OCR；原文件回归中的模拟OCR不测识别准确率，6项原文约束
+遗漏仍未修复、未验收通过。此项限定评测不认证生产权限、Word交付或整体投标流程可靠性；
+此前“可靠性专项全部通过”的笼统表述已撤回。
 
 当配置了 `QIAOWENSHU_LLM_API_BASE_URL` 和 `QIAOWENSHU_LLM_API_KEY` 后，默认注册表会自动注入 OpenAI-compatible Qwen 客户端。客户端请求
 本项目的客户端使用 OpenAI-compatible 地址

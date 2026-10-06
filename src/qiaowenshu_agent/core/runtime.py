@@ -18,6 +18,18 @@ from qiaowenshu_agent.core.context import SkillContext
 from qiaowenshu_agent.core.contracts import SkillRequest, SkillResult
 from qiaowenshu_agent.core.events import InMemoryEventSink
 from qiaowenshu_agent.core.registry import SkillRegistry
+from qiaowenshu_agent.core.scope_authorization import (
+    SCOPE_BINDINGS_STATE_KEY,
+    append_binding,
+    authorize_writer_scope,
+    binding_container,
+    collect_artifact_dependencies,
+    create_review_binding,
+    evaluate_compliance_input,
+    build_writing_scope,
+    prepare_compliance_review_input,
+    public_binding,
+)
 from qiaowenshu_agent.core.store import AgentRun, InMemoryStore
 
 
@@ -428,6 +440,7 @@ class AgentRunResult:
             ),
             "submission_allowed": False,
             "scoped_gate_passed": assessment["scoped_gate_passed"],
+            "scope_binding": assessment["scope_binding"],
             "output": self.output,
             "message": self.message,
             "steps": [step.to_dict() for step in self.steps],
@@ -736,61 +749,6 @@ class AgentRuntime:
                     )
                 continue
 
-            gate_kind = _capability_gate_kind(step.skill_name, self.registry)
-            if gate_kind is not None:
-                assessment = _business_assessment(steps)
-                if gate_kind == "submission":
-                    reason = (
-                        "final submission is not authorized by the scoped review; "
-                        "submission_allowed remains false"
-                    )
-                elif not assessment["scoped_gate_passed"]:
-                    reason = (
-                        "writing/export requires a checked scoped compliance pass "
-                        "with no blockers; current business_status is "
-                        f"{assessment['business_status']}"
-                    )
-                else:
-                    reason = ""
-                if reason:
-                    final_result = SkillResult(
-                        status="blocked",
-                        data={
-                            "error_code": "COMPLIANCE_GATE_BLOCKED",
-                            "gate_reason": reason,
-                            "business_status": assessment["business_status"],
-                            "scoped_gate_passed": assessment[
-                                "scoped_gate_passed"
-                            ],
-                        },
-                        message=reason,
-                        error_code="COMPLIANCE_GATE_BLOCKED",
-                    )
-                    _set_step(
-                        steps,
-                        index,
-                        AgentStepResult(step.skill_name, final_result),
-                    )
-                    context.emit(
-                        "run_failed",
-                        payload={
-                            "error_code": "COMPLIANCE_GATE_BLOCKED",
-                            "skill_name": step.skill_name,
-                            "gate_reason": reason,
-                            "business_status": assessment["business_status"],
-                        },
-                    )
-                    next_step_index = index
-                    break
-
-            if not context.budget.reserve_step():
-                final_result = SkillResult.blocked(
-                    message="agent step budget exhausted",
-                    error_code="STEP_BUDGET_EXHAUSTED",
-                )
-                next_step_index = index
-                break
-
             skill = self.registry.get(step.skill_name)
             if skill is None:
                 final_result = SkillResult.failure(
@@ -805,13 +763,17 @@ class AgentRuntime:
                 raw_input = step.input if step.input is not None else request.input
                 resolved_input = resolve_step_input(
                     raw_input,
-                    state=context.state,
+                    state=_visible_runtime_state(context.state),
                     request_input=request.input,
                 )
                 if not isinstance(resolved_input, dict):
                     raise StepInputReferenceError(
                         "resolved step input must be an object"
                     )
+                resolved_input = _inherit_project_id(
+                    resolved_input,
+                    request.input,
+                )
             except StepInputReferenceError as exc:
                 result = SkillResult.failure(
                     message=str(exc),
@@ -893,9 +855,169 @@ class AgentRuntime:
                 next_step_index = index
                 break
 
+            gate_kind = _capability_gate_kind(step.skill_name, self.registry)
+            authorization: dict[str, Any] | None = None
+            gate_result: SkillResult | None = None
+            if gate_kind == "submission":
+                assessment = _business_assessment(steps)
+                reason = (
+                    "final submission is not authorized by the scoped review; "
+                    "submission_allowed remains false"
+                )
+                gate_result = SkillResult(
+                    status="blocked",
+                    data={
+                        "error_code": "COMPLIANCE_GATE_BLOCKED",
+                        "gate_reason": reason,
+                        "business_status": assessment["business_status"],
+                        "scoped_gate_passed": False,
+                        "submission_allowed": False,
+                    },
+                    message=reason,
+                    error_code="COMPLIANCE_GATE_BLOCKED",
+                )
+            elif gate_kind == "scoped":
+                assessment = _business_assessment(steps)
+                if assessment["business_status"] != "passed":
+                    reason = (
+                        "writing/export requires a passed business review; "
+                        "current business_status is "
+                        f"{assessment['business_status']}"
+                    )
+                    review_reasons = [
+                        copy.deepcopy(review_reason)
+                        for review_step in steps
+                        if review_step.skill_name == "compliance-review"
+                        for review_reason in (
+                            review_step.result.data.get(
+                                "runtime_scope_binding", {}
+                            ).get("reasons", [])
+                            if isinstance(
+                                review_step.result.data.get(
+                                    "runtime_scope_binding"
+                                ),
+                                Mapping,
+                            )
+                            else []
+                        )
+                        if isinstance(review_reason, Mapping)
+                    ]
+                    review_reasons.append(
+                        {
+                            "code": "review_business_not_passed",
+                            "message": reason,
+                        }
+                    )
+                    gate_result = SkillResult(
+                        status="blocked",
+                        data={
+                            "error_code": "COMPLIANCE_GATE_BLOCKED",
+                            "gate_reason": reason,
+                            "business_status": assessment["business_status"],
+                            "scoped_gate_passed": False,
+                            "scope_binding_decision": {
+                                "status": "blocked",
+                                "reasons": review_reasons,
+                            },
+                        },
+                        message=reason,
+                        error_code="COMPLIANCE_GATE_BLOCKED",
+                    )
+                else:
+                    artifact_ids_for_step = _dependency_artifact_ids(
+                        step.input or {},
+                        completed_artifacts,
+                    )
+                    authorization = authorize_writer_scope(
+                        bindings=binding_container(
+                            context.state.get(SCOPE_BINDINGS_STATE_KEY)
+                        ),
+                        steps=steps,
+                        writer_input=resolved_input,
+                        request_input=request.input,
+                        file_registry=self.services.get("file_registry"),
+                        artifact_dependencies=collect_artifact_dependencies(
+                            artifact_ids_for_step,
+                            self.store,
+                        ),
+                    )
+                    if authorization.get("status") != "authorized":
+                        reason = (
+                            "the resolved writing scope is not covered by one "
+                            "passed runtime review binding"
+                        )
+                        gate_result = SkillResult(
+                            status="blocked",
+                            data={
+                                "error_code": "SCOPE_BINDING_BLOCKED",
+                                "gate_reason": reason,
+                                "business_status": assessment["business_status"],
+                                "scoped_gate_passed": False,
+                                "scope_binding_decision": authorization,
+                            },
+                            message=reason,
+                            error_code="SCOPE_BINDING_BLOCKED",
+                        )
+            if gate_result is not None:
+                final_result = gate_result
+                _set_step(
+                    steps,
+                    index,
+                    AgentStepResult(step.skill_name, gate_result),
+                )
+                context.emit(
+                    "run_failed",
+                    payload={
+                        "error_code": gate_result.error_code,
+                        "skill_name": step.skill_name,
+                        "business_status": gate_result.data.get(
+                            "business_status"
+                        ),
+                        "scope_binding_decision": gate_result.data.get(
+                            "scope_binding_decision"
+                        ),
+                    },
+                )
+                next_step_index = index
+                break
+
+            if not context.budget.reserve_step():
+                final_result = SkillResult.blocked(
+                    message="agent step budget exhausted",
+                    error_code="STEP_BUDGET_EXHAUSTED",
+                )
+                next_step_index = index
+                break
+
+            expected_review: dict[str, Any] | None = None
+            execution_input = resolved_input
+            review_snapshot: dict[str, Any] | None = None
+            review_scope_snapshot: tuple[
+                dict[str, Any], list[dict[str, Any]]
+            ] | None = None
+            review_artifact_dependencies: list[dict[str, Any]] = []
+            if step.skill_name == "compliance-review":
+                review_snapshot = copy.deepcopy(resolved_input)
+                expected_review = evaluate_compliance_input(review_snapshot)
+                review_artifact_ids = _dependency_artifact_ids(
+                    step.input or {},
+                    completed_artifacts,
+                )
+                review_artifact_dependencies = collect_artifact_dependencies(
+                    review_artifact_ids,
+                    self.store,
+                )
+                review_scope_snapshot = build_writing_scope(
+                    review_snapshot,
+                    request_input=request.input,
+                    file_registry=self.services.get("file_registry"),
+                    artifact_dependencies=review_artifact_dependencies,
+                )
+                execution_input = prepare_compliance_review_input(review_snapshot)
+
             skill_request = SkillRequest(
                 request_id=request.request_id,
-                input=resolved_input,
+                input=execution_input,
                 skill_name=step.skill_name,
                 user_id=request.user_id,
                 tenant_id=request.tenant_id,
@@ -915,7 +1037,35 @@ class AgentRuntime:
                     retryable=True,
                 )
             if step.skill_name == "compliance-review":
-                _normalize_compliance_result(result)
+                _normalize_compliance_result(result, expected_review)
+                binding = create_review_binding(
+                    run_id=run_id,
+                    step_index=index,
+                    review_input=review_snapshot or resolved_input,
+                    request_input=request.input,
+                    expected_review=expected_review,
+                    review_result_passed=(
+                        result.status == "success"
+                        and result.data.get("business_status") == "passed"
+                    ),
+                    file_registry=self.services.get("file_registry"),
+                    artifact_dependencies=review_artifact_dependencies,
+                    scope_snapshot=review_scope_snapshot,
+                )
+                context.state[SCOPE_BINDINGS_STATE_KEY] = append_binding(
+                    context.state.get(SCOPE_BINDINGS_STATE_KEY),
+                    binding,
+                )
+                result.data = dict(result.data)
+                result.data["runtime_scope_binding"] = public_binding(binding)
+                result.data["submission_allowed"] = False
+                result.data["scoped_gate_passed"] = bool(
+                    result.data.get("business_status") == "passed"
+                    and binding["status"] == "bound"
+                )
+            elif authorization is not None:
+                result.data = dict(result.data)
+                result.data["runtime_scope_authorization"] = authorization
             result.trace_id = run_id
             context.state[step.skill_name] = result.data
             _set_step(steps, index, AgentStepResult(step.skill_name, result))
@@ -1370,26 +1520,76 @@ def _compliance_assessment(
     else:
         business_status = "passed"
 
+    binding = data.get("runtime_scope_binding")
+    binding_status = (
+        str(binding.get("status") or "").strip()
+        if isinstance(binding, Mapping)
+        else "not_bound"
+    )
     scoped_gate_passed = bool(
         checked
         and business_status == "passed"
         and summary_passed is True
         and blocker_count == 0
         and data.get("needs_human_review") is not True
-        and data.get("scoped_gate_passed") is not False
+        and binding_status == "bound"
+        and isinstance(binding, Mapping)
+        and binding.get("binding_id")
+        and binding.get("integrity_digest")
     )
     return {
         "business_status": business_status,
         "checked": checked,
         "needs_human_review": business_status in {"failed", "needs_review"},
         "scoped_gate_passed": scoped_gate_passed,
+        "binding_status": binding_status,
+        "binding_id": (
+            binding.get("binding_id") if isinstance(binding, Mapping) else None
+        ),
+        "scope_fingerprint": (
+            binding.get("scope_fingerprint")
+            if isinstance(binding, Mapping)
+            else None
+        ),
         "blocker_count": blocker_count,
         "summary_passed": summary_passed is True,
     }
 
 
-def _normalize_compliance_result(result: SkillResult) -> None:
+def _normalize_compliance_result(
+    result: SkillResult,
+    expected_review: Mapping[str, Any] | None,
+) -> None:
     data = dict(result.data)
+    if expected_review is None:
+        data.update(
+            {
+                "business_status": "not_checked",
+                "checked": False,
+                "summary": {
+                    **(
+                        dict(data.get("summary"))
+                        if isinstance(data.get("summary"), Mapping)
+                        else {}
+                    ),
+                    "passed": False,
+                },
+                "needs_human_review": True,
+            }
+        )
+    else:
+        for key in (
+            "project_id",
+            "findings",
+            "business_status",
+            "checked",
+            "check_coverage",
+            "summary",
+            "needs_human_review",
+        ):
+            if key in expected_review:
+                data[key] = copy.deepcopy(expected_review[key])
+    data["runtime_scope_binding"] = {"status": "not_bound"}
     assessment = _compliance_assessment(data, execution_status=result.status)
     data.update(
         {
@@ -1400,7 +1600,7 @@ def _normalize_compliance_result(result: SkillResult) -> None:
                 or assessment["business_status"] in {"failed", "needs_review"}
             ),
             "submission_allowed": False,
-            "scoped_gate_passed": assessment["scoped_gate_passed"],
+            "scoped_gate_passed": False,
         }
     )
     result.data = data
@@ -1463,22 +1663,63 @@ def _business_assessment(steps: list[AgentStepResult]) -> dict[str, Any]:
     elif "not_checked" in statuses:
         business_status = "not_checked"
     elif compliance_results and all(
-        item["scoped_gate_passed"] for item in compliance_results
+        item["business_status"] == "passed" for item in compliance_results
     ):
         business_status = "passed"
     else:
         business_status = "not_checked"
 
+    bound_fingerprints = {
+        str(item["scope_fingerprint"])
+        for item in compliance_results
+        if item["binding_status"] == "bound" and item["scope_fingerprint"]
+    }
+    all_reviews_bound = bool(compliance_results) and all(
+        item["binding_status"] == "bound"
+        and item["scope_fingerprint"]
+        and item["binding_id"]
+        for item in compliance_results
+    )
+    binding_status = (
+        "bound"
+        if all_reviews_bound and len(bound_fingerprints) == 1
+        else "ambiguous"
+        if len(bound_fingerprints) > 1
+        else "not_bound"
+    )
+    binding_reasons = _unique_strings(
+        [
+            str(reason.get("code"))
+            for step in steps
+            if step.skill_name == "compliance-review"
+            for reason in (
+                step.result.data.get("runtime_scope_binding", {}).get("reasons", [])
+                if isinstance(
+                    step.result.data.get("runtime_scope_binding"), Mapping
+                )
+                else []
+            )
+            if isinstance(reason, Mapping) and reason.get("code")
+        ]
+    )
     scoped_gate_passed = bool(
-        business_status == "passed"
-        and compliance_results
-        and all(item["scoped_gate_passed"] for item in compliance_results)
+        business_status == "passed" and binding_status == "bound"
     )
     return {
         "business_status": business_status,
         "needs_human_review": business_status != "passed",
         "submission_allowed": False,
         "scoped_gate_passed": scoped_gate_passed,
+        "scope_binding": {
+            "status": binding_status,
+            "binding_ids": [
+                item["binding_id"]
+                for item in compliance_results
+                if item["binding_id"]
+            ],
+            "scope_fingerprints": sorted(bound_fingerprints),
+            "reason_codes": binding_reasons,
+        },
         "warnings": warnings,
         "risks": risks,
     }
@@ -1498,6 +1739,26 @@ def _result_business_assessment(
             list(assessment["risks"])
             + ["run dependencies are stale or missing"]
         )
+    authorization = output.get("runtime_scope_authorization")
+    if (
+        isinstance(authorization, Mapping)
+        and authorization.get("status") == "authorized"
+        and assessment["business_status"] == "passed"
+    ):
+        assessment["scoped_gate_passed"] = True
+        assessment["scope_binding"] = {
+            "status": "authorized",
+            "binding_id": authorization.get("binding_id"),
+            "scope_fingerprint": authorization.get("scope_fingerprint"),
+            "match_kind": authorization.get("match_kind"),
+        }
+    decision = output.get("scope_binding_decision")
+    if isinstance(decision, Mapping) and decision.get("status") == "blocked":
+        assessment["scoped_gate_passed"] = False
+        assessment["scope_binding"] = {
+            "status": "blocked",
+            "reasons": copy.deepcopy(decision.get("reasons") or []),
+        }
     return assessment
 
 
@@ -2110,6 +2371,30 @@ def resolve_step_input(
             for item in value
         ]
     return value
+
+
+def _visible_runtime_state(state: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        key: value
+        for key, value in state.items()
+        if key != SCOPE_BINDINGS_STATE_KEY
+    }
+
+
+def _inherit_project_id(
+    value: dict[str, Any],
+    request_input: Mapping[str, Any],
+) -> dict[str, Any]:
+    resolved = dict(value)
+    if str(resolved.get("project_id") or "").strip():
+        return resolved
+    profile = resolved.get("tender_profile")
+    if isinstance(profile, Mapping) and str(profile.get("project_id") or "").strip():
+        return resolved
+    request_project = str(request_input.get("project_id") or "").strip()
+    if request_project:
+        resolved["project_id"] = request_project
+    return resolved
 
 
 def _read_reference(

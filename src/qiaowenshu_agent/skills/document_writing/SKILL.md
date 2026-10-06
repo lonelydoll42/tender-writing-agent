@@ -25,7 +25,12 @@ evidence matching, then calls the injected Qwen LLM service for prose.
 - chapter-level Markdown with requirement and scoring coverage
 - context-checked evidence IDs, requirement/scoring coverage IDs and source references
 - structured `verification_findings`, `claim_evidence_mapping` and `unsupported_claims`
+- `claim_verification` with claim counts and a per-run `coverage` record containing
+  `status`, `scanned_sentence_count`, `recognized_claim_count`,
+  `unclassified_high_risk_claim_count`, `unclassified_high_risk_snippets` and
+  `recognized_patterns`
 - `business_status`, `submission_allowed`, `unknowns`, `missing_materials` and `needs_human_review`
+- `notices` for non-blocking delivery constraints; action-required findings remain in `warnings`
 - a generated Markdown artifact descriptor
 
 ## Safety rules
@@ -40,10 +45,24 @@ evidence matching, then calls the injected Qwen LLM service for prose.
   that the bidder already holds a qualification, has completed past projects,
   or approved a future commitment. Unreviewed `bidder_profile` self-reports
   are not verification sources for high-risk claims.
+- Enterprise certification claims compare the complete typed standard
+  identifier, such as `ISO/IEC 27001`; certificate numbers and untyped digits
+  are not standards. A disagreement between `metadata.certificate_type` and
+  certificate text requires review.
+- Enterprise qualification evidence must identify the same bidder through an
+  exact legal name or explicit registration identifier from `bidder_profile`
+  and the evidence holder. Missing or conflicting identity is not support;
+  subsidiaries and people named as personnel-certificate holders are not
+  automatically the bidder.
 - Material IDs are checked against the exact chapter context. A source only
   supports a detected claim when its content matches and its status, validity
   and available confidence checks permit use. Model-reported claims are not
   trusted; the verifier scans the rendered chapter text.
+- `claim_verification.status` is `verified`, `no_claims_detected`,
+  `needs_review` or `not_checked`. `coverage.status` is `complete`, `partial`
+  or `not_scanned`; `complete` means the configured pattern scan ran, not that
+  every natural-language fact was found. Unclassified high-risk snippets
+  require review, and zero detected claims is not a factual verification pass.
 - The rule scanner covers selected high-risk patterns and is not a complete
   natural-language fact verifier. Any generated document remains a draft:
   `submission_allowed` is always `false`, including when `business_status` is

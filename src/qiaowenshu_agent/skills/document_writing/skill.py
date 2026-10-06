@@ -34,10 +34,10 @@ class WritingLLM(Protocol):
 
 MANIFEST = SkillManifest(
     name="document-writing",
-    version="0.1.1",
+    version="0.1.2",
     description=(
-        "Write draft tender chapters and independently verify selected "
-        "high-risk claims against supplied evidence."
+        "Write draft tender chapters and report bounded high-risk claim "
+        "verification coverage against supplied evidence."
     ),
     input_schema={
         "type": "object",
@@ -87,7 +87,76 @@ MANIFEST = SkillManifest(
             "verification_findings",
             "claim_evidence_mapping",
             "unsupported_claims",
+            "claim_verification",
+            "notices",
         ],
+        "properties": {
+            "notices": {
+                "type": "array",
+                "items": {"type": "string"},
+            },
+            "claim_verification": {
+                "type": "object",
+                "required": [
+                    "status",
+                    "detected_claim_count",
+                    "supported_claim_count",
+                    "unsupported_claim_count",
+                    "coverage",
+                ],
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "verified",
+                            "no_claims_detected",
+                            "needs_review",
+                            "not_checked",
+                        ],
+                    },
+                    "detected_claim_count": {"type": "integer", "minimum": 0},
+                    "supported_claim_count": {"type": "integer", "minimum": 0},
+                    "unsupported_claim_count": {"type": "integer", "minimum": 0},
+                    "coverage": {
+                        "type": "object",
+                        "required": [
+                            "status",
+                            "scanned_sentence_count",
+                            "recognized_claim_count",
+                            "unclassified_high_risk_claim_count",
+                            "unclassified_high_risk_snippets",
+                            "recognized_patterns",
+                        ],
+                        "properties": {
+                            "status": {
+                                "type": "string",
+                                "enum": ["complete", "partial", "not_scanned"],
+                            },
+                            "scanned_sentence_count": {
+                                "type": "integer",
+                                "minimum": 0,
+                            },
+                            "recognized_claim_count": {
+                                "type": "integer",
+                                "minimum": 0,
+                            },
+                            "unclassified_high_risk_claim_count": {
+                                "type": "integer",
+                                "minimum": 0,
+                            },
+                            "unclassified_high_risk_snippets": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                            },
+                            "recognized_patterns": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                            },
+                        },
+                    },
+                },
+            }
+        },
     },
     capabilities=(
         "tender.draft",
@@ -118,6 +187,22 @@ class DocumentWritingSkill(Skill):
                 error_code="INVALID_DOCUMENT_WRITING_INPUT",
             )
 
+        try:
+            sections = _select_sections(payload)
+        except ValueError as exc:
+            return SkillResult.failure(
+                message=str(exc),
+                error_code="DOCUMENT_WRITING_SCOPE_INVALID",
+            )
+        if not sections:
+            return SkillResult.failure(
+                message=(
+                    "no writable tender sections were supplied; provide "
+                    "sections or tender requirements"
+                ),
+                error_code="DOCUMENT_WRITING_OUTLINE_EMPTY",
+            )
+
         llm = context.get_service("llm", self.llm)
         if llm is None:
             return SkillResult.blocked(
@@ -128,16 +213,6 @@ class DocumentWritingSkill(Skill):
             return SkillResult.failure(
                 message="configured LLM backend does not support JSON completion",
                 error_code="LLM_BACKEND_INVALID",
-            )
-
-        sections = _select_sections(payload)
-        if not sections:
-            return SkillResult.failure(
-                message=(
-                    "no writable tender sections were supplied; provide "
-                    "sections or tender requirements"
-                ),
-                error_code="DOCUMENT_WRITING_OUTLINE_EMPTY",
             )
 
         generated: list[dict[str, Any]] = []
@@ -187,6 +262,7 @@ class DocumentWritingSkill(Skill):
                             "requirement_coverage",
                             "scoring_coverage",
                             "claims_scanned",
+                            "claim_verification",
                             "claim_evidence_mapping",
                             "unsupported_claims",
                             "verification_findings",
@@ -246,6 +322,7 @@ class DocumentWritingSkill(Skill):
         unsupported_claims = [
             claim for chapter in generated for claim in chapter["unsupported_claims"]
         ]
+        claim_verification = _aggregate_claim_verification(generated)
         integrity_failed = any(chapter["integrity_failed"] for chapter in generated)
         fallback_used = any(
             "structured_output_fallback" in chapter["risk_flags"]
@@ -273,7 +350,6 @@ class DocumentWritingSkill(Skill):
             warnings.append("独立事实核验发现未验证内容或引用问题，需人工处理")
         if fallback_used:
             warnings.append("至少一个章节使用非结构化文本回退，必须人工复核")
-        warnings.append("本输出仅为草案，submission_allowed=false，不能直接提交")
         data = {
             "project_id": payload["project_id"],
             "model": configured_model,
@@ -286,6 +362,7 @@ class DocumentWritingSkill(Skill):
             "unsupported_claims": unsupported_claims,
             "verification_findings": verification_findings,
             "claim_evidence_mapping": claim_evidence_mapping,
+            "claim_verification": claim_verification,
             "business_status": business_status,
             "verification_as_of": {
                 "date": payload["as_of"],
@@ -293,8 +370,10 @@ class DocumentWritingSkill(Skill):
             },
             "submission_allowed": False,
             "needs_human_review": needs_review,
+            "notices": ["本输出仅为草案，submission_allowed=false，不能直接提交"],
             "verification_scope": (
-                "确定性规则仅扫描已实现的高风险声明模式；不构成通用自然语言事实核验，"
+                "claim_verification.coverage报告本次模式扫描的已识别模式及未分类高风险片段；"
+                "coverage=complete仅表示有限扫描器完成本次扫描，不保证通用自然语言语义完整性。"
                 "业务核验通过也不代表草案获准提交。"
             ),
             "summary": {
@@ -304,6 +383,13 @@ class DocumentWritingSkill(Skill):
                 "unknown_count": len(chapter_unknowns),
                 "verification_finding_count": len(verification_findings),
                 "scanned_claim_count": len(claim_evidence_mapping),
+                "claim_scan_coverage_status": claim_verification["coverage"]["status"],
+                "recognized_claim_count": claim_verification["coverage"][
+                    "recognized_claim_count"
+                ],
+                "unclassified_high_risk_claim_count": claim_verification["coverage"][
+                    "unclassified_high_risk_claim_count"
+                ],
                 "unsupported_claim_count": len(unsupported_claims),
                 "business_status": business_status,
             },
@@ -354,12 +440,20 @@ def _parse_input(data: Mapping[str, Any]) -> dict[str, Any]:
         materials = _mapping_list(bidder_profile.get("materials"), "materials")
     matches = _mapping_list(data.get("evidence_matches"), "evidence_matches")
     scope = data.get("writing_scope")
-    if isinstance(scope, str):
-        writing_scope = [item.strip() for item in scope.split(",") if item.strip()]
-    elif isinstance(scope, (list, tuple)):
-        writing_scope = [str(item).strip() for item in scope if str(item).strip()]
-    else:
+    if scope is None or isinstance(scope, str) and not scope.strip():
         writing_scope = []
+    elif isinstance(scope, str):
+        writing_scope = [item.strip() for item in scope.split(",") if item.strip()]
+        if not writing_scope:
+            raise ValueError("writing_scope must contain at least one selector")
+    elif isinstance(scope, (list, tuple)):
+        if any(not isinstance(item, str) for item in scope):
+            raise TypeError("writing_scope selectors must be strings")
+        writing_scope = [str(item).strip() for item in scope if str(item).strip()]
+        if scope and not writing_scope:
+            raise ValueError("writing_scope must contain at least one selector")
+    else:
+        raise TypeError("writing_scope must be a string, list, tuple, or null")
     max_sections = _positive_int(data.get("max_sections"), default=12)
     max_tokens = _positive_int(data.get("max_tokens"), default=3500)
     return {
@@ -390,11 +484,25 @@ def _select_sections(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
         sections = _derive_outline(payload)
     scope = {str(item).casefold() for item in payload["writing_scope"]}
     if scope:
+        unmatched = [
+            item
+            for item in scope
+            if not any(
+                _section_matches_scope(section, {item})
+                for section in sections
+            )
+        ]
+        if unmatched:
+            raise ValueError(
+                "writing_scope contains unknown section selector(s): "
+                + ", ".join(sorted(unmatched))
+            )
         filtered = [
             section for section in sections if _section_matches_scope(section, scope)
         ]
-        if filtered:
-            sections = filtered
+        if not filtered:
+            raise ValueError("writing_scope did not select any writable sections")
+        sections = filtered
     limit = int(payload["max_sections"])
     return sections[:limit]
 
@@ -759,6 +867,15 @@ def _build_markdown(
                 "",
             ]
         )
+        claim_verification = chapter["claim_verification"]
+        coverage = claim_verification["coverage"]
+        lines.append(
+            "**事实扫描：** "
+            f"{claim_verification['status']}；coverage={coverage['status']}；"
+            f"已识别声明={coverage['recognized_claim_count']}；"
+            f"未分类高风险片段={coverage['unclassified_high_risk_claim_count']}"
+        )
+        lines.append("")
         if chapter["unknowns"]:
             lines.extend(["**待补材料/待确认：**", ""])
             lines.extend(f"- {item}" for item in chapter["unknowns"])
@@ -781,6 +898,73 @@ def _build_markdown(
         lines.extend(f"- {failure}" for failure in failures)
         lines.append("")
     return "\n".join(lines).strip() + "\n"
+
+
+def _aggregate_claim_verification(
+    chapters: list[Mapping[str, Any]],
+) -> dict[str, Any]:
+    results = [chapter["claim_verification"] for chapter in chapters]
+    coverages = [result["coverage"] for result in results]
+    if not coverages or all(item["status"] == "not_scanned" for item in coverages):
+        coverage_status = "not_scanned"
+    elif any(item["status"] != "complete" for item in coverages):
+        coverage_status = "partial"
+    else:
+        coverage_status = "complete"
+
+    detected_count = sum(int(result["detected_claim_count"]) for result in results)
+    supported_count = sum(int(result["supported_claim_count"]) for result in results)
+    unsupported_count = sum(
+        int(result["unsupported_claim_count"]) for result in results
+    )
+    if coverage_status == "not_scanned":
+        verification_status = "not_checked"
+    elif coverage_status != "complete" or unsupported_count:
+        verification_status = "needs_review"
+    elif detected_count == 0:
+        verification_status = "no_claims_detected"
+    else:
+        verification_status = "verified"
+
+    coverage = {
+        "status": coverage_status,
+        "scanned_sentence_count": sum(
+            int(item["scanned_sentence_count"]) for item in coverages
+        ),
+        "recognized_claim_count": sum(
+            int(item["recognized_claim_count"]) for item in coverages
+        ),
+        "unclassified_high_risk_claim_count": sum(
+            int(item["unclassified_high_risk_claim_count"]) for item in coverages
+        ),
+        "unclassified_high_risk_snippets": list(
+            dict.fromkeys(
+                snippet
+                for item in coverages
+                for snippet in item["unclassified_high_risk_snippets"]
+            )
+        ),
+        "recognized_patterns": sorted(
+            {
+                pattern
+                for item in coverages
+                for pattern in item["recognized_patterns"]
+            }
+        ),
+        "scanner": "selected_high_risk_patterns_v2",
+    }
+    return {
+        "status": verification_status,
+        "detected_claim_count": detected_count,
+        "supported_claim_count": supported_count,
+        "unsupported_claim_count": unsupported_count,
+        "coverage": coverage,
+        "interpretation": (
+            "模式扫描未发现声明不等于对正文事实作出验证；coverage描述的是有限模式扫描结果。"
+            if detected_count == 0
+            else "本结果仅反映已识别的声明及未分类高风险片段。"
+        ),
+    }
 
 
 def _missing_materials(payload: Mapping[str, Any]) -> list[dict[str, Any]]:

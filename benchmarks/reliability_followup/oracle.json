@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"case_id": "W-NEG-ISO-NUMBER-COLLISION", "domain": "writing", "label": "negative", "expected": "must_block"},
+    {"case_id": "W-NEG-BIDDER-SUBJECT-MISMATCH", "domain": "writing", "label": "negative", "expected": "must_block"},
+    {"case_id": "W-NEG-BIDDER-SUBJECT-UNKNOWN", "domain": "writing", "label": "negative", "expected": "must_block"},
+    {"case_id": "W-NEG-BIDDER-SUBJECT-CONFLICT", "domain": "writing", "label": "negative", "expected": "must_block"},
+    {"case_id": "W-NEG-UNSUPPORTED-GOVERNMENT-CASES", "domain": "writing", "label": "negative", "expected": "must_block", "must_scan_claim": true},
+    {"case_id": "W-NEG-CMMI-LEVEL-MISMATCH", "domain": "writing", "label": "negative", "expected": "must_block"},
+    {"case_id": "W-NEG-CMMI-CERT-NUMBER-COLLISION", "domain": "writing", "label": "negative", "expected": "must_block"},
+    {"case_id": "W-NEG-ISO-METADATA-BODY-CONFLICT", "domain": "writing", "label": "negative", "expected": "must_block"},
+    {"case_id": "W-NEG-HOLDER-METADATA-BODY-CONFLICT", "domain": "writing", "label": "negative", "expected": "must_block"},
+    {"case_id": "W-NEG-SAME-NAME-DIFFERENT-CREDIT-CODE", "domain": "writing", "label": "negative", "expected": "must_block"},
+    {"case_id": "W-NEG-CROSS-SUBJECT-CASE-COUNT", "domain": "writing", "label": "negative", "expected": "must_block", "must_scan_claim": true},
+    {"case_id": "W-NEG-CROSS-SUBJECT-CONTRACT-AMOUNT", "domain": "writing", "label": "negative", "expected": "must_block", "must_scan_claim": true},
+    {"case_id": "W-POS-SAME-SUBJECT-ISO27001", "domain": "writing", "label": "positive", "expected": "must_pass"},
+    {"case_id": "W-POS-SAME-SUBJECT-CMMI3", "domain": "writing", "label": "positive", "expected": "must_pass"},
+    {"case_id": "W-POS-EVIDENCED-CHINESE-CASE-COUNT", "domain": "writing", "label": "positive", "expected": "must_pass", "must_scan_claim": true},
+    {"case_id": "W-POS-SAME-SUBJECT-CONTRACT-AMOUNT", "domain": "writing", "label": "positive", "expected": "must_pass", "must_scan_claim": true},
+    {"case_id": "W-POS-TENDER-REQUIREMENT-PARAPHRASE", "domain": "writing", "label": "positive", "expected": "must_pass"},
+    {"case_id": "W-POS-BENIGN-SECTION", "domain": "writing", "label": "positive", "expected": "must_pass"},
+    {"case_id": "R-NEG-CROSS-PROJECT", "domain": "runtime", "label": "negative", "expected": "must_not_invoke_writer", "expected_scope_reason_codes": ["project_mismatch"]},
+    {"case_id": "R-NEG-REQUIREMENT-CONTENT-CHANGED", "domain": "runtime", "label": "negative", "expected": "must_not_invoke_writer", "expected_scope_reason_codes": ["requirement_content_changed"]},
+    {"case_id": "R-NEG-REQUIREMENT-SCORING-ID-COLLISION", "domain": "runtime", "label": "negative", "expected": "must_not_invoke_writer", "expected_scope_reason_codes": ["requirement_scoring_id_collision"]},
+    {"case_id": "R-NEG-SOURCE-VERSION-CHANGED", "domain": "runtime", "label": "negative", "expected": "must_not_invoke_writer", "expected_scope_reason_codes": ["source_file_not_reviewed"]},
+    {"case_id": "R-NEG-WRITING-SCOPE-EXPANDED", "domain": "runtime", "label": "negative", "expected": "must_not_invoke_writer", "expected_scope_reason_codes": ["section_not_reviewed"]},
+    {"case_id": "R-NEG-FORGED-APPROVAL", "domain": "runtime", "label": "negative", "expected": "must_not_invoke_writer", "expected_scope_reason_codes": ["review_validation_failed"]},
+    {"case_id": "R-NEG-INVALID-WRITING-SCOPE", "domain": "runtime", "label": "negative", "expected": "must_not_invoke_writer", "expected_scope_reason_codes": ["writing_scope_unresolvable"]},
+    {"case_id": "R-POS-MATCHED-SCOPE", "domain": "runtime", "label": "positive", "expected": "invoke_writer_once", "expected_match_kind": "exact"},
+    {"case_id": "R-POS-SAFE-SUBSET", "domain": "runtime", "label": "positive", "expected": "invoke_writer_once", "expected_match_kind": "safe_subset"}
+  ]
+}

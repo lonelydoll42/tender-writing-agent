@@ -8,6 +8,10 @@ import pytest
 from qiaowenshu_agent.core.context import SkillContext
 from qiaowenshu_agent.core.contracts import SkillRequest
 from qiaowenshu_agent.skills.document_writing import DocumentWritingSkill
+from qiaowenshu_agent.skills.document_writing.skill import (
+    _parse_input,
+    _select_sections,
+)
 
 
 class FakeWritingLLM:
@@ -73,6 +77,105 @@ class FallbackWritingLLM(FakeWritingLLM):
 
 def _context() -> SkillContext:
     return SkillContext(run_id="run-writing", request=SkillRequest.create())
+
+
+def _scope_test_input() -> dict[str, Any]:
+    return {
+        "project_id": "project-scope",
+        "sections": [
+            {
+                "section_id": "implementation",
+                "title": "实施方案",
+                "kind": "technical",
+            },
+            {
+                "section_id": "testing",
+                "title": "测试方案",
+                "kind": "technical",
+            },
+            {
+                "section_id": "commercial",
+                "title": "商务响应",
+                "kind": "commercial",
+            },
+        ],
+    }
+
+
+@pytest.mark.parametrize(
+    ("include_scope", "scope"),
+    [
+        (False, None),
+        (True, None),
+        (True, ""),
+        (True, []),
+    ],
+)
+def test_empty_writing_scope_defaults_to_all_sections(
+    include_scope: bool,
+    scope: Any,
+) -> None:
+    data = _scope_test_input()
+    if include_scope:
+        data["writing_scope"] = scope
+
+    selected = _select_sections(_parse_input(data))
+
+    assert [section["section_id"] for section in selected] == [
+        "implementation",
+        "testing",
+        "commercial",
+    ]
+
+
+@pytest.mark.parametrize(
+    ("scope", "expected"),
+    [
+        (["implementation"], ["implementation"]),
+        (["technical"], ["implementation", "testing"]),
+    ],
+)
+def test_valid_writing_scope_selects_requested_sections(
+    scope: list[str],
+    expected: list[str],
+) -> None:
+    data = _scope_test_input()
+    data["writing_scope"] = scope
+
+    selected = _select_sections(_parse_input(data))
+
+    assert [section["section_id"] for section in selected] == expected
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("scope", [123, {"section": "implementation"}])
+async def test_invalid_writing_scope_type_fails_before_model_call(scope: Any) -> None:
+    llm = FakeWritingLLM()
+    result = await DocumentWritingSkill(llm=llm).execute(
+        SkillRequest.create({**_scope_test_input(), "writing_scope": scope}),
+        _context(),
+    )
+
+    assert result.status == "error"
+    assert result.error_code == "INVALID_DOCUMENT_WRITING_INPUT"
+    assert llm.calls == []
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "scope",
+    ["does-not-match", ["implementation", "does-not-match"]],
+)
+async def test_unmatched_writing_scope_fails_before_model_call(scope: Any) -> None:
+    llm = FakeWritingLLM()
+    result = await DocumentWritingSkill(llm=llm).execute(
+        SkillRequest.create({**_scope_test_input(), "writing_scope": scope}),
+        _context(),
+    )
+
+    assert result.status == "error"
+    assert result.error_code == "DOCUMENT_WRITING_SCOPE_INVALID"
+    assert llm.calls == []
 
 
 @pytest.mark.asyncio

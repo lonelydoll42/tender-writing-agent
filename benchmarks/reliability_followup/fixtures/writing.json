@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "cases": {
+    "iso_number_collision": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-ISO27001"]},
+      "requirement": {"requirement_id": "REQ-ISO27001", "category": "qualification", "title": "ISO/IEC 27001", "description": "投标人须提供有效ISO/IEC 27001认证。"},
+      "materials": [
+        {"material_id": "MAT-ISO9001", "material_type": "certification", "title": "ISO9001质量管理体系证书", "content": "ISO9001质量管理体系认证状态：有效。证书编号：CN27001-2026。持证主体：甲公司。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder": "甲公司", "certificate_type": "ISO 9001", "certificate_no": "CN27001-2026"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得ISO/IEC 27001认证。", "evidence_used": ["MAT-ISO9001"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-ISO27001"], "scoring_coverage": []}
+    },
+    "bidder_subject_mismatch": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-ISO27001"]},
+      "requirement": {"requirement_id": "REQ-ISO27001", "category": "qualification", "title": "ISO/IEC 27001", "description": "投标人须提供有效ISO/IEC 27001认证。"},
+      "materials": [
+        {"material_id": "MAT-ISO27001-BETA", "material_type": "certification", "title": "ISO/IEC 27001证书", "content": "ISO/IEC 27001认证状态：有效。持证主体：乙公司。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder": "乙公司", "certificate_type": "ISO/IEC 27001"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得ISO/IEC 27001认证。", "evidence_used": ["MAT-ISO27001-BETA"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-ISO27001"], "scoring_coverage": []}
+    },
+    "bidder_subject_unknown": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-ISO27001"]},
+      "requirement": {"requirement_id": "REQ-ISO27001", "category": "qualification", "title": "ISO/IEC 27001", "description": "投标人须提供有效ISO/IEC 27001认证。"},
+      "materials": [
+        {"material_id": "MAT-ISO27001-UNKNOWN-OWNER", "material_type": "certification", "title": "ISO/IEC 27001证书复印件", "content": "ISO/IEC 27001认证状态：有效。复印件未显示持证主体，归属待确认。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "certificate_type": "ISO/IEC 27001"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得ISO/IEC 27001认证。", "evidence_used": ["MAT-ISO27001-UNKNOWN-OWNER"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-ISO27001"], "scoring_coverage": []}
+    },
+    "bidder_subject_conflict": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-ISO27001"]},
+      "requirement": {"requirement_id": "REQ-ISO27001", "category": "qualification", "title": "ISO/IEC 27001", "description": "投标人须提供有效ISO/IEC 27001认证。"},
+      "materials": [
+        {"material_id": "MAT-ISO27001-CONFLICT", "material_type": "certification", "title": "甲公司ISO/IEC 27001证书", "content": "认证标准：ISO/IEC 27001。证书标题记载甲公司；证书主体栏记载乙公司。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder": "丙公司", "certificate_type": "ISO/IEC 27001"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得ISO/IEC 27001认证。", "evidence_used": ["MAT-ISO27001-CONFLICT"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-ISO27001"], "scoring_coverage": []}
+    },
+    "unsupported_government_cases": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "类似业绩", "requirement_ids": ["REQ-GOV-CASES"]},
+      "requirement": {"requirement_id": "REQ-GOV-CASES", "category": "scoring", "title": "政务项目案例", "description": "大型政务项目案例数量及合同证明材料。"},
+      "materials": [],
+      "model_output": {"section_id": "experience", "title": "类似业绩", "content_markdown": "我司累计承接三十项大型政务项目。", "evidence_used": [], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-GOV-CASES"], "scoring_coverage": []}
+    },
+    "cmmi_level_mismatch": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-CMMI5"]},
+      "requirement": {"requirement_id": "REQ-CMMI5", "category": "qualification", "title": "CMMI 5级", "description": "投标人须具有CMMI 5级认证。"},
+      "materials": [
+        {"material_id": "MAT-CMMI3", "material_type": "certification", "title": "甲公司CMMI 3级证书", "content": "认证等级：CMMI 3级。证书编号：CN-CMMI-3-2026。持证主体：甲公司。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder": "甲公司", "certificate_type": "CMMI 3", "certificate_no": "CN-CMMI-3-2026"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得CMMI 5级认证。", "evidence_used": ["MAT-CMMI3"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-CMMI5"], "scoring_coverage": []}
+    },
+    "cmmi_certificate_number_collision": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-CMMI3"]},
+      "requirement": {"requirement_id": "REQ-CMMI3", "category": "qualification", "title": "CMMI 3级", "description": "投标人须具有CMMI 3级认证。"},
+      "materials": [
+        {"material_id": "MAT-CMMI5-COLLISION", "material_type": "certification", "title": "甲公司CMMI 5级证书", "content": "认证等级：CMMI 5级。证书编号：CN-CMMI-3-2026。持证主体：甲公司。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder": "甲公司", "certificate_type": "CMMI 5", "certificate_no": "CN-CMMI-3-2026"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得CMMI 3级认证。", "evidence_used": ["MAT-CMMI5-COLLISION"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-CMMI3"], "scoring_coverage": []}
+    },
+    "iso_metadata_body_conflict": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-ISO27001"]},
+      "requirement": {"requirement_id": "REQ-ISO27001", "category": "qualification", "title": "ISO/IEC 27001", "description": "投标人须提供有效ISO/IEC 27001认证。"},
+      "materials": [
+        {"material_id": "MAT-ISO-METADATA-27001", "material_type": "certification", "title": "甲公司认证证书", "content": "证书正文记载认证标准为ISO 9001，持证主体为甲公司。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder": "甲公司", "certificate_type": "ISO/IEC 27001"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得ISO/IEC 27001认证。", "evidence_used": ["MAT-ISO-METADATA-27001"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-ISO27001"], "scoring_coverage": []}
+    },
+    "holder_metadata_body_conflict": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-ISO27001"]},
+      "requirement": {"requirement_id": "REQ-ISO27001", "category": "qualification", "title": "ISO/IEC 27001", "description": "投标人须提供有效ISO/IEC 27001认证。"},
+      "materials": [
+        {"material_id": "MAT-HOLDER-CONFLICT", "material_type": "certification", "title": "ISO/IEC 27001证书", "content": "认证标准：ISO/IEC 27001。证书正文持证主体：乙公司。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder": "甲公司", "certificate_type": "ISO/IEC 27001"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得ISO/IEC 27001认证。", "evidence_used": ["MAT-HOLDER-CONFLICT"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-ISO27001"], "scoring_coverage": []}
+    },
+    "same_name_different_credit_code": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司", "unified_social_credit_code": "91310000MA1A111111", "credit_code": "91310000MA1A111111"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-ISO27001"]},
+      "requirement": {"requirement_id": "REQ-ISO27001", "category": "qualification", "title": "ISO/IEC 27001", "description": "投标人须提供有效ISO/IEC 27001认证。"},
+      "materials": [
+        {"material_id": "MAT-SAME-NAME-WRONG-CODE", "material_type": "certification", "title": "甲公司ISO/IEC 27001证书", "content": "持证主体：甲公司。统一社会信用代码：91320000MA1A222222。认证标准：ISO/IEC 27001，状态有效。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder_name": "甲公司", "certificate_type": "ISO/IEC 27001", "unified_social_credit_code": "91320000MA1A222222"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得ISO/IEC 27001认证。", "evidence_used": ["MAT-SAME-NAME-WRONG-CODE"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-ISO27001"], "scoring_coverage": []}
+    },
+    "same_subject_iso27001": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司", "unified_social_credit_code": "91310000MA1A111111", "credit_code": "91310000MA1A111111"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-ISO27001"]},
+      "requirement": {"requirement_id": "REQ-ISO27001", "category": "qualification", "title": "ISO/IEC 27001", "description": "投标人须提供有效ISO/IEC 27001认证。"},
+      "materials": [
+        {"material_id": "MAT-ISO27001-ALPHA", "material_type": "certification", "title": "甲公司ISO/IEC 27001信息安全管理体系认证证书", "content": "认证标准：ISO/IEC 27001:2022。认证状态：有效。持证主体：甲公司。统一社会信用代码：91310000MA1A111111。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder": "甲公司", "certificate_type": "ISO/IEC 27001:2022", "unified_social_credit_code": "91310000MA1A111111"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得有效ISO/IEC 27001:2022认证。", "evidence_used": ["MAT-ISO27001-ALPHA"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-ISO27001"], "scoring_coverage": []}
+    },
+    "same_subject_cmmi3": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "企业资质", "requirement_ids": ["REQ-CMMI3"]},
+      "requirement": {"requirement_id": "REQ-CMMI3", "category": "qualification", "title": "CMMI 3级", "description": "投标人须具有CMMI 3级认证。"},
+      "materials": [
+        {"material_id": "MAT-CMMI3-VALID", "material_type": "certification", "title": "甲公司CMMI 3级证书", "content": "认证等级：CMMI 3级。证书编号：CN-CMMI-3-2026。持证主体：甲公司。", "valid_until": "2027-12-31", "metadata": {"status": "valid", "holder": "甲公司", "certificate_type": "CMMI 3", "certificate_no": "CN-CMMI-3-2026"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "企业资质", "content_markdown": "我司已取得有效CMMI 3级认证。", "evidence_used": ["MAT-CMMI3-VALID"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-CMMI3"], "scoring_coverage": []}
+    },
+    "evidenced_chinese_case_count": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "类似业绩", "requirement_ids": ["REQ-GOV-CASES"]},
+      "requirement": {"requirement_id": "REQ-GOV-CASES", "category": "scoring", "title": "政务项目案例", "description": "提交大型政务项目案例及数量证明。"},
+      "materials": [
+        {"material_id": "MAT-GOV-CASES", "material_type": "project_cases", "title": "甲公司政务项目业绩汇总", "content": "主体：甲公司。经合同台账核对，累计承接三十项大型政务项目。", "metadata": {"status": "valid", "owner_name": "甲公司"}}
+      ],
+      "model_output": {"section_id": "experience", "title": "类似业绩", "content_markdown": "我司累计承接三十项大型政务项目。", "evidence_used": ["MAT-GOV-CASES"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-GOV-CASES"], "scoring_coverage": []}
+    },
+    "cross_subject_government_case_count": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "类似业绩", "requirement_ids": ["REQ-GOV-CASES"]},
+      "requirement": {"requirement_id": "REQ-GOV-CASES", "category": "scoring", "title": "政务项目案例", "description": "提交大型政务项目案例及数量证明。"},
+      "materials": [
+        {"material_id": "MAT-GOV-CASES-BETA", "material_type": "project_cases", "title": "乙公司业绩", "content": "乙公司累计承接三十项大型政务项目。", "valid_until": "2027-12-31", "metadata": {"status": "valid"}, "source_references": [{"document_id": "source.pdf", "page": 1, "confidence": 0.95}]}
+      ],
+      "model_output": {"section_id": "experience", "title": "类似业绩", "content_markdown": "我司累计承接三十项大型政务项目。", "evidence_used": ["MAT-GOV-CASES-BETA"], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-GOV-CASES"], "scoring_coverage": []}
+    },
+    "cross_subject_contract_amount": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "类似业绩", "requirement_ids": []},
+      "requirement": null,
+      "materials": [
+        {"material_id": "MAT-CONTRACT-BETA", "material_type": "text", "title": "乙公司台账", "content": "乙公司历史项目合同金额135万元。", "valid_until": "2027-12-31", "metadata": {"status": "valid"}, "source_references": [{"document_id": "source.pdf", "page": 1, "confidence": 0.95}]}
+      ],
+      "model_output": {"section_id": "experience", "title": "类似业绩", "content_markdown": "我司历史项目合同金额135万元。", "evidence_used": ["MAT-CONTRACT-BETA"], "unknowns": [], "risk_flags": [], "requirement_coverage": [], "scoring_coverage": []}
+    },
+    "same_subject_contract_amount": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "类似业绩", "requirement_ids": []},
+      "requirement": null,
+      "materials": [
+        {"material_id": "MAT-CONTRACT-ALPHA", "material_type": "text", "title": "甲公司台账", "content": "甲公司历史项目合同金额135万元。", "valid_until": "2027-12-31", "metadata": {"status": "valid"}, "source_references": [{"document_id": "source.pdf", "page": 1, "confidence": 0.95}]}
+      ],
+      "model_output": {"section_id": "experience", "title": "类似业绩", "content_markdown": "我司历史项目合同金额135万元。", "evidence_used": ["MAT-CONTRACT-ALPHA"], "unknowns": [], "risk_flags": [], "requirement_coverage": [], "scoring_coverage": []}
+    },
+    "tender_requirement_paraphrase": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "experience", "title": "资格要求响应", "requirement_ids": ["REQ-ISO27001"]},
+      "requirement": {"requirement_id": "REQ-ISO27001", "category": "qualification", "title": "ISO/IEC 27001", "description": "招标文件要求投标人提供有效ISO/IEC 27001管理体系认证证书。"},
+      "materials": [],
+      "model_output": {"section_id": "experience", "title": "资格要求响应", "content_markdown": "按照招标文件规定，投标人须提供有效的ISO/IEC 27001管理体系认证证书。", "evidence_used": [], "unknowns": [], "risk_flags": [], "requirement_coverage": ["REQ-ISO27001"], "scoring_coverage": []}
+    },
+    "benign_section": {
+      "project_id": "bid-alpha",
+      "bidder_profile": {"bidder_id": "bid-alpha", "bidder_name": "甲公司", "company_name": "甲公司"},
+      "section": {"section_id": "approach", "title": "项目组织与沟通机制", "requirement_ids": []},
+      "requirement": null,
+      "materials": [],
+      "model_output": {"section_id": "approach", "title": "项目组织与沟通机制", "content_markdown": "本章说明项目组织架构、沟通机制和日常协作流程。", "evidence_used": [], "unknowns": [], "risk_flags": [], "requirement_coverage": [], "scoring_coverage": []}
+    }
+  }
+}
