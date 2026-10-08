@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+import pytest
+
+from qiaowenshu_agent.core.context import SkillContext
+from qiaowenshu_agent.core.contracts import SkillRequest
 from qiaowenshu_agent.skills.local_requirement_groups import (
     group_requirement_records,
 )
-from qiaowenshu_agent.skills.local_backends import _candidate_records
+from qiaowenshu_agent.skills.local_backends import (
+    RegistryTenderDecompositionBackend,
+    _candidate_records,
+)
 from qiaowenshu_agent.skills.local_requirement_logic import (
     build_local_requirement_rule,
 )
@@ -59,6 +66,141 @@ def test_unpunctuated_any_frame_groups_only_numbered_obligations() -> None:
         "（1）有效营业执照",
         "（2）法人登记证明",
     ]
+
+
+def test_declared_or_count_keeps_following_audit_requirement_independent() -> None:
+    content = (
+        "资格要求：以下两项任选一项：\n"
+        "（1）投标人须提供有效营业执照\n"
+        "（2）投标人须提供有效法人登记证明\n"
+        "（3）投标人须提供2025年度审计报告关键页"
+    )
+    section = {"title": "资格要求", "content": content}
+    context = SkillContext(
+        run_id="local-requirement-groups-count-boundary",
+        request=SkillRequest.create(),
+    )
+
+    result = RegistryTenderDecompositionBackend().run(
+        {"sections": [section]},
+        context,
+    )
+
+    requirements = result["requirements"]
+    assert len(requirements) == 2
+    assert all(requirement["mandatory"] is True for requirement in requirements)
+    grouped, audit = requirements
+    logic = grouped["check_rule"]["condition_logic"]
+    assert logic["op"] == "any"
+    assert len(logic["conditions"]) == 2
+    assert "审计报告" not in grouped["description"]
+    assert _contains_material_type(
+        audit["check_rule"]["condition_logic"],
+        "audit_report_key_pages",
+    )
+    assert "2025年度审计报告关键页" in audit["description"]
+
+
+@pytest.mark.parametrize(
+    ("quantity", "labels"),
+    [
+        ("两", ["（1）", "（2）"]),
+        ("二", ["1.1", "1.2"]),
+        ("三", ["（1）", "（2）", "（3）"]),
+        ("2", ["（1）", "（2）"]),
+        ("3", ["1.1", "1.2", "1.3"]),
+    ],
+)
+def test_explicit_item_count_accepts_complete_numbered_siblings(
+    quantity: str, labels: list[str]
+) -> None:
+    lines = [
+        f"投标人须提供以下{quantity}项任选一项",
+        *[
+            f"{label} 提供材料{index}"
+            for index, label in enumerate(labels, start=1)
+        ],
+    ]
+
+    result = _run(lines)
+
+    assert len(result) == 1
+    assert result[0][2]["condition_logic"]["op"] == "any"
+    assert len(result[0][2]["condition_logic"]["conditions"]) == len(labels)
+
+
+@pytest.mark.parametrize(
+    ("quantity", "labels"),
+    [
+        ("三", ["（1）", "（2）"]),
+        ("二", ["（1）", "（3）"]),
+        ("二", ["（1）", "（1）"]),
+        ("二", ["（1）", "2."]),
+    ],
+)
+def test_incomplete_or_ambiguous_numbered_sets_are_not_grouped(
+    quantity: str, labels: list[str]
+) -> None:
+    lines = [
+        f"投标人须提供以下{quantity}项任选一项",
+        *[
+            f"{label} 提供材料{index}"
+            for index, label in enumerate(labels, start=1)
+        ],
+    ]
+
+    result = _run(lines)
+
+    assert [item[0] for item in result] == lines
+    assert all(item[2] is None for item in result)
+
+
+@pytest.mark.parametrize(
+    "quantity",
+    ["十二", "二十三", "1", "0", "02", "二或三", "2至3"],
+)
+def test_unsupported_explicit_item_count_never_falls_back_to_unbounded_group(
+    quantity: str,
+) -> None:
+    lines = [
+        f"投标人须提供以下{quantity}项任选一项",
+        "（1）提供材料甲",
+        "（2）提供材料乙",
+        "（3）提供材料丙",
+    ]
+
+    result = _run(lines)
+
+    assert [item[0] for item in result] == lines
+    assert all(item[2] is None for item in result)
+
+
+def test_unbounded_or_frame_preserves_existing_grouping() -> None:
+    lines = [
+        "投标人须满足以下条件任一项",
+        "1. 提供材料甲",
+        "2. 提供材料乙",
+    ]
+
+    result = _run(lines)
+
+    assert len(result) == 1
+    assert result[0][2]["condition_logic"]["op"] == "any"
+    assert len(result[0][2]["condition_logic"]["conditions"]) == 2
+
+
+def test_multi_select_quantifier_is_not_treated_as_single_choice_or() -> None:
+    lines = [
+        "投标人须从以下三项任选两项",
+        "1. 提供材料甲",
+        "2. 提供材料乙",
+        "3. 提供材料丙",
+    ]
+
+    result = _run(lines)
+
+    assert [item[0] for item in result] == lines
+    assert all(item[2] is None for item in result)
 
 
 def test_sibling_levels_group_only_under_explicit_same_scope_frames() -> None:
@@ -342,6 +484,22 @@ def _has_operator(node: dict, operation: str) -> bool:
         _has_operator(child, operation)
         for child in node.get("conditions", [])
         if isinstance(child, dict)
+    )
+
+
+def _contains_material_type(node: dict, material_type: str) -> bool:
+    if node.get("material_type") == material_type:
+        return True
+    children = node.get("conditions")
+    if isinstance(children, list) and any(
+        _contains_material_type(child, material_type)
+        for child in children
+        if isinstance(child, dict)
+    ):
+        return True
+    condition = node.get("condition")
+    return isinstance(condition, dict) and _contains_material_type(
+        condition, material_type
     )
 
 

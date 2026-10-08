@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
+import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -12,6 +14,7 @@ from scripts.run_raw_requirement_holdout_eval import (
     _git_metadata,
     _logic_check,
     _parser_snapshot,
+    _source_tree_sha256,
     evaluate_case,
     main,
     validate_oracle_coverage,
@@ -98,6 +101,109 @@ def test_git_metadata_records_head_and_dirty_source_scope(
     assert metadata["git_src_worktree_dirty"] is True
     assert metadata["git_src_worktree_status"] == [" M src/module.py"]
     assert len(calls) == 4
+
+
+def test_source_tree_sha256_uses_exact_file_bytes(tmp_path: Path) -> None:
+    lf_root = tmp_path / "lf"
+    crlf_root = tmp_path / "crlf"
+    lf_path = lf_root / "src" / "module.py"
+    crlf_path = crlf_root / "src" / "module.py"
+    lf_path.parent.mkdir(parents=True)
+    crlf_path.parent.mkdir(parents=True)
+    lf_path.write_bytes(b"value = 1\n")
+    crlf_path.write_bytes(b"value = 1\r\n")
+
+    expected = hashlib.sha256()
+    expected.update(b"src/module.py\t")
+    expected.update(hashlib.sha256(b"value = 1\n").digest() + b"\n")
+
+    assert _source_tree_sha256(lf_root) == expected.hexdigest()
+    assert _source_tree_sha256(crlf_root) != expected.hexdigest()
+
+
+def test_archive_with_autocrlf_disabled_matches_staged_git_blobs(
+    tmp_path: Path,
+) -> None:
+    repo = tmp_path / "repo"
+    repo.mkdir()
+
+    def git(*args: str) -> str:
+        result = subprocess.run(
+            ["git", *args],
+            cwd=repo,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return result.stdout.strip()
+
+    git("init", "--quiet")
+    git("config", "user.name", "Holdout Test")
+    git("config", "user.email", "holdout-test@example.invalid")
+    git("config", "core.autocrlf", "true")
+
+    committed_files = {
+        "src/module.py": b"value = 1\n",
+        "src/package/__init__.py": b"PACKAGE_VERSION = 1\n",
+        "src/\u5408\u540c\u8d44\u6599/module.py": b"DOCUMENT_KIND = 'raw'\n",
+    }
+    staged_files = {
+        "src/module.py": b"value = 2\n",
+        "src/package/__init__.py": b"PACKAGE_VERSION = 2\n",
+        "src/\u5408\u540c\u8d44\u6599/module.py": b"DOCUMENT_KIND = 'raw-v2'\n",
+    }
+    for relative, content in committed_files.items():
+        source = repo / relative
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_bytes(content)
+    git("add", "--", "src")
+    git("commit", "--quiet", "-m", "baseline")
+
+    for relative, content in staged_files.items():
+        (repo / relative).write_bytes(content)
+    git("add", "--", "src")
+    for relative, content in staged_files.items():
+        (repo / relative).write_bytes(content.replace(b"\n", b"\r\n"))
+
+    tree = git("write-tree")
+    expected_hash = hashlib.sha256()
+    for relative, expected_blob in sorted(staged_files.items()):
+        blob = subprocess.run(
+            ["git", "show", f"{tree}:{relative}"],
+            cwd=repo,
+            capture_output=True,
+            check=True,
+        ).stdout
+        assert blob == expected_blob
+        expected_hash.update(relative.encode("utf-8") + b"\t")
+        expected_hash.update(hashlib.sha256(blob).digest() + b"\n")
+    assert _source_tree_sha256(repo) != expected_hash.hexdigest()
+
+    archive = tmp_path / "staged.zip"
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "core.autocrlf=false",
+            "archive",
+            "--format=zip",
+            f"--output={archive}",
+            tree,
+        ],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+    )
+    exported = tmp_path / "exported"
+    exported.mkdir()
+    with zipfile.ZipFile(archive) as bundle:
+        bundle.extractall(exported)
+
+    for relative, expected_blob in staged_files.items():
+        exported_source = exported / relative
+        assert exported_source.read_bytes() == expected_blob
+    assert _source_tree_sha256(exported) == expected_hash.hexdigest()
+    assert _source_tree_sha256(exported) != _source_tree_sha256(repo)
 
 
 def test_frozen_assets_and_machine_oracle_cover_exactly_eight_inputs() -> None:

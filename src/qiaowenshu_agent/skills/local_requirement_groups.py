@@ -22,6 +22,14 @@ _FRAME = re.compile(
     r"(?:为|属于).{0,8}(?:AND|AND关系|同时满足)",
     re.IGNORECASE,
 )
+_FRAME_ITEM_COUNT = re.compile(
+    r"以下\s*(?:(?:共|有|条件(?:中|中的)?|所列(?:的)?|列出的?)\s*)?"
+    r"(?P<count>[0-9]+|"
+    r"[零〇一二两三四五六七八九十百千万亿壹贰貳叁參肆伍陆陸柒捌玖拾佰仟萬億廿卅]+)"
+    r"(?P<ambiguous>\s*(?:或者|或|至|到|[-~～])\s*"
+    r"(?:[0-9]+|[零〇一二两三四五六七八九十百千万亿壹贰貳叁參肆伍陆陸柒捌玖拾佰仟萬億廿卅]+))?"
+    r"\s*项"
+)
 _OBLIGATION = re.compile(
     r"须|应|需|必须|提供|提交|具备|满足|符合|取得|持有|达到|不得|不低于"
 )
@@ -157,7 +165,7 @@ def _group_section(
         if numbered is None:
             cursor += 1
             continue
-        label, _body = numbered
+        label, _style = numbered
         parent = label.rpartition(".")[0] if "." in label else ""
         end = cursor + 1
         while end < len(indices):
@@ -182,8 +190,23 @@ def _group_section(
         frame_text = records[frame_index][0]
         frame_match = _FRAME.search(frame_text)
         children = indices[cursor:end]
+        operator = _frame_operator(frame_text) if frame_match else None
+        has_item_count, item_count = (
+            _frame_item_count(frame_text) if frame_match else (False, None)
+        )
+        if has_item_count and item_count is None:
+            cursor = end
+            continue
+        if item_count is not None:
+            if len(children) < item_count or not _has_complete_numbered_prefix(
+                records, children, item_count
+            ):
+                cursor = end
+                continue
+            children = children[:item_count]
         if (
             frame_match
+            and operator
             and scope_ids.get(frame_index, -1) >= 0
             and scope_ids.get(first_index, -1) >= 0
             and (
@@ -205,9 +228,7 @@ def _group_section(
                 )
             )
         ):
-            operator = _frame_operator(frame_text)
-            if operator:
-                _emit_group(result, records, frame_index, children, operator)
+            _emit_group(result, records, frame_index, children, operator)
         cursor = end
 
 
@@ -227,15 +248,22 @@ def _numbered_record(record: tuple[str, list[dict]]) -> tuple[str, str] | None:
     if len(parsed) != len(quotes) or not parsed:
         return None
     labels = {
-        item.group("paren") or item.group("decimal") or item.group("integer")
+        (
+            item.group("paren") or item.group("decimal") or item.group("integer"),
+            "paren"
+            if item.group("paren")
+            else "decimal"
+            if item.group("decimal")
+            else "integer",
+        )
         for item in parsed
     }
     if len(labels) != 1:
         return None
-    label = labels.pop()
+    label, style = labels.pop()
     if label.startswith(("(", "（")):
         label = label[1:-1]
-    return label, text
+    return label, style
 
 
 def _same_source_scope(first: list[dict], second: list[dict]) -> bool:
@@ -316,6 +344,57 @@ def _frame_operator(frame: str) -> str | None:
     if has_all == has_any:
         return None
     return "all" if has_all else "any"
+
+
+def _frame_item_count(frame: str) -> tuple[bool, int | None]:
+    match = _FRAME_ITEM_COUNT.search(frame)
+    if not match:
+        return False, None
+    if match.group("ambiguous"):
+        return True, None
+    value = match.group("count")
+    chinese_counts = {"两": 2, "二": 2, "三": 3}
+    if value in chinese_counts:
+        return True, chinese_counts[value]
+    if value.isascii() and value.isdigit():
+        if len(value) > 6:
+            return True, None
+        count = int(value)
+        return True, count if count >= 2 and str(count) == value else None
+    return True, None
+
+
+def _has_complete_numbered_prefix(
+    records: list[tuple[str, list[dict]]],
+    indices: list[int],
+    item_count: int,
+) -> bool:
+    numbered = [_numbered_record(records[index]) for index in indices]
+    if any(item is None for item in numbered):
+        return False
+    labels = [item[0] for item in numbered if item is not None]
+    if len(set(labels)) != len(labels):
+        return False
+    selected = numbered[:item_count]
+    if len({item[1] for item in selected if item is not None}) != 1:
+        return False
+
+    components = [label.split(".") for label in labels[:item_count]]
+    if len({len(parts) for parts in components}) != 1:
+        return False
+    if any(
+        not part.isascii()
+        or not part.isdigit()
+        or (len(part) > 1 and part.startswith("0"))
+        for parts in components
+        for part in parts
+    ):
+        return False
+    if any(parts[:-1] != components[0][:-1] for parts in components):
+        return False
+    return [int(parts[-1]) for parts in components] == list(
+        range(1, item_count + 1)
+    )
 
 
 def _emit_group(

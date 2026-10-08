@@ -51,6 +51,52 @@ def _conditions(node: dict[str, object]) -> list[dict[str, object]]:
     return node["conditions"]  # type: ignore[return-value]
 
 
+def _page_section(
+    title: str,
+    lines: list[str],
+    *,
+    document_id: str = "tender.pdf",
+    version: str = "v1",
+) -> dict[str, object]:
+    content = "\n".join(lines)
+    return {
+        "title": title,
+        "content": content,
+        "source_references": [
+            _reference(
+                document_id,
+                version,
+                1,
+                content,
+                f"{document_id}:p1",
+            )
+        ],
+    }
+
+
+def _condition_nodes(node: dict[str, object]) -> list[dict[str, object]]:
+    nodes = [node]
+    for child in node.get("conditions", []):  # type: ignore[union-attr]
+        if isinstance(child, dict):
+            nodes.extend(_condition_nodes(child))
+    condition = node.get("condition")
+    if isinstance(condition, dict):
+        nodes.extend(_condition_nodes(condition))
+    return nodes
+
+
+def _evidence_nodes(node: dict[str, object]) -> list[dict[str, object]]:
+    return [
+        item
+        for item in _condition_nodes(node)
+        if item.get("op") == "evidence"
+    ]
+
+
+def _requirement_logic(requirement: dict[str, object]) -> dict[str, object]:
+    return requirement["check_rule"]["condition_logic"]  # type: ignore[index,return-value]
+
+
 def test_chinese_numbered_unpunctuated_requirement_is_not_dropped() -> None:
     text = "一 投标人须提供有效营业执照"
     result = _extract(
@@ -121,6 +167,202 @@ def test_two_explicit_alternatives_remain_one_or_not_independent_hard_ands() -> 
     assert {
         condition["material_type"] for condition in _conditions(logic)
     } == {"business_license", "legal_entity_registration"}
+
+
+@pytest.mark.parametrize(
+    ("frame", "branches"),
+    [
+        (
+            "以下两项任选一项：",
+            [
+                "（1）投标人须提供有效营业执照。",
+                "（2）投标人须提供有效法人登记证明。",
+                "（3）投标人须提供2025年度审计报告关键页。",
+            ],
+        ),
+        (
+            "以下2项任选一项：",
+            [
+                "1.1 投标人须提供有效营业执照。",
+                "1.2 投标人须提供有效法人登记证明。",
+                "1.3 投标人须提供2025年度审计报告关键页。",
+            ],
+        ),
+    ],
+)
+def test_counted_or_stops_before_the_next_independent_mandatory_clause(
+    frame: str,
+    branches: list[str],
+) -> None:
+    lines = [frame, *branches]
+    result = _extract(_page_section("资格要求", lines))
+    requirements = _requirements(result)
+
+    assert len(requirements) == 2
+    alternatives = next(
+        item
+        for item in requirements
+        if _requirement_logic(item).get("op") == "any"
+    )
+    audit = next(
+        item
+        for item in requirements
+        if any(
+            leaf.get("material_type") == "audit_report_key_pages"
+            for leaf in _evidence_nodes(_requirement_logic(item))
+        )
+    )
+
+    # The tender-level result is an AND of two separately mandatory records:
+    # one bounded OR and the independent audit requirement.
+    assert alternatives["mandatory"] is True
+    assert audit["mandatory"] is True
+    alternative_logic = _requirement_logic(alternatives)
+    alternative_leaves = _evidence_nodes(alternative_logic)
+    assert alternative_logic["op"] == "any"
+    assert len(_conditions(alternative_logic)) == 2
+    assert {
+        leaf["material_type"] for leaf in alternative_leaves
+    } == {"business_license", "legal_entity_registration"}
+    assert len(alternative_leaves) == 2
+
+    audit_logic = _requirement_logic(audit)
+    audit_leaves = _evidence_nodes(audit_logic)
+    assert {leaf["material_type"] for leaf in audit_leaves} == {
+        "audit_report_key_pages"
+    }
+    assert any(leaf.get("year") == 2025 for leaf in audit_leaves)
+
+    expected_alternative_references = {
+        (line, f"tender.pdf:p1:l{line_number}")
+        for line_number, line in enumerate(lines[:3], start=1)
+    }
+    assert {
+        (reference["quote"], reference["locator"])
+        for reference in alternatives["source_references"]  # type: ignore[union-attr]
+    } == expected_alternative_references
+    assert {
+        (reference["quote"], reference["locator"])
+        for reference in audit["source_references"]  # type: ignore[union-attr]
+    } == {(branches[2], "tender.pdf:p1:l4")}
+    assert not any(
+        leaf.get("material_type") == "audit_report_key_pages"
+        for leaf in alternative_leaves
+    )
+
+    for requirement in requirements:
+        check_rule = requirement["check_rule"]  # type: ignore[index]
+        assert check_rule["rule_ast"]["op"] == "manual_review"  # type: ignore[index]
+        assert check_rule["coverage_status"] == "partial"  # type: ignore[index]
+        assert check_rule["evaluation_capability"] == {  # type: ignore[index]
+            "automatic": "unsupported",
+            "human_review": True,
+        }
+    assert result["extraction_complete"] is False
+    assert result["needs_human_review"] is True
+
+
+@pytest.mark.parametrize(
+    ("branches", "expected_material_types"),
+    [
+        (
+            ["（1）投标人须提供有效营业执照。"],
+            {"business_license"},
+        ),
+        (
+            [
+                "（1）投标人须提供有效营业执照。",
+                "（3）投标人须提供有效法人登记证明。",
+            ],
+            {"business_license", "legal_entity_registration"},
+        ),
+        (
+            [
+                "（1）投标人须提供有效营业执照。",
+                "（1）投标人须提供有效法人登记证明。",
+            ],
+            {"business_license", "legal_entity_registration"},
+        ),
+    ],
+    ids=["incomplete", "wrong-number", "duplicate-number"],
+)
+def test_incomplete_or_misnumbered_list_is_not_fabricated_as_complete_or(
+    branches: list[str],
+    expected_material_types: set[str],
+) -> None:
+    result = _extract(
+        _page_section("资格要求", ["以下两项任选一项：", *branches])
+    )
+    requirements = _requirements(result)
+    logics = [_requirement_logic(item) for item in requirements]
+    nodes = [node for logic in logics for node in _condition_nodes(logic)]
+    evidence = [leaf for logic in logics for leaf in _evidence_nodes(logic)]
+
+    assert requirements
+    assert not any(node.get("op") == "any" for node in nodes)
+    assert {
+        leaf["material_type"] for leaf in evidence
+    } == expected_material_types
+    assert len(evidence) == len(expected_material_types)
+    assert all(item["mandatory"] is True for item in requirements)
+    assert result["extraction_complete"] is False
+    assert result["needs_human_review"] is True
+
+
+@pytest.mark.parametrize(
+    ("frame", "branches", "expected_material_types"),
+    [
+        (
+            "以下十二项任选一项：",
+            [
+                "（1）投标人须提供有效营业执照。",
+                "（2）投标人须提供有效法人登记证明。",
+            ],
+            {"business_license", "legal_entity_registration"},
+        ),
+        (
+            "以下二十三项任选一项：",
+            [
+                "（1）投标人须提供有效营业执照。",
+                "（2）投标人须提供有效法人登记证明。",
+                "（3）投标人须提供2025年度审计报告关键页。",
+            ],
+            {
+                "business_license",
+                "legal_entity_registration",
+                "audit_report_key_pages",
+            },
+        ),
+    ],
+    ids=["twelve-is-not-two", "twenty-three-is-not-three"],
+)
+def test_compound_chinese_counts_are_not_truncated_to_single_digits(
+    frame: str,
+    branches: list[str],
+    expected_material_types: set[str],
+) -> None:
+    result = _extract(_page_section("资格要求", [frame, *branches]))
+    requirements = _requirements(result)
+    nodes = [
+        node
+        for requirement in requirements
+        for node in _condition_nodes(_requirement_logic(requirement))
+    ]
+    evidence = [
+        leaf
+        for requirement in requirements
+        for leaf in _evidence_nodes(_requirement_logic(requirement))
+    ]
+
+    assert requirements
+    assert not any(node.get("op") == "any" for node in nodes)
+    assert {
+        leaf["material_type"] for leaf in evidence
+    } == expected_material_types
+    assert len(evidence) == len(expected_material_types)
+    assert all(requirement["mandatory"] is True for requirement in requirements)
+    assert result["extraction_complete"] is False
+    assert result["needs_human_review"] is True
 
 
 def test_same_clause_in_distinct_documents_and_versions_is_not_deduplicated() -> None:
@@ -295,9 +537,16 @@ def test_dropped_section_heading_still_separates_neighboring_or_branches(
     )
 
 
-def test_bare_or_frame_groups_two_hard_clauses_under_a_generic_filename() -> None:
+@pytest.mark.parametrize(
+    "frame",
+    ["以下两项任选一项：", "以下任选一项："],
+    ids=["counted-frame", "unbounded-frame"],
+)
+def test_bare_or_frame_groups_two_hard_clauses_under_a_generic_filename(
+    frame: str,
+) -> None:
     content = (
-        "以下两项任选一项：\n"
+        f"{frame}\n"
         "（1）投标人须提供有效营业执照\n"
         "（2）投标人须提供有效法人登记证明"
     )
@@ -314,11 +563,19 @@ def test_bare_or_frame_groups_two_hard_clauses_under_a_generic_filename() -> Non
     requirements = _requirements(result)
     assert len(requirements) == 1
     requirement = requirements[0]
+    assert frame in requirement["description"]
     logic = requirement["check_rule"]["condition_logic"]  # type: ignore[index]
     assert logic["op"] == "any"
     assert {
         condition["material_type"] for condition in _conditions(logic)
     } == {"business_license", "legal_entity_registration"}
+    check_rule = requirement["check_rule"]
+    assert check_rule["rule_ast"]["op"] == "manual_review"
+    assert check_rule["coverage_status"] == "partial"
+    assert check_rule["evaluation_capability"] == {
+        "automatic": "unsupported",
+        "human_review": True,
+    }
 
 
 def test_requirement_after_a_list_is_not_absorbed_into_the_list() -> None:
@@ -525,3 +782,56 @@ async def test_evidence_matching_keeps_different_people_in_human_review() -> Non
     match = matching.data["matches"][0]
     assert match["status"] == "human_review"
     assert match["status"] != "matched"
+
+
+@pytest.mark.asyncio
+async def test_evidence_matching_requires_independent_audit_evidence() -> None:
+    lines = [
+        "以下两项任选一项：",
+        "（1）投标人须提供有效营业执照。",
+        "（2）投标人须提供有效法人登记证明。",
+        "（3）投标人须提供2025年度审计报告关键页。",
+    ]
+    requirements = _requirements(_extract(_page_section("资格要求", lines)))
+    audit = next(
+        item
+        for item in requirements
+        if any(
+            leaf.get("material_type") == "audit_report_key_pages"
+            for leaf in _evidence_nodes(_requirement_logic(item))
+        )
+    )
+    request = SkillRequest.create(
+        {
+            "requirements": requirements,
+            "materials": [
+                {
+                    "material_id": "license",
+                    "material_type": "business_license",
+                    "title": "有效营业执照",
+                    "content": "投标人营业执照",
+                },
+                {
+                    "material_id": "registration",
+                    "material_type": "legal_entity_registration",
+                    "title": "法人登记证明",
+                    "content": "投标人法人登记证明",
+                },
+            ],
+            "as_of": "2026-10-08",
+        },
+        skill_name="evidence-matching",
+    )
+    matching = await EvidenceMatchingSkill().execute(
+        request,
+        SkillContext(run_id="missing-independent-audit", request=request),
+    )
+
+    assert matching.status == "success"
+    audit_match = next(
+        match
+        for match in matching.data["matches"]
+        if match["requirement_id"] == audit["requirement_id"]
+    )
+    assert audit_match["status"] != "matched"
+    assert matching.data["summary"]["necessary_unresolved_count"] >= 1

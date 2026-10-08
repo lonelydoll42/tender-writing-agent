@@ -52,6 +52,7 @@ Runtime 七个负例均未调用 writer 或模型；两个正例各调用 writer
 `git diff --check` 通过。全量测试包含
 `tests/evals/test_raw_file_benchmark.py`，该测试调用 `run_raw_file_eval`。27 样本
 followup 本身使用模拟模型，未调用真实模型或 OCR，也不处理 PDF。
+final-2 报告位于本地 ignored 输出，可由主审复验；不将它描述为已入库报告。
 
 主验收另行验证了主体与范围边界：同名企业但平铺登记码冲突、正文主体登记码不一致
 会要求复核；登记码一致的正例通过。非法、混合未知项和非法类型的 scope 均在独立
@@ -98,6 +99,14 @@ strict 保留 `coverage_status=partial` 与 `manual_review` 能力边界；有�
 存在不代表生产可执行或通用语义认证。原始文件评测中的 OCR 仍为模拟 backend，
 不测真实 OCR 准确率。
 
+主审本轮另行完成 canonical `raw_file_eval`；对应输出仅在本地 ignored 区域，
+可由主审复验，不作为已入库报告。结果为：legacy `8/10`；strict 六类文本 `6/6`
+（报告另保留 `ambiguous_count=1`）；树结构/有限语义 `6/6`；来源 `6/6`；
+自动核验支持 `0/6`；金额归一化 `6/6`；score `2/2`；关键负例误放行 `0/7`，
+`inconclusive=0`。核心 counted OR 为
+`(营业执照 OR 法人证明) AND 审计独立 mandatory`；`unknowncount`、缺号或重复号按
+保守策略处理，不擅自并入分组。这些有限结果不证明通用资格识别或生产可靠性。
+
 ### 固定公开回归集
 
 8 份构造 TXT 与 frozen oracle 已预冻结 fingerprint，raw 源文件字节保持不变；它们不是真实
@@ -132,23 +141,30 @@ PostgreSQL 14+ 与三项 AND。首版因 validator 错误判定为 `not_run`，�
 
 ## 当前验收摘要
 
-冻结副本验收为 `406 passed`，另有 1 条既有 Starlette warning；global Ruff 与
-`git diff --cached --check` 通过。资产可复现入库检查通过。固定原 PDF 六类专项的 strict
-文本、有限语义和来源引用各为 `6/6`，自动核验支持 `0/6`；legacy 为 `8/10`，金额归一化
-`6/6`、评分 `2/2`，固定原始文件关键负例误放行为 `0/7`。标题 P2 修复矩阵 `32/32`、
-纯标题过滤、20 项独立安全测试均通过。固定专项不代表通用解析或生产验收。
+本轮 canonical 冻结全量测试为 `436 passed`，另有 1 条既有 Starlette warning、无其他
+warning；全仓 Ruff `--no-respect-gitignore` 通过，三个专项测试文件共 `79 passed`。
+此前 `406 passed` 是上一轮冻结副本的历史记录，已被本轮结果取代，不是当前验收值。
+固定专项不代表通用解析或生产验收；`uv.lock` 留待后续处理，本轮未改。
+本轮 P2 边界为：“以下两项任选一项”只将前两项分组，第 3 项审计为独立 mandatory；
+整体为 `(营业执照 OR 法人证明) AND 审计`。缺号、重复号或不支持的数量表达保持人工复核，
+不自动分组。
 
 标题 P2 修复经主审独立矩阵 `32/32` 通过，纯标题负例仍被过滤。既有 27-case 限定复测中，
 写作正例正确通过 `6/6`、负例误放行 `0/12`；Runtime 正例正确通过 `2/2`、负例 writer
 及模型调用均为 `0/7`。以上限定复测均未调用真实 LLM。
 
-公开回归报告路径为
+历史公开回归报告路径为
 [`public-regression-final-20261007.json`](../benchmarks/raw_requirement_holdout/reports/public-regression-final-20261007.json)。报告元数据的 `generated_at` 为 `2026-10-07T03:05:30.763776+08:00`；
 `source_tree_sha256` 为
 `b3a1b85a5a24d90a49c9f19f349fb4bb1b7d838b966543b5265dbc15be32b042`；
 运行时 Git revision 为 `9ac022b4e969231fdf0e8a16c3217b43fec32bbc`，运行时工作区为
 dirty。Git revision 是运行时元数据，不能据此声称 `9ac022b` 原源码就是本次被测修复；
 被测源码快照由报告中的 source tree hash 标识。
+
+旧报告的 `b3a1b85a5a24d90a49c9f19f349fb4bb1b7d838b966543b5265dbc15be32b042`
+是该次 Windows 工作树 `src/**/*.py` 文件的原始字节快照，与旧报告保持一致；
+它不是 Git blob 的规范源码哈希。当前 `core.autocrlf=true` 环境中有 59 个
+源码文件的工作树换行与 Git blob 不同。不得归一化或改写旧报告来替换这个历史值。
 
 该公开集 8/8 个 case 均实际执行；有限 machine checks 为 `0/8 passed`、
 `8 failed`、`not_run=0`。输出引用 `18/18` 的文档 ID、source version token、页码、
@@ -165,6 +181,38 @@ locator 和物理行 quote 均精确核验；business evidence 为 `not_run/8`�
 
 CLI 退出码取决于有限 checks；`8 failed` 时退出码为 1，这不表示脚本或 parser
 未运行。公开有限回归未通过，不代表第三步完整验收或生产可用。
+
+### 2026-10-08 快照复现
+
+主验收在 2026-10-08 独立核对基线 commit
+`9d9cbe02bebf7b9a85315f7a74cae2c00ff596a9` 的规范 Git blob 快照：使用
+`git -c core.autocrlf=false archive 9d9cbe02bebf7b9a85315f7a74cae2c00ff596a9`
+导出并逐文件与 `git show 9d9cbe02bebf7b9a85315f7a74cae2c00ff596a9:<path>`
+比较，63/63 个 `src/**/*.py` 文件字节完全一致，source tree hash 为
+`207b0de46cdd303e1b9c723a5b6651e9707cb73dd3461dfbfc498fb76c39428c`。此值仅标识
+该固定基线，不随之后的 `HEAD` 移动，也不预设最终 staged-tree 报告的哈希。
+普通 `git archive` 在本次 Windows 环境下会转换源码换行；正式复现必须显式使用
+`-c core.autocrlf=false`。Windows 解包使用 ZIP 与 PowerShell
+`Expand-Archive -LiteralPath`；本环境的系统 `C:\Windows\system32\tar.exe` 可能破坏中文路径，
+不据此泛化其他平台或 tar 实现。精确 staged-tree 命令见
+[`raw requirement holdout README`](../benchmarks/raw_requirement_holdout/README.md)。
+
+最终公开回归报告为
+[`public-regression-final-20261008.json`](../benchmarks/raw_requirement_holdout/reports/public-regression-final-20261008.json)，
+`generated_at=2026-10-08T11:53:10.381492+08:00`。主审记录的 staged tree 为
+`1989ef5e66e271dcf1da3962191e8b6cba5677fd`；63/63 个 `src/**/*.py` 文件逐个与该
+tree 的 Git blobs 字节完全一致，报告 `source_tree_sha256` 为
+`c7b6040cd13b1e2bc5245073356c5a5d14c22ed6ac156a1e426f1f1ed0b22ce4`。
+`repository_context=archive/no_local_git_root`、`git_revision_at_run=null` 是归档执行的
+预期值；不得借用父仓库 revision。报告中的 `evaluation_baseline_revision=9ac022b`
+是评测基线标签，不是运行时 Git revision。raw、oracle、machine-freeze 校验有效且
+冻结内容未变；8/8 个 decomposition 实际成功，有限检查 `0/8 passed`、`8 failed`、
+`not_run=0`，来源引用 `18/18` 精确。
+
+这仍是公开语料有限回归，生产完整性未通过；business evidence 为 `not_run/8`，未使用
+真实模型或 OCR，也不是盲测。主审后续 commit 后会复验相同 source hash；本文不预填
+未来 commit 标识。两份旧 public report 的 SHA 与开始时保存值一致、原字节未变；
+本轮唯一新增的公开 8-raw 报告为上述 2026-10-08 文件。
 
 支持范围仅包括明确前置 frame、同一 scope 内相邻编号条款的同级 AND/OR 分组、
 inline license OR 再 AND audit，以及明确的同人日期关系；分组仍为

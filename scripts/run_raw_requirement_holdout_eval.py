@@ -32,6 +32,15 @@ def _sha256(content: bytes) -> str:
     return hashlib.sha256(content).hexdigest()
 
 
+def _source_tree_sha256(root: Path) -> str:
+    product_hash = hashlib.sha256()
+    for path in sorted((root / "src").rglob("*.py")):
+        relative = path.relative_to(root).as_posix()
+        product_hash.update(relative.encode("utf-8") + b"\t")
+        product_hash.update(bytes.fromhex(_sha256(path.read_bytes())) + b"\n")
+    return product_hash.hexdigest()
+
+
 def _git_metadata(root: Path) -> dict[str, Any]:
     top_level = subprocess.run(
         ["git", "rev-parse", "--show-toplevel"],
@@ -704,12 +713,7 @@ async def run_evaluation() -> dict[str, Any]:
     freeze = verify_freeze()
     oracle = json.loads(ORACLE_PATH.read_text(encoding="utf-8"))
     git = _git_metadata(ROOT)
-    product_files = sorted((ROOT / "src").rglob("*.py"))
-    product_hash = hashlib.sha256()
-    for path in product_files:
-        relative = path.relative_to(ROOT).as_posix()
-        product_hash.update(relative.encode("utf-8") + b"\t")
-        product_hash.update(bytes.fromhex(_sha256(path.read_bytes())) + b"\n")
+    source_tree_hash = _source_tree_sha256(ROOT)
     cases = [await _run_case(case) for case in oracle["cases"]]
     return {
         "schema": "raw-requirement-holdout-eval-v1",
@@ -717,7 +721,7 @@ async def run_evaluation() -> dict[str, Any]:
         "classification": "public_regression_not_blind_holdout",
         "evaluation_baseline_revision": "9ac022b",
         **git,
-        "source_tree_sha256": product_hash.hexdigest(),
+        "source_tree_sha256": source_tree_hash,
         "source_tree_sha256_scope": (
             "SHA-256 over sorted src/**/*.py relative paths and their file SHA-256; "
             "this is the measured source snapshot, independent of Git revision"
