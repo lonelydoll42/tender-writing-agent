@@ -1,0 +1,12 @@
+{
+  "oracle_version": "private-structure-oracle-v1",
+  "source_file": "case-08-version-v2.json",
+  "document_id": "synthetic-versioned",
+  "source_version": "v2",
+  "blocks": [
+    {"id":"c08-h1","page":1,"line":1,"span":[0,11],"raw_text":"1 Operation","line_ending":"\n","normalized_text":"1 Operation","kind":"heading","numbering":{"label":"1","style":"decimal_space","level":1,"path":["1"]},"parent":null,"section":"c08-h1"},
+    {"id":"c08-p1","page":1,"line":2,"span":[12,46],"raw_text":"Use the revised synthetic setting.","line_ending":"\n","normalized_text":"Use the revised synthetic setting.","kind":"paragraph","numbering":null,"parent":"c08-h1","section":"c08-h1"},
+    {"id":"c08-h2","page":1,"line":3,"span":[47,53],"raw_text":"2 Note","line_ending":"\n","normalized_text":"2 Note","kind":"heading","numbering":{"label":"2","style":"decimal_space","level":1,"path":["2"]},"parent":null,"section":"c08-h2"},
+    {"id":"c08-p2","page":1,"line":4,"span":[54,79],"raw_text":"Revision marker: revised.","line_ending":"\n","normalized_text":"Revision marker: revised.","kind":"paragraph","numbering":null,"parent":"c08-h2","section":"c08-h2"}
+  ]
+}

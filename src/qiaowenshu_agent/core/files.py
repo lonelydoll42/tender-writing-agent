@@ -29,6 +29,7 @@ from qiaowenshu_agent.core.store import (
     InMemoryStore,
     Store,
 )
+from qiaowenshu_agent.domain.document_structure import build_document_structure
 from qiaowenshu_agent.domain.models import SourceReference
 
 
@@ -236,6 +237,8 @@ class ProjectFileRegistry:
 
     def parse(self, file_id: str, *, force: bool = False) -> dict[str, Any]:
         record = self.require(file_id)
+        source_version = f"{record.file_id}:v{record.version}"
+        stale_cached_artifact: Artifact | None = None
         with self._lock:
             if (
                 record.parse_status == "success"
@@ -243,7 +246,29 @@ class ProjectFileRegistry:
                 and not force
             ):
                 artifact = self.store.get_artifact(record.parse_artifact_id)
-                if artifact is not None:
+                if artifact is not None and artifact.status == "stale":
+                    stale_cached_artifact = artifact
+                if artifact is not None and _parse_artifact_matches(
+                    artifact,
+                    record,
+                    source_version=source_version,
+                ):
+                    if _document_structure_matches(
+                        artifact.content.get("document_structure"),
+                        record,
+                        source_version=source_version,
+                    ) and _page_references_match(
+                        artifact.content.get("pages"),
+                        document_id=record.file_id,
+                        source_version=source_version,
+                    ):
+                        return artifact.to_dict()
+                    artifact = _upgrade_parse_artifact_structure(
+                        artifact,
+                        record,
+                        source_version=source_version,
+                    )
+                    self.store.save_artifact(artifact)
                     return artifact.to_dict()
 
         try:
@@ -261,37 +286,45 @@ class ProjectFileRegistry:
                     page=page,
                     source_version=source_version,
                 )
+            warnings = _document_structure_warnings(record.file_name, warnings)
+            document_structure = build_document_structure(
+                pages,
+                document_id=record.file_id,
+                source_version=source_version,
+                source_checksum=record.checksum,
+            )
             text = "\f".join(str(page.get("text") or "") for page in pages)
             page_count = len(pages)
+            content = {
+                "file_id": record.file_id,
+                "file_name": record.file_name,
+                "version": record.version,
+                "checksum": record.checksum,
+                "text": text,
+                "page_count": page_count,
+                "warnings": warnings,
+                "pages": pages,
+                "document_structure": document_structure,
+            }
             artifact = Artifact(
                 artifact_id=artifact_id,
                 artifact_type="parsed_document",
                 project_id=record.project_id,
-                schema_version="1.1",
-                source_file_versions=[self.file_version_token(record.file_id)],
+                schema_version="1.2",
+                source_file_versions=[source_version],
                 created_at=_now(),
-                content_hash=_content_hash(
-                    {
-                        "file_id": record.file_id,
-                        "file_name": record.file_name,
-                        "version": record.version,
-                        "checksum": record.checksum,
-                        "text": text,
-                        "page_count": page_count,
-                        "warnings": warnings,
-                        "pages": pages,
-                    }
+                content_hash=_content_hash(content),
+                status=(
+                    stale_cached_artifact.status
+                    if stale_cached_artifact is not None
+                    else "valid"
                 ),
-                content={
-                    "file_id": record.file_id,
-                    "file_name": record.file_name,
-                    "version": record.version,
-                    "checksum": record.checksum,
-                    "text": text,
-                    "page_count": page_count,
-                    "warnings": warnings,
-                    "pages": pages,
-                },
+                stale_reason=(
+                    stale_cached_artifact.stale_reason
+                    if stale_cached_artifact is not None
+                    else None
+                ),
+                content=content,
             )
             updated = replace(
                 record,
@@ -442,6 +475,153 @@ class ProjectFileRegistry:
         return max(candidates, key=lambda item: item.version) if candidates else None
 
 
+def _parse_artifact_matches(
+    artifact: Artifact,
+    record: ProjectFile,
+    *,
+    source_version: str,
+) -> bool:
+    content = artifact.content
+    return (
+        artifact.artifact_type == "parsed_document"
+        and artifact.artifact_id == f"artifact_{record.file_id}_{record.version}"
+        and artifact.project_id == record.project_id
+        and artifact.source_file_versions == [source_version]
+        and content.get("file_id") == record.file_id
+        and content.get("version") == record.version
+        and content.get("checksum") == record.checksum
+        and _content_hash(content) == artifact.content_hash
+    )
+
+
+def _document_structure_matches(
+    value: Any,
+    record: ProjectFile,
+    *,
+    source_version: str,
+) -> bool:
+    if not isinstance(value, Mapping):
+        return False
+    checksum = value.get("checksum", value.get("source_checksum"))
+    return (
+        value.get("schema_version") == "document-structure-v1"
+        and value.get("document_id") == record.file_id
+        and value.get("source_version") == source_version
+        and checksum == record.checksum
+    )
+
+
+def _page_references_match(
+    value: Any,
+    *,
+    document_id: str,
+    source_version: str,
+) -> bool:
+    if not isinstance(value, (list, tuple)) or not value:
+        return False
+    for page in value:
+        if not isinstance(page, Mapping):
+            return False
+        references = page.get("source_references")
+        if not isinstance(references, (list, tuple)) or not references:
+            return False
+        if any(
+            not isinstance(reference, Mapping)
+            or reference.get("document_id") != document_id
+            or reference.get("source_version") != source_version
+            for reference in references
+        ):
+            return False
+    return True
+
+
+def _upgrade_parse_artifact_structure(
+    artifact: Artifact,
+    record: ProjectFile,
+    *,
+    source_version: str,
+) -> Artifact:
+    content = dict(artifact.content)
+    raw_pages = content.get("pages")
+    pages = (
+        [dict(page) for page in raw_pages if isinstance(page, Mapping)]
+        if isinstance(raw_pages, (list, tuple))
+        else []
+    )
+    if not pages:
+        pages = _text_pages(str(content.get("text") or ""))
+    for page_number, page in enumerate(pages, start=1):
+        page.setdefault("page_number", page_number)
+        if not _page_references_match(
+            [page],
+            document_id=record.file_id,
+            source_version=source_version,
+        ):
+            page["source_references"] = _page_source_references(
+                document_id=record.file_id,
+                artifact_id=artifact.artifact_id,
+                page=page,
+                source_version=source_version,
+            )
+
+    warnings = content.get("warnings")
+    warnings = list(warnings) if isinstance(warnings, (list, tuple)) else []
+    warnings = _document_structure_warnings(record.file_name, warnings)
+    content.update(
+        {
+            "file_id": record.file_id,
+            "file_name": record.file_name,
+            "version": record.version,
+            "checksum": record.checksum,
+            "text": str(
+                content.get("text")
+                if content.get("text") is not None
+                else "\f".join(str(page.get("text") or "") for page in pages)
+            ),
+            "page_count": len(pages),
+            "warnings": warnings,
+            "pages": pages,
+            "document_structure": build_document_structure(
+                pages,
+                document_id=record.file_id,
+                source_version=source_version,
+                source_checksum=record.checksum,
+            ),
+        }
+    )
+    return replace(
+        artifact,
+        schema_version="1.2",
+        content_hash=_content_hash(content),
+        content=content,
+    )
+
+
+def _document_structure_warnings(
+    file_name: str,
+    warnings: list[str],
+) -> list[str]:
+    suffix = Path(file_name).suffix.lower()
+    notes: list[str] = []
+    if suffix == ".pdf":
+        notes.append(
+            "document_structure.raw_text is extracted page text, not original "
+            "PDF layout; OCR accuracy is not independently verified."
+        )
+    elif suffix in {".docx", ".xlsx", ".xlsm"}:
+        notes.append(
+            "The existing Office extractor flattens document XML, tables, or "
+            "sheet data into page text; native Office hierarchy and layout are "
+            "not represented."
+        )
+    elif suffix == ".xml":
+        notes.append(
+            "XML is retained as extracted text; document_structure does not "
+            "model the native XML element hierarchy."
+        )
+    return _unique_strings([*warnings, *notes])
+
+
 def _content_hash(content: Mapping[str, Any]) -> str:
     encoded = json.dumps(
         dict(content),
@@ -458,11 +638,16 @@ def extract_document_pages(
     *,
     ocr_backend: OCRBackend | Any | None = None,
 ) -> tuple[list[dict[str, Any]], list[str]]:
-    """Extract page-level text and preserve OCR provenance.
+    """Extract page text and preserve available extraction provenance.
 
     Native PDF text is extracted page by page.  If an OCR backend is supplied,
     image pages are rendered with ``pdftoppm`` and sent to that backend.  A
     missing OCR backend never turns an empty page into a passing fact.
+
+    Downstream document-structure ``raw_text`` is this extracted page text, not
+    source binary data or a guarantee of original PDF layout or OCR accuracy.
+    The existing DOCX/XLSX readers flatten selected XML/table/sheet content;
+    XML input is treated as text rather than a parsed element hierarchy.
     """
 
     suffix = Path(file_name).suffix.lower()

@@ -1,0 +1,14 @@
+{
+  "oracle_version": "private-structure-oracle-v1",
+  "source_file": "case-05-repeated-number-text.json",
+  "blocks": [
+    {"id":"c05-h1a","page":1,"line":1,"span":[0,15],"raw_text":"1 First chapter","line_ending":"\n","normalized_text":"1 First chapter","kind":"heading","numbering":{"label":"1","style":"decimal_space","level":1,"path":["1"]},"parent":null,"section":"c05-h1a"},
+    {"id":"c05-h11a","page":1,"line":2,"span":[16,36],"raw_text":"1.1 Shared condition","line_ending":"\n","normalized_text":"1.1 Shared condition","kind":"heading","numbering":{"label":"1.1","style":"decimal_multi_space","level":2,"path":["1","1.1"]},"parent":"c05-h1a","section":"c05-h11a"},
+    {"id":"c05-p1","page":1,"line":3,"span":[37,59],"raw_text":"Check the same marker.","line_ending":"\n","normalized_text":"Check the same marker.","kind":"paragraph","numbering":null,"parent":"c05-h11a","section":"c05-h11a"},
+    {"id":"c05-h12","page":1,"line":4,"span":[60,79],"raw_text":"1.2 Local condition","line_ending":"\n","normalized_text":"1.2 Local condition","kind":"heading","numbering":{"label":"1.2","style":"decimal_multi_space","level":2,"path":["1","1.2"]},"parent":"c05-h1a","section":"c05-h12"},
+    {"id":"c05-p2","page":1,"line":5,"span":[80,102],"raw_text":"Check the same marker.","line_ending":"\n","normalized_text":"Check the same marker.","kind":"paragraph","numbering":null,"parent":"c05-h12","section":"c05-h12"},
+    {"id":"c05-h2","page":1,"line":6,"span":[103,119],"raw_text":"2 Second chapter","line_ending":"\n","normalized_text":"2 Second chapter","kind":"heading","numbering":{"label":"2","style":"decimal_space","level":1,"path":["2"]},"parent":null,"section":"c05-h2"},
+    {"id":"c05-h11b","page":1,"line":7,"span":[120,140],"raw_text":"1.1 Shared condition","line_ending":"\n","normalized_text":"1.1 Shared condition","kind":"heading","numbering":{"label":"1.1","style":"decimal_multi_space","level":2,"path":["2","1.1"]},"parent":"c05-h2","section":"c05-h11b"},
+    {"id":"c05-p3","page":1,"line":8,"span":[141,163],"raw_text":"Check the same marker.","line_ending":"\n","normalized_text":"Check the same marker.","kind":"paragraph","numbering":null,"parent":"c05-h11b","section":"c05-h11b"}
+  ]
+}

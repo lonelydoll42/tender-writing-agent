@@ -16,6 +16,7 @@ from qiaowenshu_agent.core.files import (
     FileRegistryError,
     ProjectFileRegistry,
 )
+from qiaowenshu_agent.domain.document_structure import build_document_structure
 from qiaowenshu_agent.domain.models import SourceReference
 from qiaowenshu_agent.skills.local_requirement_logic import (
     build_local_requirement_rule,
@@ -90,12 +91,19 @@ class RegistryTenderIntakeBackend:
         artifacts = [registry.parse(file_id) for file_id in file_ids]
         pages: list[dict[str, Any]] = []
         sections: list[dict[str, Any]] = []
+        document_structures: list[dict[str, Any]] = []
         warnings: list[str] = []
         combined_text: list[str] = []
         for artifact in artifacts:
             text = str(artifact.get("text") or "")
             combined_text.append(text)
             warnings.extend(str(item) for item in artifact.get("warnings") or [])
+            document_structure = artifact.get("document_structure")
+            if isinstance(document_structure, Mapping):
+                document_structure = dict(document_structure)
+                document_structures.append(document_structure)
+            else:
+                document_structure = None
             artifact_pages = _artifact_pages(artifact)
             artifact_references: list[dict[str, Any]] = []
             for page in artifact_pages:
@@ -130,6 +138,11 @@ class RegistryTenderIntakeBackend:
                     "content": text,
                     "text": text,
                     "source_references": artifact_references,
+                    **(
+                        {"document_structure": document_structure}
+                        if document_structure is not None
+                        else {}
+                    ),
                 }
             )
 
@@ -141,6 +154,7 @@ class RegistryTenderIntakeBackend:
             "profile": profile,
             "sections": sections,
             "pages": pages,
+            "document_structures": document_structures,
             "artifacts": artifacts,
             "warnings": _unique(warnings),
         }
@@ -154,6 +168,10 @@ class RegistryTenderDecompositionBackend:
         payload: Mapping[str, Any],
         _context: SkillContext,
     ) -> dict[str, Any]:
+        sections = payload.get("sections") or []
+        document_structures, structure_source = _document_structures_for_decomposition(
+            payload, sections
+        )
         explicit_requirements = list(payload.get("requirements") or [])
         explicit_scores = list(payload.get("scoring_items") or [])
         if explicit_requirements or explicit_scores:
@@ -161,19 +179,37 @@ class RegistryTenderDecompositionBackend:
                 "requirements": explicit_requirements,
                 "scoring_items": explicit_scores,
                 "warnings": [],
+                "document_structures": document_structures,
+                "block_projection_audit": _not_run_projection_audit(
+                    document_structures,
+                    structure_source=structure_source,
+                ),
             }
 
-        sections = payload.get("sections") or []
         text = _sections_text(sections)
         requirements: list[dict[str, Any]] = []
         scoring_items: list[dict[str, Any]] = []
         seen: dict[tuple[str, tuple[tuple[str, str], ...]], int] = {}
         warnings: list[str] = []
+        candidate_records = _candidate_records(sections)
+        candidate_projection, candidate_entries = _build_candidate_projection_audit(
+            candidate_records,
+            document_structures,
+            structure_source=structure_source,
+        )
+        candidate_results: dict[str, list[dict[str, Any]]] = {
+            item["candidate_id"]: [] for item in candidate_entries
+        }
         records = group_requirement_records(
             sections,
-            _candidate_records(sections),
+            candidate_records,
         )
         for line, source_references, group_rule in records:
+            candidate_ids = _candidate_ids_for_record(
+                line,
+                source_references,
+                candidate_entries,
+            )
             normalized = _normalize(line)
             source_key = tuple(
                 sorted(
@@ -198,6 +234,12 @@ class RegistryTenderDecompositionBackend:
                     existing["source_references"] = _merge_source_references(
                         existing["source_references"], source_references
                     )
+                    _set_candidate_outcome(
+                        candidate_results,
+                        candidate_ids,
+                        "merged_into_existing_scoring_item",
+                        existing["item_id"],
+                    )
                     continue
                 item_id = f"S-{len(scoring_items) + 1:03d}"
                 scoring_items.append(
@@ -211,19 +253,41 @@ class RegistryTenderDecompositionBackend:
                     }
                 )
                 seen[duplicate_key] = len(scoring_items) - 1
+                _set_candidate_outcome(
+                    candidate_results,
+                    candidate_ids,
+                    "scoring_item_created",
+                    item_id,
+                )
                 continue
             if _looks_like_score(line):
                 warnings.append(
                     f"评分上限无法从原文可靠提取，未生成评分项：{line}"
                 )
+                _set_candidate_outcome(
+                    candidate_results,
+                    candidate_ids,
+                    "score_candidate_without_reliable_ceiling",
+                )
                 continue
             category = _category_from_line(line)
             if group_rule is None and not _is_requirement_line(line, category):
+                _set_candidate_outcome(
+                    candidate_results,
+                    candidate_ids,
+                    "not_requirement_under_local_rules",
+                )
                 continue
             if duplicate_key in seen:
                 existing = requirements[seen[duplicate_key]]
                 existing["source_references"] = _merge_source_references(
                     existing["source_references"], source_references
+                )
+                _set_candidate_outcome(
+                    candidate_results,
+                    candidate_ids,
+                    "merged_into_existing_requirement",
+                    existing["requirement_id"],
                 )
                 continue
             requirement_id = f"R-{len(requirements) + 1:03d}"
@@ -244,6 +308,12 @@ class RegistryTenderDecompositionBackend:
                 requirement["check_rule"] = check_rule
             requirements.append(requirement)
             seen[duplicate_key] = len(requirements) - 1
+            _set_candidate_outcome(
+                candidate_results,
+                candidate_ids,
+                "requirement_created",
+                requirement_id,
+            )
         clarification_titles = _clarification_titles(sections)
         if clarification_titles:
             warnings.append(
@@ -267,6 +337,33 @@ class RegistryTenderDecompositionBackend:
             "extraction_complete": False,
             "needs_human_review": True,
             "business_status": "needs_review",
+            "document_structures": document_structures,
+            "block_projection_audit": {
+                "candidate_projection": candidate_projection,
+                "final_requirement_extraction": {
+                    "status": "partial_first_pass",
+                    "complete": False,
+                    "candidate_results": [
+                        {
+                            "candidate_id": item["candidate_id"],
+                            "outcomes": (
+                                candidate_results[item["candidate_id"]]
+                                or [
+                                    {
+                                        "outcome": "not_reconciled_after_grouping",
+                                        "generated_ids": [],
+                                    }
+                                ]
+                            ),
+                        }
+                        for item in candidate_entries
+                    ],
+                    "requirement_ids": [
+                        item["requirement_id"] for item in requirements
+                    ],
+                    "scoring_item_ids": [item["item_id"] for item in scoring_items],
+                },
+            },
         }
         return result
 
@@ -716,11 +813,951 @@ def _sections_text(sections: list[Any]) -> str:
     return "\n".join(values)
 
 
-def _candidate_lines(text: str) -> list[str]:
-    return [
-        line
-        for line, _references in _candidate_records([{"content": text}])
+def _document_structures_for_decomposition(
+    payload: Mapping[str, Any],
+    sections: list[Any],
+) -> tuple[list[dict[str, Any]], str]:
+    provided = payload.get("document_structures")
+    top_level = (
+        [dict(item) for item in provided if isinstance(item, Mapping)]
+        if isinstance(provided, list)
+        else []
+    )
+    section_structures = [
+        dict(section["document_structure"])
+        for section in sections
+        if isinstance(section, Mapping)
+        and isinstance(section.get("document_structure"), Mapping)
     ]
+    structures: list[dict[str, Any]] = []
+    for structure in [*top_level, *section_structures]:
+        if structure not in structures:
+            structures.append(structure)
+
+    fallback_count = 0
+    for index, section in enumerate(sections, start=1):
+        identity = _section_source_identity(section)
+        embedded = (
+            section.get("document_structure")
+            if isinstance(section, Mapping)
+            and isinstance(section.get("document_structure"), Mapping)
+            else None
+        )
+        if (
+            embedded is not None
+            and not identity["conflict"]
+            and identity["document_id"]
+            and identity["source_version"]
+        ):
+            continue
+
+        candidates = [
+            structure
+            for structure in structures
+            if identity["document_id"]
+            and str(structure.get("document_id") or "")
+            == identity["document_id"]
+            and str(structure.get("source_version") or "")
+            == identity["source_version"]
+        ]
+        if (
+            not identity["conflict"]
+            and identity["document_id"]
+            and identity["source_version"]
+            and len(candidates) == 1
+        ):
+            continue
+
+        fallback = _legacy_section_structure(
+            section,
+            index=index,
+            identity=identity,
+        )
+        structures.append(fallback)
+        fallback_count += 1
+
+    if fallback_count and (top_level or section_structures):
+        source = "mixed"
+    elif fallback_count:
+        source = "legacy_text_fallback"
+    elif section_structures and not top_level:
+        source = "provided_in_sections"
+    elif top_level:
+        source = "provided_top_level"
+    else:
+        source = "legacy_text_fallback"
+    return structures, source
+
+
+def _section_source_identity(section: Any) -> dict[str, Any]:
+    if not isinstance(section, Mapping):
+        return {
+            "document_id": "",
+            "source_version": "",
+            "conflict": False,
+            "reason": "section has no explicit source identity",
+        }
+    document_ids = {
+        str(section.get(key) or "").strip()
+        for key in ("file_id", "document_id")
+        if str(section.get(key) or "").strip()
+    }
+    source_versions = {
+        str(section.get(key) or "").strip()
+        for key in ("source_version", "source_file_version")
+        if str(section.get(key) or "").strip()
+    }
+    reference_document_ids: set[str] = set()
+    reference_versions: set[str] = set()
+    raw_references = section.get("source_references") or []
+    if isinstance(raw_references, (list, tuple)):
+        for reference in raw_references:
+            if not isinstance(reference, Mapping):
+                continue
+            document_id = str(reference.get("document_id") or "").strip()
+            source_version = str(
+                reference.get("source_version")
+                or reference.get("source_file_version")
+                or ""
+            ).strip()
+            if document_id:
+                reference_document_ids.add(document_id)
+            if source_version:
+                reference_versions.add(source_version)
+
+    attached = section.get("document_structure")
+    if isinstance(attached, Mapping):
+        document_id = str(attached.get("document_id") or "").strip()
+        source_version = str(attached.get("source_version") or "").strip()
+        if document_id:
+            document_ids.add(document_id)
+        if source_version:
+            source_versions.add(source_version)
+
+    reason = ""
+    if len(reference_document_ids) > 1 or len(reference_versions) > 1:
+        reason = "section references contain multiple document/version keys"
+    elif reference_document_ids and document_ids - reference_document_ids:
+        reason = "section identity conflicts with source references"
+    elif reference_versions and source_versions - reference_versions:
+        reason = "section version conflicts with source references"
+    elif len(document_ids) > 1:
+        reason = "section contains conflicting document identifiers"
+    elif len(source_versions) > 1:
+        reason = "section contains conflicting source versions"
+    return {
+        "document_id": next(iter(document_ids), "")
+        or next(iter(reference_document_ids), ""),
+        "source_version": next(iter(source_versions), "")
+        or next(iter(reference_versions), ""),
+        "conflict": bool(reason),
+        "reason": reason or "source identity is incomplete",
+    }
+
+
+def _legacy_section_structure(
+    section: Any,
+    *,
+    index: int,
+    identity: Mapping[str, Any],
+) -> dict[str, Any]:
+    if isinstance(section, Mapping):
+        content = str(section.get("content") or section.get("text") or "")
+        raw_references = section.get("source_references") or []
+        section_id = str(section.get("section_id") or "")
+        title = str(section.get("title") or "")
+        checksum = section.get("checksum", section.get("source_checksum"))
+    else:
+        content = str(section)
+        raw_references = []
+        section_id = ""
+        title = ""
+        checksum = None
+    references = (
+        [dict(item) for item in raw_references if isinstance(item, Mapping)]
+        if isinstance(raw_references, (list, tuple))
+        else []
+    )
+    identified = bool(
+        not identity.get("conflict")
+        and identity.get("document_id")
+        and identity.get("source_version")
+    )
+    document_id = (
+        str(identity["document_id"])
+        if identified
+        else f"unverified-section-{index}-{section_id or title or 'legacy'}"
+    )
+    source_version = (
+        str(identity["source_version"]) if identified else "unverified"
+    )
+    pages = [
+        {
+            "page_number": page_number,
+            "text": page_text,
+        }
+        for page_number, page_text in enumerate(content.split("\f") or [""], start=1)
+    ]
+    structure = build_document_structure(
+        pages,
+        document_id=document_id,
+        source_version=source_version,
+        source_checksum=(str(checksum) if checksum not in (None, "") else None),
+    )
+    metadata = dict(structure.get("metadata") or {})
+    metadata["integration_source"] = "legacy_section_text_fallback"
+    metadata["source_representation"] = "legacy_section_text_fragment"
+    metadata["source_identity_status"] = "identified" if identified else "unverified"
+    metadata["source_coordinate_status"] = "section_relative_unverified"
+    metadata["source_coordinate_scope"] = "section_relative"
+    metadata["source_references_status"] = "diagnostic_only"
+    metadata["source_references_diagnostic_only"] = references
+    metadata["fallback_section_index"] = index
+    if not identified:
+        metadata["source_identity_reason"] = (
+            str(identity.get("reason") or "section source identity is missing")
+        )
+    structure["metadata"] = metadata
+    structure["source_coordinate_status"] = "section_relative_unverified"
+    structure["source_coordinate_scope"] = "section_relative"
+    for page in structure.get("pages", []):
+        if isinstance(page, dict):
+            page["source_coordinate_status"] = "section_relative_unverified"
+            page["page_number_scope"] = "section_relative"
+
+    block_id_map: dict[str, str] = {}
+    for block in structure.get("blocks", []):
+        if not isinstance(block, dict):
+            continue
+        old_block_id = str(block.get("block_id") or "")
+        if old_block_id:
+            block_id_map[old_block_id] = f"{old_block_id}:section-{index}"
+    for block in structure.get("blocks", []):
+        if not isinstance(block, dict):
+            continue
+        if str(block.get("block_id") or "") in block_id_map:
+            block["block_id"] = block_id_map[str(block["block_id"])]
+        for key in ("parent_block_id", "section_block_id"):
+            parent_id = str(block.get(key) or "")
+            if parent_id in block_id_map:
+                block[key] = block_id_map[parent_id]
+        block["source_coordinate_status"] = "section_relative_unverified"
+        block["source_coordinate_scope"] = "section_relative"
+        block["source_span_coordinate_status"] = "section_relative_unverified"
+        block["source_span_scope"] = "section_relative"
+        block["source_references"] = []
+    return structure
+
+
+def _not_run_projection_audit(
+    document_structures: list[Mapping[str, Any]],
+    *,
+    structure_source: str,
+) -> dict[str, Any]:
+    blocks = [
+        {
+            "document_id": str(structure.get("document_id") or ""),
+            "source_version": str(structure.get("source_version") or ""),
+            "block_id": str(block.get("block_id") or ""),
+            "source_coordinate_status": str(
+                block.get("source_coordinate_status")
+                or structure.get("source_coordinate_status")
+                or "source_coordinates_unmarked"
+            ),
+            "candidate_ids": [],
+            "participated": False,
+            "filter_reason": "candidate_projection_not_run_for_explicit_input",
+        }
+        for structure in document_structures
+        for block in structure.get("blocks", [])
+        if isinstance(block, Mapping)
+    ]
+    return {
+        "candidate_projection": {
+            "status": "not_run_explicit_input",
+            "structure_source": structure_source,
+            "blocks": blocks,
+            "candidates": [],
+        },
+        "final_requirement_extraction": {
+            "status": "bypassed_explicit_input",
+            "complete": False,
+            "candidate_results": [],
+        },
+    }
+
+
+def _build_candidate_projection_audit(
+    records: list[tuple[str, list[dict[str, Any]]]],
+    document_structures: list[Mapping[str, Any]],
+    *,
+    structure_source: str,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    candidates: list[dict[str, Any]] = []
+    for index, (text, references) in enumerate(records, start=1):
+        candidate_id = f"C-{index:04d}"
+        source_blocks, mapping_status, mapping_reason = _candidate_source_blocks(
+            text,
+            references,
+            document_structures,
+        )
+        candidates.append(
+            {
+                "candidate_id": candidate_id,
+                "candidate_text": text,
+                "source_block_ids": [item["block_id"] for item in source_blocks],
+                "source_blocks": source_blocks,
+                "source_mapping_status": mapping_status,
+                "source_mapping_reason": mapping_reason,
+                "source_references": [dict(item) for item in references],
+            }
+        )
+
+    candidate_ids_by_block: dict[tuple[str, str, str], list[str]] = {}
+    for candidate in candidates:
+        for source_block in candidate["source_blocks"]:
+            key = (
+                source_block["document_id"],
+                source_block["source_version"],
+                source_block["block_id"],
+            )
+            candidate_ids_by_block.setdefault(key, []).append(candidate["candidate_id"])
+
+    block_audit: list[dict[str, Any]] = []
+    for structure in document_structures:
+        document_id = str(structure.get("document_id") or "")
+        source_version = str(structure.get("source_version") or "")
+        for block in structure.get("blocks", []):
+            if not isinstance(block, Mapping):
+                continue
+            block_id = str(block.get("block_id") or "")
+            candidate_ids = candidate_ids_by_block.get(
+                (document_id, source_version, block_id),
+                [],
+            )
+            if candidate_ids:
+                filter_reason = None
+            else:
+                filter_reason = _candidate_filter_reason(block)
+                if (
+                    filter_reason == "not_selected_or_source_unmapped"
+                    and _source_coordinates_unverified(structure, block)
+                ):
+                    filter_reason = "source_coordinates_unverified"
+            block_audit.append(
+                {
+                    "document_id": document_id,
+                    "source_version": source_version,
+                    "block_id": block_id,
+                    "source_coordinate_status": str(
+                        block.get("source_coordinate_status")
+                        or structure.get("source_coordinate_status")
+                        or "source_coordinates_unmarked"
+                    ),
+                    "participated": bool(candidate_ids),
+                    "projection_status": (
+                        "candidate"
+                        if candidate_ids
+                        else "filtered"
+                        if filter_reason != "not_selected_or_source_unmapped"
+                        else "not_selected_or_source_unmapped"
+                    ),
+                    "filter_reason": filter_reason,
+                    "candidate_ids": list(candidate_ids),
+                }
+            )
+
+    return (
+        {
+            "status": "executed_legacy_candidate_rules",
+            "structure_source": structure_source,
+            "blocks": block_audit,
+            "candidates": [
+                {
+                    "candidate_id": item["candidate_id"],
+                    "candidate_text": item["candidate_text"],
+                    "source_block_ids": item["source_block_ids"],
+                    "source_blocks": item["source_blocks"],
+                    "source_mapping_status": item["source_mapping_status"],
+                    "source_mapping_reason": item["source_mapping_reason"],
+                }
+                for item in candidates
+            ],
+        },
+        candidates,
+    )
+
+
+def _candidate_source_blocks(
+    candidate_text: str,
+    references: list[dict[str, Any]],
+    document_structures: list[Mapping[str, Any]],
+) -> tuple[list[dict[str, str]], str, str | None]:
+    line_references: dict[
+        tuple[str, str, int, int],
+        list[Mapping[str, Any]],
+    ] = {}
+    has_line_locator = False
+    incomplete_line_locator = False
+    conflicting_line_locator = False
+    has_unlocated_reference = False
+    for reference in references:
+        if not isinstance(reference, Mapping):
+            incomplete_line_locator = True
+            continue
+        locator_parts = _source_reference_locator_parts(reference)
+        explicit_pages: list[int] = []
+        explicit_lines: list[int] = []
+        for field in ("page", "page_number"):
+            value = reference.get(field)
+            if value in (None, ""):
+                continue
+            parsed = _optional_coordinate_int(value)
+            if parsed is None:
+                incomplete_line_locator = True
+            else:
+                explicit_pages.append(parsed)
+        explicit_line_value = reference.get("line_number")
+        if explicit_line_value not in (None, ""):
+            parsed_line = _optional_coordinate_int(explicit_line_value)
+            if parsed_line is None:
+                incomplete_line_locator = True
+            else:
+                explicit_lines.append(parsed_line)
+
+        locator_page = locator_parts["page_number"]
+        locator_line = locator_parts["line_number"]
+        if locator_line is None and not explicit_lines:
+            has_unlocated_reference = True
+            continue
+        has_line_locator = True
+        page_claims = [*explicit_pages]
+        if locator_page is not None:
+            page_claims.append(locator_page)
+        line_claims = [*explicit_lines]
+        if locator_line is not None:
+            line_claims.append(locator_line)
+        if len(set(page_claims)) > 1 or len(set(line_claims)) > 1:
+            conflicting_line_locator = True
+        if incomplete_line_locator:
+            continue
+
+        page_number = (
+            explicit_pages[0] if explicit_pages else locator_page
+        )
+        line_number = explicit_lines[0] if explicit_lines else locator_line
+        document_id = str(reference.get("document_id") or "").strip()
+        source_versions = {
+            str(reference.get(field) or "").strip()
+            for field in ("source_version", "source_file_version")
+            if str(reference.get(field) or "").strip()
+        }
+        if len(source_versions) > 1:
+            conflicting_line_locator = True
+        source_version = next(iter(source_versions), "")
+        if (
+            not document_id
+            or not source_version
+            or page_number is None
+            or line_number is None
+            or page_number < 1
+            or line_number < 1
+        ):
+            incomplete_line_locator = True
+            continue
+        key = (document_id, source_version, page_number, line_number)
+        line_references.setdefault(key, []).append(reference)
+
+    if has_line_locator:
+        if conflicting_line_locator:
+            return (
+                [],
+                "ambiguous",
+                "line locator conflicts with explicit page, line, or version metadata",
+            )
+        if has_unlocated_reference:
+            return (
+                [],
+                "ambiguous",
+                "candidate mixes exact and unlocated source references",
+            )
+        if incomplete_line_locator or not line_references:
+            return (
+                [],
+                "ambiguous",
+                "line locator lacks a complete document/version/page key",
+            )
+        result: list[dict[str, str]] = []
+        seen: set[tuple[str, str, str]] = set()
+        for document_id, source_version, page_number, line_number in sorted(
+            line_references
+        ):
+            matching_blocks = [
+                (structure, block)
+                for structure in document_structures
+                if str(structure.get("document_id") or "") == document_id
+                and str(structure.get("source_version") or "") == source_version
+                for block in structure.get("blocks", [])
+                if isinstance(block, Mapping)
+                and _positive_int(block.get("page_number")) == page_number
+                and _positive_int(block.get("line_number")) == line_number
+            ]
+            verified_blocks = [
+                (structure, block)
+                for structure, block in matching_blocks
+                if not _source_coordinates_unverified(structure, block)
+            ]
+            if len(verified_blocks) > 1:
+                return [], "ambiguous", "line locator matches multiple source blocks"
+            if not verified_blocks:
+                if matching_blocks:
+                    return (
+                        [],
+                        "unmapped",
+                        "matching block has section-relative unverified coordinates",
+                )
+                return [], "unmapped", "line locator did not match a source block"
+            structure, block = verified_blocks[0]
+            source_references = line_references[
+                (document_id, source_version, page_number, line_number)
+            ]
+            if _duplicate_locator_claims_conflict(source_references):
+                return (
+                    [],
+                    "ambiguous",
+                    "duplicate locator has conflicting quote or span claims",
+                )
+            for reference in source_references:
+                reason = _reference_matches_block(
+                    reference,
+                    structure,
+                    block,
+                    quote_mode="exact",
+                )
+                if reason:
+                    status = "ambiguous" if len(source_references) > 1 else "unmapped"
+                    return [], status, reason
+            key = (
+                document_id,
+                source_version,
+                str(block.get("block_id") or ""),
+            )
+            if key in seen:
+                continue
+            seen.add(key)
+            result.append(
+                {
+                    "document_id": document_id,
+                    "source_version": source_version,
+                    "block_id": key[2],
+                    "mapping_method": "exact_locator",
+                }
+            )
+        return result, "mapped_exact_locator", None
+
+    if not references:
+        return [], "unmapped", "candidate has no source references"
+    source_keys: set[tuple[str, str]] = set()
+    for reference in references:
+        if not isinstance(reference, Mapping):
+            continue
+        document_id = str(reference.get("document_id") or "").strip()
+        source_version = str(
+            reference.get("source_version")
+            or reference.get("source_file_version")
+            or ""
+        ).strip()
+        if not document_id or not source_version:
+            return (
+                [],
+                "ambiguous",
+                "text fallback requires explicit document and version",
+            )
+        source_keys.add((document_id, source_version))
+    if len(source_keys) != 1:
+        return (
+            [],
+            "ambiguous",
+            "text fallback references multiple document/version keys",
+        )
+
+    document_id, source_version = next(iter(source_keys))
+    candidate_normalized = _normalize(_clean_candidate_line(candidate_text))
+    matching_blocks: list[tuple[Mapping[str, Any], Mapping[str, Any]]] = []
+    for structure in document_structures:
+        if (
+            str(structure.get("document_id") or "") != document_id
+            or str(structure.get("source_version") or "") != source_version
+        ):
+            continue
+        for block in structure.get("blocks", []):
+            if not isinstance(block, Mapping):
+                continue
+            raw_text = str(block.get("raw_text") or "")
+            block_normalized = _normalize(_clean_candidate_line(raw_text))
+            if (
+                block_normalized
+                and len(block_normalized) >= 6
+                and candidate_normalized
+                and (
+                    block_normalized == candidate_normalized
+                    or block_normalized in candidate_normalized
+                    or candidate_normalized in block_normalized
+                )
+            ):
+                matching_blocks.append((structure, block))
+    verified_blocks = [
+        (structure, block)
+        for structure, block in matching_blocks
+        if not _source_coordinates_unverified(structure, block)
+    ]
+    supported_blocks: dict[
+        tuple[str, str, str],
+        tuple[Mapping[str, Any], Mapping[str, Any]],
+    ] = {}
+    support_reasons: list[str] = []
+    for structure, block in verified_blocks:
+        reasons = [
+            _reference_matches_block(
+                reference,
+                structure,
+                block,
+                quote_mode="substring",
+            )
+            for reference in references
+            if isinstance(reference, Mapping)
+        ]
+        if reasons and all(reason is None for reason in reasons):
+            key = (
+                str(structure.get("document_id") or ""),
+                str(structure.get("source_version") or ""),
+                str(block.get("block_id") or ""),
+            )
+            if key[2]:
+                supported_blocks[key] = (structure, block)
+        else:
+            support_reasons.extend(reason for reason in reasons if reason)
+    if len(supported_blocks) > 1:
+        return [], "ambiguous", "text fallback matches multiple source blocks"
+    if not supported_blocks:
+        if matching_blocks:
+            if not verified_blocks:
+                return [], "unmapped", (
+                    "matching block has section-relative unverified coordinates"
+                )
+            if support_reasons:
+                return [], "unmapped", support_reasons[0]
+            return [], "unmapped", "text fallback requires a non-empty source quote"
+        return [], "unmapped", "text fallback did not match a source block"
+    (document_id, source_version, block_id), _ = next(
+        iter(supported_blocks.items())
+    )
+    return (
+        [
+            {
+                "document_id": document_id,
+                "source_version": source_version,
+                "block_id": block_id,
+                "mapping_method": "unique_text_match",
+            }
+        ],
+        "mapped_unique_text",
+        None,
+    )
+
+
+def _source_reference_locator_parts(
+    reference: Mapping[str, Any],
+) -> dict[str, int | tuple[int, int] | None]:
+    locator = str(reference.get("locator") or "")
+    page_match = re.search(r"(?:^|:)p(\d+)(?=:|$)", locator)
+    line_match = re.search(r"(?:^|:)p(\d+)(?::[^:]*)*:l(\d+)$", locator)
+    span_match = re.search(r"(?:^|:)p\d+:c(\d+)-(\d+)(?::l\d+)?$", locator)
+    return {
+        "page_number": _optional_coordinate_int(page_match.group(1))
+        if page_match
+        else None,
+        "line_number": _optional_coordinate_int(line_match.group(2))
+        if line_match
+        else None,
+        "char_span": (
+            (
+                _optional_coordinate_int(span_match.group(1)),
+                _optional_coordinate_int(span_match.group(2)),
+            )
+            if span_match
+            else None
+        ),
+    }
+
+
+def _optional_coordinate_int(value: Any) -> int | None:
+    if value in (None, ""):
+        return None
+    try:
+        number = int(value)
+    except (TypeError, ValueError):
+        return None
+    if isinstance(value, float) and value != number:
+        return None
+    return number
+
+
+def _duplicate_locator_claims_conflict(
+    references: list[Mapping[str, Any]],
+) -> bool:
+    quotes = {
+        str(reference.get("quote") or reference.get("content") or "").strip()
+        for reference in references
+        if str(reference.get("quote") or reference.get("content") or "").strip()
+    }
+    if len(quotes) > 1:
+        return True
+
+    pages: set[int] = set()
+    spans: set[tuple[int, int]] = set()
+    for reference in references:
+        for field in ("page", "page_number"):
+            value = reference.get(field)
+            if value not in (None, ""):
+                parsed = _optional_coordinate_int(value)
+                if parsed is not None:
+                    pages.add(parsed)
+        locator_parts = _source_reference_locator_parts(reference)
+        locator_page = locator_parts["page_number"]
+        if isinstance(locator_page, int):
+            pages.add(locator_page)
+        for start_field, end_field in (("char_start", "char_end"),):
+            start = reference.get(start_field)
+            end = reference.get(end_field)
+            if start not in (None, "") and end not in (None, ""):
+                parsed_start = _optional_coordinate_int(start)
+                parsed_end = _optional_coordinate_int(end)
+                if parsed_start is not None and parsed_end is not None:
+                    spans.add((parsed_start, parsed_end))
+        source_span = reference.get("source_span")
+        if isinstance(source_span, Mapping):
+            start = _optional_coordinate_int(source_span.get("start"))
+            end = _optional_coordinate_int(source_span.get("end"))
+            if start is not None and end is not None:
+                spans.add((start, end))
+        locator_span = locator_parts["char_span"]
+        if (
+            isinstance(locator_span, tuple)
+            and all(isinstance(value, int) for value in locator_span)
+        ):
+            spans.add(locator_span)
+    return len(pages) > 1 or len(spans) > 1
+
+
+def _reference_matches_block(
+    reference: Mapping[str, Any],
+    structure: Mapping[str, Any],
+    block: Mapping[str, Any],
+    *,
+    quote_mode: str,
+) -> str | None:
+    raw_text = block.get("raw_text")
+    span = block.get("source_span")
+    if not isinstance(raw_text, str) or not isinstance(span, Mapping):
+        return "source block raw text/span is unavailable"
+    span_page = _optional_coordinate_int(span.get("page_number"))
+    span_start = _optional_coordinate_int(span.get("start"))
+    span_end = _optional_coordinate_int(span.get("end"))
+    block_page = _optional_coordinate_int(block.get("page_number"))
+    if (
+        span_page is None
+        or span_start is None
+        or span_end is None
+        or span_start < 0
+        or span_end < span_start
+        or block_page != span_page
+    ):
+        return "source block has an invalid raw span"
+    pages = structure.get("pages")
+    matching_pages = [
+        page
+        for page in pages
+        if isinstance(page, Mapping)
+        and _optional_coordinate_int(page.get("page_number")) == span_page
+    ] if isinstance(pages, list) else []
+    if len(matching_pages) != 1:
+        return "source block page text is unavailable or ambiguous"
+    page_raw_text = matching_pages[0].get("raw_text")
+    if not isinstance(page_raw_text, str):
+        return "source block page text is unavailable or ambiguous"
+    if page_raw_text[span_start:span_end] != raw_text:
+        return "source block span does not select its raw text"
+
+    quote = str(reference.get("quote") or reference.get("content") or "")
+    quote = quote.strip()
+    if not quote:
+        return "source reference has no quote"
+    if quote_mode == "exact" and quote != raw_text.strip():
+        return "source reference quote conflicts with source raw line"
+    if quote_mode == "substring" and quote not in raw_text:
+        return "text fallback quote is not supported by source raw text"
+
+    for field in ("page", "page_number"):
+        value = reference.get(field)
+        if value in (None, ""):
+            continue
+        claimed_page = _optional_coordinate_int(value)
+        if claimed_page is None:
+            return "source reference has an invalid page"
+        if claimed_page != span_page:
+            return "source reference page conflicts with source block span"
+    locator_parts = _source_reference_locator_parts(reference)
+    locator_page = locator_parts["page_number"]
+    if locator_page is not None and locator_page != span_page:
+        return "source locator page conflicts with source block span"
+
+    span_claims: list[tuple[int, int]] = []
+    char_start = reference.get("char_start")
+    char_end = reference.get("char_end")
+    if char_start not in (None, "") or char_end not in (None, ""):
+        parsed_start = _optional_coordinate_int(char_start)
+        parsed_end = _optional_coordinate_int(char_end)
+        if parsed_start is None or parsed_end is None:
+            return "source reference has an incomplete character span"
+        span_claims.append((parsed_start, parsed_end))
+    reference_span = reference.get("source_span")
+    if reference_span not in (None, ""):
+        if not isinstance(reference_span, Mapping):
+            return "source reference has an invalid source span"
+        nested_start = reference_span.get("start")
+        nested_end = reference_span.get("end")
+        if nested_start not in (None, "") or nested_end not in (None, ""):
+            parsed_start = _optional_coordinate_int(nested_start)
+            parsed_end = _optional_coordinate_int(nested_end)
+            if parsed_start is None or parsed_end is None:
+                return "source reference has an incomplete character span"
+            span_claims.append((parsed_start, parsed_end))
+        nested_page = reference_span.get("page_number")
+        if nested_page not in (None, ""):
+            parsed_page = _optional_coordinate_int(nested_page)
+            if parsed_page is None or parsed_page != span_page:
+                return "source reference page conflicts with source block span"
+    locator_span = locator_parts["char_span"]
+    if isinstance(locator_span, tuple):
+        if not all(isinstance(value, int) for value in locator_span):
+            return "source locator has an invalid character span"
+        span_claims.append(locator_span)
+    if any(claim != (span_start, span_end) for claim in span_claims):
+        return "source reference character span conflicts with source block span"
+    return None
+
+
+def _source_coordinates_unverified(
+    structure: Mapping[str, Any],
+    block: Mapping[str, Any],
+) -> bool:
+    metadata = structure.get("metadata")
+    statuses = {
+        str(block.get("source_coordinate_status") or ""),
+        str(structure.get("source_coordinate_status") or ""),
+        str(metadata.get("source_coordinate_status") or "")
+        if isinstance(metadata, Mapping)
+        else "",
+    }
+    scopes = {
+        str(block.get("source_coordinate_scope") or ""),
+        str(structure.get("source_coordinate_scope") or ""),
+    }
+    return (
+        "section_relative_unverified" in statuses
+        or "section_relative" in scopes
+    )
+
+
+def _positive_int(value: Any) -> int:
+    try:
+        number = int(value)
+    except (TypeError, ValueError):
+        return 0
+    return number if number > 0 else 0
+
+
+def _candidate_filter_reason(block: Mapping[str, Any]) -> str:
+    text = str(block.get("raw_text") or block.get("normalized_text") or "")
+    candidate = _clean_candidate_line(text)
+    if _is_heading_line(re.sub(r"\s+", " ", text).strip()):
+        return "heading"
+    if _is_noise(candidate):
+        return "noise"
+    if _is_layout_noise(candidate):
+        return "layout_noise"
+    if len(candidate) < 6:
+        return "short"
+    if len(candidate) > 500:
+        return "too_long"
+    return "not_selected_or_source_unmapped"
+
+
+def _candidate_ids_for_record(
+    text: str,
+    references: list[dict[str, Any]],
+    candidates: list[dict[str, Any]],
+) -> list[str]:
+    reference_keys = {
+        _candidate_reference_key(reference)
+        for reference in references
+        if isinstance(reference, Mapping)
+    }
+    matches = [
+        candidate["candidate_id"]
+        for candidate in candidates
+        if reference_keys
+        & {
+            _candidate_reference_key(reference)
+            for reference in candidate["source_references"]
+            if isinstance(reference, Mapping)
+        }
+    ]
+    if matches:
+        return matches
+    normalized = _normalize(text)
+    text_matches = [
+        candidate["candidate_id"]
+        for candidate in candidates
+        if (candidate_normalized := _normalize(candidate["candidate_text"]))
+        and candidate_normalized == normalized
+    ]
+    return text_matches if len(text_matches) == 1 else []
+
+
+def _candidate_reference_key(reference: Mapping[str, Any]) -> tuple[Any, ...]:
+    return (
+        str(reference.get("document_id") or ""),
+        str(
+            reference.get("source_version")
+            or reference.get("source_file_version")
+            or ""
+        ),
+        reference.get("page"),
+        str(reference.get("locator") or ""),
+        str(reference.get("quote") or ""),
+    )
+
+
+def _set_candidate_outcome(
+    candidate_results: dict[str, list[dict[str, Any]]],
+    candidate_ids: list[str],
+    outcome: str,
+    generated_id: str | None = None,
+) -> None:
+    for candidate_id in candidate_ids:
+        result = {
+            "outcome": outcome,
+            "generated_ids": [generated_id] if generated_id else [],
+        }
+        results = candidate_results.setdefault(candidate_id, [])
+        if result not in results:
+            results.append(result)
+
+
+def _candidate_lines(text: str) -> list[str]:
+    return [line for line, _references in _candidate_records([{"content": text}])]
 
 
 def _candidate_records(
@@ -741,10 +1778,7 @@ def _candidate_records(
             for reference in raw_references:
                 if not isinstance(reference, Mapping):
                     continue
-                try:
-                    page_number = int(reference.get("page") or 1)
-                except (TypeError, ValueError):
-                    page_number = 1
+                page_number = _reference_page_number(reference)
                 references_by_page.setdefault(page_number, []).append(
                     dict(reference)
                 )
@@ -868,8 +1902,9 @@ def _merge_source_references(
     second: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     result: list[dict[str, Any]] = []
-    seen: set[tuple[str, int | None, str, str]] = set()
+    seen: set[tuple[Any, ...]] = set()
     for reference in [*first, *second]:
+        source_span = reference.get("source_span")
         key = (
             str(reference.get("document_id") or ""),
             reference.get("page"),
@@ -879,6 +1914,10 @@ def _merge_source_references(
                 or reference.get("source_file_version")
                 or ""
             ),
+            str(reference.get("quote") or reference.get("content") or ""),
+            reference.get("char_start"),
+            reference.get("char_end"),
+            repr(source_span),
         )
         if key not in seen:
             seen.add(key)
@@ -896,14 +1935,41 @@ def _line_source_references(
     result: list[dict[str, Any]] = []
     for reference in page_references:
         item = dict(reference)
-        if fragment:
-            item["quote"] = raw_line.strip()
         locator = str(item.get("locator") or "")
-        item["locator"] = f"{locator}:l{line_number}" if locator else (
-            f"p{page_number}:l{line_number}"
+        locator_parts = _source_reference_locator_parts(item)
+        explicit_line = _optional_coordinate_int(item.get("line_number"))
+        precise_reference = (
+            locator_parts["line_number"] is not None
+            or explicit_line is not None
+            or locator_parts["char_span"] is not None
+            or item.get("char_start") not in (None, "")
+            or item.get("char_end") not in (None, "")
+            or isinstance(item.get("source_span"), Mapping)
         )
+        precise_line = locator_parts["line_number"] or explicit_line
+        if precise_line is not None and precise_line != line_number:
+            continue
+        if precise_reference:
+            if not locator:
+                item["locator"] = f"p{page_number}:l{line_number}"
+        else:
+            if fragment:
+                item["quote"] = raw_line.strip()
+            item["locator"] = f"{locator}:l{line_number}" if locator else (
+                f"p{page_number}:l{line_number}"
+            )
         result.append(item)
     return result
+
+
+def _reference_page_number(reference: Mapping[str, Any]) -> int:
+    for key in ("page", "page_number"):
+        value = reference.get(key)
+        if value not in (None, ""):
+            page_number = _optional_coordinate_int(value)
+            return page_number if page_number is not None else 1
+    locator_page = _source_reference_locator_parts(reference)["page_number"]
+    return locator_page if locator_page is not None else 1
 
 
 def _line_references(line: str, sections: list[Any]) -> list[dict[str, Any]]:

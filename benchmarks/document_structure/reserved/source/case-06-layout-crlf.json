@@ -1,0 +1,10 @@
+{
+  "document_id": "synthetic-layout-crlf",
+  "source_version": "v1",
+  "pages": [
+    {
+      "page_number": 1,
+      "text": "A\r\n\r\nB\r\nC\r\nD\t E\r\n| Key | Value |\r\n|---|---|\r\n| x | short |\r\nEnd\r\n"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "document_id": "synthetic-cross-page",
+  "source_version": "v1",
+  "pages": [
+    {
+      "page_number": 1,
+      "text": "2 Equipment\n2.1 Load case\nThe specimen remains stable during a 5 kN load\n"
+    },
+    {
+      "page_number": 2,
+      "text": "applied for 30 seconds.\n2.2 Reset\nOperator resets the sample manually.\n"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "oracle_version": "private-structure-oracle-v1",
+  "source_file": "case-01-unpunctuated.json",
+  "blocks": [
+    {"id":"c01-title","page":1,"line":1,"span":[0,17],"raw_text":"Technical outline","line_ending":"\n","normalized_text":"Technical outline","kind":"title","numbering":null,"parent":null,"section":"c01-title"},
+    {"id":"c01-purpose","page":1,"line":2,"span":[18,25],"raw_text":"Purpose","line_ending":"\n","normalized_text":"Purpose","kind":"heading","numbering":null,"parent":null,"section":"c01-purpose","review":{"status":"needs_review","candidate_parent_ids":["c01-title"]}},
+    {"id":"c01-p1","page":1,"line":3,"span":[26,63],"raw_text":"This synthetic note defines a sample.","line_ending":"\n","normalized_text":"This synthetic note defines a sample.","kind":"paragraph","numbering":null,"parent":null,"section":null,"review":{"status":"needs_review","candidate_parent_ids":["c01-purpose",null]}},
+    {"id":"c01-h1","page":1,"line":4,"span":[64,76],"raw_text":"1 Basic rule","line_ending":"\n","normalized_text":"1 Basic rule","kind":"heading","numbering":{"label":"1","style":"decimal_space","level":1,"path":["1"]},"parent":null,"section":"c01-h1"},
+    {"id":"c01-p2","page":1,"line":5,"span":[77,94],"raw_text":"Keep every token.","line_ending":"\n","normalized_text":"Keep every token.","kind":"paragraph","numbering":null,"parent":"c01-h1","section":"c01-h1"},
+    {"id":"c01-h2","page":1,"line":6,"span":[95,107],"raw_text":"2 Final rule","line_ending":"\n","normalized_text":"2 Final rule","kind":"heading","numbering":{"label":"2","style":"decimal_space","level":1,"path":["2"]},"parent":null,"section":"c01-h2"},
+    {"id":"c01-p3","page":1,"line":7,"span":[108,131],"raw_text":"Retain the source text.","line_ending":"\n","normalized_text":"Retain the source text.","kind":"paragraph","numbering":null,"parent":"c01-h2","section":"c01-h2"}
+  ]
+}

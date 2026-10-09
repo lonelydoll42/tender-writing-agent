@@ -1,0 +1,15 @@
+{
+  "oracle_version": "private-structure-oracle-v1",
+  "source_file": "case-04-multilevel.json",
+  "blocks": [
+    {"id":"c04-h1","page":1,"line":1,"span":[0,7],"raw_text":"1 Scope","line_ending":"\n","normalized_text":"1 Scope","kind":"heading","numbering":{"label":"1","style":"decimal_space","level":1,"path":["1"]},"parent":null,"section":"c04-h1"},
+    {"id":"c04-h11","page":1,"line":2,"span":[8,17],"raw_text":"1.1 Terms","line_ending":"\n","normalized_text":"1.1 Terms","kind":"heading","numbering":{"label":"1.1","style":"decimal_multi_space","level":2,"path":["1","1.1"]},"parent":"c04-h1","section":"c04-h11"},
+    {"id":"c04-h111","page":1,"line":3,"span":[18,30],"raw_text":"1.1.1 Sample","line_ending":"\n","normalized_text":"1.1.1 Sample","kind":"heading","numbering":{"label":"1.1.1","style":"decimal_multi_space","level":3,"path":["1","1.1","1.1.1"]},"parent":"c04-h11","section":"c04-h111"},
+    {"id":"c04-p111","page":1,"line":4,"span":[31,48],"raw_text":"A synthetic term.","line_ending":"\n","normalized_text":"A synthetic term.","kind":"paragraph","numbering":null,"parent":"c04-h111","section":"c04-h111"},
+    {"id":"c04-h12","page":1,"line":5,"span":[49,61],"raw_text":"1.2 Boundary","line_ending":"\n","normalized_text":"1.2 Boundary","kind":"heading","numbering":{"label":"1.2","style":"decimal_multi_space","level":2,"path":["1","1.2"]},"parent":"c04-h1","section":"c04-h12"},
+    {"id":"c04-p12","page":1,"line":6,"span":[62,76],"raw_text":"A second term.","line_ending":"\n","normalized_text":"A second term.","kind":"paragraph","numbering":null,"parent":"c04-h12","section":"c04-h12"},
+    {"id":"c04-h2","page":1,"line":7,"span":[77,87],"raw_text":"2 Delivery","line_ending":"\n","normalized_text":"2 Delivery","kind":"heading","numbering":{"label":"2","style":"decimal_space","level":1,"path":["2"]},"parent":null,"section":"c04-h2"},
+    {"id":"c04-h21","page":1,"line":8,"span":[88,98],"raw_text":"2.1 Timing","line_ending":"\n","normalized_text":"2.1 Timing","kind":"heading","numbering":{"label":"2.1","style":"decimal_multi_space","level":2,"path":["2","2.1"]},"parent":"c04-h2","section":"c04-h21"},
+    {"id":"c04-p21","page":1,"line":9,"span":[99,115],"raw_text":"Deliver at noon.","line_ending":"\n","normalized_text":"Deliver at noon.","kind":"paragraph","numbering":null,"parent":"c04-h21","section":"c04-h21"}
+  ]
+}

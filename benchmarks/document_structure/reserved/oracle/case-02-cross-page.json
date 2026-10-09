@@ -1,0 +1,13 @@
+{
+  "oracle_version": "private-structure-oracle-v1",
+  "source_file": "case-02-cross-page.json",
+  "page_boundary": {"serialization_token":"\f","source_span":null},
+  "blocks": [
+    {"id":"c02-h2","page":1,"line":1,"span":[0,11],"raw_text":"2 Equipment","line_ending":"\n","normalized_text":"2 Equipment","kind":"heading","numbering":{"label":"2","style":"decimal_space","level":1,"path":["2"]},"parent":null,"section":"c02-h2"},
+    {"id":"c02-h21","page":1,"line":2,"span":[12,25],"raw_text":"2.1 Load case","line_ending":"\n","normalized_text":"2.1 Load case","kind":"heading","numbering":{"label":"2.1","style":"decimal_multi_space","level":2,"path":["2","2.1"]},"parent":"c02-h2","section":"c02-h21"},
+    {"id":"c02-p21a","page":1,"line":3,"span":[26,72],"raw_text":"The specimen remains stable during a 5 kN load","line_ending":"\n","normalized_text":"The specimen remains stable during a 5 kN load","kind":"paragraph","numbering":null,"parent":"c02-h21","section":"c02-h21"},
+    {"id":"c02-p21b-candidate","page":2,"line":1,"span":[0,23],"raw_text":"applied for 30 seconds.","line_ending":"\n","normalized_text":"applied for 30 seconds.","kind":"paragraph","numbering":null,"parent":null,"section":null,"review":{"status":"needs_review","candidate_parent_ids":["c02-h21","c02-p21a",null],"reason":"可能续接上一页，不固化续页或合并关系"}},
+    {"id":"c02-h22","page":2,"line":2,"span":[24,33],"raw_text":"2.2 Reset","line_ending":"\n","normalized_text":"2.2 Reset","kind":"heading","numbering":{"label":"2.2","style":"decimal_multi_space","level":2,"path":["2","2.2"]},"parent":"c02-h2","section":"c02-h22"},
+    {"id":"c02-p22","page":2,"line":3,"span":[34,70],"raw_text":"Operator resets the sample manually.","line_ending":"\n","normalized_text":"Operator resets the sample manually.","kind":"paragraph","numbering":null,"parent":"c02-h22","section":"c02-h22"}
+  ]
+}

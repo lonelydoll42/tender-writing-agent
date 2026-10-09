@@ -240,6 +240,9 @@ def _file_backed_intake_plan(*, include_analysis: bool = True) -> list[PlanStep]
                 "project_id": {"$ref": "$request/project_id"},
                 "profile": {"$ref": "$state/tender-intake/profile"},
                 "sections": {"$ref": "$state/tender-intake/sections"},
+                "document_structures": {
+                    "$ref": "$state/tender-intake/document_structures"
+                },
             },
         ),
     ]
@@ -1619,6 +1622,11 @@ def _business_assessment(steps: list[AgentStepResult]) -> dict[str, Any]:
     for step in steps:
         result = step.result
         data = result.data if isinstance(result.data, Mapping) else {}
+        business_data = (
+            _document_preprocess_business_summary_data(data)
+            if step.skill_name == "document-preprocess"
+            else data
+        )
         compliance_assessment = (
             _compliance_assessment(data, execution_status=result.status)
             if step.skill_name == "compliance-review"
@@ -1628,16 +1636,16 @@ def _business_assessment(steps: list[AgentStepResult]) -> dict[str, Any]:
             compliance_assessment
             and compliance_assessment["business_status"] == "not_checked"
         )
-        step_warnings = _collect_warning_messages(data) + [
+        step_warnings = _collect_warning_messages(business_data) + [
             str(item) for item in result.warnings if str(item).strip()
         ]
-        step_risks = _collect_risk_messages(data)
+        step_risks = _collect_risk_messages(business_data)
         warnings.extend(step_warnings)
         risks.extend(step_risks)
         if compliance_assessment is not None:
             compliance_results.append(compliance_assessment)
         else:
-            other_statuses.extend(_explicit_business_statuses(data))
+            other_statuses.extend(_explicit_business_statuses(business_data))
         if result.status == "partial" and not unchecked_compliance:
             has_partial = True
             risks.append(f"{step.skill_name} returned a partial result")
@@ -1723,6 +1731,24 @@ def _business_assessment(steps: list[AgentStepResult]) -> dict[str, Any]:
         "warnings": warnings,
         "risks": risks,
     }
+
+
+def _document_preprocess_business_summary_data(
+    data: Mapping[str, Any],
+) -> Mapping[str, Any]:
+    artifact = data.get("artifact")
+    if not isinstance(artifact, Mapping):
+        return data
+    structure = artifact.get("document_structure")
+    if (
+        not isinstance(structure, Mapping)
+        or structure.get("schema_version") != "document-structure-v1"
+    ):
+        return data
+    summary_artifact = {
+        key: value for key, value in artifact.items() if key != "document_structure"
+    }
+    return {**data, "artifact": summary_artifact}
 
 
 def _result_business_assessment(

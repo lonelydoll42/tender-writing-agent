@@ -40,6 +40,7 @@ MANIFEST = SkillManifest(
             "project_id": {"type": "string"},
             "profile": {"type": "object"},
             "sections": {"type": "array"},
+            "document_structures": {"type": "array"},
             "requirements": {"type": "array"},
             "scoring_items": {"type": "array"},
         },
@@ -86,7 +87,11 @@ class TenderDecompositionSkill(Skill):
                 raw = self.backend.run(payload, context)
                 if inspect.isawaitable(raw):
                     raw = await raw
-            data = _normalize_output(raw, project_id=payload["project_id"])
+            data = _normalize_output(
+                raw,
+                project_id=payload["project_id"],
+                document_structures=payload["document_structures"],
+            )
         except FileRegistryNotConfigured as exc:
             return SkillResult.blocked(
                 message=str(exc),
@@ -116,16 +121,34 @@ def _parse_input(data: Mapping[str, Any]) -> dict[str, Any]:
         raise ValueError("profile must be an object")
     if not isinstance(sections, list):
         raise ValueError("sections must be a list")
+    raw_structures = data.get("document_structures")
+    if raw_structures is None:
+        document_structures = [
+            section["document_structure"]
+            for section in sections
+            if isinstance(section, Mapping)
+            and isinstance(section.get("document_structure"), Mapping)
+        ]
+    elif isinstance(raw_structures, list):
+        document_structures = list(raw_structures)
+    else:
+        raise ValueError("document_structures must be a list")
     return {
         "project_id": project_id,
         "profile": dict(profile),
         "sections": list(sections),
+        "document_structures": document_structures,
         "requirements": list(data.get("requirements") or []),
         "scoring_items": list(data.get("scoring_items") or []),
     }
 
 
-def _normalize_output(raw: Any, *, project_id: str) -> dict[str, Any]:
+def _normalize_output(
+    raw: Any,
+    *,
+    project_id: str,
+    document_structures: list[Any] | None = None,
+) -> dict[str, Any]:
     if hasattr(raw, "to_dict"):
         raw = raw.to_dict()
     if isinstance(raw, list):
@@ -143,6 +166,12 @@ def _normalize_output(raw: Any, *, project_id: str) -> dict[str, Any]:
         "project_id": project_id,
         "requirements": [item.to_dict() for item in requirements],
         "scoring_items": [item.to_dict() for item in scoring_items],
+        "document_structures": _merge_document_structures(
+            document_structures or [],
+            body.get("document_structures")
+            if isinstance(body.get("document_structures"), list)
+            else [],
+        ),
         "checklists": checklists,
         "summary": {
             "requirement_count": len(requirements),
@@ -152,12 +181,36 @@ def _normalize_output(raw: Any, *, project_id: str) -> dict[str, Any]:
         },
         "warnings": [str(item) for item in (body.get("warnings") or [])],
     }
+    if "block_projection_audit" in body:
+        result["block_projection_audit"] = body["block_projection_audit"]
     if "needs_human_review" in body:
         result["needs_human_review"] = bool(body["needs_human_review"])
     if "business_status" in body:
         result["business_status"] = str(body["business_status"])
     if "extraction_complete" in body:
         result["extraction_complete"] = bool(body["extraction_complete"])
+    return result
+
+
+def _merge_document_structures(
+    preferred: list[Any],
+    additional: list[Any],
+) -> list[dict[str, Any]]:
+    result: list[dict[str, Any]] = []
+    identities: set[tuple[str, str]] = set()
+    for item in [*preferred, *additional]:
+        if not isinstance(item, Mapping):
+            continue
+        structure = dict(item)
+        document_id = str(structure.get("document_id") or "").strip()
+        source_version = str(structure.get("source_version") or "").strip()
+        identity = (document_id, source_version)
+        if all(identity) and identity in identities:
+            continue
+        if structure not in result:
+            result.append(structure)
+            if all(identity):
+                identities.add(identity)
     return result
 
 

@@ -1,0 +1,9 @@
+{
+  "oracle_version": "private-structure-oracle-v1",
+  "source_file": "case-03-lettered-items.json",
+  "blocks": [
+    {"id":"c03-h3","page":1,"line":1,"span":[0,8],"raw_text":"3 Safety","line_ending":"\n","normalized_text":"3 Safety","kind":"heading","numbering":{"label":"3","style":"decimal_space","level":1,"path":["3"]},"parent":null,"section":"c03-h3"},
+    {"id":"c03-a","page":1,"line":2,"span":[9,33],"raw_text":"(a) Wear eye protection.","line_ending":"\n","normalized_text":"(a) Wear eye protection.","kind":"list_item","numbering":{"label":"(a)","style":"alpha_lower_paren","level":2,"path":["3","(a)"]},"parent":"c03-h3","section":"c03-h3"},
+    {"id":"c03-b","page":1,"line":3,"span":[34,55],"raw_text":"(b) Keep hands clear.","line_ending":"\n","normalized_text":"(b) Keep hands clear.","kind":"list_item","numbering":{"label":"(b)","style":"alpha_lower_paren","level":2,"path":["3","(b)"]},"parent":"c03-h3","section":"c03-h3"}
+  ]
+}

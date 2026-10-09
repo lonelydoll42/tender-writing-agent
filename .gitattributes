@@ -10,3 +10,11 @@ benchmarks/raw_requirement_holdout/errata/source-version-token-erratum.md -text 
 benchmarks/raw_requirement_holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.json -text whitespace=cr-at-eol
 benchmarks/raw_requirement_holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.md -text whitespace=cr-at-eol
 benchmarks/raw_requirement_holdout/reports/validate_holdout_v2.py.txt -text
+benchmarks/document_structure/reserved/** -text
+benchmarks/document_structure/fixtures/*.json -text
+benchmarks/document_structure/oracle/*.json -text
+benchmarks/document_structure/freeze-manifest*.json -text
+benchmarks/document_structure/reports/*.json -text
+benchmarks/document_structure/reports/raw-file-regression-step1-final-20261009.json -text whitespace=cr-at-eol
+benchmarks/document_structure/reports/reliability-followup-step1-final-20261009.json -text whitespace=cr-at-eol
+benchmarks/document_structure/reports/snapshot-verification-step1-final-20261009.json -text whitespace=cr-at-eol

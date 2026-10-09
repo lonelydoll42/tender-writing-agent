@@ -1,0 +1,152 @@
+{
+  "schema": "document-structure-oracle-v3",
+  "oracle_basis": "Independent hand-authored line-level structure expectations over immutable public raw inputs; plain extracted text has no font, outline, or layout evidence for displayed heading/title certainty.",
+  "coordinates": {
+    "offset_unit": "Unicode code points",
+    "source_span": "Zero-based half-open offsets into one extracted page and covers raw_text only",
+    "line_ending": "Stored separately from raw_text and appended during exact page reconstruction",
+    "page_boundary": "Form feed between pages is a synthetic serialization boundary with no page-body source span"
+  },
+  "normalization_check": {
+    "requirement": "Every normalized character maps either through a same-text, same-length identity run or one normalized space to the complete source whitespace run; mixed text/whitespace token spans are unsupported. Leading and trailing collapsed spaces may be retained.",
+    "mapping_fields": ["normalized_start", "normalized_end", "raw_start", "raw_end"],
+    "raw_coordinates": "Absolute Unicode-code-point offsets in the extracted page"
+  },
+  "numbered_structure_policy": "Every explicit numbering form is a list_item. Numbering, parent_block_id, and section_block_id independently retain hierarchy; each decimal-numbered block is its own section container. A short level-one numbered label is only an ambiguous heading_candidate, not a confirmed displayed heading.",
+  "title_policy": "An unnumbered first line remains a paragraph. Where marked, a title_candidate is ambiguous and must cite the exact source block through real source_references; plain text does not prove displayed title status.",
+  "relationship_integrity": "Every non-empty parent_block_id and section_block_id must resolve to exactly one physical block in the same structure. parent_block_id must not self-reference or form a cycle.",
+  "uncertainty_policy": "A cross-page continuation candidate remains a separate physical block. Validate the global continuation_candidates entry, exact ordered source_block_ids, needs_review status, and source references. For H01 p2l1, parent and section must both remain null; a candidate does not confirm either relation. Do not infer continuation from adjacency.",
+  "cases": [
+    {
+      "case_id": "H01",
+      "pages": [
+        {
+          "page_number": 1,
+          "blocks": [
+            {"line":1,"kind":"paragraph","title_candidate":{"status":"ambiguous"}},
+            {"line":2,"kind":"paragraph"},
+            {"line":3,"kind":"paragraph"},
+            {"line":4,"kind":"blank"},
+            {"line":5,"kind":"list_item","numbering":{"label":"1.","style":"decimal_dot","level":1,"path":["1."]},"parent":null,"section":"p1l5","heading_candidate":{"status":"ambiguous"}},
+            {"line":6,"kind":"blank"},
+            {"line":7,"kind":"list_item","numbering":{"label":"1.1","style":"decimal_multi","level":2,"path":["1.","1.1"]},"parent":"p1l5","section":"p1l7"},
+            {"line":8,"kind":"list_item","numbering":{"label":"（1）","style":"decimal_fullwidth_paren","level":3,"path":["1.","1.1","（1）"]},"parent":"p1l7","section":"p1l7"},
+            {"line":9,"kind":"list_item","numbering":{"label":"（2）","style":"decimal_fullwidth_paren","level":3,"path":["1.","1.1","（2）"]},"parent":"p1l7","section":"p1l7"},
+            {"line":10,"kind":"blank"},
+            {"line":11,"kind":"list_item","numbering":{"label":"1.2","style":"decimal_multi","level":2,"path":["1.","1.2"]},"parent":"p1l5","section":"p1l11"},
+            {"line":12,"kind":"blank"},
+            {"line":13,"kind":"list_item","numbering":{"label":"2.","style":"decimal_dot","level":1,"path":["2."]},"parent":null,"section":"p1l13","heading_candidate":{"status":"ambiguous"}},
+            {"line":14,"kind":"blank"},
+            {"line":15,"kind":"list_item","numbering":{"label":"2.1","style":"decimal_multi","level":2,"path":["2.","2.1"]},"parent":"p1l13","section":"p1l15"},
+            {"line":16,"kind":"list_item","numbering":{"label":"（1）","style":"decimal_fullwidth_paren","level":3,"path":["2.","2.1","（1）"]},"parent":"p1l15","section":"p1l15"},
+            {"line":17,"kind":"blank"}
+          ]
+        },
+        {
+          "page_number": 2,
+          "blocks": [
+            {"line":1,"kind":"paragraph","parent":null,"section":null,"review":{"status":"needs_review","candidate_parent":"p1l16","reason":"cross_page_continuation_candidate"}},
+            {"line":2,"kind":"list_item","numbering":{"label":"（2）","style":"decimal_fullwidth_paren","level":3,"path":["2.","2.1","（2）"]},"parent":"p1l15","section":"p1l15"},
+            {"line":3,"kind":"blank"},
+            {"line":4,"kind":"list_item","numbering":{"label":"2.2","style":"decimal_multi","level":2,"path":["2.","2.2"]},"parent":"p1l13","section":"p2l4"},
+            {"line":5,"kind":"blank"},
+            {"line":6,"kind":"list_item","numbering":{"label":"3.","style":"decimal_dot","level":1,"path":["3."]},"parent":null,"section":"p2l6","heading_candidate":{"status":"ambiguous"}},
+            {"line":7,"kind":"blank"},
+            {"line":8,"kind":"table_row","parent":"p2l6","section":"p2l6","table_group":"p2l8"},
+            {"line":9,"kind":"table_row","parent":"p2l6","section":"p2l6","table_group":"p2l8"},
+            {"line":10,"kind":"table_row","parent":"p2l6","section":"p2l6","table_group":"p2l8"},
+            {"line":11,"kind":"table_row","parent":"p2l6","section":"p2l6","table_group":"p2l8"},
+            {"line":12,"kind":"blank"},
+            {"line":13,"kind":"list_item","numbering":{"label":"4.","style":"decimal_dot","level":1,"path":["4."]},"parent":null,"section":"p2l13","heading_candidate":{"status":"ambiguous"}},
+            {"line":14,"kind":"blank"},
+            {"line":15,"kind":"paragraph","parent":"p2l13","section":"p2l13"}
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "H05",
+      "pages": [
+        {
+          "page_number": 1,
+          "blocks": [
+            {"line":1,"kind":"paragraph","title_candidate":{"status":"ambiguous"}},
+            {"line":2,"kind":"paragraph"},
+            {"line":3,"kind":"paragraph"},
+            {"line":4,"kind":"blank"},
+            {"line":5,"kind":"list_item","numbering":{"label":"1.","style":"decimal_dot","level":1,"path":["1."]},"parent":null,"section":"p1l5","heading_candidate":{"status":"ambiguous"}},
+            {"line":6,"kind":"blank"},
+            {"line":7,"kind":"list_item","numbering":{"label":"1.1","style":"decimal_multi","level":2,"path":["1.","1.1"]},"parent":"p1l5","section":"p1l7"},
+            {"line":8,"kind":"blank"},
+            {"line":9,"kind":"list_item","numbering":{"label":"2.","style":"decimal_dot","level":1,"path":["2."]},"parent":null,"section":"p1l9","heading_candidate":{"status":"ambiguous"}},
+            {"line":10,"kind":"blank"},
+            {"line":11,"kind":"list_item","numbering":{"label":"2.1","style":"decimal_multi","level":2,"path":["2.","2.1"]},"parent":"p1l9","section":"p1l11"},
+            {"line":12,"kind":"list_item","numbering":{"label":"（a）","style":"alpha_lower_fullwidth_paren","level":3,"path":["2.","2.1","（a）"]},"parent":"p1l11","section":"p1l11"},
+            {"line":13,"kind":"list_item","numbering":{"label":"（b）","style":"alpha_lower_fullwidth_paren","level":3,"path":["2.","2.1","（b）"]},"parent":"p1l11","section":"p1l11"},
+            {"line":14,"kind":"blank"},
+            {"line":15,"kind":"list_item","numbering":{"label":"2.2","style":"decimal_multi","level":2,"path":["2.","2.2"]},"parent":"p1l9","section":"p1l15"},
+            {"line":16,"kind":"blank"},
+            {"line":17,"kind":"list_item","numbering":{"label":"3.","style":"decimal_dot","level":1,"path":["3."]},"parent":null,"section":"p1l17","heading_candidate":{"status":"ambiguous"}},
+            {"line":18,"kind":"blank"},
+            {"line":19,"kind":"list_item","numbering":{"label":"3.1","style":"decimal_multi","level":2,"path":["3.","3.1"]},"parent":"p1l17","section":"p1l19"},
+            {"line":20,"kind":"blank"},
+            {"line":21,"kind":"list_item","numbering":{"label":"3.2","style":"decimal_multi","level":2,"path":["3.","3.2"]},"parent":"p1l17","section":"p1l21"},
+            {"line":22,"kind":"blank"},
+            {"line":23,"kind":"list_item","numbering":{"label":"4.","style":"decimal_dot","level":1,"path":["4."]},"parent":null,"section":"p1l23","heading_candidate":{"status":"ambiguous"}},
+            {"line":24,"kind":"blank"},
+            {"line":25,"kind":"table_row","parent":"p1l23","section":"p1l23","table_group":"p1l25"},
+            {"line":26,"kind":"table_row","parent":"p1l23","section":"p1l23","table_group":"p1l25"},
+            {"line":27,"kind":"table_row","parent":"p1l23","section":"p1l23","table_group":"p1l25"}
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "H08",
+      "cross_chapter_reference_text": {
+        "page": 2,
+        "line": 5,
+        "labels": ["1.1", "1.2", "2.1"],
+        "relationship_inference": "not_measured_in_step_1"
+      },
+      "pages": [
+        {
+          "page_number": 1,
+          "blocks": [
+            {"line":1,"kind":"paragraph","title_candidate":{"status":"ambiguous"}},
+            {"line":2,"kind":"paragraph"},
+            {"line":3,"kind":"paragraph"},
+            {"line":4,"kind":"blank"},
+            {"line":5,"kind":"list_item","numbering":{"label":"1.","style":"decimal_dot","level":1,"path":["1."]},"parent":null,"section":"p1l5","heading_candidate":{"status":"ambiguous"}},
+            {"line":6,"kind":"blank"},
+            {"line":7,"kind":"list_item","numbering":{"label":"1.1","style":"decimal_multi","level":2,"path":["1.","1.1"]},"parent":"p1l5","section":"p1l7"},
+            {"line":8,"kind":"blank"},
+            {"line":9,"kind":"list_item","numbering":{"label":"1.2","style":"decimal_multi","level":2,"path":["1.","1.2"]},"parent":"p1l5","section":"p1l9"},
+            {"line":10,"kind":"blank"}
+          ]
+        },
+        {
+          "page_number": 2,
+          "blocks": [
+            {"line":1,"kind":"list_item","numbering":{"label":"2.","style":"decimal_dot","level":1,"path":["2."]},"parent":null,"section":"p2l1","heading_candidate":{"status":"ambiguous"}},
+            {"line":2,"kind":"blank"},
+            {"line":3,"kind":"list_item","numbering":{"label":"2.1","style":"decimal_multi","level":2,"path":["2.","2.1"]},"parent":"p2l1","section":"p2l3"},
+            {"line":4,"kind":"blank"},
+            {"line":5,"kind":"list_item","numbering":{"label":"2.2","style":"decimal_multi","level":2,"path":["2.","2.2"]},"parent":"p2l1","section":"p2l5"},
+            {"line":6,"kind":"blank"},
+            {"line":7,"kind":"list_item","numbering":{"label":"3.","style":"decimal_dot","level":1,"path":["3."]},"parent":null,"section":"p2l7","heading_candidate":{"status":"ambiguous"}},
+            {"line":8,"kind":"blank"},
+            {"line":9,"kind":"table_row","parent":"p2l7","section":"p2l7","table_group":"p2l9"},
+            {"line":10,"kind":"table_row","parent":"p2l7","section":"p2l7","table_group":"p2l9"},
+            {"line":11,"kind":"table_row","parent":"p2l7","section":"p2l7","table_group":"p2l9"},
+            {"line":12,"kind":"table_row","parent":"p2l7","section":"p2l7","table_group":"p2l9"},
+            {"line":13,"kind":"blank"},
+            {"line":14,"kind":"list_item","numbering":{"label":"4.","style":"decimal_dot","level":1,"path":["4."]},"parent":null,"section":"p2l14","heading_candidate":{"status":"ambiguous"}},
+            {"line":15,"kind":"blank"},
+            {"line":16,"kind":"paragraph","parent":"p2l14","section":"p2l14"}
+          ]
+        }
+      ]
+    }
+  ]
+}

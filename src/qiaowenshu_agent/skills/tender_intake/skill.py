@@ -139,13 +139,136 @@ def _normalize_output(raw: Any, *, project_id: str) -> dict[str, Any]:
     ):
         if not isinstance(value, list):
             raise ValueError(f"{name} must be a list")
+    raw_structures = body.get("document_structures")
+    if raw_structures is None:
+        document_structures = [
+            section["document_structure"]
+            for section in sections
+            if isinstance(section, Mapping)
+            and isinstance(section.get("document_structure"), Mapping)
+        ]
+    elif isinstance(raw_structures, list):
+        document_structures = list(raw_structures)
+    else:
+        raise ValueError("document_structures must be a list")
+    for section in sections:
+        if not isinstance(section, Mapping):
+            continue
+        structure = section.get("document_structure")
+        if isinstance(structure, Mapping) and structure not in document_structures:
+            document_structures.append(structure)
+
+    normalized_sections: list[Any] = []
+    structure_warnings: list[str] = []
+    for section in sections:
+        if not isinstance(section, Mapping):
+            normalized_sections.append(section)
+            continue
+        normalized_section = dict(section)
+        attached_structure = normalized_section.get("document_structure")
+        document_id, source_version, identity_error = _section_structure_identity(
+            normalized_section,
+            attached_structure if isinstance(attached_structure, Mapping) else None,
+        )
+        matches = [
+            structure
+            for structure in document_structures
+            if isinstance(structure, Mapping)
+            and document_id
+            and str(structure.get("document_id") or "") == document_id
+            and (
+                not source_version
+                or str(structure.get("source_version") or "") == source_version
+            )
+        ]
+        if not identity_error and len(matches) == 1:
+            normalized_section["document_structure"] = matches[0]
+        else:
+            normalized_section.pop("document_structure", None)
+            if document_structures or isinstance(attached_structure, Mapping):
+                reason = (
+                    identity_error
+                    or "source identity is missing or matches multiple structures"
+                )
+                structure_warnings.append(
+                    "document_structure was preserved at top level but not "
+                    f"attached to section "
+                    f"{normalized_section.get('section_id') or ''}: "
+                    f"{reason}"
+                )
+        normalized_sections.append(normalized_section)
+
     warnings = [str(item) for item in (body.get("warnings") or [])]
     warnings.extend(profile.warnings)
+    warnings.extend(structure_warnings)
     return {
         "project_id": project_id,
         "profile": profile.to_dict(),
-        "sections": list(sections),
+        "sections": normalized_sections,
         "pages": list(pages),
+        "document_structures": document_structures,
         "artifacts": list(artifacts),
         "warnings": warnings,
     }
+
+
+def _section_structure_identity(
+    section: Mapping[str, Any],
+    attached_structure: Mapping[str, Any] | None,
+) -> tuple[str, str, str | None]:
+    document_ids = {
+        str(section.get(key) or "").strip()
+        for key in ("file_id", "document_id")
+        if str(section.get(key) or "").strip()
+    }
+    source_versions = {
+        str(section.get(key) or "").strip()
+        for key in ("source_version", "source_file_version")
+        if str(section.get(key) or "").strip()
+    }
+    reference_document_ids: set[str] = set()
+    reference_versions: set[str] = set()
+    references = section.get("source_references") or []
+    if isinstance(references, (list, tuple)):
+        for reference in references:
+            if not isinstance(reference, Mapping):
+                continue
+            document_id = str(reference.get("document_id") or "").strip()
+            source_version = str(
+                reference.get("source_version")
+                or reference.get("source_file_version")
+                or ""
+            ).strip()
+            if document_id:
+                reference_document_ids.add(document_id)
+            if source_version:
+                reference_versions.add(source_version)
+
+    if attached_structure is not None:
+        attached_document_id = str(attached_structure.get("document_id") or "").strip()
+        attached_source_version = str(
+            attached_structure.get("source_version") or ""
+        ).strip()
+        if attached_document_id:
+            document_ids.add(attached_document_id)
+        if attached_source_version:
+            source_versions.add(attached_source_version)
+
+    if len(reference_document_ids) > 1 or len(reference_versions) > 1:
+        return "", "", "section references contain conflicting document versions"
+    if reference_document_ids and document_ids - reference_document_ids:
+        return "", "", "section identity conflicts with source references"
+    if reference_versions and source_versions - reference_versions:
+        return "", "", "section version conflicts with source references"
+    if len(document_ids) > 1:
+        return "", "", "section contains conflicting document identifiers"
+    if len(source_versions) > 1:
+        return "", "", "section contains conflicting source versions"
+
+    document_id = next(iter(document_ids), "")
+    source_version = next(iter(source_versions), "")
+    if not document_id and len(reference_document_ids) == 1:
+        document_id = next(iter(reference_document_ids))
+    if not source_version and len(reference_versions) == 1:
+        source_version = next(iter(reference_versions))
+    return document_id, source_version, None

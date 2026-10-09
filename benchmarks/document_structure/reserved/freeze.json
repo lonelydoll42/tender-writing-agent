@@ -1,0 +1,41 @@
+{
+  "freeze_status": "frozen",
+  "baseline": "8ddc8f0eb46c079927893114ac9f4082973f8fa6",
+  "created_at": "2026-10-08T23:32:51.143+08:00",
+  "timezone": "Asia/Shanghai",
+  "inventory": {
+    "source_files": 8,
+    "oracle_files": 9,
+    "manifest_files": 1,
+    "total_files": 18,
+    "source_and_oracle_count": 17,
+    "sha256": "219ba05a264485f70a6698c0ca39d1d57dac1f3f119271a53e420675ca967204",
+    "fingerprint_rule": "SHA-256 of UTF-8 bytes of source/oracle entries sorted by ordinal relative path, each encoded as relative_path + TAB + lowercase_file_SHA256 + LF; freeze.json is excluded"
+  },
+  "limits": {
+    "fixture_type": "synthetic extracted-text JSON; not real business PDFs",
+    "blind_status": "not certified blind; the workspace filesystem is shared",
+    "production_accuracy_claim": false,
+    "evaluation_status": "not run against product output",
+    "exposure_policy": "If any frozen fixture/oracle is exposed during debugging, label it public_after_initial_eval before using it as regression data; never treat exposed material as unseen."
+  },
+  "files": [
+    {"role":"oracle","path":"oracle/case-01-unpunctuated.json","bytes":1882,"sha256":"176504fbb98b3482ead2f5d34566e8027ceef5a6278e6276068197c1b01fde39"},
+    {"role":"oracle","path":"oracle/case-02-cross-page.json","bytes":1897,"sha256":"cac106192d2ecaf6cb2ea7b233638066fa20eef51884a8b92c2b7c310c457651"},
+    {"role":"oracle","path":"oracle/case-03-lettered-items.json","bytes":950,"sha256":"1cd8bcc60923707e5b5b7d672ab0990c80bd8b784cf8c0a1a9173b2234d780b2"},
+    {"role":"oracle","path":"oracle/case-04-multilevel.json","bytes":2362,"sha256":"77abedb3695cbf65d31f4866a9e9759ce393e890e0b21a36dbb3139ae70fbf93"},
+    {"role":"oracle","path":"oracle/case-05-repeated-number-text.json","bytes":2220,"sha256":"dc421012871be7fde51bfc7c947aad58350186227c86b699b93f87637b7fc2bf"},
+    {"role":"oracle","path":"oracle/case-06-layout-crlf.json","bytes":2164,"sha256":"637284620b093ccfd1b6de6c171b68f77e9439ef66ec60d3cd4d53a0294b5428"},
+    {"role":"oracle","path":"oracle/case-07-version-v1.json","bytes":1155,"sha256":"f55d3ba89d5a12b0d1afcd6c4c297ec6888a3854f35048fef54e6361710a6bfc"},
+    {"role":"oracle","path":"oracle/case-08-version-v2.json","bytes":1157,"sha256":"48589c81e10d73b04be9c423733f23dd93d735d8144ee4dcc3436ef148b6e2e1"},
+    {"role":"oracle","path":"oracle/oracle-contract.json","bytes":1969,"sha256":"f92c37fc1f6d43c50b4c7b4b14b18c9ffe145f951a006076de527b74bcb4b955"},
+    {"role":"source","path":"source/case-01-unpunctuated.json","bytes":277,"sha256":"949232690d1ca8fcceb8eb97fdc41a9f097e7545a9f689e8f6887d718cdee769"},
+    {"role":"source","path":"source/case-02-cross-page.json","bytes":345,"sha256":"71c659c254e24aae82e29cbd694cf1b10c3fa1f2555c6faf8429b38c28faa22b"},
+    {"role":"source","path":"source/case-03-lettered-items.json","bytes":204,"sha256":"96955966fef80289e9e6d4a433f70fcc0be13031aeb4cf805906496179a3bf86"},
+    {"role":"source","path":"source/case-04-multilevel.json","bytes":266,"sha256":"87aa2013807aa5d5810742bb2a7a864b3a5160885c8449e643387deed0fac914"},
+    {"role":"source","path":"source/case-05-repeated-number-text.json","bytes":323,"sha256":"5cf5b5b32fafb128dd3e367ec5e333986ee35d06b50efb218698098852841a68"},
+    {"role":"source","path":"source/case-06-layout-crlf.json","bytes":226,"sha256":"f5b305b73a208f7512f88cd6a117e9f57d02a6dcf259db65b1e5b4061a58321e"},
+    {"role":"source","path":"source/case-07-version-v1.json","bytes":223,"sha256":"3fcf0770616fc09fe294411ba34350350f74a602cefce0bae99248fbd391f2fd"},
+    {"role":"source","path":"source/case-08-version-v2.json","bytes":224,"sha256":"e3e8d626b529c97d9d0135fe1785f571e96acdecd6dabc09bbd162d61fd27207"}
+  ]
+}

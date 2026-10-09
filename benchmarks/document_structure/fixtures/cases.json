@@ -1,0 +1,28 @@
+{
+  "schema": "document-structure-public-fixtures-v1",
+  "classification": "public_regression_not_blind",
+  "source_corpus": "benchmarks/raw_requirement_holdout",
+  "cases": [
+    {
+      "case_id": "H01",
+      "source_path": "benchmarks/raw_requirement_holdout/raw/holdout-01-qualification-finance.txt",
+      "source_sha256": "69ac7a0260462b3e94c3641356d738d5d65536fac013f1037773b0de0e2b730a",
+      "expected_pages": 2,
+      "focus": ["cross_page_fragment", "numbered_list"]
+    },
+    {
+      "case_id": "H05",
+      "source_path": "benchmarks/raw_requirement_holdout/raw/holdout-05-identity-oauth-no-replace.txt",
+      "source_sha256": "d0f6663c9b47e7b4d516931f22da57d769c7160db7317672304daf971af79eb7",
+      "expected_pages": 1,
+      "focus": ["lettered_subitems"]
+    },
+    {
+      "case_id": "H08",
+      "source_path": "benchmarks/raw_requirement_holdout/raw/holdout-08-platform-portability-positive.txt",
+      "source_sha256": "c62fb12061cd61ca5d47589b9dde7167aaa705fc68a175556061ec32a138f916",
+      "expected_pages": 2,
+      "focus": ["multi_level_parentage", "cross_chapter_reference_text"]
+    }
+  ]
+}

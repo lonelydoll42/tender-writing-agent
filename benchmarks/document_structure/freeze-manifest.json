@@ -1,0 +1,41 @@
+{
+  "schema": "document-structure-public-freeze-v1",
+  "classification": "public_regression_not_blind",
+  "baseline_commit": "8ddc8f0eb46c079927893114ac9f4082973f8fa6",
+  "upstream_manifest": {
+    "path": "benchmarks/raw_requirement_holdout/freeze-manifest.json",
+    "bytes": 3956,
+    "sha256": "a855eb7d4dc235f7e75d0d70b3564b7f8572e79c476b351147d0e46754577657"
+  },
+  "assets": [
+    {
+      "path": "benchmarks/document_structure/fixtures/cases.json",
+      "bytes": 1124,
+      "sha256": "3278cc616720eedd9d4c463f37cdcf200737161640c93cbe9787d651dd50efe9"
+    },
+    {
+      "path": "benchmarks/document_structure/oracle/structure-oracle.json",
+      "bytes": 9854,
+      "sha256": "186f3ae6fa2cc5327c4122138f014705b6d362bbbbd6338a16025f95af8f69f0"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-01-qualification-finance.txt",
+      "bytes": 1177,
+      "sha256": "69ac7a0260462b3e94c3641356d738d5d65536fac013f1037773b0de0e2b730a"
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-05-identity-oauth-no-replace.txt",
+      "bytes": 1196,
+      "sha256": "d0f6663c9b47e7b4d516931f22da57d769c7160db7317672304daf971af79eb7"
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-08-platform-portability-positive.txt",
+      "bytes": 1132,
+      "sha256": "c62fb12061cd61ca5d47589b9dde7167aaa705fc68a175556061ec32a138f916"
+    }
+  ],
+  "bundle_fingerprint": "f894c05126e65e3d9504f6ac368fc6a5df814ec6e7a89fc338543eb4feb81ac1",
+  "canonical_input": "UTF-8 without BOM; sorted repository-relative paths using forward slashes; each line is path, TAB, lowercase file SHA-256, LF; includes the two local assets, upstream manifest and three referenced raw sources; excludes this manifest"
+}

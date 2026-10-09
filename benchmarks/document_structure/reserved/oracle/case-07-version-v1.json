@@ -1,0 +1,12 @@
+{
+  "oracle_version": "private-structure-oracle-v1",
+  "source_file": "case-07-version-v1.json",
+  "document_id": "synthetic-versioned",
+  "source_version": "v1",
+  "blocks": [
+    {"id":"c07-h1","page":1,"line":1,"span":[0,11],"raw_text":"1 Operation","line_ending":"\n","normalized_text":"1 Operation","kind":"heading","numbering":{"label":"1","style":"decimal_space","level":1,"path":["1"]},"parent":null,"section":"c07-h1"},
+    {"id":"c07-p1","page":1,"line":2,"span":[12,44],"raw_text":"Use the first synthetic setting.","line_ending":"\n","normalized_text":"Use the first synthetic setting.","kind":"paragraph","numbering":null,"parent":"c07-h1","section":"c07-h1"},
+    {"id":"c07-h2","page":1,"line":3,"span":[45,51],"raw_text":"2 Note","line_ending":"\n","normalized_text":"2 Note","kind":"heading","numbering":{"label":"2","style":"decimal_space","level":1,"path":["2"]},"parent":null,"section":"c07-h2"},
+    {"id":"c07-p2","page":1,"line":4,"span":[52,78],"raw_text":"Revision marker: original.","line_ending":"\n","normalized_text":"Revision marker: original.","kind":"paragraph","numbering":null,"parent":"c07-h2","section":"c07-h2"}
+  ]
+}

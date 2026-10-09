@@ -1,0 +1,15 @@
+{
+  "oracle_version": "private-structure-oracle-v1",
+  "source_file": "case-06-layout-crlf.json",
+  "blocks": [
+    {"id":"c06-a","page":1,"line":1,"span":[0,1],"raw_text":"A","line_ending":"\r\n","normalized_text":"A","kind":"paragraph","numbering":null,"parent":null,"section":null,"review":{"status":"needs_review","reason":"单字符短行分类不确定"}},
+    {"id":"c06-blank","page":1,"line":2,"span":[3,3],"raw_text":"","line_ending":"\r\n","normalized_text":"","kind":"blank","numbering":null,"parent":null,"section":null},
+    {"id":"c06-b","page":1,"line":3,"span":[5,6],"raw_text":"B","line_ending":"\r\n","normalized_text":"B","kind":"paragraph","numbering":null,"parent":null,"section":null,"review":{"status":"needs_review","reason":"单字符短行分类不确定"}},
+    {"id":"c06-c","page":1,"line":4,"span":[8,9],"raw_text":"C","line_ending":"\r\n","normalized_text":"C","kind":"paragraph","numbering":null,"parent":null,"section":null,"review":{"status":"needs_review","reason":"单字符短行分类不确定"}},
+    {"id":"c06-tab-space","page":1,"line":5,"span":[11,15],"raw_text":"D\t E","line_ending":"\r\n","normalized_text":"D E","kind":"paragraph","numbering":null,"parent":null,"section":null,"normalization_map":[[0,1,11,12],[1,2,12,14],[2,3,14,15]]},
+    {"id":"c06-table-head","page":1,"line":6,"span":[17,32],"raw_text":"| Key | Value |","line_ending":"\r\n","normalized_text":"| Key | Value |","kind":"table_row","numbering":null,"parent":null,"section":null,"group_id":"c06-table"},
+    {"id":"c06-table-rule","page":1,"line":7,"span":[34,43],"raw_text":"|---|---|","line_ending":"\r\n","normalized_text":"|---|---|","kind":"table_row","numbering":null,"parent":null,"section":null,"group_id":"c06-table"},
+    {"id":"c06-table-data","page":1,"line":8,"span":[45,58],"raw_text":"| x | short |","line_ending":"\r\n","normalized_text":"| x | short |","kind":"table_row","numbering":null,"parent":null,"section":null,"group_id":"c06-table"},
+    {"id":"c06-end","page":1,"line":9,"span":[60,63],"raw_text":"End","line_ending":"\r\n","normalized_text":"End","kind":"paragraph","numbering":null,"parent":null,"section":null}
+  ]
+}

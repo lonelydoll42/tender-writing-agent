@@ -237,3 +237,17 @@ runner 默认只向标准输出打印 JSON。仅显式提供一个尚不存在�
 ```
 
 本轮结果通过也只表示这些固定反例与正例达到断言，不认证通用事实真实性、原始文件解析完整性、生产并发、权限、安全、Word 交付或投标提交流程。
+
+## 2026-10-09 文档结构验收（Step 1）
+
+本节为新增的canonical验收记录，不改写本页上述历史报告及既有结论。主审从staged archive tree `0d6fa8f9a4a5ac41252472b8694f9f5e8b42fab6`执行全量验证：64/64个`src` Git blobs和5/5个evaluator/test Git blobs一致，0处不匹配；`source_tree_sha256=5a179382bd01796b9c2dcb7ae033667d80b2948d3d9fd372e31a389e5dd116eb`。全量测试`512 passed`，另有1条既有Starlette warning；全归档Ruff通过。最终`git diff --check`由主审在提交前另行执行。
+
+文档结构正式结果见[Step 1验收说明](document_structure_acceptance.md)及[canonical结构报告](../benchmarks/document_structure/reports/structure-step1-final-20261009.json)：H01/H05/H08共3/3执行、failed=0、not_run=0；85/85物理块、5页、11表行和37个cell的结构、关系、来源及映射检查无错误。85/85原块候选映射与53/53候选最终结果审计无错误。该结果仅针对选定公开结构样本；条件树与业务层为`not_run`，生产验收`not_passed`。
+
+同批次的[raw requirement有限回归](../benchmarks/document_structure/reports/raw-requirement-regression-step1-final-20261009.json)仍为`0/8`通过、8 failed、not_run=0，引用`18/18`精确，business evidence `not_run/8`，不改变既有未通过结论。[Reliability follow-up](../benchmarks/document_structure/reports/reliability-followup-step1-final-20261009.json)为写作正例`6/6`、误阻`0/6`、负例误放`0/12`；Runtime正例`2/2`、误阻`0/2`、负例误放`0/7`，7个负例writer/model调用均为0，使用模拟模型输出。[Raw-file回归](../benchmarks/document_structure/reports/raw-file-regression-step1-final-20261009.json)为旧10项覆盖`8/10`、六类text/tree/source检查各`6/6`、自动核验`0/6`；不代表通用完整性。
+
+reserved集合仍为未执行的8个合成样本（`not_run/8`），不是真实PDF，不是认证blind，不外推生产准确率。canonical结构报告的`source_tree_sha256`为`5a179382bd01796b9c2dcb7ae033667d80b2948d3d9fd372e31a389e5dd116eb`；[主审快照核验报告](../benchmarks/document_structure/reports/snapshot-verification-step1-final-20261009.json)记录staged archive tree `0d6fa8f9a4a5ac41252472b8694f9f5e8b42fab6`、64/64 source和5/5 evaluator Git blob匹配、0 mismatches。最终commit可以新增报告和文档；提交后由主审复核`src`及evaluator/test字节保持不变，此处不预填commit SHA。
+
+## 文档结构验收（Step 1）
+
+新增[文档结构验收说明](document_structure_acceptance.md)，仅评测物理文档结构与原文来源保持；不改变本页历史结论，也不代表条件树或业务验收通过。先前工作树initial/debug报告不作为最终依据；canonical archive结果见本页新增的2026-10-09 Step 1段。

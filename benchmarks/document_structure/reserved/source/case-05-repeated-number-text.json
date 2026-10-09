@@ -1,0 +1,10 @@
+{
+  "document_id": "synthetic-repeated-number-text",
+  "source_version": "v1",
+  "pages": [
+    {
+      "page_number": 1,
+      "text": "1 First chapter\n1.1 Shared condition\nCheck the same marker.\n1.2 Local condition\nCheck the same marker.\n2 Second chapter\n1.1 Shared condition\nCheck the same marker.\n"
+    }
+  ]
+}

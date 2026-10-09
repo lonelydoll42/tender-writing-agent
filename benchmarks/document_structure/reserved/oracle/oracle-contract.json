@@ -1,0 +1,27 @@
+{
+  "oracle_version": "private-structure-oracle-v1",
+  "source_text_encoding": "UTF-8 JSON decoded to extracted page text",
+  "offset_unit": "Unicode code points in one extracted page, zero-based half-open",
+  "physical_block": {
+    "raw_text": "Exact page characters excluding the line ending",
+    "line_ending": "Exact page characters immediately following raw_text; may be empty only at end of page",
+    "source_span": "start/end cover raw_text only; an empty physical line has start equal to end",
+    "reconstruction": "In line order, concatenate every block raw_text and line_ending and compare byte-for-character with the extracted page text; blank lines are explicit blocks"
+  },
+  "page_serialization": {
+    "separator": "\f",
+    "source_span": null,
+    "rule": "Insert exactly one form feed between serialized pages; it is a synthetic page boundary and is not a character in either page body"
+  },
+  "normalization": {
+    "whitespace_characters": ["U+0009", "U+0020"],
+    "rule": "Trim leading/trailing tab and space; replace each internal maximal run of tabs/spaces with one U+0020",
+    "mapping": "Each identity output character maps to its exact one-code-point source interval; each collapsed output space maps to the full source interval of the whitespace run. Runs may coalesce adjacent identity mappings, but expanding them must yield one valid source interval for every normalized character.",
+    "coordinates": "Source intervals are absolute page offsets; normalized intervals are zero-based offsets in normalized_text"
+  },
+  "relationship_policy": {
+    "uncertainty": "Oracle entries marked needs_review remain uncertain and are not converted to asserted parent or continuation relations",
+    "cross_page_candidate": "case-02 line 1 page 2 is preserved as a separate physical block; its possible continuation relation remains needs_review"
+  },
+  "scope_limit": "Synthetic text fixtures only; no production-accuracy or real-PDF claim"
+}
