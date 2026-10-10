@@ -1,0 +1,3646 @@
+{
+  "schema": "document-relations-acceptance-eval-v1",
+  "generated_at": "2026-10-09T16:14:46.027616+08:00",
+  "classification": "shared-filesystem synthetic evaluation; not certified blind",
+  "base_commit": "bbb8309a342574c4cc138584170791e05f2d205e",
+  "repository_context": "archive/no_local_git_root",
+  "git_revision_at_run": null,
+  "git_worktree_dirty": null,
+  "git_worktree_status": null,
+  "git_src_worktree_dirty": null,
+  "git_src_worktree_status": null,
+  "source_tree_sha256": "93ad62e4729baedb9f149a781afa8b712987e9424818a4a5c82052af25d2b417",
+  "source_tree_sha256_algorithm": "SHA-256 over sorted src/**/*.py POSIX relative paths, TAB, raw file SHA-256 bytes, and LF; binarydigest-compatible",
+  "evaluator": {
+    "path": "scripts/run_document_relations_eval.py",
+    "sha256": "def19ccde25fb118393574e658937cde40f3ca268c1477c4a274c5507bde6065"
+  },
+  "freeze": {
+    "v2_manifest_sha256": "14072deebb73f993759272f19ca687649903c201b49f0d5ff78ede926a8dfcb2",
+    "v2_bundle_fingerprint": "eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d6864",
+    "payload_files": 29,
+    "source_coordinates": {
+      "status": "passed",
+      "references_checked": 196,
+      "denominator": 196,
+      "unique_references_checked": 88,
+      "unique_denominator": 88,
+      "per_case": {
+        "case-01": 5,
+        "case-02": 6,
+        "case-03": 11,
+        "case-04": 22,
+        "case-05": 20,
+        "case-06": 12,
+        "case-07": 12,
+        "case-08": 19,
+        "case-09": 8,
+        "case-10": 18,
+        "case-11": 14,
+        "case-12": 6,
+        "case-13": 12,
+        "case-14": 31
+      },
+      "unique_per_case": {
+        "case-01": 4,
+        "case-02": 5,
+        "case-03": 8,
+        "case-04": 7,
+        "case-05": 5,
+        "case-06": 10,
+        "case-07": 6,
+        "case-08": 6,
+        "case-09": 4,
+        "case-10": 5,
+        "case-11": 11,
+        "case-12": 5,
+        "case-13": 6,
+        "case-14": 6
+      },
+      "coordinate_rule": "UTF-8 bytes split on literal U+000C; 1-based LF physical lines; quoted substring must occur on that exact line; duplicate citation occurrences count toward the frozen total"
+    }
+  },
+  "input_history": {
+    "source_semantics_unchanged": true,
+    "versions": [
+      {
+        "version": "v1",
+        "classification": "rejected-annotated-container",
+        "directory": ".qiaowenshu/acceptance/private-condition-relations-20261009",
+        "bundle_fingerprint": "a60343e423e1ba28c4cf7d43c8a5e771f978640234c8206ba54b9899b3ce518f",
+        "freeze_json_sha256": "294e0c028279a308cdf8571ef6f090501a31bfb0ab7d8f329199d926723a81e0",
+        "scoring_status": "rejected_before_scoring",
+        "reason": "annotation/container lines made source coordinates non-physical"
+      },
+      {
+        "version": "v2",
+        "classification": "normative-clean-input",
+        "directory": ".qiaowenshu/acceptance/private-condition-relations-v2-20261009",
+        "bundle_fingerprint": "eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d6864",
+        "freeze_json_sha256": "14072deebb73f993759272f19ca687649903c201b49f0d5ff78ede926a8dfcb2",
+        "scoring_status": "scored",
+        "source_semantics_changed": false
+      }
+    ],
+    "metadata_erratum": "freeze.json developer_status_at_freeze says A/B remained paused per user. Correction: A/B had not been created or started at freeze; the user had not explicitly paused them. A/B fork_context=false agents started at approximately 2026-10-09 14:44 Asia/Shanghai, after the 14:42:19.892 freeze, without permission to read the private corpus. The frozen manifest bytes are unchanged."
+  },
+  "summary": {
+    "case_count": 14,
+    "passed": 0,
+    "failed": 14,
+    "not_run": 0,
+    "metrics": {
+      "boundary_evidence": {
+        "numerator": 0,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "condition_omission": {
+        "numerator": 37,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "forbidden_claims": {
+        "numerator": 1,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "operator_evidence": {
+        "numerator": 0,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "operator_group_structure": {
+        "numerator": 17,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "parent_relations": {
+        "numerator": 16,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "reference_relations": {
+        "numerator": 3,
+        "denominator": 3,
+        "status": "measured"
+      },
+      "review_handling": {
+        "numerator": 16,
+        "denominator": 19,
+        "status": "measured"
+      },
+      "scope_evidence": {
+        "numerator": 0,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "scope_membership_decisions": {
+        "numerator": 39,
+        "denominator": 50,
+        "status": "measured"
+      },
+      "source_coverage": {
+        "numerator": 37,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "source_invalid": {
+        "numerator": 194,
+        "denominator": 194,
+        "status": "measured"
+      },
+      "wrong_merge_pairs": {
+        "numerator": 0,
+        "denominator": 34,
+        "status": "measured"
+      },
+      "wrong_split_atom_units": {
+        "numerator": 0,
+        "denominator": 37,
+        "status": "measured"
+      }
+    }
+  },
+  "business_materials": {
+    "status": "not_run",
+    "denominator": 14,
+    "business_pass_rate": "not_calculated",
+    "registered": false
+  },
+  "claims": {
+    "blind_holdout": false,
+    "certified_blind": false,
+    "synthetic_txt_only": true,
+    "real_business_pdf": false,
+    "first_score_requires_main_reviewer_authorization": true,
+    "main_reviewer_authorized": true,
+    "report_write_policy": "create_only",
+    "acceptance_only_score_is_developer_exposure": false,
+    "developer_exposure_requires_release_or_access": true,
+    "exposure_time_recorded_on_release_or_access": true,
+    "public_regression_after_developer_exposure": true
+  },
+  "historical_acceptance_boundary": {
+    "existing_public_original_file_integrity_evaluation": "0/8",
+    "enterprise_materials": "not_run/8",
+    "generic_and_production_acceptance": "not_passed"
+  },
+  "cases": [
+    {
+      "case_id": "case-01",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 5,
+        "unique_references": 2,
+        "raw_offsets_checked": 0,
+        "invalid_references": 5
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "scope_membership_decisions": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "operator_group_structure": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 0,
+          "raw_needs_review_items": 0
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "source_invalid": {
+          "numerator": 5,
+          "denominator": 5
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "cd2110251d92484a5d963191c1c0a09939a559e398d97082772f844da7ce1a03",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-02",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 6,
+        "unique_references": 3,
+        "raw_offsets_checked": 0,
+        "invalid_references": 6
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "scope_membership_decisions": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "operator_group_structure": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 0,
+          "raw_needs_review_items": 0
+        },
+        "source_coverage": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "source_invalid": {
+          "numerator": 6,
+          "denominator": 6
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A3",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "2d2b5673cbbe1cf1401b571f758feaf36052ca2b9010c839f3b55f86c2b36c9e",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-03",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1",
+        "S2",
+        "S0"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 14,
+        "unique_references": 5,
+        "raw_offsets_checked": 0,
+        "invalid_references": 14
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "scope_membership_decisions": {
+          "numerator": 6,
+          "denominator": 9
+        },
+        "operator_group_structure": {
+          "numerator": 3,
+          "denominator": 2
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "parent_relations": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 0,
+          "raw_needs_review_items": 0
+        },
+        "source_coverage": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "source_invalid": {
+          "numerator": 14,
+          "denominator": 14
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 6,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 7,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 8,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 9,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 10,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 11,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 12,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 13,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A3",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "REQUIRED",
+          "expected_direct_members": [
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A3"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "c8b9cfdd5d645f522cad6c05a08666ff0f23322352b775637cdf3cc39ef0e732",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-04",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 10,
+        "unique_references": 7,
+        "raw_offsets_checked": 0,
+        "invalid_references": 10
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "scope_membership_decisions": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "operator_group_structure": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "review_handling": {
+          "numerator": 2,
+          "denominator": 2,
+          "raw_needs_review_items": 3
+        },
+        "source_coverage": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "source_invalid": {
+          "numerator": 10,
+          "denominator": 10
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 6,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 7,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 8,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 9,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A3",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "parent",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate",
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l3",
+            "p1l4"
+          ],
+          "reason": "review relation status/source mismatch"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "scope",
+          "condition_id": null,
+          "expected_statuses": [
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p1l2",
+            "p1l3",
+            "p1l4"
+          ],
+          "reason": "review relation status/source mismatch"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "25573beb369fc9e4f6a987d841a987a1d901ef74f5085eeed0250b5d32bd3e8a",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-05",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [],
+      "matched_group_ids": [],
+      "group_status_review_count": 1,
+      "actual_source_validation": {
+        "checked_references": 10,
+        "unique_references": 6,
+        "raw_offsets_checked": 0,
+        "invalid_references": 10
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "scope_membership_decisions": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "operator_group_structure": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 3,
+          "denominator": 4,
+          "raw_needs_review_items": 3
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "source_invalid": {
+          "numerator": 10,
+          "denominator": 10
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 6,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 7,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 8,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 9,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "operator",
+          "condition_id": null,
+          "expected_statuses": [
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p1l2",
+            "p1l3"
+          ],
+          "reason": "review relation status/source mismatch"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "scope",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p1l2",
+            "p1l3"
+          ],
+          "reason": "review relation status/source mismatch"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "parent",
+          "condition_id": null,
+          "expected_statuses": [
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p1l2",
+            "p1l3"
+          ],
+          "reason": "review relation status/source mismatch"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "3aef03b168540f155e06001c37e50db0e9d0d7cfa8ac6bf2fd87ca66e07151f5",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-06",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1",
+        "S2"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 58,
+        "unique_references": 13,
+        "raw_offsets_checked": 0,
+        "invalid_references": 58
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 4,
+          "denominator": 4
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 6
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 4
+        },
+        "scope_membership_decisions": {
+          "numerator": 4,
+          "denominator": 8
+        },
+        "operator_group_structure": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "parent_relations": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 0,
+          "raw_needs_review_items": 0
+        },
+        "source_coverage": {
+          "numerator": 4,
+          "denominator": 4
+        },
+        "source_invalid": {
+          "numerator": 58,
+          "denominator": 58
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 6,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 7,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 8,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 9,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 10,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 11,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 12,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 13,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 14,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 15,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 16,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 17,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 18,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 19,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 20,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 21,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 22,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 23,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 24,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 25,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 26,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 27,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 28,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 29,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 30,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 31,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 32,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 33,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 34,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 35,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 36,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 37,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 38,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 39,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 40,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 41,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 42,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 43,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 44,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 45,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 46,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 47,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 48,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 49,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 50,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 51,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 52,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 53,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 54,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 55,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 56,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 57,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A4",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A3",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A3",
+            "A4"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A3",
+            "A4"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "5399efff2a1b2e6b6b3f9d02c8bfce4000a40e6e6975d1777ad82a2477cde841",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-07",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 7,
+        "unique_references": 4,
+        "raw_offsets_checked": 0,
+        "invalid_references": 7
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "scope_membership_decisions": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "operator_group_structure": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 0,
+          "raw_needs_review_items": 0
+        },
+        "source_coverage": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "source_invalid": {
+          "numerator": 7,
+          "denominator": 7
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 6,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A3",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "reference_relations",
+          "missing_locators": [
+            "confirmed reference status/source/target mismatch"
+          ]
+        },
+        {
+          "metric": "forbidden_claims",
+          "claim_type": "scope",
+          "direction": "require_members",
+          "reason": "explicitly required scope members were omitted"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "da739873ce9ba42b2c1401cf0ae3cb5b1e50fd719ec06819c16b9bcdf0b23f73",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-08",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 1,
+      "actual_source_validation": {
+        "checked_references": 6,
+        "unique_references": 3,
+        "raw_offsets_checked": 0,
+        "invalid_references": 6
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "scope_membership_decisions": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "operator_group_structure": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "parent_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "review_handling": {
+          "numerator": 3,
+          "denominator": 4,
+          "raw_needs_review_items": 5
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "source_invalid": {
+          "numerator": 6,
+          "denominator": 6
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "condition",
+          "condition_id": "A3",
+          "expected_statuses": [
+            "candidate"
+          ],
+          "missing_locators": [
+            "p2l1"
+          ],
+          "reason": "candidate atom missing"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "parent",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate",
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p2l1",
+            "p1l1"
+          ],
+          "reason": "review relation status/source mismatch"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "scope",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate",
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p2l1",
+            "p1l1"
+          ],
+          "reason": "review relation status/source mismatch"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "3aaf208ed06673fb24e69ae2a12a1b2e3b5d120b33b06f443c6ff1f17bd71ae2",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-09",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 4,
+        "unique_references": 2,
+        "raw_offsets_checked": 0,
+        "invalid_references": 4
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "scope_membership_decisions": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "operator_group_structure": {
+          "numerator": 1,
+          "denominator": 0
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 0,
+          "raw_needs_review_items": 0
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "source_invalid": {
+          "numerator": 4,
+          "denominator": 4
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "attribute_scope",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A2"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "reference_relations",
+          "missing_locators": [
+            "confirmed reference status/source/target mismatch"
+          ]
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "41b364624ee0b41eeb281cff1d03bba2e5b2a9fdd560c0f5a35b3357c0f0c8c5",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-10",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 31,
+        "unique_references": 8,
+        "raw_offsets_checked": 0,
+        "invalid_references": 31
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "scope_membership_decisions": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "operator_group_structure": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 4,
+          "denominator": 4,
+          "raw_needs_review_items": 7
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "source_invalid": {
+          "numerator": 31,
+          "denominator": 31
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 6,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 7,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 8,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 9,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 10,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 11,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 12,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 13,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 14,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 15,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 16,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 17,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 18,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 19,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 20,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 21,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 22,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 23,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 24,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 25,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 26,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 27,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 28,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 29,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 30,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "condition",
+          "condition_id": "A3",
+          "expected_statuses": [
+            "candidate"
+          ],
+          "missing_locators": [
+            "p1l2"
+          ],
+          "reason": "candidate atom missing"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "parent",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate",
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p1l2"
+          ],
+          "reason": "review relation status/source mismatch"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "scope",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate",
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p1l2"
+          ],
+          "reason": "review relation status/source mismatch"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "reference",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate",
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p1l2"
+          ],
+          "reason": "review relation status/source mismatch"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "1b58f8222c8260251a44efc70dc43bffb8a3ffd06368b4d9ad7f23373118a1ff",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-11",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2",
+        "A3",
+        "A4"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1",
+        "S2",
+        "S0"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 19,
+        "unique_references": 6,
+        "raw_offsets_checked": 0,
+        "invalid_references": 19
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 4,
+          "denominator": 4
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 6
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 4
+        },
+        "scope_membership_decisions": {
+          "numerator": 8,
+          "denominator": 12
+        },
+        "operator_group_structure": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "parent_relations": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 0,
+          "raw_needs_review_items": 0
+        },
+        "source_coverage": {
+          "numerator": 4,
+          "denominator": 4
+        },
+        "source_invalid": {
+          "numerator": 19,
+          "denominator": 19
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 6,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 7,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 8,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 9,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 10,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 11,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 12,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 13,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 14,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 15,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 16,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 17,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 18,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A4",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A3",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A3",
+            "A4"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A3",
+            "A4"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "40ad4e00f70972566b3696078601455e815bf9fa5787ea500aa7d29fe823ba86",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-12",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 5,
+        "unique_references": 2,
+        "raw_offsets_checked": 0,
+        "invalid_references": 5
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "scope_membership_decisions": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "operator_group_structure": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 0,
+          "raw_needs_review_items": 0
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "source_invalid": {
+          "numerator": 5,
+          "denominator": 5
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "6ea791a6fcb1334dadb5b7987a1c485cfa4e6ce16d3cc991b29dc0fadd1c478d",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-13",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2",
+        "A3"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 0,
+      "actual_source_validation": {
+        "checked_references": 4,
+        "unique_references": 2,
+        "raw_offsets_checked": 0,
+        "invalid_references": 4
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 3
+        },
+        "scope_membership_decisions": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "operator_group_structure": {
+          "numerator": 1,
+          "denominator": 0
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 0,
+          "raw_needs_review_items": 0
+        },
+        "source_coverage": {
+          "numerator": 3,
+          "denominator": 3
+        },
+        "source_invalid": {
+          "numerator": 4,
+          "denominator": 4
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A3",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "contextual_scope_no_flat_operator",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A3"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "reference_relations",
+          "missing_locators": [
+            "confirmed reference status/source/target mismatch"
+          ]
+        },
+        {
+          "metric": "operator_relations",
+          "expected_operator": "AND",
+          "reason": "confirmed operator relation missing"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "602c972bbcfa424204660fa48cd89820cf46af9029a62580883c2f4091d9f8ed",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "case-14",
+      "status": "failed",
+      "expected_confirmed_atom_ids": [
+        "A1",
+        "A2"
+      ],
+      "matched_atom_ids": [],
+      "confirmed_group_ids": [
+        "S1"
+      ],
+      "matched_group_ids": [],
+      "group_status_review_count": 1,
+      "actual_source_validation": {
+        "checked_references": 15,
+        "unique_references": 6,
+        "raw_offsets_checked": 0,
+        "invalid_references": 15
+      },
+      "metrics": {
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "scope_membership_decisions": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "operator_group_structure": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "parent_relations": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "reference_relations": {
+          "numerator": 0,
+          "denominator": 0
+        },
+        "forbidden_claims": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "review_handling": {
+          "numerator": 4,
+          "denominator": 5,
+          "raw_needs_review_items": 7
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "source_invalid": {
+          "numerator": 15,
+          "denominator": 15
+        }
+      },
+      "errors": [
+        {
+          "metric": "source_invalid",
+          "reference_index": 0,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 1,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 2,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 3,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 4,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 5,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 6,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 7,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 8,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 9,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 10,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 11,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 12,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 13,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "source_invalid",
+          "reference_index": 14,
+          "locator": null,
+          "reason": "page/line must be positive integers"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "missing_locators": [
+            "no confirmed semantic group parent matched"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "condition",
+          "condition_id": "A3",
+          "expected_statuses": [
+            "candidate"
+          ],
+          "missing_locators": [
+            "p1l4"
+          ],
+          "reason": "candidate atom missing"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "parent",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate",
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p1l4",
+            "p1l2",
+            "p1l3"
+          ],
+          "reason": "review relation status/source mismatch"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "scope",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate",
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l4",
+            "p1l2",
+            "p1l3"
+          ],
+          "reason": "review relation status/source mismatch"
+        },
+        {
+          "metric": "review_handling",
+          "claim_type": "reference",
+          "condition_id": null,
+          "expected_statuses": [
+            "candidate",
+            "unresolved"
+          ],
+          "missing_locators": [
+            "p1l1",
+            "p1l2",
+            "p1l3",
+            "p1l4",
+            "p1l2",
+            "p1l3"
+          ],
+          "reason": "review relation status/source mismatch"
+        }
+      ],
+      "execution_state": "executed",
+      "runtime": {
+        "registered_input_sha256": "6d337296e80caf344c39bd11203e125df0938e31860988e72d5e17dfb42eda18",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    }
+  ]
+}

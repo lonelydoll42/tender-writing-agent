@@ -1,0 +1,266 @@
+{
+  "manifest_version": "2.0",
+  "frozen_at": "2026-10-09T14:42:19.892+08:00",
+  "timezone": "Asia/Shanghai",
+  "base_commit": "bbb8309a342574c4cc138584170791e05f2d205e",
+  "workspace_head_at_freeze": "bbb8309a342574c4cc138584170791e05f2d205e",
+  "developer_status_at_freeze": "A/B remain paused per user; src/ and test/ clean at freeze command.",
+  "state": "frozen_not_executed",
+  "counts": {
+    "inputs": 14,
+    "markdown_oracles": 14,
+    "machine_oracles": 1,
+    "hashed_payload_files": 29
+  },
+  "lineage": {
+    "v1_directory": ".qiaowenshu/acceptance/private-condition-relations-20261009",
+    "v1_fingerprint": "a60343e423e1ba28c4cf7d43c8a5e771f978640234c8206ba54b9899b3ce518f",
+    "v1_freeze_json_sha256": "294e0c028279a308cdf8571ef6f090501a31bfb0ab7d8f329199d926723a81e0",
+    "v1_payloads_verified": "29/29 unchanged",
+    "v1_mutated": false
+  },
+  "migration_reason": "仅移除输入中的 META 注释容器及 Pn-Lnn 文本标签，使既有坐标可指向实际 TXT 页/行；未根据产品输出修改 oracle。",
+  "semantic_preservation": {
+    "markdown_oracles": "14/14 byte-identical to v1",
+    "machine_oracle": "All semantic payload fields match v1 after excluding source_coordinates; only coordinate declaration changed."
+  },
+  "source_reference_validation": {
+    "status": "pass",
+    "references": 196,
+    "matched": 196,
+    "page_rule": "Split clean UTF-8 input at literal U+000C FORM FEED; 1-based page index.",
+    "line_rule": "Within each page, count LF-separated physical lines from 1; blank placeholder lines count.",
+    "quote_rule": "Ordinal substring match on the referenced physical line."
+  },
+  "scope": "仅关系状态（confirmed/candidate/unresolved 的 parent/scope/reference）及显式 AND/OR 作用域；不含主体、同人、时间或复杂 NOT。",
+  "input_format": {
+    "encoding": "UTF-8 without BOM",
+    "page_break": "U+000C FORM FEED (0x0C)",
+    "line_break": "LF (0x0A)",
+    "annotation_labels_in_inputs": false
+  },
+  "data_boundary": {
+    "storage": "shared_filesystem",
+    "developer_read_rule": "开发者禁止读取本冻结目录，直至主审另行授权。",
+    "certified_blind": false,
+    "limitation": "共享文件系统上的策略边界，不构成技术隔离，也不属于 certified blind。"
+  },
+  "synthetic_notice": "全部输入均为合成构造文本，非真实企业材料、非真实业务PDF；未生成PDF。",
+  "execution": {
+    "product_tests": "not_run",
+    "grader": "not_written",
+    "business_materials": "not_run",
+    "business_pass_rate": "not_calculated"
+  },
+  "fingerprint": {
+    "algorithm": "SHA-256",
+    "rule": "全部payload artifact相对path按ordinal升序；每行 path + TAB + lowercase_sha256 + LF；整体UTF-8无BOM后SHA-256。freeze.json自身排除以避免递归。",
+    "sha256": "eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d6864",
+    "manifest_self_hash": "单独报告，不纳入自身fingerprint。"
+  },
+  "artifacts": [
+    {
+      "path": "case-01.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-01",
+      "bytes": 1387,
+      "sha256": "52bb7ec007c4d2119bbfd2f743c90d3ed1ba08099a6d9bce13a85766ed5e4750"
+    },
+    {
+      "path": "case-01.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-01",
+      "bytes": 72,
+      "sha256": "cd2110251d92484a5d963191c1c0a09939a559e398d97082772f844da7ce1a03"
+    },
+    {
+      "path": "case-02.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-02",
+      "bytes": 1519,
+      "sha256": "beec70878a95707ae971d24625686b36db9acc2d8afc7058292957e58cb5fdbe"
+    },
+    {
+      "path": "case-02.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-02",
+      "bytes": 129,
+      "sha256": "2d2b5673cbbe1cf1401b571f758feaf36052ca2b9010c839f3b55f86c2b36c9e"
+    },
+    {
+      "path": "case-03.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-03",
+      "bytes": 1799,
+      "sha256": "37f43a595e37c4b37766c8a8ae49bfdda5fe7375795651fd7e1793572cfe9897"
+    },
+    {
+      "path": "case-03.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-03",
+      "bytes": 143,
+      "sha256": "c8b9cfdd5d645f522cad6c05a08666ff0f23322352b775637cdf3cc39ef0e732"
+    },
+    {
+      "path": "case-04.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-04",
+      "bytes": 1887,
+      "sha256": "939142def1ce698e44e997736409824bd345e7805067e028361dc1601b774bbd"
+    },
+    {
+      "path": "case-04.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-04",
+      "bytes": 103,
+      "sha256": "25573beb369fc9e4f6a987d841a987a1d901ef74f5085eeed0250b5d32bd3e8a"
+    },
+    {
+      "path": "case-05.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-05",
+      "bytes": 1895,
+      "sha256": "03d2654af9ae9e6551a1f1e5e56c03e359653ed0605abd34602fafc461873938"
+    },
+    {
+      "path": "case-05.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-05",
+      "bytes": 74,
+      "sha256": "3aef03b168540f155e06001c37e50db0e9d0d7cfa8ac6bf2fd87ca66e07151f5"
+    },
+    {
+      "path": "case-06.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-06",
+      "bytes": 1785,
+      "sha256": "c1055c5c539426c9f3a57b9578c7586dd89f4b45e7f96b89e4964066d7f68c05"
+    },
+    {
+      "path": "case-06.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-06",
+      "bytes": 155,
+      "sha256": "5399efff2a1b2e6b6b3f9d02c8bfce4000a40e6e6975d1777ad82a2477cde841"
+    },
+    {
+      "path": "case-07.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-07",
+      "bytes": 1695,
+      "sha256": "bdfbc2a7bfacfe233bc4c8487004e866c736413836d6880a722ea99ed3cbbc7d"
+    },
+    {
+      "path": "case-07.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-07",
+      "bytes": 134,
+      "sha256": "da739873ce9ba42b2c1401cf0ae3cb5b1e50fd719ec06819c16b9bcdf0b23f73"
+    },
+    {
+      "path": "case-08.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-08",
+      "bytes": 2143,
+      "sha256": "8516d1c1b2247285c6fd6b0ff1d9d50d4e686aad1fe2127fa21d877cdc6db7e7"
+    },
+    {
+      "path": "case-08.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-08",
+      "bytes": 94,
+      "sha256": "3aaf208ed06673fb24e69ae2a12a1b2e3b5d120b33b06f443c6ff1f17bd71ae2"
+    },
+    {
+      "path": "case-09.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-09",
+      "bytes": 1612,
+      "sha256": "b4b255df44e517c3ed9dce7a68048a116440fe24eb0e3dbd64da47c8e2dcec37"
+    },
+    {
+      "path": "case-09.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-09",
+      "bytes": 79,
+      "sha256": "41b364624ee0b41eeb281cff1d03bba2e5b2a9fdd560c0f5a35b3357c0f0c8c5"
+    },
+    {
+      "path": "case-10.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-10",
+      "bytes": 2347,
+      "sha256": "8d289d6fe10af808e2e8dbe8cc2d639e7540ee46e59379cf3ae5dd2aaedb6dad"
+    },
+    {
+      "path": "case-10.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-10",
+      "bytes": 94,
+      "sha256": "1b58f8222c8260251a44efc70dc43bffb8a3ffd06368b4d9ad7f23373118a1ff"
+    },
+    {
+      "path": "case-11.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-11",
+      "bytes": 2167,
+      "sha256": "0dfddf4a3df53092f39bddba9c28c1c54d9b85f4853722dc736a85b431429a49"
+    },
+    {
+      "path": "case-11.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-11",
+      "bytes": 197,
+      "sha256": "40ad4e00f70972566b3696078601455e815bf9fa5787ea500aa7d29fe823ba86"
+    },
+    {
+      "path": "case-12.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-12",
+      "bytes": 1553,
+      "sha256": "fd82486e8ef590081d4e33786773e2b9fcf9e5af4b499cab03ed63c8d53e2cdc"
+    },
+    {
+      "path": "case-12.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-12",
+      "bytes": 116,
+      "sha256": "6ea791a6fcb1334dadb5b7987a1c485cfa4e6ce16d3cc991b29dc0fadd1c478d"
+    },
+    {
+      "path": "case-13.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-13",
+      "bytes": 2022,
+      "sha256": "c1cccec02323cbc462173fbfb16c11d32f80fcfc4ab334888fa6adea4daae9aa"
+    },
+    {
+      "path": "case-13.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-13",
+      "bytes": 119,
+      "sha256": "602c972bbcfa424204660fa48cd89820cf46af9029a62580883c2f4091d9f8ed"
+    },
+    {
+      "path": "case-14.oracle.md",
+      "kind": "markdown_oracle",
+      "case_id": "case-14",
+      "bytes": 2238,
+      "sha256": "c198907f8a39638d3026281f8cc7154527589317f306818bfd89c3cfb90359ea"
+    },
+    {
+      "path": "case-14.txt",
+      "kind": "clean_input_txt",
+      "case_id": "case-14",
+      "bytes": 126,
+      "sha256": "6d337296e80caf344c39bd11203e125df0938e31860988e72d5e17dfb42eda18"
+    },
+    {
+      "path": "machine-oracle.json",
+      "kind": "machine_oracle",
+      "case_id": null,
+      "bytes": 66375,
+      "sha256": "9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50"
+    }
+  ]
+}

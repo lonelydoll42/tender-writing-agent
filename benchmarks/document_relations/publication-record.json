@@ -1,0 +1,578 @@
+{
+  "schema": "document-relations-publication-v1",
+  "classification": "public_regression",
+  "published_at": "2026-10-10T08:56:24.9745086+08:00",
+  "published_timezone": "Asia/Shanghai",
+  "policy_boundary": "Shared-filesystem policy isolation only; not certified blind. After publication these 14 synthetic cases are public regression, not unseen evaluation data.",
+  "developer_access": {
+    "authorization_sent_at_user_reported_approx": "2026-10-10T08:59+08:00",
+    "authorization_recorded_at": "2026-10-10T09:01:05.8357278+08:00",
+    "first_read_at": null,
+    "first_read_at_note": "A最新收束报告称无法确认准确首次读取时间；先前的08:59:30仅为A自报，现已撤回，不是访问审计证据。",
+    "previous_unverified_self_report": {
+      "value": "2026-10-10T08:59:30+08:00",
+      "status": "retracted",
+      "reason": "A最新收束报告无法确认准确首次读取时间，因此撤回该时刻作为actual first_read_at的记录。",
+      "source": "A最新收束报告（由主审在本轮转述；未提供本地报告路径）。"
+    }
+  },
+  "published_artifact_whitespace_policy": {
+    "non_normalization": "Frozen payloads and historical reports retain original bytes.",
+    "crlf_source_proofs": [
+      {
+        "path": "benchmarks/document_relations/reports/initial-invalid-evaluator/source-proof.json",
+        "crlf_lines": 535,
+        "attributes": "-text whitespace=cr-at-eol"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/first-valid/source-proof.json",
+        "crlf_lines": 538,
+        "attributes": "-text whitespace=cr-at-eol"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/pre-operator-adapter-20261010/source-proof.json",
+        "crlf_lines": 536,
+        "length": 24068,
+        "sha256": "e44d68dc5ed4b890cc44703664fdf454dc0d723b352ce318975989d080394c8d",
+        "attributes": "-text whitespace=cr-at-eol"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/final-20261010/source-proof.json",
+        "crlf_lines": 536,
+        "length": 24068,
+        "sha256": "819b8ebe322da3c814a26fd4e370437d504df2c2c933be8ed2fe4a80a03a8831",
+        "attributes": "-text whitespace=cr-at-eol"
+      }
+    ],
+    "crlf_score_reports": [
+      {
+        "path": "benchmarks/document_relations/reports/final-20261010/raw-file-score.json",
+        "crlf_lines": 15605,
+        "length": 917100,
+        "sha256": "f3c06b4fb8d74bc5c46fd553ab93d7ccd3169a2cd76bfaed8f28b3e63aba694e",
+        "attributes": "-text whitespace=cr-at-eol"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/final-20261010/reliability-score.json",
+        "crlf_lines": 4382,
+        "length": 168740,
+        "sha256": "7eda6dd6d4cb238c9b04a8fab4241f351377be4b5be8ae9e03644a3ec51036dc",
+        "attributes": "-text whitespace=cr-at-eol"
+      }
+    ],
+    "crlf_frozen_payloads": [
+      {
+        "source_path": ".qiaowenshu/acceptance/private-condition-relations-20261009/freeze.json",
+        "published_path": "benchmarks/document_relations/reserved/v1/freeze.json",
+        "length": 8213,
+        "sha256": "294e0c028279a308cdf8571ef6f090501a31bfb0ab7d8f329199d926723a81e0",
+        "crlf_pairs": 240,
+        "bare_lf": 1,
+        "attributes": "-text whitespace=cr-at-eol"
+      },
+      {
+        "source_path": ".qiaowenshu/acceptance/private-condition-relations-v2-20261009/freeze.json",
+        "published_path": "benchmarks/document_relations/reserved/v2/freeze.json",
+        "length": 9332,
+        "sha256": "14072deebb73f993759272f19ca687649903c201b49f0d5ff78ede926a8dfcb2",
+        "crlf_pairs": 265,
+        "bare_lf": 1,
+        "attributes": "-text whitespace=cr-at-eol"
+      },
+      {
+        "source_path": ".qiaowenshu/acceptance/private-condition-relations-v2-20261009/machine-oracle.json",
+        "published_path": "benchmarks/document_relations/reserved/v2/machine-oracle.json",
+        "length": 66375,
+        "sha256": "9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50",
+        "crlf_pairs": 2531,
+        "bare_lf": 1,
+        "attributes": "-text whitespace=cr-at-eol"
+      }
+    ],
+    "crlf_frozen_payload_reason": "These three exact frozen payloads contain CRLF. The path-specific attributes preserve original bytes and treat only the CR ending as line-ending whitespace for diff checks; genuine trailing spaces remain checked. Source and published length/SHA-256 were verified identical. No reserved/** whitespace exemption is used.",
+    "lf_score_reports": [
+      "benchmarks/document_relations/reports/initial-invalid-evaluator/first-score.json",
+      "benchmarks/document_relations/reports/first-valid/first-valid-score.json",
+      "benchmarks/document_relations/reports/pre-operator-adapter-20261010/relations-score.json",
+      "benchmarks/document_relations/reports/final-20261010/relations-score.json",
+      "benchmarks/document_relations/reports/final-20261010/structure-score.json",
+      "benchmarks/document_relations/reports/final-20261010/old-public-score.json"
+    ],
+    "score_report_whitespace": "Default trailing-space checks remain enabled."
+  },
+  "evaluator_freeze": {
+    "status": "frozen_for_main_reviewer_r4_final_canonical",
+    "frozen_at": "2026-10-10T11:35:52.0416592+08:00",
+    "version": "1.0.3",
+    "intended_main_reviewer_recheck_source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+    "report_schema": "document-relations-acceptance-eval-v1",
+    "script_path": "scripts/run_document_relations_eval.py",
+    "script_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+    "public_tests_path": "tests/evals/test_document_relations_eval.py",
+    "public_tests_sha256": "7fb5e3694d8614e962c6061e50d2de8b15c29a2bc6d02e808048f161ac371228",
+    "public_test_result": "72 passed; 1 pytest environment warning (unknown asyncio_mode option)",
+    "ruff": "passed",
+    "cli_interface": {
+      "required": [
+        "--bundle",
+        "--output"
+      ],
+      "authorization_flag": "--main-reviewer-authorized",
+      "existing_output": "refused",
+      "bundle": "benchmarks/document_relations/reserved/v2"
+    },
+    "product_score_executed_by_evaluator_owner": false,
+    "change_policy": "Any future evaluator change requires a new version and checksum; this frozen interface is for the main reviewer's canonical run."
+  },
+  "evaluator_version_history": [
+    {
+      "version": "1.0.0",
+      "status": "superseded_by_execution_classification_erratum_before_final_canonical_run",
+      "frozen_at": "2026-10-10T09:35:19.6223079+08:00",
+      "report_schema": "document-relations-acceptance-eval-v1",
+      "script_path": "scripts/run_document_relations_eval.py",
+      "script_sha256": "d7888453cfb41297cc6f8dd19a4ac574346bd414fda3d622196409bc644da100",
+      "public_tests_path": "tests/evals/test_document_relations_eval.py",
+      "public_tests_sha256": "ad5eef1e59b0f696d473ff6c4bbf950ccb3c56d81daf2d018635a7b3fecd25b9",
+      "public_test_result": "54 passed",
+      "ruff": "passed",
+      "historical_reports_modified": false
+    },
+    {
+      "version": "1.0.1",
+      "status": "superseded_by_candidate_source_literal_erratum_before_final_canonical_run",
+      "frozen_at": "2026-10-10T09:57:09.4104284+08:00",
+      "report_schema": "document-relations-acceptance-eval-v1",
+      "script_path": "scripts/run_document_relations_eval.py",
+      "script_sha256": "6efcd62816515069db52c4dc72a8b39d8b86cf71c74b59e1a54f71c1047c0759",
+      "public_tests_path": "tests/evals/test_document_relations_eval.py",
+      "public_tests_sha256": "69f486f30a90592906eddcaa46bbab7616d77ef73c08f761f56de653d1f18d44",
+      "public_test_result": "56 passed",
+      "ruff": "passed",
+      "historical_reports_modified": false
+    },
+    {
+      "version": "1.0.2",
+      "status": "superseded_by_operator_review_channel_erratum_before_same_source_r3_recheck",
+      "frozen_at": "2026-10-10T10:30:05.0352792+08:00",
+      "report_schema": "document-relations-acceptance-eval-v1",
+      "script_path": "scripts/run_document_relations_eval.py",
+      "script_sha256": "3ed8831e0ceb6e070c1be6954d0159cc9811eb9aede20d9833298189e356f02c",
+      "public_tests_path": "tests/evals/test_document_relations_eval.py",
+      "public_tests_sha256": "4dd8484172dd755050c01924d5b80887481d35b6f0c10bf2be5f19b6bd75cb38",
+      "public_test_result": "64 passed",
+      "ruff": "passed",
+      "historical_reports_modified": false
+    }
+  ],
+  "bundles": [
+    {
+      "version": "v1",
+      "classification": "rejected-annotated-container",
+      "source_directory": ".qiaowenshu/acceptance/private-condition-relations-20261009",
+      "published_directory": "benchmarks/document_relations/reserved/v1",
+      "bundle_fingerprint": "a60343e423e1ba28c4cf7d43c8a5e771f978640234c8206ba54b9899b3ce518f",
+      "freeze_json_sha256": "294e0c028279a308cdf8571ef6f090501a31bfb0ab7d8f329199d926723a81e0",
+      "payload_files": 29,
+      "files_including_freeze": 30,
+      "copied_files_byte_verified": 30,
+      "scoring_status": "rejected_before_scoring"
+    },
+    {
+      "version": "v2",
+      "classification": "normative-clean-input",
+      "source_directory": ".qiaowenshu/acceptance/private-condition-relations-v2-20261009",
+      "published_directory": "benchmarks/document_relations/reserved/v2",
+      "bundle_fingerprint": "eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d6864",
+      "freeze_json_sha256": "14072deebb73f993759272f19ca687649903c201b49f0d5ff78ede926a8dfcb2",
+      "payload_files": 29,
+      "files_including_freeze": 30,
+      "copied_files_byte_verified": 30,
+      "source_semantics_changed_from_v1": false,
+      "scoring_status": "first_valid_score_preserved"
+    }
+  ],
+  "reports": [
+    {
+      "id": "initial-invalid-evaluator-score",
+      "classification": "invalid_evaluator_output_not_product_result",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-initial-20261009/first-score.json",
+      "published_path": "benchmarks/document_relations/reports/initial-invalid-evaluator/first-score.json",
+      "length": 101106,
+      "sha256": "be7ab34ceec03e0e2f39e0a8457e23b0d209653f625a897da673fbf0bd2c4b5a"
+    },
+    {
+      "id": "initial-invalid-evaluator-source-proof",
+      "classification": "source_proof_for_invalid_evaluator_output",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-initial-20261009/source-proof.json",
+      "published_path": "benchmarks/document_relations/reports/initial-invalid-evaluator/source-proof.json",
+      "archive_base_staged_tree": "803ccb0ef95d343bd9eba7a7cf866e99a2e95357",
+      "source_tree_sha256": "93ad62e4729baedb9f149a781afa8b712987e9424818a4a5c82052af25d2b417",
+      "length": 24066,
+      "sha256": "fbfa9fa4115fba0e3506cbe225e56469219d9f9c0d76ed9fd064034d50a8b453"
+    },
+    {
+      "id": "first-valid-score",
+      "classification": "first_valid_product_score",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-first-valid-20261010/first-valid-score.json",
+      "published_path": "benchmarks/document_relations/reports/first-valid/first-valid-score.json",
+      "length": 251751,
+      "sha256": "281c34dc9af8f36f5648731afa132d03e4fa5a5598e43cd052de1f623e294d76"
+    },
+    {
+      "id": "first-valid-source-proof",
+      "classification": "source_proof_for_first_valid_score",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-first-valid-20261010/source-proof.json",
+      "published_path": "benchmarks/document_relations/reports/first-valid/source-proof.json",
+      "archive_base_staged_tree": "3c5fd779cfdc7c988d4bf719168fc03ad8c2a435",
+      "source_tree_sha256": "93ad62e4729baedb9f149a781afa8b712987e9424818a4a5c82052af25d2b417",
+      "length": 24155,
+      "sha256": "5eb6419bab8b8f1435a55a076359614c1d83708bd8242cca39b0846a2231ba32"
+    },
+    {
+      "id": "pre-operator-adapter-r3-score",
+      "classification": "same_source_historical_score_before_operator_channel_adapter",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-final-r3-20261010/relations-score.json",
+      "published_path": "benchmarks/document_relations/reports/pre-operator-adapter-20261010/relations-score.json",
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "grader_version": "1.0.2",
+      "passed": 7,
+      "failed": 7,
+      "not_run": 0,
+      "length": 563530,
+      "sha256": "6fa93b74cf4c53344221f14a0da9322945de39c8cd9277650a9e931c6cfed56f"
+    },
+    {
+      "id": "pre-operator-adapter-r3-source-proof",
+      "classification": "source_proof_for_pre_operator_adapter_r3_score",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-final-r3-20261010/source-proof.json",
+      "published_path": "benchmarks/document_relations/reports/pre-operator-adapter-20261010/source-proof.json",
+      "archive_base_staged_tree": "76f06e2e98fe3cdfb4be5225848feaeddb1b116a",
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "source_file_count": 65,
+      "source_git_blob_matches": 65,
+      "evaluator_git_blob_matches": 9,
+      "length": 24068,
+      "sha256": "e44d68dc5ed4b890cc44703664fdf454dc0d723b352ce318975989d080394c8d"
+    },
+    {
+      "id": "final-r4-relations-score",
+      "classification": "main_reviewer_final_canonical_limited_scope",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-final-r4-20261010/relations-score.json",
+      "published_path": "benchmarks/document_relations/reports/final-20261010/relations-score.json",
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "grader_version": "1.0.3",
+      "passed": 8,
+      "failed": 6,
+      "not_run": 0,
+      "length": 563160,
+      "sha256": "6ef9a977ff5525b2a656485faaf716d9f0ed4b7ce44e94c34272f3b6322c9921"
+    },
+    {
+      "id": "final-r4-structure-score",
+      "classification": "main_reviewer_final_structure_score",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-final-r4-20261010/structure-score.json",
+      "published_path": "benchmarks/document_relations/reports/final-20261010/structure-score.json",
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "executed": 3,
+      "passed": 3,
+      "failed": 0,
+      "not_run": 0,
+      "length": 3423676,
+      "sha256": "f7f337511cf8caaed03765446631c9e513b1919d11f18bf76564b154d6c4f231"
+    },
+    {
+      "id": "final-r4-old-public-score",
+      "classification": "main_reviewer_existing_public_raw_integrity_evaluation",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-final-r4-20261010/old-public-score.json",
+      "published_path": "benchmarks/document_relations/reports/final-20261010/old-public-score.json",
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "executed": 8,
+      "failed": 8,
+      "not_run": 0,
+      "business_materials_not_run": 8,
+      "length": 1692372,
+      "sha256": "b986ab89803305b9d4d2038eeb7843f30c39580b228562f1f406719c2160efb8"
+    },
+    {
+      "id": "final-r4-raw-file-score",
+      "classification": "main_reviewer_raw_file_evaluation",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-final-r4-20261010/raw-file-score.json",
+      "published_path": "benchmarks/document_relations/reports/final-20261010/raw-file-score.json",
+      "text_requirement_coverage": {
+        "matched": 8,
+        "denominator": 10
+      },
+      "hard_false_release": {
+        "count": 0,
+        "denominator": 7
+      },
+      "length": 917100,
+      "sha256": "f3c06b4fb8d74bc5c46fd553ab93d7ccd3169a2cd76bfaed8f28b3e63aba694e"
+    },
+    {
+      "id": "final-r4-reliability-score",
+      "classification": "main_reviewer_fixed_reliability_mocks",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-final-r4-20261010/reliability-score.json",
+      "published_path": "benchmarks/document_relations/reports/final-20261010/reliability-score.json",
+      "writing": {
+        "positive_passed": 6,
+        "positive_denominator": 6,
+        "negative_correctly_blocked": 12,
+        "negative_denominator": 12,
+        "false_blocks": 0,
+        "false_releases": 0
+      },
+      "runtime": {
+        "positive_passed": 2,
+        "positive_denominator": 2,
+        "negative_correctly_blocked": 7,
+        "negative_denominator": 7,
+        "false_blocks": 0,
+        "false_releases": 0
+      },
+      "fixed_mock_cases": 27,
+      "length": 168740,
+      "sha256": "7eda6dd6d4cb238c9b04a8fab4241f351377be4b5be8ae9e03644a3ec51036dc"
+    },
+    {
+      "id": "final-r4-source-proof",
+      "classification": "source_proof_for_r4_final_canonical_scores",
+      "source_path": ".qiaowenshu/acceptance/relations-step2-final-r4-20261010/source-proof.json",
+      "published_path": "benchmarks/document_relations/reports/final-20261010/source-proof.json",
+      "archive_base_staged_tree": "35f5faafa934f5ffe7f014440c8a3c827ebfd499",
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "source_file_count": 65,
+      "source_git_blob_matches": 65,
+      "evaluator_git_blob_matches": 9,
+      "git_blob_mismatch_count": 0,
+      "length": 24068,
+      "sha256": "819b8ebe322da3c814a26fd4e370437d504df2c2c933be8ed2fe4a80a03a8831"
+    }
+  ],
+  "first_valid_result": {
+    "source_tree_sha256": "93ad62e4729baedb9f149a781afa8b712987e9424818a4a5c82052af25d2b417",
+    "source_proof_archive_base_staged_tree": "3c5fd779cfdc7c988d4bf719168fc03ad8c2a435",
+    "cases": 14,
+    "passed": 0,
+    "failed": 14,
+    "not_run": 0,
+    "all_cases_executed": true,
+    "actual_source_invalid": {
+      "numerator": 103,
+      "denominator": 194,
+      "reason": "Product references copied the whole-block locator while character bounds were clipped spans; all 103 invalid references had locator/offset disagreement."
+    },
+    "business_materials": {
+      "status": "not_run",
+      "denominator": 14,
+      "business_pass_rate": "not_calculated"
+    },
+    "interpretation": "First valid result after grader contract correction, obtained by re-executing the product pipeline on the same source tree SHA-256 93ad62e4729baedb9f149a781afa8b712987e9424818a4a5c82052af25d2b417. The initial invalid report did not retain actual_graph or source_context, so this was not an offline regrade of that output. This is not an A/B development regression. Any later replay after A's code changes is a separate public regression and must record the actual new src source-tree SHA. Source validation remains strict; these product locator mismatches are not normalized away."
+  },
+  "evaluator_errata": [
+    {
+      "id": "typed-parent-layer-adapter",
+      "classification": "grader_contract_compatibility_only",
+      "frozen_oracle_changed": false,
+      "first_valid_report_changed": false,
+      "first_valid_product_graph_replayed_during_erratum": false,
+      "case_04_05": "Confirmed visible-list membership is structural; it does not require or imply a confirmed logical scope or AND group.",
+      "case_09_13": "Attribute/context scopes are representable without inventing an AND operator.",
+      "required_structural_evidence": [
+        "explicit structural relation layer and nonempty basis",
+        "confirmed directed edges for every expected child",
+        "existing common target",
+        "target-owned raw source reference for an explicit list cue",
+        "raw-coordinate and expected-source coverage"
+      ],
+      "required_semantic_parent_evidence": [
+        "explicit semantic parent layer and nonempty basis",
+        "confirmed directed target to the expected parent",
+        "raw-coordinate and expected-source coverage"
+      ],
+      "public_fixtures": [
+        "confirmed structural list membership with unresolved scope",
+        "number-only physical parent does not prove semantic parent",
+        "missing structural target is rejected",
+        "structural layer marker without basis is rejected",
+        "typed semantic parent passes only with matching source"
+      ]
+    },
+    {
+      "id": "execution-classification-builder-failed",
+      "version": "1.0.1",
+      "classification": "grader_execution_classification_only",
+      "frozen_oracle_changed": false,
+      "historical_reports_changed": false,
+      "first_valid_report_changed": false,
+      "product_scoring_executed_by_evaluator_owner": false,
+      "rule": "A successful or partial decomposition step with relation_analysis marked not_run is failed when unprocessed_structures explicitly reports reason=builder_failed; explicit no_document_structures and genuine skipped or unconfigured steps remain not_run.",
+      "public_fixtures": [
+        "successful decomposition plus not_run and builder_failed is classified failed",
+        "successful decomposition plus not_run and no_document_structures remains not_run"
+      ]
+    },
+    {
+      "id": "candidate-source-literal-atom-adapter",
+      "version": "1.0.2",
+      "classification": "grader_contract_compatibility_only",
+      "frozen_oracle_changed": false,
+      "historical_reports_changed": false,
+      "first_valid_report_changed": false,
+      "product_scoring_executed_by_evaluator_owner": false,
+      "rule": "For expected certainty=candidate only, exact frozen source text may independently support atom mapping when actual.text contains the exact oracle source quote and a same-page/line actual source quote contains it with raw-coordinate validation passed. Actual status remains independently checked; one-to-one mapping and confirmed-atom merge/split checks are unchanged.",
+      "public_fixtures": [
+        "candidate text with an explanatory oracle qualifier maps from exact source literal",
+        "wrong actual quote, wrong line, invalid raw bounds, or unrelated text is rejected",
+        "literal fallback is unavailable to confirmed expectations",
+        "confirmed actual status does not satisfy an expected candidate",
+        "one actual node cannot represent two same-source candidate atoms"
+      ],
+      "future_development_replay": "A replay after A changes source code is a separate public regression and records the actual new src source-tree SHA."
+    },
+    {
+      "id": "operator-review-relation-channels",
+      "version": "1.0.3",
+      "classification": "grader_relation_layout_compatibility_only",
+      "frozen_oracle_changed": false,
+      "historical_reports_changed": false,
+      "product_scoring_executed_by_evaluator_owner": false,
+      "rule": "Operator review coverage collects explicit operator_relation objects from condition nodes, node scope relations, block scope relations, and block operator_relations. Each object must supply its own status and source_references. Wrapper scope status and standalone operator_status are not evidence; an explicit wrapper operator_status that conflicts with the nested relation status invalidates that record.",
+      "public_fixtures": [
+        "unresolved operator relation nested only under a block scope relation is covered by its own source references",
+        "unresolved scope does not promote a candidate operator relation",
+        "standalone operator_status without a relation and source references is not evidence",
+        "wrong operator source references are rejected",
+        "conflicting wrapper operator_status and nested relation status are rejected",
+        "condition-node and node-scope operator relation channels remain supported",
+        "explicit block operator_relations channel is supported"
+      ],
+      "product_recheck": "The evaluator maintainer did not run product scoring during this compatibility erratum. The main reviewer may re-run the unchanged saved product source export with this grader version."
+    }
+  ],
+  "final_canonical_publication": {
+    "published_at": "2026-10-10T11:53:41.4178454+08:00",
+    "publication_classification": "finite_scope_canonical_and_public_regression",
+    "r4": {
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "archive_base_staged_tree": "35f5faafa934f5ffe7f014440c8a3c827ebfd499",
+      "source_proof_path": "benchmarks/document_relations/reports/final-20261010/source-proof.json",
+      "source_proof_sha256": "819b8ebe322da3c814a26fd4e370437d504df2c2c933be8ed2fe4a80a03a8831",
+      "source_blobs": "65/65 matched",
+      "evaluator_test_blobs": "9/9 matched",
+      "runtime_verification": "Canonical exported src imports: 679 passed; 1 existing Starlette warning; Ruff passed.",
+      "relations": {
+        "grader_version": "1.0.3",
+        "cases": 14,
+        "passed": 8,
+        "failed": 6,
+        "not_run": 0,
+        "passed_case_ids": [
+          "case-01",
+          "case-02",
+          "case-04",
+          "case-05",
+          "case-06",
+          "case-08",
+          "case-10",
+          "case-14"
+        ],
+        "failed_case_topics": [
+          {
+            "case_id": "case-03",
+            "topic": "nested within-group OR and across-group AND"
+          },
+          {
+            "case_id": "case-07",
+            "topic": "cross-page explicit continuation and member coverage"
+          },
+          {
+            "case_id": "case-09",
+            "topic": "document-reference attribute scope"
+          },
+          {
+            "case_id": "case-11",
+            "topic": "Two material groups with an unresolved nested AND(OR, OR); 1.9/1.10 are material identifiers."
+          },
+          {
+            "case_id": "case-12",
+            "topic": "two explicitly bounded material identifiers, not a numeric interval"
+          },
+          {
+            "case_id": "case-13",
+            "topic": "contextual_scope_no_flat_operator remains unresolved for the financial statement and revenue attribute; 1.10 amount is negative-example context and no extra illegal atom was emitted."
+          }
+        ],
+        "metrics": {
+          "condition_omission": "6/37",
+          "wrong_merge_pairs": "0/34",
+          "wrong_split_atom_units": "0/37",
+          "scope_membership_errors": "21/50",
+          "operator_group_structure_errors": "6/14",
+          "source_invalid": "0/724",
+          "review_handling_errors": "0/19",
+          "forbidden_claims": "1/16; explicit cross-page member not fully recognized, not a business false-release rate"
+        },
+        "business_materials": {
+          "status": "not_run",
+          "denominator": 14
+        },
+        "interpretation": "The base relation states and limited explicit AND/OR scope in this batch may close within the stated finite boundary; this does not close the full Step 2, general completeness, or production acceptance. Confirmed scope is limited; K-of-N scope remains candidate, while its operator and semantic parent are unresolved."
+      },
+      "other_evaluations": {
+        "structure": "3/3 passed",
+        "existing_public_raw_integrity": "8 executed, 8 failed, 0 not_run; business materials not_run/8",
+        "raw_file": {
+          "text_requirement_coverage": "8/10",
+          "hard_false_release": "0/7"
+        },
+        "reliability_fixed_mocks": {
+          "total": 27,
+          "writing_positive": "6/6",
+          "writing_negative_correctly_blocked": "12/12",
+          "runtime_positive": "2/2",
+          "runtime_negative_correctly_blocked": "7/7",
+          "false_blocks": 0,
+          "false_releases": 0,
+          "extrapolation": "Do not infer production accuracy from these fixed mocks."
+        }
+      },
+      "execution_context": {
+        "pythonpath": "Main reviewer explicitly set PYTHONPATH to the canonical export/src for each evaluation.",
+        "raw_file_and_reliability_source_binding": "These reports do not contain a built-in source-tree hash; source binding is provided by the source proof and export execution context."
+      },
+      "reproduction": {
+        "bundle": "benchmarks/document_relations/reserved/v2",
+        "requires_source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+        "command": [
+          "$env:PYTHONPATH = (Resolve-Path '.\\src').Path",
+          "python scripts/run_document_relations_eval.py --bundle benchmarks/document_relations/reserved/v2 --output benchmarks/document_relations/reports/replay-NEW.json --main-reviewer-authorized"
+        ],
+        "output_policy": "Use a new output path; the runner refuses to overwrite an existing report."
+      },
+      "reviewer_report_paths": [
+        "benchmarks/document_relations/reports/final-20261010/relations-score.json",
+        "benchmarks/document_relations/reports/final-20261010/structure-score.json",
+        "benchmarks/document_relations/reports/final-20261010/old-public-score.json",
+        "benchmarks/document_relations/reports/final-20261010/raw-file-score.json",
+        "benchmarks/document_relations/reports/final-20261010/reliability-score.json",
+        "benchmarks/document_relations/reports/final-20261010/source-proof.json"
+      ]
+    },
+    "pre_operator_adapter_r3": {
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "grader_version": "1.0.2",
+      "passed": 7,
+      "failed": 7,
+      "not_run": 0,
+      "source_proof_sha256": "e44d68dc5ed4b890cc44703664fdf454dc0d723b352ce318975989d080394c8d",
+      "interpretation": "Compared with R4, 7-to-8 reflects the grader operator-channel contract correction, not product improvement; the product source tree is identical."
+    },
+    "independent_d_review": {
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "method": "No mocks",
+      "result": "Four boundary categories and candidate helper were rechecked with no erroneous confirmed result; do not extrapolate beyond this source tree."
+    }
+  }
+}

@@ -117,6 +117,11 @@ Benchmark V2 的语料和指标说明位于 `benchmarks/README.md`。报告分�
 召回、评分项召回、来源引用准确率、证据精确率/召回率、冲突召回、关键项误放行和
 OCR 人工复核精确率，不压缩成单一总分。
 
+文档关系状态的冻结合成回归、首次有效结果及非certified-blind边界见
+[`benchmarks/document_relations/README.md`](benchmarks/document_relations/README.md)；
+首次有效历史结果为`0/14`；主审R4最终canonical为`8/14 passed`、`6 failed`，
+本批基础关系状态与有限显式AND/OR可按限定范围关闭；业务材料`not_run/14`，不关闭Step 2整体或生产验收。
+
 ## 本地解析可靠性与原始文件评测
 
 当前本地默认解析范围是招标分析与证据核对。对原始全文的本地抽取只生成候选项，

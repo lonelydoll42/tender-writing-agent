@@ -1,0 +1,4382 @@
+{
+  "schema_version": 1,
+  "benchmark": "reliability_followup",
+  "generated_at": "2026-10-10T11:43:03+08:00",
+  "timezone": "Asia/Shanghai",
+  "input_policy": {
+    "oracle_loaded_after_runtime": true,
+    "oracle_registered_or_injected_as_input": false,
+    "fixtures_contain_expected_labels": false,
+    "mock_model_returns_only_fixture_output": true,
+    "real_model_called": false,
+    "real_ocr_called": false
+  },
+  "raw_file_baseline": {
+    "status": "not_retested_in_this_followup",
+    "constraint_text_coverage": {
+      "matched": 4,
+      "denominator": 10
+    },
+    "known_omissions": 6,
+    "production_extraction_complete": false,
+    "note": "保留前次独立原始文件评测的4/10结果；本轮不修复、重跑或改写剩余6项遗漏，也不将本组模拟服务反例称为生产准确率。"
+  },
+  "metrics": {
+    "writing": {
+      "case_count": 18,
+      "positive_denominator": 6,
+      "negative_denominator": 12,
+      "run_count": 18,
+      "not_run_count": 0,
+      "inconclusive_count": 0,
+      "correct_pass_count": 6,
+      "correct_pass_rate": {
+        "count": 6,
+        "denominator": 6,
+        "rate": 1.0
+      },
+      "false_block_count": 0,
+      "false_block_rate": {
+        "count": 0,
+        "denominator": 6,
+        "rate": 0.0
+      },
+      "correct_block_count": 12,
+      "false_release_count": 0,
+      "false_release_rate": {
+        "count": 0,
+        "denominator": 12,
+        "rate": 0.0
+      },
+      "model_call_count": 18,
+      "writer_invocation_count": 18,
+      "scope_rejection_reasons": [],
+      "scanner_coverage": [
+        {
+          "case_id": "W-NEG-ISO-NUMBER-COLLISION",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-BIDDER-SUBJECT-MISMATCH",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-BIDDER-SUBJECT-UNKNOWN",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-BIDDER-SUBJECT-CONFLICT",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-UNSUPPORTED-GOVERNMENT-CASES",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "case_quantity"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-CMMI-LEVEL-MISMATCH",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-CMMI-CERT-NUMBER-COLLISION",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-ISO-METADATA-BODY-CONFLICT",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-HOLDER-METADATA-BODY-CONFLICT",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-SAME-NAME-DIFFERENT-CREDIT-CODE",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-CROSS-SUBJECT-CASE-COUNT",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "case_quantity"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-NEG-CROSS-SUBJECT-CONTRACT-AMOUNT",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "amount"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "needs_review",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 1
+        },
+        {
+          "case_id": "W-POS-SAME-SUBJECT-ISO27001",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "verified",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 0
+        },
+        {
+          "case_id": "W-POS-SAME-SUBJECT-CMMI3",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "verified",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 0
+        },
+        {
+          "case_id": "W-POS-EVIDENCED-CHINESE-CASE-COUNT",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "case_quantity"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "verified",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 0
+        },
+        {
+          "case_id": "W-POS-SAME-SUBJECT-CONTRACT-AMOUNT",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "amount"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "verified",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 0
+        },
+        {
+          "case_id": "W-POS-TENDER-REQUIREMENT-PARAPHRASE",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 1,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [
+              "certification"
+            ],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "verified",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 1,
+          "unsupported_claim_count": 0
+        },
+        {
+          "case_id": "W-POS-BENIGN-SECTION",
+          "status": "complete",
+          "coverage": {
+            "status": "complete",
+            "scanned_sentence_count": 1,
+            "recognized_claim_count": 0,
+            "unclassified_high_risk_claim_count": 0,
+            "unclassified_high_risk_snippets": [],
+            "recognized_patterns": [],
+            "scanner": "selected_high_risk_patterns_v2"
+          },
+          "claim_verification_status": "no_claims_detected",
+          "claim_verification_reported": true,
+          "scanned_claim_count": 0,
+          "unsupported_claim_count": 0
+        }
+      ],
+      "cases": [
+        {
+          "case_id": "W-NEG-ISO-NUMBER-COLLISION",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得ISO/IEC 27001认证。",
+              "markers": {
+                "standard": "iso/iec:27001",
+                "asserted_standard": {
+                  "type": "ISO/IEC",
+                  "id": "ISO/IEC 27001",
+                  "canonical_id": "iso/iec:27001",
+                  "edition": null
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "ISO/IEC",
+                "id": "ISO/IEC 27001",
+                "canonical_id": "iso/iec:27001",
+                "edition": null
+              },
+              "standard_check": {
+                "status": "mismatch",
+                "expected": "ISO/IEC 27001",
+                "structured": [
+                  "ISO 9001"
+                ],
+                "body": [
+                  "ISO 9001"
+                ],
+                "observed": [
+                  "ISO 9001"
+                ],
+                "reason": "来源认证标准与正文声明的完整标准标识不一致。"
+              },
+              "subject_check": {
+                "status": "matched",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "body_holders": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": "exact_legal_name",
+                "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-ISO9001",
+                  "source_type": "material",
+                  "title": "ISO9001质量管理体系证书",
+                  "reason": "来源认证标准与正文声明的完整标准标识不一致。",
+                  "standard_check": {
+                    "status": "mismatch",
+                    "expected": "ISO/IEC 27001",
+                    "structured": [
+                      "ISO 9001"
+                    ],
+                    "body": [
+                      "ISO 9001"
+                    ],
+                    "observed": [
+                      "ISO 9001"
+                    ],
+                    "reason": "来源认证标准与正文声明的完整标准标识不一致。"
+                  },
+                  "subject_check": {
+                    "status": "matched",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "body_holders": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": "exact_legal_name",
+                    "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+                  }
+                }
+              ],
+              "reason": "存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司已取得ISO/IEC 27001认证。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-ISO9001' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-ISO9001"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {},
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-BIDDER-SUBJECT-MISMATCH",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得ISO/IEC 27001认证。",
+              "markers": {
+                "standard": "iso/iec:27001",
+                "asserted_standard": {
+                  "type": "ISO/IEC",
+                  "id": "ISO/IEC 27001",
+                  "canonical_id": "iso/iec:27001",
+                  "edition": null
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "ISO/IEC",
+                "id": "ISO/IEC 27001",
+                "canonical_id": "iso/iec:27001",
+                "edition": null
+              },
+              "standard_check": {
+                "status": "matched",
+                "expected": "ISO/IEC 27001",
+                "structured": [
+                  "ISO/IEC 27001"
+                ],
+                "body": [
+                  "ISO/IEC 27001"
+                ],
+                "observed": [
+                  "ISO/IEC 27001"
+                ],
+                "reason": "完整标准类型与标识一致。"
+              },
+              "subject_check": {
+                "status": "conflict",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "holder": {
+                  "names": [
+                    "乙公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_holder": {
+                  "names": [
+                    "乙公司"
+                  ],
+                  "registration_ids": []
+                },
+                "body_holders": [
+                  {
+                    "names": [
+                      "乙公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": null,
+                "reason": "投标主体与证据持证主体名称或注册标识不一致。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-ISO27001-BETA",
+                  "source_type": "material",
+                  "title": "ISO/IEC 27001证书",
+                  "reason": "投标主体与证据持证主体名称或注册标识不一致。",
+                  "standard_check": {
+                    "status": "matched",
+                    "expected": "ISO/IEC 27001",
+                    "structured": [
+                      "ISO/IEC 27001"
+                    ],
+                    "body": [
+                      "ISO/IEC 27001"
+                    ],
+                    "observed": [
+                      "ISO/IEC 27001"
+                    ],
+                    "reason": "完整标准类型与标识一致。"
+                  },
+                  "subject_check": {
+                    "status": "conflict",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "holder": {
+                      "names": [
+                        "乙公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "乙公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "body_holders": [
+                      {
+                        "names": [
+                          "乙公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": null,
+                    "reason": "投标主体与证据持证主体名称或注册标识不一致。"
+                  }
+                }
+              ],
+              "reason": "存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司已取得ISO/IEC 27001认证。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-ISO27001-BETA' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-ISO27001-BETA"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {},
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-BIDDER-SUBJECT-UNKNOWN",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得ISO/IEC 27001认证。",
+              "markers": {
+                "standard": "iso/iec:27001",
+                "asserted_standard": {
+                  "type": "ISO/IEC",
+                  "id": "ISO/IEC 27001",
+                  "canonical_id": "iso/iec:27001",
+                  "edition": null
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "ISO/IEC",
+                "id": "ISO/IEC 27001",
+                "canonical_id": "iso/iec:27001",
+                "edition": null
+              },
+              "standard_check": {
+                "status": "matched",
+                "expected": "ISO/IEC 27001",
+                "structured": [
+                  "ISO/IEC 27001"
+                ],
+                "body": [
+                  "ISO/IEC 27001"
+                ],
+                "observed": [
+                  "ISO/IEC 27001"
+                ],
+                "reason": "完整标准类型与标识一致。"
+              },
+              "subject_check": {
+                "status": "missing",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "holder": {
+                  "names": [],
+                  "registration_ids": []
+                },
+                "metadata_holder": {
+                  "names": [],
+                  "registration_ids": []
+                },
+                "body_holders": [],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": null,
+                "reason": "证据未提供可核对的企业持证主体。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-ISO27001-UNKNOWN-OWNER",
+                  "source_type": "material",
+                  "title": "ISO/IEC 27001证书复印件",
+                  "reason": "证据未提供可核对的企业持证主体。",
+                  "standard_check": {
+                    "status": "matched",
+                    "expected": "ISO/IEC 27001",
+                    "structured": [
+                      "ISO/IEC 27001"
+                    ],
+                    "body": [
+                      "ISO/IEC 27001"
+                    ],
+                    "observed": [
+                      "ISO/IEC 27001"
+                    ],
+                    "reason": "完整标准类型与标识一致。"
+                  },
+                  "subject_check": {
+                    "status": "missing",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "holder": {
+                      "names": [],
+                      "registration_ids": []
+                    },
+                    "metadata_holder": {
+                      "names": [],
+                      "registration_ids": []
+                    },
+                    "body_holders": [],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": null,
+                    "reason": "证据未提供可核对的企业持证主体。"
+                  }
+                }
+              ],
+              "reason": "存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司已取得ISO/IEC 27001认证。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-ISO27001-UNKNOWN-OWNER' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-ISO27001-UNKNOWN-OWNER"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {},
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-BIDDER-SUBJECT-CONFLICT",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得ISO/IEC 27001认证。",
+              "markers": {
+                "standard": "iso/iec:27001",
+                "asserted_standard": {
+                  "type": "ISO/IEC",
+                  "id": "ISO/IEC 27001",
+                  "canonical_id": "iso/iec:27001",
+                  "edition": null
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "ISO/IEC",
+                "id": "ISO/IEC 27001",
+                "canonical_id": "iso/iec:27001",
+                "edition": null
+              },
+              "standard_check": {
+                "status": "matched",
+                "expected": "ISO/IEC 27001",
+                "structured": [
+                  "ISO/IEC 27001"
+                ],
+                "body": [
+                  "ISO/IEC 27001"
+                ],
+                "observed": [
+                  "ISO/IEC 27001"
+                ],
+                "reason": "完整标准类型与标识一致。"
+              },
+              "subject_check": {
+                "status": "conflict",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "holder": {
+                  "names": [
+                    "丙公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_holder": {
+                  "names": [
+                    "丙公司"
+                  ],
+                  "registration_ids": []
+                },
+                "body_holders": [],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": null,
+                "reason": "投标主体与证据持证主体名称或注册标识不一致。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-ISO27001-CONFLICT",
+                  "source_type": "material",
+                  "title": "甲公司ISO/IEC 27001证书",
+                  "reason": "投标主体与证据持证主体名称或注册标识不一致。",
+                  "standard_check": {
+                    "status": "matched",
+                    "expected": "ISO/IEC 27001",
+                    "structured": [
+                      "ISO/IEC 27001"
+                    ],
+                    "body": [
+                      "ISO/IEC 27001"
+                    ],
+                    "observed": [
+                      "ISO/IEC 27001"
+                    ],
+                    "reason": "完整标准类型与标识一致。"
+                  },
+                  "subject_check": {
+                    "status": "conflict",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "holder": {
+                      "names": [
+                        "丙公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "丙公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "body_holders": [],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": null,
+                    "reason": "投标主体与证据持证主体名称或注册标识不一致。"
+                  }
+                }
+              ],
+              "reason": "存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司已取得ISO/IEC 27001认证。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-ISO27001-CONFLICT' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-ISO27001-CONFLICT"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {},
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-UNSUPPORTED-GOVERNMENT-CASES",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "case_quantity"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "case_quantity"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "case_quantity",
+              "claim_text": "我司累计承接三十项大型政务项目。",
+              "markers": {
+                "count": "30",
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [],
+              "reason": "未找到能够支持该正文高风险事实的企业材料或已确认事实。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：未找到能够支持该正文高风险事实的企业材料或已确认事实。",
+              "claim_id": "experience:claim-001"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {
+            "must_scan_claim": true
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-CMMI-LEVEL-MISMATCH",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得CMMI 5级认证。",
+              "markers": {
+                "standard": "cmmi:5",
+                "asserted_standard": {
+                  "type": "CMMI",
+                  "id": "CMMI Level 5",
+                  "canonical_id": "cmmi:5",
+                  "level": "5"
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "CMMI",
+                "id": "CMMI Level 5",
+                "canonical_id": "cmmi:5",
+                "level": "5"
+              },
+              "standard_check": {
+                "status": "mismatch",
+                "expected": "CMMI Level 5",
+                "structured": [
+                  "CMMI Level 3"
+                ],
+                "body": [
+                  "CMMI Level 3"
+                ],
+                "observed": [
+                  "CMMI Level 3"
+                ],
+                "reason": "来源认证标准与正文声明的完整标准标识不一致。"
+              },
+              "subject_check": {
+                "status": "matched",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "body_holders": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": "exact_legal_name",
+                "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-CMMI3",
+                  "source_type": "material",
+                  "title": "甲公司CMMI 3级证书",
+                  "reason": "来源认证标准与正文声明的完整标准标识不一致。",
+                  "standard_check": {
+                    "status": "mismatch",
+                    "expected": "CMMI Level 5",
+                    "structured": [
+                      "CMMI Level 3"
+                    ],
+                    "body": [
+                      "CMMI Level 3"
+                    ],
+                    "observed": [
+                      "CMMI Level 3"
+                    ],
+                    "reason": "来源认证标准与正文声明的完整标准标识不一致。"
+                  },
+                  "subject_check": {
+                    "status": "matched",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "body_holders": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": "exact_legal_name",
+                    "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+                  }
+                }
+              ],
+              "reason": "存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司已取得CMMI 5级认证。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-CMMI3' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-CMMI3"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {},
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-CMMI-CERT-NUMBER-COLLISION",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得CMMI 3级认证。",
+              "markers": {
+                "standard": "cmmi:3",
+                "asserted_standard": {
+                  "type": "CMMI",
+                  "id": "CMMI Level 3",
+                  "canonical_id": "cmmi:3",
+                  "level": "3"
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "CMMI",
+                "id": "CMMI Level 3",
+                "canonical_id": "cmmi:3",
+                "level": "3"
+              },
+              "standard_check": {
+                "status": "mismatch",
+                "expected": "CMMI Level 3",
+                "structured": [
+                  "CMMI Level 5"
+                ],
+                "body": [
+                  "CMMI Level 5"
+                ],
+                "observed": [
+                  "CMMI Level 5"
+                ],
+                "reason": "来源认证标准与正文声明的完整标准标识不一致。"
+              },
+              "subject_check": {
+                "status": "matched",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "body_holders": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": "exact_legal_name",
+                "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-CMMI5-COLLISION",
+                  "source_type": "material",
+                  "title": "甲公司CMMI 5级证书",
+                  "reason": "来源认证标准与正文声明的完整标准标识不一致。",
+                  "standard_check": {
+                    "status": "mismatch",
+                    "expected": "CMMI Level 3",
+                    "structured": [
+                      "CMMI Level 5"
+                    ],
+                    "body": [
+                      "CMMI Level 5"
+                    ],
+                    "observed": [
+                      "CMMI Level 5"
+                    ],
+                    "reason": "来源认证标准与正文声明的完整标准标识不一致。"
+                  },
+                  "subject_check": {
+                    "status": "matched",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "body_holders": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": "exact_legal_name",
+                    "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+                  }
+                }
+              ],
+              "reason": "存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司已取得CMMI 3级认证。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-CMMI5-COLLISION' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-CMMI5-COLLISION"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {},
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-ISO-METADATA-BODY-CONFLICT",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得ISO/IEC 27001认证。",
+              "markers": {
+                "standard": "iso/iec:27001",
+                "asserted_standard": {
+                  "type": "ISO/IEC",
+                  "id": "ISO/IEC 27001",
+                  "canonical_id": "iso/iec:27001",
+                  "edition": null
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "ISO/IEC",
+                "id": "ISO/IEC 27001",
+                "canonical_id": "iso/iec:27001",
+                "edition": null
+              },
+              "standard_check": {
+                "status": "conflict",
+                "expected": "ISO/IEC 27001",
+                "structured": [
+                  "ISO/IEC 27001"
+                ],
+                "body": [
+                  "ISO 9001"
+                ],
+                "observed": [
+                  "ISO/IEC 27001"
+                ],
+                "reason": "metadata.certificate_type 与证书正文/标题标准相互矛盾。"
+              },
+              "subject_check": {
+                "status": "matched",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "body_holders": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": "exact_legal_name",
+                "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-ISO-METADATA-27001",
+                  "source_type": "material",
+                  "title": "甲公司认证证书",
+                  "reason": "metadata.certificate_type 与证书正文/标题标准相互矛盾。",
+                  "standard_check": {
+                    "status": "conflict",
+                    "expected": "ISO/IEC 27001",
+                    "structured": [
+                      "ISO/IEC 27001"
+                    ],
+                    "body": [
+                      "ISO 9001"
+                    ],
+                    "observed": [
+                      "ISO/IEC 27001"
+                    ],
+                    "reason": "metadata.certificate_type 与证书正文/标题标准相互矛盾。"
+                  },
+                  "subject_check": {
+                    "status": "matched",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "body_holders": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": "exact_legal_name",
+                    "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+                  }
+                }
+              ],
+              "reason": "存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司已取得ISO/IEC 27001认证。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-ISO-METADATA-27001' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-ISO-METADATA-27001"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {},
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-HOLDER-METADATA-BODY-CONFLICT",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得ISO/IEC 27001认证。",
+              "markers": {
+                "standard": "iso/iec:27001",
+                "asserted_standard": {
+                  "type": "ISO/IEC",
+                  "id": "ISO/IEC 27001",
+                  "canonical_id": "iso/iec:27001",
+                  "edition": null
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "ISO/IEC",
+                "id": "ISO/IEC 27001",
+                "canonical_id": "iso/iec:27001",
+                "edition": null
+              },
+              "standard_check": {
+                "status": "matched",
+                "expected": "ISO/IEC 27001",
+                "structured": [
+                  "ISO/IEC 27001"
+                ],
+                "body": [
+                  "ISO/IEC 27001"
+                ],
+                "observed": [
+                  "ISO/IEC 27001"
+                ],
+                "reason": "完整标准类型与标识一致。"
+              },
+              "subject_check": {
+                "status": "conflict",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "holder": {
+                  "names": [
+                    "乙公司",
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "body_holders": [
+                  {
+                    "names": [
+                      "乙公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": null,
+                "reason": "投标主体或证据中的持证主体字段相互矛盾。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-HOLDER-CONFLICT",
+                  "source_type": "material",
+                  "title": "ISO/IEC 27001证书",
+                  "reason": "投标主体或证据中的持证主体字段相互矛盾。",
+                  "standard_check": {
+                    "status": "matched",
+                    "expected": "ISO/IEC 27001",
+                    "structured": [
+                      "ISO/IEC 27001"
+                    ],
+                    "body": [
+                      "ISO/IEC 27001"
+                    ],
+                    "observed": [
+                      "ISO/IEC 27001"
+                    ],
+                    "reason": "完整标准类型与标识一致。"
+                  },
+                  "subject_check": {
+                    "status": "conflict",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "holder": {
+                      "names": [
+                        "乙公司",
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "body_holders": [
+                      {
+                        "names": [
+                          "乙公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": null,
+                    "reason": "投标主体或证据中的持证主体字段相互矛盾。"
+                  }
+                }
+              ],
+              "reason": "存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司已取得ISO/IEC 27001认证。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-HOLDER-CONFLICT' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-HOLDER-CONFLICT"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {},
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-SAME-NAME-DIFFERENT-CREDIT-CODE",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得ISO/IEC 27001认证。",
+              "markers": {
+                "standard": "iso/iec:27001",
+                "asserted_standard": {
+                  "type": "ISO/IEC",
+                  "id": "ISO/IEC 27001",
+                  "canonical_id": "iso/iec:27001",
+                  "edition": null
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "ISO/IEC",
+                "id": "ISO/IEC 27001",
+                "canonical_id": "iso/iec:27001",
+                "edition": null
+              },
+              "standard_check": {
+                "status": "matched",
+                "expected": "ISO/IEC 27001",
+                "structured": [
+                  "ISO/IEC 27001"
+                ],
+                "body": [
+                  "ISO/IEC 27001"
+                ],
+                "observed": [
+                  "ISO/IEC 27001"
+                ],
+                "reason": "完整标准类型与标识一致。"
+              },
+              "subject_check": {
+                "status": "conflict",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": [
+                    "91310000MA1A111111"
+                  ]
+                },
+                "holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": [
+                    "91320000MA1A222222"
+                  ]
+                },
+                "metadata_holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": [
+                    "91320000MA1A222222"
+                  ]
+                },
+                "body_holders": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": [
+                      "91320000MA1A222222"
+                    ]
+                  }
+                ],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": null,
+                "reason": "投标主体与证据持证主体名称或注册标识不一致。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-SAME-NAME-WRONG-CODE",
+                  "source_type": "material",
+                  "title": "甲公司ISO/IEC 27001证书",
+                  "reason": "投标主体与证据持证主体名称或注册标识不一致。",
+                  "standard_check": {
+                    "status": "matched",
+                    "expected": "ISO/IEC 27001",
+                    "structured": [
+                      "ISO/IEC 27001"
+                    ],
+                    "body": [
+                      "ISO/IEC 27001"
+                    ],
+                    "observed": [
+                      "ISO/IEC 27001"
+                    ],
+                    "reason": "完整标准类型与标识一致。"
+                  },
+                  "subject_check": {
+                    "status": "conflict",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": [
+                        "91310000MA1A111111"
+                      ]
+                    },
+                    "holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": [
+                        "91320000MA1A222222"
+                      ]
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": [
+                        "91320000MA1A222222"
+                      ]
+                    },
+                    "body_holders": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": [
+                          "91320000MA1A222222"
+                        ]
+                      }
+                    ],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": null,
+                    "reason": "投标主体与证据持证主体名称或注册标识不一致。"
+                  }
+                }
+              ],
+              "reason": "存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司已取得ISO/IEC 27001认证。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：存在内容相关来源，但其状态、有效期、置信度或匹配状态不允许作为验证依据。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-SAME-NAME-WRONG-CODE' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-SAME-NAME-WRONG-CODE"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {},
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-CROSS-SUBJECT-CASE-COUNT",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "case_quantity"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "case_quantity"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "case_quantity",
+              "claim_text": "我司累计承接三十项大型政务项目。",
+              "markers": {
+                "count": "30",
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "subject_check": {
+                "status": "conflict",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_owner": {
+                  "names": [],
+                  "registration_ids": []
+                },
+                "title_owners": [
+                  {
+                    "names": [
+                      "乙公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "body_owners": [
+                  {
+                    "names": [
+                      "乙公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "evidence_owner": {
+                  "names": [
+                    "乙公司"
+                  ],
+                  "registration_ids": []
+                },
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": null,
+                "reason": "数值证据归属主体与投标主体不一致。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-GOV-CASES-BETA",
+                  "source_type": "material",
+                  "title": "乙公司业绩",
+                  "reason": "数值证据归属主体与投标主体不一致。",
+                  "subject_check": {
+                    "status": "conflict",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_owner": {
+                      "names": [],
+                      "registration_ids": []
+                    },
+                    "title_owners": [
+                      {
+                        "names": [
+                          "乙公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "body_owners": [
+                      {
+                        "names": [
+                          "乙公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "evidence_owner": {
+                      "names": [
+                        "乙公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": null,
+                    "reason": "数值证据归属主体与投标主体不一致。"
+                  }
+                }
+              ],
+              "reason": "数值证据归属主体与投标主体不一致。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司累计承接三十项大型政务项目。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：数值证据归属主体与投标主体不一致。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-GOV-CASES-BETA' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-GOV-CASES-BETA"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {
+            "must_scan_claim": true
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-NEG-CROSS-SUBJECT-CONTRACT-AMOUNT",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "partial",
+          "business_status": "needs_review",
+          "needs_human_review": true,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 1,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "amount"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "needs_review",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 1
+          },
+          "claim_verification": {
+            "status": "needs_review",
+            "detected_claim_count": 1,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 1,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "amount"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "amount",
+              "claim_text": "我司历史项目合同金额135万元。",
+              "markers": {
+                "amount_yuan": "1350000",
+                "role": "contract_amount",
+                "role_ambiguous": false
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "subject_check": {
+                "status": "conflict",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_owner": {
+                  "names": [],
+                  "registration_ids": []
+                },
+                "title_owners": [
+                  {
+                    "names": [
+                      "乙公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "body_owners": [
+                  {
+                    "names": [
+                      "乙公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "evidence_owner": {
+                  "names": [
+                    "乙公司"
+                  ],
+                  "registration_ids": []
+                },
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": null,
+                "reason": "数值证据归属主体与投标主体不一致。"
+              },
+              "status": "unsupported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": false,
+              "evidence": [],
+              "rejected_evidence": [
+                {
+                  "source_id": "MAT-CONTRACT-BETA",
+                  "source_type": "material",
+                  "title": "乙公司台账",
+                  "reason": "数值证据归属主体与投标主体不一致。",
+                  "subject_check": {
+                    "status": "conflict",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_owner": {
+                      "names": [],
+                      "registration_ids": []
+                    },
+                    "title_owners": [
+                      {
+                        "names": [
+                          "乙公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "body_owners": [
+                      {
+                        "names": [
+                          "乙公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "evidence_owner": {
+                      "names": [
+                        "乙公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": null,
+                    "reason": "数值证据归属主体与投标主体不一致。"
+                  }
+                }
+              ],
+              "reason": "数值证据归属主体与投标主体不一致。"
+            }
+          ],
+          "verification_findings": [
+            {
+              "section_id": "experience",
+              "code": "claim_source_not_usable",
+              "severity": "warning",
+              "message": "正文声明“我司历史项目合同金额135万元。”仅匹配到不可作为验证依据的来源。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "unsupported_high_risk_claim",
+              "severity": "warning",
+              "message": "正文高风险事实需要人工核实：数值证据归属主体与投标主体不一致。",
+              "claim_id": "experience:claim-001"
+            },
+            {
+              "section_id": "experience",
+              "code": "evidence_reference_not_mapped",
+              "severity": "warning",
+              "message": "材料 'MAT-CONTRACT-BETA' 虽存在于章节上下文，但未被独立核验为正文高风险声明的支持来源。",
+              "reference_id": "MAT-CONTRACT-BETA"
+            }
+          ],
+          "error": null,
+          "label": "negative",
+          "expected": "must_block",
+          "oracle_assertions": {
+            "must_scan_claim": true
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "W-POS-SAME-SUBJECT-ISO27001",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "success",
+          "business_status": "passed",
+          "needs_human_review": false,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 0,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "verified",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 0
+          },
+          "claim_verification": {
+            "status": "verified",
+            "detected_claim_count": 1,
+            "supported_claim_count": 1,
+            "unsupported_claim_count": 0,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得有效ISO/IEC 27001:2022认证。",
+              "markers": {
+                "standard": "iso/iec:27001",
+                "asserted_standard": {
+                  "type": "ISO/IEC",
+                  "id": "ISO/IEC 27001:2022",
+                  "canonical_id": "iso/iec:27001",
+                  "edition": "2022"
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "ISO/IEC",
+                "id": "ISO/IEC 27001:2022",
+                "canonical_id": "iso/iec:27001",
+                "edition": "2022"
+              },
+              "standard_check": {
+                "status": "matched",
+                "expected": "ISO/IEC 27001:2022",
+                "structured": [
+                  "ISO/IEC 27001:2022"
+                ],
+                "body": [
+                  "ISO/IEC 27001:2022"
+                ],
+                "observed": [
+                  "ISO/IEC 27001:2022"
+                ],
+                "reason": "完整标准类型与标识一致。"
+              },
+              "subject_check": {
+                "status": "matched",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": [
+                    "91310000MA1A111111"
+                  ]
+                },
+                "holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": [
+                    "91310000MA1A111111"
+                  ]
+                },
+                "metadata_holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": [
+                    "91310000MA1A111111"
+                  ]
+                },
+                "body_holders": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": [
+                      "91310000MA1A111111"
+                    ]
+                  }
+                ],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": "registration_id",
+                "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+              },
+              "status": "supported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": true,
+              "evidence": [
+                {
+                  "source_id": "MAT-ISO27001-ALPHA",
+                  "source_type": "material",
+                  "title": "甲公司ISO/IEC 27001信息安全管理体系认证证书",
+                  "standard_check": {
+                    "status": "matched",
+                    "expected": "ISO/IEC 27001:2022",
+                    "structured": [
+                      "ISO/IEC 27001:2022"
+                    ],
+                    "body": [
+                      "ISO/IEC 27001:2022"
+                    ],
+                    "observed": [
+                      "ISO/IEC 27001:2022"
+                    ],
+                    "reason": "完整标准类型与标识一致。"
+                  },
+                  "subject_check": {
+                    "status": "matched",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": [
+                        "91310000MA1A111111"
+                      ]
+                    },
+                    "holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": [
+                        "91310000MA1A111111"
+                      ]
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": [
+                        "91310000MA1A111111"
+                      ]
+                    },
+                    "body_holders": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": [
+                          "91310000MA1A111111"
+                        ]
+                      }
+                    ],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": "registration_id",
+                    "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+                  }
+                }
+              ],
+              "rejected_evidence": [],
+              "reason": "声明中的可识别关键值与有效企业材料或已提供事实相符。"
+            }
+          ],
+          "verification_findings": [],
+          "error": null,
+          "label": "positive",
+          "expected": "must_pass",
+          "oracle_assertions": {},
+          "evaluation": "correct_pass"
+        },
+        {
+          "case_id": "W-POS-SAME-SUBJECT-CMMI3",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "success",
+          "business_status": "passed",
+          "needs_human_review": false,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 0,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "verified",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 0
+          },
+          "claim_verification": {
+            "status": "verified",
+            "detected_claim_count": 1,
+            "supported_claim_count": 1,
+            "unsupported_claim_count": 0,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "我司已取得有效CMMI 3级认证。",
+              "markers": {
+                "standard": "cmmi:3",
+                "asserted_standard": {
+                  "type": "CMMI",
+                  "id": "CMMI Level 3",
+                  "canonical_id": "cmmi:3",
+                  "level": "3"
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "asserted_standard": {
+                "type": "CMMI",
+                "id": "CMMI Level 3",
+                "canonical_id": "cmmi:3",
+                "level": "3"
+              },
+              "standard_check": {
+                "status": "matched",
+                "expected": "CMMI Level 3",
+                "structured": [
+                  "CMMI Level 3"
+                ],
+                "body": [
+                  "CMMI Level 3"
+                ],
+                "observed": [
+                  "CMMI Level 3"
+                ],
+                "reason": "完整标准类型与标识一致。"
+              },
+              "subject_check": {
+                "status": "matched",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_holder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "body_holders": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": "exact_legal_name",
+                "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+              },
+              "status": "supported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": true,
+              "evidence": [
+                {
+                  "source_id": "MAT-CMMI3-VALID",
+                  "source_type": "material",
+                  "title": "甲公司CMMI 3级证书",
+                  "standard_check": {
+                    "status": "matched",
+                    "expected": "CMMI Level 3",
+                    "structured": [
+                      "CMMI Level 3"
+                    ],
+                    "body": [
+                      "CMMI Level 3"
+                    ],
+                    "observed": [
+                      "CMMI Level 3"
+                    ],
+                    "reason": "完整标准类型与标识一致。"
+                  },
+                  "subject_check": {
+                    "status": "matched",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_holder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "body_holders": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": "exact_legal_name",
+                    "reason": "投标主体与持证主体通过精确名称或注册标识匹配。"
+                  }
+                }
+              ],
+              "rejected_evidence": [],
+              "reason": "声明中的可识别关键值与有效企业材料或已提供事实相符。"
+            }
+          ],
+          "verification_findings": [],
+          "error": null,
+          "label": "positive",
+          "expected": "must_pass",
+          "oracle_assertions": {},
+          "evaluation": "correct_pass"
+        },
+        {
+          "case_id": "W-POS-EVIDENCED-CHINESE-CASE-COUNT",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "success",
+          "business_status": "passed",
+          "needs_human_review": false,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 0,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "case_quantity"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "verified",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 0
+          },
+          "claim_verification": {
+            "status": "verified",
+            "detected_claim_count": 1,
+            "supported_claim_count": 1,
+            "unsupported_claim_count": 0,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "case_quantity"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "case_quantity",
+              "claim_text": "我司累计承接三十项大型政务项目。",
+              "markers": {
+                "count": "30",
+                "polarity": "positive"
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "subject_check": {
+                "status": "matched",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_owner": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "title_owners": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "body_owners": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "evidence_owner": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": "exact_legal_name",
+                "reason": "数值证据归属主体与投标主体通过精确名称或注册标识匹配。"
+              },
+              "status": "supported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": true,
+              "evidence": [
+                {
+                  "source_id": "MAT-GOV-CASES",
+                  "source_type": "material",
+                  "title": "甲公司政务项目业绩汇总",
+                  "subject_check": {
+                    "status": "matched",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_owner": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "title_owners": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "body_owners": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "evidence_owner": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": "exact_legal_name",
+                    "reason": "数值证据归属主体与投标主体通过精确名称或注册标识匹配。"
+                  }
+                }
+              ],
+              "rejected_evidence": [],
+              "reason": "声明中的可识别关键值与有效企业材料或已提供事实相符。"
+            }
+          ],
+          "verification_findings": [],
+          "error": null,
+          "label": "positive",
+          "expected": "must_pass",
+          "oracle_assertions": {
+            "must_scan_claim": true
+          },
+          "evaluation": "correct_pass"
+        },
+        {
+          "case_id": "W-POS-SAME-SUBJECT-CONTRACT-AMOUNT",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "success",
+          "business_status": "passed",
+          "needs_human_review": false,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 0,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "amount"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "verified",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 0
+          },
+          "claim_verification": {
+            "status": "verified",
+            "detected_claim_count": 1,
+            "supported_claim_count": 1,
+            "unsupported_claim_count": 0,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "amount"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "amount",
+              "claim_text": "我司历史项目合同金额135万元。",
+              "markers": {
+                "amount_yuan": "1350000",
+                "role": "contract_amount",
+                "role_ambiguous": false
+              },
+              "tender_request_statement": false,
+              "company_assertion": true,
+              "subject_check": {
+                "status": "matched",
+                "bidder": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "metadata_owner": {
+                  "names": [],
+                  "registration_ids": []
+                },
+                "title_owners": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "body_owners": [
+                  {
+                    "names": [
+                      "甲公司"
+                    ],
+                    "registration_ids": []
+                  }
+                ],
+                "evidence_owner": {
+                  "names": [
+                    "甲公司"
+                  ],
+                  "registration_ids": []
+                },
+                "unassigned_registration_ids": {
+                  "metadata": [],
+                  "body": []
+                },
+                "excluded_other_party_registration_ids": [],
+                "matching_basis": "exact_legal_name",
+                "reason": "数值证据归属主体与投标主体通过精确名称或注册标识匹配。"
+              },
+              "status": "supported",
+              "scope": "enterprise_fact",
+              "supports_enterprise_fact": true,
+              "evidence": [
+                {
+                  "source_id": "MAT-CONTRACT-ALPHA",
+                  "source_type": "material",
+                  "title": "甲公司台账",
+                  "subject_check": {
+                    "status": "matched",
+                    "bidder": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "metadata_owner": {
+                      "names": [],
+                      "registration_ids": []
+                    },
+                    "title_owners": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "body_owners": [
+                      {
+                        "names": [
+                          "甲公司"
+                        ],
+                        "registration_ids": []
+                      }
+                    ],
+                    "evidence_owner": {
+                      "names": [
+                        "甲公司"
+                      ],
+                      "registration_ids": []
+                    },
+                    "unassigned_registration_ids": {
+                      "metadata": [],
+                      "body": []
+                    },
+                    "excluded_other_party_registration_ids": [],
+                    "matching_basis": "exact_legal_name",
+                    "reason": "数值证据归属主体与投标主体通过精确名称或注册标识匹配。"
+                  }
+                }
+              ],
+              "rejected_evidence": [],
+              "reason": "声明中的可识别关键值与有效企业材料或已提供事实相符。"
+            }
+          ],
+          "verification_findings": [],
+          "error": null,
+          "label": "positive",
+          "expected": "must_pass",
+          "oracle_assertions": {
+            "must_scan_claim": true
+          },
+          "evaluation": "correct_pass"
+        },
+        {
+          "case_id": "W-POS-TENDER-REQUIREMENT-PARAPHRASE",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "success",
+          "business_status": "passed",
+          "needs_human_review": false,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 1,
+          "unsupported_claim_count": 0,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "verified",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 1,
+            "unsupported_claim_count": 0
+          },
+          "claim_verification": {
+            "status": "verified",
+            "detected_claim_count": 1,
+            "supported_claim_count": 1,
+            "unsupported_claim_count": 0,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 1,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [
+                "certification"
+              ],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "本结果仅反映已识别的声明及未分类高风险片段。"
+          },
+          "claim_evidence_mapping": [
+            {
+              "claim_id": "experience:claim-001",
+              "section_id": "experience",
+              "category": "certification",
+              "claim_text": "按照招标文件规定，投标人须提供有效的ISO/IEC 27001管理体系认证证书。",
+              "markers": {
+                "standard": "iso/iec:27001",
+                "asserted_standard": {
+                  "type": "ISO/IEC",
+                  "id": "ISO/IEC 27001",
+                  "canonical_id": "iso/iec:27001",
+                  "edition": null
+                },
+                "polarity": "positive"
+              },
+              "tender_request_statement": true,
+              "company_assertion": false,
+              "status": "supported",
+              "scope": "tender_requirement_only",
+              "supports_enterprise_fact": false,
+              "evidence": [
+                {
+                  "source_id": "REQ-ISO27001",
+                  "source_type": "tender_requirement",
+                  "title": "ISO/IEC 27001"
+                }
+              ],
+              "rejected_evidence": [],
+              "reason": "招标侧要求可由招标上下文支持；该来源不证明企业已具备相应资质或经历。"
+            }
+          ],
+          "verification_findings": [],
+          "error": null,
+          "label": "positive",
+          "expected": "must_pass",
+          "oracle_assertions": {},
+          "evaluation": "correct_pass"
+        },
+        {
+          "case_id": "W-POS-BENIGN-SECTION",
+          "domain": "writing",
+          "execution_status": "completed",
+          "skill_status": "success",
+          "business_status": "passed",
+          "needs_human_review": false,
+          "submission_allowed": false,
+          "model_call_count": 1,
+          "writer_invocation_count": 1,
+          "claims_scanned": 0,
+          "unsupported_claim_count": 0,
+          "scanner_coverage": {
+            "status": "complete",
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 0,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "claim_verification_status": "no_claims_detected",
+            "claim_verification_reported": true,
+            "scanned_claim_count": 0,
+            "unsupported_claim_count": 0
+          },
+          "claim_verification": {
+            "status": "no_claims_detected",
+            "detected_claim_count": 0,
+            "supported_claim_count": 0,
+            "unsupported_claim_count": 0,
+            "coverage": {
+              "status": "complete",
+              "scanned_sentence_count": 1,
+              "recognized_claim_count": 0,
+              "unclassified_high_risk_claim_count": 0,
+              "unclassified_high_risk_snippets": [],
+              "recognized_patterns": [],
+              "scanner": "selected_high_risk_patterns_v2"
+            },
+            "interpretation": "模式扫描未发现声明不等于对正文事实作出验证；coverage描述的是有限模式扫描结果。"
+          },
+          "claim_evidence_mapping": [],
+          "verification_findings": [],
+          "error": null,
+          "label": "positive",
+          "expected": "must_pass",
+          "oracle_assertions": {},
+          "evaluation": "correct_pass"
+        }
+      ],
+      "rate_denominator_note": "Rates use all fixed oracle cases of that polarity, including not_run and inconclusive cases in the denominator; those outcomes are also reported separately."
+    },
+    "runtime": {
+      "case_count": 9,
+      "positive_denominator": 2,
+      "negative_denominator": 7,
+      "run_count": 9,
+      "not_run_count": 0,
+      "inconclusive_count": 0,
+      "correct_pass_count": 2,
+      "correct_pass_rate": {
+        "count": 2,
+        "denominator": 2,
+        "rate": 1.0
+      },
+      "false_block_count": 0,
+      "false_block_rate": {
+        "count": 0,
+        "denominator": 2,
+        "rate": 0.0
+      },
+      "correct_block_count": 7,
+      "false_release_count": 0,
+      "false_release_rate": {
+        "count": 0,
+        "denominator": 7,
+        "rate": 0.0
+      },
+      "model_call_count": 2,
+      "writer_invocation_count": 2,
+      "scope_rejection_reasons": [
+        {
+          "case_id": "R-NEG-CROSS-PROJECT",
+          "reasons": [
+            {
+              "binding_id": "run_eabc5a47e3ec42ce:review:0",
+              "code": "project_mismatch",
+              "message": "An explicit project scope conflicts with the run project.",
+              "source": "step_input",
+              "expected_project_id": "project-alpha",
+              "actual_project_id": "project-beta"
+            },
+            {
+              "binding_id": "run_eabc5a47e3ec42ce:review:0",
+              "code": "project_mismatch",
+              "message": "An explicit project scope conflicts with the run project.",
+              "source": "tender_profile",
+              "expected_project_id": "project-alpha",
+              "actual_project_id": "project-beta"
+            },
+            {
+              "binding_id": "run_eabc5a47e3ec42ce:review:0",
+              "code": "scope_context_changed",
+              "message": "The writer's tender_profile differs from the reviewed context.",
+              "field": "tender_profile"
+            }
+          ]
+        },
+        {
+          "case_id": "R-NEG-REQUIREMENT-CONTENT-CHANGED",
+          "reasons": [
+            {
+              "binding_id": "run_df95bbe6db8d408a:review:0",
+              "code": "requirement_content_changed",
+              "message": "The writer changed the reviewed requirement.",
+              "identifier": "REQ-BASE"
+            }
+          ]
+        },
+        {
+          "case_id": "R-NEG-REQUIREMENT-SCORING-ID-COLLISION",
+          "reasons": [
+            {
+              "code": "requirement_scoring_id_collision",
+              "message": "A shared ID makes the requirement and scoring targets ambiguous for review authorization.",
+              "identifiers": [
+                "SAME"
+              ]
+            },
+            {
+              "code": "review_validation_failed",
+              "message": "The deterministic review of the resolved input did not pass.",
+              "expected_business_status": "needs_review"
+            },
+            {
+              "code": "review_not_passed",
+              "message": "The executed compliance-review result is not a successful pass."
+            },
+            {
+              "code": "review_business_not_passed",
+              "message": "writing/export requires a passed business review; current business_status is needs_review"
+            }
+          ]
+        },
+        {
+          "case_id": "R-NEG-SOURCE-VERSION-CHANGED",
+          "reasons": [
+            {
+              "binding_id": "run_9049f05beda746b1:review:0",
+              "code": "requirement_content_changed",
+              "message": "The writer changed the reviewed requirement.",
+              "identifier": "REQ-BASE"
+            },
+            {
+              "binding_id": "run_9049f05beda746b1:review:0",
+              "code": "source_file_not_reviewed",
+              "message": "The writer references a source file version outside the reviewed scope.",
+              "source": "source-ref:tender-alpha:v2"
+            }
+          ]
+        },
+        {
+          "case_id": "R-NEG-WRITING-SCOPE-EXPANDED",
+          "reasons": [
+            {
+              "binding_id": "run_6fc87a76cdd94e1b:review:0",
+              "code": "section_not_reviewed",
+              "message": "The writer includes an unreviewed section.",
+              "identifier": "delivery"
+            }
+          ]
+        },
+        {
+          "case_id": "R-NEG-FORGED-APPROVAL",
+          "reasons": [
+            {
+              "code": "review_validation_failed",
+              "message": "The deterministic review of the resolved input did not pass.",
+              "expected_business_status": "failed"
+            },
+            {
+              "code": "review_not_passed",
+              "message": "The executed compliance-review result is not a successful pass."
+            },
+            {
+              "code": "review_business_not_passed",
+              "message": "writing/export requires a passed business review; current business_status is failed"
+            }
+          ]
+        },
+        {
+          "case_id": "R-NEG-INVALID-WRITING-SCOPE",
+          "reasons": [
+            {
+              "binding_id": "run_3139ae88618441f8:review:0",
+              "code": "writing_scope_unresolvable",
+              "message": "The resolved input cannot be normalized with the writer's rules.",
+              "detail": "writing_scope contains unknown section selector(s): does-not-match"
+            },
+            {
+              "binding_id": "run_3139ae88618441f8:review:0",
+              "code": "writing_sections_empty",
+              "message": "The writer's actual section selector produced no chapters."
+            }
+          ]
+        }
+      ],
+      "scanner_coverage": [],
+      "cases": [
+        {
+          "case_id": "R-NEG-CROSS-PROJECT",
+          "domain": "runtime",
+          "execution_status": "blocked",
+          "run_status": "blocked",
+          "business_status": "passed",
+          "scoped_gate_passed": false,
+          "scope_authorization_status": null,
+          "writer_invocation_count": 0,
+          "model_call_count": 0,
+          "review_business_status": "passed",
+          "review_scope_binding_status": "bound",
+          "scope_match_kind": null,
+          "scope_binding_decision": {
+            "status": "blocked",
+            "match_kind": null,
+            "project_id": "project-alpha",
+            "scope_fingerprint": "728213a6ec12c1a0a4919d34f523c82b318eb51be8981ef40447a29356c2949c",
+            "reasons": [
+              {
+                "binding_id": "run_eabc5a47e3ec42ce:review:0",
+                "code": "project_mismatch",
+                "message": "An explicit project scope conflicts with the run project.",
+                "source": "step_input",
+                "expected_project_id": "project-alpha",
+                "actual_project_id": "project-beta"
+              },
+              {
+                "binding_id": "run_eabc5a47e3ec42ce:review:0",
+                "code": "project_mismatch",
+                "message": "An explicit project scope conflicts with the run project.",
+                "source": "tender_profile",
+                "expected_project_id": "project-alpha",
+                "actual_project_id": "project-beta"
+              },
+              {
+                "binding_id": "run_eabc5a47e3ec42ce:review:0",
+                "code": "scope_context_changed",
+                "message": "The writer's tender_profile differs from the reviewed context.",
+                "field": "tender_profile"
+              }
+            ],
+            "candidates": [
+              {
+                "binding_id": "run_eabc5a47e3ec42ce:review:0",
+                "status": "mismatch",
+                "match_kind": null,
+                "reasons": [
+                  {
+                    "code": "project_mismatch",
+                    "message": "An explicit project scope conflicts with the run project.",
+                    "source": "step_input",
+                    "expected_project_id": "project-alpha",
+                    "actual_project_id": "project-beta"
+                  },
+                  {
+                    "code": "project_mismatch",
+                    "message": "An explicit project scope conflicts with the run project.",
+                    "source": "tender_profile",
+                    "expected_project_id": "project-alpha",
+                    "actual_project_id": "project-beta"
+                  },
+                  {
+                    "code": "scope_context_changed",
+                    "message": "The writer's tender_profile differs from the reviewed context.",
+                    "field": "tender_profile"
+                  }
+                ]
+              }
+            ]
+          },
+          "scope_rejection_reasons": [
+            {
+              "binding_id": "run_eabc5a47e3ec42ce:review:0",
+              "code": "project_mismatch",
+              "message": "An explicit project scope conflicts with the run project.",
+              "source": "step_input",
+              "expected_project_id": "project-alpha",
+              "actual_project_id": "project-beta"
+            },
+            {
+              "binding_id": "run_eabc5a47e3ec42ce:review:0",
+              "code": "project_mismatch",
+              "message": "An explicit project scope conflicts with the run project.",
+              "source": "tender_profile",
+              "expected_project_id": "project-alpha",
+              "actual_project_id": "project-beta"
+            },
+            {
+              "binding_id": "run_eabc5a47e3ec42ce:review:0",
+              "code": "scope_context_changed",
+              "message": "The writer's tender_profile differs from the reviewed context.",
+              "field": "tender_profile"
+            }
+          ],
+          "error": "the resolved writing scope is not covered by one passed runtime review binding",
+          "label": "negative",
+          "expected": "must_not_invoke_writer",
+          "oracle_assertions": {
+            "expected_scope_reason_codes": [
+              "project_mismatch"
+            ]
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "R-NEG-REQUIREMENT-CONTENT-CHANGED",
+          "domain": "runtime",
+          "execution_status": "blocked",
+          "run_status": "blocked",
+          "business_status": "passed",
+          "scoped_gate_passed": false,
+          "scope_authorization_status": null,
+          "writer_invocation_count": 0,
+          "model_call_count": 0,
+          "review_business_status": "passed",
+          "review_scope_binding_status": "bound",
+          "scope_match_kind": null,
+          "scope_binding_decision": {
+            "status": "blocked",
+            "match_kind": null,
+            "project_id": "project-alpha",
+            "scope_fingerprint": "24ac78fb8375c3e732dff849d74e95f304fa591fa4485cad4c3f96d2c7757185",
+            "reasons": [
+              {
+                "binding_id": "run_df95bbe6db8d408a:review:0",
+                "code": "requirement_content_changed",
+                "message": "The writer changed the reviewed requirement.",
+                "identifier": "REQ-BASE"
+              }
+            ],
+            "candidates": [
+              {
+                "binding_id": "run_df95bbe6db8d408a:review:0",
+                "status": "mismatch",
+                "match_kind": null,
+                "reasons": [
+                  {
+                    "code": "requirement_content_changed",
+                    "message": "The writer changed the reviewed requirement.",
+                    "identifier": "REQ-BASE"
+                  }
+                ]
+              }
+            ]
+          },
+          "scope_rejection_reasons": [
+            {
+              "binding_id": "run_df95bbe6db8d408a:review:0",
+              "code": "requirement_content_changed",
+              "message": "The writer changed the reviewed requirement.",
+              "identifier": "REQ-BASE"
+            }
+          ],
+          "error": "the resolved writing scope is not covered by one passed runtime review binding",
+          "label": "negative",
+          "expected": "must_not_invoke_writer",
+          "oracle_assertions": {
+            "expected_scope_reason_codes": [
+              "requirement_content_changed"
+            ]
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "R-NEG-REQUIREMENT-SCORING-ID-COLLISION",
+          "domain": "runtime",
+          "execution_status": "blocked",
+          "run_status": "blocked",
+          "business_status": "needs_review",
+          "scoped_gate_passed": false,
+          "scope_authorization_status": null,
+          "writer_invocation_count": 0,
+          "model_call_count": 0,
+          "review_business_status": "needs_review",
+          "review_scope_binding_status": "not_bound",
+          "scope_match_kind": null,
+          "scope_binding_decision": {
+            "status": "blocked",
+            "reasons": [
+              {
+                "code": "requirement_scoring_id_collision",
+                "message": "A shared ID makes the requirement and scoring targets ambiguous for review authorization.",
+                "identifiers": [
+                  "SAME"
+                ]
+              },
+              {
+                "code": "review_validation_failed",
+                "message": "The deterministic review of the resolved input did not pass.",
+                "expected_business_status": "needs_review"
+              },
+              {
+                "code": "review_not_passed",
+                "message": "The executed compliance-review result is not a successful pass."
+              },
+              {
+                "code": "review_business_not_passed",
+                "message": "writing/export requires a passed business review; current business_status is needs_review"
+              }
+            ]
+          },
+          "scope_rejection_reasons": [
+            {
+              "code": "requirement_scoring_id_collision",
+              "message": "A shared ID makes the requirement and scoring targets ambiguous for review authorization.",
+              "identifiers": [
+                "SAME"
+              ]
+            },
+            {
+              "code": "review_validation_failed",
+              "message": "The deterministic review of the resolved input did not pass.",
+              "expected_business_status": "needs_review"
+            },
+            {
+              "code": "review_not_passed",
+              "message": "The executed compliance-review result is not a successful pass."
+            },
+            {
+              "code": "review_business_not_passed",
+              "message": "writing/export requires a passed business review; current business_status is needs_review"
+            }
+          ],
+          "error": "writing/export requires a passed business review; current business_status is needs_review",
+          "label": "negative",
+          "expected": "must_not_invoke_writer",
+          "oracle_assertions": {
+            "expected_scope_reason_codes": [
+              "requirement_scoring_id_collision"
+            ]
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "R-NEG-SOURCE-VERSION-CHANGED",
+          "domain": "runtime",
+          "execution_status": "blocked",
+          "run_status": "blocked",
+          "business_status": "passed",
+          "scoped_gate_passed": false,
+          "scope_authorization_status": null,
+          "writer_invocation_count": 0,
+          "model_call_count": 0,
+          "review_business_status": "passed",
+          "review_scope_binding_status": "bound",
+          "scope_match_kind": null,
+          "scope_binding_decision": {
+            "status": "blocked",
+            "match_kind": null,
+            "project_id": "project-alpha",
+            "scope_fingerprint": "8fa1d7e2f84592bfebf1a6ee2a77964ad2a91367432eafcd924faeca1912af9a",
+            "reasons": [
+              {
+                "binding_id": "run_9049f05beda746b1:review:0",
+                "code": "requirement_content_changed",
+                "message": "The writer changed the reviewed requirement.",
+                "identifier": "REQ-BASE"
+              },
+              {
+                "binding_id": "run_9049f05beda746b1:review:0",
+                "code": "source_file_not_reviewed",
+                "message": "The writer references a source file version outside the reviewed scope.",
+                "source": "source-ref:tender-alpha:v2"
+              }
+            ],
+            "candidates": [
+              {
+                "binding_id": "run_9049f05beda746b1:review:0",
+                "status": "mismatch",
+                "match_kind": null,
+                "reasons": [
+                  {
+                    "code": "requirement_content_changed",
+                    "message": "The writer changed the reviewed requirement.",
+                    "identifier": "REQ-BASE"
+                  },
+                  {
+                    "code": "source_file_not_reviewed",
+                    "message": "The writer references a source file version outside the reviewed scope.",
+                    "source": "source-ref:tender-alpha:v2"
+                  }
+                ]
+              }
+            ]
+          },
+          "scope_rejection_reasons": [
+            {
+              "binding_id": "run_9049f05beda746b1:review:0",
+              "code": "requirement_content_changed",
+              "message": "The writer changed the reviewed requirement.",
+              "identifier": "REQ-BASE"
+            },
+            {
+              "binding_id": "run_9049f05beda746b1:review:0",
+              "code": "source_file_not_reviewed",
+              "message": "The writer references a source file version outside the reviewed scope.",
+              "source": "source-ref:tender-alpha:v2"
+            }
+          ],
+          "error": "the resolved writing scope is not covered by one passed runtime review binding",
+          "label": "negative",
+          "expected": "must_not_invoke_writer",
+          "oracle_assertions": {
+            "expected_scope_reason_codes": [
+              "source_file_not_reviewed"
+            ]
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "R-NEG-WRITING-SCOPE-EXPANDED",
+          "domain": "runtime",
+          "execution_status": "blocked",
+          "run_status": "blocked",
+          "business_status": "passed",
+          "scoped_gate_passed": false,
+          "scope_authorization_status": null,
+          "writer_invocation_count": 0,
+          "model_call_count": 0,
+          "review_business_status": "passed",
+          "review_scope_binding_status": "bound",
+          "scope_match_kind": null,
+          "scope_binding_decision": {
+            "status": "blocked",
+            "match_kind": null,
+            "project_id": "project-alpha",
+            "scope_fingerprint": "3d2586349221bd45241946f082847a6de5a1789964a2412594cec3e55dad5b1f",
+            "reasons": [
+              {
+                "binding_id": "run_6fc87a76cdd94e1b:review:0",
+                "code": "section_not_reviewed",
+                "message": "The writer includes an unreviewed section.",
+                "identifier": "delivery"
+              }
+            ],
+            "candidates": [
+              {
+                "binding_id": "run_6fc87a76cdd94e1b:review:0",
+                "status": "mismatch",
+                "match_kind": null,
+                "reasons": [
+                  {
+                    "code": "section_not_reviewed",
+                    "message": "The writer includes an unreviewed section.",
+                    "identifier": "delivery"
+                  }
+                ]
+              }
+            ]
+          },
+          "scope_rejection_reasons": [
+            {
+              "binding_id": "run_6fc87a76cdd94e1b:review:0",
+              "code": "section_not_reviewed",
+              "message": "The writer includes an unreviewed section.",
+              "identifier": "delivery"
+            }
+          ],
+          "error": "the resolved writing scope is not covered by one passed runtime review binding",
+          "label": "negative",
+          "expected": "must_not_invoke_writer",
+          "oracle_assertions": {
+            "expected_scope_reason_codes": [
+              "section_not_reviewed"
+            ]
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "R-NEG-FORGED-APPROVAL",
+          "domain": "runtime",
+          "execution_status": "blocked",
+          "run_status": "blocked",
+          "business_status": "failed",
+          "scoped_gate_passed": false,
+          "scope_authorization_status": null,
+          "writer_invocation_count": 0,
+          "model_call_count": 0,
+          "review_business_status": "failed",
+          "review_scope_binding_status": "not_bound",
+          "scope_match_kind": null,
+          "scope_binding_decision": {
+            "status": "blocked",
+            "reasons": [
+              {
+                "code": "review_validation_failed",
+                "message": "The deterministic review of the resolved input did not pass.",
+                "expected_business_status": "failed"
+              },
+              {
+                "code": "review_not_passed",
+                "message": "The executed compliance-review result is not a successful pass."
+              },
+              {
+                "code": "review_business_not_passed",
+                "message": "writing/export requires a passed business review; current business_status is failed"
+              }
+            ]
+          },
+          "scope_rejection_reasons": [
+            {
+              "code": "review_validation_failed",
+              "message": "The deterministic review of the resolved input did not pass.",
+              "expected_business_status": "failed"
+            },
+            {
+              "code": "review_not_passed",
+              "message": "The executed compliance-review result is not a successful pass."
+            },
+            {
+              "code": "review_business_not_passed",
+              "message": "writing/export requires a passed business review; current business_status is failed"
+            }
+          ],
+          "error": "writing/export requires a passed business review; current business_status is failed",
+          "label": "negative",
+          "expected": "must_not_invoke_writer",
+          "oracle_assertions": {
+            "expected_scope_reason_codes": [
+              "review_validation_failed"
+            ]
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "R-NEG-INVALID-WRITING-SCOPE",
+          "domain": "runtime",
+          "execution_status": "blocked",
+          "run_status": "blocked",
+          "business_status": "passed",
+          "scoped_gate_passed": false,
+          "scope_authorization_status": null,
+          "writer_invocation_count": 0,
+          "model_call_count": 0,
+          "review_business_status": "passed",
+          "review_scope_binding_status": "not_bound",
+          "scope_match_kind": null,
+          "scope_binding_decision": {
+            "status": "blocked",
+            "match_kind": null,
+            "project_id": "project-alpha",
+            "scope_fingerprint": "fddaea595c85b96ff217f8c0c2b142d4a0c72e21ef34380177cadd92f4b6ab87",
+            "reasons": [
+              {
+                "binding_id": "run_3139ae88618441f8:review:0",
+                "code": "writing_scope_unresolvable",
+                "message": "The resolved input cannot be normalized with the writer's rules.",
+                "detail": "writing_scope contains unknown section selector(s): does-not-match"
+              },
+              {
+                "binding_id": "run_3139ae88618441f8:review:0",
+                "code": "writing_sections_empty",
+                "message": "The writer's actual section selector produced no chapters."
+              }
+            ],
+            "candidates": [
+              {
+                "binding_id": "run_3139ae88618441f8:review:0",
+                "status": "not_bound",
+                "reasons": [
+                  {
+                    "code": "writing_scope_unresolvable",
+                    "message": "The resolved input cannot be normalized with the writer's rules.",
+                    "detail": "writing_scope contains unknown section selector(s): does-not-match"
+                  },
+                  {
+                    "code": "writing_sections_empty",
+                    "message": "The writer's actual section selector produced no chapters."
+                  }
+                ]
+              }
+            ]
+          },
+          "scope_rejection_reasons": [
+            {
+              "binding_id": "run_3139ae88618441f8:review:0",
+              "code": "writing_scope_unresolvable",
+              "message": "The resolved input cannot be normalized with the writer's rules.",
+              "detail": "writing_scope contains unknown section selector(s): does-not-match"
+            },
+            {
+              "binding_id": "run_3139ae88618441f8:review:0",
+              "code": "writing_sections_empty",
+              "message": "The writer's actual section selector produced no chapters."
+            }
+          ],
+          "error": "the resolved writing scope is not covered by one passed runtime review binding",
+          "label": "negative",
+          "expected": "must_not_invoke_writer",
+          "oracle_assertions": {
+            "expected_scope_reason_codes": [
+              "writing_scope_unresolvable"
+            ]
+          },
+          "evaluation": "correct_block"
+        },
+        {
+          "case_id": "R-POS-MATCHED-SCOPE",
+          "domain": "runtime",
+          "execution_status": "completed",
+          "run_status": "success",
+          "business_status": "passed",
+          "scoped_gate_passed": true,
+          "scope_authorization_status": "authorized",
+          "writer_invocation_count": 1,
+          "model_call_count": 1,
+          "review_business_status": "passed",
+          "review_scope_binding_status": "bound",
+          "scope_match_kind": "exact",
+          "scope_binding_decision": {},
+          "scope_rejection_reasons": [],
+          "error": "投标文件草案生成完成；业务核验通过不等于获准提交",
+          "label": "positive",
+          "expected": "invoke_writer_once",
+          "oracle_assertions": {
+            "expected_match_kind": "exact"
+          },
+          "evaluation": "correct_pass"
+        },
+        {
+          "case_id": "R-POS-SAFE-SUBSET",
+          "domain": "runtime",
+          "execution_status": "completed",
+          "run_status": "success",
+          "business_status": "passed",
+          "scoped_gate_passed": true,
+          "scope_authorization_status": "authorized",
+          "writer_invocation_count": 1,
+          "model_call_count": 1,
+          "review_business_status": "passed",
+          "review_scope_binding_status": "bound",
+          "scope_match_kind": "safe_subset",
+          "scope_binding_decision": {},
+          "scope_rejection_reasons": [],
+          "error": "投标文件草案生成完成；业务核验通过不等于获准提交",
+          "label": "positive",
+          "expected": "invoke_writer_once",
+          "oracle_assertions": {
+            "expected_match_kind": "safe_subset"
+          },
+          "evaluation": "correct_pass"
+        }
+      ],
+      "rate_denominator_note": "Rates use all fixed oracle cases of that polarity, including not_run and inconclusive cases in the denominator; those outcomes are also reported separately."
+    }
+  },
+  "limitations": [
+    "模拟LLM只用于复现服务边界行为，不测量真实模型准确率。",
+    "固定用例只覆盖列出的认证标准、主体归属、案例数量和运行范围反例。",
+    "扫描覆盖状态是当前实现的可观测结果；未扫描或状态未报告不得解释为事实通过。",
+    "原始文件约束文本覆盖仍为4/10，6项遗漏未在本轮整改。"
+  ]
+}

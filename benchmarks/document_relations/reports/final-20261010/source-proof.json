@@ -1,0 +1,536 @@
+{
+  "schema": "document-relations-canonical-source-proof-v1",
+  "generated_at": "2026-10-10T11:42:16.3501014+08:00",
+  "archive_base_staged_tree": "35f5faafa934f5ffe7f014440c8a3c827ebfd499",
+  "archive_autocrlf": false,
+  "archive_sha256": "2d4ea4d0d56e05c9292603eeedf540ff8032677cfc0f70a38b9458841c45b199",
+  "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+  "source_file_count": 65,
+  "source_git_blob_matches": 65,
+  "evaluator_git_blob_matches": 9,
+  "git_blob_mismatch_count": 0,
+  "source_hash_rule": "sorted src Python relative path UTF-8 bytes + TAB + raw 32-byte file SHA256 + LF",
+  "scope": "Generated reports, corpus, and docs may be added later; final commit source/evaluator blobs must match",
+  "source_files": [
+    {
+      "Path": "src/qiaowenshu_agent/__init__.py",
+      "GitBlob": "0d7fe52b1506890e5ef7e09fd0a20e1eda48e2d5",
+      "ExportBlob": "0d7fe52b1506890e5ef7e09fd0a20e1eda48e2d5",
+      "Match": true,
+      "SHA256": "95ce4064c37b24dee4f28d7ee430ab1284763989800748738980e4ee4098c4d6"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/__main__.py",
+      "GitBlob": "292cc1fbac71a4c7145261aa338ce26464b701dd",
+      "ExportBlob": "292cc1fbac71a4c7145261aa338ce26464b701dd",
+      "Match": true,
+      "SHA256": "5c89df6f60b4fcc4f963d85bd89cba6944488f838071dcf985adb141cfc4adfb"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/adapters/__init__.py",
+      "GitBlob": "2ff0949b6c8ce0a8df3099bde5b0024f28bfbc7e",
+      "ExportBlob": "2ff0949b6c8ce0a8df3099bde5b0024f28bfbc7e",
+      "Match": true,
+      "SHA256": "264621ed2d2d2b3988992a1a53f3595fc2b124086f84f4edf4eefa1cacaebe9c"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/adapters/reference.py",
+      "GitBlob": "450f5383592bf7307dfb337426dcd050fa4a6103",
+      "ExportBlob": "450f5383592bf7307dfb337426dcd050fa4a6103",
+      "Match": true,
+      "SHA256": "47ff0de3c6d372891906ef4b3c8d3729c9f27535fb7c3a916c9c2a30449c7324"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/api.py",
+      "GitBlob": "50ee532d34d72ab94d8bec0fa3890f4198994e83",
+      "ExportBlob": "50ee532d34d72ab94d8bec0fa3890f4198994e83",
+      "Match": true,
+      "SHA256": "8f9bad456b4f0d4a4cc7669a1c2a9300102a4c287d51194080c3baae314f5344"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/__init__.py",
+      "GitBlob": "8544d9b6895eea367e631d412866323aff316dbe",
+      "ExportBlob": "8544d9b6895eea367e631d412866323aff316dbe",
+      "Match": true,
+      "SHA256": "d2686d1f785d709a9a42325da02e8bc7e97c5228d1a794bdf349ffaa9a5b6fbc"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/budget.py",
+      "GitBlob": "5b3eb4943d4ff0beb5abbbabff1026cb0a6b0533",
+      "ExportBlob": "5b3eb4943d4ff0beb5abbbabff1026cb0a6b0533",
+      "Match": true,
+      "SHA256": "47f3d5789e1333e1ce25d79d98c1670837827cf34f00e7b710f2280024b53de6"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/context.py",
+      "GitBlob": "673b9bb9bf2db9eea8a33ec5b13ff5604c983315",
+      "ExportBlob": "673b9bb9bf2db9eea8a33ec5b13ff5604c983315",
+      "Match": true,
+      "SHA256": "f5ea24ee1062093dcec4286fcf86574c8a044b50a153d197bbed53ba6dccd74d"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/contracts.py",
+      "GitBlob": "6b27716d5dcadb74d205d524f29b47991a1b9272",
+      "ExportBlob": "6b27716d5dcadb74d205d524f29b47991a1b9272",
+      "Match": true,
+      "SHA256": "e03aa9a10323ff2168c780bbbf125a5d147f590a89b211c11bb2d481e5978ee2"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/events.py",
+      "GitBlob": "a9a3f49c3e71e1b95e7c6147a132c8e24d442402",
+      "ExportBlob": "a9a3f49c3e71e1b95e7c6147a132c8e24d442402",
+      "Match": true,
+      "SHA256": "a4d0207e7af3b65b2c9c6e210504ab3e720b9dfc75fd8fe940c1f3de1e6e9ee7"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/files.py",
+      "GitBlob": "e493dee1395bb1107c2663e19ada91ea66beb740",
+      "ExportBlob": "e493dee1395bb1107c2663e19ada91ea66beb740",
+      "Match": true,
+      "SHA256": "b529f818dd45565e8c2142d15d7e4fdc213cca033755c2bd185b896be72ac661"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/registry.py",
+      "GitBlob": "c119862e013ee33664861bbf60002ab0ea25cf39",
+      "ExportBlob": "c119862e013ee33664861bbf60002ab0ea25cf39",
+      "Match": true,
+      "SHA256": "407a30f88a5c7733b661f5a285a938de6b791156b889a94de14faf6b1c7d31a2"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/runtime.py",
+      "GitBlob": "33bec26411fafd6b9f73019a022573aea4b87ba3",
+      "ExportBlob": "33bec26411fafd6b9f73019a022573aea4b87ba3",
+      "Match": true,
+      "SHA256": "925d7fc8a46c3bc1b0f0502c05c21dbb9121368f1f4ef8aa538f9cc005b612b0"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/scope_authorization.py",
+      "GitBlob": "fbe927b039a45aeaa1101da4b18f2569dc3f1e86",
+      "ExportBlob": "fbe927b039a45aeaa1101da4b18f2569dc3f1e86",
+      "Match": true,
+      "SHA256": "5afad51f6764efdd8103935475ff679cc0f1c7ad35396313f5ba4515406619d1"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/store.py",
+      "GitBlob": "3b11ef6180bd11b80c5abd1177a676b159289b9e",
+      "ExportBlob": "3b11ef6180bd11b80c5abd1177a676b159289b9e",
+      "Match": true,
+      "SHA256": "af53e4e7227412281e03cec76cc86adcf2f85f6af3d2a4d5c0a7dde8046c210f"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/core/trace.py",
+      "GitBlob": "5e1ecc6a5ecf20d86ffae32d38c9a3efa4239475",
+      "ExportBlob": "5e1ecc6a5ecf20d86ffae32d38c9a3efa4239475",
+      "Match": true,
+      "SHA256": "d4da00440f06a4edff6914bbd2969f48f690a63e7d541b0cd123f3278a67e05c"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/domain/__init__.py",
+      "GitBlob": "49ea12e4da1407bbf52731e2e45b7da0f73d7a14",
+      "ExportBlob": "49ea12e4da1407bbf52731e2e45b7da0f73d7a14",
+      "Match": true,
+      "SHA256": "1b5f1a80a1554b2180619e2ae84e7d58418e77ce6d0bf107a25f2d62405eedcb"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/domain/analysis_protocol.py",
+      "GitBlob": "0b1048eb72f54ecaf8ac4539c01b05c681d25397",
+      "ExportBlob": "0b1048eb72f54ecaf8ac4539c01b05c681d25397",
+      "Match": true,
+      "SHA256": "f81de2775a07e2c5ed731799eb1d6b44bfc1396f011949e2fad62faa88300e6a"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/domain/document_relations.py",
+      "GitBlob": "867a2d81558d05d412716ebd79361bda7eca208c",
+      "ExportBlob": "867a2d81558d05d412716ebd79361bda7eca208c",
+      "Match": true,
+      "SHA256": "f482c77dba9c584fcf5023380655a64abdfe47fb8524f6ef16495a668ad05726"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/domain/document_structure.py",
+      "GitBlob": "c7106c3c24f315ff4d36c2ed5785b9dcd154f5ec",
+      "ExportBlob": "c7106c3c24f315ff4d36c2ed5785b9dcd154f5ec",
+      "Match": true,
+      "SHA256": "efec7668a5ba79367c621c783b834de86751af3a6ab864b77b3c5f933a4436b2"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/domain/models.py",
+      "GitBlob": "e140a66a489a8b3cf28173af3a6bdc991d7e28d0",
+      "ExportBlob": "e140a66a489a8b3cf28173af3a6bdc991d7e28d0",
+      "Match": true,
+      "SHA256": "8e2766d0c2323d2bfddea5f6586e6805aecbd97d1906f3147fee73b7758ce0ce"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/llm/__init__.py",
+      "GitBlob": "f740bf0306376f480e44962f1da3b6dfbd796bf6",
+      "ExportBlob": "f740bf0306376f480e44962f1da3b6dfbd796bf6",
+      "Match": true,
+      "SHA256": "c2e3f9a8b5c7dc66876c083dd7412b08a501b5a17690e69b421a47193f3c6c0b"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/llm/client.py",
+      "GitBlob": "70f07cb3e0b5a514151f025b2d87ab66dfb8b404",
+      "ExportBlob": "70f07cb3e0b5a514151f025b2d87ab66dfb8b404",
+      "Match": true,
+      "SHA256": "fb45f07e5403592818e5c2da57508845472570ac5f084f5892779eba739d717f"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/llm/config.py",
+      "GitBlob": "d30ad7793531abe98b97306828f97050342f0c51",
+      "ExportBlob": "d30ad7793531abe98b97306828f97050342f0c51",
+      "Match": true,
+      "SHA256": "3f36505b565c1748a23aea9dd710506a6a00f9b3fc165804ee62eecebdfba301"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/__init__.py",
+      "GitBlob": "18d8d82499d25b3e79f5d01b46de25d8780a3d82",
+      "ExportBlob": "18d8d82499d25b3e79f5d01b46de25d8780a3d82",
+      "Match": true,
+      "SHA256": "641959839985498f75494933435770a0442c0b4d9add58529279a6fc35d22fbf"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/analysis_report/__init__.py",
+      "GitBlob": "e97bd6cdb3736a933503518f842fbdfad62812fd",
+      "ExportBlob": "e97bd6cdb3736a933503518f842fbdfad62812fd",
+      "Match": true,
+      "SHA256": "4b75926e72df11fed32b55605fc6d881fa75dc1b18eeb41c239fe48c0ec97695"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/analysis_report/skill.py",
+      "GitBlob": "5110bca3e15c539692a0c774f022f72c8437881f",
+      "ExportBlob": "5110bca3e15c539692a0c774f022f72c8437881f",
+      "Match": true,
+      "SHA256": "33c4d8e19220551a8867a90f093190278c0c8ca81aea28024fa6d924f6b3749a"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/bid_feasibility/__init__.py",
+      "GitBlob": "268c9e4e6230dbb24488f038dff75d088e27dc8f",
+      "ExportBlob": "268c9e4e6230dbb24488f038dff75d088e27dc8f",
+      "Match": true,
+      "SHA256": "dffc7abdfee914b8df766e1a724e42c3c77ccc00185f1061b96bc38adba9b32d"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/bid_feasibility/skill.py",
+      "GitBlob": "cb3ba006ae88686961044c6c9308b66cb2e2737d",
+      "ExportBlob": "cb3ba006ae88686961044c6c9308b66cb2e2737d",
+      "Match": true,
+      "SHA256": "97ee7a97addf71db5a4ba9fdb5cfd2d21d791f809b5bfc68155208347be57242"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/bidder_material_intake/__init__.py",
+      "GitBlob": "02040d82e0b51c7f48664728941c24e383f057cf",
+      "ExportBlob": "02040d82e0b51c7f48664728941c24e383f057cf",
+      "Match": true,
+      "SHA256": "405f8600c0077b9f5d1cfcd9b68a146b4768159212334a35f7223de731497eca"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/bidder_material_intake/skill.py",
+      "GitBlob": "cf496905ed8a7291a4e7b17fb1e726faf19de697",
+      "ExportBlob": "cf496905ed8a7291a4e7b17fb1e726faf19de697",
+      "Match": true,
+      "SHA256": "fa049b531a5b25a06b9452feaa0485b4feca9b7c15676ad4d90d4993b1592976"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/compliance_review/__init__.py",
+      "GitBlob": "3a2c749a51b351776154a7dcda57f15d39ec7f08",
+      "ExportBlob": "3a2c749a51b351776154a7dcda57f15d39ec7f08",
+      "Match": true,
+      "SHA256": "d9533621be88e5a3c654ff7c091dd08432ae7856fddb412db8af29d71ac36c44"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/compliance_review/skill.py",
+      "GitBlob": "c9a3dc617f99523154e3b6aa14ee480edbef6fa9",
+      "ExportBlob": "c9a3dc617f99523154e3b6aa14ee480edbef6fa9",
+      "Match": true,
+      "SHA256": "6014f8b49a328cfd5494e48c3ded94d1866f4c6fae37e83deeb377df7da005cc"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/consistency_review/__init__.py",
+      "GitBlob": "ac23dbea600eadfc1bd687a549e7ea9a7d7ea41f",
+      "ExportBlob": "ac23dbea600eadfc1bd687a549e7ea9a7d7ea41f",
+      "Match": true,
+      "SHA256": "d1d52e58be5b65a04e91e3dea9af689314ee7db100e828ddd6412a7f00e230d8"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/consistency_review/skill.py",
+      "GitBlob": "5457868a02fa451079fe24619c3bf8a0c3f62a02",
+      "ExportBlob": "5457868a02fa451079fe24619c3bf8a0c3f62a02",
+      "Match": true,
+      "SHA256": "786434c3639585a9e9ffba1adad9213135e91ac991b728a25b4f8be40dc577a7"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/document_preprocess/__init__.py",
+      "GitBlob": "3f6ddee920594fd615e33537dca547dd2b0df87f",
+      "ExportBlob": "3f6ddee920594fd615e33537dca547dd2b0df87f",
+      "Match": true,
+      "SHA256": "caa5203fcb9deeefd10eab4ee58a63d83335b5240f09f66bb0697da5627636b2"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/document_preprocess/models.py",
+      "GitBlob": "bcfe78aae7b8b47b6cbf7ebf541b701c432dca6a",
+      "ExportBlob": "bcfe78aae7b8b47b6cbf7ebf541b701c432dca6a",
+      "Match": true,
+      "SHA256": "83fb618fd0d676aaeaf251dc8fb5d27f838a76ece23e69add68e0c2dbde8634d"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/document_preprocess/skill.py",
+      "GitBlob": "9d3057723145f9df9b3ff97c47bc19d3dce8777a",
+      "ExportBlob": "9d3057723145f9df9b3ff97c47bc19d3dce8777a",
+      "Match": true,
+      "SHA256": "cfb5e3e1bba65bf945dcd658c82ac5fd3940c9cbdf53de6257f8917e87b411ad"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/document_profile/__init__.py",
+      "GitBlob": "35185a59b8f7f2432d5dd675b78f24974acf5121",
+      "ExportBlob": "35185a59b8f7f2432d5dd675b78f24974acf5121",
+      "Match": true,
+      "SHA256": "1e53095afaeef49279ec610bdb3745ace5f1c7d8ef8baa6b8ac7900ff3295f8c"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/document_profile/models.py",
+      "GitBlob": "16a7e89b7f253452cad9bd106d03cfd5c403ade3",
+      "ExportBlob": "16a7e89b7f253452cad9bd106d03cfd5c403ade3",
+      "Match": true,
+      "SHA256": "32050fc24421f0c9d803f543014b9e877e3add8019696c117279fe25a4ae1c57"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/document_profile/skill.py",
+      "GitBlob": "682bea5826583eb358c438a88670384e549b1fbe",
+      "ExportBlob": "682bea5826583eb358c438a88670384e549b1fbe",
+      "Match": true,
+      "SHA256": "e71821e42e7ecb4faa99859801fd85abd7623363f4bc87f7e231ad0dabc46979"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/document_writing/__init__.py",
+      "GitBlob": "a0fda70b2a9a31f21d2de1a696b435695ee958d9",
+      "ExportBlob": "a0fda70b2a9a31f21d2de1a696b435695ee958d9",
+      "Match": true,
+      "SHA256": "e185a3737f650645816c94e9e4cf1beb26e9ab2f9ce2115dfeb28810a98fafc6"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/document_writing/skill.py",
+      "GitBlob": "d6a26b09901f3a17b54e4ee6bb40c3a8edfa535b",
+      "ExportBlob": "d6a26b09901f3a17b54e4ee6bb40c3a8edfa535b",
+      "Match": true,
+      "SHA256": "c9237e4a384d7326ea0793553dcfc8058a53c3e2ae60244e5dcb9eab3fb6c799"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/document_writing/verification.py",
+      "GitBlob": "98b8282abf3f6d31465a12ff0f7e1e167c7c26f3",
+      "ExportBlob": "98b8282abf3f6d31465a12ff0f7e1e167c7c26f3",
+      "Match": true,
+      "SHA256": "2f35d940b5c3f021c2ff1ae17a4fb7eb3117caa689ba3668ff5cd0106999e451"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/evidence_matching/__init__.py",
+      "GitBlob": "5ea341ef004436d34673d4fc428800a8e7fd1c09",
+      "ExportBlob": "5ea341ef004436d34673d4fc428800a8e7fd1c09",
+      "Match": true,
+      "SHA256": "a5b3a14a311d07112403d627c357afc8104f1bb034c7d4e22b0c4c1d1e642ea9"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/evidence_matching/skill.py",
+      "GitBlob": "9c23413d91701cedda3ef0fe58f4c14ee6c984c7",
+      "ExportBlob": "9c23413d91701cedda3ef0fe58f4c14ee6c984c7",
+      "Match": true,
+      "SHA256": "50f51798046dc8881936d5f7625d5321b09d0eda3f553bb29843b44a7a95a850"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/knowledge_retrieval/__init__.py",
+      "GitBlob": "c041107863e9fe0fee13cd26fd35c71bda48d7ab",
+      "ExportBlob": "c041107863e9fe0fee13cd26fd35c71bda48d7ab",
+      "Match": true,
+      "SHA256": "73b3695238f4e2006fd08962b07064ca06c0d45e1f1083a72eb08647c74b793d"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/knowledge_retrieval/models.py",
+      "GitBlob": "84c8096d46ebb5b10a85c4274dd40067fe5af07c",
+      "ExportBlob": "84c8096d46ebb5b10a85c4274dd40067fe5af07c",
+      "Match": true,
+      "SHA256": "3f9f88babf91bbcc1a70c9365b01fa07299040385db96dee142786e9d89dff62"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/knowledge_retrieval/ragflow_backend.py",
+      "GitBlob": "86d5b2128a67dac2c14549321803c0d095c9ca0e",
+      "ExportBlob": "86d5b2128a67dac2c14549321803c0d095c9ca0e",
+      "Match": true,
+      "SHA256": "3f1e4b1144a4dae06c4d910b92ad9206ce49a4f0dd7c5b90c18018751728c050"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/knowledge_retrieval/skill.py",
+      "GitBlob": "448ff8fd64ab9276a8dbbb3ba75e4f88854f6012",
+      "ExportBlob": "448ff8fd64ab9276a8dbbb3ba75e4f88854f6012",
+      "Match": true,
+      "SHA256": "4f2cf67f2bf4bf9b85eef65040c161267215a49329ca9fcf51a7cdaf39c6c11e"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/local_backends.py",
+      "GitBlob": "621bcfbf1b14c84c5ba02cd2e12295e6abd6c2ea",
+      "ExportBlob": "621bcfbf1b14c84c5ba02cd2e12295e6abd6c2ea",
+      "Match": true,
+      "SHA256": "829a4c06ffde65fe0d62fa9860ed745aff431cdbb5b4a75536ac093b12c1eb2d"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/local_requirement_groups.py",
+      "GitBlob": "9a822c8e32352119f58f8de16633b088ec54e305",
+      "ExportBlob": "9a822c8e32352119f58f8de16633b088ec54e305",
+      "Match": true,
+      "SHA256": "8c169c2ac129f13c3e528d110222c4c0127b443588e681851a346abdaa16cef5"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/local_requirement_logic.py",
+      "GitBlob": "011d9b22668fc23435a2cdfb75df653a5d472d21",
+      "ExportBlob": "011d9b22668fc23435a2cdfb75df653a5d472d21",
+      "Match": true,
+      "SHA256": "0293115b4662ada65237c0e1daded355fc32cd2e0f6ccae408e0768560fefa3b"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/quotation_check/__init__.py",
+      "GitBlob": "aaae404962d7348143a7223f82e560fe4a957045",
+      "ExportBlob": "aaae404962d7348143a7223f82e560fe4a957045",
+      "Match": true,
+      "SHA256": "ff55d602d9b3d9705d10ecdd3fc04d74c183c0037582dfff2c0e38daca8ad691"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/quotation_check/skill.py",
+      "GitBlob": "d17846f6774f201b6c5ec26e4ac3ff64635a608b",
+      "ExportBlob": "d17846f6774f201b6c5ec26e4ac3ff64635a608b",
+      "Match": true,
+      "SHA256": "030de33b9a9fb7bbf6db356292e25e9ec255640ccf63f271d87525c5238d519b"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/requirement_ledger/__init__.py",
+      "GitBlob": "ca2322eac7653c19fcb5bbc1af44446f2694134c",
+      "ExportBlob": "ca2322eac7653c19fcb5bbc1af44446f2694134c",
+      "Match": true,
+      "SHA256": "c418824bf2a76f4a9a2e51daad1e0ffe8a018ec931d72614b966197b99b069e8"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/requirement_ledger/skill.py",
+      "GitBlob": "c8d9dd434f03feee36763191f2d40c9a162ace5d",
+      "ExportBlob": "c8d9dd434f03feee36763191f2d40c9a162ace5d",
+      "Match": true,
+      "SHA256": "0642c529c423bb22dc89b7189f8376e04d5aa316251985d76cba19f74ea36adf"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/rule_engine.py",
+      "GitBlob": "db88a02eb699bf55384c59bd0c1dc768aad5a13d",
+      "ExportBlob": "db88a02eb699bf55384c59bd0c1dc768aad5a13d",
+      "Match": true,
+      "SHA256": "135bf428e30ae81a15808fab102badde06bd5f28a422af93f907f5c0dc237f65"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/scoring_strategy/__init__.py",
+      "GitBlob": "128565fc69787319585568b325462bb0f0183d83",
+      "ExportBlob": "128565fc69787319585568b325462bb0f0183d83",
+      "Match": true,
+      "SHA256": "b16d0c3a3209dfb4ab18535b69eb37167c2ab4079b57045268487ca7de4b0263"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/scoring_strategy/skill.py",
+      "GitBlob": "0749047d9c69915ffbbf23a143019b437aef370e",
+      "ExportBlob": "0749047d9c69915ffbbf23a143019b437aef370e",
+      "Match": true,
+      "SHA256": "21d48dd2974231bd7270f3a9fc03ed66f7a2fce5c4eba1a6ebc03272b5f77781"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/tender_common.py",
+      "GitBlob": "d7a4a7094f67948a89d937d1fa2665ee5be22cd1",
+      "ExportBlob": "d7a4a7094f67948a89d937d1fa2665ee5be22cd1",
+      "Match": true,
+      "SHA256": "6b655a19ec19deabb6e66177bc3556f02258e8db5e259e62233cd5a8f1ddb1fa"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/tender_decomposition/__init__.py",
+      "GitBlob": "93052e14354407ec5b4967cb626b05237b2cd5f2",
+      "ExportBlob": "93052e14354407ec5b4967cb626b05237b2cd5f2",
+      "Match": true,
+      "SHA256": "5d3ea118e12ab480e94f46e443b7f1c6051d253b5dc086026554d2db4e9aa4f9"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/tender_decomposition/skill.py",
+      "GitBlob": "ef71b426d566c3ada6ff55ef71720383ff42b118",
+      "ExportBlob": "ef71b426d566c3ada6ff55ef71720383ff42b118",
+      "Match": true,
+      "SHA256": "73b50639565893e25725fce68a310c56fa889ed3ca94ae1512546cf3c34dc528"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/tender_intake/__init__.py",
+      "GitBlob": "16e555e22c3be25ae2174623690f2faa49d7b783",
+      "ExportBlob": "16e555e22c3be25ae2174623690f2faa49d7b783",
+      "Match": true,
+      "SHA256": "66d52c46552c58d8a82f8ec37519606f23316a537df6e2b7b3a96a28a777a70a"
+    },
+    {
+      "Path": "src/qiaowenshu_agent/skills/tender_intake/skill.py",
+      "GitBlob": "23abd4c7021c6f0c8b94d9f48ef65d602f45eb81",
+      "ExportBlob": "23abd4c7021c6f0c8b94d9f48ef65d602f45eb81",
+      "Match": true,
+      "SHA256": "c746ddcfbdadb1fac388f0ee636182df93e28a57776478dea75a6431fa407424"
+    }
+  ],
+  "evaluator_files": [
+    {
+      "Path": "scripts/run_document_structure_eval.py",
+      "GitBlob": "ff9e281fa7fd7393b835cd14e5030086cd0a66ba",
+      "ExportBlob": "ff9e281fa7fd7393b835cd14e5030086cd0a66ba",
+      "Match": true,
+      "SHA256": "bf04f98aa854a0f32806a7295264a3d95b6a135d2462f93b8f2a93adff28acf5"
+    },
+    {
+      "Path": "tests/evals/test_document_structure_eval.py",
+      "GitBlob": "998a44107fb11e714bb244094c88e47c2cb234c7",
+      "ExportBlob": "998a44107fb11e714bb244094c88e47c2cb234c7",
+      "Match": true,
+      "SHA256": "022c137220e595f7bb7db493fd8d1cabff4659634e446cfc6f127982bd787aaa"
+    },
+    {
+      "Path": "scripts/run_raw_requirement_holdout_eval.py",
+      "GitBlob": "3e9345a2c91aeee385f861cf53dfa024f76065a4",
+      "ExportBlob": "3e9345a2c91aeee385f861cf53dfa024f76065a4",
+      "Match": true,
+      "SHA256": "05b8df6f12f1effa8ef45c405e9f8419e3debe063f0a14a8e10d8754394d4758"
+    },
+    {
+      "Path": "scripts/run_raw_file_eval.py",
+      "GitBlob": "aa012eca9d9061a5a72c85d8617e55f88ac8c162",
+      "ExportBlob": "aa012eca9d9061a5a72c85d8617e55f88ac8c162",
+      "Match": true,
+      "SHA256": "2834d42157ad3d832ea64d42306203d163f6333056713ee5af3d67ebc1d10538"
+    },
+    {
+      "Path": "scripts/run_reliability_followup_eval.py",
+      "GitBlob": "f1e173e26083b0fb78b0756ca6f289821699c5f2",
+      "ExportBlob": "f1e173e26083b0fb78b0756ca6f289821699c5f2",
+      "Match": true,
+      "SHA256": "6cacf6e6d61709182cc0e1d4cd0accf489ab68427b8447f43aa31e3405a5dc54"
+    },
+    {
+      "Path": "scripts/run_document_relations_eval.py",
+      "GitBlob": "7a39460bcf6d6cea801ebbd2508b95d6e18010b9",
+      "ExportBlob": "7a39460bcf6d6cea801ebbd2508b95d6e18010b9",
+      "Match": true,
+      "SHA256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483"
+    },
+    {
+      "Path": "tests/evals/test_document_relations_eval.py",
+      "GitBlob": "f18fcc0aec0e6afbea1e002f1aceb11065e4d05c",
+      "ExportBlob": "f18fcc0aec0e6afbea1e002f1aceb11065e4d05c",
+      "Match": true,
+      "SHA256": "7fb5e3694d8614e962c6061e50d2de8b15c29a2bc6d02e808048f161ac371228"
+    },
+    {
+      "Path": "tests/test_document_relations.py",
+      "GitBlob": "f7849ad6cbe7ff89bdcaf2e00c42d64b39234e6f",
+      "ExportBlob": "f7849ad6cbe7ff89bdcaf2e00c42d64b39234e6f",
+      "Match": true,
+      "SHA256": "5f51d4ea4fe6b163f317ec9cc97fcadc4e56d6e9482982f44ebcbc1392b29076"
+    },
+    {
+      "Path": "tests/test_document_relations_pipeline.py",
+      "GitBlob": "64dc5c99f8666f465f450e8c9137933f19360c73",
+      "ExportBlob": "64dc5c99f8666f465f450e8c9137933f19360c73",
+      "Match": true,
+      "SHA256": "b34b5704fa40c847a25576581bc1ab3b9de67e2931cf7dfb6ca3bd2f035b7eab"
+    }
+  ]
+}

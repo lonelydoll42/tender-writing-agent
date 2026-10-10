@@ -1,0 +1,892 @@
+{
+  "schema_version": "1.0",
+  "oracle_method": "人工按对应合成输入原文独立标注；不从产品输出或解析结果生成",
+  "source_coordinates": {
+    "page": "P 后的整数",
+    "line": "L 后的两位整数",
+    "quote": "输入行分隔符 | 后原文的逐字连续片段"
+  },
+  "status_semantics": {
+    "expect_confirmed": "原文足以确认的条件或关系",
+    "forbidden": "严格不得确认的指定错误关系或操作符",
+    "needs_review": "candidate 或 unresolved；不得静默升级为 confirmed"
+  },
+  "cases": [
+    {
+      "case_id": "case-01",
+      "input": "case-01.txt",
+      "markdown_oracle": "case-01.oracle.md",
+      "conditions": [
+        {
+          "id": "A1",
+          "text": "提交营业执照",
+          "certainty": "confirmed",
+          "source": [{"page": 1, "line": 1, "quote": "提交营业执照"}]
+        },
+        {
+          "id": "A2",
+          "text": "提交近一年度财务报表",
+          "certainty": "confirmed",
+          "source": [{"page": 1, "line": 1, "quote": "近一年度财务报表"}]
+        }
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2"],
+        "relations": [
+          {
+            "type": "parent",
+            "parent": "资格材料",
+            "children": ["A1", "A2"],
+            "claim": "统领语适用于两项材料",
+            "source": [{"page": 1, "line": 1, "quote": "资格材料均须同时提交营业执照及近一年度财务报表"}]
+          }
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "operator",
+          "operator": "OR",
+          "members": ["A1", "A2"],
+          "claim": "不得把两项同时提交要求确认为择一",
+          "source": [{"page": 1, "line": 1, "quote": "均须同时提交营业执照及近一年度财务报表"}]
+        }
+      ],
+      "needs_review": [],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "AND",
+          "members": ["A1", "A2"],
+          "cardinality": {"min": 2, "max": 2},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "资格材料均须同时提交营业执照及近一年度财务报表"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 2,
+        "condition_omission": 2,
+        "wrong_merge_pairs": 1,
+        "wrong_split_atom_units": 2,
+        "confirmed_scope_count": 1,
+        "scope_membership_decisions": 2
+      }
+    },
+    {
+      "case_id": "case-02",
+      "input": "case-02.txt",
+      "markdown_oracle": "case-02.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交银行资信证明", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "银行资信证明"}]},
+        {"id": "A2", "text": "提交纳税信用证明", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "纳税信用证明"}]},
+        {"id": "A3", "text": "提交信用等级报告", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "信用等级报告"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2", "A3"],
+        "relations": [
+          {
+            "type": "parent",
+            "parent": "资信证明",
+            "children": ["A1", "A2", "A3"],
+            "claim": "三项均是可选资信证明",
+            "source": [{"page": 1, "line": 1, "quote": "以下任一项作为资信证明即可，三项中任选一项"}]
+          }
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "operator",
+          "operator": "AND",
+          "members": ["A1", "A2", "A3"],
+          "claim": "不得把三选一解释成三项均须提交",
+          "source": [{"page": 1, "line": 1, "quote": "三项中任选一项"}]
+        }
+      ],
+      "needs_review": [],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "OR",
+          "members": ["A1", "A2", "A3"],
+          "cardinality": {"min": 1, "max": 1},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "以下任一项作为资信证明即可，三项中任选一项"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 3,
+        "condition_omission": 3,
+        "wrong_merge_pairs": 3,
+        "wrong_split_atom_units": 3,
+        "confirmed_scope_count": 1,
+        "scope_membership_decisions": 3
+      }
+    },
+    {
+      "case_id": "case-03",
+      "input": "case-03.txt",
+      "markdown_oracle": "case-03.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交营业执照复印件", "certainty": "confirmed", "source": [{"page": 1, "line": 2, "quote": "营业执照复印件"}]},
+        {"id": "A2", "text": "提交资质证书", "certainty": "confirmed", "source": [{"page": 1, "line": 2, "quote": "资质证书"}]},
+        {"id": "A3", "text": "提交项目负责人授权书", "certainty": "confirmed", "source": [{"page": 1, "line": 3, "quote": "项目负责人授权书"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2", "A3"],
+        "relations": [
+          {
+            "type": "parent",
+            "parent": "第一组",
+            "children": ["A1", "A2"],
+            "claim": "第一组包含两项备选材料",
+            "source": [{"page": 1, "line": 2, "quote": "第一组任选其一：营业执照复印件；资质证书"}]
+          },
+          {
+            "type": "parent",
+            "parent": "第二组",
+            "children": ["A3"],
+            "claim": "第二组包含项目负责人授权书",
+            "source": [{"page": 1, "line": 3, "quote": "第二组必须提交：项目负责人授权书"}]
+          }
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "operator",
+          "operator": "OR",
+          "members": ["A1", "A2", "A3"],
+          "claim": "不得把必交的第二组并入第一组的总择一",
+          "source": [{"page": 1, "line": 1, "quote": "两组要求均须满足"}, {"page": 1, "line": 2, "quote": "第一组任选其一"}, {"page": 1, "line": 3, "quote": "第二组必须提交"}]
+        }
+      ],
+      "needs_review": [],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "OR",
+          "members": ["A1", "A2"],
+          "cardinality": {"min": 1, "max": 1},
+          "boundary_basis": [{"page": 1, "line": 2, "quote": "第一组任选其一：营业执照复印件；资质证书"}]
+        },
+        {
+          "id": "S2",
+          "status": "confirmed",
+          "operator": "REQUIRED",
+          "members": ["A3"],
+          "cardinality": {"min": 1, "max": 1},
+          "boundary_basis": [{"page": 1, "line": 3, "quote": "第二组必须提交：项目负责人授权书"}]
+        },
+        {
+          "id": "S0",
+          "status": "confirmed",
+          "operator": "AND",
+          "members": ["S1", "S2"],
+          "cardinality": {"min": 2, "max": 2},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "两组要求均须满足"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 3,
+        "condition_omission": 3,
+        "wrong_merge_pairs": 3,
+        "wrong_split_atom_units": 3,
+        "confirmed_scope_count": 3,
+        "scope_membership_decisions": 9
+      }
+    },
+    {
+      "case_id": "case-04",
+      "input": "case-04.txt",
+      "markdown_oracle": "case-04.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交营业执照", "certainty": "confirmed", "source": [{"page": 1, "line": 2, "quote": "须提交营业执照"}]},
+        {"id": "A2", "text": "提交财务报表", "certainty": "confirmed", "source": [{"page": 1, "line": 3, "quote": "须提交财务报表"}]},
+        {"id": "A3", "text": "提交审计报告", "certainty": "confirmed", "source": [{"page": 1, "line": 4, "quote": "须提交审计报告"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2", "A3"],
+        "relations": [
+          {
+            "type": "parent",
+            "layer": "structural_list",
+            "parent": "材料项如下",
+            "children": ["A1", "A2", "A3"],
+            "claim": "三项属于同一文本清单；不表示业务逻辑合取",
+            "source": [{"page": 1, "line": 1, "quote": "材料项如下"}]
+          }
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "operator",
+          "operator": "AND",
+          "members": ["A1", "A2", "A3"],
+          "claim": "严格禁止仅凭同级/子级编号确认 AND",
+          "source": [{"page": 1, "line": 2, "quote": "1. 须提交营业执照"}, {"page": 1, "line": 3, "quote": "2. 须提交财务报表"}, {"page": 1, "line": 4, "quote": "2.1 须提交审计报告"}]
+        },
+        {
+          "type": "operator",
+          "operator": "OR",
+          "members": ["A1", "A2", "A3"],
+          "claim": "严格禁止仅凭编号清单确认 OR",
+          "source": [{"page": 1, "line": 2, "quote": "1. 须提交营业执照"}, {"page": 1, "line": 3, "quote": "2. 须提交财务报表"}, {"page": 1, "line": 4, "quote": "2.1 须提交审计报告"}]
+        },
+        {
+          "type": "scope",
+          "members": ["A1", "A2", "A3"],
+          "claim": "严格禁止确认三项共享一个业务逻辑作用域",
+          "source": [{"page": 1, "line": 1, "quote": "材料项如下"}, {"page": 1, "line": 2, "quote": "1. 须提交营业执照"}, {"page": 1, "line": 3, "quote": "2. 须提交财务报表"}, {"page": 1, "line": 4, "quote": "2.1 须提交审计报告"}]
+        }
+      ],
+      "needs_review": [
+        {
+          "type": "parent",
+          "status": "candidate",
+          "claim": "编号格式可能使 2.1 成为 2 的结构子项，但不是业务父子结论",
+          "source": [{"page": 1, "line": 3, "quote": "2. 须提交财务报表"}, {"page": 1, "line": 4, "quote": "2.1 须提交审计报告"}]
+        },
+        {
+          "type": "parent",
+          "status": "unresolved",
+          "claim": "2.1 是否在业务语义上从属于 2 未说明",
+          "source": [{"page": 1, "line": 3, "quote": "2. 须提交财务报表"}, {"page": 1, "line": 4, "quote": "2.1 须提交审计报告"}]
+        },
+        {
+          "type": "scope",
+          "status": "unresolved",
+          "claim": "条目之间是否同属一个逻辑作用域及其关系未说明",
+          "source": [{"page": 1, "line": 1, "quote": "材料项如下"}, {"page": 1, "line": 2, "quote": "1. 须提交营业执照"}, {"page": 1, "line": 3, "quote": "2. 须提交财务报表"}, {"page": 1, "line": 4, "quote": "2.1 须提交审计报告"}]
+        }
+      ],
+      "groups": [],
+      "denominators": {
+        "confirmed_atom_count": 3,
+        "condition_omission": 3,
+        "wrong_merge_pairs": 3,
+        "wrong_split_atom_units": 3,
+        "confirmed_scope_count": 0,
+        "scope_membership_decisions": 0
+      }
+    },
+    {
+      "case_id": "case-05",
+      "input": "case-05.txt",
+      "markdown_oracle": "case-05.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交营业执照", "certainty": "confirmed", "source": [{"page": 1, "line": 2, "quote": "营业执照"}]},
+        {"id": "A2", "text": "提交财务报表", "certainty": "confirmed", "source": [{"page": 1, "line": 3, "quote": "财务报表"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2"],
+        "relations": [
+          {
+            "type": "parent",
+            "parent": "以下三类中任取两类提交",
+            "children": ["A1", "A2"],
+            "claim": "A1、A2 是已枚举的可见条目",
+            "source": [{"page": 1, "line": 1, "quote": "以下三类中任取两类提交"}, {"page": 1, "line": 2, "quote": "1. 营业执照"}, {"page": 1, "line": 3, "quote": "2. 财务报表"}]
+          }
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "scope",
+          "members": ["A1", "A2"],
+          "claim": "严格禁止把两项可见材料确认为完整的三选二候选集",
+          "source": [{"page": 1, "line": 1, "quote": "以下三类中任取两类提交"}, {"page": 1, "line": 2, "quote": "1. 营业执照"}, {"page": 1, "line": 3, "quote": "2. 财务报表"}]
+        }
+      ],
+      "needs_review": [
+        {
+          "type": "operator",
+          "status": "unresolved",
+          "operator": "K_OF_N",
+          "cardinality": {"choose": 2, "declared_members": 3, "enumerated_members": 2},
+          "claim": "第三个成员未出现，不得补造；整体操作符范围不完整",
+          "source": [{"page": 1, "line": 1, "quote": "以下三类中任取两类提交"}, {"page": 1, "line": 2, "quote": "1. 营业执照"}, {"page": 1, "line": 3, "quote": "2. 财务报表"}]
+        },
+        {
+          "type": "scope",
+          "status": "candidate",
+          "claim": "A1、A2 是三类范围中的可见成员，但完整成员集不确定",
+          "source": [{"page": 1, "line": 1, "quote": "以下三类中任取两类提交"}, {"page": 1, "line": 2, "quote": "1. 营业执照"}, {"page": 1, "line": 3, "quote": "2. 财务报表"}]
+        },
+        {
+          "type": "parent",
+          "status": "unresolved",
+          "claim": "未枚举第三类的身份和位置不可解析",
+          "source": [{"page": 1, "line": 1, "quote": "以下三类中任取两类提交"}, {"page": 1, "line": 2, "quote": "1. 营业执照"}, {"page": 1, "line": 3, "quote": "2. 财务报表"}]
+        }
+      ],
+      "groups": [
+        {
+          "id": "S1-incomplete",
+          "status": "needs_review",
+          "operator": "K_OF_N",
+          "members": ["A1", "A2"],
+          "cardinality": {"choose": 2, "declared_members": 3, "enumerated_members": 2, "missing_member_slots": 1},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "以下三类中任取两类提交"}, {"page": 1, "line": 2, "quote": "1. 营业执照"}, {"page": 1, "line": 3, "quote": "2. 财务报表"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 2,
+        "condition_omission": 2,
+        "wrong_merge_pairs": 1,
+        "wrong_split_atom_units": 2,
+        "confirmed_scope_count": 0,
+        "scope_membership_decisions": 0
+      }
+    },
+    {
+      "case_id": "case-06",
+      "input": "case-06.txt",
+      "markdown_oracle": "case-06.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交营业执照", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "提交营业执照"}]},
+        {"id": "A2", "text": "提交财务报表", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "财务报表"}]},
+        {"id": "A3", "text": "提交纳税证明", "certainty": "confirmed", "source": [{"page": 1, "line": 3, "quote": "纳税证明"}]},
+        {"id": "A4", "text": "提交审计报告", "certainty": "confirmed", "source": [{"page": 1, "line": 4, "quote": "审计报告"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2", "A3", "A4"],
+        "relations": [
+          {"type": "parent", "parent": "一、必交资格材料", "children": ["A1", "A2"], "claim": "第一节统领 A1、A2", "source": [{"page": 1, "line": 1, "quote": "一、必交资格材料"}]},
+          {"type": "parent", "parent": "二、补充证明", "children": ["A3", "A4"], "claim": "第二节统领 A3、A4", "source": [{"page": 1, "line": 2, "quote": "二、补充证明可任选一项"}]}
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "operator",
+          "operator": "single_flat_group",
+          "members": ["A1", "A2", "A3", "A4"],
+          "claim": "不得把两个编号层级切换后的不同操作符范围压成一个平面组",
+          "source": [{"page": 1, "line": 1, "quote": "一、必交资格材料：须同时提交营业执照及财务报表"}, {"page": 1, "line": 2, "quote": "二、补充证明可任选一项："}]
+        }
+      ],
+      "needs_review": [],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "AND",
+          "members": ["A1", "A2"],
+          "cardinality": {"min": 2, "max": 2},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "一、必交资格材料：须同时提交营业执照及财务报表"}]
+        },
+        {
+          "id": "S2",
+          "status": "confirmed",
+          "operator": "OR",
+          "members": ["A3", "A4"],
+          "cardinality": {"min": 1, "max": 1},
+          "boundary_basis": [{"page": 1, "line": 2, "quote": "二、补充证明可任选一项："}, {"page": 1, "line": 3, "quote": "（1）纳税证明"}, {"page": 1, "line": 4, "quote": "（2）审计报告"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 4,
+        "condition_omission": 4,
+        "wrong_merge_pairs": 6,
+        "wrong_split_atom_units": 4,
+        "confirmed_scope_count": 2,
+        "scope_membership_decisions": 8
+      }
+    },
+    {
+      "case_id": "case-07",
+      "input": "case-07.txt",
+      "markdown_oracle": "case-07.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交营业执照", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "营业执照"}]},
+        {"id": "A2", "text": "提交审计报告", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "审计报告"}]},
+        {"id": "A3", "text": "提交纳税证明", "certainty": "confirmed", "source": [{"page": 2, "line": 2, "quote": "并须提交纳税证明"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2", "A3"],
+        "relations": [
+          {"type": "parent", "parent": "基本材料清单", "children": ["A1", "A2", "A3"], "claim": "A3 明确承接上一页基本材料清单", "source": [{"page": 2, "line": 1, "quote": "（承接上一页“基本材料”清单）"}, {"page": 2, "line": 2, "quote": "并须提交纳税证明"}]},
+          {"type": "reference", "from": "P2-L01 的“基本材料”", "to": "P1-L01 的“基本材料”", "claim": "跨页回指目标明确", "source": [{"page": 1, "line": 1, "quote": "基本材料须全部提交"}, {"page": 2, "line": 1, "quote": "（承接上一页“基本材料”清单）"}]}
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "scope",
+          "members": ["A1", "A2", "A3"],
+          "claim": "不得因分页而把明确承接的 A3 排除在基本材料组之外",
+          "source": [{"page": 2, "line": 1, "quote": "（承接上一页“基本材料”清单）"}, {"page": 2, "line": 2, "quote": "并须提交纳税证明"}]
+        }
+      ],
+      "needs_review": [],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "AND",
+          "members": ["A1", "A2", "A3"],
+          "cardinality": {"min": 3, "max": 3},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "基本材料须全部提交：营业执照、审计报告"}, {"page": 2, "line": 1, "quote": "（承接上一页“基本材料”清单）"}, {"page": 2, "line": 2, "quote": "并须提交纳税证明"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 3,
+        "condition_omission": 3,
+        "wrong_merge_pairs": 3,
+        "wrong_split_atom_units": 3,
+        "confirmed_scope_count": 1,
+        "scope_membership_decisions": 3
+      }
+    },
+    {
+      "case_id": "case-08",
+      "input": "case-08.txt",
+      "markdown_oracle": "case-08.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交营业执照", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "营业执照"}]},
+        {"id": "A2", "text": "提交审计报告", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "审计报告"}]},
+        {"id": "A3", "text": "可能要求提交项目联系人表；仅作 candidate", "certainty": "candidate", "source": [{"page": 2, "line": 1, "quote": "项目联系人表一份"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2"],
+        "relations": []
+      },
+      "forbidden": [
+        {
+          "type": "reference_or_continuation",
+          "claim": "严格禁止把 P2-L01 确认为 P1-L01 清单的续项或确认 A3 属于 S1",
+          "source": [{"page": 1, "line": 1, "quote": "本页基本材料须同时提交：营业执照、审计报告"}, {"page": 2, "line": 1, "quote": "项目联系人表一份"}]
+        },
+        {
+          "type": "operator",
+          "operator": "AND",
+          "members": ["A1", "A2", "A3"],
+          "claim": "严格禁止跨页无承接依据确认三项 AND",
+          "source": [{"page": 1, "line": 1, "quote": "本页基本材料须同时提交：营业执照、审计报告"}, {"page": 2, "line": 1, "quote": "项目联系人表一份"}]
+        }
+      ],
+      "needs_review": [
+        {
+          "type": "condition",
+          "status": "candidate",
+          "condition_id": "A3",
+          "claim": "片段可能是材料要求，但没有谓语或明确提交指令",
+          "source": [{"page": 2, "line": 1, "quote": "项目联系人表一份"}]
+        },
+        {
+          "type": "parent",
+          "status": "candidate",
+          "claim": "P2-L01 可能续列基本材料，但没有承接词",
+          "source": [{"page": 1, "line": 1, "quote": "本页基本材料"}, {"page": 2, "line": 1, "quote": "项目联系人表一份"}]
+        },
+        {
+          "type": "parent",
+          "status": "unresolved",
+          "claim": "无法确定第二页片段与前页清单的关系",
+          "source": [{"page": 1, "line": 1, "quote": "本页基本材料须同时提交：营业执照、审计报告"}, {"page": 2, "line": 1, "quote": "项目联系人表一份"}]
+        },
+        {
+          "type": "scope",
+          "status": "candidate",
+          "claim": "A3 可能属于 S1，但未确认",
+          "source": [{"page": 1, "line": 1, "quote": "本页基本材料"}, {"page": 2, "line": 1, "quote": "项目联系人表一份"}]
+        },
+        {
+          "type": "scope",
+          "status": "unresolved",
+          "claim": "A3 的成员关系没有明确跨页边界依据",
+          "source": [{"page": 1, "line": 1, "quote": "须同时提交"}, {"page": 2, "line": 1, "quote": "项目联系人表一份"}]
+        }
+      ],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "AND",
+          "members": ["A1", "A2"],
+          "cardinality": {"min": 2, "max": 2},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "本页基本材料须同时提交：营业执照、审计报告"}]
+        },
+        {
+          "id": "S1-plus-A3-candidate",
+          "status": "needs_review",
+          "operator": "cross_page_continuation_unknown",
+          "members": ["A1", "A2", "A3"],
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "本页基本材料须同时提交：营业执照、审计报告"}, {"page": 2, "line": 1, "quote": "项目联系人表一份"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 2,
+        "condition_omission": 2,
+        "wrong_merge_pairs": 1,
+        "wrong_split_atom_units": 2,
+        "confirmed_scope_count": 1,
+        "scope_membership_decisions": 2
+      }
+    },
+    {
+      "case_id": "case-09",
+      "input": "case-09.txt",
+      "markdown_oracle": "case-09.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交法定代表人身份证复印件", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "提交法定代表人身份证复印件"}]},
+        {"id": "A2", "text": "该复印件加盖公章", "certainty": "confirmed", "source": [{"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2"],
+        "relations": [
+          {"type": "parent", "parent": "A1 的复印件条件", "children": ["A2"], "claim": "加盖公章要求修饰 A1 指向的复印件", "source": [{"page": 1, "line": 1, "quote": "法定代表人身份证复印件"}, {"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]},
+          {"type": "reference", "from": "该复印件", "to": "A1", "claim": "唯一先行项为法定代表人身份证复印件", "source": [{"page": 1, "line": 1, "quote": "法定代表人身份证复印件"}, {"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]}
+        ]
+      },
+      "forbidden": [],
+      "needs_review": [],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "attribute_scope",
+          "members": ["A1", "A2"],
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "须提交法定代表人身份证复印件"}, {"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 2,
+        "condition_omission": 2,
+        "wrong_merge_pairs": 1,
+        "wrong_split_atom_units": 2,
+        "confirmed_scope_count": 1,
+        "scope_membership_decisions": 2
+      }
+    },
+    {
+      "case_id": "case-10",
+      "input": "case-10.txt",
+      "markdown_oracle": "case-10.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交营业执照复印件", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "营业执照复印件"}]},
+        {"id": "A2", "text": "提交开户许可证复印件", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "开户许可证复印件"}]},
+        {"id": "A3", "text": "某一复印件加盖公章；对象不明", "certainty": "candidate", "source": [{"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2"],
+        "relations": [
+          {"type": "parent", "parent": "提交要求", "children": ["A1", "A2"], "claim": "两个复印件均在同一提交要求内", "source": [{"page": 1, "line": 1, "quote": "须提交营业执照复印件及开户许可证复印件"}]}
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "reference",
+          "claim": "严格禁止把“该复印件”确认为只指 A1、只指 A2 或同时指两者",
+          "source": [{"page": 1, "line": 1, "quote": "营业执照复印件及开户许可证复印件"}, {"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]
+        }
+      ],
+      "needs_review": [
+        {
+          "type": "condition",
+          "status": "candidate",
+          "condition_id": "A3",
+          "claim": "公章要求成立，但其对象需要复核",
+          "source": [{"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]
+        },
+        {
+          "type": "parent",
+          "status": "candidate",
+          "claim": "A3 可能修饰 A1 或 A2",
+          "source": [{"page": 1, "line": 1, "quote": "营业执照复印件及开户许可证复印件"}, {"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]
+        },
+        {
+          "type": "parent",
+          "status": "unresolved",
+          "claim": "A3 的父对象无法唯一确定",
+          "source": [{"page": 1, "line": 1, "quote": "营业执照复印件及开户许可证复印件"}, {"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]
+        },
+        {
+          "type": "scope",
+          "status": "candidate",
+          "claim": "A3 可能落在 A1 或 A2 的材料范围内",
+          "source": [{"page": 1, "line": 1, "quote": "营业执照复印件及开户许可证复印件"}, {"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]
+        },
+        {
+          "type": "scope",
+          "status": "unresolved",
+          "claim": "不得静默把公章要求同时分配给两份复印件",
+          "source": [{"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]
+        },
+        {
+          "type": "reference",
+          "status": "candidate",
+          "claim": "两个复印件均是“该复印件”的候选先行项",
+          "source": [{"page": 1, "line": 1, "quote": "营业执照复印件及开户许可证复印件"}]
+        },
+        {
+          "type": "reference",
+          "status": "unresolved",
+          "claim": "单数回指的先行项不唯一",
+          "source": [{"page": 1, "line": 1, "quote": "营业执照复印件及开户许可证复印件"}, {"page": 1, "line": 2, "quote": "该复印件必须加盖公章"}]
+        }
+      ],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "AND",
+          "members": ["A1", "A2"],
+          "cardinality": {"min": 2, "max": 2},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "须提交营业执照复印件及开户许可证复印件"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 2,
+        "condition_omission": 2,
+        "wrong_merge_pairs": 1,
+        "wrong_split_atom_units": 2,
+        "confirmed_scope_count": 1,
+        "scope_membership_decisions": 2
+      }
+    },
+    {
+      "case_id": "case-11",
+      "input": "case-11.txt",
+      "markdown_oracle": "case-11.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交近两年编号 1.9 的表", "certainty": "confirmed", "source": [{"page": 1, "line": 2, "quote": "近两年1.9号表"}]},
+        {"id": "A2", "text": "提交近两年编号 1.10 的表", "certainty": "confirmed", "source": [{"page": 1, "line": 2, "quote": "近两年1.10号表"}]},
+        {"id": "A3", "text": "提交近三年编号 1.9 的表", "certainty": "confirmed", "source": [{"page": 1, "line": 3, "quote": "近三年1.9号表"}]},
+        {"id": "A4", "text": "提交近三年编号 1.10 的表", "certainty": "confirmed", "source": [{"page": 1, "line": 3, "quote": "近三年1.10号表"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2", "A3", "A4"],
+        "relations": [
+          {"type": "parent", "parent": "第一组", "children": ["A1", "A2"], "claim": "两个条目属于第一组", "source": [{"page": 1, "line": 2, "quote": "第一组"}]},
+          {"type": "parent", "parent": "第二组", "children": ["A3", "A4"], "claim": "两个条目属于第二组", "source": [{"page": 1, "line": 3, "quote": "第二组"}]}
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "scope",
+          "members": ["A1", "A2", "A3", "A4"],
+          "claim": "不得忽略重复组号而把四项并成一个四选一或全提交组",
+          "source": [{"page": 1, "line": 1, "quote": "以下两组材料均须提交，但每组只需择一"}, {"page": 1, "line": 2, "quote": "第一组：（1）近两年1.9号表；（2）近两年1.10号表"}, {"page": 1, "line": 3, "quote": "第二组：（1）近三年1.9号表；（2）近三年1.10号表"}]
+        }
+      ],
+      "needs_review": [],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "OR",
+          "members": ["A1", "A2"],
+          "cardinality": {"min": 1, "max": 1},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "每组只需择一"}, {"page": 1, "line": 2, "quote": "第一组：（1）近两年1.9号表；（2）近两年1.10号表"}]
+        },
+        {
+          "id": "S2",
+          "status": "confirmed",
+          "operator": "OR",
+          "members": ["A3", "A4"],
+          "cardinality": {"min": 1, "max": 1},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "每组只需择一"}, {"page": 1, "line": 3, "quote": "第二组：（1）近三年1.9号表；（2）近三年1.10号表"}]
+        },
+        {
+          "id": "S0",
+          "status": "confirmed",
+          "operator": "AND",
+          "members": ["S1", "S2"],
+          "cardinality": {"min": 2, "max": 2},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "以下两组材料均须提交"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 4,
+        "condition_omission": 4,
+        "wrong_merge_pairs": 6,
+        "wrong_split_atom_units": 4,
+        "confirmed_scope_count": 3,
+        "scope_membership_decisions": 12
+      }
+    },
+    {
+      "case_id": "case-12",
+      "input": "case-12.txt",
+      "markdown_oracle": "case-12.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交编号 1.9 项材料", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "编号1.9项"}]},
+        {"id": "A2", "text": "提交编号 1.10 项材料", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "编号1.10项"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2"],
+        "relations": [
+          {"type": "parent", "parent": "编号1.9至1.10范围", "children": ["A1", "A2"], "claim": "明确限定为两个材料编号", "source": [{"page": 1, "line": 1, "quote": "“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交"}]}
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "condition",
+          "claim": "严格禁止把编号范围解释为小数区间、生成额外编号项或金额条件",
+          "source": [{"page": 1, "line": 1, "quote": "仅按材料编号理解"}, {"page": 1, "line": 1, "quote": "共两项材料均须提交"}]
+        }
+      ],
+      "needs_review": [],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "AND",
+          "members": ["A1", "A2"],
+          "cardinality": {"min": 2, "max": 2},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 2,
+        "condition_omission": 2,
+        "wrong_merge_pairs": 1,
+        "wrong_split_atom_units": 2,
+        "confirmed_scope_count": 1,
+        "scope_membership_decisions": 2
+      }
+    },
+    {
+      "case_id": "case-13",
+      "input": "case-13.txt",
+      "markdown_oracle": "case-13.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交编号 1.9 的财务说明", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "提交编号1.9的财务说明"}]},
+        {"id": "A2", "text": "财务说明列明营业收入", "certainty": "confirmed", "source": [{"page": 1, "line": 1, "quote": "在说明中列明营业收入"}]},
+        {"id": "A3", "text": "营业收入不少于人民币 1.10 万元", "certainty": "confirmed", "source": [{"page": 1, "line": 2, "quote": "营业收入应不少于人民币1.10万元"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2", "A3"],
+        "relations": [
+          {"type": "operator", "operator": "AND", "members": ["A1", "A2"], "claim": "提交说明并列明收入", "source": [{"page": 1, "line": 1, "quote": "请提交编号1.9的财务说明，并在说明中列明营业收入"}]},
+          {"type": "parent", "parent": "A2 的营业收入字段", "children": ["A3"], "claim": "金额谓词限定该说明中的营业收入", "source": [{"page": 1, "line": 1, "quote": "在说明中列明营业收入"}, {"page": 1, "line": 2, "quote": "营业收入应不少于人民币1.10万元"}]},
+          {"type": "reference", "from": "P1-L02 的“营业收入”", "to": "P1-L01 列明的营业收入字段", "claim": "同一收入字段的衔接唯一", "source": [{"page": 1, "line": 1, "quote": "在说明中列明营业收入"}, {"page": 1, "line": 2, "quote": "营业收入应不少于人民币1.10万元"}]}
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "condition",
+          "claim": "严格禁止把 1.10 万元识别成编号 1.10 的材料条件",
+          "source": [{"page": 1, "line": 1, "quote": "编号1.9的财务说明"}, {"page": 1, "line": 2, "quote": "人民币1.10万元"}]
+        }
+      ],
+      "needs_review": [],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "contextual_scope_no_flat_operator",
+          "members": ["A1", "A2", "A3"],
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "请提交编号1.9的财务说明，并在说明中列明营业收入"}, {"page": 1, "line": 2, "quote": "营业收入应不少于人民币1.10万元"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 3,
+        "condition_omission": 3,
+        "wrong_merge_pairs": 3,
+        "wrong_split_atom_units": 3,
+        "confirmed_scope_count": 1,
+        "scope_membership_decisions": 3
+      }
+    },
+    {
+      "case_id": "case-14",
+      "input": "case-14.txt",
+      "markdown_oracle": "case-14.oracle.md",
+      "conditions": [
+        {"id": "A1", "text": "提交营业执照复印件", "certainty": "confirmed", "source": [{"page": 1, "line": 2, "quote": "提交营业执照复印件"}]},
+        {"id": "A2", "text": "提交等效资质证明", "certainty": "confirmed", "source": [{"page": 1, "line": 3, "quote": "提交等效资质证明"}]},
+        {"id": "A3", "text": "所指某一材料应加盖公章；指代需复核", "certainty": "candidate", "source": [{"page": 1, "line": 4, "quote": "该材料应加盖公章"}]}
+      ],
+      "expect_confirmed": {
+        "conditions": ["A1", "A2"],
+        "relations": [
+          {"type": "parent", "parent": "下列任一条件", "children": ["A1", "A2"], "claim": "A1、A2 是择一备选项", "source": [{"page": 1, "line": 1, "quote": "满足下列任一条件即可"}, {"page": 1, "line": 2, "quote": "A. 提交营业执照复印件"}, {"page": 1, "line": 3, "quote": "B. 提交等效资质证明"}]}
+        ]
+      },
+      "forbidden": [
+        {
+          "type": "reference",
+          "claim": "严格禁止确认“该材料”唯一指向 A1、唯一指向 A2 或同时独立指向两者",
+          "source": [{"page": 1, "line": 2, "quote": "A. 提交营业执照复印件"}, {"page": 1, "line": 3, "quote": "B. 提交等效资质证明"}, {"page": 1, "line": 4, "quote": "该材料应加盖公章"}]
+        }
+      ],
+      "needs_review": [
+        {
+          "type": "condition",
+          "status": "candidate",
+          "condition_id": "A3",
+          "claim": "公章要求存在，但关系到哪个备选结果需复核",
+          "source": [{"page": 1, "line": 4, "quote": "该材料应加盖公章"}]
+        },
+        {
+          "type": "parent",
+          "status": "candidate",
+          "claim": "A3 可能约束择一结果",
+          "source": [{"page": 1, "line": 1, "quote": "满足下列任一条件即可"}, {"page": 1, "line": 4, "quote": "该材料应加盖公章"}]
+        },
+        {
+          "type": "parent",
+          "status": "unresolved",
+          "claim": "A3 是分别约束每个备选项还是仅约束已选项未说明",
+          "source": [{"page": 1, "line": 2, "quote": "A. 提交营业执照复印件"}, {"page": 1, "line": 3, "quote": "B. 提交等效资质证明"}, {"page": 1, "line": 4, "quote": "该材料应加盖公章"}]
+        },
+        {
+          "type": "scope",
+          "status": "candidate",
+          "claim": "A3 可能限定择一后提交的材料",
+          "source": [{"page": 1, "line": 4, "quote": "该材料应加盖公章"}]
+        },
+        {
+          "type": "scope",
+          "status": "unresolved",
+          "claim": "A3 对 A1/A2 的覆盖方式不明确",
+          "source": [{"page": 1, "line": 2, "quote": "A. 提交营业执照复印件"}, {"page": 1, "line": 3, "quote": "B. 提交等效资质证明"}, {"page": 1, "line": 4, "quote": "该材料应加盖公章"}]
+        },
+        {
+          "type": "reference",
+          "status": "candidate",
+          "claim": "“该材料”可能指实际选中的备选材料",
+          "source": [{"page": 1, "line": 1, "quote": "满足下列任一条件即可"}, {"page": 1, "line": 2, "quote": "提交营业执照复印件"}, {"page": 1, "line": 3, "quote": "提交等效资质证明"}, {"page": 1, "line": 4, "quote": "该材料应加盖公章"}]
+        },
+        {
+          "type": "reference",
+          "status": "unresolved",
+          "claim": "不能唯一确定所指备选项",
+          "source": [{"page": 1, "line": 2, "quote": "A. 提交营业执照复印件"}, {"page": 1, "line": 3, "quote": "B. 提交等效资质证明"}, {"page": 1, "line": 4, "quote": "该材料应加盖公章"}]
+        }
+      ],
+      "groups": [
+        {
+          "id": "S1",
+          "status": "confirmed",
+          "operator": "OR",
+          "members": ["A1", "A2"],
+          "cardinality": {"min": 1, "max": 1},
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "满足下列任一条件即可"}, {"page": 1, "line": 2, "quote": "A. 提交营业执照复印件"}, {"page": 1, "line": 3, "quote": "B. 提交等效资质证明"}]
+        },
+        {
+          "id": "S2-candidate",
+          "status": "needs_review",
+          "operator": "selected_alternative_scope",
+          "members": ["A3", "selected_member_of_S1"],
+          "boundary_basis": [{"page": 1, "line": 1, "quote": "满足下列任一条件即可"}, {"page": 1, "line": 4, "quote": "该材料应加盖公章"}]
+        }
+      ],
+      "denominators": {
+        "confirmed_atom_count": 2,
+        "condition_omission": 2,
+        "wrong_merge_pairs": 1,
+        "wrong_split_atom_units": 2,
+        "confirmed_scope_count": 1,
+        "scope_membership_decisions": 2
+      }
+    }
+  ],
+  "scoring_denominator_definitions": {
+    "condition_omission": "未匹配的 confirmed 原子条件数 / confirmed 原子条件总数",
+    "wrong_merge_pairs": "confirmed 原子中被同一预测条件错误合并的无序原子对数 / confirmed 原子无序对总数",
+    "wrong_split_atom_units": "被拆成多个预测条件的 confirmed 原子数 / confirmed 原子总数",
+    "scope_membership_decisions": "错误的原子-作用域二元成员判断数 / confirmed 原子数乘 confirmed 作用域数",
+    "review_handling": "candidate/unresolved 不计入严格自动分子或分母，单独进入人工复核；零分母记 N/A"
+  },
+  "execution_state": "not_run"
+}

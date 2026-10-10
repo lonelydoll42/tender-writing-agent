@@ -18,3 +18,23 @@ benchmarks/document_structure/reports/*.json -text
 benchmarks/document_structure/reports/raw-file-regression-step1-final-20261009.json -text whitespace=cr-at-eol
 benchmarks/document_structure/reports/reliability-followup-step1-final-20261009.json -text whitespace=cr-at-eol
 benchmarks/document_structure/reports/snapshot-verification-step1-final-20261009.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reserved/v1/** -text
+benchmarks/document_relations/reserved/v2/** -text
+# Recognize CRLF as an ending on these frozen payloads while retaining real trailing-space checks.
+benchmarks/document_relations/reserved/v1/freeze.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reserved/v2/freeze.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reserved/v2/machine-oracle.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/initial-invalid-evaluator/first-score.json -text
+benchmarks/document_relations/reports/initial-invalid-evaluator/source-proof.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/first-valid/first-valid-score.json -text
+benchmarks/document_relations/reports/first-valid/source-proof.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/final-20261010/relations-score.json -text
+benchmarks/document_relations/reports/final-20261010/structure-score.json -text
+benchmarks/document_relations/reports/final-20261010/old-public-score.json -text
+benchmarks/document_relations/reports/final-20261010/raw-file-score.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/final-20261010/reliability-score.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/final-20261010/source-proof.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/pre-operator-adapter-20261010/relations-score.json -text
+benchmarks/document_relations/reports/pre-operator-adapter-20261010/source-proof.json -text whitespace=cr-at-eol
+scripts/run_document_relations_eval.py -text
+tests/evals/test_document_relations_eval.py -text

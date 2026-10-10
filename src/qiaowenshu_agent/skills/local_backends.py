@@ -17,6 +17,7 @@ from qiaowenshu_agent.core.files import (
     ProjectFileRegistry,
 )
 from qiaowenshu_agent.domain.document_structure import build_document_structure
+from qiaowenshu_agent.domain.document_relations import build_document_relations
 from qiaowenshu_agent.domain.models import SourceReference
 from qiaowenshu_agent.skills.local_requirement_logic import (
     build_local_requirement_rule,
@@ -172,14 +173,23 @@ class RegistryTenderDecompositionBackend:
         document_structures, structure_source = _document_structures_for_decomposition(
             payload, sections
         )
+        input_anchor_structures = _input_document_structures(payload, sections)
+        relation_output = document_relations_for_structures(
+            document_structures,
+            input_anchor_structures=input_anchor_structures,
+        )
+        relation_conflict_warnings = _document_structure_conflict_warnings(
+            relation_output
+        )
         explicit_requirements = list(payload.get("requirements") or [])
         explicit_scores = list(payload.get("scoring_items") or [])
         if explicit_requirements or explicit_scores:
             return {
                 "requirements": explicit_requirements,
                 "scoring_items": explicit_scores,
-                "warnings": [],
+                "warnings": relation_conflict_warnings,
                 "document_structures": document_structures,
+                **relation_output,
                 "block_projection_audit": _not_run_projection_audit(
                     document_structures,
                     structure_source=structure_source,
@@ -333,11 +343,12 @@ class RegistryTenderDecompositionBackend:
         result = {
             "requirements": requirements,
             "scoring_items": scoring_items,
-            "warnings": warnings,
+            "warnings": _unique([*warnings, *relation_conflict_warnings]),
             "extraction_complete": False,
             "needs_human_review": True,
             "business_status": "needs_review",
             "document_structures": document_structures,
+            **relation_output,
             "block_projection_audit": {
                 "candidate_projection": candidate_projection,
                 "final_requirement_extraction": {
@@ -887,6 +898,536 @@ def _document_structures_for_decomposition(
     else:
         source = "legacy_text_fallback"
     return structures, source
+
+
+def _input_document_structures(
+    payload: Mapping[str, Any],
+    sections: list[Any],
+) -> list[dict[str, Any]]:
+    provided = payload.get("document_structures")
+    structures = [
+        dict(item)
+        for item in provided
+        if isinstance(item, Mapping)
+    ] if isinstance(provided, list) else []
+    structures.extend(
+        dict(section["document_structure"])
+        for section in sections
+        if isinstance(section, Mapping)
+        and isinstance(section.get("document_structure"), Mapping)
+    )
+    return structures
+
+
+def document_relations_for_structures(
+    document_structures: list[Any],
+    *,
+    input_anchor_structures: list[Any] | None = None,
+    registry_verified_structures: list[Any] | None = None,
+) -> dict[str, Any]:
+    graphs: list[dict[str, Any]] = []
+    warnings: list[str] = []
+    diagnostics: list[str] = []
+    unprocessed_structures: list[dict[str, str]] = []
+    input_anchor_signatures = _document_structure_anchor_signatures(
+        document_structures
+        if input_anchor_structures is None
+        else input_anchor_structures
+    )
+    registry_anchor_signatures = _document_structure_anchor_signatures(
+        registry_verified_structures or []
+    )
+    structures_by_identity: dict[tuple[str, str], list[Mapping[str, Any]]] = {}
+    for structure in document_structures:
+        if not isinstance(structure, Mapping):
+            unprocessed_structures.append(
+                {"document_id": "", "source_version": "", "reason": "not_mapping"}
+            )
+            continue
+        document_id = str(structure.get("document_id") or "").strip()
+        source_version = str(structure.get("source_version") or "").strip()
+        identity = (document_id, source_version)
+        if not all(identity):
+            unprocessed_structures.append(
+                {
+                    "document_id": document_id,
+                    "source_version": source_version,
+                    "reason": "missing_document_identity",
+                }
+            )
+            continue
+        structures_by_identity.setdefault(identity, []).append(structure)
+
+    for (document_id, source_version), versions in structures_by_identity.items():
+        signatures = {
+            _document_structure_content_signature(item) for item in versions
+        }
+        if len(signatures) > 1:
+            unprocessed_structures.append(
+                {
+                    "document_id": document_id,
+                    "source_version": source_version,
+                    "reason": "conflicting_content",
+                }
+            )
+            warnings.append(
+                "conflicting document content for "
+                f"{document_id} {source_version}; relations were not built"
+            )
+            continue
+        else:
+            structure = versions[0]
+
+        if structure.get("schema_version") != "document-structure-v1":
+            reason = "unsupported_schema"
+            warning = (
+                f"relations not run for {document_id} {source_version}: "
+                "unsupported document structure schema"
+            )
+            unprocessed_structures.append(
+                {
+                    "document_id": document_id,
+                    "source_version": source_version,
+                    "reason": reason,
+                }
+            )
+            warnings.append(warning)
+            continue
+
+        blocks = structure.get("blocks")
+        if not isinstance(blocks, list):
+            reason = "invalid_blocks"
+            warning = (
+                f"relations not run for {document_id} {source_version}: "
+                "document blocks are missing or invalid"
+            )
+            unprocessed_structures.append(
+                {
+                    "document_id": document_id,
+                    "source_version": source_version,
+                    "reason": reason,
+                }
+            )
+            warnings.append(warning)
+            continue
+        if not blocks:
+            reason = "empty_blocks"
+            warning = (
+                f"relations not run for {document_id} {source_version}: "
+                "document structure has no blocks"
+            )
+            unprocessed_structures.append(
+                {
+                    "document_id": document_id,
+                    "source_version": source_version,
+                    "reason": reason,
+                }
+            )
+            warnings.append(warning)
+            continue
+
+        try:
+            graph = dict(
+                build_document_relations(_relation_source_structure(structure))
+            )
+        except Exception as exc:
+            unprocessed_structures.append(
+                {
+                    "document_id": document_id,
+                    "source_version": source_version,
+                    "reason": "builder_failed",
+                }
+            )
+            warnings.append(
+                f"relations not run for {document_id} {source_version}: "
+                f"relation builder failed ({type(exc).__name__})"
+            )
+            continue
+        graph["document_id"] = document_id
+        graph["source_version"] = source_version
+        structure_signature = _document_structure_content_signature(structure)
+        if structure_signature in registry_anchor_signatures.get(
+            (document_id, source_version), set()
+        ):
+            source_identity_status = "registry_verified"
+        elif structure_signature in input_anchor_signatures.get(
+            (document_id, source_version), set()
+        ):
+            source_identity_status = "caller_asserted"
+        else:
+            source_identity_status = "unverified"
+        graph["source_identity_status"] = source_identity_status
+
+        coordinates_unverified = _has_unverified_source_coordinates(structure)
+        if source_identity_status == "unverified" or coordinates_unverified:
+            graph = _candidate_only_relations(graph)
+            graph_warnings = [str(item) for item in graph.get("warnings") or []]
+            if coordinates_unverified:
+                warning = (
+                    "section-relative source coordinates are unverified; "
+                    "relation confirmations require human review"
+                    if _has_section_relative_source_coordinates(structure)
+                    else "source coordinates are unknown or unverified; "
+                    "relation confirmations require human review"
+                )
+                if warning not in graph_warnings:
+                    graph_warnings.append(warning)
+            if source_identity_status == "unverified":
+                warning = (
+                    "source identity is not anchored to input or Registry "
+                    "content; relation confirmations require human review"
+                )
+                if warning not in graph_warnings:
+                    graph_warnings.append(warning)
+            graph["warnings"] = graph_warnings
+            graph["needs_human_review"] = True
+        graph["source_reference_status"] = (
+            "unverified"
+            if coordinates_unverified
+            else _graph_source_reference_status(graph)
+        )
+        graphs.append(graph)
+        warnings.extend(str(item) for item in graph.get("warnings") or [])
+
+    if not document_structures:
+        diagnostics.append(
+            "no document structures were supplied; relation analysis was not run"
+        )
+
+    executed = bool(graphs)
+    source_statuses = [
+        str(graph.get("source_reference_status") or "unresolved")
+        for graph in graphs
+    ]
+    unresolved_document_count = sum(
+        status != "verified" for status in source_statuses
+    )
+    not_run_reasons = {item["reason"] for item in unprocessed_structures}
+    if not executed and not document_structures:
+        not_run_reason = "no_document_structures"
+    elif not executed and len(not_run_reasons) == 1:
+        not_run_reason = next(iter(not_run_reasons))
+    elif not executed:
+        not_run_reason = "no_eligible_structures"
+    else:
+        not_run_reason = None
+    identity_statuses = [
+        str(graph.get("source_identity_status") or "unverified")
+        for graph in graphs
+    ]
+    if not executed:
+        source_identity_status = (
+            "unverified" if unprocessed_structures else "not_run"
+        )
+    elif "unverified" in identity_statuses or unprocessed_structures:
+        source_identity_status = "unverified"
+    elif "caller_asserted" in identity_statuses:
+        source_identity_status = "caller_asserted"
+    else:
+        source_identity_status = "registry_verified"
+    return {
+        "document_relations": graphs,
+        "relation_analysis": {
+            "status": "executed" if executed else "not_run",
+            "coverage_status": "partial" if executed else "not_run",
+            "document_count": len(graphs),
+            "needs_human_review": not_run_reason != "no_document_structures",
+            "unresolved_document_count": unresolved_document_count,
+            "source_identity_status": source_identity_status,
+            "source_reference_status": (
+                "not_run"
+                if not executed
+                else "unresolved"
+                if all(status != "verified" for status in source_statuses)
+                else "partial"
+                if unresolved_document_count
+                else "verified"
+            ),
+            "not_run_reason": not_run_reason,
+            "unprocessed_structures": unprocessed_structures,
+            "warnings": list(dict.fromkeys(warnings)),
+            "diagnostics": list(dict.fromkeys(diagnostics)),
+        },
+    }
+
+
+def _document_structure_anchor_signatures(
+    structures: list[Any],
+) -> dict[tuple[str, str], set[tuple[Any, ...]]]:
+    signatures: dict[tuple[str, str], set[tuple[Any, ...]]] = {}
+    for structure in structures:
+        if not isinstance(structure, Mapping):
+            continue
+        identity = (
+            str(structure.get("document_id") or "").strip(),
+            str(structure.get("source_version") or "").strip(),
+        )
+        if not all(identity):
+            continue
+        signatures.setdefault(identity, set()).add(
+            _document_structure_content_signature(structure)
+        )
+    return signatures
+
+
+def _document_structure_content_signature(
+    structure: Mapping[str, Any],
+) -> tuple[Any, ...]:
+    return (_freeze_structure_content(_relation_source_structure(structure)),)
+
+
+def _document_structure_conflict_warnings(
+    relation_output: Mapping[str, Any],
+) -> list[str]:
+    analysis = relation_output.get("relation_analysis")
+    if not isinstance(analysis, Mapping):
+        return []
+    return [
+        str(warning)
+        for warning in analysis.get("warnings") or []
+        if str(warning).startswith("conflicting document content")
+    ]
+
+
+def _freeze_structure_content(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        return tuple(
+            sorted(
+                (
+                    str(key),
+                    _freeze_structure_content(item),
+                )
+                for key, item in value.items()
+            )
+        )
+    if isinstance(value, (list, tuple)):
+        return tuple(_freeze_structure_content(item) for item in value)
+    if isinstance(value, set):
+        return tuple(sorted(_freeze_structure_content(item) for item in value))
+    try:
+        hash(value)
+    except TypeError:
+        return repr(value)
+    return value
+
+
+def _graph_source_reference_status(graph: Mapping[str, Any]) -> str:
+    nodes = graph.get("condition_nodes")
+    if isinstance(nodes, Mapping):
+        nodes = list(nodes.values())
+    if isinstance(nodes, list) and nodes:
+        verified_nodes = [
+            _has_verified_source_references(node)
+            for node in nodes
+            if isinstance(node, Mapping)
+        ]
+        if verified_nodes and all(verified_nodes):
+            return "verified"
+        if any(verified_nodes):
+            return "partial"
+        return "unresolved"
+    return "verified" if _has_verified_source_references(graph) else "unresolved"
+
+
+def _has_verified_source_references(value: Any) -> bool:
+    if isinstance(value, Mapping):
+        references = value.get("source_references")
+        if isinstance(references, list) and any(
+            isinstance(reference, Mapping)
+            and isinstance(reference.get("document_id"), str)
+            and bool(reference.get("document_id"))
+            and isinstance(reference.get("source_version"), str)
+            and bool(reference.get("source_version"))
+            and isinstance(reference.get("page"), int)
+            and not isinstance(reference.get("page"), bool)
+            and isinstance(reference.get("char_start"), int)
+            and not isinstance(reference.get("char_start"), bool)
+            and isinstance(reference.get("char_end"), int)
+            and not isinstance(reference.get("char_end"), bool)
+            and isinstance(reference.get("quote"), str)
+            for reference in references
+        ):
+            return True
+        return any(
+            _has_verified_source_references(item) for item in value.values()
+        )
+    if isinstance(value, (list, tuple)):
+        return any(_has_verified_source_references(item) for item in value)
+    return False
+
+
+def _relation_source_structure(structure: Mapping[str, Any]) -> dict[str, Any]:
+    source = dict(structure)
+    for key in (
+        "block_relations",
+        "condition_nodes",
+        "document_relations",
+        "references",
+        "relation_analysis",
+        "roots",
+    ):
+        source.pop(key, None)
+    blocks: list[Any] = []
+    for block in structure.get("blocks", []):
+        if not isinstance(block, Mapping):
+            blocks.append(block)
+            continue
+        source_block = dict(block)
+        for key in (
+            "condition_node_ids",
+            "condition_nodes",
+            "parent_relation",
+            "reference_relations",
+            "scope_relations",
+        ):
+            source_block.pop(key, None)
+        blocks.append(source_block)
+    source["blocks"] = blocks
+    return source
+
+
+def _has_unverified_source_coordinates(structure: Mapping[str, Any]) -> bool:
+    metadata = structure.get("metadata")
+    coordinate_values = [
+        structure.get("source_coordinate_status"),
+        structure.get("source_coordinate_scope"),
+    ]
+    if isinstance(metadata, Mapping):
+        coordinate_values.extend(
+            [
+                metadata.get("source_coordinate_status"),
+                metadata.get("source_coordinate_scope"),
+            ]
+        )
+    pages = structure.get("pages")
+    for page in pages if isinstance(pages, list) else []:
+        if isinstance(page, Mapping):
+            coordinate_values.extend(
+                [
+                    page.get("source_coordinate_status"),
+                    page.get("source_coordinate_scope"),
+                    page.get("page_number_scope"),
+                ]
+            )
+            page_metadata = page.get("metadata")
+            if isinstance(page_metadata, Mapping):
+                coordinate_values.extend(
+                    [
+                        page_metadata.get("source_coordinate_status"),
+                        page_metadata.get("source_coordinate_scope"),
+                    ]
+                )
+    blocks = structure.get("blocks")
+    for block in blocks if isinstance(blocks, list) else []:
+        if isinstance(block, Mapping):
+            coordinate_values.extend(
+                [
+                    block.get("source_coordinate_status"),
+                    block.get("source_coordinate_scope"),
+                    block.get("source_span_coordinate_status"),
+                    block.get("source_span_scope"),
+                ]
+            )
+            block_metadata = block.get("metadata")
+            if isinstance(block_metadata, Mapping):
+                coordinate_values.extend(
+                    [
+                        block_metadata.get("source_coordinate_status"),
+                        block_metadata.get("source_coordinate_scope"),
+                    ]
+                )
+    return any(_coordinate_value_is_unverified(value) for value in coordinate_values)
+
+
+def _coordinate_value_is_unverified(value: Any) -> bool:
+    normalized = str(value or "").strip().lower().replace("-", "_")
+    return bool(
+        normalized
+        and any(
+            marker in normalized
+            for marker in (
+                "unknown",
+                "unverified",
+                "unmarked",
+                "unresolved",
+                "not_set",
+                "not_available",
+                "partial",
+                "relative",
+            )
+        )
+    )
+
+
+def _has_section_relative_source_coordinates(
+    structure: Mapping[str, Any],
+) -> bool:
+    values = [
+        structure.get("source_coordinate_status"),
+        structure.get("source_coordinate_scope"),
+    ]
+    metadata = structure.get("metadata")
+    if isinstance(metadata, Mapping):
+        values.extend(
+            [
+                metadata.get("source_coordinate_status"),
+                metadata.get("source_coordinate_scope"),
+            ]
+        )
+    pages = structure.get("pages")
+    for page in pages if isinstance(pages, list) else []:
+        if isinstance(page, Mapping):
+            values.extend(
+                [
+                    page.get("source_coordinate_status"),
+                    page.get("source_coordinate_scope"),
+                    page.get("page_number_scope"),
+                ]
+            )
+            page_metadata = page.get("metadata")
+            if isinstance(page_metadata, Mapping):
+                values.extend(
+                    [
+                        page_metadata.get("source_coordinate_status"),
+                        page_metadata.get("source_coordinate_scope"),
+                    ]
+                )
+    blocks = structure.get("blocks")
+    for block in blocks if isinstance(blocks, list) else []:
+        if isinstance(block, Mapping):
+            values.extend(
+                [
+                    block.get("source_coordinate_status"),
+                    block.get("source_coordinate_scope"),
+                    block.get("source_span_coordinate_status"),
+                    block.get("source_span_scope"),
+                ]
+            )
+            block_metadata = block.get("metadata")
+            if isinstance(block_metadata, Mapping):
+                values.extend(
+                    [
+                        block_metadata.get("source_coordinate_status"),
+                        block_metadata.get("source_coordinate_scope"),
+                    ]
+                )
+    return any("section_relative" in str(value or "") for value in values)
+
+
+def _candidate_only_relations(value: Any) -> Any:
+    if isinstance(value, Mapping):
+        result = {
+            str(key): _candidate_only_relations(item)
+            for key, item in value.items()
+        }
+        if result.get("status") == "confirmed":
+            result["status"] = "candidate"
+        return result
+    if isinstance(value, list):
+        return [_candidate_only_relations(item) for item in value]
+    if isinstance(value, tuple):
+        return tuple(_candidate_only_relations(item) for item in value)
+    return value
 
 
 def _section_source_identity(section: Any) -> dict[str, Any]:
