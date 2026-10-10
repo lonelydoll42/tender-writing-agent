@@ -609,6 +609,149 @@ def test_unsupported_negative_scope_never_confirms_positive_operator(
         assert "NOT" in relation["reason"] or "negative" in relation["reason"]
 
 
+@pytest.mark.parametrize(
+    "negative",
+    ["不需要", "不要求", "不需", "无需", "无须", "不必", "不得", "不须"],
+)
+@pytest.mark.parametrize("form", ["forward", "inline", "backward"])
+def test_negated_operator_cues_remain_candidates_across_entry_points(
+    negative: str,
+    form: str,
+) -> None:
+    header = f"{negative}同时提交以下两项材料"
+    items = "（1）营业执照。\n（2）审计报告。"
+    if form == "forward":
+        text = f"{header}：\n{items}"
+    elif form == "inline":
+        text = f"{header}：（1）营业执照。（2）审计报告。"
+    else:
+        text = (
+            "1. 应提交营业执照。\n"
+            "2. 应提交审计报告。\n"
+            f"上述两项材料{negative}同时提交。"
+        )
+
+    structure = _structure(text)
+    result = build_document_relations(structure)
+    assert result["coverage_status"] == "partial"
+    assert result["needs_human_review"] is True
+    negative_block = next(
+        block for block in structure["blocks"] if negative in block["raw_text"]
+    )
+    atom = _node_for_block(result, negative_block["block_id"])
+    relations = _relation_for_block(
+        structure,
+        result,
+        negative_block["raw_text"],
+    )["scope_relations"]
+    relation = next(
+        relation
+        for relation in relations
+        if any(
+            reference["quote"] == negative
+            for reference in relation.get("operator_source_references", [])
+        )
+    )
+
+    assert atom["status"] in {"candidate", "unresolved"}
+    assert atom["source_references"]
+    assert relation["status"] in {"candidate", "unresolved"}
+    assert relation["operator"] == "UNRESOLVED"
+    assert relation["operator_status"] in {"candidate", "unresolved"}
+    assert relation["scope_status"] in {"candidate", "unresolved"}
+    assert relation["operator_relation"]["status"] in {"candidate", "unresolved"}
+    negation_reference = next(
+        reference
+        for reference in relation["operator_source_references"]
+        if reference["quote"] == negative
+    )
+    assert negation_reference["char_start"] == (
+        negative_block["source_span"]["start"]
+        + negative_block["raw_text"].index(negative)
+    )
+    assert not [
+        group
+        for group in _groups(result)
+        if group["status"] == "confirmed"
+        and negative_block["block_id"] in group["source_block_ids"]
+    ]
+
+
+def test_negative_instruction_heading_is_retained_as_opaque_candidate() -> None:
+    text = (
+        "不需要同时提交以下两项材料：\n"
+        "（1）营业执照。\n"
+        "（2）审计报告。"
+    )
+    structure = _structure(text)
+    structure["blocks"][0]["kind"] = "heading"
+    result = build_document_relations(structure)
+    heading = structure["blocks"][0]
+    atom = _node_for_block(result, heading["block_id"])
+    relations = _relation_for_block(
+        structure,
+        result,
+        heading["raw_text"],
+    )["scope_relations"]
+    negated_scope = next(
+        relation
+        for relation in relations
+        if any(
+            reference["quote"] == "不需要"
+            for reference in relation.get("operator_source_references", [])
+        )
+    )
+    negation_reference = negated_scope["operator_source_references"][0]
+
+    assert atom["role"] == "opaque"
+    assert atom["status"] == "candidate"
+    assert atom["text"] == heading["raw_text"]
+    assert atom["source_references"][0]["quote"] == heading["raw_text"]
+    assert negation_reference["char_start"] == heading["source_span"]["start"]
+    assert negated_scope["operator"] == "UNRESOLVED"
+    assert negated_scope["status"] == "candidate"
+    assert not any(group["status"] == "confirmed" for group in _groups(result))
+
+    ordinary_heading = _structure("资格材料")
+    ordinary_heading["blocks"][0]["kind"] = "heading"
+    assert not build_document_relations(ordinary_heading)["condition_nodes"]
+
+
+@pytest.mark.parametrize(
+    ("text", "operator"),
+    [
+        (
+            "以下两项均须提交：\n1. 营业执照。\n2. 审计报告。",
+            "AND",
+        ),
+        (
+            "以下两项任选一项：\n（1）营业执照。\n（2）审计报告。",
+            "OR",
+        ),
+    ],
+)
+def test_positive_scoped_operators_still_confirm(
+    text: str,
+    operator: str,
+) -> None:
+    result = build_document_relations(_structure(text))
+
+    assert any(
+        group["op"] == operator and group["status"] == "confirmed"
+        for group in _groups(result)
+    )
+
+
+def test_quantity_upper_bound_is_not_treated_as_unsupported_negation() -> None:
+    result = build_document_relations(
+        _structure("投标人须提交材料，数量不超过两项。")
+    )
+
+    atom = result["condition_nodes"][0]
+    assert atom["op"] == "ATOM"
+    assert atom["status"] == "confirmed"
+
+
 def test_numbered_reference_requires_matching_item_namespace() -> None:
     text = "1. 投标人应提交营业执照。\n依据第1条的要求办理。"
     structure = _structure(text)

@@ -52,7 +52,8 @@ _SCOPE_RE = re.compile(
     r"[\u4e00-\u9fff]{1,8}(?:材料|证明|条件|要求|内容)"
 )
 _NEGATION_RE = re.compile(
-    r"不得|不应|不须|不必|无需|无须|不能|未能|不符合|未满足|不满足"
+    r"不得|不应|不须|不必|不需(?:要)?|不要求|无需|无须|不能|"
+    r"未能|不符合|未满足|不满足"
 )
 _REQUIREMENT_PREDICATE_RE = re.compile(
     r"(?:应当|必须|须|应|需)(?:同时)?"
@@ -118,6 +119,10 @@ _STANDALONE_REFERENCE_RE = re.compile(
 _TERMINAL_RE = re.compile(r"[。；;！？!?]$")
 _CONDITION_KINDS = {"paragraph", "list_item"}
 _SKIP_KINDS = {"blank", "page_boundary", "heading", "table_row"}
+
+
+def _find_negation(text: str) -> re.Match[str] | None:
+    return _NEGATION_RE.search(text)
 
 
 def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
@@ -265,6 +270,26 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
             roots_by_block[record["index"]] = [root_id]
             continue
         if record["kind"] == "heading" and _detect_frame(record["raw_text"]) is None:
+            if not (
+                _find_negation(record["raw_text"])
+                and _REQUIREMENT_PREDICATE_RE.search(record["raw_text"])
+            ):
+                continue
+            opaque_ast = _atom_ast(
+                record["raw_text"],
+                0,
+                len(record["raw_text"]),
+                "unsupported NOT or negative condition",
+            )
+            opaque_ast["opaque_candidate"] = True
+            root_id = node_builder.emit(opaque_ast, record)
+            roots_by_block[record["index"]] = [root_id]
+            _add_unknown_scope_relation(
+                record,
+                block_relation_by_index[record["index"]],
+                roots_by_block,
+                node_builder.by_id,
+            )
             continue
         if _COMPOSITE_GROUP_RE.search(record["raw_text"]):
             composite_header_indices.append(record["index"])
@@ -848,7 +873,7 @@ class _NodeBuilder:
             "parent_relations": [],
             "reason": reason,
         }
-        if opaque_reason:
+        if opaque_reason or ast.get("opaque_candidate"):
             node["role"] = "opaque"
         self._store(node)
         return identity
@@ -2102,13 +2127,11 @@ def _add_inline_scope_relations(
             }
         )
 
+    negation = _find_negation(ast.get("text", ""))
     if (
         ast["op"] == "ATOM"
         and ast.get("candidate_reason")
-        and (
-            _LOGIC_RE.search(ast.get("text", ""))
-            or _NEGATION_RE.search(ast.get("text", ""))
-        )
+        and (_LOGIC_RE.search(ast.get("text", "")) or negation)
     ):
         connectors = _top_level_connectors(
             record["raw_text"],
@@ -2123,7 +2146,6 @@ def _add_inline_scope_relations(
                 if record["raw_text"][start:end] != "、"
             ],
         )
-        negation = _NEGATION_RE.search(ast.get("text", ""))
         operator_candidates = _unique(
             [operator for operator, _start, _end in connectors]
         )
@@ -2289,7 +2311,7 @@ def _add_unknown_scope_relation(
     unresolved = not record["source_valid"] or any(
         node["status"] == "unresolved" for node in uncertain_nodes
     )
-    negation = _NEGATION_RE.search(record["raw_text"])
+    negation = _find_negation(record["raw_text"])
     operator_refs = (
         _refs_for_span(record, negation.start(), negation.end())
         if negation
@@ -2632,7 +2654,7 @@ def _parse_expression(
         if nested is not None:
             return nested
 
-    if _NEGATION_RE.search(text[start:end]):
+    if _find_negation(text[start:end]):
         return _atom_ast(
             text,
             start,
@@ -2751,7 +2773,7 @@ def _parse_expression(
 
     candidate_reason = None
     atom_text = text[start:end]
-    if _NEGATION_RE.search(atom_text):
+    if _find_negation(atom_text):
         candidate_reason = "unsupported NOT or negative condition"
     elif _LOGIC_RE.search(atom_text):
         candidate_reason = "explicit operator could not be parsed safely"
@@ -2789,7 +2811,7 @@ def _opaque_clause_reason(text: str) -> str | None:
 
 
 def _detect_frame(text: str) -> dict[str, Any] | None:
-    if _NEGATION_RE.search(text):
+    if _find_negation(text):
         return None
     and_matches = list(_AND_CUE_RE.finditer(text))
     or_matches = list(_OR_CUE_RE.finditer(text))
@@ -2843,6 +2865,8 @@ def _detect_frame(text: str) -> dict[str, Any] | None:
 
 
 def _detect_backward_frame(text: str) -> dict[str, Any] | None:
+    if _find_negation(text):
+        return None
     scope_match = _BACKWARD_SCOPE_RE.search(text)
     and_matches = list(_AND_CUE_RE.finditer(text))
     or_matches = list(_OR_CUE_RE.finditer(text))

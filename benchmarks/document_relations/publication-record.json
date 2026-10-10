@@ -574,5 +574,114 @@
       "method": "No mocks",
       "result": "Four boundary categories and candidate helper were rechecked with no erroneous confirmed result; do not extrapolate beyond this source tree."
     }
+  },
+  "negation_followup_20261010": {
+    "recorded_at": "2026-10-10T18:14:41.1095588+08:00",
+    "classification": "public_manual_regression_limited_negation_entrypoints",
+    "history_note": "The R4 closure judgment was reopened by preposed and backward negation counterexamples. This followup closes only the fixed negation cases; historical reports and the frozen 1.0.3 grader are unchanged.",
+    "source_tree_sha256": "76b23ab8d386616677b424f3f9e97f0b1b04ffae7b2809b0107fb406b2bde6c0",
+    "archive_base_staged_tree": "14463a4f87df5b468b6a52f4e713c58f1857649f",
+    "source_git_blob_matches": 65,
+    "evaluator_git_blob_matches": 11,
+    "changed_source_files": [
+      "src/qiaowenshu_agent/domain/document_relations.py"
+    ],
+    "canonical_checks": {
+      "pytest_passed": 743,
+      "pytest_warnings": 1,
+      "warning": "Existing StarletteDeprecationWarning",
+      "ruff": "passed",
+      "original_frozen_and_historical_files_unchanged": 74
+    },
+    "negation_evaluator": {
+      "script": "scripts/run_document_relations_negation_eval.py",
+      "script_sha256": "245871311639815ad0ec35fb7d06f27d2c43b4afe450327902be559570733e43",
+      "self_tests": "tests/evals/test_document_relations_negation_eval.py",
+      "self_tests_sha256": "1b7637a57c2c941e933870907f829f8031646364f22a96671a97c53d38a5cbed",
+      "self_test_count": 6,
+      "report_schema": "document-relations-negation-eval-v1",
+      "fixed_case_count": 30,
+      "negative_case_count": 24,
+      "positive_case_count": 6,
+      "input_policy": "Public manually authored TXT cases, including true single-line expressions; not blind, not business-material evaluation.",
+      "negative_policy": "No AND/OR group, operator or semantic scope may be wrongly confirmed. The negation instruction and its own NOT operator evidence must remain candidate/unresolved; unknown targets need not be bound to the two material leaves.",
+      "positive_policy": "Two distinct confirmed material leaves and one correct confirmed operator/scope with their own source evidence are required.",
+      "source_policy": "Use the unchanged frozen 1.0.3 raw-reference checker and real Registry identity/version checks. Valid source coordinates do not establish semantic correctness.",
+      "output_policy": "Create only; existing output paths are rejected."
+    },
+    "current_negation_result": {
+      "passed": 30,
+      "failed": 0,
+      "not_run": 0,
+      "negative_passed": 24,
+      "positive_passed": 6,
+      "source_invalid": "0/816"
+    },
+    "baseline_negation_result": {
+      "commit": "7ed381c7d76b18143cc82e278bfb19e5d4a38f23",
+      "source_tree_sha256": "c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f",
+      "source_bytes_verified_against_historical_proof": 65,
+      "passed": 16,
+      "failed": 14,
+      "not_run": 0,
+      "negative_passed": 10,
+      "negative_failed": 14,
+      "positive_passed": 6,
+      "source_invalid": "0/1315",
+      "interpretation": "The same new negation evaluator replayed the exact old source export; this is not a rewrite of the original R4 report."
+    },
+    "unchanged_regressions": {
+      "relations": "8 passed, 6 failed, 0 not_run; all summary metrics identical to R4; source_invalid 0/724",
+      "relation_grader_version": "1.0.3",
+      "relation_grader_script_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+      "relation_grader_tests_sha256": "7fb5e3694d8614e962c6061e50d2de8b15c29a2bc6d02e808048f161ac371228",
+      "structure": "3/3 passed",
+      "existing_public_raw_integrity": "8 executed, 0 passed, 8 failed, 0 not_run; business materials not_run/8",
+      "raw_file": "Text coverage 8/10; hard false release 0/7; six new logic families still require manual review.",
+      "reliability": "27 fixed mock-model cases: writing positives 6/6, negatives 12/12; runtime positives 2/2, negatives 7/7; false blocks/releases 0; not_run 0.",
+      "business_materials_for_relation_bundle": "not_run/14",
+      "execution_context": "Main reviewer explicitly set PYTHONPATH to canonical export/src. Raw-file and reliability source binding comes from the source proof and this execution context; those reports have no built-in source hash."
+    },
+    "artifacts": [
+      {
+        "path": "benchmarks/document_relations/reports/negation-followup-20261010/negation-score.json",
+        "sha256": "33c851cdc3cad24146ca263e092a17acca093c349f702d0d5f5163b43dd76e08"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/negation-followup-20261010/baseline-negation-score.json",
+        "sha256": "917ee6839ee5747d4f0b36e6531663512e1203ed3f4ca7c0b2cbfb8cb112422e"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/negation-followup-20261010/relations-score.json",
+        "sha256": "4f733f5879bceb8d5147144f60e3236411a5018b700477260a52ad17dfcf5a89"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/negation-followup-20261010/structure-score.json",
+        "sha256": "7b786f3c0d1e744efbd3b4de9dbe4c1f5858e9b8192562bbdb0ac1fa75a3ba1c"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/negation-followup-20261010/old-public-score.json",
+        "sha256": "f9341bab8e0a4514da1860b36d1daa882c6ee5f7e0431f354ec50a99be6daf16"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/negation-followup-20261010/raw-file-score.json",
+        "sha256": "293013a89f8b9a8727c04975bf0080d31f76be45901671b316f7897a751c5bcb"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/negation-followup-20261010/reliability-score.json",
+        "sha256": "101b76740fccf47100e0737ca5a536611b11143bb23bac30efacaae4c7c1d79c"
+      },
+      {
+        "path": "benchmarks/document_relations/reports/negation-followup-20261010/source-proof.json",
+        "sha256": "11ad2384b9e826940a0da04437b2d326236b949f00ffe5f1a1e804ac717cf48f"
+      }
+    ],
+    "limits": [
+      "Only the finite negation-entrypoint fix is closed.",
+      "Nested groups, cross-page scopes, complex NOT and subject/time linkage remain outside this fix.",
+      "Full Step 2, general completeness and production acceptance are not passed.",
+      "No real model service was called; fixed synthetic cases do not establish business false-block or false-release rates.",
+      "uv.lock remains a separate environment-reproducibility task."
+    ]
   }
 }

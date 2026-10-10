@@ -1,5 +1,13 @@
 # 文档关系状态回归
 
+## 当前专项状态（2026-10-10）
+
+用户独立复查发现否定cue可使关系被错误标记为`confirmed`。本轮反例仅涉及前置“不需要”“不要求”及后置“无需”；专项核验关系语义，不评价业务材料是否被误放行。source reference通过原文坐标校验不代表关系semantics正确。
+
+R4旧关闭判断因上述反例重新打开；本次由修改智能体统一检查、主审独立从Git导出复验。新canonical源码SHA-256为`76b23ab8d386616677b424f3f9e97f0b1b04ffae7b2809b0107fb406b2bde6c0`，65源码与11评测/测试blob匹配；全量`743 passed`、1条既有Starlette警告，Ruff通过。仅有限否定入口小修可关闭，Step 2整体、通用完整性及生产验收仍未通过。R4的`8/14`、旧源码SHA `c96529dc…`及`679 passed`属于历史，旧报告保持原字节。
+
+新专项24负例（八种否定词乘前置/单行/后置入口）与6个肯定AND/OR正例均通过，`0 failed`、`0 not_run`、source_invalid`0/816`；未支持NOT保留带否定来源的candidate/unresolved，不推断成OR。相同评分器重放旧`7ed381c`导出源码时，负例10/24通过、14失败，正例6/6通过、未执行0，来源错误仍为0/1315。新14例关系复验仍为8/14，所有summary指标未变；来源有效不证明语义正确。这30例是公开人工回归，不是企业材料或盲测。
+
 ## 冻结资产
 
 - `reserved/v1/`：历史`rejected-annotated-container`。输入含注释容器，不可作为有效运行输入。
@@ -8,6 +16,7 @@
 - `reports/first-valid/`：首次有效产品评分与source proof，原字节保留。
 - `reports/pre-operator-adapter-20261010/`：R3历史评分与source proof，保留operator布局适配前的`7/14`结果。
 - `reports/final-20261010/`：R4最终canonical六份报告/proof。
+- `reports/negation-followup-20261010/`：本次否定专项、旧源码专项重放、五份既有评测复验及source proof，共八份；不覆盖R4历史报告。
 - `publication-record.json`：两版fingerprint、freeze/report SHA-256、发布与授权时间、首次读取时间状态（未知；先前自报已撤回）及grader契约勘误的独立索引。
 
 v1 fingerprint为`a60343e423e1ba28c4cf7d43c8a5e771f978640234c8206ba54b9899b3ce518f`，freeze SHA-256为`294e0c028279a308cdf8571ef6f090501a31bfb0ab7d8f329199d926723a81e0`。
@@ -33,13 +42,13 @@ v2 fingerprint为`eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d68
 
 R4指标：source_invalid `0/724`、review-handling errors `0/19`、condition omission `6/37`、wrong merge `0/34`、wrong split `0/37`、scope membership errors `21/50`、operator structure errors `6/14`。`forbidden`为`1/16`，原因是显式跨页成员未完整识别，不是业务误放行率。存在有限confirmed scope；K-of-N scope仍为candidate，operator与semantic parent为unresolved。
 
-R4同批其它范围：结构`3/3`通过；既有公开原始文件完整性评测`0/8`即8例实际执行且全失败、`0 not_run`，业务材料`not_run/8`；raw-file必要原文约束覆盖`8/10`、hard false release `0/7`；27个固定reliability mocks为writing正例`6/6`、负例`12/12`，runtime正例`2/2`、负例`7/7`，误阻断和误放行均为0。mock及有限固定样例不外推为生产准确率。企业材料在本批`not_run/14`。本批基础关系状态与有限显式AND/OR可按限定范围关闭，不关闭Step 2整体或通用/生产验收。
+R4同批其它范围：结构`3/3`通过；既有公开原始文件完整性评测`0/8`即8例实际执行且全失败、`0 not_run`，业务材料`not_run/8`；raw-file必要原文约束覆盖`8/10`、hard false release `0/7`；27个固定reliability mocks为writing正例`6/6`、负例`12/12`，runtime正例`2/2`、负例`7/7`，误阻断和误放行均为0。mock及有限固定样例不外推为生产准确率。企业材料在本批`not_run/14`。R4当时关于有限关系范围可关闭的判断仅属历史；本次否定专项结论见上文，Step 2整体及通用/生产验收仍未关闭。
 
-主审另在同一源码树SHA上无mock复验四类来源/结构边界及candidate helper，未发现错误confirmed；此结论仅绑定该源码树，不外推。详情及本批各报告SHA见[验收文档](../../docs/document_relations_acceptance.md)与[publication record](publication-record.json)。
+主审曾在同一源码树SHA上无mock复验当时列出的四类有限探针及candidate helper，未发现错误confirmed；这是仅覆盖那些实际探针的历史观察，不覆盖用户本轮提出的前置“不需要”“不要求”及后置“无需”三类反例，也不能据此推断这些cue处理正确或当前专项通过。新反例已表明旧D结果不能外推。详情及历史报告SHA见[验收文档](../../docs/document_relations_acceptance.md)与[publication record](publication-record.json)。
 
-这些是合成TXT，不是真实业务PDF。共享文件系统只提供策略隔离，不是技术隔离，也不是certified blind。发布后全部14例都是public regression，不得称为unseen holdout。R4收束的是本批基础关系状态与有限显式AND/OR范围，不关闭Step 2整体、通用或生产验收。
+这些是合成TXT，不是真实业务PDF。共享文件系统只提供策略隔离，不是技术隔离，也不是certified blind。发布后全部14例都是public regression，不得称为unseen holdout。R4当时仅对本批基础关系状态与有限显式AND/OR范围作出历史判断；该判断不关闭Step 2整体、通用或生产验收，也不代表当前专项结论。
 
-来源状态不可混用：`source_reference_status=verified`仅证明原文坐标自洽；`source_identity_status=registry_verified`证明对应真实Registry文件/版本；`caller_asserted`只是调用方声明。它们都不代表企业条件满足或授予写作授权。主审转述的D复验在R4同一源码树SHA上无mock覆盖四类边界问题及candidate helper，未发现错误confirmed；结果不外推到其他源码版本。
+来源状态不可混用：`source_reference_status=verified`仅证明原文坐标自洽；`source_identity_status=registry_verified`证明对应真实Registry文件/版本；`caller_asserted`只是调用方声明。它们都不代表企业条件满足或授予写作授权。D在R4同一源码树SHA上的复验仅覆盖当时实际运行的有限探针；用户本轮三类反例表明其“未发现错误confirmed”不能外推至这些否定cue，也不能当作当前验收通过证据。
 
 case04/05的confirmed parent是显式清单中的结构归属，不要求逻辑scope或AND。grader要求actual关系有明确layer和basis、所有成员均有confirmed有向边、共同target存在且target自身来源包含显式清单cue。semantic parent需要明确语义layer/basis、方向及来源覆盖；编号物理parent仅凭status改为confirmed不能通过。case09/13的属性或上下文scope由非AND scope关系承载。typed adapter变更不改冻结oracle和first-valid报告。
 

@@ -38,3 +38,13 @@ benchmarks/document_relations/reports/pre-operator-adapter-20261010/relations-sc
 benchmarks/document_relations/reports/pre-operator-adapter-20261010/source-proof.json -text whitespace=cr-at-eol
 scripts/run_document_relations_eval.py -text
 tests/evals/test_document_relations_eval.py -text
+benchmarks/document_relations/reports/negation-followup-20261010/baseline-negation-score.json -text
+benchmarks/document_relations/reports/negation-followup-20261010/negation-score.json -text
+benchmarks/document_relations/reports/negation-followup-20261010/relations-score.json -text
+benchmarks/document_relations/reports/negation-followup-20261010/structure-score.json -text
+benchmarks/document_relations/reports/negation-followup-20261010/old-public-score.json -text
+benchmarks/document_relations/reports/negation-followup-20261010/raw-file-score.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/negation-followup-20261010/reliability-score.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/negation-followup-20261010/source-proof.json -text whitespace=cr-at-eol
+scripts/run_document_relations_negation_eval.py -text
+tests/evals/test_document_relations_negation_eval.py -text

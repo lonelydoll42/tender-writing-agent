@@ -4,6 +4,8 @@ import asyncio
 from copy import deepcopy
 from typing import Any, Mapping
 
+import pytest
+
 from qiaowenshu_agent.core.context import SkillContext
 from qiaowenshu_agent.core.contracts import SkillRequest
 from qiaowenshu_agent.core.files import ProjectFileRegistry
@@ -19,6 +21,7 @@ from qiaowenshu_agent.skills.tender_decomposition.skill import (
     _normalize_output,
     _registry_verified_document_structures,
 )
+from scripts.run_document_relations_negation_eval import FIXED_CASES, execute_case
 
 
 def _structure(document_id: str, source_version: str, text: str) -> dict[str, Any]:
@@ -216,6 +219,18 @@ def test_registered_txt_flows_through_intake_and_decomposition_relations() -> No
     assert analysis["needs_human_review"] is True
     assert analysis["source_identity_status"] == "registry_verified"
     assert analysis["source_reference_status"] == "verified"
+
+
+@pytest.mark.parametrize("case", FIXED_CASES, ids=lambda case: case["case_id"])
+def test_public_negation_cases_flow_through_registry_runtime_and_decomposition(
+    case: Mapping[str, Any],
+) -> None:
+    result = asyncio.run(execute_case(case))
+
+    assert result["execution_state"] == "executed", result["errors"]
+    assert result["status"] == "passed", result["errors"]
+    assert result["relation_analysis"]["status"] == "executed"
+    assert result["source_verification"]["status"] == "passed"
 
 
 def test_direct_local_backend_builds_relations_from_structures() -> None:

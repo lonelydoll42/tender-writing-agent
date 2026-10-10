@@ -2,6 +2,43 @@
 
 ## 状态与边界
 
+### 当前复验状态（2026-10-10）
+
+用户独立复查发现否定cue可导致关系被错误标记为`confirmed`。本轮记录的反例类型仅包括前置“不需要”“不要求”和后置“无需”；待验收对象是系统对这些否定cue所涉关系的表达与状态判定，不是业务误放行。来源坐标、引文和字符范围有效，只能证明source reference与原文相符，不能证明关系semantics正确。
+
+R4当时的关闭判断在复查`7ed381c`后重新打开。本次由修改智能体统一前置、单行及后置回指的否定检查，主审独立完成正式Git导出复验；**仅关闭这批有限否定入口问题，不关闭第2步整体、通用完整性或生产验收。** 不把否定AND推断成OR或已执行的NOT条件；未支持语义保留带原文证据的`candidate/unresolved`，否定指令被标为标题时也不丢弃。下文R4的`8/14`、`679 passed`及旧source proof继续作为历史记录，旧报告没有改写。
+
+本次canonical源码树SHA-256为`76b23ab8d386616677b424f3f9e97f0b1b04ffae7b2809b0107fb406b2bde6c0`，archive base tree为`14463a4f87df5b468b6a52f4e713c58f1857649f`；65/65源码blob与11/11评测器/测试blob匹配。只有`document_relations.py`的源码字节发生变化，其余64个源码文件保持原样。正式导出副本全量测试为**743 passed、1条既有Starlette警告**，全仓Ruff通过。
+
+专项固定30例为八种否定词（不需要、不要求、不需、无需、无须、不必、不得、不须）分别覆盖前置、真正的单行表达式及后置回指，另有三入口各一例肯定AND与OR。真实Registry -> Runtime -> Intake -> Decomposition执行结果为负例`24/24`、正例`6/6`，`0 failed`、`0 not_run`、source_invalid`0/816`。负例既检查所有逻辑组及内层操作符没有错误confirmed，也要求否定原文留在候选关系中；肯定例必须保留两叶、confirmed操作符及作用域，不能全candidate通过。结构清单的confirmed归属不等于confirmed逻辑操作符。
+
+同一专项评分器在旧`7ed381c`的精确源码导出副本（旧SHA `c96529dc…`）上得到负例`10/24`通过、`14 failed`，正例`6/6`通过、`0 not_run`；全部`1315`条引用仍有效。这再次证明来源有效不能证明关系语义正确。专项是公开人工回归，不是未见语料或企业材料评测，不计算业务误阻断/误放行率；复杂NOT、嵌套分组、跨页范围及主体时间关联仍未完成。
+
+原14例关系评测在新canonical上仍为`8/14`、`6 failed`、`0 not_run`、source_invalid`0/724`，整份summary与R4相同；评分器仍为冻结的`1.0.3`，未改oracle或原72项评分器自测。结构评测`3/3`；旧公开原始文件`0/8`，8例实际执行且全部未通过、业务`not_run/8`；raw-file原文约束`8/10`、hard false release`0/7`，六类新逻辑仍须人工核验。27个既有模拟模型reliability案例的正负判断保持正确，不能外推真实模型或生产准确率。关系14例企业材料仍为`not_run/14`，`uv.lock`不纳入。
+
+新报告另存于`benchmarks/document_relations/reports/negation-followup-20261010`：
+
+| 产物 | 结果 | SHA-256 |
+| --- | --- | --- |
+| [否定专项](../benchmarks/document_relations/reports/negation-followup-20261010/negation-score.json) | 24负例与6正例均通过；0未执行 | `33c851cdc3cad24146ca263e092a17acca093c349f702d0d5f5163b43dd76e08` |
+| [旧源码专项重放](../benchmarks/document_relations/reports/negation-followup-20261010/baseline-negation-score.json) | 16通过、14失败、0未执行；绑定旧源码 | `917ee6839ee5747d4f0b36e6531663512e1203ed3f4ca7c0b2cbfb8cb112422e` |
+| [关系复验](../benchmarks/document_relations/reports/negation-followup-20261010/relations-score.json) | 8通过、6失败、0未执行 | `4f733f5879bceb8d5147144f60e3236411a5018b700477260a52ad17dfcf5a89` |
+| [结构复验](../benchmarks/document_relations/reports/negation-followup-20261010/structure-score.json) | 3/3通过 | `7b786f3c0d1e744efbd3b4de9dbe4c1f5858e9b8192562bbdb0ac1fa75a3ba1c` |
+| [旧公开文件复验](../benchmarks/document_relations/reports/negation-followup-20261010/old-public-score.json) | 0/8；0未执行；业务未运行 | `f9341bab8e0a4514da1860b36d1daa882c6ee5f7e0431f354ec50a99be6daf16` |
+| [Raw-file复验](../benchmarks/document_relations/reports/negation-followup-20261010/raw-file-score.json) | 原文约束8/10；hard false release 0/7 | `293013a89f8b9a8727c04975bf0080d31f76be45901671b316f7897a751c5bcb` |
+| [Reliability复验](../benchmarks/document_relations/reports/negation-followup-20261010/reliability-score.json) | 27个固定模拟案例判断正确 | `101b76740fccf47100e0737ca5a536611b11143bb23bac30efacaae4c7c1d79c` |
+| [本次source proof](../benchmarks/document_relations/reports/negation-followup-20261010/source-proof.json) | 65源码及11评测/测试blob匹配 | `11ad2384b9e826940a0da04437b2d326236b949f00ffe5f1a1e804ac717cf48f` |
+
+专项评分器`run_document_relations_negation_eval.py`的SHA-256为`245871311639815ad0ec35fb7d06f27d2c43b4afe450327902be559570733e43`，6项契约自测的SHA-256为`1b7637a57c2c941e933870907f829f8031646364f22a96671a97c53d38a5cbed`。正负预期冻结在该脚本中；报告保留每例输入、预期、未归一化actual graph与注册来源上下文。raw-file及reliability报告自身不含源码hash，本次源码绑定依靠上述source proof和显式指向canonical export/src的执行上下文。
+
+复现时从所验证的源码导出根目录执行，输出必须是新路径：
+
+```powershell
+$env:PYTHONPATH = (Resolve-Path ".\src").Path
+python scripts/run_document_relations_negation_eval.py --output replay-negation-NEW.json
+python scripts/run_document_relations_eval.py --bundle benchmarks/document_relations/reserved/v2 --output replay-relations-NEW.json --main-reviewer-authorized
+```
+
 首次有效产品评分由主审在源码树SHA-256 `93ad62e4729baedb9f149a781afa8b712987e9424818a4a5c82052af25d2b417` 上执行：`0/14 passed`、`14 failed`、`0 not_run`，14例全部实际运行。严格来源校验发现`103/194`条产品引用的locator与裁剪后的char bounds不一致；这是产品输出的真实问题，未放宽或归一化。首次有效报告和source proof均原样发布并保留。grader后续契约修正不会覆盖该历史结果。
 
 **R4最终canonical**由主审在源码树SHA-256 `c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f`上执行，grader `1.0.3`结果为`8/14 passed`、`6 failed`、`0 not_run`。source proof SHA-256为`819b8ebe322da3c814a26fd4e370437d504df2c2c933be8ed2fe4a80a03a8831`，archive base tree为`35f5faafa934f5ffe7f014440c8a3c827ebfd499`；65/65源码blob及9/9评测器/测试blob匹配。canonical导出源码测试为679 passed、1条既有Starlette警告，Ruff通过。R3在相同产品源码SHA、grader `1.0.2`下为`7/14`；7到8是operator关系布局适配导致的评分器契约差异，不是产品提升。
@@ -17,9 +54,9 @@
 | [R3 operator适配前评分](../benchmarks/document_relations/reports/pre-operator-adapter-20261010/relations-score.json) | 同一产品源码、grader 1.0.2：7/14 | `6fa93b74cf4c53344221f14a0da9322945de39c8cd9277650a9e931c6cfed56f` |
 | [R3 source proof](../benchmarks/document_relations/reports/pre-operator-adapter-20261010/source-proof.json) | 同一源码树SHA；archive base不同 | `e44d68dc5ed4b890cc44703664fdf454dc0d723b352ce318975989d080394c8d` |
 
-R4关系失败项为case-03、07、09、11、12、13，具体主题列于[基准README](../benchmarks/document_relations/README.md)。case-11未解析的是两组材料AND(OR, OR)嵌套；case-13的`contextual_scope_no_flat_operator`财务说明与收入属性上下文绑定未解析，1.10金额只是反例背景，额外非法原子为0。主要指标为原子遗漏`6/37`、错并`0/34`、错拆`0/37`、scope成员错误`21/50`、operator结构错误`6/14`、source_invalid`0/724`、review-handling errors`0/19`。`forbidden`为`1/16`，由显式跨页成员未完整识别导致，不是业务误放行率。有限scope可confirmed；K-of-N scope仍为candidate，operator与semantic parent为unresolved。**本批基础关系状态与有限显式AND/OR可按限定范围关闭；Step 2整体、通用及生产完整性仍未关闭。**企业材料`not_run/14`。
+R4关系失败项为case-03、07、09、11、12、13，具体主题列于[基准README](../benchmarks/document_relations/README.md)。case-11未解析的是两组材料AND(OR, OR)嵌套；case-13的`contextual_scope_no_flat_operator`财务说明与收入属性上下文绑定未解析，1.10金额只是反例背景，额外非法原子为0。主要指标为原子遗漏`6/37`、错并`0/34`、错拆`0/37`、scope成员错误`21/50`、operator结构错误`6/14`、source_invalid`0/724`、review-handling errors`0/19`。`forbidden`为`1/16`，由显式跨页成员未完整识别导致，不是业务误放行率。有限scope可confirmed；K-of-N scope仍为candidate，operator与semantic parent为unresolved。**R4当时的有限关闭判断仅属历史；本次否定专项结论见上文，Step 2整体、通用及生产完整性仍未关闭。**企业材料`not_run/14`。
 
-本轮只评估parent、scope、reference的confirmed/candidate/unresolved关系，以及有原文依据的AND/OR作用域。编号层级本身不是业务AND，也不是已确认的语义parent。主体、同人、时间及复杂NOT不在范围内。所有运行输入都是人工构造的UTF-8 TXT，非实际企业材料，也非业务PDF。
+R4评估parent、scope、reference的confirmed/candidate/unresolved关系，以及有原文依据的AND/OR作用域。编号层级本身不是业务AND，也不是已确认的语义parent。主体、同人、时间及复杂NOT不在范围内。所有运行输入都是人工构造的UTF-8 TXT，非实际企业材料，也非业务PDF。
 
 输入TXT是唯一注册到真实Registry的文件。Markdown oracle和machine oracle只由评分器读取，不进入Registry、Runtime、Intake或Decomposition。评分链路为Registry -> Runtime -> TenderIntake -> TenderDecomposition，结果取自decomposition的`document_relations`与`relation_analysis`。
 
@@ -27,7 +64,7 @@ R4关系失败项为case-03、07、09、11、12、13，具体主题列于[基准
 
 下游Skill和调用方必须区分来源坐标与来源身份：`source_reference_status=verified`只表示引文、页行及字符位置与原文坐标自洽；`source_identity_status=registry_verified`才表示身份对应真实Registry注册的文件及版本；`caller_asserted`只表示调用方给出的身份声明，不能当作Registry核验。三者不能互相替代，也不授予访问、处理或写作授权。即使关系graph通过验收，也不代表企业材料已满足要求，更不等于允许生成或提交投标内容；业务资格和写作授权必须由独立的业务证据及授权流程决定。
 
-据主审转述，独立D在同一R4源码树SHA上无mock复验四类边界问题及candidate helper：否定条件、外部条号与本清单条号、本构造器未知六级结构、来源身份；未发现错误confirmed。该结果仅绑定`c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f`，不是企业材料验收或写作授权，也不外推到其他源码版本。
+据主审转述，独立D曾在同一R4源码树SHA上无mock复验当时列出的四类有限探针及candidate helper：否定条件、外部条号与本清单条号、本构造器未知六级结构、来源身份；在这些实际探针中未发现错误confirmed。该结论是绑定`c96529dc1fbf531aaac92e46f0e259ea24b2d64625f50fdd2d4fe981d41f485f`及其有限探针范围的历史观察，不是企业材料验收或写作授权，也不覆盖用户本轮提出的前置“不需要”“不要求”和后置“无需”三类反例。新反例已表明旧D结果不能外推为这些否定cue处理正确或当前专项通过。
 
 共享文件系统只能形成策略隔离，不是技术隔离，也不是certified blind。A/B以`fork_context=false`分别于2026-10-09约14:44（Asia/Shanghai）启动，晚于v2在14:42:19.892冻结；冻结时未获准读取私有语料。14例及其oracle现已发布，并只称public regression。发布时刻、A/B读取授权时刻及实际首次读取时间状态记录在[publication-record.json](../benchmarks/document_relations/publication-record.json)：`first_read_at`为null/未知；先前的`08:59:30`仅为A自报且已撤回，不能作为实际读取时刻。授权时间不冒充实际读取时间。
 
