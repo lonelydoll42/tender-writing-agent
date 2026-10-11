@@ -683,5 +683,13 @@
       "No real model service was called; fixed synthetic cases do not establish business false-block or false-release rates.",
       "uv.lock remains a separate environment-reproducibility task."
     ]
+  },
+  "nested_followup_20261011": {
+    "record_path": "benchmarks/document_relations/nested-publication-record.json",
+    "source_tree_sha256": "e92a0d944c1e610b496638ec3b8dafb902b5ec42375477109eb61052e3d9a643",
+    "scope": "Limited explicit named-group nesting only; source-backed direct children and singleton requirement context.",
+    "historical_negation_record_unchanged": true,
+    "legacy_evaluator_1_0_3_result": "9/14; no oracle or frozen evaluator changes",
+    "full_step_2_and_production_acceptance": "not_passed"
   }
 }

@@ -84,9 +84,21 @@ _ANAPHORA_RE = re.compile(
 )
 _LOGIC_RE = re.compile(r"并且|或者|且|或|及|以及|并")
 _NAMED_GROUP_RE = re.compile(r"第(?P<label>[一二三四五六七八九十0-9]+)组")
-_COMPOSITE_GROUP_RE = re.compile(
-    rf"(?P<count>{_NUMBER_TOKEN})\s*组.{{0,12}}?"
-    r"(?:均须|都须|均应).{0,10}?(?:提交|满足)"
+_GROUP_SELECTION_PHRASE = (
+    r"(?:每|各)组\s*(?:(?:只需|仅需|只要|仅要)\s*)?"
+    r"(?:择一|任选其一|任选一项|任一项|二选一)"
+)
+_COMPOSITE_GROUP_HEADER_RE = re.compile(
+    rf"^\s*(?:(?:以下|下列)\s*)?(?P<count>{_NUMBER_TOKEN})\s*组"
+    r"(?P<subject>材料|要求)?\s*"
+    r"(?P<and_cue>均须提交|均须满足|都须提交|都须满足)"
+    rf"(?:\s*，\s*但\s*(?P<selection>{_GROUP_SELECTION_PHRASE}))?"
+    r"\s*[：:。]?\s*$"
+)
+_NEGATED_GROUP_SELECTION_HEADER_RE = re.compile(
+    rf"^\s*(?:(?:以下|下列)\s*)?(?P<count>{_NUMBER_TOKEN})\s*组"
+    r"(?P<subject>材料|要求)?\s*并非均须提交\s*，\s*但\s*"
+    rf"(?P<selection>{_GROUP_SELECTION_PHRASE})\s*[：:。]?\s*$"
 )
 _GROUP_DIRECTIVE_RE = re.compile(rf"(?:{_NUMBER_TOKEN}\s*组|每组|各组)")
 _GROUP_SELECTION_RE = re.compile(
@@ -223,10 +235,11 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
         document_id=document_id,
         source_version=source_version,
     )
+    composite_specs, named_group_specs = _collect_composite_group_specs(records)
     roots_by_block: dict[int, list[str]] = {}
     frame_indices: list[int] = []
     unsupported_selection_indices: list[int] = []
-    composite_header_indices: list[int] = []
+    named_group_roots: list[dict[str, Any]] = []
     backward_frames = {
         record["index"]: info
         for record in records
@@ -240,7 +253,69 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
             "table_row",
         }:
             continue
+        if record["index"] in composite_specs:
+            continue
         if record["index"] in backward_frames:
+            continue
+        named_group_spec = named_group_specs.get(record["index"])
+        if named_group_spec is not None:
+            parsed_group = _parse_named_group(record, named_group_spec)
+            root_id = node_builder.emit(parsed_group["ast"], record)
+            roots_by_block[record["index"]] = [root_id]
+            node = node_builder.by_id[root_id]
+            if parsed_group["ast"]["op"] in {"AND", "OR"}:
+                _add_inline_scope_relations(
+                    parsed_group["ast"],
+                    root_id,
+                    record,
+                    node_builder,
+                    block_relation_by_index[record["index"]],
+                )
+            if parsed_group.get("single_required"):
+                relation = parsed_group["single_scope_relation"]
+                if (
+                    relation["status"] == "confirmed"
+                    and node["status"] == "candidate"
+                    and node["reason"] == _SCOPE_COMPLETENESS_REASON
+                ):
+                    node["status"] = "confirmed"
+                    node["reason"] = (
+                        "bare condition item belongs to an explicit named group"
+                    )
+                relation["target_node_ids"] = [root_id]
+                node["scope_relation"] = {
+                    **relation,
+                    "relation_type": "named_singleton_requirement",
+                    "kind": "context_scope",
+                    "basis": "single_item_requirement",
+                    "operator": "REQUIRED",
+                }
+                block_relation_by_index[record["index"]][
+                    "scope_relations"
+                ].append(relation)
+            group_scope = node.get("scope_relation") or parsed_group.get(
+                "single_scope_relation",
+                {},
+            )
+            named_group_roots.append(
+                {
+                    "header_index": named_group_spec["header_index"],
+                    "group_index": record["index"],
+                    "label": named_group_spec["label"],
+                    "node_id": root_id,
+                    "member_indices": [record["index"]],
+                    "scope": group_scope,
+                    "scope_source_references": (
+                        group_scope.get("scope_source_references", [])
+                        or parsed_group.get("single_scope_relation", {}).get(
+                            "scope_source_references", []
+                        )
+                    ),
+                    "parent_source_references": parsed_group[
+                        "parent_source_references"
+                    ],
+                }
+            )
             continue
         if _K_OF_N_RE.search(record["raw_text"]):
             unsupported_selection_indices.append(record["index"])
@@ -290,9 +365,6 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
                 roots_by_block,
                 node_builder.by_id,
             )
-            continue
-        if _COMPOSITE_GROUP_RE.search(record["raw_text"]):
-            composite_header_indices.append(record["index"])
             continue
         if _CONTINUATION_RE.fullmatch(record["raw_text"]):
             continue
@@ -396,6 +468,14 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
             frame_index,
             frame_info,
         )
+        if (
+            _named_group_prefix_match(frame_record["raw_text"]) is not None
+            and frame_info["op"] == "OR"
+            and len(members) != 2
+        ):
+            scan_reason = scan_reason or (
+                "named choice group does not have exactly two bounded members"
+            )
         preceding_frames = _has_adjacent_frame(
             records,
             frame_index,
@@ -578,8 +658,9 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
     )
     composite_group_roots = _emit_composite_groups(
         records,
-        composite_header_indices,
         physical_group_roots,
+        named_group_roots,
+        composite_specs,
         node_builder,
         block_relation_by_index,
     )
@@ -705,7 +786,10 @@ class _NodeBuilder:
         if ast["op"] == "ATOM":
             return self._emit_atom(ast, record)
         child_ids = [self.emit(child, record) for child in ast.get("children", [])]
-        operator_refs = _refs_for_spans(record, ast.get("operator_spans", []))
+        operator_refs = _merge_refs(
+            _refs_for_spans(record, ast.get("operator_spans", [])),
+            ast.get("external_operator_source_references", []),
+        )
         requirement_refs = _refs_for_spans(
             record,
             ast.get("requirement_spans", []),
@@ -808,7 +892,12 @@ class _NodeBuilder:
             "status": status,
             "text": ast.get("text", ""),
             "children": child_ids,
-            "source_block_ids": [record["block_id"]] if record["block_id"] else [],
+            "source_block_ids": _unique(
+                [
+                    *([record["block_id"]] if record["block_id"] else []),
+                    *ast.get("additional_source_block_ids", []),
+                ]
+            ),
             "source_references": _merge_refs(
                 operator_refs,
                 requirement_refs,
@@ -832,11 +921,31 @@ class _NodeBuilder:
         }
         self._store(node)
         self._add_child_parents(child_ids, identity, scope_relation)
+        for child_id, references in zip(
+            child_ids,
+            ast.get("child_parent_source_references", []),
+            strict=False,
+        ):
+            child = self.by_id.get(child_id)
+            if child is None:
+                continue
+            for relation in reversed(child["parent_relations"]):
+                if identity in relation.get("target_node_ids", []):
+                    relation["source_references"] = _merge_refs(
+                        operator_refs,
+                        scope_relation["source_references"],
+                        boundary_refs,
+                        references,
+                    )
+                    break
         return identity
 
     def _emit_atom(self, ast: dict[str, Any], record: dict[str, Any]) -> str:
         text = record["raw_text"][ast["start"] : ast["end"]]
-        source_refs = _refs_for_span(record, ast["start"], ast["end"])
+        source_refs = _merge_refs(
+            _refs_for_span(record, ast["start"], ast["end"]),
+            ast.get("additional_source_references", []),
+        )
         opaque_reason = _opaque_clause_reason(text)
         if not text.strip():
             text = ast.get("text", "")
@@ -1190,26 +1299,28 @@ class _NodeBuilder:
         *,
         header_record: dict[str, Any],
         child_ids: list[str],
-        scope_match: re.Match[str],
         expected_child_count: int,
+        operator_span: tuple[int, int],
+        count_span: tuple[int, int],
+        scope_span: tuple[int, int],
+        boundary_span: tuple[int, int] | None,
+        scope_extra_references: list[dict[str, Any]],
+        boundary_extra_references: list[dict[str, Any]],
+        scope_valid: bool,
+        child_parent_source_references: list[list[dict[str, Any]]],
     ) -> tuple[str, dict[str, Any]]:
         text = header_record["raw_text"]
-        operator_match = _AND_CUE_RE.search(text)
-        operator_refs = (
-            _refs_for_span(header_record, operator_match.start(), operator_match.end())
-            if operator_match
-            else []
+        operator_refs = _refs_for_span(header_record, *operator_span)
+        scope_refs = _merge_refs(
+            _refs_for_span(header_record, *count_span),
+            _refs_for_span(header_record, *scope_span),
+            scope_extra_references,
         )
-        scope_end = operator_match.start() if operator_match else scope_match.end()
-        scope_refs = _refs_for_span(header_record, scope_match.start(), scope_end)
-        boundary = _terminal_span(text, 0, len(text))
-        if boundary is None:
-            colon = re.search(r"[：:]\s*$", text)
-            boundary = (colon.start(), colon.end()) if colon else None
-        boundary_refs = (
-            _refs_for_span(header_record, boundary[0], boundary[1])
-            if boundary
-            else []
+        boundary_refs = _merge_refs(
+            _refs_for_span(header_record, *boundary_span)
+            if boundary_span is not None
+            else [],
+            boundary_extra_references,
         )
         children = [
             self.by_id[node_id] for node_id in child_ids if node_id in self.by_id
@@ -1218,17 +1329,18 @@ class _NodeBuilder:
         child_count_ok = len(child_ids) == expected_child_count
         child_sources_ok = all(
             child["status"] == "confirmed"
-            and child.get("operator_relation", {}).get("status") == "confirmed"
-            and child.get("scope_relation", {}).get("status") == "confirmed"
+            and (
+                child["op"] == "ATOM"
+                or child["scope_relation"]["status"] == "confirmed"
+            )
             for child in children
         )
-        operator_status = (
-            "confirmed" if source_ok and operator_refs else "unresolved"
-        )
+        operator_status = "confirmed" if source_ok and operator_refs else "unresolved"
         scope_status = (
             "confirmed"
             if source_ok
             and child_count_ok
+            and scope_valid
             and child_sources_ok
             and scope_refs
             and boundary_refs
@@ -1239,7 +1351,7 @@ class _NodeBuilder:
         reason = (
             "explicit composite scope binds the named child groups"
             if scope_status == "confirmed"
-            else "composite group count or child scope requires review"
+            else "named group count, labels, or child scope requires review"
         )
         node_id = _stable_id(
             "node",
@@ -1247,8 +1359,7 @@ class _NodeBuilder:
             self.source_version,
             "AND",
             header_record["block_id"],
-            scope_match.start(),
-            scope_match.end(),
+            scope_span,
             child_ids,
         )
         child_source_refs = _merge_refs(
@@ -1263,18 +1374,34 @@ class _NodeBuilder:
         )
         scope_object = {
             "relation_id": _stable_id("scope", node_id),
-            "operator": "AND",
+            "operator": "AND" if operator_status == "confirmed" else "UNRESOLVED",
             "status": scope_status,
+            "operator_status": operator_status,
+            "scope_status": scope_status,
             "trigger_text": text,
             "operator_source_references": operator_refs,
             "scope_source_references": scope_refs,
             "member_source_references": child_source_refs,
             "target_block_ids": child_block_ids,
             "target_node_ids": list(child_ids),
-            "source_references": _merge_refs(scope_refs, child_source_refs),
+            "source_references": _merge_refs(
+                scope_refs,
+                child_source_refs,
+                boundary_refs,
+            ),
             "boundary_source_references": boundary_refs,
             "reason": reason,
         }
+        operator_relation = {
+            "status": operator_status,
+            "source_references": operator_refs,
+            "reason": (
+                "explicit AND operator is source-verified"
+                if operator_status == "confirmed"
+                else header_record["source_reason"]
+            ),
+        }
+        scope_object["operator_relation"] = operator_relation
         node = {
             "node_id": node_id,
             "op": "AND",
@@ -1296,31 +1423,31 @@ class _NodeBuilder:
             "source_references": _merge_refs(
                 operator_refs,
                 scope_object["source_references"],
-                boundary_refs,
             ),
-            "operator_relation": {
-                "status": operator_status,
-                "source_references": operator_refs,
-                "reason": (
-                    "explicit AND operator is source-verified"
-                    if operator_status == "confirmed"
-                    else header_record["source_reason"]
-                ),
-            },
-            "scope_relation": {
-                "status": scope_status,
-                "target_node_ids": list(child_ids),
-                "trigger_text": text,
-                "scope_source_references": scope_refs,
-                "member_source_references": child_source_refs,
-                "source_references": scope_object["source_references"],
-                "boundary_source_references": boundary_refs,
-                "reason": reason,
-            },
+            "operator_relation": operator_relation,
+            "operator_source_references": operator_refs,
+            "scope_relation": scope_object,
             "parent_relations": [],
         }
         self._store(node)
         self._add_child_parents(child_ids, node_id, node["scope_relation"])
+        for child_id, references in zip(
+            child_ids,
+            child_parent_source_references,
+            strict=False,
+        ):
+            child = self.by_id.get(child_id)
+            if child is None:
+                continue
+            for relation in reversed(child["parent_relations"]):
+                if node_id in relation.get("target_node_ids", []):
+                    relation["source_references"] = _merge_refs(
+                        operator_refs,
+                        scope_object["source_references"],
+                        scope_object["boundary_source_references"],
+                        references,
+                    )
+                    break
         return node_id, scope_object
 
     def _store(self, node: dict[str, Any]) -> None:
@@ -1970,96 +2097,545 @@ def _extend_inline_groups_from_continuations(
             )
 
 
+def _collect_composite_group_specs(
+    records: list[dict[str, Any]],
+) -> tuple[dict[int, dict[str, Any]], dict[int, dict[str, Any]]]:
+    composite_specs: dict[int, dict[str, Any]] = {}
+    named_group_specs: dict[int, dict[str, Any]] = {}
+    for header in records:
+        text = header["raw_text"]
+        if not text.strip() or _named_group_prefix_match(text) is not None:
+            continue
+        composite_match = _COMPOSITE_GROUP_HEADER_RE.fullmatch(text)
+        selection_match = _NEGATED_GROUP_SELECTION_HEADER_RE.fullmatch(text)
+        header_match = composite_match or selection_match
+        if header_match is None:
+            continue
+        expected_count = _parse_count(header_match.group("count"))
+        if expected_count is None or not 2 <= expected_count <= 12:
+            continue
+
+        group_selection_refs = _refs_for_span(
+            header,
+            header_match.start("selection"),
+            header_match.end("selection"),
+        ) if header_match.start("selection") >= 0 else []
+
+        group_entries: list[dict[str, Any]] = []
+        cursor = header["index"] + 1
+        allow_numbered_members = False
+        while cursor < len(records):
+            record = records[cursor]
+            if record["kind"] == "page_boundary":
+                break
+            if record["kind"] == "blank":
+                cursor += 1
+                continue
+            named = _named_group_prefix_match(record["raw_text"])
+            if named is not None:
+                colon = _COLON_RE.search(record["raw_text"], named.end())
+                inline_payload = bool(
+                    colon and record["raw_text"][colon.end() :].strip()
+                )
+                group_entries.append(
+                    {
+                        "index": cursor,
+                        "label": _parse_count(named.group("label")),
+                        "match": named,
+                        "inline_payload": inline_payload,
+                    }
+                )
+                allow_numbered_members = not inline_payload
+                cursor += 1
+                continue
+            if record["kind"] == "heading":
+                break
+            if (
+                allow_numbered_members
+                and _numbered_prefix(record["raw_text"]) is not None
+            ):
+                cursor += 1
+                continue
+            break
+
+        labels_valid = (
+            len(group_entries) == expected_count
+            and [entry["label"] for entry in group_entries]
+            == list(range(1, expected_count + 1))
+        )
+        if composite_match is not None and group_entries:
+            composite_specs[header["index"]] = {
+                "expected_count": expected_count,
+                "scope_span": (
+                    composite_match.start(),
+                    composite_match.end("subject")
+                    if composite_match.group("subject")
+                    else composite_match.end("count") + 1,
+                ),
+                "count_span": (
+                    composite_match.start("count"),
+                    composite_match.end("count"),
+                ),
+                "operator_span": (
+                    len(text) - len(text.lstrip()),
+                    composite_match.end("and_cue"),
+                ),
+                "boundary_span": _terminal_span(text, 0, len(text))
+                or (
+                    (colon.start(), colon.end())
+                    if (colon := re.search(r"[：:]\s*$", text))
+                    else None
+                ),
+                "labels_valid": labels_valid,
+                "group_indices": [entry["index"] for entry in group_entries],
+                "header_block_id": header.get("block_id"),
+            }
+
+        for entry in group_entries:
+            record = records[entry["index"]]
+            if not entry["inline_payload"]:
+                continue
+            named_group_specs[entry["index"]] = {
+                "header_index": header["index"],
+                "expected_count": expected_count,
+                "label": entry["label"],
+                "match": entry["match"],
+                "labels_valid": labels_valid,
+                "selection_source_references": group_selection_refs,
+                "header_block_id": header.get("block_id"),
+            }
+    return composite_specs, named_group_specs
+
+
+def _named_group_prefix_match(text: str) -> re.Match[str] | None:
+    numbered = _numbered_prefix(text)
+    start = numbered["end"] if numbered else len(text) - len(text.lstrip())
+    return _NAMED_GROUP_RE.match(text, start)
+
+
+def _parse_named_group(
+    record: dict[str, Any],
+    spec: dict[str, Any],
+) -> dict[str, Any]:
+    text = record["raw_text"]
+    named = spec["match"]
+    colon = _COLON_RE.search(text, named.end())
+    if colon is None:
+        return _opaque_named_group(record, spec, "named group boundary is missing")
+    payload_start = colon.end()
+    if not text[payload_start:].strip():
+        return _opaque_named_group(record, spec, "named group has no inline members")
+
+    local_selection = _OR_CUE_RE.search(text, named.end(), colon.start())
+    inherited_selection_refs = spec["selection_source_references"]
+    local_clause = text[named.start() : colon.start()]
+    if (
+        _find_negation(text)
+        or re.search(r"并非|未必|并不是|并不", text)
+        or _K_OF_N_RE.search(text)
+    ):
+        return _opaque_named_group(record, spec, "unsupported group instruction")
+    if local_selection and _AND_CUE_RE.search(local_clause):
+        return _opaque_named_group(
+            record,
+            spec,
+            "conflicting group selection instructions require review",
+        )
+
+    if local_selection is not None or inherited_selection_refs:
+        member_spans, separators, numbering_valid = _named_group_member_spans(
+            text,
+            payload_start,
+        )
+        if len(member_spans) < 2 or len(member_spans) > 8 or not numbering_valid:
+            return _opaque_named_group(
+                record,
+                spec,
+                "named group has missing, duplicate, or ambiguous members",
+            )
+        terminal = _terminal_span(text, payload_start, len(text))
+        scope_ok = (
+            spec["labels_valid"]
+            and terminal is not None
+            and all(start < end for start, end in member_spans)
+        )
+        selection_refs = (
+            _refs_for_span(
+                record,
+                named.start(),
+                local_selection.end(),
+            )
+            if local_selection is not None
+            else inherited_selection_refs
+        )
+        operator_spans = (
+            [(named.start(), local_selection.end())]
+            if local_selection is not None
+            else []
+        )
+        children = [
+            _atom_ast(text, start, end) for start, end in member_spans
+        ]
+        group_name_refs = _refs_for_span(record, named.start(), named.end())
+        child_parent_refs = [
+            _merge_refs(
+                selection_refs,
+                group_name_refs,
+                _refs_for_span(record, start, end),
+            )
+            for start, end in member_spans
+        ]
+        boundary_spans = list(separators)
+        if terminal is not None:
+            boundary_spans.append(terminal)
+        ast = {
+            "op": "OR",
+            "start": named.start(),
+            "end": len(text),
+            "text": text[named.start() :].strip(),
+            "children": children,
+            "operator_spans": operator_spans,
+            "external_operator_source_references": (
+                inherited_selection_refs if local_selection is None else []
+            ),
+            "additional_source_block_ids": (
+                [spec["header_block_id"]]
+                if local_selection is None
+                and inherited_selection_refs
+                and spec["header_block_id"]
+                else []
+            ),
+            "scope_spans": [
+                (named.start(), named.end()),
+                *member_spans,
+            ],
+            "boundary_spans": boundary_spans,
+            "scope_ok": scope_ok,
+            "scope_reason": (
+                None
+                if scope_ok
+                else "named group labels or member boundaries require review"
+            ),
+            "child_parent_source_references": child_parent_refs,
+        }
+        return {
+            "ast": ast,
+            "parent_source_references": _merge_refs(
+            selection_refs,
+            group_name_refs,
+            *[_refs_for_span(record, start, end) for start, end in member_spans],
+            *[_refs_for_span(record, start, end) for start, end in boundary_spans],
+            ),
+        }
+
+    requirement = _UNARY_CUE_RE.search(text, named.end(), colon.start())
+    if requirement is None:
+        return _opaque_named_group(
+            record,
+            spec,
+            "named group has no explicit operator",
+        )
+    payload = text[payload_start:]
+    if re.search(r"[；;]|[（(]\s*[0-9]+\s*[）)]", payload):
+        return _opaque_named_group(
+            record,
+            spec,
+            "single-item requirement contains multiple or enumerated materials",
+        )
+    member_span = _trim_named_group_member(text, payload_start, len(text))
+    if member_span is None:
+        return _opaque_named_group(
+            record,
+            spec,
+            "required named group has no explicit member",
+        )
+    terminal = _terminal_span(text, payload_start, len(text))
+    group_name_refs = _refs_for_span(record, named.start(), named.end())
+    requirement_refs = _refs_for_span(
+        record,
+        requirement.start(),
+        requirement.end(),
+    )
+    member_refs = _refs_for_span(record, member_span[0], member_span[1])
+    boundary_refs = _merge_refs(
+        _refs_for_span(record, colon.start(), colon.end()),
+        _refs_for_span(record, terminal[0], terminal[1]) if terminal else [],
+    )
+    scope_status = (
+        "confirmed"
+        if record["source_valid"]
+        and spec["labels_valid"]
+        and terminal is not None
+        and group_name_refs
+        and member_refs
+        else "unresolved"
+        if not record["source_valid"]
+        else "candidate"
+    )
+    reason = (
+        "explicit mandatory singleton belongs to the named group"
+        if scope_status == "confirmed"
+        else "named group count or singleton boundary requires review"
+    )
+    scope_relation = {
+        "relation_id": _stable_id(
+            "named_group_scope",
+            record["block_id"],
+            named.start(),
+            named.end(),
+            member_span,
+        ),
+        "relation_type": "named_group_scope",
+        "operator": "AND",
+        "status": scope_status,
+        "operator_status": (
+            "confirmed" if record["source_valid"] and requirement_refs else "unresolved"
+        ),
+        "scope_status": scope_status,
+        "operator_relation": {
+            "status": (
+                "confirmed"
+                if record["source_valid"] and requirement_refs
+                else "unresolved"
+            ),
+            "source_references": [
+                {**reference, "source_role": "requirement"}
+                for reference in requirement_refs
+            ],
+            "kind": "unary_required_normalization",
+            "basis": "single_item_requirement",
+            "reason": "explicit mandatory singleton",
+        },
+        "operator_source_references": [],
+        "requirement_source_references": requirement_refs,
+        "target_block_ids": [record["block_id"]]
+        if record.get("block_id")
+        else [],
+        "target_node_ids": [],
+        "trigger_text": text,
+        "scope_source_references": group_name_refs,
+        "member_source_references": member_refs,
+        "source_references": _merge_refs(
+            requirement_refs,
+            group_name_refs,
+            member_refs,
+            boundary_refs,
+        ),
+        "boundary_source_references": boundary_refs,
+        "reason": reason,
+    }
+    atom_ast = _atom_ast(text, member_span[0], member_span[1])
+    atom_ast["additional_source_references"] = _merge_refs(
+        requirement_refs,
+        group_name_refs,
+    )
+    return {
+        "ast": atom_ast,
+        "single_scope_relation": scope_relation,
+        "parent_source_references": _merge_refs(
+            requirement_refs,
+            group_name_refs,
+            member_refs,
+            boundary_refs,
+        ),
+        "single_required": True,
+    }
+
+
+def _opaque_named_group(
+    record: dict[str, Any],
+    spec: dict[str, Any],
+    reason: str,
+) -> dict[str, Any]:
+    ast = _atom_ast(
+        record["raw_text"],
+        0,
+        len(record["raw_text"]),
+        reason,
+    )
+    name = spec["match"]
+    name_refs = _refs_for_span(record, name.start(), name.end())
+    return {
+        "ast": ast,
+        "parent_source_references": _merge_refs(
+            name_refs,
+            record["source_references"],
+        ),
+    }
+
+
+def _named_group_member_spans(
+    text: str,
+    start: int,
+) -> tuple[list[tuple[int, int]], list[tuple[int, int]], bool]:
+    markers = list(_PAREN_ITEM_RE.finditer(text, start))
+    if markers:
+        labels = [_simple_number(marker.group("label")) for marker in markers]
+        valid = labels == list(range(1, len(markers) + 1))
+        if text[start : markers[0].start()].strip(" \t；;、"):
+            valid = False
+        spans: list[tuple[int, int]] = []
+        separators: list[tuple[int, int]] = []
+        for index, marker in enumerate(markers):
+            member_start = marker.end()
+            raw_end = (
+                markers[index + 1].start()
+                if index + 1 < len(markers)
+                else len(text)
+            )
+            if index + 1 < len(markers):
+                segment = text[member_start:raw_end]
+                separator = re.search(r"[；;]\s*$", segment)
+                if separator is None:
+                    valid = False
+                else:
+                    separator_start = member_start + separator.start()
+                    separators.append(
+                        (separator_start, separator_start + 1)
+                    )
+                    raw_end = separator_start
+            span = _trim_named_group_member(text, member_start, raw_end)
+            if span is None:
+                valid = False
+            else:
+                spans.append(span)
+        return spans, separators, valid
+
+    split_markers = list(re.finditer(r"[；;]", text[start:]))
+    if not split_markers:
+        return [], [], False
+    spans = []
+    separators = []
+    cursor = start
+    for marker in split_markers:
+        separator_start = start + marker.start()
+        span = _trim_named_group_member(text, cursor, separator_start)
+        if span is None:
+            return [], [], False
+        spans.append(span)
+        separators.append((separator_start, separator_start + 1))
+        cursor = separator_start + 1
+    span = _trim_named_group_member(text, cursor, len(text))
+    if span is None:
+        return [], separators, False
+    spans.append(span)
+    return spans, separators, len(spans) >= 2
+
+
+def _trim_named_group_member(
+    text: str,
+    start: int,
+    end: int,
+) -> tuple[int, int] | None:
+    while start < end and (text[start].isspace() or text[start] in "；;、"):
+        start += 1
+    while end > start and (
+        text[end - 1].isspace() or text[end - 1] in "；;、。！？!?"
+    ):
+        end -= 1
+    return (start, end) if start < end else None
+
+
 def _emit_composite_groups(
     records: list[dict[str, Any]],
-    header_indices: list[int],
     physical_group_roots: list[tuple[int, str, list[int], dict[str, Any]]],
+    named_group_roots: list[dict[str, Any]],
+    composite_specs: Mapping[int, dict[str, Any]],
     node_builder: _NodeBuilder,
     block_relations: Mapping[int, dict[str, Any]],
 ) -> list[tuple[int, str, list[str], dict[str, Any]]]:
     output: list[tuple[int, str, list[str], dict[str, Any]]] = []
-    block_index_by_id = {
-        record["block_id"]: record["index"]
-        for record in records
-        if record["block_id"]
+    roots_by_group_index = {
+        group["group_index"]: group for group in named_group_roots
     }
-    for header_index in header_indices:
-        header = records[header_index]
-        match = _COMPOSITE_GROUP_RE.search(header["raw_text"])
-        expected_count = (
-            _parse_count(match.group("count")) if match is not None else None
-        )
-        if match is None or expected_count is None:
+    for frame_index, group_id, member_indices, scope in physical_group_roots:
+        if frame_index in roots_by_group_index:
             continue
-        child_ids: list[str] = []
-        expected_label = 1
-        for frame_index, group_id, member_indices, _scope in sorted(
-            physical_group_roots
-        ):
-            if frame_index <= header_index:
-                continue
-            if any(
-                records[index]["kind"] == "heading"
-                and _NAMED_GROUP_RE.search(records[index]["raw_text"]) is None
-                for index in range(header_index + 1, frame_index)
-            ):
-                break
-            named = _NAMED_GROUP_RE.search(records[frame_index]["raw_text"])
-            if named is None:
-                continue
-            label = _parse_count(named.group("label"))
-            if label != expected_label:
-                break
-            child_ids.append(group_id)
-            expected_label += 1
-            if len(child_ids) == expected_count:
-                break
+        named = _named_group_prefix_match(records[frame_index]["raw_text"])
+        if named is None:
+            continue
+        node_scope = node_builder.by_id[group_id]["scope_relation"]
+        roots_by_group_index[frame_index] = {
+            "group_index": frame_index,
+            "label": _parse_count(named.group("label")),
+            "node_id": group_id,
+            "member_indices": member_indices,
+            "scope": node_scope,
+            "scope_source_references": node_scope.get(
+                "scope_source_references", []
+            ),
+            "parent_source_references": _merge_refs(
+                node_scope.get("operator_source_references", []),
+                node_scope.get("scope_source_references", []),
+                node_scope.get("member_source_references", []),
+                node_scope.get("boundary_source_references", []),
+            ),
+        }
+    for header_index, spec in composite_specs.items():
+        header = records[header_index]
+        group_entries = [
+            roots_by_group_index.get(group_index)
+            for group_index in spec["group_indices"]
+        ]
+        group_entries = [entry for entry in group_entries if entry is not None]
+        child_ids = [entry["node_id"] for entry in group_entries]
+        operator_span = spec["operator_span"]
+        operator_refs = _refs_for_span(header, *operator_span)
+        scope_extra_refs = _merge_refs(
+            *[
+                entry.get("scope_source_references", [])
+                for entry in group_entries
+            ],
+        )
+        boundary_extra_refs = _merge_refs(
+            _refs_for_span(header, 0, len(header["raw_text"])),
+            *[
+                entry.get("scope", {}).get("boundary_source_references", [])
+                for entry in group_entries
+            ]
+        )
+        parent_source_references = [
+            _merge_refs(
+                operator_refs,
+                entry.get("parent_source_references", []),
+                node_builder.by_id[entry["node_id"]].get("source_references", [])
+                if entry["node_id"] in node_builder.by_id
+                else [],
+            )
+            for entry in group_entries
+        ]
+        child_labels_valid = (
+            spec["labels_valid"]
+            and len(group_entries) == spec["expected_count"]
+            and [entry["label"] for entry in group_entries]
+            == list(range(1, spec["expected_count"] + 1))
+        )
 
         group_id, scope = node_builder.emit_composite_group(
             header_record=header,
             child_ids=child_ids,
-            scope_match=match,
-            expected_child_count=expected_count,
+            expected_child_count=spec["expected_count"],
+            operator_span=operator_span,
+            count_span=spec["count_span"],
+            scope_span=spec["scope_span"],
+            boundary_span=spec["boundary_span"],
+            scope_extra_references=scope_extra_refs,
+            boundary_extra_references=boundary_extra_refs,
+            scope_valid=child_labels_valid,
+            child_parent_source_references=parent_source_references,
         )
-        target_blocks = list(scope["target_block_ids"])
         affected_indices = _unique(
             [
                 header_index,
                 *[
-                    block_index_by_id[block_id]
-                    for block_id in target_blocks
-                    if block_id in block_index_by_id
+                    index
+                    for entry in group_entries
+                    for index in entry["member_indices"]
                 ],
             ]
         )
         for index in affected_indices:
-            block_relations[index]["scope_relations"].append(
-                {
-                    "relation_id": scope["relation_id"],
-                    "operator": "AND",
-                    "status": scope["status"],
-                    "target_block_ids": target_blocks,
-                    "target_node_ids": list(child_ids),
-                    "trigger_text": header["raw_text"],
-                    "scope_source_references": list(
-                        scope["scope_source_references"]
-                    ),
-                    "member_source_references": list(
-                        scope["member_source_references"]
-                    ),
-                    "source_references": _merge_refs(
-                        scope["operator_source_references"],
-                        scope["source_references"],
-                    ),
-                    "operator_source_references": list(
-                        scope["operator_source_references"]
-                    ),
-                    "boundary_source_references": list(
-                        scope["boundary_source_references"]
-                    ),
-                    "reason": scope["reason"],
-                }
-            )
+            block_relations[index]["scope_relations"].append(dict(scope))
         output.append((header_index, group_id, child_ids, scope))
     return output
 
@@ -2098,8 +2674,8 @@ def _add_inline_scope_relations(
                 else "unresolved",
                 "operator_status": operator_status,
                 "scope_status": scope_status,
-                "target_block_ids": [record["block_id"]]
-                if node["children"] and record["block_id"]
+                "target_block_ids": list(node["source_block_ids"])
+                if node["children"]
                 else [],
                 "target_node_ids": list(node["children"]),
                 "trigger_text": node["text"],
@@ -2953,21 +3529,20 @@ def _scan_scoped_items(
         if record["kind"] == "blank":
             cursor += 1
             continue
+        current_group = _named_group_prefix_match(
+            records[frame_index]["raw_text"]
+        )
+        next_group = _named_group_prefix_match(record["raw_text"])
+        if current_group and next_group:
+            boundary_record = record
+            boundary_span = (next_group.start(), next_group.end())
+            frame_info.setdefault("additional_boundary_records", []).append(record)
+            if current_group.group("label") == next_group.group("label"):
+                reason = "named group labels are repeated or ambiguous"
+            break
         if record["kind"] == "heading":
             boundary_record = record
             boundary_span = _whole_block_span(record)
-            current_group = _NAMED_GROUP_RE.search(records[frame_index]["raw_text"])
-            next_group = _NAMED_GROUP_RE.search(record["raw_text"])
-            if (
-                current_group
-                and next_group
-                and current_group.group("label") != next_group.group("label")
-            ):
-                boundary_span = (next_group.start(), next_group.end())
-                frame_info.setdefault("additional_boundary_records", []).append(
-                    record
-                )
-                break
             if count is not None and len(members) < count:
                 reason = "a heading starts before the explicit member count is met"
             elif count is None and members:

@@ -1,0 +1,15 @@
+{
+  "schema": "nested-oracle-pre-execution-clarification-v1",
+  "clarified_at": "2026-10-10T21:06:55.9649562+08:00",
+  "first_product_evaluation_performed": false,
+  "original_sha256": "b396505cce9613d98cf6953f050cb1d0666f2415e4684085d9ff1d4b5ad79375",
+  "effective_sha256": "f4c705512d4b4b97a95a476cbc3890ac14883705f19c4255fcdaa931cf3a73a5",
+  "raw_inputs_and_expected_trees_unchanged": true,
+  "changes": [
+    "N07 explicitly forbids confirmed global operator under negation.",
+    "N08 forbids confirmed complete scope/group when a named group is missing; its explicit affirmative AND operator alone may be confirmed."
+  ],
+  "rationale": "Operator meaning and scope completeness are independent channels; no product output has been inspected for these inputs.",
+  "preserve_original": "cases.json and freeze.json retained byte-for-byte",
+  "isolation": "Shared-filesystem policy only, not certified blind."
+}

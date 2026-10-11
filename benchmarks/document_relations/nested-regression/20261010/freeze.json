@@ -1,0 +1,13 @@
+{
+  "schema": "main-reviewer-private-nested-freeze-v1",
+  "frozen_at": "2026-10-10T21:03:19.2353929+08:00",
+  "base_commit": "9f927bbd71298676626e6f2e9139fcf9455c7657",
+  "input_sha256": "b396505cce9613d98cf6953f050cb1d0666f2415e4684085d9ff1d4b5ad79375",
+  "case_count": 8,
+  "expected_positive": 6,
+  "expected_review": 2,
+  "developers_dispatched_after_freeze": true,
+  "first_developer_read_time": null,
+  "isolation": "Shared filesystem policy isolation only, not technically certified blind. Agents must not read .qiaowenshu acceptance assets.",
+  "status": "private until first independent execution"
+}

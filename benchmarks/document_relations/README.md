@@ -1,6 +1,24 @@
 # 文档关系状态回归
 
-## 当前专项状态（2026-10-10）
+## 当前嵌套专项（2026-10-11）
+
+有限命名组现在保留 `AND(OR(A,B),C)` 和 `AND(OR(A,B),OR(C,D))` 的直接层级，每层 operator/scope/parent 与终止来源单独核验。singleton 以 typed `REQUIRED` context scope 保留要求来源，不新增 self-parent 或改变逻辑 children。未知限定语、组数不完整及不支持选择仍需复核。
+
+主审最终 Git 导出源码 SHA 为 `e92a0d944c1e610b496638ec3b8dafb902b5ec42375477109eb61052e3d9a643`，65 源码及 14 评测/测试 blob 匹配；全量 `767 passed`、1 条既有警告，Ruff 通过。提前冻结的合成嵌套输入 8/8（6 正例、2 复核），公开 case-03/11 严格树专项 2/2，否定专项 30/30；来源错误分别 0/1754、0/448、0/816。
+
+**旧冻结 1.0.3 的 14 例原始结果为 9/14，不能写成 10/14。** case-03 新通过；case-11 的“四个原文材料名 vs oracle 人工释义”词面映射仍失败，虽同一原始字节的严格树专项通过。新增评分器不替换旧完整性评分器，旧脚本、oracle 和报告未改写。其余 case-07/09/12/13 的范围与完整性问题继续待处理。
+
+旧源码 `9f927bb` 用同一新评分器重放为 1/8（正例 0/6、复核例 1/2，八例均执行）；首次独立产品评分 8/8 和首次公开预验 8/14 均连同准确源码叠加包保留。输入先冻结、开发禁止读取私有目录，但共享文件系统仅为策略隔离，不是 certified blind；发布后均转为 public regression。
+
+新增资产与逐文件 hash 索引：
+
+- `nested-regression/20261010/`：16 件 raw TXT、原/有效 oracle、冻结/澄清及公开专项输入。
+- `reports/nested-followup-20261011/`：21 件最终/首次报告、source proof 和两个 exact-byte 源码叠加包。
+- [nested-publication-record.json](nested-publication-record.json)：时间、评分器 SHA、来源绑定、全部新资产长度与 SHA。
+
+旧公开仍为 0/8、八例实际执行且失败；企业材料 not_run/8 和关系 not_run/14 不变。结构 3/3，raw-file 原文约束 8/10，27 个既有 reliability mock 判断正确，但不证明生产准确率。第2步整体、通用及生产完整性继续未通过，`uv.lock` 独立处理。完整限定范围及复现见[验收文档](../../docs/document_relations_acceptance.md)。
+
+## 历史否定专项（2026-10-10）
 
 用户独立复查发现否定cue可使关系被错误标记为`confirmed`。本轮反例仅涉及前置“不需要”“不要求”及后置“无需”；专项核验关系语义，不评价业务材料是否被误放行。source reference通过原文坐标校验不代表关系semantics正确。
 

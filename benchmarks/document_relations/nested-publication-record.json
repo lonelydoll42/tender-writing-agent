@@ -1,0 +1,272 @@
+{
+  "schema": "nested-relations-publication-record-v1",
+  "published_at": "2026-10-11T20:45:03.5978065+08:00",
+  "client_finalization_date": "2026-10-11",
+  "base_commit": "9f927bbd71298676626e6f2e9139fcf9455c7657",
+  "source_tree_sha256": "e92a0d944c1e610b496638ec3b8dafb902b5ec42375477109eb61052e3d9a643",
+  "archive_base_staged_tree": "d00acf3ef41471293f582956c0439f8383ae88ec",
+  "source_file_count": 65,
+  "evaluator_file_count": 14,
+  "evaluator_freeze": {
+    "schema": "nested-grader-freeze-v1",
+    "frozen_at": "2026-10-10T22:20:41.5457414+08:00",
+    "source_input": "private/cases-v2.json",
+    "input_sha256": "f4c705512d4b4b97a95a476cbc3890ac14883705f19c4255fcdaa931cf3a73a5",
+    "grader": "scripts/run_document_relations_nested_eval.py",
+    "grader_sha256": "da7fba3f95cdf52e47bbda80754c624401d74c5a8b7fa36ee455d6492d1c920e",
+    "selftest": "tests/evals/test_document_relations_nested_eval.py",
+    "selftest_sha256": "8ca99f35f7899c4a4e35c0a9a963f13013f6441ef0fca860167e8bf5446dc0ea",
+    "frozen_base_grader_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+    "selftest_count": 9,
+    "private_inputs_not_executed_before_freeze": true
+  },
+  "classification": "Published synthetic public regression; shared-filesystem policy isolation, not certified blind.",
+  "first_developer_read_time": null,
+  "developer_private_read_forbidden": true,
+  "developers_closed_before_publication": true,
+  "frozen_input_clarification": "Original cases/freeze retained. Before any input execution, v2 added explicit flags distinguishing unknown scope from negated operator; texts and expected trees unchanged.",
+  "baseline": {
+    "source_tree_sha256": "76b23ab8d386616677b424f3f9e97f0b1b04ffae7b2809b0107fb406b2bde6c0",
+    "passed": 1,
+    "failed": 7,
+    "executed": 8,
+    "positive_passed": 0,
+    "positive_total": 6,
+    "review_handled": 1,
+    "review_total": 2,
+    "source_invalid": 0,
+    "source_checked": 513
+  },
+  "first_public_preview": {
+    "source_tree_sha256": "0ded295acdc6c584c7819a1156cfb6f49968d8fcf9ff6b9a8b88f16396e65089",
+    "passed": 8,
+    "total": 14,
+    "not_run": 0,
+    "source_invalid": 0,
+    "source_checked": 1021
+  },
+  "first_private_product_execution": {
+    "source_tree_sha256": "2b14cc2f9a4be06dd337bbe7aae91e2da551ade63f197b3f8700d00de21bed3f",
+    "passed": 8,
+    "executed": 8,
+    "not_run": 0,
+    "positive_passed": 6,
+    "review_handled": 2,
+    "source_invalid": 0,
+    "source_checked": 1738,
+    "policy_isolated_before_publication": true
+  },
+  "final": {
+    "tests_passed": 767,
+    "existing_warnings": 1,
+    "ruff": "passed",
+    "nested_passed": 8,
+    "nested_total": 8,
+    "nested_source_checked": 1754,
+    "nested_source_invalid": 0,
+    "public_nested_passed": 2,
+    "public_nested_total": 2,
+    "public_nested_source_checked": 448,
+    "negation_passed": 30,
+    "negation_total": 30,
+    "legacy_relations_passed": 9,
+    "legacy_relations_total": 14,
+    "legacy_source_checked": 1083,
+    "legacy_source_invalid": 0,
+    "structure_passed": 3,
+    "structure_total": 3,
+    "old_public_passed": 0,
+    "old_public_total": 8,
+    "old_public_executed": 8
+  },
+  "legacy_evaluator_limitation": "Frozen 1.0.3 still rejects case-11 material-label paraphrases (1.9号表 versus 编号1.9的表). Its raw 9/14 result is retained, not rewritten or called 10/14. A separate verbatim-label strict tree replay passes 2/2 on the same unchanged public inputs.",
+  "scope_boundary": "Only finite explicit named-group nesting. Raw pipelines remain partial/manual_review. No enterprise materials for nested, public14 or old8; no business false-block/release rates; no real model calls. Step 2 overall and production completeness not passed. uv.lock excluded.",
+  "historical_source_replay": "Two source-only overlays retain all source/evaluator bytes for the first snapshots. Their ZIP hashes differ from the original full Git archives; separate manifests bind exact member SHA256 to the original source proofs.",
+  "artifacts": [
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/cases-v2.json",
+      "sha256": "f4c705512d4b4b97a95a476cbc3890ac14883705f19c4255fcdaa931cf3a73a5",
+      "bytes": 6548
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/cases.json",
+      "sha256": "b396505cce9613d98cf6953f050cb1d0666f2415e4684085d9ff1d4b5ad79375",
+      "bytes": 5728
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/freeze.json",
+      "sha256": "e75648011d954bbc54c6c3a9fe538e295c350bcf71a551364c36f669f444145f",
+      "bytes": 621
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/grader-freeze.json",
+      "sha256": "1bd723b1d8fe32d7a58c65b024c4ce30e7069f2f58c0238c1903df33bb2a9370",
+      "bytes": 715
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/historical-hashes.json",
+      "sha256": "3b45aa2cdd3989f29b757d7c607d8c30bd89941188dcc511b08e9e96e2a28f15",
+      "bytes": 15232
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/oracle-clarification.json",
+      "sha256": "b8be4f6a3641df84449eb0a08b75158f5f814b1f6b30515953e73637e0d6c6a6",
+      "bytes": 928
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/public-nested-cases.json",
+      "sha256": "e7c7d546690aa9e092ec78cdbb7dab8feee310a8d820784a72c38ecc4631cb40",
+      "bytes": 2312
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/public-nested-oracle.json",
+      "sha256": "d16e32a731d4cff086ba7d322959394d1857595c3e0f5c567f024ec6143d39df",
+      "bytes": 1559
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N01.txt",
+      "sha256": "02466151911f704f9dd11642c43db556d321001bea9d5e931d66a60bc3f1b0b8",
+      "bytes": 138
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N02.txt",
+      "sha256": "7b978c66f6ed4da6dbb4eb51ee7b399494e76c644ce0a28bfffd52515de3f085",
+      "bytes": 196
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N03.txt",
+      "sha256": "f2f5a1a0548261552c98759f6ef1e5a6b9131e542e4b6d3ec8051056b5d98e62",
+      "bytes": 146
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N04.txt",
+      "sha256": "45ba10266e481d880b141eafa711c16e623e6f2176786f191decbc808bd844ee",
+      "bytes": 202
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N05.txt",
+      "sha256": "da4c2e5406100a056c1aba29ad0d0589f38eedbe9046d93d198dae31ab10402e",
+      "bytes": 230
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N06.txt",
+      "sha256": "738964561c2e1e66098e26c5afef36d020e52acd6eac3a98ec15bbd6ac0e00d0",
+      "bytes": 196
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N07.txt",
+      "sha256": "9024d06c2894afec9d0a5c2d225ff52d822a08be67e608a24300be2e710ce06d",
+      "bytes": 177
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N08.txt",
+      "sha256": "4aae9fb610e0a4bb5098b1c10f50fad27ffb995bfa2c1b0aac8746bb6d3565ef",
+      "bytes": 127
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/baseline-nested-score.json",
+      "sha256": "0c4f770fe9edd1674268f07ec668b59065307f80b708c5c1add9e89417d15436",
+      "bytes": 328272
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-public-score.json",
+      "sha256": "e43b5b06e4131c27cffe29ce3099a378b1f20e927ab0eaf0b295fdefdc8f55b2",
+      "bytes": 265341
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-relations-score.json",
+      "sha256": "2e22088b7cc201006295d1cb61a1755b04366eff70e203a123a066826d23db0d",
+      "bytes": 766573
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-score.json",
+      "sha256": "26f6b8bbe2c777d51f7958674027a9827fcf432b46460c989fc567d23345609d",
+      "bytes": 1050422
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-source-overlay-manifest.json",
+      "sha256": "d420df5aa8006887f2612d334e41a7a5d31c39b4b4cd9300133d90d30cf2254e",
+      "bytes": 25597
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-source-overlay.zip",
+      "sha256": "945b3c0628ea3f3c996ba7da3a592a76d459794cc285bff932ec5fbc92a75ae9",
+      "bytes": 391307
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-source-proof.json",
+      "sha256": "8a127ea5ea5758e8b89c7ff001cde4ebb137c807ec25fddd5f787d0963ca0a7f",
+      "bytes": 25571
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-negation-score.json",
+      "sha256": "fd874ec698cc7800949a96025552d5683bef83f3d63da2781b9145b9af7a897c",
+      "bytes": 707037
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-score.json",
+      "sha256": "87c2e304a7938adfebbeef53b25044bf3f165f05642727dcad797b22e67b9855",
+      "bytes": 745399
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-source-overlay-manifest.json",
+      "sha256": "b275014e79ccaeb8c8bb9db9ed01a3fa6fb4ac284ef94d0d1e562765d1e87104",
+      "bytes": 24968
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-source-overlay.zip",
+      "sha256": "46ab0888aa95dd8de6145b7d6a93a936179a4861c8a6926f658ca7e178541a15",
+      "bytes": 378153
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-source-proof.json",
+      "sha256": "95f9292d2139b0c7e935a0b95425fe8b0a2ccf2d78e3044a8a8d988ea95815f9",
+      "bytes": 24918
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/negation-score.json",
+      "sha256": "c601fbabf3049a6266d5d90a941e9fe533913be5762232b60a59090d3d204395",
+      "bytes": 707037
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/nested-score.json",
+      "sha256": "cfbdbfd959aeb14d2320f96428ca45ab4a5ef7de348ce47974651201e1f22863",
+      "bytes": 1060925
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/old-public-score.json",
+      "sha256": "36a4134e5ab2bcca3c18d8ccd27cc04564445dc4383327e81d1b284c8cf0ec59",
+      "bytes": 1692372
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/public-nested-score.json",
+      "sha256": "d85008a402cf5ca2ce05a8e6091b3578d24e0bd0934e7245b3e425a0a0c6f039",
+      "bytes": 270606
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/raw-file-score.json",
+      "sha256": "fffab6ab299750efcc9041e54794ac603dd849b7ed7d05571bd0a66c453795c7",
+      "bytes": 917100
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/relations-score.json",
+      "sha256": "119d32117ba496612b53ba729abf7b6a52e99da56cd7da44b7af54a2be129747",
+      "bytes": 771527
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/reliability-score.json",
+      "sha256": "c08e93a8a8e3870314344d2daaea3f3c348adeb4fd137bddaa54e4340d5c5763",
+      "bytes": 168740
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/source-proof.json",
+      "sha256": "d0aa7aedb8303a5b5643e0c29b7395c1acdc770016328c67a254f1f45b93f871",
+      "bytes": 25571
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/structure-score.json",
+      "sha256": "0fd3ee34be555908e5d3356e9c1759b4899ebc8823d6630e34041c57e8b20493",
+      "bytes": 3423676
+    }
+  ]
+}

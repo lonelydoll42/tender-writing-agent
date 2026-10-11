@@ -2,7 +2,54 @@
 
 ## 状态与边界
 
-### 当前复验状态（2026-10-10）
+### 当前嵌套专项（2026-10-11）
+
+本批由修改智能体实现、主审独立验收，只关闭明确有限命名组的嵌套表达与来源传递。case-03 保持 `AND(OR(A1,A2),A3)`，case-11 保持 `AND(OR(A1,A2),OR(A3,A4))`；每层直接子节点、操作符、作用域、parent 来源及终结边界分别核验，不以全部后代叶子代替直接子组。
+
+单项要求仍是 ATOM，不额外制造一元逻辑节点。其 `named_singleton_requirement` 是带 `operator=REQUIRED` 的 typed context scope，用于表达本项属于明确命名要求；target 仅指向本项，不是 self-parent，不改变 `children` 或逻辑树。原文引用和边界同时传递到上层。缺组、重复组、未知限定语及不支持的选择方式继续复核；明确的前置否定不升级成肯定外层 AND。
+
+最终 canonical 源码树 SHA-256 为 `e92a0d944c1e610b496638ec3b8dafb902b5ec42375477109eb61052e3d9a643`，archive base tree 为 `d00acf3ef41471293f582956c0439f8383ae88ec`。65/65 源码及 14/14 评测器/测试 blob 与导出副本一致，仅 `document_relations.py` 的产品源码发生变化；主审从该副本运行全量测试，结果为 **767 passed、1 条既有 Starlette 警告**，全仓 Ruff 通过。
+
+| 验证层 | 最终结果 | 解释 |
+| --- | --- | --- |
+| 验收侧提前冻结的 8 份嵌套合成输入 | 8/8；0 failed、0 not_run | 6 个明确正例均确认；2 个否定/不完整范围样例正确复核；来源错误 0/1754 |
+| 同一评分器重放旧 `9f927bb` | 1/8；8 例实际执行 | 正例 0/6，复核例 1/2；来源错误仍为 0/513 |
+| case-03、case-11 原始字节的严格树专项 | 2/2；0 未执行 | 操作符、直接子节点及每层来源边界通过；来源错误 0/448 |
+| 未修改的原 1.0.3 关系评分器 | 9/14；5 failed、0 not_run | case-03 新通过；case-11 的原子词面映射仍失败；来源错误 0/1083 |
+| 既有否定专项 | 24/24 负例、6/6 正例 | 来源错误 0/816；复杂 NOT 仍不自动求值 |
+| 结构回归 | 3/3 | 不是条件完整性或企业满足要求验证 |
+| 旧公开原始文件完整性 | 0/8；8 例实际执行、0 未执行 | 企业材料仍为 not_run/8 |
+| Raw-file 与 reliability 回归 | 原文约束 8/10；27 个固定 mock 判断正确 | hard false release 0/7 仅为有限门禁策略结果，不是资格识别准确率 |
+
+**旧评分器的边界必须单列。** case-11 实际输出四个不同 ATOM 及两层正确条件树，但冻结 1.0.3 以文本相似度匹配“近两年1.9号表”和人工释义“提交近两年编号1.9的表”时未匹配。原始 9/14 报告、该评分器及其 72 项自测都没有改写，不能将结果称为 10/14，也不能将该四项词面未匹配直接当成四条真实解析遗漏。新增严格树评分器使用同一冻结输入原文中的材料名，并另行检查状态、精确来源及直接子节点；它不是原 14 例完整性评分器的替换。评分器互操作问题应另设批次处理。
+
+### 冻结、首次结果与发布
+
+8 份输入在 2026-10-10 21:03:19（Asia/Shanghai）冻结，晚于该冻结时刻才向开发智能体下发任务；开发侧被要求不读取私有验收目录。共享文件系统仅形成策略隔离，**不是技术隔离或 certified blind**，实际首次开发读取时间未知。原 `cases.json` SHA 为 `b396505c…`，输入冻结文件保持原字节。首次执行前另存 `cases-v2.json`，仅明确区分“否定操作符不可确认”和“缺组时完整 scope 不可确认但肯定操作符可识别”；原文、条件树和第一版没有改写。有效输入 SHA 为 `f4c70551…`，说明及时间另存 `oracle-clarification.json`。
+
+评分器及 9 项合成/mock 契约自测先于私有输入执行冻结。评分器 SHA 为 `da7fba3f95cdf52e47bbda80754c624401d74c5a8b7fa36ee455d6492d1c920e`，自测 SHA 为 `8ca99f35f7899c4a4e35c0a9a963f13013f6441ef0fca860167e8bf5446dc0ea`。它拒绝扁平树、额外冲突 confirmed 分组、借用兄弟边界、错误 scope/parent/operator、cycle、零引用分母及覆盖旧报告；执行状态与语义评分独立记录，builder failed 不冒充 not_run。契约自测不代替真实 Registry -> Runtime -> Intake -> Decomposition 运行。
+
+主审保留三轮对应源码，不用最终报告覆盖首次结果：
+
+- 首次公开预验源码 `0ded295a…` 为 8/14；发现 singleton 来源与边界传递缺失后回修。报告、65 源码/12 评测文件 proof 与 exact-byte source overlay 一并保留。
+- 首次验收侧 8 例产品执行在源码 `2b14cc2f…` 上得到 8/8，来源错误 0/1738；严格公开树 2/2，但旧 14 例仍 8/14。该轮报告及 65 源码/14 评测文件 overlay 保留。之后仅完善 singleton 的节点级上下文来源通道。
+- 最终源码为上述 `e92a0d94…`，有限专项与全量回归通过；旧 14 例为 9/14。
+
+新产物位于 [nested-followup-20261011](../benchmarks/document_relations/reports/nested-followup-20261011)，21 个报告/proof/源码叠加包均纳入版本控制。两份 source overlay 只包含相应 65 源码及 12/14 评测文件，其 ZIP hash 与原完整 Git archive 不同；独立 manifest 逐文件绑定到原 source proof，能够在 `9f927bb` 导出基础上重建对应源码，而不是只保留不可恢复的 staged tree ID。
+
+8 份 raw TXT、原/有效 oracle、冻结及勘误文件和公开专项输入共 16 件位于 [nested-regression/20261010](../benchmarks/document_relations/nested-regression/20261010)。开发智能体停止后发布，发布后均属于 **public regression**；最终重放不冒称新的盲测。原 84 个历史冻结文件/评分器/报告字节不变。完整路径、长度与 SHA-256 见 [nested-publication-record.json](../benchmarks/document_relations/nested-publication-record.json)。
+
+```powershell
+$env:PYTHONPATH = (Resolve-Path ".\src").Path
+python scripts/run_document_relations_nested_eval.py --cases benchmarks/document_relations/nested-regression/20261010/cases-v2.json --output replay-nested-NEW.json
+python scripts/run_document_relations_nested_eval.py --cases benchmarks/document_relations/nested-regression/20261010/public-nested-cases.json --output replay-public-nested-NEW.json
+```
+
+输出路径须从未存在。raw-file/reliability 报告自身不含源码 hash，绑定来自本轮 source proof 和明确指向 canonical export/src 的执行环境。有限合成文本、真实 Registry 链路和 mock 写作结果都不能外推真实 PDF、扫描件、任意语义或真实模型准确率。关系 14 例企业材料仍为 not_run/14，本批 8 例与专项 2 例也没有企业材料，因此不计算业务误阻断/误放行率。
+
+**第2步整体、跨页/跨章节范围、主体与时间关联、通用完整性和生产验收继续未通过；`partial/manual_review` 门禁保留；`uv.lock` 未纳入提交，另设环境复现任务。**
+
+### 历史否定专项（2026-10-10）
 
 用户独立复查发现否定cue可导致关系被错误标记为`confirmed`。本轮记录的反例类型仅包括前置“不需要”“不要求”和后置“无需”；待验收对象是系统对这些否定cue所涉关系的表达与状态判定，不是业务误放行。来源坐标、引文和字符范围有效，只能证明source reference与原文相符，不能证明关系semantics正确。
 

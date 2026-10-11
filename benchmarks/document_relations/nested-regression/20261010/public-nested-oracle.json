@@ -1,0 +1,47 @@
+{
+  "schema_version": "nested-relations-independent-oracle-v1",
+  "purpose": "Strict tree replay of public case-03 and case-11; leaf labels are their frozen verbatim material names, not evaluator paraphrases. Raw input bytes are loaded from the unchanged public bundle.",
+  "cases": [
+    {
+      "id": "public-case-03",
+      "input_path": "benchmarks/document_relations/reserved/v2/case-03.txt",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "两组要求均须满足",
+        "scope_quote": "两组要求",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "任选其一",
+            "scope_quote": "第一组",
+            "children": ["营业执照复印件", "资质证书"]
+          },
+          "项目负责人授权书"
+        ]
+      }
+    },
+    {
+      "id": "public-case-11",
+      "input_path": "benchmarks/document_relations/reserved/v2/case-11.txt",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "以下两组材料均须提交",
+        "scope_quote": "以下两组材料",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "每组只需择一",
+            "scope_quote": "第一组",
+            "children": ["近两年1.9号表", "近两年1.10号表"]
+          },
+          {
+            "op": "OR",
+            "operator_quote": "每组只需择一",
+            "scope_quote": "第二组",
+            "children": ["近三年1.9号表", "近三年1.10号表"]
+          }
+        ]
+      }
+    }
+  ]
+}

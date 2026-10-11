@@ -1,0 +1,151 @@
+{
+  "schema_version": "nested-relations-independent-oracle-v1",
+  "purpose": "Main-reviewer-only frozen synthetic acceptance inputs. Expected trees were written from text before implementation; not production or business satisfaction evidence.",
+  "cases": [
+    {
+      "id": "N01",
+      "text": "两组要求均须满足。\n第一组任选其一：登记证明；机构代码证明。\n第二组必须提交：负责人任命文件。\n",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "两组要求均须满足",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "任选其一",
+            "scope_quote": "第一组",
+            "children": ["登记证明", "机构代码证明"]
+          },
+          "负责人任命文件"
+        ]
+      }
+    },
+    {
+      "id": "N02",
+      "text": "以下两组材料均须提交，但每组只需择一：\n第一组：（1）财务核验甲表；（2）财务核验乙表。\n第二组：（1）人员核验甲表；（2）人员核验乙表。\n",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "两组材料均须提交",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "每组只需择一",
+            "scope_quote": "第一组",
+            "children": ["财务核验甲表", "财务核验乙表"]
+          },
+          {
+            "op": "OR",
+            "operator_quote": "每组只需择一",
+            "scope_quote": "第二组",
+            "children": ["人员核验甲表", "人员核验乙表"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "N03",
+      "text": "两组要求均须满足。\n第1组任选一项：授权凭据甲；授权凭据乙。\n第2组任选一项：财务凭据甲；财务凭据乙。\n",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "两组要求均须满足",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "任选一项",
+            "scope_quote": "第1组",
+            "children": ["授权凭据甲", "授权凭据乙"]
+          },
+          {
+            "op": "OR",
+            "operator_quote": "任选一项",
+            "scope_quote": "第2组",
+            "children": ["财务凭据甲", "财务凭据乙"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "N04",
+      "text": "以下三组要求均须满足。\n第一组任选其一：登记凭据甲；登记凭据乙。\n第二组任选其一：履约凭据甲；履约凭据乙。\n第三组必须提交：组织授权文件。\n",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "三组要求均须满足",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "任选其一",
+            "scope_quote": "第一组",
+            "children": ["登记凭据甲", "登记凭据乙"]
+          },
+          {
+            "op": "OR",
+            "operator_quote": "任选其一",
+            "scope_quote": "第二组",
+            "children": ["履约凭据甲", "履约凭据乙"]
+          },
+          "组织授权文件"
+        ]
+      }
+    },
+    {
+      "id": "N05",
+      "text": "以下两组材料均须提交，但每组只需择一：\n第一组：（1）本期经营甲表；（2）本期经营乙表。\n第二组：（1）上期经营甲表；（2）上期经营乙表。\n另须提交独立签章声明。\n",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "两组材料均须提交",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "每组只需择一",
+            "scope_quote": "第一组",
+            "children": ["本期经营甲表", "本期经营乙表"]
+          },
+          {
+            "op": "OR",
+            "operator_quote": "每组只需择一",
+            "scope_quote": "第二组",
+            "children": ["上期经营甲表", "上期经营乙表"]
+          }
+        ]
+      },
+      "outside_atoms": ["独立签章声明"]
+    },
+    {
+      "id": "N06",
+      "text": "以下两组材料均须提交。\n第一组任选其一：（1）组织登记甲表；（2）组织登记乙表。\n第二组任选其一：（1）团队授权甲表；（2）团队授权乙表。\n",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "两组材料均须提交",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "任选其一",
+            "scope_quote": "第一组",
+            "children": ["组织登记甲表", "组织登记乙表"]
+          },
+          {
+            "op": "OR",
+            "operator_quote": "任选其一",
+            "scope_quote": "第二组",
+            "children": ["团队授权甲表", "团队授权乙表"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "N07",
+      "text": "不要求以下两组材料均须提交。\n第一组任选其一：主体登记甲表；主体登记乙表。\n第二组任选其一：资金核验甲表；资金核验乙表。\n",
+      "review_only": true,
+      "forbidden_operator_quote": "两组材料均须提交",
+      "review_quote": "不要求",
+      "retained_atoms": ["主体登记甲表", "主体登记乙表", "资金核验甲表", "资金核验乙表"]
+    },
+    {
+      "id": "N08",
+      "text": "以下两组材料均须提交，但每组只需择一：\n第一组：（1）法定登记甲表；（2）法定登记乙表。\n",
+      "review_only": true,
+      "forbidden_operator_quote": "两组材料均须提交",
+      "review_quote": "两组材料均须提交",
+      "retained_atoms": ["法定登记甲表", "法定登记乙表"]
+    }
+  ]
+}

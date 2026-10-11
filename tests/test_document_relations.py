@@ -310,6 +310,321 @@ def test_inline_and_splits_atoms_and_preserves_nested_direct_children() -> None:
     assert outer["scope_relation"]["boundary_source_references"]
 
 
+def test_case03_direct_atom_and_independent_third_requirement() -> None:
+    text = (
+        "两组要求均须满足。\n"
+        "第一组任选其一：营业执照复印件；资质证书。\n"
+        "第二组必须提交：项目负责人授权书。\n"
+        "此外投标人应提交独立承诺函。"
+    )
+    structure = _structure(text)
+    result = build_document_relations(structure)
+    root = next(
+        node
+        for node in _groups(result, "AND")
+        if node["status"] == "confirmed"
+    )
+    nodes = {node["node_id"]: node for node in result["condition_nodes"]}
+    direct_children = [nodes[node_id] for node_id in root["children"]]
+    choice = direct_children[0]
+
+    assert [node["op"] for node in direct_children] == ["OR", "ATOM"]
+    assert {nodes[node_id]["text"] for node_id in choice["children"]} == {
+        "营业执照复印件",
+        "资质证书",
+    }
+    singleton = direct_children[1]
+    assert singleton["text"] == "项目负责人授权书"
+    assert singleton["children"] == []
+    singleton_quotes = {
+        reference["quote"] for reference in singleton["source_references"]
+    }
+    assert {"第二组", "必须提交", "项目负责人授权书"} <= singleton_quotes
+    context_scope = singleton["scope_relation"]
+    assert context_scope["relation_type"] == "named_singleton_requirement"
+    assert context_scope["kind"] == "context_scope"
+    assert context_scope["basis"] == "single_item_requirement"
+    assert context_scope["operator"] == "REQUIRED"
+    assert context_scope["target_node_ids"] == [singleton["node_id"]]
+    singleton_scope_status = context_scope["status"]
+    assert singleton_scope_status == "confirmed"
+    assert {
+        reference["quote"]
+        for reference in context_scope["scope_source_references"]
+    } >= {"第二组"}
+    assert {
+        reference["quote"]
+        for reference in context_scope["requirement_source_references"]
+    } >= {"必须提交"}
+    assert {
+        reference["quote"]
+        for reference in context_scope["boundary_source_references"]
+    } >= {"：", "。"}
+    assert not any(
+        relation.get("target_node_ids") == [singleton["node_id"]]
+        for relation in singleton["parent_relations"]
+    )
+
+    singleton_block = next(
+        block
+        for block in structure["blocks"]
+        if "第二组必须提交" in block["raw_text"]
+    )
+    singleton_scope = next(
+        relation
+        for relation in result["block_relations"]
+        if relation["block_id"] == singleton_block["block_id"]
+        for relation in relation["scope_relations"]
+        if relation.get("relation_type") == "named_group_scope"
+    )
+    assert singleton_scope["target_node_ids"] == [singleton["node_id"]]
+    assert singleton_scope["status"] == singleton_scope_status
+    singleton_boundary_quotes = {
+        reference["quote"]
+        for reference in singleton_scope["boundary_source_references"]
+    }
+    assert {"：", "。"} <= singleton_boundary_quotes
+
+    root_boundary_quotes = {
+        reference["quote"]
+        for reference in root["scope_relation"]["boundary_source_references"]
+    }
+    assert "两组要求均须满足。" in root_boundary_quotes
+    assert {"：", "。"} <= root_boundary_quotes
+
+    assert any(
+        reference["quote"] == "两组要求"
+        for reference in root["scope_relation"]["scope_source_references"]
+    )
+    assert any(
+        "两组要求均须满足" in reference["quote"]
+        for reference in root["operator_relation"]["source_references"]
+    )
+
+    independent = next(
+        node
+        for node in result["condition_nodes"]
+        if node["op"] == "ATOM" and "独立承诺函" in node["text"]
+    )
+    independent_block = next(
+        block for block in structure["blocks"] if "独立承诺函" in block["raw_text"]
+    )
+    assert independent["node_id"] in result["roots"]
+    assert independent["node_id"] not in root["children"]
+    assert independent_block["block_id"] not in root["source_block_ids"]
+    assert (
+        independent_block["block_id"]
+        not in root["scope_relation"]["target_block_ids"]
+    )
+
+    for child_id in root["children"]:
+        edge = next(
+            relation
+            for relation in nodes[child_id]["parent_relations"]
+            if relation["target_node_ids"] == [root["node_id"]]
+        )
+        edge_quotes = {reference["quote"] for reference in edge["source_references"]}
+        assert {
+            reference["quote"]
+            for reference in root["scope_relation"]["source_references"]
+        } <= edge_quotes
+        assert {
+            reference["quote"]
+            for reference in root["scope_relation"]["boundary_source_references"]
+        } <= edge_quotes
+
+
+def test_case11_keeps_two_or_groups_and_full_scope_evidence() -> None:
+    text = (
+        "以下两组材料均须提交，但每组只需择一：\n"
+        "第一组：（1）近两年1.9号表；（2）近两年1.10号表。\n"
+        "第二组：（1）近三年1.9号表；（2）近三年1.10号表。"
+    )
+    structure = _structure(text)
+    result = build_document_relations(structure)
+    root = next(
+        node
+        for node in _groups(result, "AND")
+        if node["status"] == "confirmed"
+    )
+    nodes = {node["node_id"]: node for node in result["condition_nodes"]}
+    groups = [nodes[node_id] for node_id in root["children"]]
+
+    assert [node["op"] for node in groups] == ["OR", "OR"]
+    assert [
+        {nodes[node_id]["text"] for node_id in group["children"]}
+        for group in groups
+    ] == [
+        {"近两年1.9号表", "近两年1.10号表"},
+        {"近三年1.9号表", "近三年1.10号表"},
+    ]
+    assert any(
+        reference["quote"] == "两"
+        for reference in root["scope_relation"]["scope_source_references"]
+    )
+    assert any(
+        reference["quote"] == "以下两组材料"
+        for reference in root["scope_relation"]["scope_source_references"]
+    )
+    assert any(
+        "以下两组材料均须提交" in reference["quote"]
+        for reference in root["operator_relation"]["source_references"]
+    )
+
+    header_id = structure["blocks"][0]["block_id"]
+    for group in groups:
+        assert group["status"] == "confirmed"
+        assert header_id in group["source_block_ids"]
+        assert group["scope_relation"]["target_node_ids"] == group["children"]
+        assert any(
+            "每组只需择一" in reference["quote"]
+            for reference in group["operator_relation"]["source_references"]
+        )
+        assert group["scope_relation"]["boundary_source_references"]
+
+    page_text = structure["pages"][0]["raw_text"]
+    for reference in _source_references(result):
+        assert (
+            page_text[reference["char_start"] : reference["char_end"]]
+            == reference["quote"]
+        )
+
+
+def test_named_physical_choice_frames_stop_at_the_next_named_group() -> None:
+    text = (
+        "两组要求均须满足。\n"
+        "第一组任选其一：\n"
+        "（1）营业执照。\n"
+        "（2）资质证书。\n"
+        "第二组任选其一：\n"
+        "（1）审计报告。\n"
+        "（2）银行资信。"
+    )
+    result = build_document_relations(_structure(text))
+    root = next(
+        node
+        for node in _groups(result, "AND")
+        if node["status"] == "confirmed"
+    )
+    nodes = {node["node_id"]: node for node in result["condition_nodes"]}
+    groups = [nodes[node_id] for node_id in root["children"]]
+
+    assert [node["op"] for node in groups] == ["OR", "OR"]
+    assert all(node["status"] == "confirmed" for node in groups)
+    assert [len(node["children"]) for node in groups] == [2, 2]
+    assert {
+        nodes[node_id]["text"].rstrip("。")
+        for group in groups
+        for node_id in group["children"]
+    } == {"营业执照", "资质证书", "审计报告", "银行资信"}
+
+
+def test_named_group_frame_with_extra_numbered_row_stays_candidate() -> None:
+    text = (
+        "两组要求均须满足。\n"
+        "第一组任选其一：营业执照；资质证书。\n"
+        "1. 另须提交独立声明。\n"
+        "第二组必须提交：授权书。"
+    )
+    structure = _structure(text)
+    result = build_document_relations(structure)
+    header_id = next(
+        block["block_id"]
+        for block in structure["blocks"]
+        if block["raw_text"] == "两组要求均须满足。"
+    )
+    root = next(
+        node
+        for node in _groups(result, "AND")
+        if header_id in node["source_block_ids"]
+    )
+
+    assert root["operator_relation"]["status"] == "confirmed"
+    assert root["scope_relation"]["status"] == "candidate"
+    assert root["status"] == "candidate"
+
+
+def test_negated_composite_header_can_confirm_local_or_but_not_outer_and() -> None:
+    text = (
+        "以下两组材料并非均须提交，但每组只需择一：\n"
+        "第一组：（1）营业执照；（2）资质证书。\n"
+        "第二组：（1）审计报告；（2）银行资信。"
+    )
+    structure = _structure(text)
+    result = build_document_relations(structure)
+    groups = _groups(result)
+    header_id = next(
+        block["block_id"]
+        for block in structure["blocks"]
+        if block["raw_text"] == "以下两组材料并非均须提交，但每组只需择一："
+    )
+
+    assert not [
+        node
+        for node in groups
+        if node["op"] == "AND"
+        and header_id in node["source_block_ids"]
+        and node["status"] == "confirmed"
+    ]
+    assert len(
+        [
+            node
+            for node in groups
+            if node["op"] == "OR" and node["status"] == "confirmed"
+        ]
+    ) == 2
+
+
+@pytest.mark.parametrize(
+    "header",
+    [
+        "以下两组材料未必均须提交：",
+        "仅当采购人同意时，以下两组材料均须提交：",
+        "示例：两组要求均须满足。",
+    ],
+)
+def test_unbounded_composite_header_qualifiers_never_confirm_outer_and(
+    header: str,
+) -> None:
+    text = (
+        f"{header}\n"
+        "第一组任选其一：营业执照；资质证书。\n"
+        "第二组必须提交：授权书。"
+    )
+    structure = _structure(text)
+    result = build_document_relations(structure)
+    header_id = next(
+        block["block_id"]
+        for block in structure["blocks"]
+        if block["raw_text"] == header
+    )
+
+    assert not [
+        node
+        for node in _groups(result, "AND")
+        if header_id in node["source_block_ids"] and node["status"] == "confirmed"
+    ]
+
+
+def test_single_required_group_with_semicolons_is_not_one_atom() -> None:
+    text = (
+        "两组要求均须满足。\n"
+        "第一组任选其一：营业执照；资质证书。\n"
+        "第二组必须提交：授权书；声明。"
+    )
+    result = build_document_relations(_structure(text))
+    atoms = [
+        node
+        for node in result["condition_nodes"]
+        if node["op"] == "ATOM" and "授权书" in node["text"]
+    ]
+    root = next(node for node in _groups(result, "AND"))
+
+    assert atoms
+    assert all(node["status"] != "confirmed" for node in atoms)
+    assert root["scope_relation"]["status"] == "candidate"
+
+
 def test_inline_simultaneous_submission_splits_two_material_atoms() -> None:
     text = "须同时提交营业执照及审计报告。"
     result = build_document_relations(_structure(text))
