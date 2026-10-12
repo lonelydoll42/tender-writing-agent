@@ -66,3 +66,21 @@ benchmarks/document_relations/reports/nested-followup-20261011/first-public-sour
 benchmarks/document_relations/reports/nested-followup-20261011/raw-file-score.json -text whitespace=cr-at-eol
 benchmarks/document_relations/reports/nested-followup-20261011/reliability-score.json -text whitespace=cr-at-eol
 benchmarks/document_relations/reports/nested-followup-20261011/source-proof.json -text whitespace=cr-at-eol
+benchmarks/document_relations/inheritance-regression/20261012/** -text
+benchmarks/document_relations/reports/inheritance-followup-20261012/** -text
+benchmarks/document_relations/inheritance-publication-record.json -text whitespace=cr-at-eol
+benchmarks/document_relations/inheritance-regression/20261012/boundary-audit-record.json -text whitespace=cr-at-eol
+benchmarks/document_relations/inheritance-regression/20261012/freeze.json -text whitespace=cr-at-eol
+benchmarks/document_relations/inheritance-regression/20261012/grader-freeze.json -text whitespace=cr-at-eol
+benchmarks/document_relations/inheritance-regression/20261012/historical-hashes.json -text whitespace=cr-at-eol
+benchmarks/document_relations/inheritance-regression/20261012/inspection-freeze.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-local-review.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-source-proof.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-reconstruction.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-source-proof.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/inheritance-followup-20261012/local-review.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/inheritance-followup-20261012/quantity-local-review.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/inheritance-followup-20261012/source-proof.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/inheritance-followup-20261012/unit-local-review.json -text whitespace=cr-at-eol
+# Preserve Git's context-line markers in this immutable replay patch.
+benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-bound-review.patch -text whitespace=-blank-at-eol

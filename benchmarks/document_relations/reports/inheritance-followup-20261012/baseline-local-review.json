@@ -1,0 +1,196 @@
+{
+  "schema": "inherited-or-local-review-inspection-v1",
+  "generated_at": "2026-10-12T09:10:43.1580874+08:00",
+  "input_report_sha256": "49f3015f4b8ca658fb5b2fb7dd92ad9b13dfaa62eae3752094f37d227685fdbe",
+  "cases_sha256": "66be0f0f6337b6be12acc6ddc2a4a00c5cf892d434226db4dd45bf4bd1917d17",
+  "source_tree_sha256": "e92a0d944c1e610b496638ec3b8dafb902b5ec42375477109eb61052e3d9a643",
+  "scope": "Separate exact local-line/outer-state inspection; does not modify frozen scorer or assert business qualification.",
+  "summary": {
+    "passed": 1,
+    "failed": 4,
+    "total": 5
+  },
+  "cases": [
+    {
+      "id": "I01",
+      "status": "failed",
+      "errors": [
+        "Conflicting local instruction is not one retained review ATOM",
+        "Conflicting local instruction still confirms a logical group",
+        "Outer complete relation/scope is not retained as two review branches"
+      ],
+      "local_nodes": [
+        {
+          "node_id": "cond_79175079fd92713966d72717",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第一组须同时提交：营业执照；审计报告。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_ecc014e37682f6cc1bfb2770",
+          "status": "confirmed",
+          "operator_status": "confirmed",
+          "scope_status": "confirmed",
+          "direct_children": [
+            "cond_79175079fd92713966d72717",
+            "cond_ad1c25c72d61980df0a59773"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_ad1c25c72d61980df0a59773",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组任选一项：授权书；委托书。"
+        }
+      ]
+    },
+    {
+      "id": "I02",
+      "status": "failed",
+      "errors": [
+        "Conflicting local instruction is not one retained review ATOM",
+        "Conflicting local instruction still confirms a logical group",
+        "Outer complete relation/scope is not retained as two review branches"
+      ],
+      "local_nodes": [
+        {
+          "node_id": "cond_be1016d5efda481f94b211c5",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第一组任选两项：营业执照；审计报告；资质证明。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_351d8b9701b089bccd2ef258",
+          "status": "confirmed",
+          "operator_status": "confirmed",
+          "scope_status": "confirmed",
+          "direct_children": [
+            "cond_be1016d5efda481f94b211c5",
+            "cond_16dcb2889252570d7c95eba5"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_16dcb2889252570d7c95eba5",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组任选一项：授权书；委托书。"
+        }
+      ]
+    },
+    {
+      "id": "I03",
+      "status": "failed",
+      "errors": [
+        "Conflicting local instruction is not one retained review ATOM",
+        "Conflicting local instruction still confirms a logical group",
+        "Outer complete relation/scope is not retained as two review branches"
+      ],
+      "local_nodes": [
+        {
+          "node_id": "cond_88aa016e486a0ea3d08a4c75",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第一组任选2项：（1）材料甲；（2）材料乙；（3）材料丙。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_4ca0a0ffbcd048d826ce6514",
+          "status": "confirmed",
+          "operator_status": "confirmed",
+          "scope_status": "confirmed",
+          "direct_children": [
+            "cond_88aa016e486a0ea3d08a4c75",
+            "cond_82e8206f39370511467f3e2d"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_82e8206f39370511467f3e2d",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组：（1）材料丁；（2）材料戊。"
+        }
+      ]
+    },
+    {
+      "id": "I04",
+      "status": "failed",
+      "errors": [
+        "Conflicting local instruction is not one retained review ATOM",
+        "Conflicting local instruction still confirms a logical group",
+        "Outer complete relation/scope is not retained as two review branches"
+      ],
+      "local_nodes": [
+        {
+          "node_id": "cond_5c1aefb5ce926c1d1ab4c626",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组须同时提交：负责人任命文件；负责人身份证明。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_43caa2c15c0b208ec61d4508",
+          "status": "confirmed",
+          "operator_status": "confirmed",
+          "scope_status": "confirmed",
+          "direct_children": [
+            "cond_ee3c2a3e2cdf28889709f7a4",
+            "cond_5c1aefb5ce926c1d1ab4c626"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_ee3c2a3e2cdf28889709f7a4",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第一组：登记证明；机构代码证明。"
+        }
+      ]
+    },
+    {
+      "id": "I05",
+      "status": "passed",
+      "errors": [],
+      "local_nodes": [
+        {
+          "node_id": "cond_29d6d47e2bdc8432fc62fbaa",
+          "op": "ATOM",
+          "status": "candidate",
+          "text": "第一组任选其一且须同时提交：甲证明；乙证明。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_a15d8a1a4d6a4db4bcdf71fb",
+          "status": "candidate",
+          "operator_status": "confirmed",
+          "scope_status": "candidate",
+          "direct_children": [
+            "cond_29d6d47e2bdc8432fc62fbaa",
+            "cond_32dee9f9082fa0e7805aa1f2"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_32dee9f9082fa0e7805aa1f2",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组任选一项：丙证明；丁证明。"
+        }
+      ]
+    }
+  ]
+}

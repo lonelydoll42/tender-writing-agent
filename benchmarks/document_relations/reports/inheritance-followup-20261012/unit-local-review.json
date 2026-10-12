@@ -1,0 +1,81 @@
+{
+  "schema": "inherited-or-local-review-inspection-v1",
+  "generated_at": "2026-10-12T09:30:44.1550448+08:00",
+  "input_report_sha256": "45bc0946928e0ecf181026e66243682ed17fd8cb21a039f8fe11756debed8ed3",
+  "cases_sha256": "e80dd4a8349e9e08bf4d715f9f6499058dc389631f4c0928822ac8d061271acd",
+  "source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+  "scope": "Separate exact local-line/outer-state inspection; does not modify frozen scorer or assert business qualification.",
+  "summary": {
+    "passed": 2,
+    "failed": 0,
+    "total": 2
+  },
+  "cases": [
+    {
+      "id": "U01",
+      "status": "passed",
+      "errors": [],
+      "local_nodes": [
+        {
+          "node_id": "cond_f1631d8eaaa3932c00d5ded3",
+          "op": "ATOM",
+          "status": "candidate",
+          "text": "第一组任取至少一份：营业执照；审计报告。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_e273607b0df0927e9c8e1ec0",
+          "status": "candidate",
+          "operator_status": "confirmed",
+          "scope_status": "candidate",
+          "direct_children": [
+            "cond_f1631d8eaaa3932c00d5ded3",
+            "cond_0f5ad4a91f9619a674f32753"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_0f5ad4a91f9619a674f32753",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组任选一项：授权书；委托书。"
+        }
+      ]
+    },
+    {
+      "id": "U02",
+      "status": "passed",
+      "errors": [],
+      "local_nodes": [
+        {
+          "node_id": "cond_31a21233a2cda8a00778745b",
+          "op": "ATOM",
+          "status": "candidate",
+          "text": "第一组任选至多一件：营业执照；审计报告。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_26cfbc1adc9cf0f7677b040d",
+          "status": "candidate",
+          "operator_status": "confirmed",
+          "scope_status": "candidate",
+          "direct_children": [
+            "cond_31a21233a2cda8a00778745b",
+            "cond_9a97128de09992c6ef0ac6f8"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_9a97128de09992c6ef0ac6f8",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组任选一项：授权书；委托书。"
+        }
+      ]
+    }
+  ]
+}

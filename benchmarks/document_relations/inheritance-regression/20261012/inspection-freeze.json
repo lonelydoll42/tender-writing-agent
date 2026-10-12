@@ -1,0 +1,8 @@
+{
+  "schema": "inherited-or-local-inspection-freeze-v1",
+  "frozen_at": "2026-10-12T09:11:19.3931051+08:00",
+  "script_sha256": "25d33ef0d66b8c7dc48f3c027fc30825782ac19d265211647d5c8be711027885",
+  "created_after_baseline_inspection": true,
+  "frozen_before_final_product_execution": true,
+  "scope": "Exact raw local line retained as a review ATOM; no confirmed logical interpretation; outer two-branch scope reviewed; unaffected OR still confirmed. Separate checks of graph emitted by frozen nested scorer."
+}

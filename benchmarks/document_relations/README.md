@@ -1,6 +1,20 @@
 # 文档关系状态回归
 
-## 当前嵌套专项（2026-10-11）
+## 当前继承指令小修（2026-10-12）
+
+`74a311e` 的有限关闭判断因组内指令被上层 OR 覆盖重新打开。本次仅修继承入口：先检查命名组到冒号之间的冲突和数量限定；原句 candidate、外层完整 scope candidate，外层明确 AND 操作符可单独 confirmed，不表示完整关系通过。未冲突组仍确认，材料名不参与新增数量检查；不实现 K-of-N 或矛盾优先级求值。
+
+canonical 源码 SHA `da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0`；65 源码及 15 评测/测试 blob 匹配，全量 **782 passed**、1 条既有警告，Ruff 通过。开发前冻结的 8 例通过，公开边界 3/3 与 4/4 通过；3 组局部状态检查共 9/9。既有嵌套 8/8、严格树 2/2、否定 30/30 保持。未改的 1.0.3 总体仍 **9/14**，所有 summary 指标与旧提交相同。
+
+原基线专项 4/8、中间补丁单位边界 2/4 均保留，不能用最终通过报告覆盖。8 份冻结输入与后续 7 份公开审查样例分开记录；共享目录不是技术盲测，发布后都转为公开回归。局部检查脚本在基线观察后建立，其冻结说明如实记录该时间边界。
+
+- `inheritance-regression/20261012/`：24 件 oracle、15 raw TXT、冻结及检查脚本。
+- `reports/inheritance-followup-20261012/`：21 件最终/基线/中间报告、source proof、可重建 patch 与全量测试结果。
+- [inheritance-publication-record.json](inheritance-publication-record.json)：45 件新资产的 SHA/字节长度与所有范围限制。
+
+旧 125 件冻结文件/评分器/报告未改；旧公开 0/8、企业未运行的历史结论继续保留，本批不据此计算业务误阻断率。第2步整体、通用/生产完整性仍未通过，case-11 旧词面评分和 `uv.lock` 单独处理。复现见[验收文档](../../docs/document_relations_acceptance.md)。
+
+## 历史嵌套专项（2026-10-11）
 
 有限命名组现在保留 `AND(OR(A,B),C)` 和 `AND(OR(A,B),OR(C,D))` 的直接层级，每层 operator/scope/parent 与终止来源单独核验。singleton 以 typed `REQUIRED` context scope 保留要求来源，不新增 self-parent 或改变逻辑 children。未知限定语、组数不完整及不支持选择仍需复核。
 

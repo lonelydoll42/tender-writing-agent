@@ -1,0 +1,180 @@
+{
+  "schema": "inherited-or-local-review-inspection-v1",
+  "generated_at": "2026-10-12T09:30:44.1520582+08:00",
+  "input_report_sha256": "0afdaf3518f7da856df7874d3d423bc42d2a43842270753c02428a1d31e4767b",
+  "cases_sha256": "66be0f0f6337b6be12acc6ddc2a4a00c5cf892d434226db4dd45bf4bd1917d17",
+  "source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+  "scope": "Separate exact local-line/outer-state inspection; does not modify frozen scorer or assert business qualification.",
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5
+  },
+  "cases": [
+    {
+      "id": "I01",
+      "status": "passed",
+      "errors": [],
+      "local_nodes": [
+        {
+          "node_id": "cond_9d080934b9cc837a8c22bb88",
+          "op": "ATOM",
+          "status": "candidate",
+          "text": "第一组须同时提交：营业执照；审计报告。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_be170685af124f51c2c98aa2",
+          "status": "candidate",
+          "operator_status": "confirmed",
+          "scope_status": "candidate",
+          "direct_children": [
+            "cond_9d080934b9cc837a8c22bb88",
+            "cond_7828d28330f2db9cc8bad736"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_7828d28330f2db9cc8bad736",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组任选一项：授权书；委托书。"
+        }
+      ]
+    },
+    {
+      "id": "I02",
+      "status": "passed",
+      "errors": [],
+      "local_nodes": [
+        {
+          "node_id": "cond_91914a4e455728ffff643f9a",
+          "op": "ATOM",
+          "status": "candidate",
+          "text": "第一组任选两项：营业执照；审计报告；资质证明。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_fc9960af3400fb54671770b3",
+          "status": "candidate",
+          "operator_status": "confirmed",
+          "scope_status": "candidate",
+          "direct_children": [
+            "cond_91914a4e455728ffff643f9a",
+            "cond_e2807bc1565f4728fcb847b4"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_e2807bc1565f4728fcb847b4",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组任选一项：授权书；委托书。"
+        }
+      ]
+    },
+    {
+      "id": "I03",
+      "status": "passed",
+      "errors": [],
+      "local_nodes": [
+        {
+          "node_id": "cond_28cc7a3f09c49e5b065a610b",
+          "op": "ATOM",
+          "status": "candidate",
+          "text": "第一组任选2项：（1）材料甲；（2）材料乙；（3）材料丙。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_5d63f0b6de17adf9c1bf1e24",
+          "status": "candidate",
+          "operator_status": "confirmed",
+          "scope_status": "candidate",
+          "direct_children": [
+            "cond_28cc7a3f09c49e5b065a610b",
+            "cond_d1338e9cd16fdaa58b2c985a"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_d1338e9cd16fdaa58b2c985a",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组：（1）材料丁；（2）材料戊。"
+        }
+      ]
+    },
+    {
+      "id": "I04",
+      "status": "passed",
+      "errors": [],
+      "local_nodes": [
+        {
+          "node_id": "cond_2893368a75c67a72bb4d08d2",
+          "op": "ATOM",
+          "status": "candidate",
+          "text": "第二组须同时提交：负责人任命文件；负责人身份证明。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_b4a7557fc601264ed9704b45",
+          "status": "candidate",
+          "operator_status": "confirmed",
+          "scope_status": "candidate",
+          "direct_children": [
+            "cond_989bc0a1c961401ae623a31a",
+            "cond_2893368a75c67a72bb4d08d2"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_989bc0a1c961401ae623a31a",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第一组：登记证明；机构代码证明。"
+        }
+      ]
+    },
+    {
+      "id": "I05",
+      "status": "passed",
+      "errors": [],
+      "local_nodes": [
+        {
+          "node_id": "cond_60f15bd80b559fff1ed43110",
+          "op": "ATOM",
+          "status": "candidate",
+          "text": "第一组任选其一且须同时提交：甲证明；乙证明。"
+        }
+      ],
+      "outer_nodes": [
+        {
+          "node_id": "cond_d8af6ad03506b144e0428bdb",
+          "status": "candidate",
+          "operator_status": "confirmed",
+          "scope_status": "candidate",
+          "direct_children": [
+            "cond_60f15bd80b559fff1ed43110",
+            "cond_8e8211a4f9fe94a671785da4"
+          ]
+        }
+      ],
+      "unaffected_or_nodes": [
+        {
+          "node_id": "cond_8e8211a4f9fe94a671785da4",
+          "op": "OR",
+          "status": "confirmed",
+          "text": "第二组任选一项：丙证明；丁证明。"
+        }
+      ]
+    }
+  ]
+}

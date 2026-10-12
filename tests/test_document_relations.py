@@ -490,6 +490,112 @@ def test_case11_keeps_two_or_groups_and_full_scope_evidence() -> None:
         )
 
 
+@pytest.mark.parametrize(
+    "first_group_text",
+    [
+        "第一组须同时提交：营业执照；审计报告。",
+        "第一组须同时提交且任选一项：营业执照；审计报告。",
+        "第一组任选两项：营业执照；审计报告；资质证明。",
+        "第一组任选至少两项：营业执照；审计报告。",
+        "第一组任选一项以上：营业执照；审计报告。",
+        "第一组任取至少一份：营业执照；审计报告。",
+        "第一组任选至多一件：营业执照；审计报告。",
+    ],
+)
+def test_inherited_or_with_conflicting_local_instruction_stays_candidate(
+    first_group_text: str,
+) -> None:
+    text = (
+        "两组材料均须提交，但每组任选一项：\n"
+        f"{first_group_text}\n"
+        "第二组任选一项：授权书；委托书。"
+    )
+    structure = _structure(text)
+    result = build_document_relations(structure)
+    header = next(
+        block
+        for block in structure["blocks"]
+        if block["raw_text"] == "两组材料均须提交，但每组任选一项："
+    )
+    root = next(
+        node
+        for node in _groups(result, "AND")
+        if header["block_id"] in node["source_block_ids"]
+    )
+    nodes = {node["node_id"]: node for node in result["condition_nodes"]}
+    first_group = next(
+        nodes[node_id]
+        for node_id in root["children"]
+        if nodes[node_id]["text"] == first_group_text
+    )
+    outer_scopes = [
+        relation
+        for block_relation in result["block_relations"]
+        if block_relation["block_id"] == header["block_id"]
+        for relation in block_relation["scope_relations"]
+        if relation["target_node_ids"] == root["children"]
+    ]
+
+    assert first_group["op"] == "ATOM"
+    assert first_group["status"] == "candidate"
+    assert first_group["text"] == first_group_text
+    assert root["operator_relation"]["status"] == "confirmed"
+    assert root["status"] == "candidate"
+    assert root["scope_relation"]["status"] == "candidate"
+    assert outer_scopes
+    assert all(relation["status"] == "candidate" for relation in outer_scopes)
+
+
+@pytest.mark.parametrize(
+    "first_group_text",
+    [
+        "第一组任选一项：营业执照；审计报告。",
+        "第一组任取一份：营业执照；审计报告。",
+        "第一组任选一件：营业执照；审计报告。",
+    ],
+)
+def test_local_exactly_one_selection_remains_confirmed_under_inherited_or(
+    first_group_text: str,
+) -> None:
+    text = (
+        "两组材料均须提交，但每组任选一项：\n"
+        f"{first_group_text}\n"
+        "第二组任选一项：授权书；委托书。"
+    )
+    result = build_document_relations(_structure(text))
+    root = next(
+        node for node in _groups(result, "AND") if node["status"] == "confirmed"
+    )
+    nodes = {node["node_id"]: node for node in result["condition_nodes"]}
+    first_group = next(
+        nodes[node_id]
+        for node_id in root["children"]
+        if nodes[node_id]["text"] == first_group_text
+    )
+
+    assert first_group["op"] == "OR"
+    assert first_group["status"] == "confirmed"
+    assert root["scope_relation"]["status"] == "confirmed"
+
+
+def test_inherited_or_does_not_read_material_names_as_local_instructions() -> None:
+    text = (
+        "两组材料均须提交，但每组任选一项：\n"
+        "第一组：（1）近两年1.9号表；（2）同时提交记录。\n"
+        "第二组：（1）近三年1.9号表；（2）同时提交“任选一项以上”记录。"
+    )
+    result = build_document_relations(_structure(text))
+    root = next(
+        node for node in _groups(result, "AND") if node["status"] == "confirmed"
+    )
+    nodes = {node["node_id"]: node for node in result["condition_nodes"]}
+    groups = [nodes[node_id] for node_id in root["children"]]
+
+    assert [node["op"] for node in groups] == ["OR", "OR"]
+    assert all(node["status"] == "confirmed" for node in groups)
+    assert root["scope_relation"]["status"] == "confirmed"
+
+
 def test_named_physical_choice_frames_stop_at_the_next_named_group() -> None:
     text = (
         "两组要求均须满足。\n"

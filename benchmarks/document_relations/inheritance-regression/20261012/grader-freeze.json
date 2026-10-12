@@ -1,0 +1,23 @@
+{
+  "schema": "inherited-or-grader-freeze-v1",
+  "frozen_at": "2026-10-12T09:07:34.6483554+08:00",
+  "files": [
+    {
+      "path": "scripts/run_document_relations_nested_eval.py",
+      "sha256": "da7fba3f95cdf52e47bbda80754c624401d74c5a8b7fa36ee455d6492d1c920e"
+    },
+    {
+      "path": "tests/evals/test_document_relations_nested_eval.py",
+      "sha256": "8ca99f35f7899c4a4e35c0a9a963f13013f6441ef0fca860167e8bf5446dc0ea"
+    },
+    {
+      "path": "scripts/run_document_relations_eval.py",
+      "sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483"
+    },
+    {
+      "path": "tests/evals/test_document_relations_eval.py",
+      "sha256": "7fb5e3694d8614e962c6061e50d2de8b15c29a2bc6d02e808048f161ac371228"
+    }
+  ],
+  "scope": "Frozen nested scorer checks review scope and strict positive tree. Additional source-backed direct local-group inspection will be reported separately, not used to rewrite the frozen evaluator."
+}

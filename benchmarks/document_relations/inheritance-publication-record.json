@@ -1,0 +1,499 @@
+{
+  "schema": "inherited-or-instruction-publication-v1",
+  "published_at": "2026-10-12T09:33:42.0841405+08:00",
+  "client_date": "2026-10-12",
+  "base_commit": "74a311e89fc6a93a0f05eb9e65088c075b21a048",
+  "source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+  "archive_base_staged_tree": "fceb609894adfa5ce943cfb3e021d4029ec31421",
+  "source_file_count": 65,
+  "evaluator_file_count": 15,
+  "developer_agents_closed_before_publication": true,
+  "first_developer_read_time": null,
+  "isolation": "Policy isolation only; shared filesystem is not certified blind",
+  "frozen_initial_inputs": {
+    "schema": "inherited-or-freeze-v1",
+    "frozen_at": "2026-10-12T09:07:06.762978+08:00",
+    "client_date": "2026-10-12",
+    "base_commit": "74a311e89fc6a93a0f05eb9e65088c075b21a048",
+    "cases_sha256": "66be0f0f6337b6be12acc6ddc2a4a00c5cf892d434226db4dd45bf4bd1917d17",
+    "developer_private_read_forbidden": true,
+    "first_developer_read_time": null,
+    "isolation": "Shared filesystem policy only; not certified blind",
+    "scope": "Local conflicting or unsupported quantity instructions must be checked before inherited OR; no K-of-N semantics implementation."
+  },
+  "public_boundary_audits": "7 reviewer-shared boundary probes added after first patch review; separate from 8 pre-development inputs",
+  "local_inspection": "Exact local-line/state inspection created after baseline, frozen before final product execution; separate from unchanged frozen nested scorer",
+  "grader_freeze": {
+    "schema": "inherited-or-grader-freeze-v1",
+    "frozen_at": "2026-10-12T09:07:34.6483554+08:00",
+    "files": [
+      {
+        "path": "scripts/run_document_relations_nested_eval.py",
+        "sha256": "da7fba3f95cdf52e47bbda80754c624401d74c5a8b7fa36ee455d6492d1c920e"
+      },
+      {
+        "path": "tests/evals/test_document_relations_nested_eval.py",
+        "sha256": "8ca99f35f7899c4a4e35c0a9a963f13013f6441ef0fca860167e8bf5446dc0ea"
+      },
+      {
+        "path": "scripts/run_document_relations_eval.py",
+        "sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483"
+      },
+      {
+        "path": "tests/evals/test_document_relations_eval.py",
+        "sha256": "7fb5e3694d8614e962c6061e50d2de8b15c29a2bc6d02e808048f161ac371228"
+      }
+    ],
+    "scope": "Frozen nested scorer checks review scope and strict positive tree. Additional source-backed direct local-group inspection will be reported separately, not used to rewrite the frozen evaluator."
+  },
+  "historical_assets_unchanged": 125,
+  "baseline": {
+    "source_tree_sha256": "e92a0d944c1e610b496638ec3b8dafb902b5ec42375477109eb61052e3d9a643",
+    "initial_inputs_passed": 4,
+    "initial_inputs_total": 8,
+    "positive_passed": 3,
+    "positive_total": 3,
+    "review_handled": 1,
+    "review_total": 5,
+    "source_checked": 1934,
+    "source_invalid": 0,
+    "quantity_boundary_passed": 1,
+    "quantity_boundary_total": 3,
+    "unit_boundary_passed": 2,
+    "unit_boundary_total": 4
+  },
+  "first_prefix_review": {
+    "source_tree_sha256": "ae770c49e63fc65d20dc59e6b40678eca079df5f915f45cdf9e03051fde11c29",
+    "passed": 2,
+    "total": 4,
+    "source_checked": 988,
+    "source_invalid": 0,
+    "replay": "Export base 74a311e plus preserved first-prefix-bound-review.patch; source proof verifies 65 canonical source hashes. This was exploratory public audit, not final acceptance."
+  },
+  "final": {
+    "tests_passed": 782,
+    "existing_warnings": 1,
+    "ruff": "passed",
+    "scores": {
+      "inheritance-score": {
+        "passed": 8,
+        "failed": 0,
+        "not_run": 0,
+        "executed": 8,
+        "total": 8,
+        "positive_passed": 3,
+        "positive_total": 3,
+        "review_handled": 5,
+        "review_total": 5,
+        "source_references": {
+          "invalid": 0,
+          "checked": 1512
+        }
+      },
+      "quantity-boundary-score": {
+        "passed": 3,
+        "failed": 0,
+        "not_run": 0,
+        "executed": 3,
+        "total": 3,
+        "positive_passed": 1,
+        "positive_total": 1,
+        "review_handled": 2,
+        "review_total": 2,
+        "source_references": {
+          "invalid": 0,
+          "checked": 561
+        }
+      },
+      "unit-boundary-score": {
+        "passed": 4,
+        "failed": 0,
+        "not_run": 0,
+        "executed": 4,
+        "total": 4,
+        "positive_passed": 2,
+        "positive_total": 2,
+        "review_handled": 2,
+        "review_total": 2,
+        "source_references": {
+          "invalid": 0,
+          "checked": 808
+        }
+      },
+      "nested-score": {
+        "passed": 8,
+        "failed": 0,
+        "not_run": 0,
+        "executed": 8,
+        "total": 8,
+        "positive_passed": 6,
+        "positive_total": 6,
+        "review_handled": 2,
+        "review_total": 2,
+        "source_references": {
+          "invalid": 0,
+          "checked": 1754
+        }
+      },
+      "public-nested-score": {
+        "passed": 2,
+        "failed": 0,
+        "not_run": 0,
+        "executed": 2,
+        "total": 2,
+        "positive_passed": 2,
+        "positive_total": 2,
+        "review_handled": 0,
+        "review_total": 0,
+        "source_references": {
+          "invalid": 0,
+          "checked": 448
+        }
+      },
+      "negation-score": {
+        "case_count": 30,
+        "passed": 30,
+        "failed": 0,
+        "not_run": 0,
+        "negative": {
+          "total": 24,
+          "passed": 24,
+          "failed": 0,
+          "not_run": 0
+        },
+        "positive": {
+          "total": 6,
+          "passed": 6,
+          "failed": 0,
+          "not_run": 0
+        },
+        "source_references": {
+          "checked": 816,
+          "denominator": 816,
+          "invalid": 0
+        }
+      },
+      "relations-score": {
+        "case_count": 14,
+        "passed": 9,
+        "failed": 5,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 5,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 6,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 3,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 18,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1083,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 42,
+          "group_structure_error_events": 7
+        }
+      }
+    },
+    "local_review_passed": 5,
+    "quantity_local_review_passed": 2,
+    "unit_local_review_passed": 2
+  },
+  "limits": [
+    "Finite local instruction checks before inherited OR only. Unsupported counts and conflicts are reviewed; no K-of-N semantics added.",
+    "Material names after the colon do not enter the new local selection count check.",
+    "Legacy evaluator and case-11 similarity mapping unchanged; full 14-case result remains 9/14.",
+    "Historical public original-file result 0/8 and enterprise not_run/8 remain unclosed; not re-evaluated by this batch.",
+    "Business evidence satisfaction and real model quality were not evaluated; parsing positive pass is not business false-block rate.",
+    "Full Step 2, general completeness, production acceptance and subject/time association are not passed.",
+    "uv.lock and pre-existing temporary directories are not part of this commit."
+  ],
+  "artifacts": [
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/boundary-audit-record.json",
+      "sha256": "6f4905097b9133473132e19d453645b221b33ce73ba23036a24b250a5f65cc4e",
+      "bytes": 544
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/cases.json",
+      "sha256": "66be0f0f6337b6be12acc6ddc2a4a00c5cf892d434226db4dd45bf4bd1917d17",
+      "bytes": 5101
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/check-local-review.ps1",
+      "sha256": "25d33ef0d66b8c7dc48f3c027fc30825782ac19d265211647d5c8be711027885",
+      "bytes": 5105
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/freeze.json",
+      "sha256": "0f8f98cfaf8f83b80e2b8f5cd2a5930522519eab5cd86bbadba894417894d6d3",
+      "bytes": 573
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/grader-freeze.json",
+      "sha256": "d30d8a0e082fc6b9c51c6e14ad98d0ec51de957c83f317907b9a4d92acb8b37c",
+      "bytes": 978
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/historical-hashes.json",
+      "sha256": "806388697d7a6427d178a3dbb4e32bbb23597e0c189223e1a6db0145763ff9d7",
+      "bytes": 26107
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/inspection-freeze.json",
+      "sha256": "6029799669bfe300945addfb1c907b2c7dc6c85457f5dd8795422e679437c37e",
+      "bytes": 519
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/quantity-boundary-cases.json",
+      "sha256": "9007a978000465eac504971002cf7b65fe689a0af088f6b8d79aae126ac1dacc",
+      "bytes": 2015
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/B01.txt",
+      "sha256": "a2b49c7f3c8827af33c8aaaadf23e153ad44181a26b6fa84014fb40f3f494a1c",
+      "bytes": 177
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/B02.txt",
+      "sha256": "74504d1770bed94e0cdede90ef0d1b10a15977dadd1d28c3108585dd69503fdc",
+      "bytes": 177
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/B03.txt",
+      "sha256": "354a6763ed512af032cc8175f491deb65b4b5270eaa0ca6c7c1d6e59fd4233c9",
+      "bytes": 154
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I01.txt",
+      "sha256": "49a9db9500eefa168df90889bd9a675ab7d96cba53b88ad08a2c8a0c9c4b9685",
+      "bytes": 159
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I02.txt",
+      "sha256": "7daa4dec21146dc05107e7d4483db024d3949596490b562540769bc0dc8d6e48",
+      "bytes": 171
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I03.txt",
+      "sha256": "b75affe171390b86a02faa3d95243f5444b283655ba9ea93eb9ba13f3bd43be2",
+      "bytes": 189
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I04.txt",
+      "sha256": "d64373bbbc9b54e1fc76b7ceeefdb233873be6918372d6262a82ad27132bb50e",
+      "bytes": 177
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I05.txt",
+      "sha256": "4d6c56cf93cd493218e2485c2e634bf4c1b1c569c7b7861f09e9c48c1c055ad7",
+      "bytes": 168
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I06.txt",
+      "sha256": "ebd122d13c6b2624fe72d11229d5c615b372662e5b0166ebd0cd0dcc5d28bce1",
+      "bytes": 126
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I07.txt",
+      "sha256": "e764dfd702c4eee33564ce3b56122cb0954e846ba921b637df66a3cbeb6e5f67",
+      "bytes": 170
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I08.txt",
+      "sha256": "d6a9e7340d0b18a05db6a5850681d6dd1e48848801679f36f094e9143a06e378",
+      "bytes": 168
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/U01.txt",
+      "sha256": "68a9ea25478fc2a23bcbc8f05b7919b6def9f8d5732195c265efffb5bb759736",
+      "bytes": 162
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/U02.txt",
+      "sha256": "5278b90f971c02666a975cb73c4b22d8636bb04c11259c335a01ca449cfc983d",
+      "bytes": 162
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/U03.txt",
+      "sha256": "5c18118e8152b479a09aa153c52396c0a810e3c7bcf891394c39f239c657069d",
+      "bytes": 156
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/U04.txt",
+      "sha256": "acafa485583764aca952175dc7cc38593ba63a0e70a7af3940d6f539a2775387",
+      "bytes": 156
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/unit-boundary-cases.json",
+      "sha256": "e80dd4a8349e9e08bf4d715f9f6499058dc389631f4c0928822ac8d061271acd",
+      "bytes": 2716
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-inheritance-score.json",
+      "sha256": "49f3015f4b8ca658fb5b2fb7dd92ad9b13dfaa62eae3752094f37d227685fdbe",
+      "bytes": 1169680
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-local-review.json",
+      "sha256": "54154f24d82b2ea1e095b1be5f3bde5a7218cb46158154729aa82fc0a6bab24d",
+      "bytes": 6312
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-quantity-boundary-score.json",
+      "sha256": "04ac9a576c2cc6ee4376134173b620e4683d4584c45a7c7effee6d0cf2924870",
+      "bytes": 489480
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-source-proof.json",
+      "sha256": "f10de832cf44dee2f8b1b936ab405aadedbbbe4b43399ec1019f6794a3e29468",
+      "bytes": 25413
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-unit-boundary-score.json",
+      "sha256": "5efdac7b056eebc846b3f7e063631b998b1b251ee65391e273997ce390f70ec4",
+      "bytes": 598097
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-bound-review.patch",
+      "sha256": "815f73507399500dccd6b5e3906928c7d07c055ad84ef1eba5e4b7a6ab62a416",
+      "bytes": 7302
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-reconstruction.json",
+      "sha256": "681b1ac30dbe1b09a43d1b0643c32578973663beab5ad7b8d161e5def6305479",
+      "bytes": 447
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-source-proof.json",
+      "sha256": "995e29e4707c0baff71e6bf20ea119a9e88903d01b83d24da1edfe33a7935545",
+      "bytes": 22032
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-unit-boundary-score.json",
+      "sha256": "6ec79125ddc9320c85d8975ef0d2f22998fdcedd5d495903579877f263ad3362",
+      "bytes": 598097
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/inheritance-score.json",
+      "sha256": "0afdaf3518f7da856df7874d3d423bc42d2a43842270753c02428a1d31e4767b",
+      "bytes": 924049
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/local-review.json",
+      "sha256": "355e9d30c26a4b344058368041b046bec3942c5438950da7f2c703aba52fda08",
+      "bytes": 5380
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/negation-score.json",
+      "sha256": "51108da6e706cf9be7efa10e2db9097790ce8a2a25aea9fd33dd3cb7e811321e",
+      "bytes": 707037
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/nested-score.json",
+      "sha256": "3c7cb52bae21dee06fa7cbc35f9e58c5b224658a2a2e762f2d96e42eb02e8c17",
+      "bytes": 1060925
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/public-nested-score.json",
+      "sha256": "54ce68759a71ad788087e08a6f4cfba014dbeb27af24d39d4b2f6c259fa1beee",
+      "bytes": 270606
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/pytest-final.xml",
+      "sha256": "9a61866d711eddb09d0654bbde7fe1e9175f6308cdba4de812a6fdcb42e9894c",
+      "bytes": 124278
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/quantity-boundary-score.json",
+      "sha256": "1d6b207588a4d8299ef7fe73e32e3ebf9b9789a10b9be1762a58cb9433b5aef3",
+      "bytes": 342748
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/quantity-local-review.json",
+      "sha256": "0fc32fc959520f0937fd9d0acd67b85f90f5eaee51687206f921ef367eceb96d",
+      "bytes": 2530
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/relations-score.json",
+      "sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+      "bytes": 771527
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/source-proof.json",
+      "sha256": "b0067eafea69fb27fbf33aa896a94283b80d820d6cc40c812393aacae038f9b7",
+      "bytes": 25913
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/unit-boundary-score.json",
+      "sha256": "45bc0946928e0ecf181026e66243682ed17fd8cb21a039f8fe11756debed8ed3",
+      "bytes": 491419
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/unit-local-review.json",
+      "sha256": "3558a5c9a3ffd0c355e3dc9fc30d970edad68eb60db833f5d9e08f169ab3a498",
+      "bytes": 2500
+    }
+  ]
+}

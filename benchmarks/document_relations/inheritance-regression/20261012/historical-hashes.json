@@ -1,0 +1,632 @@
+{
+  "schema": "inherited-or-historical-byte-freeze-v1",
+  "generated_at": "2026-10-12T09:07:34.4866616+08:00",
+  "base_commit": "74a311e89fc6a93a0f05eb9e65088c075b21a048",
+  "files": [
+    {
+      "path": "benchmarks/document_relations/nested-publication-record.json",
+      "sha256": "ef45d73deaa199d535df19655cb4a14daa3b9638a38bc4bf15cc75b5f7a68891",
+      "bytes": 12350
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/cases-v2.json",
+      "sha256": "f4c705512d4b4b97a95a476cbc3890ac14883705f19c4255fcdaa931cf3a73a5",
+      "bytes": 6548
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/cases.json",
+      "sha256": "b396505cce9613d98cf6953f050cb1d0666f2415e4684085d9ff1d4b5ad79375",
+      "bytes": 5728
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/freeze.json",
+      "sha256": "e75648011d954bbc54c6c3a9fe538e295c350bcf71a551364c36f669f444145f",
+      "bytes": 621
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/grader-freeze.json",
+      "sha256": "1bd723b1d8fe32d7a58c65b024c4ce30e7069f2f58c0238c1903df33bb2a9370",
+      "bytes": 715
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/historical-hashes.json",
+      "sha256": "3b45aa2cdd3989f29b757d7c607d8c30bd89941188dcc511b08e9e96e2a28f15",
+      "bytes": 15232
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/oracle-clarification.json",
+      "sha256": "b8be4f6a3641df84449eb0a08b75158f5f814b1f6b30515953e73637e0d6c6a6",
+      "bytes": 928
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/public-nested-cases.json",
+      "sha256": "e7c7d546690aa9e092ec78cdbb7dab8feee310a8d820784a72c38ecc4631cb40",
+      "bytes": 2312
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/public-nested-oracle.json",
+      "sha256": "d16e32a731d4cff086ba7d322959394d1857595c3e0f5c567f024ec6143d39df",
+      "bytes": 1559
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N01.txt",
+      "sha256": "02466151911f704f9dd11642c43db556d321001bea9d5e931d66a60bc3f1b0b8",
+      "bytes": 138
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N02.txt",
+      "sha256": "7b978c66f6ed4da6dbb4eb51ee7b399494e76c644ce0a28bfffd52515de3f085",
+      "bytes": 196
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N03.txt",
+      "sha256": "f2f5a1a0548261552c98759f6ef1e5a6b9131e542e4b6d3ec8051056b5d98e62",
+      "bytes": 146
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N04.txt",
+      "sha256": "45ba10266e481d880b141eafa711c16e623e6f2176786f191decbc808bd844ee",
+      "bytes": 202
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N05.txt",
+      "sha256": "da4c2e5406100a056c1aba29ad0d0589f38eedbe9046d93d198dae31ab10402e",
+      "bytes": 230
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N06.txt",
+      "sha256": "738964561c2e1e66098e26c5afef36d020e52acd6eac3a98ec15bbd6ac0e00d0",
+      "bytes": 196
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N07.txt",
+      "sha256": "9024d06c2894afec9d0a5c2d225ff52d822a08be67e608a24300be2e710ce06d",
+      "bytes": 177
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N08.txt",
+      "sha256": "4aae9fb610e0a4bb5098b1c10f50fad27ffb995bfa2c1b0aac8746bb6d3565ef",
+      "bytes": 127
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/old-public-score.json",
+      "sha256": "b986ab89803305b9d4d2038eeb7843f30c39580b228562f1f406719c2160efb8",
+      "bytes": 1692372
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/raw-file-score.json",
+      "sha256": "f3c06b4fb8d74bc5c46fd553ab93d7ccd3169a2cd76bfaed8f28b3e63aba694e",
+      "bytes": 917100
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/relations-score.json",
+      "sha256": "6ef9a977ff5525b2a656485faaf716d9f0ed4b7ce44e94c34272f3b6322c9921",
+      "bytes": 563160
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/reliability-score.json",
+      "sha256": "7eda6dd6d4cb238c9b04a8fab4241f351377be4b5be8ae9e03644a3ec51036dc",
+      "bytes": 168740
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/source-proof.json",
+      "sha256": "819b8ebe322da3c814a26fd4e370437d504df2c2c933be8ed2fe4a80a03a8831",
+      "bytes": 24068
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/structure-score.json",
+      "sha256": "f7f337511cf8caaed03765446631c9e513b1919d11f18bf76564b154d6c4f231",
+      "bytes": 3423676
+    },
+    {
+      "path": "benchmarks/document_relations/reports/first-valid/first-valid-score.json",
+      "sha256": "281c34dc9af8f36f5648731afa132d03e4fa5a5598e43cd052de1f623e294d76",
+      "bytes": 251751
+    },
+    {
+      "path": "benchmarks/document_relations/reports/first-valid/source-proof.json",
+      "sha256": "5eb6419bab8b8f1435a55a076359614c1d83708bd8242cca39b0846a2231ba32",
+      "bytes": 24155
+    },
+    {
+      "path": "benchmarks/document_relations/reports/initial-invalid-evaluator/first-score.json",
+      "sha256": "be7ab34ceec03e0e2f39e0a8457e23b0d209653f625a897da673fbf0bd2c4b5a",
+      "bytes": 101106
+    },
+    {
+      "path": "benchmarks/document_relations/reports/initial-invalid-evaluator/source-proof.json",
+      "sha256": "fbfa9fa4115fba0e3506cbe225e56469219d9f9c0d76ed9fd064034d50a8b453",
+      "bytes": 24066
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/baseline-negation-score.json",
+      "sha256": "917ee6839ee5747d4f0b36e6531663512e1203ed3f4ca7c0b2cbfb8cb112422e",
+      "bytes": 953011
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/negation-score.json",
+      "sha256": "33c851cdc3cad24146ca263e092a17acca093c349f702d0d5f5163b43dd76e08",
+      "bytes": 707037
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/old-public-score.json",
+      "sha256": "f9341bab8e0a4514da1860b36d1daa882c6ee5f7e0431f354ec50a99be6daf16",
+      "bytes": 1692372
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/raw-file-score.json",
+      "sha256": "293013a89f8b9a8727c04975bf0080d31f76be45901671b316f7897a751c5bcb",
+      "bytes": 917100
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/relations-score.json",
+      "sha256": "4f733f5879bceb8d5147144f60e3236411a5018b700477260a52ad17dfcf5a89",
+      "bytes": 563160
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/reliability-score.json",
+      "sha256": "101b76740fccf47100e0737ca5a536611b11143bb23bac30efacaae4c7c1d79c",
+      "bytes": 168740
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/source-proof.json",
+      "sha256": "11ad2384b9e826940a0da04437b2d326236b949f00ffe5f1a1e804ac717cf48f",
+      "bytes": 24702
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/structure-score.json",
+      "sha256": "7b786f3c0d1e744efbd3b4de9dbe4c1f5858e9b8192562bbdb0ac1fa75a3ba1c",
+      "bytes": 3423676
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/baseline-nested-score.json",
+      "sha256": "0c4f770fe9edd1674268f07ec668b59065307f80b708c5c1add9e89417d15436",
+      "bytes": 328272
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-public-score.json",
+      "sha256": "e43b5b06e4131c27cffe29ce3099a378b1f20e927ab0eaf0b295fdefdc8f55b2",
+      "bytes": 265341
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-relations-score.json",
+      "sha256": "2e22088b7cc201006295d1cb61a1755b04366eff70e203a123a066826d23db0d",
+      "bytes": 766573
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-score.json",
+      "sha256": "26f6b8bbe2c777d51f7958674027a9827fcf432b46460c989fc567d23345609d",
+      "bytes": 1050422
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-source-overlay-manifest.json",
+      "sha256": "d420df5aa8006887f2612d334e41a7a5d31c39b4b4cd9300133d90d30cf2254e",
+      "bytes": 25597
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-source-overlay.zip",
+      "sha256": "945b3c0628ea3f3c996ba7da3a592a76d459794cc285bff932ec5fbc92a75ae9",
+      "bytes": 391307
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-source-proof.json",
+      "sha256": "8a127ea5ea5758e8b89c7ff001cde4ebb137c807ec25fddd5f787d0963ca0a7f",
+      "bytes": 25571
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-negation-score.json",
+      "sha256": "fd874ec698cc7800949a96025552d5683bef83f3d63da2781b9145b9af7a897c",
+      "bytes": 707037
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-score.json",
+      "sha256": "87c2e304a7938adfebbeef53b25044bf3f165f05642727dcad797b22e67b9855",
+      "bytes": 745399
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-source-overlay-manifest.json",
+      "sha256": "b275014e79ccaeb8c8bb9db9ed01a3fa6fb4ac284ef94d0d1e562765d1e87104",
+      "bytes": 24968
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-source-overlay.zip",
+      "sha256": "46ab0888aa95dd8de6145b7d6a93a936179a4861c8a6926f658ca7e178541a15",
+      "bytes": 378153
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-source-proof.json",
+      "sha256": "95f9292d2139b0c7e935a0b95425fe8b0a2ccf2d78e3044a8a8d988ea95815f9",
+      "bytes": 24918
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/negation-score.json",
+      "sha256": "c601fbabf3049a6266d5d90a941e9fe533913be5762232b60a59090d3d204395",
+      "bytes": 707037
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/nested-score.json",
+      "sha256": "cfbdbfd959aeb14d2320f96428ca45ab4a5ef7de348ce47974651201e1f22863",
+      "bytes": 1060925
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/old-public-score.json",
+      "sha256": "36a4134e5ab2bcca3c18d8ccd27cc04564445dc4383327e81d1b284c8cf0ec59",
+      "bytes": 1692372
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/public-nested-score.json",
+      "sha256": "d85008a402cf5ca2ce05a8e6091b3578d24e0bd0934e7245b3e425a0a0c6f039",
+      "bytes": 270606
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/raw-file-score.json",
+      "sha256": "fffab6ab299750efcc9041e54794ac603dd849b7ed7d05571bd0a66c453795c7",
+      "bytes": 917100
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/relations-score.json",
+      "sha256": "119d32117ba496612b53ba729abf7b6a52e99da56cd7da44b7af54a2be129747",
+      "bytes": 771527
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/reliability-score.json",
+      "sha256": "c08e93a8a8e3870314344d2daaea3f3c348adeb4fd137bddaa54e4340d5c5763",
+      "bytes": 168740
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/source-proof.json",
+      "sha256": "d0aa7aedb8303a5b5643e0c29b7395c1acdc770016328c67a254f1f45b93f871",
+      "bytes": 25571
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/structure-score.json",
+      "sha256": "0fd3ee34be555908e5d3356e9c1759b4899ebc8823d6630e34041c57e8b20493",
+      "bytes": 3423676
+    },
+    {
+      "path": "benchmarks/document_relations/reports/pre-operator-adapter-20261010/relations-score.json",
+      "sha256": "6fa93b74cf4c53344221f14a0da9322945de39c8cd9277650a9e931c6cfed56f",
+      "bytes": 563530
+    },
+    {
+      "path": "benchmarks/document_relations/reports/pre-operator-adapter-20261010/source-proof.json",
+      "sha256": "e44d68dc5ed4b890cc44703664fdf454dc0d723b352ce318975989d080394c8d",
+      "bytes": 24068
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-01.oracle.md",
+      "sha256": "52bb7ec007c4d2119bbfd2f743c90d3ed1ba08099a6d9bce13a85766ed5e4750",
+      "bytes": 1387
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-01.txt",
+      "sha256": "ca56cf4e7ef1f80f3f861ac51d8d63309a0ba51db22e3b62dee5244b52b55a8f",
+      "bytes": 177
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-02.oracle.md",
+      "sha256": "beec70878a95707ae971d24625686b36db9acc2d8afc7058292957e58cb5fdbe",
+      "bytes": 1519
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-02.txt",
+      "sha256": "f666aff92e965bf406768f19d7d8c1890ca526e7a7c0050504ebe367315f212b",
+      "bytes": 234
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-03.oracle.md",
+      "sha256": "37f43a595e37c4b37766c8a8ae49bfdda5fe7375795651fd7e1793572cfe9897",
+      "bytes": 1799
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-03.txt",
+      "sha256": "2ac5cb97e40701f897c13f5bae50d267527fcf17508c011ff74b7e3c093f311d",
+      "bytes": 266
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-04.oracle.md",
+      "sha256": "939142def1ce698e44e997736409824bd345e7805067e028361dc1601b774bbd",
+      "bytes": 1887
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-04.txt",
+      "sha256": "9d3fcf34be48883854d4a02296e865324b1305a4f3fa7f73185bf9713638b790",
+      "bytes": 235
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-05.oracle.md",
+      "sha256": "03d2654af9ae9e6551a1f1e5e56c03e359653ed0605abd34602fafc461873938",
+      "bytes": 1895
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-05.txt",
+      "sha256": "d5369e8d6325023514947c1c92811d6af0ede215e5a47b9d1e8e62cd54559960",
+      "bytes": 197
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-06.oracle.md",
+      "sha256": "c1055c5c539426c9f3a57b9578c7586dd89f4b45e7f96b89e4964066d7f68c05",
+      "bytes": 1785
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-06.txt",
+      "sha256": "3f16dc6e3dbca55b93f03640af0fd7e4dc802b7c2ce740fa9ab67681759f6b84",
+      "bytes": 287
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-07.oracle.md",
+      "sha256": "bdfbc2a7bfacfe233bc4c8487004e866c736413836d6880a722ea99ed3cbbc7d",
+      "bytes": 1695
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-07.txt",
+      "sha256": "b2ac8b6dd5560acb2ca6daa8fe607c9a7f0dc3de2e2e0aaadd11c9d0d3dd1503",
+      "bytes": 257
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-08.oracle.md",
+      "sha256": "8516d1c1b2247285c6fd6b0ff1d9d50d4e686aad1fe2127fa21d877cdc6db7e7",
+      "bytes": 2143
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-08.txt",
+      "sha256": "cc02818c409a6643f5a537ebdfc4cc06891f90196912a192ecaffb9a20faa77e",
+      "bytes": 208
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-09.oracle.md",
+      "sha256": "b4b255df44e517c3ed9dce7a68048a116440fe24eb0e3dbd64da47c8e2dcec37",
+      "bytes": 1612
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-09.txt",
+      "sha256": "acb3ea89467709a53089db542d110ba0adc3ca2aaffbb8daf730f5aa8a386bee",
+      "bytes": 193
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-10.oracle.md",
+      "sha256": "8d289d6fe10af808e2e8dbe8cc2d639e7540ee46e59379cf3ae5dd2aaedb6dad",
+      "bytes": 2347
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-10.txt",
+      "sha256": "0e19fbcf462ebab40b90b7b58e38b5176b2fe726cba49920d14daaa06c4f721b",
+      "bytes": 208
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-11.oracle.md",
+      "sha256": "0dfddf4a3df53092f39bddba9c28c1c54d9b85f4853722dc736a85b431429a49",
+      "bytes": 2167
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-11.txt",
+      "sha256": "a73dafc5f2100bfb7b2dfec8ca85722068de5c9fd06edf77f9127682953aa15a",
+      "bytes": 320
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-12.oracle.md",
+      "sha256": "fd82486e8ef590081d4e33786773e2b9fcf9e5af4b499cab03ed63c8d53e2cdc",
+      "bytes": 1553
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-12.txt",
+      "sha256": "0b2b38b556d9a5dbb9148e28ab2f182dd929f21daed334c6f5df308a929a5ebb",
+      "bytes": 221
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-13.oracle.md",
+      "sha256": "c1cccec02323cbc462173fbfb16c11d32f80fcfc4ab334888fa6adea4daae9aa",
+      "bytes": 2022
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-13.txt",
+      "sha256": "13e2fd85eb1c98ab7183707bdfdfb77f94e5e7cf09f6470f178ab4df1552e611",
+      "bytes": 233
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-14.oracle.md",
+      "sha256": "c198907f8a39638d3026281f8cc7154527589317f306818bfd89c3cfb90359ea",
+      "bytes": 2238
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-14.txt",
+      "sha256": "29dab2baee311a89659ec2d771aa33d191e88b717372a766ae36a23d1a44b733",
+      "bytes": 258
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/freeze.json",
+      "sha256": "294e0c028279a308cdf8571ef6f090501a31bfb0ab7d8f329199d926723a81e0",
+      "bytes": 8213
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/machine-oracle.json",
+      "sha256": "e9bdf1ebb1ab6d413c2901d5e7161b13569d5f5524802ae2d4d8823eed565a9b",
+      "bytes": 42395
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-01.oracle.md",
+      "sha256": "52bb7ec007c4d2119bbfd2f743c90d3ed1ba08099a6d9bce13a85766ed5e4750",
+      "bytes": 1387
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-01.txt",
+      "sha256": "cd2110251d92484a5d963191c1c0a09939a559e398d97082772f844da7ce1a03",
+      "bytes": 72
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-02.oracle.md",
+      "sha256": "beec70878a95707ae971d24625686b36db9acc2d8afc7058292957e58cb5fdbe",
+      "bytes": 1519
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-02.txt",
+      "sha256": "2d2b5673cbbe1cf1401b571f758feaf36052ca2b9010c839f3b55f86c2b36c9e",
+      "bytes": 129
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-03.oracle.md",
+      "sha256": "37f43a595e37c4b37766c8a8ae49bfdda5fe7375795651fd7e1793572cfe9897",
+      "bytes": 1799
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-03.txt",
+      "sha256": "c8b9cfdd5d645f522cad6c05a08666ff0f23322352b775637cdf3cc39ef0e732",
+      "bytes": 143
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-04.oracle.md",
+      "sha256": "939142def1ce698e44e997736409824bd345e7805067e028361dc1601b774bbd",
+      "bytes": 1887
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-04.txt",
+      "sha256": "25573beb369fc9e4f6a987d841a987a1d901ef74f5085eeed0250b5d32bd3e8a",
+      "bytes": 103
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-05.oracle.md",
+      "sha256": "03d2654af9ae9e6551a1f1e5e56c03e359653ed0605abd34602fafc461873938",
+      "bytes": 1895
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-05.txt",
+      "sha256": "3aef03b168540f155e06001c37e50db0e9d0d7cfa8ac6bf2fd87ca66e07151f5",
+      "bytes": 74
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-06.oracle.md",
+      "sha256": "c1055c5c539426c9f3a57b9578c7586dd89f4b45e7f96b89e4964066d7f68c05",
+      "bytes": 1785
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-06.txt",
+      "sha256": "5399efff2a1b2e6b6b3f9d02c8bfce4000a40e6e6975d1777ad82a2477cde841",
+      "bytes": 155
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-07.oracle.md",
+      "sha256": "bdfbc2a7bfacfe233bc4c8487004e866c736413836d6880a722ea99ed3cbbc7d",
+      "bytes": 1695
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-07.txt",
+      "sha256": "da739873ce9ba42b2c1401cf0ae3cb5b1e50fd719ec06819c16b9bcdf0b23f73",
+      "bytes": 134
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-08.oracle.md",
+      "sha256": "8516d1c1b2247285c6fd6b0ff1d9d50d4e686aad1fe2127fa21d877cdc6db7e7",
+      "bytes": 2143
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-08.txt",
+      "sha256": "3aaf208ed06673fb24e69ae2a12a1b2e3b5d120b33b06f443c6ff1f17bd71ae2",
+      "bytes": 94
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-09.oracle.md",
+      "sha256": "b4b255df44e517c3ed9dce7a68048a116440fe24eb0e3dbd64da47c8e2dcec37",
+      "bytes": 1612
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-09.txt",
+      "sha256": "41b364624ee0b41eeb281cff1d03bba2e5b2a9fdd560c0f5a35b3357c0f0c8c5",
+      "bytes": 79
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-10.oracle.md",
+      "sha256": "8d289d6fe10af808e2e8dbe8cc2d639e7540ee46e59379cf3ae5dd2aaedb6dad",
+      "bytes": 2347
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-10.txt",
+      "sha256": "1b58f8222c8260251a44efc70dc43bffb8a3ffd06368b4d9ad7f23373118a1ff",
+      "bytes": 94
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-11.oracle.md",
+      "sha256": "0dfddf4a3df53092f39bddba9c28c1c54d9b85f4853722dc736a85b431429a49",
+      "bytes": 2167
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-11.txt",
+      "sha256": "40ad4e00f70972566b3696078601455e815bf9fa5787ea500aa7d29fe823ba86",
+      "bytes": 197
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-12.oracle.md",
+      "sha256": "fd82486e8ef590081d4e33786773e2b9fcf9e5af4b499cab03ed63c8d53e2cdc",
+      "bytes": 1553
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-12.txt",
+      "sha256": "6ea791a6fcb1334dadb5b7987a1c485cfa4e6ce16d3cc991b29dc0fadd1c478d",
+      "bytes": 116
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-13.oracle.md",
+      "sha256": "c1cccec02323cbc462173fbfb16c11d32f80fcfc4ab334888fa6adea4daae9aa",
+      "bytes": 2022
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-13.txt",
+      "sha256": "602c972bbcfa424204660fa48cd89820cf46af9029a62580883c2f4091d9f8ed",
+      "bytes": 119
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-14.oracle.md",
+      "sha256": "c198907f8a39638d3026281f8cc7154527589317f306818bfd89c3cfb90359ea",
+      "bytes": 2238
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-14.txt",
+      "sha256": "6d337296e80caf344c39bd11203e125df0938e31860988e72d5e17dfb42eda18",
+      "bytes": 126
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/freeze.json",
+      "sha256": "14072deebb73f993759272f19ca687649903c201b49f0d5ff78ede926a8dfcb2",
+      "bytes": 9332
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/machine-oracle.json",
+      "sha256": "9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50",
+      "bytes": 66375
+    },
+    {
+      "path": "scripts/run_document_relations_eval.py",
+      "sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+      "bytes": 130013
+    },
+    {
+      "path": "scripts/run_document_relations_negation_eval.py",
+      "sha256": "245871311639815ad0ec35fb7d06f27d2c43b4afe450327902be559570733e43",
+      "bytes": 27805
+    },
+    {
+      "path": "scripts/run_document_relations_nested_eval.py",
+      "sha256": "da7fba3f95cdf52e47bbda80754c624401d74c5a8b7fa36ee455d6492d1c920e",
+      "bytes": 33090
+    },
+    {
+      "path": "tests/evals/test_document_relations_eval.py",
+      "sha256": "7fb5e3694d8614e962c6061e50d2de8b15c29a2bc6d02e808048f161ac371228",
+      "bytes": 58908
+    },
+    {
+      "path": "tests/evals/test_document_relations_negation_eval.py",
+      "sha256": "1b7637a57c2c941e933870907f829f8031646364f22a96671a97c53d38a5cbed",
+      "bytes": 6439
+    },
+    {
+      "path": "tests/evals/test_document_relations_nested_eval.py",
+      "sha256": "8ca99f35f7899c4a4e35c0a9a963f13013f6441ef0fca860167e8bf5446dc0ea",
+      "bytes": 19487
+    },
+    {
+      "path": "tests/test_document_relations_nested_pipeline.py",
+      "sha256": "37e7b103fe32da4e1135d4a2be3c36f77b9f7c573f20b87df422980fdc86f704",
+      "bytes": 19139
+    }
+  ]
+}

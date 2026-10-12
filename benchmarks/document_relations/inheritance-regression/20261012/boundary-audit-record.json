@@ -1,0 +1,15 @@
+{
+  "schema": "inherited-or-public-boundary-audits-v1",
+  "generated_at": "2026-10-12T09:27:46.3885226+08:00",
+  "classification": "Public reviewer audit shared with developer after first patch, not pre-development unseen inputs",
+  "inputs": [
+    {
+      "path": "quantity-boundary-cases.json",
+      "sha256": "9007a978000465eac504971002cf7b65fe689a0af088f6b8d79aae126ac1dacc"
+    },
+    {
+      "path": "unit-boundary-cases.json",
+      "sha256": "e80dd4a8349e9e08bf4d715f9f6499058dc389631f4c0928822ac8d061271acd"
+    }
+  ]
+}

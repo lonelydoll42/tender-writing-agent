@@ -1,0 +1,11 @@
+{
+  "schema": "inherited-or-freeze-v1",
+  "frozen_at": "2026-10-12T09:07:06.7629780+08:00",
+  "client_date": "2026-10-12",
+  "base_commit": "74a311e89fc6a93a0f05eb9e65088c075b21a048",
+  "cases_sha256": "66be0f0f6337b6be12acc6ddc2a4a00c5cf892d434226db4dd45bf4bd1917d17",
+  "developer_private_read_forbidden": true,
+  "first_developer_read_time": null,
+  "isolation": "Shared filesystem policy only; not certified blind",
+  "scope": "Local conflicting or unsupported quantity instructions must be checked before inherited OR; no K-of-N semantics implementation."
+}

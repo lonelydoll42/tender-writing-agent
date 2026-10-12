@@ -1,0 +1,7 @@
+{
+  "schema": "inherited-or-prefix-review-reconstruction-v1",
+  "generated_at": "2026-10-12T09:26:44.7230308+08:00",
+  "base_commit": "74a311e89fc6a93a0f05eb9e65088c075b21a048",
+  "patch_sha256": "815f73507399500dccd6b5e3906928c7d07c055ad84ef1eba5e4b7a6ab62a416",
+  "scope": "Exploratory public prefix-bound audit; reconstructed canonical files from accepted base plus preserved source/domain-test patch; not a final acceptance snapshot."
+}

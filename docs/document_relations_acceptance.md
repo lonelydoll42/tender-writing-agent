@@ -2,7 +2,46 @@
 
 ## 状态与边界
 
-### 当前嵌套专项（2026-10-11）
+### 当前继承指令小修（2026-10-12）
+
+`74a311e` 的有限嵌套关闭判断因用户复审重新打开：上层“每组任选一项”会覆盖组内“须同时提交”，也会将“任选两项”错误确认为普通 OR。本批只修复这条继承入口，不实现 K-of-N 求值，不自动决定矛盾指令谁优先，不处理 case-11 的旧评分器词面映射。
+
+在本批覆盖的有限命名组格式中，修改智能体先检查**命名组到冒号之间**的局部指令。已识别的 AND/OR 冲突、非单项选择、范围及前后数量限定进入复核；原文保留为 candidate ATOM，外层完整关系及 scope 同步 candidate。外层原文明确的 AND 操作符仍可独立 confirmed，这不代表完整关系通过；未冲突的另一组继续 confirmed OR。冒号后的材料名称不进入新增数量检查。新增数量词形和不在本批语法内的指令仍需另行评测，不能从这 15 个样例外推任意数量表达。
+
+产品源码仅改 `document_relations.py`，其他 64 个源码文件未改。最终 Git canonical 源码树 SHA-256 为 `da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0`，archive base tree 为 `fceb609894adfa5ce943cfb3e021d4029ec31421`；65/65 源码及 15/15 评测器/测试 blob 与导出字节一致。主审从该副本运行全量测试：**782 passed、1 条既有 Starlette 警告**，Ruff 通过。
+
+| 验证层 | 本轮结果 | 来源校验及范围 |
+| --- | --- | --- |
+| 开发前冻结的继承专项 | 8/8：3 肯定、5 复核；0 failed/not_run | 来源错误 0/1512；含用户两个反例、阿拉伯数量、第二组冲突及材料名边界 |
+| 公开数量边界回归 | 3/3：1 肯定、2 复核 | 来源错误 0/561；“至少两项”“一项以上”不能当普通 OR |
+| 公开单位边界回归 | 4/4：2 肯定、2 复核 | 来源错误 0/808；“至少一份”“至多一件”复核，精确“一份”“一件”保留正例 |
+| 独立局部/外层状态检查 | 5/5、2/2、2/2 | 原句保留；无错误 confirmed 局部组；外层保留两分支并复核；未冲突 OR 不被误阻断 |
+| 既有嵌套、公开严格树、否定专项 | 8/8、2/2、30/30 | 来源错误分别 0/1754、0/448、0/816 |
+| 未修改的 1.0.3 总体评分器 | 9/14；5 failed、0 not_run | 来源错误 0/1083；所有 summary 指标与 `74a311e` 相同 |
+
+这 6 个肯定文本和 9 个复核文本的解析判断不能算作企业材料的业务误阻断/误放行率。企业材料与真实模型服务本批均未运行；旧公开原始文件 **0/8、企业 not_run/8** 的历史边界继续保留，本批没有用新增文本评测替代或重新计算它们。第2步整体、通用完整性、生产验收与主体/时间关联仍未通过，`partial/manual_review` 门禁不变。
+
+#### 冻结与回修记录
+
+原 8 份输入于 2026-10-12 09:07:06（Asia/Shanghai）冻结，SHA-256 为 `66be0f0f6337b6be12acc6ddc2a4a00c5cf892d434226db4dd45bf4bd1917d17`，随后才下发开发任务。开发禁止读取私有目录；共享文件系统仅提供策略隔离，不是 certified blind，首次开发读取时间未知。后续 7 份边界样例已向开发公开，只算公开回归；输入没有并入或改写原 8 例 oracle。
+
+原嵌套评分器及 1.0.3 评分器均未改。另行的 `check-local-review.ps1` 在观察旧基线后建立、最终产品执行前冻结，只额外检查原句/节点/外层状态；其冻结说明明确记录“created after baseline”，不冒充开发前的完整盲测评分器。
+
+旧 `74a311e` 的准确导出源码 `e92a0d94…` 用同一专项评分器重放为 **4/8**（3/3 肯定、1/5 复核），全部实际执行，来源错误仍为 0/1934。主审还发现首次补丁吞掉“至少/至多”前缀、再按数字 1 确认的边界问题：重建源码 `ae770c49…` 在单位专项为 **2/4**，来源错误 0/988。该失败报告、65 文件源码 proof、原始 Git patch 与重建说明均保留；可从 `74a311e` 导出并应用 patch 复现，不用最终源码覆盖中间结果。最终补丁显式记录前缀数量限定后通过上述所有专项。
+
+新资产位于 [inheritance-regression/20261012](../benchmarks/document_relations/inheritance-regression/20261012)，含三组 oracle、15 份 raw TXT、冻结说明及局部检查脚本，共 24 件；[inheritance-followup-20261012](../benchmarks/document_relations/reports/inheritance-followup-20261012) 含 21 件报告/proof/patch/测试结果。旧 125 件冻结资产、评分器/测试及历史报告未改写，逐文件 hash 见 [inheritance-publication-record.json](../benchmarks/document_relations/inheritance-publication-record.json)。发布时开发智能体均已关闭；发布后全部新样例均为 public regression。
+
+```powershell
+$env:PYTHONPATH = (Resolve-Path ".\src").Path
+python scripts/run_document_relations_nested_eval.py --cases benchmarks/document_relations/inheritance-regression/20261012/cases.json --output replay-inheritance-NEW.json
+python scripts/run_document_relations_nested_eval.py --cases benchmarks/document_relations/inheritance-regression/20261012/quantity-boundary-cases.json --output replay-quantity-NEW.json
+python scripts/run_document_relations_nested_eval.py --cases benchmarks/document_relations/inheritance-regression/20261012/unit-boundary-cases.json --output replay-unit-NEW.json
+& benchmarks/document_relations/inheritance-regression/20261012/check-local-review.ps1 -Cases benchmarks/document_relations/inheritance-regression/20261012/cases.json -Report replay-inheritance-NEW.json -Output replay-local-NEW.json
+```
+
+所有输出须为新路径。**本轮仅有限指令继承小修通过，`uv.lock` 继续独立处理；case-11 相似度映射、其它范围/完整性问题均不在本次关闭范围内。**
+
+### 历史嵌套专项（2026-10-11）
 
 本批由修改智能体实现、主审独立验收，只关闭明确有限命名组的嵌套表达与来源传递。case-03 保持 `AND(OR(A1,A2),A3)`，case-11 保持 `AND(OR(A1,A2),OR(A3,A4))`；每层直接子节点、操作符、作用域、parent 来源及终结边界分别核验，不以全部后代叶子代替直接子组。
 

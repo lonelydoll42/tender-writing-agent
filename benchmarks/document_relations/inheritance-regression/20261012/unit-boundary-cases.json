@@ -1,0 +1,68 @@
+{
+  "schema_version": "inherited-or-unit-boundary-audit-v1",
+  "purpose": "Public reviewer boundary probes after the first patch. Prefix bounds must not be swallowed merely because the unit is not 项. Not blind acceptance.",
+  "cases": [
+    {
+      "id": "U01",
+      "text": "两组材料均须提交，但每组任选一项：\n第一组任取至少一份：营业执照；审计报告。\n第二组任选一项：授权书；委托书。\n",
+      "review_only": true,
+      "forbidden_operator_quote": "两组材料均须提交",
+      "review_quote": "第一组任取至少一份",
+      "conflicting_group_quote": "第一组任取至少一份",
+      "retained_atoms": ["营业执照", "审计报告", "授权书", "委托书"]
+    },
+    {
+      "id": "U02",
+      "text": "两组材料均须提交，但每组任选一项：\n第一组任选至多一件：营业执照；审计报告。\n第二组任选一项：授权书；委托书。\n",
+      "review_only": true,
+      "forbidden_operator_quote": "两组材料均须提交",
+      "review_quote": "第一组任选至多一件",
+      "conflicting_group_quote": "第一组任选至多一件",
+      "retained_atoms": ["营业执照", "审计报告", "授权书", "委托书"]
+    },
+    {
+      "id": "U03",
+      "text": "两组材料均须提交，但每组任选一项：\n第一组任取一份：营业执照；审计报告。\n第二组任选一项：授权书；委托书。\n",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "两组材料均须提交",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "每组任选一项",
+            "scope_quote": "第一组",
+            "children": ["营业执照", "审计报告"]
+          },
+          {
+            "op": "OR",
+            "operator_quote": "任选一项",
+            "scope_quote": "第二组",
+            "children": ["授权书", "委托书"]
+          }
+        ]
+      }
+    },
+    {
+      "id": "U04",
+      "text": "两组材料均须提交，但每组任选一项：\n第一组任选一件：营业执照；审计报告。\n第二组任选一项：授权书；委托书。\n",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "两组材料均须提交",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "每组任选一项",
+            "scope_quote": "第一组",
+            "children": ["营业执照", "审计报告"]
+          },
+          {
+            "op": "OR",
+            "operator_quote": "任选一项",
+            "scope_quote": "第二组",
+            "children": ["授权书", "委托书"]
+          }
+        ]
+      }
+    }
+  ]
+}

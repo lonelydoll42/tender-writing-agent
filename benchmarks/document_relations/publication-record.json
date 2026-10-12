@@ -691,5 +691,13 @@
     "historical_negation_record_unchanged": true,
     "legacy_evaluator_1_0_3_result": "9/14; no oracle or frozen evaluator changes",
     "full_step_2_and_production_acceptance": "not_passed"
+  },
+  "inherited_or_followup_20261012": {
+    "record_path": "benchmarks/document_relations/inheritance-publication-record.json",
+    "source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+    "scope": "Check local conflicting and unsupported quantity instructions before inheriting OR; no K-of-N evaluation.",
+    "historical_records_unchanged": true,
+    "legacy_evaluator_1_0_3_result": "9/14; unchanged summary, evaluator and oracle",
+    "full_step_2_and_production_acceptance": "not_passed"
   }
 }

@@ -1,0 +1,46 @@
+{
+  "schema_version": "inherited-or-quantity-boundary-audit-v1",
+  "purpose": "Public reviewer counterexamples shared with developer after the first patch review. Not unseen or blind acceptance.",
+  "cases": [
+    {
+      "id": "B01",
+      "text": "两组材料均须提交，但每组任选一项：\n第一组任选至少两项：营业执照；审计报告；资质证明。\n第二组任选一项：授权书；委托书。\n",
+      "review_only": true,
+      "forbidden_operator_quote": "两组材料均须提交",
+      "review_quote": "第一组任选至少两项",
+      "conflicting_group_quote": "第一组任选至少两项",
+      "retained_atoms": ["营业执照", "审计报告", "资质证明", "授权书", "委托书"]
+    },
+    {
+      "id": "B02",
+      "text": "两组材料均须提交，但每组任选一项：\n第一组任选一项以上：营业执照；审计报告；资质证明。\n第二组任选一项：授权书；委托书。\n",
+      "review_only": true,
+      "forbidden_operator_quote": "两组材料均须提交",
+      "review_quote": "第一组任选一项以上",
+      "conflicting_group_quote": "第一组任选一项以上",
+      "retained_atoms": ["营业执照", "审计报告", "资质证明", "授权书", "委托书"]
+    },
+    {
+      "id": "B03",
+      "text": "两组材料均须提交，但每组任选一项：\n第一组任选1项：营业执照；审计报告。\n第二组任选一项：授权书；委托书。\n",
+      "expected_tree": {
+        "op": "AND",
+        "operator_quote": "两组材料均须提交",
+        "children": [
+          {
+            "op": "OR",
+            "operator_quote": "每组任选一项",
+            "scope_quote": "第一组",
+            "children": ["营业执照", "审计报告"]
+          },
+          {
+            "op": "OR",
+            "operator_quote": "任选一项",
+            "scope_quote": "第二组",
+            "children": ["授权书", "委托书"]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -41,6 +41,17 @@ _K_OF_N_RE = re.compile(
     rf"(?:以下|下列)\s*(?P<declared>{_NUMBER_TOKEN})\s*(?:类|项)"
     rf"\s*中\s*任取\s*(?P<choose>{_NUMBER_TOKEN})\s*(?:类|项)"
 )
+_LOCAL_SELECTION_COUNT_RE = re.compile(
+    rf"(?:任选|任取|任意(?:选择|选取)?|选择|选取|选出|择取)\s*"
+    rf"(?:(?:其中|以下|下列)\s*)?"
+    rf"(?:(?P<selection_qualifier>至少|不少于|至多|不超过)\s*)?"
+    rf"(?P<count>{_NUMBER_TOKEN}|多|若干|几)"
+    rf"(?P<range>\s*(?:至|到|[-~～])\s*{_NUMBER_TOKEN})?"
+    rf"\s*(?:项|个|份|类|件|种|条)"
+    rf"(?P<bound>\s*(?:以上|以下|以内|及以上|及以下))?|"
+    rf"(?:任选|任取|任意(?:选择|选取)?|选择|选取|选出|择取)\s*其"
+    rf"(?P<ordinal>{_NUMBER_TOKEN})"
+)
 _AMBIGUOUS_COUNT_RE = re.compile(
     rf"(?:以下|下列)\s*(?:共|有)?\s*{_NUMBER_TOKEN}\s*"
     rf"(?:至|到|[-~～])\s*{_NUMBER_TOKEN}\s*项|"
@@ -2229,17 +2240,26 @@ def _parse_named_group(
     local_selection = _OR_CUE_RE.search(text, named.end(), colon.start())
     inherited_selection_refs = spec["selection_source_references"]
     local_clause = text[named.start() : colon.start()]
+    local_and = _AND_CUE_RE.search(local_clause)
     if (
         _find_negation(text)
         or re.search(r"并非|未必|并不是|并不", text)
         or _K_OF_N_RE.search(text)
     ):
         return _opaque_named_group(record, spec, "unsupported group instruction")
-    if local_selection and _AND_CUE_RE.search(local_clause):
+    if local_and and (local_selection or inherited_selection_refs):
         return _opaque_named_group(
             record,
             spec,
             "conflicting group selection instructions require review",
+        )
+    if inherited_selection_refs and _has_unsupported_local_selection_count(
+        local_clause
+    ):
+        return _opaque_named_group(
+            record,
+            spec,
+            "unsupported named group selection count",
         )
 
     if local_selection is not None or inherited_selection_refs:
@@ -4023,6 +4043,22 @@ def _parse_count(value: str) -> int | None:
         "十": 10,
     }
     return chinese.get(value)
+
+
+def _has_unsupported_local_selection_count(text: str) -> bool:
+    if _AMBIGUOUS_COUNT_RE.search(text):
+        return True
+    for match in _LOCAL_SELECTION_COUNT_RE.finditer(text):
+        if (
+            match.group("selection_qualifier")
+            or match.group("range")
+            or match.group("bound")
+        ):
+            return True
+        count = match.group("count") or match.group("ordinal")
+        if _parse_count(count) != 1:
+            return True
+    return False
 
 
 def _simple_number(value: str) -> int | None:
