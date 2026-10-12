@@ -1,0 +1,194 @@
+{
+  "schema": "document-relations-scorer-remap-publication-v1",
+  "recorded_at": "2026-10-12T11:25:18.9682746+08:00",
+  "base_product_commit": "af7db0f467ea5912dd5482c67752e78482659779",
+  "classification": "public saved-output offline grader correction, not blind or product improvement",
+  "accepted_scope": "Limited confirmed-atom exact source-literal mapping and offline replay input contracts",
+  "not_closed": [
+    "case-11 whole-case boundary contract",
+    "full Step 2",
+    "generic parsing completeness",
+    "production acceptance",
+    "uv.lock"
+  ],
+  "product_source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+  "product_source_changed": false,
+  "source_git_blob_matches": 65,
+  "evaluator_git_blob_matches": 17,
+  "source_proof_snapshot": "Pre-publication canonical code archive; final metadata is added later. 65 source and 17 evaluator/test files are byte-verified.",
+  "evaluator": {
+    "version": "1.0.4",
+    "script": "scripts/run_document_relations_rescore.py",
+    "script_sha256": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf",
+    "self_tests": "tests/evals/test_document_relations_rescore.py",
+    "self_tests_sha256": "2380bea8b28ba10a6b35123daa0723f254156f56366677f67a5bb3719aa1e0d8",
+    "self_test_count": 41,
+    "legacy_evaluator_version": "1.0.3",
+    "legacy_evaluator_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+    "legacy_tests_sha256": "7fb5e3694d8614e962c6061e50d2de8b15c29a2bc6d02e808048f161ac371228",
+    "policy": "Confirmed oracle only; node full text and exact oracle/actual quote equality, raw-coordinate validation, same page/line. Only outer text whitespace may be stripped. Existing similarity threshold/candidate/group rules unchanged."
+  },
+  "product_input": {
+    "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/relations-score.json",
+    "sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+    "raw_graphs_preserved": 14,
+    "source_contexts_preserved": 14,
+    "runtime_metadata_preserved": 14,
+    "runtime_invoked_during_rescore": false
+  },
+  "canonical_checks": {
+    "pytest_passed": 823,
+    "pytest_warnings": 1,
+    "warning": "Existing StarletteDeprecationWarning",
+    "scorer_contract_tests": 41,
+    "matcher_contract_tests": 20,
+    "offline_io_contract_tests": 21,
+    "ruff": "passed",
+    "protected_files_unchanged": 361,
+    "protected_relation_assets": 164,
+    "historical_parent_values_preserved": 17,
+    "parent_changes": "Only scorer_atom_mapping_20261012 appended; all prior parsed values unchanged.",
+    "git_diff_check": "passed"
+  },
+  "results": {
+    "legacy": "9 passed, 5 failed, 0 not_run; every summary value matches original",
+    "new": "9 passed, 5 failed, 0 not_run",
+    "case_11_atom_mapping": "0/4 to 4/4",
+    "case_11_original_positions_verified": "4/4",
+    "case_11_whole_case": "failed",
+    "grader_condition_omission": "6/37 to 2/37, not a product parsing improvement",
+    "grader_source_coverage": "6/37 to 2/37",
+    "boundary_evidence": "0/17 to 2/17, newly reached grading branch, not product regression",
+    "source_invalid": "0/1083 in both",
+    "changed_case_metrics": [
+      "case-11"
+    ],
+    "initial_boundary_checker": "16/18; two whole-case positives still fail; original checker and results unchanged",
+    "limitations": "Old similarity path is not a general semantic verifier; full case-11 boundary evidence contract remains unresolved."
+  },
+  "developer_disclosure": {
+    "tests_first_red": "Minimal matcher tests collected before implementation, ImportError, zero tests executed",
+    "public_report_viewed": "Implementation agent viewed one already-published report for field shape before a later no-read instruction",
+    "main_reviewer_only_product_rescore": true,
+    "certified_blind": false,
+    "agents_closed_before_publication": true
+  },
+  "historical_boundaries": {
+    "existing_public_raw_files": "0/8; historical, not rerun in this offline task",
+    "enterprise_materials": "not_run/8 and not_run/14",
+    "full_step_2": "not_passed",
+    "production": "not_passed",
+    "gating": "partial/manual_review unchanged",
+    "uv_lock": "Untracked user file, not staged or edited",
+    "real_model_calls": "none in this batch",
+    "business_false_block_release_rates": "not_measured"
+  },
+  "artifact_count": 21,
+  "artifacts": [
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/canonical-pytest.xml",
+      "bytes": 131513,
+      "sha256": "09dcf119a236b154cc165be1cdb93ae314449c0ae8c39be34a833dbe319064b7"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/canonical-scorer-tests.xml",
+      "bytes": 7491,
+      "sha256": "45d3416fac06144cecc2c34f138b0fdebeec441a211d00d28ef7e34804b3c946"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/comparison.json",
+      "bytes": 14690,
+      "sha256": "7446df7581829641fe31d42d7dbd1bd710dc58e40030dbca916298e58aeba213"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/initial-boundary-score.json",
+      "bytes": 2767101,
+      "sha256": "0efc72f7bf075a580c996ab37614c3cd549dbdf8b564afa9461958b55ff68acb"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/initial-comparison.json",
+      "bytes": 14169,
+      "sha256": "9188bce5ac9bfe31623e76dd313a3c8e0baf03a0a531f4a12efb060c05e02c61"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/initial-legacy-rescore.json",
+      "bytes": 769441,
+      "sha256": "63d85eda9eb992052af99b9816b150a234f102d42b1cf6a3d06650d3ae088253"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/initial-literal-rescore.json",
+      "bytes": 769257,
+      "sha256": "f85396b86dd8e1e68ce11f3dc30f97ea8457d6f0673cc3057bdc631fad47ce3a"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/legacy-rescore.json",
+      "bytes": 769441,
+      "sha256": "be6ade0b29186cc1d1ae2793b330f002fa5644b837895c330764dd1839bf5250"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/literal-rescore.json",
+      "bytes": 769257,
+      "sha256": "7506a42d3a88833c71d22738d233912b5dcab0220b4876e1f842ac69df3ce139"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/pre-implementation-red.xml",
+      "bytes": 1066,
+      "sha256": "0fb62aaa11d6eb59c08b0bc5f953185a05c2dba081eb0c65ecfc76db0d056260"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/public-preview.xml",
+      "bytes": 3731,
+      "sha256": "e936ab8b492541fdc6c7b1600c334ad25a3f3008ea7625a57ace44b4d7d0e3ba"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/scope-audit.json",
+      "bytes": 1474,
+      "sha256": "a809ec8d628f037dfc98e944f2c03a35053d93c06d892d7648590de616e70daa"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/source-proof.json",
+      "bytes": 26655,
+      "sha256": "6eb4f6813121c3c5cd22dd389ee2197adbc9ecb3b5fcd8dfed196615a8c8d3ae"
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/baseline-freeze.json",
+      "bytes": 75500,
+      "sha256": "c573540a6f666feeb97d5aaf5a0590f6f1a46b34a8582740efa277f31f7fe77f"
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/boundary-freeze.json",
+      "bytes": 470,
+      "sha256": "e31c89243cd04131aa5229c0d504d9842c07fbd1ad017c5cd4336faa5d7139af"
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/check-boundary.py",
+      "bytes": 6484,
+      "sha256": "b7bc1bcacf2fceb8112fca4c8b68ecde93a2874b9184aa20899795470999eb70"
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/grader-freeze.json",
+      "bytes": 1304,
+      "sha256": "30873696b39b02ece139221baa98aafdba1b472cf27444505a51f3985028ed1a"
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/initial-grader-freeze.json",
+      "bytes": 708,
+      "sha256": "39cca0cd945734db547c81623e225a2c486cde5f39b8a2b562ae9b5b8ec6f931"
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/initial-grader.py.txt",
+      "bytes": 25075,
+      "sha256": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf"
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/pre-implementation-tests.py.txt",
+      "bytes": 15368,
+      "sha256": "0b889f4e21d0f326fe3d1f0bc540e030e821388236ec4f3e0ddfed80209b544d"
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/test-first-record.json",
+      "bytes": 640,
+      "sha256": "aad8215c6eafdd1d8c531cd62d34a2c2164df5610a69840e4fcf7809d5854a2d"
+    }
+  ]
+}

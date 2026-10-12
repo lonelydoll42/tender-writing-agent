@@ -2,7 +2,53 @@
 
 ## 状态与边界
 
-### 当前继承指令小修（2026-10-12）
+### 当前评分器原子映射重评（2026-10-12）
+
+本批由修改智能体新增独立评分器 `1.0.4`，主审只验收原子映射与离线重评。**产品解析源码、旧 `1.0.3` 评分器、冻结 oracle 和历史报告均未修改；case-11 的整例评分仍未通过。**
+
+新规则只为 `certainty=confirmed` 的条件补充严格原文字面匹配：实际节点全文须与 oracle 的原文引文一致，实际引用也须为该精确引文，且通过文档身份、版本、原始字符坐标和同页同行校验。仅允许裁剪全文外侧空白，不删除编号标点，不做数字子串或包含式匹配。旧相似度阈值、candidate 路径、一对一分配、错并错拆、节点状态和分组/边界审查保持原样。这是评分器映射修正，不是通用事实核验。
+
+最小匹配正负例先于实现写入并得到缺少新模块的 `ImportError`，该 red 是**零项执行的收集失败，不是通过记录**。随后补齐离线输入契约，共 **41 项合成自测**：20 项匹配/关系合约与 21 项离线输入合约；主审从 Git canonical 导出副本独立重跑全部通过。全量 **823 passed、1 条既有 Starlette 警告**，Ruff 通过。新增重评拒绝错误报告 SHA、冻结身份、文件版本、原始页文本、运行校验和、重复 case/node ID，以及覆盖已有输出；failed/not_run 不升级为 executed，未执行项不进入指标分母。
+
+#### 同一产品输出的并列评分
+
+两版本均读取 `af7db0f` 已入库的 `inheritance-followup-20261012/relations-score.json`，输入 SHA-256 为 `1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7`。**本批不重新调用产品 Runtime、Registry 或模型生成评测输出**；14 例原始 graph、source_context、runtime 数据及两版本指纹逐项一致。报告中的 executed 状态来自原报告，不表示本批再次执行了产品。
+
+| 指标 | 冻结引擎 1.0.3 离线重评 | 新引擎 1.0.4 离线重评 |
+| --- | --- | --- |
+| 整例通过 / 失败 / 未执行 | 9 / 5 / 0 | 9 / 5 / 0 |
+| case-11 原子映射 | 0/4 | 4/4，四个不同节点及原文位置独立核对 |
+| 评分器条件未映射 | 6/37 | 2/37 |
+| 评分器来源未覆盖 | 6/37 | 2/37 |
+| 分组结构错误 | 5/14 | 5/14 |
+| 边界证据错误 | 0/17 | 2/17 |
+| 原始引用错误 | 0/1083 | 0/1083 |
+
+旧版本的完整 summary 与原报告一致。只有 case-11 的指标变化；其余 13 例的指标、状态均未变化。上述“条件未映射”减少不能写成产品解析遗漏减少，也不能将总体结果写成 10/14。
+
+**新增可见的边界合同问题没有关闭。** 四个原子可解析后，旧分组评分器才进入 scope/termination-boundary 检查。S1、S2 的 `operator_relation` 引用 P1-L01“每组只需择一”，其 `boundary_source_references` 则引用组内材料行及终结标点；冻结评分合同要求后者也覆盖 P1-L01，因此拒绝两组，继而根组及 parent 仍未匹配。本批不改变 `_scope_evidence` 或分组评分规则，不判断应当修改产品还是评分合同；操作符来源、作用域依据、终止边界的契约须另设正负例后验收。
+
+#### 审计与边界
+
+开发前冻结的 361 件源码、测试及历史资产全部保持字节一致，其中含 164 件关系评测历史资产。产品 canonical 源码树仍为 `da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0`；65/65 产品源码、17/17 评测器/测试文件与 Git blob 匹配，code archive base tree 为 `fba946b225b7f2d577f466472d6bbc6d85bc5955`。Windows 导出显式使用 `core.autocrlf=false`。
+
+主审开发前冻结的原始 case-11 变异检查首次为 **16/18**：两个肯定检查原先假设“原子恢复即整例通过”，实际因上述边界合同失败。原 checker、失败报告及其评分器源码快照均保留，**没有改写成 18/18**。正式限定验收依据是 41 项合成合约、14 例同输出对照和独立原文定位 4/4，不据此关闭整例或条件树整体。详情见 [scope-audit.json](../benchmarks/document_relations/reports/scorer-remap-20261012/scope-audit.json)。
+
+本轮是公开回归与已发布输出重评，不是未见文件评测。实现智能体曾查看一份公开历史报告以核对字段；开发期间未报告执行产品重评，正式重评由主审完成。共享目录隔离只是工作约束，不是技术盲测。
+
+冻结记录、red 快照和 checker 位于 [scorer-remap-regression/20261012](../benchmarks/document_relations/scorer-remap-regression/20261012)；首次与 canonical 并列报告、比较记录、测试 XML 及源码 proof 位于 [reports/scorer-remap-20261012](../benchmarks/document_relations/reports/scorer-remap-20261012)，索引见 [scorer-remap-publication-record.json](../benchmarks/document_relations/scorer-remap-publication-record.json)。
+
+```powershell
+$sourceReport = "benchmarks/document_relations/reports/inheritance-followup-20261012/relations-score.json"
+$sourceSha = "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7"
+foreach ($version in @("1.0.3", "1.0.4")) {
+  python scripts/run_document_relations_rescore.py --bundle benchmarks/document_relations/reserved/v2 --product-report $sourceReport --expected-report-sha256 $sourceSha --version $version --output "replay-$version-NEW.json" --main-reviewer-authorized
+}
+```
+
+输出必须是新路径。两版均存在 failed case，CLI 返回 1 是评分结果，不是未执行。旧公开原始文件 **0/8、企业材料 not_run/8** 为历史结论，本批未重跑；14 例企业材料仍为 not_run/14，不计算业务误阻断/误放行率。**仅本批严格原子映射可按限定范围通过；case-11 整例、完整第2步、通用及生产验收仍未通过。** `partial/manual_review` 门禁不变，`uv.lock` 继续独立处理。
+
+### 历史继承指令小修（2026-10-12）
 
 `74a311e` 的有限嵌套关闭判断因用户复审重新打开：上层“每组任选一项”会覆盖组内“须同时提交”，也会将“任选两项”错误确认为普通 OR。本批只修复这条继承入口，不实现 K-of-N 求值，不自动决定矛盾指令谁优先，不处理 case-11 的旧评分器词面映射。
 

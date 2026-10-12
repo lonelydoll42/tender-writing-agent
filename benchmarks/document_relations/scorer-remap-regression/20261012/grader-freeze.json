@@ -1,0 +1,18 @@
+{
+  "schema": "document-relations-offline-scorer-freeze-v1",
+  "frozen_at": "2026-10-12T11:14:38.7757548+08:00",
+  "version": "1.0.4",
+  "script_path": "scripts/run_document_relations_rescore.py",
+  "script_sha256": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf",
+  "test_path": "tests/evals/test_document_relations_rescore.py",
+  "test_sha256": "2380bea8b28ba10a6b35123daa0723f254156f56366677f67a5bb3719aa1e0d8",
+  "synthetic_contract_test_count": 41,
+  "matcher_tests": 20,
+  "offline_contract_tests": 21,
+  "legacy_script_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+  "product_report_path": "benchmarks/document_relations/reports/inheritance-followup-20261012/relations-score.json",
+  "product_report_sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+  "initial_scorer_bytes_unchanged": true,
+  "developer_context": "Public regression; developer viewed one already-published historical report to check shape. Not blind; no developer offline product scoring was reported. Main reviewer performed all saved-output scoring.",
+  "closed_scope": "Exact raw-source literal confirmed-atom fallback and preserved-output rescore only; group/boundary contract unchanged; case-11 still fails whole-case scoring."
+}

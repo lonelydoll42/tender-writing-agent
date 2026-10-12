@@ -1,0 +1,473 @@
+from __future__ import annotations
+
+from copy import deepcopy
+from typing import Any
+
+import pytest
+
+from scripts import run_document_relations_rescore as rescore
+
+
+DOCUMENT_ID = "synthetic-rescore-document"
+SOURCE_VERSION = "synthetic-rescore-v1"
+
+
+def _oracle_ref(line: int, quote: str) -> dict[str, Any]:
+    return {"page": 1, "line": line, "quote": quote}
+
+
+def _product_ref(
+    page_text: str,
+    line_number: int,
+    quote: str,
+    *,
+    document_id: str = DOCUMENT_ID,
+    source_version: str = SOURCE_VERSION,
+) -> dict[str, Any]:
+    lines = page_text.split("\n")
+    line_start = sum(len(line) + 1 for line in lines[: line_number - 1])
+    start = line_start + lines[line_number - 1].index(quote)
+    return {
+        "document_id": document_id,
+        "source_version": source_version,
+        "page": 1,
+        "line_number": line_number,
+        "quote": quote,
+        "char_start": start,
+        "char_end": start + len(quote),
+    }
+
+
+def _source_context(page_text: str) -> dict[str, Any]:
+    return {
+        "document_id": DOCUMENT_ID,
+        "source_version": SOURCE_VERSION,
+        "pages": [page_text],
+        "raw_input_sha256": "synthetic-only",
+    }
+
+
+def _case(
+    conditions: list[dict[str, Any]],
+    *,
+    groups: list[dict[str, Any]] | None = None,
+    needs_review: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    groups = groups or []
+    confirmed_ids = [
+        str(condition["id"])
+        for condition in conditions
+        if condition.get("certainty", "confirmed") == "confirmed"
+    ]
+    confirmed_groups = [
+        group for group in groups if group.get("status") == "confirmed"
+    ]
+    confirmed_count = len(confirmed_ids)
+    return {
+        "case_id": "synthetic-rescore-contract",
+        "conditions": conditions,
+        "expect_confirmed": {"conditions": confirmed_ids, "relations": []},
+        "groups": groups,
+        "forbidden": [],
+        "needs_review": needs_review or [],
+        "denominators": {
+            "confirmed_atom_count": confirmed_count,
+            "condition_omission": confirmed_count,
+            "wrong_merge_pairs": confirmed_count * (confirmed_count - 1) // 2,
+            "wrong_split_atom_units": confirmed_count,
+            "confirmed_scope_count": len(confirmed_groups),
+            "scope_membership_decisions": confirmed_count * len(confirmed_groups),
+        },
+    }
+
+
+def _atom(
+    node_id: str,
+    text: str,
+    source: dict[str, Any],
+    *,
+    status: str = "confirmed",
+) -> dict[str, Any]:
+    return {
+        "node_id": node_id,
+        "op": "ATOM",
+        "status": status,
+        "text": text,
+        "children": [],
+        "source_references": [source],
+    }
+
+
+def _single_atom_fixture(
+    *,
+    page_text: str,
+    expected_text: str,
+    expected_quote: str,
+    actual_text: str | None = None,
+    actual_quote: str | None = None,
+    actual_status: str = "confirmed",
+    certainty: str = "confirmed",
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    lines = page_text.split("\n")
+    expected = {
+        "id": "A1",
+        "text": expected_text,
+        "certainty": certainty,
+        "source": [_oracle_ref(1, expected_quote)],
+    }
+    case = _case(
+        [expected],
+        needs_review=(
+            [
+                {
+                    "type": "condition",
+                    "condition_id": "A1",
+                    "status": "candidate",
+                    "source": [_oracle_ref(1, expected_quote)],
+                }
+            ]
+            if certainty == "candidate"
+            else []
+        ),
+    )
+    actual_quote = actual_quote if actual_quote is not None else expected_quote
+    graph = {
+        "schema": "document-relations-v1",
+        "document_id": DOCUMENT_ID,
+        "source_version": SOURCE_VERSION,
+        "block_relations": [],
+        "condition_nodes": [
+            _atom(
+                "node-A1",
+                actual_text if actual_text is not None else actual_quote,
+                _product_ref(lines[0], 1, actual_quote),
+                status=actual_status,
+            )
+        ],
+        "roots": ["node-A1"],
+        "references": [],
+    }
+    return case, graph, _source_context(page_text)
+
+
+def _score(
+    case: dict[str, Any],
+    graph: dict[str, Any],
+    source_context: dict[str, Any] | None,
+) -> dict[str, Any]:
+    return rescore.score_case(
+        case, graph, source_context, version="1.0.4"
+    )
+
+
+def test_evaluator_versions_are_isolated_and_keep_the_frozen_old_matcher() -> None:
+    old = rescore.load_evaluator("1.0.3")
+    new = rescore.load_evaluator("1.0.4")
+
+    assert old is not new
+    assert old.EVALUATOR_VERSION == "1.0.3"
+    assert new.EVALUATOR_VERSION == "1.0.4"
+    assert rescore.EVALUATOR_VERSION == "1.0.4"
+
+
+def test_valid_full_literal_recovers_a_low_similarity_human_rewrite() -> None:
+    raw_quote = "本项目要求提交项目经理注册执业证书复印件作为资格审查材料"
+    case, graph, context = _single_atom_fixture(
+        page_text=raw_quote,
+        expected_text="投标人须提供拟派负责人的有效执业资格证明文件",
+        expected_quote=raw_quote,
+    )
+    old = rescore.load_evaluator("1.0.3")
+    new = rescore.load_evaluator("1.0.4")
+    node = graph["condition_nodes"][0]
+
+    assert old._text_similarity(case["conditions"][0]["text"], node["text"]) < 0.35
+    assert old._atom_candidates(case["conditions"][0], [node]) == []
+
+    result = _score(case, graph, context)
+
+    assert result["status"] == "passed"
+    assert result["matched_atom_ids"] == ["A1"]
+    assert result["actual_source_validation"]["invalid_references"] == 0
+    normalized = new._validate_graph_source_references(graph, context)[
+        "normalized_graph"
+    ]
+    assert [
+        node_id
+        for _, node_id in new._atom_candidates(
+            case["conditions"][0], normalized["condition_nodes"]
+        )
+    ] == ["node-A1"]
+
+
+@pytest.mark.parametrize(
+    "tampering",
+    [
+        {"quote": "伪造的来源引文"},
+        {"char_start": 1},
+        {"document_id": "other-document"},
+        {"source_version": "other-version"},
+        {"line_number": 2},
+    ],
+)
+def test_unverified_raw_source_cannot_authorize_literal_mapping(
+    tampering: dict[str, Any],
+) -> None:
+    raw_quote = "本项目要求提交项目经理注册执业证书复印件作为资格审查材料"
+    case, graph, context = _single_atom_fixture(
+        page_text=raw_quote,
+        expected_text="投标人须提供拟派负责人的有效执业资格证明文件",
+        expected_quote=raw_quote,
+    )
+    reference = graph["condition_nodes"][0]["source_references"][0]
+    reference.update(tampering)
+    reference["_raw_coordinate_valid"] = True
+
+    result = _score(case, graph, context)
+
+    assert result["status"] == "failed"
+    assert result["matched_atom_ids"] == []
+    assert result["actual_source_validation"]["invalid_references"] >= 1
+    assert result["metrics"]["source_invalid"]["numerator"] >= 1
+
+
+def test_valid_reference_on_another_line_does_not_map() -> None:
+    page_text = "本项目要求提交项目经理注册执业证书复印件作为资格审查材料\n" \
+        "本项目要求提交项目经理注册执业证书复印件作为资格审查材料"
+    quote = page_text.split("\n")[1]
+    case, graph, context = _single_atom_fixture(
+        page_text=page_text,
+        expected_text="投标人须提供拟派负责人的有效执业资格证明文件",
+        expected_quote=quote,
+    )
+    graph["condition_nodes"][0]["source_references"] = [
+        _product_ref(page_text, 2, quote)
+    ]
+
+    result = _score(case, graph, context)
+
+    assert result["actual_source_validation"]["invalid_references"] == 0
+    assert result["matched_atom_ids"] == []
+    assert result["status"] == "failed"
+
+
+@pytest.mark.parametrize(
+    ("oracle_quote", "product_quote"),
+    [
+        ("项目预算为1.9万元", "项目预算为1.10万元"),
+        ("服务年份为2025年", "服务年份为2026年"),
+        ("须提交3份材料", "须提交4份材料"),
+        ("必须提交安全证明", "无需提交安全证明"),
+    ],
+)
+def test_similar_literals_with_different_numbers_years_or_negation_do_not_map(
+    oracle_quote: str, product_quote: str
+) -> None:
+    page_text = f"{oracle_quote}；{product_quote}"
+    expected_start = page_text.index(oracle_quote)
+    actual_start = page_text.index(product_quote)
+    condition = {
+        "id": "A1",
+        "text": oracle_quote,
+        "certainty": "confirmed",
+        "source": [_oracle_ref(1, oracle_quote)],
+    }
+    case = _case([condition])
+    graph = {
+        "schema": "document-relations-v1",
+        "document_id": DOCUMENT_ID,
+        "source_version": SOURCE_VERSION,
+        "block_relations": [],
+        "condition_nodes": [
+            _atom(
+                "node-A1",
+                product_quote,
+                {
+                    **_product_ref(page_text, 1, product_quote),
+                    "char_start": actual_start,
+                    "char_end": actual_start + len(product_quote),
+                },
+            )
+        ],
+        "roots": ["node-A1"],
+        "references": [],
+    }
+
+    assert expected_start != actual_start
+    result = _score(case, graph, _source_context(page_text))
+
+    assert result["actual_source_validation"]["invalid_references"] == 0
+    assert result["matched_atom_ids"] == []
+    assert result["status"] == "failed"
+
+
+def test_oracle_quote_cannot_be_matched_by_a_product_quote_with_extra_modifiers() -> None:
+    oracle_quote = "项目联系人表"
+    product_quote = "项目联系人表（须由法定代表人签字并注明日期）"
+    page_text = f"应提交{product_quote}"
+    case, graph, context = _single_atom_fixture(
+        page_text=page_text,
+        expected_text="应提交项目联系人表",
+        expected_quote=oracle_quote,
+        actual_text=product_quote,
+        actual_quote=product_quote,
+    )
+
+    result = _score(case, graph, context)
+
+    assert result["actual_source_validation"]["invalid_references"] == 0
+    assert result["matched_atom_ids"] == []
+    assert result["status"] == "failed"
+
+
+def test_literal_mapping_does_not_promote_a_candidate_to_confirmed() -> None:
+    raw_quote = "本项目要求提交项目经理注册执业证书复印件作为资格审查材料"
+    case, graph, context = _single_atom_fixture(
+        page_text=raw_quote,
+        expected_text="投标人须提供拟派负责人的有效执业资格证明文件",
+        expected_quote=raw_quote,
+        certainty="candidate",
+        actual_status="confirmed",
+    )
+    original_graph = deepcopy(graph)
+
+    result = _score(case, graph, context)
+
+    assert result["status"] == "failed"
+    assert result["metrics"]["review_handling"]["numerator"] == 1
+    assert graph == original_graph
+
+
+def test_low_similarity_literal_mapping_requires_source_context() -> None:
+    raw_quote = "本项目要求提交项目经理注册执业证书复印件作为资格审查材料"
+    case, graph, _ = _single_atom_fixture(
+        page_text=raw_quote,
+        expected_text="投标人须提供拟派负责人的有效执业资格证明文件",
+        expected_quote=raw_quote,
+    )
+
+    result = _score(case, graph, None)
+
+    assert result["matched_atom_ids"] == []
+    assert result["status"] == "failed"
+
+
+def test_one_node_cannot_cover_two_oracle_atoms_or_hide_a_split() -> None:
+    quote = "本项目要求提交项目经理注册执业证书复印件作为资格审查材料"
+    page_text = quote
+    shared_ref = _product_ref(page_text, 1, quote)
+    shared_source = [_oracle_ref(1, quote)]
+    merged_case = _case(
+        [
+            {
+                "id": "A1",
+                "text": "提交负责人的职业资格证明文件",
+                "certainty": "confirmed",
+                "source": shared_source,
+            },
+            {
+                "id": "A2",
+                "text": "提供项目经理执业注册材料",
+                "certainty": "confirmed",
+                "source": shared_source,
+            },
+        ]
+    )
+    merged_graph = {
+        "condition_nodes": [_atom("merged", quote, shared_ref)],
+        "block_relations": [],
+        "references": [],
+    }
+
+    merged = _score(merged_case, merged_graph, _source_context(page_text))
+
+    assert merged["status"] == "failed"
+    assert merged["metrics"]["wrong_merge_pairs"]["numerator"] == 1
+
+    split_case = _case(
+        [
+            {
+                "id": "A1",
+                "text": "投标人须提供拟派负责人的有效执业资格证明文件",
+                "certainty": "confirmed",
+                "source": shared_source,
+            }
+        ]
+    )
+    split_graph = {
+        "condition_nodes": [
+            _atom("copy-1", quote, deepcopy(shared_ref)),
+            _atom("copy-2", quote, deepcopy(shared_ref)),
+        ],
+        "block_relations": [],
+        "references": [],
+    }
+
+    split = _score(split_case, split_graph, _source_context(page_text))
+
+    assert split["status"] == "failed"
+    assert split["metrics"]["wrong_split_atom_units"]["numerator"] == 1
+
+
+def test_atom_literal_match_does_not_satisfy_a_wrong_or_group_operator() -> None:
+    page_text = "提交甲类证书或乙类证书"
+    ref_a = _product_ref(page_text, 1, "甲类证书")
+    ref_b = _product_ref(page_text, 1, "乙类证书")
+    cue_ref = _product_ref(page_text, 1, "或")
+    case = _case(
+        [
+            {
+                "id": "A1",
+                "text": "参与方提交类别甲的资格证明文件",
+                "certainty": "confirmed",
+                "source": [_oracle_ref(1, "甲类证书")],
+            },
+            {
+                "id": "A2",
+                "text": "递交类别乙的专业资质材料",
+                "certainty": "confirmed",
+                "source": [_oracle_ref(1, "乙类证书")],
+            },
+        ],
+        groups=[
+            {
+                "id": "S1",
+                "status": "confirmed",
+                "operator": "OR",
+                "members": ["A1", "A2"],
+                "boundary_basis": [_oracle_ref(1, "或")],
+            }
+        ],
+    )
+    graph = {
+        "condition_nodes": [
+            _atom("n1", "甲类证书", ref_a),
+            _atom("n2", "乙类证书", ref_b),
+            {
+                "node_id": "g1",
+                "op": "AND",
+                "status": "confirmed",
+                "text": "提交甲类证书或乙类证书",
+                "children": ["n1", "n2"],
+                "source_references": [cue_ref],
+                "operator_relation": {
+                    "status": "confirmed",
+                    "source_references": [cue_ref],
+                },
+                "scope_relation": {
+                    "status": "confirmed",
+                    "target_node_ids": ["n1", "n2"],
+                    "source_references": [cue_ref],
+                    "boundary_source_references": [cue_ref],
+                },
+            },
+        ],
+        "block_relations": [],
+        "references": [],
+    }
+
+    result = _score(case, graph, _source_context(page_text))
+
+    assert result["matched_atom_ids"] == ["A1", "A2"]
+    assert result["status"] == "failed"
+    assert result["metrics"]["operator_group_structure"]["numerator"] == 1

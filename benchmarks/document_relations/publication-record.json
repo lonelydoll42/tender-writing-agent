@@ -699,5 +699,15 @@
     "historical_records_unchanged": true,
     "legacy_evaluator_1_0_3_result": "9/14; unchanged summary, evaluator and oracle",
     "full_step_2_and_production_acceptance": "not_passed"
+  },
+  "scorer_atom_mapping_20261012": {
+    "record_path": "benchmarks/document_relations/scorer-remap-publication-record.json",
+    "source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+    "scope": "Grader-only exact source-literal confirmed-atom mapping and offline rescore of the same preserved product output; no product or group/boundary contract changes.",
+    "legacy_evaluator_1_0_3_result": "9/14; full summary reproduced from the unchanged original report",
+    "new_evaluator_1_0_4_result": "9/14; only case-11 metrics change, atom mapping recovers 4/4",
+    "case_11_whole_case_status": "failed",
+    "historical_records_unchanged": true,
+    "full_step_2_and_production_acceptance": "not_passed"
   }
 }

@@ -1,0 +1,11 @@
+{
+  "frozen_at": "2026-10-12T11:05:15.6910430+08:00",
+  "evaluator_version": "1.0.4",
+  "evaluator_path": "scripts/run_document_relations_rescore.py",
+  "evaluator_sha256": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf",
+  "legacy_evaluator_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+  "product_report_sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+  "scorer_semantic_contract_tests": 20,
+  "io_contract_tests_state": "in_progress",
+  "scope": "Initial scorer frozen before main-reviewer offline rescoring; synthetic public matcher tests green. Any later code revision requires another report, not replacement."
+}

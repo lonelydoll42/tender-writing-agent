@@ -84,3 +84,17 @@ benchmarks/document_relations/reports/inheritance-followup-20261012/source-proof
 benchmarks/document_relations/reports/inheritance-followup-20261012/unit-local-review.json -text whitespace=cr-at-eol
 # Preserve Git's context-line markers in this immutable replay patch.
 benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-bound-review.patch -text whitespace=-blank-at-eol
+scripts/run_document_relations_rescore.py -text
+tests/evals/test_document_relations_rescore.py -text
+benchmarks/document_relations/scorer-remap-regression/20261012/** -text
+benchmarks/document_relations/reports/scorer-remap-20261012/** -text
+benchmarks/document_relations/scorer-remap-regression/20261012/baseline-freeze.json -text whitespace=cr-at-eol
+benchmarks/document_relations/scorer-remap-regression/20261012/boundary-freeze.json -text whitespace=cr-at-eol
+benchmarks/document_relations/scorer-remap-regression/20261012/test-first-record.json -text whitespace=cr-at-eol
+benchmarks/document_relations/scorer-remap-regression/20261012/grader-freeze.json -text whitespace=cr-at-eol
+benchmarks/document_relations/scorer-remap-regression/20261012/initial-grader-freeze.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/scorer-remap-20261012/source-proof.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/scorer-remap-20261012/initial-comparison.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/scorer-remap-20261012/comparison.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/scorer-remap-20261012/pre-implementation-red.xml -text whitespace=cr-at-eol
+benchmarks/document_relations/scorer-remap-publication-record.json -text whitespace=cr-at-eol

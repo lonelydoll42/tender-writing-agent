@@ -1,0 +1,516 @@
+{
+  "schema": "document-relations-offline-rescore-comparison-v1",
+  "recorded_at": "2026-10-12T11:20:05.4484972+08:00",
+  "product_report_sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+  "old_summary_exactly_matches_original": true,
+  "old_summary": {
+    "case_count": 14,
+    "passed": 9,
+    "failed": 5,
+    "not_run": 0,
+    "metrics": {
+      "boundary_evidence": {
+        "numerator": 0,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "condition_omission": {
+        "numerator": 6,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "forbidden_claims": {
+        "numerator": 1,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "operator_evidence": {
+        "numerator": 0,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "operator_group_structure": {
+        "numerator": 5,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "parent_relations": {
+        "numerator": 6,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "reference_relations": {
+        "numerator": 3,
+        "denominator": 3,
+        "status": "measured"
+      },
+      "review_handling": {
+        "numerator": 0,
+        "denominator": 19,
+        "status": "measured"
+      },
+      "scope_evidence": {
+        "numerator": 0,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "scope_membership_decisions": {
+        "numerator": 18,
+        "denominator": 50,
+        "status": "measured"
+      },
+      "source_coverage": {
+        "numerator": 6,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "source_invalid": {
+        "numerator": 0,
+        "denominator": 1083,
+        "status": "measured"
+      },
+      "wrong_merge_pairs": {
+        "numerator": 0,
+        "denominator": 34,
+        "status": "measured"
+      },
+      "wrong_split_atom_units": {
+        "numerator": 0,
+        "denominator": 37,
+        "status": "measured"
+      }
+    },
+    "event_counts": {
+      "error_events": 42,
+      "group_structure_error_events": 7
+    }
+  },
+  "new_summary": {
+    "case_count": 14,
+    "passed": 9,
+    "failed": 5,
+    "not_run": 0,
+    "metrics": {
+      "boundary_evidence": {
+        "numerator": 2,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "condition_omission": {
+        "numerator": 2,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "forbidden_claims": {
+        "numerator": 1,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "operator_evidence": {
+        "numerator": 0,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "operator_group_structure": {
+        "numerator": 5,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "parent_relations": {
+        "numerator": 6,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "reference_relations": {
+        "numerator": 3,
+        "denominator": 3,
+        "status": "measured"
+      },
+      "review_handling": {
+        "numerator": 0,
+        "denominator": 19,
+        "status": "measured"
+      },
+      "scope_evidence": {
+        "numerator": 0,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "scope_membership_decisions": {
+        "numerator": 18,
+        "denominator": 50,
+        "status": "measured"
+      },
+      "source_coverage": {
+        "numerator": 2,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "source_invalid": {
+        "numerator": 0,
+        "denominator": 1083,
+        "status": "measured"
+      },
+      "wrong_merge_pairs": {
+        "numerator": 0,
+        "denominator": 34,
+        "status": "measured"
+      },
+      "wrong_split_atom_units": {
+        "numerator": 0,
+        "denominator": 37,
+        "status": "measured"
+      }
+    },
+    "event_counts": {
+      "error_events": 40,
+      "group_structure_error_events": 7
+    }
+  },
+  "preserved_case_count": 14,
+  "changed_metric_case_ids": [
+    "case-11"
+  ],
+  "product_source_changed": false,
+  "interpretation": "Atom mapping recovered for case-11, not whole-case acceptance or product improvement. Both totals remain 9/14; new boundary-evidence failures are exposed after atoms resolve, not a product regression. Old group/boundary grading contract is unchanged.",
+  "case_11_atom_mapping": [
+    {
+      "expected_id": "A1",
+      "actual_node_id": "cond_ef19be4f8c8a6370dd2e8f18",
+      "expected_quote": "近两年1.9号表",
+      "actual_text": "近两年1.9号表",
+      "raw_quote_verified": true,
+      "line": 2,
+      "char_start": 27,
+      "char_end": 35
+    },
+    {
+      "expected_id": "A2",
+      "actual_node_id": "cond_39d4ee50533ddd9f87114735",
+      "expected_quote": "近两年1.10号表",
+      "actual_text": "近两年1.10号表",
+      "raw_quote_verified": true,
+      "line": 2,
+      "char_start": 39,
+      "char_end": 48
+    },
+    {
+      "expected_id": "A3",
+      "actual_node_id": "cond_20482375a0bdff8848e2cd89",
+      "expected_quote": "近三年1.9号表",
+      "actual_text": "近三年1.9号表",
+      "raw_quote_verified": true,
+      "line": 3,
+      "char_start": 57,
+      "char_end": 65
+    },
+    {
+      "expected_id": "A4",
+      "actual_node_id": "cond_6b0e0976e32e2c912c32ce5d",
+      "expected_quote": "近三年1.10号表",
+      "actual_text": "近三年1.10号表",
+      "raw_quote_verified": true,
+      "line": 3,
+      "char_start": 69,
+      "char_end": 78
+    }
+  ],
+  "case_11_whole_case_status": "failed",
+  "case_11_remaining_errors": [
+    {
+      "metric": "boundary_evidence",
+      "expected_group_id": "S1",
+      "reason": "termination boundary does not cover frozen boundary_basis: p1l1"
+    },
+    {
+      "metric": "group_structure",
+      "expected_group_id": "S1",
+      "expected_operator": "OR",
+      "expected_direct_members": [
+        "A1",
+        "A2"
+      ],
+      "reason": "confirmed operator node missing exact children"
+    },
+    {
+      "metric": "boundary_evidence",
+      "expected_group_id": "S2",
+      "reason": "termination boundary does not cover frozen boundary_basis: p1l1"
+    },
+    {
+      "metric": "group_structure",
+      "expected_group_id": "S2",
+      "expected_operator": "OR",
+      "expected_direct_members": [
+        "A3",
+        "A4"
+      ],
+      "reason": "confirmed operator node missing exact children"
+    },
+    {
+      "metric": "group_structure",
+      "expected_group_id": "S0",
+      "expected_operator": "AND",
+      "expected_direct_members": [
+        "S1",
+        "S2"
+      ],
+      "reason": "expected nested member could not be resolved"
+    },
+    {
+      "metric": "scope_membership_decisions",
+      "group_id": "S1",
+      "condition_id": "A1",
+      "expected_member": true,
+      "actual_member": false
+    },
+    {
+      "metric": "scope_membership_decisions",
+      "group_id": "S1",
+      "condition_id": "A2",
+      "expected_member": true,
+      "actual_member": false
+    },
+    {
+      "metric": "scope_membership_decisions",
+      "group_id": "S2",
+      "condition_id": "A3",
+      "expected_member": true,
+      "actual_member": false
+    },
+    {
+      "metric": "scope_membership_decisions",
+      "group_id": "S2",
+      "condition_id": "A4",
+      "expected_member": true,
+      "actual_member": false
+    },
+    {
+      "metric": "scope_membership_decisions",
+      "group_id": "S0",
+      "condition_id": "A3",
+      "expected_member": true,
+      "actual_member": false
+    },
+    {
+      "metric": "scope_membership_decisions",
+      "group_id": "S0",
+      "condition_id": "A4",
+      "expected_member": true,
+      "actual_member": false
+    },
+    {
+      "metric": "scope_membership_decisions",
+      "group_id": "S0",
+      "condition_id": "A1",
+      "expected_member": true,
+      "actual_member": false
+    },
+    {
+      "metric": "scope_membership_decisions",
+      "group_id": "S0",
+      "condition_id": "A2",
+      "expected_member": true,
+      "actual_member": false
+    },
+    {
+      "metric": "parent_relations",
+      "expected_children": [
+        "A1",
+        "A2"
+      ],
+      "expected_parent_kind": "semantic",
+      "missing_locators": [
+        "oracle parent does not identify one condition node"
+      ],
+      "reason": "confirmed semantic parent/scope relation missing"
+    },
+    {
+      "metric": "parent_relations",
+      "expected_children": [
+        "A3",
+        "A4"
+      ],
+      "expected_parent_kind": "semantic",
+      "missing_locators": [
+        "oracle parent does not identify one condition node"
+      ],
+      "reason": "confirmed semantic parent/scope relation missing"
+    }
+  ],
+  "case_preservation": [
+    {
+      "case_id": "case-01",
+      "old_status": "passed",
+      "new_status": "passed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-02",
+      "old_status": "passed",
+      "new_status": "passed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-03",
+      "old_status": "passed",
+      "new_status": "passed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-04",
+      "old_status": "passed",
+      "new_status": "passed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-05",
+      "old_status": "passed",
+      "new_status": "passed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-06",
+      "old_status": "passed",
+      "new_status": "passed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-07",
+      "old_status": "failed",
+      "new_status": "failed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-08",
+      "old_status": "passed",
+      "new_status": "passed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-09",
+      "old_status": "failed",
+      "new_status": "failed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-10",
+      "old_status": "passed",
+      "new_status": "passed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-11",
+      "old_status": "failed",
+      "new_status": "failed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": true
+    },
+    {
+      "case_id": "case-12",
+      "old_status": "failed",
+      "new_status": "failed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-13",
+      "old_status": "failed",
+      "new_status": "failed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    },
+    {
+      "case_id": "case-14",
+      "old_status": "passed",
+      "new_status": "passed",
+      "old_metrics_equal_original": true,
+      "graph_unchanged": true,
+      "context_unchanged": true,
+      "same_graph_fingerprint": true,
+      "same_context_fingerprint": true,
+      "runtime_unchanged": true,
+      "metrics_changed": false
+    }
+  ],
+  "canonical_old_report_sha256": "be6ade0b29186cc1d1ae2793b330f002fa5644b837895c330764dd1839bf5250",
+  "canonical_new_report_sha256": "7506a42d3a88833c71d22738d233912b5dcab0220b4876e1f842ac69df3ce139",
+  "source_proof_sha256": "6eb4f6813121c3c5cd22dd389ee2197adbc9ecb3b5fcd8dfed196615a8c8d3ae",
+  "grader_sha256": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf",
+  "acceptance_scope": "Limited literal atom mapping passed; case-11 whole-case boundary contract and full Step 2 remain not passed."
+}

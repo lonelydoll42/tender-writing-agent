@@ -1,0 +1,17 @@
+{
+  "schema": "document-relations-remap-scope-audit-v1",
+  "recorded_at": "2026-10-12T11:20:05.4821044+08:00",
+  "initial_boundary_checker_result": "16/18; two expected whole-case positives failed",
+  "initial_boundary_checker_unchanged": true,
+  "initial_checker_sha256": "b7bc1bcacf2fceb8112fca4c8b68ecde93a2874b9184aa20899795470999eb70",
+  "initial_failure_explanation": "The two positive checks assumed atom mapping would make the entire case pass. Four atoms now map correctly, but unchanged boundary grading additionally demands the inherited operator cue in terminal boundary references. The assumption was incomplete; original checker and failed report are preserved, not rewritten to 18/18.",
+  "independent_literal_source_mapping": "4/4, distinct actual IDs and raw offsets, confirmed original leaves, original graph unchanged",
+  "scope_passed": "Exact source-literal atom mapping only",
+  "case_11_whole_case_passed": false,
+  "remaining_contract": "Operator-source and terminal-boundary evidence channels must be independently specified and tested in a future grader batch; no relaxation or product rewrite in this task.",
+  "product_code_changed": false,
+  "business_materials": "not_run/14",
+  "old_public_file_completeness": "historical 0/8, not rerun by this offline task",
+  "production_acceptance": "not_passed",
+  "developer_disclosure": "Implementation agent viewed one already-published historical report to inspect shape; no certified blind claim."
+}

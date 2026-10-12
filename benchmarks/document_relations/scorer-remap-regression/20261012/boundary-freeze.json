@@ -1,0 +1,8 @@
+{
+  "frozen_at": "2026-10-12T10:40:43.9419666+08:00",
+  "path": "check-boundary.py",
+  "sha256": "b7bc1bcacf2fceb8112fca4c8b68ecde93a2874b9184aa20899795470999eb70",
+  "source_count": 65,
+  "source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+  "policy": "Frozen main-reviewer checker before implementation; mutations of published case-11, not unseen or certified blind. Private during development, public after acceptance."
+}

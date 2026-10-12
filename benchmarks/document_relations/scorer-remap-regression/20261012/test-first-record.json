@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-10-12T10:49:13.4329520+08:00",
+  "phase": "tests_written_before_implementation",
+  "test_path": "tests/evals/test_document_relations_rescore.py",
+  "snapshot_sha256": "0b889f4e21d0f326fe3d1f0bc540e030e821388236ec4f3e0ddfed80209b544d",
+  "implementation_file_exists_at_record": false,
+  "red_junit_sha256": "0fb62aaa11d6eb59c08b0bc5f953185a05c2dba081eb0c65ecfc76db0d056260",
+  "outcome": "ImportError during collection: new rescore module missing; zero tests executed; expected red, not an acceptance pass.",
+  "task_scope": "No product change; scorer atom mapping and exact saved output rescoring only."
+}
