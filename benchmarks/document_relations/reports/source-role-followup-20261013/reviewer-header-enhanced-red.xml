@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="12" time="0.949" timestamp="2026-10-13T14:51:43.705156+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.test_document_relations_proof_headers" name="test_public_proof_headers_form_complete_directly_owned_nested_tree[original-H01-proof-header]" time="0.045"><failure message="AssertionError: 服务回执甲&#10;assert 'candidate' == 'confirmed'&#10;  &#10;  - confirmed&#10;  + candidate">case_id = 'H01'
+
+    @pytest.mark.parametrize(
+        "case_id",
+        [
+            "H01",
+            "title-materials",
+            "title-requirements",
+            "title-conditions",
+            "H03",
+        ],
+        ids=[
+            "original-H01-proof-header",
+            "synonym-materials",
+            "synonym-requirements",
+            "synonym-conditions",
+            "blank-lines-and-inherited-choice",
+        ],
+    )
+    def test_public_proof_headers_form_complete_directly_owned_nested_tree(
+        case_id: str,
+    ) -&gt; None:
+        text, header, inherited_choice, group_specs = _positive_case(case_id)
+        run = _run_registered_text(case_id, text)
+        graph = run["graph"]
+    
+        atoms = {
+&gt;           marker: _atom(graph, marker)
+                    ^^^^^^^^^^^^^^^^^^^^
+            for _label, markers in group_specs
+            for marker in markers
+        }
+
+tests\test_document_relations_proof_headers.py:308: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'file_a182d089c04d48b8', 'source_version': 'file_a182d089c0...8', 'operator': 'UNKNOWN', 'status': 'candidate', 'target_block_ids': [], ...}], 'reference_relations': [], ...}], ...}
+marker = '服务回执甲'
+
+    def _atom(graph: Mapping[str, Any], marker: str) -&gt; dict[str, Any]:
+        matches = [
+            node
+            for node in _nodes(graph)
+            if node.get("op") == "ATOM" and marker in str(node.get("text") or "")
+        ]
+        assert len(matches) == 1, marker
+&gt;       assert matches[0]["status"] == "confirmed", marker
+E       AssertionError: 服务回执甲
+E       assert 'candidate' == 'confirmed'
+E         
+E         - confirmed
+E         + candidate
+
+tests\test_document_relations_proof_headers.py:112: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_proof_headers" name="test_public_proof_headers_form_complete_directly_owned_nested_tree[synonym-materials]" time="0.080" /><testcase classname="tests.test_document_relations_proof_headers" name="test_public_proof_headers_form_complete_directly_owned_nested_tree[synonym-requirements]" time="0.076" /><testcase classname="tests.test_document_relations_proof_headers" name="test_public_proof_headers_form_complete_directly_owned_nested_tree[synonym-conditions]" time="0.029"><failure message="AssertionError: 服务回执甲&#10;assert 'candidate' == 'confirmed'&#10;  &#10;  - confirmed&#10;  + candidate">case_id = 'title-conditions'
+
+    @pytest.mark.parametrize(
+        "case_id",
+        [
+            "H01",
+            "title-materials",
+            "title-requirements",
+            "title-conditions",
+            "H03",
+        ],
+        ids=[
+            "original-H01-proof-header",
+            "synonym-materials",
+            "synonym-requirements",
+            "synonym-conditions",
+            "blank-lines-and-inherited-choice",
+        ],
+    )
+    def test_public_proof_headers_form_complete_directly_owned_nested_tree(
+        case_id: str,
+    ) -&gt; None:
+        text, header, inherited_choice, group_specs = _positive_case(case_id)
+        run = _run_registered_text(case_id, text)
+        graph = run["graph"]
+    
+        atoms = {
+&gt;           marker: _atom(graph, marker)
+                    ^^^^^^^^^^^^^^^^^^^^
+            for _label, markers in group_specs
+            for marker in markers
+        }
+
+tests\test_document_relations_proof_headers.py:308: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'file_e81d501da9624f4d', 'source_version': 'file_e81d501da9...e', 'operator': 'UNKNOWN', 'status': 'candidate', 'target_block_ids': [], ...}], 'reference_relations': [], ...}], ...}
+marker = '服务回执甲'
+
+    def _atom(graph: Mapping[str, Any], marker: str) -&gt; dict[str, Any]:
+        matches = [
+            node
+            for node in _nodes(graph)
+            if node.get("op") == "ATOM" and marker in str(node.get("text") or "")
+        ]
+        assert len(matches) == 1, marker
+&gt;       assert matches[0]["status"] == "confirmed", marker
+E       AssertionError: 服务回执甲
+E       assert 'candidate' == 'confirmed'
+E         
+E         - confirmed
+E         + candidate
+
+tests\test_document_relations_proof_headers.py:112: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_proof_headers" name="test_public_proof_headers_form_complete_directly_owned_nested_tree[blank-lines-and-inherited-choice]" time="0.082" /><testcase classname="tests.test_document_relations_proof_headers" name="test_ambiguous_or_interrupted_proof_headers_do_not_confirm_complete_outer_and[local-and-conflicts-with-inherited-or]" time="0.044" /><testcase classname="tests.test_document_relations_proof_headers" name="test_ambiguous_or_interrupted_proof_headers_do_not_confirm_complete_outer_and[unsupported-k-of-n]" time="0.029" /><testcase classname="tests.test_document_relations_proof_headers" name="test_ambiguous_or_interrupted_proof_headers_do_not_confirm_complete_outer_and[local-k-of-n-conflicts-with-inherited-choice]" time="0.037" /><testcase classname="tests.test_document_relations_proof_headers" name="test_ambiguous_or_interrupted_proof_headers_do_not_confirm_complete_outer_and[declared-two-groups-but-three-labels]" time="0.036" /><testcase classname="tests.test_document_relations_proof_headers" name="test_ambiguous_or_interrupted_proof_headers_do_not_confirm_complete_outer_and[second-group-label-missing]" time="0.029" /><testcase classname="tests.test_document_relations_proof_headers" name="test_ambiguous_or_interrupted_proof_headers_do_not_confirm_complete_outer_and[group-label-repeated]" time="0.029" /><testcase classname="tests.test_document_relations_proof_headers" name="test_ambiguous_or_interrupted_proof_headers_do_not_confirm_complete_outer_and[substantive-paragraph-breaks-scope]" time="0.044" /></testsuite></testsuites>

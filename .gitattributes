@@ -106,3 +106,10 @@ benchmarks/document_relations/reports/boundary-evidence-20261013/*red.xml -text 
 benchmarks/document_relations/boundary-evidence-publication-record.json -text
 benchmarks/document_relations/reports/boundary-evidence-20261013/first-implemented-tests.xml -text -whitespace
 benchmarks/document_relations/reports/boundary-evidence-20261013/second-implemented-tests.xml -text -whitespace
+benchmarks/document_relations/source-role-regression/20261013/** -text
+benchmarks/document_relations/reports/source-role-followup-20261013/** -text
+benchmarks/document_relations/source-role-publication-record.json -text
+# Retain pytest's exact frozen failure tracebacks, including indentation-only lines.
+benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-source-first.xml -text -whitespace
+benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-first.xml -text -whitespace
+benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-enhanced-red.xml -text -whitespace

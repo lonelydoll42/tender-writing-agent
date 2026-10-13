@@ -1,0 +1,9 @@
+{
+  "schema": "source-role-test-first-freeze-v1",
+  "frozen_at": "2026-10-13T14:52:06.443658+08:00",
+  "files": {
+    "tests/test_document_relations_source_roles.py": "1a7de4fde9db7bb2c8d531cfdf4b6f78dc01ca81da993f1dedd4a260cfd6bf32",
+    "tests/test_document_relations_proof_headers.py": "99ea98a3675d7b305b8d62f4d451da7b436bcb7ccfae0338b0db021aa16df76a",
+    "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-enhanced-red.xml": "e97bd85ecbaf07c86c563b369e99f4163be02db6006960f716dae55bc987677b"
+  }
+}

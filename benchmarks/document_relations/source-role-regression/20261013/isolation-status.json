@@ -1,0 +1,20 @@
+{
+  "schema": "development-isolation-status-v1",
+  "recorded_date": "2026-10-13",
+  "status": "not_established",
+  "unseen_evaluation": "not_run",
+  "new_unseen_files_created": 0,
+  "reason": "Available subagents share the host filesystem and unrestricted execution identity. A policy instruction, different path, process or worktree is not an enforced access boundary.",
+  "public_regression_scope": ["D01-D05", "H01-H06", "new explicitly public source-role and group-header regression tests"],
+  "required_before_unseen_development": [
+    "Independent reviewer environment or principal inaccessible with all credentials and tools available to the developer",
+    "Deny-tested file and oracle access before development begins",
+    "No shared conversation containing reserved input, oracle or output",
+    "Freeze inputs and answers before development; publish only hashes and the access-boundary evidence"
+  ],
+  "claims": {
+    "certified_blind": false,
+    "holdout_passed": false,
+    "production_accepted": false
+  }
+}

@@ -720,5 +720,20 @@
     "reserved_positive": "1/3; not unseen evidence",
     "canonical_tests": 912,
     "production_accepted": false
+  },
+  "source_role_followup_20261013": {
+    "record": "benchmarks/document_relations/source-role-publication-record.json",
+    "record_sha256": "cb5ca9b3bc1950c95727d5770cea67bc45b671d2d17f23c5fb042da07352027e",
+    "recorded_at": "2026-10-13T19:42:05.858278+08:00",
+    "status": "not_closed",
+    "scope": "Public H03 physical-position/evidence separation and H01 finite proof/condition group headers only",
+    "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+    "public_product_positive": "3/3; baseline 1/3; no unseen evidence",
+    "public_invalid_graphs_rejected": "56/56; 50 semantic checks have valid raw sources",
+    "canonical_tests": 941,
+    "unseen_isolation": "not_established",
+    "unseen_evaluation": "not_run",
+    "historical_14_case_output_score": "10/14 retained; current parser not recaptured",
+    "production_accepted": false
   }
 }

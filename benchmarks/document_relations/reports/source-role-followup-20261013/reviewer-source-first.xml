@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="17" time="2.147" timestamp="2026-10-13T14:35:33.412023+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.test_document_relations_source_roles" name="test_h03_preserves_verified_blank_positions_without_using_them_as_evidence[original-h03-empty-lines]" time="0.101"><failure message="assert False&#10; +  where False = isinstance(None, list)">raw = None, expected_quotes = {''}
+
+    @pytest.mark.parametrize(
+        ("raw", "expected_quotes"),
+        [
+            pytest.param(None, {""}, id="original-h03-empty-lines"),
+            pytest.param(
+                "whitespace",
+                {"", " \t"},
+                id="h03-whitespace-only-line",
+            ),
+        ],
+    )
+    def test_h03_preserves_verified_blank_positions_without_using_them_as_evidence(
+        raw: bytes | str | None,
+        expected_quotes: set[str],
+    ) -&gt; None:
+        content = _H03_PATH.read_bytes()
+        if raw == "whitespace":
+            content = content.replace(b"\n\n", b"\n \t\n", 1)
+        run = _run_registered_h03(content if raw is not None else None)
+    
+&gt;       _assert_blank_positions_are_separate_from_evidence(
+            run["structure"],
+            run["graph"],
+            expected_quotes=expected_quotes,
+        )
+
+tests\test_document_relations_source_roles.py:225: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+structure = {'schema_version': 'document-structure-v1', 'document_id': 'file_e83f98ff859044bd', 'source_version': 'file_e83f98ff859044bd:v1', 'source_checksum': '3c6d456de519d37cc1a25298cc3afc24c118fcc77e7e09135b6814a1dca64bda', ...}
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'file_e83f98ff859044bd', 'source_version': 'file_e83f98ff85...'operator': 'AND', 'status': 'confirmed', 'operator_status': 'confirmed', ...}], 'reference_relations': [], ...}], ...}
+expected_quotes = {''}
+
+    def _assert_blank_positions_are_separate_from_evidence(
+        structure: Mapping[str, Any],
+        graph: Mapping[str, Any],
+        *,
+        expected_quotes: set[str],
+    ) -&gt; None:
+        page_text = structure["pages"][0]["raw_text"]
+        blank_blocks = [
+            block
+            for block in structure["blocks"]
+            if block.get("kind") == "blank"
+        ]
+        assert {block["raw_text"] for block in blank_blocks} == expected_quotes
+    
+        for block in blank_blocks:
+            position = _position_at_line(page_text, block["line_number"])
+            span = block["source_span"]
+            assert span == {
+                "page_number": 1,
+                "start": position,
+                "end": position + len(block["raw_text"]),
+            }
+            raw_reference = block["source_references"][0]
+            assert raw_reference["document_id"] == structure["document_id"]
+            assert raw_reference["source_version"] == structure["source_version"]
+            assert raw_reference["page"] == 1
+            assert raw_reference["char_start"] == position
+            assert raw_reference["char_end"] == position + len(block["raw_text"])
+            assert raw_reference["quote"] == block["raw_text"]
+            assert raw_reference["locator"] == (
+                f"p1:c{position}-{position + len(block['raw_text'])}"
+            )
+            assert page_text[position : position + len(block["raw_text"])] == (
+                block["raw_text"]
+            )
+    
+            relation = _block_relation(graph, block["block_id"])
+            parent = relation["parent_relation"]
+            positions = parent.get("position_references")
+&gt;           assert isinstance(positions, list)
+E           assert False
+E            +  where False = isinstance(None, list)
+
+tests\test_document_relations_source_roles.py:174: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_source_roles" name="test_h03_preserves_verified_blank_positions_without_using_them_as_evidence[h03-whitespace-only-line]" time="0.085"><failure message="assert False&#10; +  where False = isinstance(None, list)">raw = 'whitespace', expected_quotes = {'', ' \t'}
+
+    @pytest.mark.parametrize(
+        ("raw", "expected_quotes"),
+        [
+            pytest.param(None, {""}, id="original-h03-empty-lines"),
+            pytest.param(
+                "whitespace",
+                {"", " \t"},
+                id="h03-whitespace-only-line",
+            ),
+        ],
+    )
+    def test_h03_preserves_verified_blank_positions_without_using_them_as_evidence(
+        raw: bytes | str | None,
+        expected_quotes: set[str],
+    ) -&gt; None:
+        content = _H03_PATH.read_bytes()
+        if raw == "whitespace":
+            content = content.replace(b"\n\n", b"\n \t\n", 1)
+        run = _run_registered_h03(content if raw is not None else None)
+    
+&gt;       _assert_blank_positions_are_separate_from_evidence(
+            run["structure"],
+            run["graph"],
+            expected_quotes=expected_quotes,
+        )
+
+tests\test_document_relations_source_roles.py:225: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+structure = {'schema_version': 'document-structure-v1', 'document_id': 'file_3ab0b4e442ca4ef6', 'source_version': 'file_3ab0b4e442ca4ef6:v1', 'source_checksum': '23f7d53b7b61be6bc0339bf61cf15ce8c1e30ca3294be2facc88933de5b77ca5', ...}
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'file_3ab0b4e442ca4ef6', 'source_version': 'file_3ab0b4e442...'operator': 'AND', 'status': 'confirmed', 'operator_status': 'confirmed', ...}], 'reference_relations': [], ...}], ...}
+expected_quotes = {'', ' \t'}
+
+    def _assert_blank_positions_are_separate_from_evidence(
+        structure: Mapping[str, Any],
+        graph: Mapping[str, Any],
+        *,
+        expected_quotes: set[str],
+    ) -&gt; None:
+        page_text = structure["pages"][0]["raw_text"]
+        blank_blocks = [
+            block
+            for block in structure["blocks"]
+            if block.get("kind") == "blank"
+        ]
+        assert {block["raw_text"] for block in blank_blocks} == expected_quotes
+    
+        for block in blank_blocks:
+            position = _position_at_line(page_text, block["line_number"])
+            span = block["source_span"]
+            assert span == {
+                "page_number": 1,
+                "start": position,
+                "end": position + len(block["raw_text"]),
+            }
+            raw_reference = block["source_references"][0]
+            assert raw_reference["document_id"] == structure["document_id"]
+            assert raw_reference["source_version"] == structure["source_version"]
+            assert raw_reference["page"] == 1
+            assert raw_reference["char_start"] == position
+            assert raw_reference["char_end"] == position + len(block["raw_text"])
+            assert raw_reference["quote"] == block["raw_text"]
+            assert raw_reference["locator"] == (
+                f"p1:c{position}-{position + len(block['raw_text'])}"
+            )
+            assert page_text[position : position + len(block["raw_text"])] == (
+                block["raw_text"]
+            )
+    
+            relation = _block_relation(graph, block["block_id"])
+            parent = relation["parent_relation"]
+            positions = parent.get("position_references")
+&gt;           assert isinstance(positions, list)
+E           assert False
+E            +  where False = isinstance(None, list)
+
+tests\test_document_relations_source_roles.py:174: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_source_roles" name="test_unverified_blank_identity_or_coordinates_do_not_create_positions[document_id]" time="0.083"><failure message="assert False&#10; +  where False = isinstance(None, list)">mutation = 'document_id'
+
+    @pytest.mark.parametrize("mutation", ["document_id", "source_version", "coordinates"])
+    def test_unverified_blank_identity_or_coordinates_do_not_create_positions(
+        mutation: str,
+    ) -&gt; None:
+        run = _run_registered_h03()
+        structure = deepcopy(run["structure"])
+        block = next(
+            item for item in structure["blocks"] if item.get("kind") == "blank"
+        )
+        reference = block["source_references"][0]
+        if mutation == "document_id":
+            reference["document_id"] = "different-document"
+        elif mutation == "source_version":
+            reference["source_version"] = "different-version"
+        else:
+            reference["char_start"] += 1
+    
+        graph = build_document_relations(structure)
+        parent = _block_relation(graph, block["block_id"])["parent_relation"]
+        positions = parent.get("position_references")
+&gt;       assert isinstance(positions, list)
+E       assert False
+E        +  where False = isinstance(None, list)
+
+tests\test_document_relations_source_roles.py:252: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_source_roles" name="test_unverified_blank_identity_or_coordinates_do_not_create_positions[source_version]" time="0.084"><failure message="assert False&#10; +  where False = isinstance(None, list)">mutation = 'source_version'
+
+    @pytest.mark.parametrize("mutation", ["document_id", "source_version", "coordinates"])
+    def test_unverified_blank_identity_or_coordinates_do_not_create_positions(
+        mutation: str,
+    ) -&gt; None:
+        run = _run_registered_h03()
+        structure = deepcopy(run["structure"])
+        block = next(
+            item for item in structure["blocks"] if item.get("kind") == "blank"
+        )
+        reference = block["source_references"][0]
+        if mutation == "document_id":
+            reference["document_id"] = "different-document"
+        elif mutation == "source_version":
+            reference["source_version"] = "different-version"
+        else:
+            reference["char_start"] += 1
+    
+        graph = build_document_relations(structure)
+        parent = _block_relation(graph, block["block_id"])["parent_relation"]
+        positions = parent.get("position_references")
+&gt;       assert isinstance(positions, list)
+E       assert False
+E        +  where False = isinstance(None, list)
+
+tests\test_document_relations_source_roles.py:252: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_source_roles" name="test_unverified_blank_identity_or_coordinates_do_not_create_positions[coordinates]" time="0.084"><failure message="assert False&#10; +  where False = isinstance(None, list)">mutation = 'coordinates'
+
+    @pytest.mark.parametrize("mutation", ["document_id", "source_version", "coordinates"])
+    def test_unverified_blank_identity_or_coordinates_do_not_create_positions(
+        mutation: str,
+    ) -&gt; None:
+        run = _run_registered_h03()
+        structure = deepcopy(run["structure"])
+        block = next(
+            item for item in structure["blocks"] if item.get("kind") == "blank"
+        )
+        reference = block["source_references"][0]
+        if mutation == "document_id":
+            reference["document_id"] = "different-document"
+        elif mutation == "source_version":
+            reference["source_version"] = "different-version"
+        else:
+            reference["char_start"] += 1
+    
+        graph = build_document_relations(structure)
+        parent = _block_relation(graph, block["block_id"])["parent_relation"]
+        positions = parent.get("position_references")
+&gt;       assert isinstance(positions, list)
+E       assert False
+E        +  where False = isinstance(None, list)
+
+tests\test_document_relations_source_roles.py:252: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_source_roles" name="test_complete_registered_h03_tree_passes_frozen_global_source_validation[1.0.3]" time="0.092"><failure message="AssertionError: [{'reference_index': 27, 'reason': 'missing exact source quote', 'locator': 'p1'}, {'reference_index': 64, 'reason': 'missing exact source quote', 'locator': 'p1'}]&#10;assert 2 == 0">grader = '1.0.3'
+
+    @pytest.mark.parametrize("grader", ["1.0.3", "1.0.5"])
+    def test_complete_registered_h03_tree_passes_frozen_global_source_validation(
+        grader: str,
+    ) -&gt; None:
+        run = _run_registered_h03()
+        validator = _frozen_validator(grader)
+        result = validator._validate_graph_source_references(
+            run["graph"],
+            _source_context(run["structure"], run["graph"]),
+        )
+    
+        assert result["checked_references"] &gt; 0
+&gt;       assert result["invalid_references"] == 0, result["failures"]
+E       AssertionError: [{'reference_index': 27, 'reason': 'missing exact source quote', 'locator': 'p1'}, {'reference_index': 64, 'reason': 'missing exact source quote', 'locator': 'p1'}]
+E       assert 2 == 0
+
+tests\test_document_relations_source_roles.py:288: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_source_roles" name="test_complete_registered_h03_tree_passes_frozen_global_source_validation[1.0.5]" time="0.092"><failure message="AssertionError: [{'reference_index': 27, 'reason': 'missing exact source quote', 'locator': 'p1'}, {'reference_index': 64, 'reason': 'missing exact source quote', 'locator': 'p1'}]&#10;assert 2 == 0">grader = '1.0.5'
+
+    @pytest.mark.parametrize("grader", ["1.0.3", "1.0.5"])
+    def test_complete_registered_h03_tree_passes_frozen_global_source_validation(
+        grader: str,
+    ) -&gt; None:
+        run = _run_registered_h03()
+        validator = _frozen_validator(grader)
+        result = validator._validate_graph_source_references(
+            run["graph"],
+            _source_context(run["structure"], run["graph"]),
+        )
+    
+        assert result["checked_references"] &gt; 0
+&gt;       assert result["invalid_references"] == 0, result["failures"]
+E       AssertionError: [{'reference_index': 27, 'reason': 'missing exact source quote', 'locator': 'p1'}, {'reference_index': 64, 'reason': 'missing exact source quote', 'locator': 'p1'}]
+E       assert 2 == 0
+
+tests\test_document_relations_source_roles.py:288: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[operator-1.0.3]" time="0.104" /><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[operator-1.0.5]" time="0.107" /><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[scope-1.0.3]" time="0.105" /><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[scope-1.0.5]" time="0.106" /><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[boundary-1.0.3]" time="0.105" /><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[boundary-1.0.5]" time="0.105" /><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[parent-1.0.3]" time="0.104" /><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[parent-1.0.5]" time="0.106" /><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[physical-parent-1.0.3]" time="0.104" /><testcase classname="tests.test_document_relations_source_roles" name="test_frozen_global_validator_rejects_empty_h03_position_in_evidence[physical-parent-1.0.5]" time="0.109" /></testsuite></testsuites>

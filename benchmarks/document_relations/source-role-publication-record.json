@@ -1,0 +1,724 @@
+{
+  "schema": "document-relations-source-role-publication-v1",
+  "recorded_at": "2026-10-13T19:42:05.858278+08:00",
+  "base_commit": "cb2c8e1d6ee1abaaa646e754efbc034758cfb06b",
+  "batch_status": "not_closed",
+  "accepted_scope": [
+    "H03: preserve validated empty-block positions separately from nonempty relationship evidence",
+    "H01: finite explicit materials/requirements/proofs/conditions headers with actual nested product output and public negative scope checks"
+  ],
+  "implementation": {
+    "changed_product_files": [
+      "src/qiaowenshu_agent/domain/document_relations.py"
+    ],
+    "grader_and_oracle_changed": false,
+    "mode": "Subagent implementation; main reviewer command reruns from a canonical export. Shared full-access host, not an unseen access boundary.",
+    "all_development_subagents_closed_before_publication": true
+  },
+  "isolation": {
+    "status_record": "benchmarks/document_relations/source-role-regression/20261013/isolation-status.json",
+    "status_record_sha256": "982e423b50b8b609fdc95a85d9501583a4d29384b73a72f8c50ab857db570722",
+    "status": "not_established",
+    "unseen_evaluation": "not_run",
+    "new_unseen_files_created": 0,
+    "certified_blind": false,
+    "holdout_passed": false
+  },
+  "source_identity": {
+    "source_commit_at_capture": null,
+    "checkout_base_commit": "cb2c8e1d6ee1abaaa646e754efbc034758cfb06b",
+    "code_archive_base_tree": "d423b8d8820e6371bd43eb1916ff6195ec1826e7",
+    "archive_scope": "Code snapshot exported before final publication docs and metadata; not the whole final commit tree.",
+    "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+    "source_file_count": 65,
+    "source_hash_basis": "Sorted UTF-8 relative path, TAB, binary SHA-256 of exact canonical file bytes, LF.",
+    "source_files": {
+      "src/qiaowenshu_agent/__init__.py": "95ce4064c37b24dee4f28d7ee430ab1284763989800748738980e4ee4098c4d6",
+      "src/qiaowenshu_agent/__main__.py": "5c89df6f60b4fcc4f963d85bd89cba6944488f838071dcf985adb141cfc4adfb",
+      "src/qiaowenshu_agent/adapters/__init__.py": "264621ed2d2d2b3988992a1a53f3595fc2b124086f84f4edf4eefa1cacaebe9c",
+      "src/qiaowenshu_agent/adapters/reference.py": "47ff0de3c6d372891906ef4b3c8d3729c9f27535fb7c3a916c9c2a30449c7324",
+      "src/qiaowenshu_agent/api.py": "8f9bad456b4f0d4a4cc7669a1c2a9300102a4c287d51194080c3baae314f5344",
+      "src/qiaowenshu_agent/core/__init__.py": "d2686d1f785d709a9a42325da02e8bc7e97c5228d1a794bdf349ffaa9a5b6fbc",
+      "src/qiaowenshu_agent/core/budget.py": "47f3d5789e1333e1ce25d79d98c1670837827cf34f00e7b710f2280024b53de6",
+      "src/qiaowenshu_agent/core/context.py": "f5ea24ee1062093dcec4286fcf86574c8a044b50a153d197bbed53ba6dccd74d",
+      "src/qiaowenshu_agent/core/contracts.py": "e03aa9a10323ff2168c780bbbf125a5d147f590a89b211c11bb2d481e5978ee2",
+      "src/qiaowenshu_agent/core/events.py": "a4d0207e7af3b65b2c9c6e210504ab3e720b9dfc75fd8fe940c1f3de1e6e9ee7",
+      "src/qiaowenshu_agent/core/files.py": "b529f818dd45565e8c2142d15d7e4fdc213cca033755c2bd185b896be72ac661",
+      "src/qiaowenshu_agent/core/registry.py": "407a30f88a5c7733b661f5a285a938de6b791156b889a94de14faf6b1c7d31a2",
+      "src/qiaowenshu_agent/core/runtime.py": "925d7fc8a46c3bc1b0f0502c05c21dbb9121368f1f4ef8aa538f9cc005b612b0",
+      "src/qiaowenshu_agent/core/scope_authorization.py": "5afad51f6764efdd8103935475ff679cc0f1c7ad35396313f5ba4515406619d1",
+      "src/qiaowenshu_agent/core/store.py": "af53e4e7227412281e03cec76cc86adcf2f85f6af3d2a4d5c0a7dde8046c210f",
+      "src/qiaowenshu_agent/core/trace.py": "d4da00440f06a4edff6914bbd2969f48f690a63e7d541b0cd123f3278a67e05c",
+      "src/qiaowenshu_agent/domain/__init__.py": "1b5f1a80a1554b2180619e2ae84e7d58418e77ce6d0bf107a25f2d62405eedcb",
+      "src/qiaowenshu_agent/domain/analysis_protocol.py": "f81de2775a07e2c5ed731799eb1d6b44bfc1396f011949e2fad62faa88300e6a",
+      "src/qiaowenshu_agent/domain/document_relations.py": "106e0ade4a5c49c6130a8b54230f3417a8063554609597b9e0591f72044815bc",
+      "src/qiaowenshu_agent/domain/document_structure.py": "efec7668a5ba79367c621c783b834de86751af3a6ab864b77b3c5f933a4436b2",
+      "src/qiaowenshu_agent/domain/models.py": "8e2766d0c2323d2bfddea5f6586e6805aecbd97d1906f3147fee73b7758ce0ce",
+      "src/qiaowenshu_agent/llm/__init__.py": "c2e3f9a8b5c7dc66876c083dd7412b08a501b5a17690e69b421a47193f3c6c0b",
+      "src/qiaowenshu_agent/llm/client.py": "fb45f07e5403592818e5c2da57508845472570ac5f084f5892779eba739d717f",
+      "src/qiaowenshu_agent/llm/config.py": "3f36505b565c1748a23aea9dd710506a6a00f9b3fc165804ee62eecebdfba301",
+      "src/qiaowenshu_agent/skills/__init__.py": "641959839985498f75494933435770a0442c0b4d9add58529279a6fc35d22fbf",
+      "src/qiaowenshu_agent/skills/analysis_report/__init__.py": "4b75926e72df11fed32b55605fc6d881fa75dc1b18eeb41c239fe48c0ec97695",
+      "src/qiaowenshu_agent/skills/analysis_report/skill.py": "33c4d8e19220551a8867a90f093190278c0c8ca81aea28024fa6d924f6b3749a",
+      "src/qiaowenshu_agent/skills/bid_feasibility/__init__.py": "dffc7abdfee914b8df766e1a724e42c3c77ccc00185f1061b96bc38adba9b32d",
+      "src/qiaowenshu_agent/skills/bid_feasibility/skill.py": "97ee7a97addf71db5a4ba9fdb5cfd2d21d791f809b5bfc68155208347be57242",
+      "src/qiaowenshu_agent/skills/bidder_material_intake/__init__.py": "405f8600c0077b9f5d1cfcd9b68a146b4768159212334a35f7223de731497eca",
+      "src/qiaowenshu_agent/skills/bidder_material_intake/skill.py": "fa049b531a5b25a06b9452feaa0485b4feca9b7c15676ad4d90d4993b1592976",
+      "src/qiaowenshu_agent/skills/compliance_review/__init__.py": "d9533621be88e5a3c654ff7c091dd08432ae7856fddb412db8af29d71ac36c44",
+      "src/qiaowenshu_agent/skills/compliance_review/skill.py": "6014f8b49a328cfd5494e48c3ded94d1866f4c6fae37e83deeb377df7da005cc",
+      "src/qiaowenshu_agent/skills/consistency_review/__init__.py": "d1d52e58be5b65a04e91e3dea9af689314ee7db100e828ddd6412a7f00e230d8",
+      "src/qiaowenshu_agent/skills/consistency_review/skill.py": "786434c3639585a9e9ffba1adad9213135e91ac991b728a25b4f8be40dc577a7",
+      "src/qiaowenshu_agent/skills/document_preprocess/__init__.py": "caa5203fcb9deeefd10eab4ee58a63d83335b5240f09f66bb0697da5627636b2",
+      "src/qiaowenshu_agent/skills/document_preprocess/models.py": "83fb618fd0d676aaeaf251dc8fb5d27f838a76ece23e69add68e0c2dbde8634d",
+      "src/qiaowenshu_agent/skills/document_preprocess/skill.py": "cfb5e3e1bba65bf945dcd658c82ac5fd3940c9cbdf53de6257f8917e87b411ad",
+      "src/qiaowenshu_agent/skills/document_profile/__init__.py": "1e53095afaeef49279ec610bdb3745ace5f1c7d8ef8baa6b8ac7900ff3295f8c",
+      "src/qiaowenshu_agent/skills/document_profile/models.py": "32050fc24421f0c9d803f543014b9e877e3add8019696c117279fe25a4ae1c57",
+      "src/qiaowenshu_agent/skills/document_profile/skill.py": "e71821e42e7ecb4faa99859801fd85abd7623363f4bc87f7e231ad0dabc46979",
+      "src/qiaowenshu_agent/skills/document_writing/__init__.py": "e185a3737f650645816c94e9e4cf1beb26e9ab2f9ce2115dfeb28810a98fafc6",
+      "src/qiaowenshu_agent/skills/document_writing/skill.py": "c9237e4a384d7326ea0793553dcfc8058a53c3e2ae60244e5dcb9eab3fb6c799",
+      "src/qiaowenshu_agent/skills/document_writing/verification.py": "2f35d940b5c3f021c2ff1ae17a4fb7eb3117caa689ba3668ff5cd0106999e451",
+      "src/qiaowenshu_agent/skills/evidence_matching/__init__.py": "a5b3a14a311d07112403d627c357afc8104f1bb034c7d4e22b0c4c1d1e642ea9",
+      "src/qiaowenshu_agent/skills/evidence_matching/skill.py": "50f51798046dc8881936d5f7625d5321b09d0eda3f553bb29843b44a7a95a850",
+      "src/qiaowenshu_agent/skills/knowledge_retrieval/__init__.py": "73b3695238f4e2006fd08962b07064ca06c0d45e1f1083a72eb08647c74b793d",
+      "src/qiaowenshu_agent/skills/knowledge_retrieval/models.py": "3f9f88babf91bbcc1a70c9365b01fa07299040385db96dee142786e9d89dff62",
+      "src/qiaowenshu_agent/skills/knowledge_retrieval/ragflow_backend.py": "3f1e4b1144a4dae06c4d910b92ad9206ce49a4f0dd7c5b90c18018751728c050",
+      "src/qiaowenshu_agent/skills/knowledge_retrieval/skill.py": "4f2cf67f2bf4bf9b85eef65040c161267215a49329ca9fcf51a7cdaf39c6c11e",
+      "src/qiaowenshu_agent/skills/local_backends.py": "829a4c06ffde65fe0d62fa9860ed745aff431cdbb5b4a75536ac093b12c1eb2d",
+      "src/qiaowenshu_agent/skills/local_requirement_groups.py": "8c169c2ac129f13c3e528d110222c4c0127b443588e681851a346abdaa16cef5",
+      "src/qiaowenshu_agent/skills/local_requirement_logic.py": "0293115b4662ada65237c0e1daded355fc32cd2e0f6ccae408e0768560fefa3b",
+      "src/qiaowenshu_agent/skills/quotation_check/__init__.py": "ff55d602d9b3d9705d10ecdd3fc04d74c183c0037582dfff2c0e38daca8ad691",
+      "src/qiaowenshu_agent/skills/quotation_check/skill.py": "030de33b9a9fb7bbf6db356292e25e9ec255640ccf63f271d87525c5238d519b",
+      "src/qiaowenshu_agent/skills/requirement_ledger/__init__.py": "c418824bf2a76f4a9a2e51daad1e0ffe8a018ec931d72614b966197b99b069e8",
+      "src/qiaowenshu_agent/skills/requirement_ledger/skill.py": "0642c529c423bb22dc89b7189f8376e04d5aa316251985d76cba19f74ea36adf",
+      "src/qiaowenshu_agent/skills/rule_engine.py": "135bf428e30ae81a15808fab102badde06bd5f28a422af93f907f5c0dc237f65",
+      "src/qiaowenshu_agent/skills/scoring_strategy/__init__.py": "b16d0c3a3209dfb4ab18535b69eb37167c2ab4079b57045268487ca7de4b0263",
+      "src/qiaowenshu_agent/skills/scoring_strategy/skill.py": "21d48dd2974231bd7270f3a9fc03ed66f7a2fce5c4eba1a6ebc03272b5f77781",
+      "src/qiaowenshu_agent/skills/tender_common.py": "6b655a19ec19deabb6e66177bc3556f02258e8db5e259e62233cd5a8f1ddb1fa",
+      "src/qiaowenshu_agent/skills/tender_decomposition/__init__.py": "5d3ea118e12ab480e94f46e443b7f1c6051d253b5dc086026554d2db4e9aa4f9",
+      "src/qiaowenshu_agent/skills/tender_decomposition/skill.py": "73b50639565893e25725fce68a310c56fa889ed3ca94ae1512546cf3c34dc528",
+      "src/qiaowenshu_agent/skills/tender_intake/__init__.py": "66d52c46552c58d8a82f8ec37519606f23316a537df6e2b7b3a96a28a777a70a",
+      "src/qiaowenshu_agent/skills/tender_intake/skill.py": "c746ddcfbdadb1fac388f0ee636182df93e28a57776478dea75a6431fa407424"
+    },
+    "canonical_code_files": 83,
+    "canonical_code_git_blob_matches": 83,
+    "source_proof": "benchmarks/document_relations/reports/source-role-followup-20261013/source-proof.json",
+    "source_proof_sha256": "cd32ea17f9eb4e6293c44a5b0f00ad06e877cad08b05779076fcdb05d3ee7888",
+    "early_capture_metadata_erratum": "benchmarks/document_relations/source-role-regression/20261013/capture-metadata-erratum.json"
+  },
+  "historical_preservation": {
+    "base_tracked_files": 572,
+    "allowed_existing_file_changes": [
+      ".gitattributes",
+      "src/qiaowenshu_agent/domain/document_relations.py",
+      "docs/document_relations_acceptance.md",
+      "benchmarks/document_relations/README.md",
+      "benchmarks/document_relations/publication-record.json"
+    ],
+    "protected_working_hashes_unchanged": 567,
+    "protected_staged_git_blobs_unchanged": 567,
+    "frozen_contract_test_matches": 10,
+    "frozen_contract_test_total": 10,
+    "baseline_freeze": "benchmarks/document_relations/source-role-regression/20261013/baseline-freeze.json",
+    "baseline_freeze_sha256": "20d25349b26f2dbc6426438fa91765a74432b953e20969f9523ed41df16fc11d",
+    "red_reports_and_original_snapshots_preserved": true
+  },
+  "checks": {
+    "canonical_pytest": {
+      "tests": 941,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 941,
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical-tests.xml"
+    },
+    "warnings": 1,
+    "warning": "Existing StarletteDeprecationWarning",
+    "source_role_tests": 17,
+    "finite_header_tests": 12,
+    "unchanged_boundary_grader_tests": 89,
+    "canonical_and_workspace_ruff": "passed",
+    "workspace_ruff_command": ".venv/Scripts/python.exe -m ruff check .",
+    "preflight_interpreter_note": "Default conda Python had no Ruff module; the existing project virtual environment passed Ruff.",
+    "staged_diff_check": "passed",
+    "red_test_history": {
+      "reviewer-source-first.xml": {
+        "tests": 17,
+        "failures": 7,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 10,
+        "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-source-first.xml"
+      },
+      "reviewer-header-first.xml": {
+        "tests": 11,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 9,
+        "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-first.xml"
+      },
+      "reviewer-header-enhanced-red.xml": {
+        "tests": 12,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 10,
+        "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-enhanced-red.xml"
+      }
+    },
+    "red_test_adjustments": [
+      "Source-role F841 cleanup adds an explicit page assertion; first snapshot and red report retained.",
+      "Header negative assertion strengthened to the exact upper header source and complete node/operator/scope, preserving independent local AND."
+    ]
+  },
+  "public_regression_stages": {
+    "baseline": {
+      "summary_path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/summary.json",
+      "source_tree_sha256": "bfcef1a406e27055cac7d5b9cdb8923444f93cd625a8981096312a2981b575b0",
+      "development": {
+        "product_and_graph_checks": {
+          "valid": {
+            "passed": 8,
+            "total": 8
+          },
+          "valid_synthetic": {
+            "passed": 0,
+            "total": 0
+          },
+          "invalid_confirmed": {
+            "passed": 36,
+            "total": 36
+          },
+          "product_review": {
+            "passed": 3,
+            "total": 3
+          },
+          "product_positive": {
+            "passed": 2,
+            "total": 2
+          },
+          "false_block": 0,
+          "false_accept": 0,
+          "executed_files": 5,
+          "execution_failed_files": 0,
+          "not_run_files": 0,
+          "checks_failed": 0,
+          "contract_checks_failed": 0
+        },
+        "negative_reasons": {
+          "passed": 36,
+          "total": 36,
+          "semantic_checks": 32,
+          "semantic_checks_with_invalid_source": 0
+        }
+      },
+      "public_h01_h06": {
+        "product_and_graph_checks": {
+          "valid": {
+            "passed": 4,
+            "total": 8
+          },
+          "valid_synthetic": {
+            "passed": 4,
+            "total": 4
+          },
+          "invalid_confirmed": {
+            "passed": 56,
+            "total": 56
+          },
+          "product_review": {
+            "passed": 3,
+            "total": 3
+          },
+          "product_positive": {
+            "passed": 1,
+            "total": 3
+          },
+          "false_block": 4,
+          "false_accept": 0,
+          "executed_files": 6,
+          "execution_failed_files": 0,
+          "not_run_files": 0,
+          "checks_failed": 6,
+          "contract_checks_failed": 4
+        },
+        "negative_reasons": {
+          "passed": 18,
+          "total": 36,
+          "semantic_checks": 32,
+          "semantic_checks_with_invalid_source": 18
+        }
+      }
+    },
+    "after-h03": {
+      "summary_path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/summary.json",
+      "source_tree_sha256": "e2ca2a22da9830da19e2984de3acbffc124c53de1e747623af889b931c45a81b",
+      "development": {
+        "product_and_graph_checks": {
+          "valid": {
+            "passed": 8,
+            "total": 8
+          },
+          "valid_synthetic": {
+            "passed": 0,
+            "total": 0
+          },
+          "invalid_confirmed": {
+            "passed": 36,
+            "total": 36
+          },
+          "product_review": {
+            "passed": 3,
+            "total": 3
+          },
+          "product_positive": {
+            "passed": 2,
+            "total": 2
+          },
+          "false_block": 0,
+          "false_accept": 0,
+          "executed_files": 5,
+          "execution_failed_files": 0,
+          "not_run_files": 0,
+          "checks_failed": 0,
+          "contract_checks_failed": 0
+        },
+        "negative_reasons": {
+          "passed": 36,
+          "total": 36,
+          "semantic_checks": 32,
+          "semantic_checks_with_invalid_source": 0
+        }
+      },
+      "public_h01_h06": {
+        "product_and_graph_checks": {
+          "valid": {
+            "passed": 8,
+            "total": 8
+          },
+          "valid_synthetic": {
+            "passed": 4,
+            "total": 4
+          },
+          "invalid_confirmed": {
+            "passed": 56,
+            "total": 56
+          },
+          "product_review": {
+            "passed": 3,
+            "total": 3
+          },
+          "product_positive": {
+            "passed": 2,
+            "total": 3
+          },
+          "false_block": 0,
+          "false_accept": 0,
+          "executed_files": 6,
+          "execution_failed_files": 0,
+          "not_run_files": 0,
+          "checks_failed": 1,
+          "contract_checks_failed": 0
+        },
+        "negative_reasons": {
+          "passed": 36,
+          "total": 36,
+          "semantic_checks": 32,
+          "semantic_checks_with_invalid_source": 0
+        }
+      }
+    },
+    "canonical": {
+      "summary_path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/summary.json",
+      "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+      "development": {
+        "product_and_graph_checks": {
+          "valid": {
+            "passed": 8,
+            "total": 8
+          },
+          "valid_synthetic": {
+            "passed": 0,
+            "total": 0
+          },
+          "invalid_confirmed": {
+            "passed": 36,
+            "total": 36
+          },
+          "product_review": {
+            "passed": 3,
+            "total": 3
+          },
+          "product_positive": {
+            "passed": 2,
+            "total": 2
+          },
+          "false_block": 0,
+          "false_accept": 0,
+          "executed_files": 5,
+          "execution_failed_files": 0,
+          "not_run_files": 0,
+          "checks_failed": 0,
+          "contract_checks_failed": 0
+        },
+        "negative_reasons": {
+          "passed": 36,
+          "total": 36,
+          "semantic_checks": 32,
+          "semantic_checks_with_invalid_source": 0
+        }
+      },
+      "public_h01_h06": {
+        "product_and_graph_checks": {
+          "valid": {
+            "passed": 12,
+            "total": 12
+          },
+          "valid_synthetic": {
+            "passed": 0,
+            "total": 0
+          },
+          "invalid_confirmed": {
+            "passed": 56,
+            "total": 56
+          },
+          "product_review": {
+            "passed": 3,
+            "total": 3
+          },
+          "product_positive": {
+            "passed": 3,
+            "total": 3
+          },
+          "false_block": 0,
+          "false_accept": 0,
+          "executed_files": 6,
+          "execution_failed_files": 0,
+          "not_run_files": 0,
+          "checks_failed": 0,
+          "contract_checks_failed": 0
+        },
+        "negative_reasons": {
+          "passed": 56,
+          "total": 56,
+          "semantic_checks": 50,
+          "semantic_checks_with_invalid_source": 0
+        }
+      }
+    }
+  },
+  "strong_source_negative_checks": {
+    "development": {
+      "classification": "deliberately incorrect confirmed graphs, not product output",
+      "passed": 6,
+      "total": 6,
+      "false_accept": 0,
+      "grader_sha256": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3",
+      "capture_sha256": "1da30249f23fdced994df9f0a792d5d8ca65eaf6528e7667f4b5ed1646802557",
+      "report": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical-development-strong.json"
+    },
+    "public": {
+      "classification": "deliberately incorrect confirmed graphs, not product output",
+      "passed": 6,
+      "total": 6,
+      "false_accept": 0,
+      "grader_sha256": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3",
+      "capture_sha256": "71f0d1b1a5418854998d8d126a8630d3899cd92a30037889c343a77cc1f45724",
+      "report": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical-public-strong.json"
+    }
+  },
+  "metric_contract": {
+    "public_product_inputs": "H01-H06 and D01-D05 are public manually authored TXT regression inputs through real Registry and Runtime, not unseen or arbitrary PDF accuracy.",
+    "positive_graph_variants": "Graph mutations based on actual product output; synthetic complete trees are separately counted.",
+    "negative_graph_variants": "Deliberately incorrect confirmed graphs, not business-material decisions.",
+    "negative_rejection_roles": "Raw source validity, operator, membership scope, termination and inheritance are separate. Final H01-H06 has 50 semantic checks with valid raw source references and 6 invalid-source checks.",
+    "review_scope": "The three public review checks only forbid an incorrectly confirmed complete outer relationship, not every independent local state."
+  },
+  "unchanged_historical_results": {
+    "relation_score": {
+      "status": "historical_not_recaptured",
+      "source_output_commit": "af7db0f",
+      "grader_1_0_4": "9/14",
+      "grader_1_0_5": "10/14",
+      "current_parser_14_case_score": "not_run",
+      "interpretation": "Both graders read the same historical product output; this batch does not claim a current-parser 10/14 result."
+    },
+    "old_public_raw_files": {
+      "status": "historical_not_rerun",
+      "passed": 0,
+      "total": 8,
+      "failed": 8,
+      "not_run": 0,
+      "business_materials": "not_run/8"
+    }
+  },
+  "business_materials": "not_run",
+  "real_model_service": "not_run",
+  "partial_manual_review_gate_retained": true,
+  "full_step_2_accepted": false,
+  "general_completeness_accepted": false,
+  "production_accepted": false,
+  "uv_lock_scope": "Separate environment-reproducibility task; not included in this commit.",
+  "artifact_manifest_scope": "All non-cache files under the new source-role regression and report directories, plus the two new tests. Excludes this record, its parent index, and publication docs to avoid circular hashes.",
+  "artifact_count": 43,
+  "artifacts": [
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/development-capture.json",
+      "sha256": "b8e8523241de974b85e7b6c2063db3a9657b440534f0a7f704aedee71150356a",
+      "bytes": 609706,
+      "git_blob": "d805bc295a768855b4ade50125fa8727930ed603"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/development-check.json",
+      "sha256": "9c4ac0f95e21fc0099c668b144b43a7a8cb04b630a8b53a5b4011df6503c82e2",
+      "bytes": 215302,
+      "git_blob": "4b133f3fedf4cbafe9f9f593068acd9642dcda32"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/development-negative-reasons.json",
+      "sha256": "e00178e2de61eae72b261d15319adf71f13108ecfbcda3a74c3d8a234bfe7e96",
+      "bytes": 19685,
+      "git_blob": "18353184a979eb0ab78250e2da0d7b99a38d10de"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/public-h01-h06-capture.json",
+      "sha256": "f5c63afbf1158fa2dcdffaccca8bede1e5dbec6b713db00f47872415e7d8ba49",
+      "bytes": 516536,
+      "git_blob": "77a418eaa20984fd794a8639978f25810b6d6716"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/public-h01-h06-check.json",
+      "sha256": "3c5b0400acdd3103b44c5ecc6efa5e3aa630c9f64691cf1edd17e6a9394d1c49",
+      "bytes": 335171,
+      "git_blob": "aa4cfc48e0a205ab49cde24f60544aba053a2c91"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/public-h01-h06-negative-reasons.json",
+      "sha256": "191bee6d51045f41d4718f5fc231ef8badda7e56f642b2826078242f1577a68f",
+      "bytes": 19778,
+      "git_blob": "99ae5e46dc87ee281d49551a011a875755bd42da"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/summary.json",
+      "sha256": "96aa0e28b739af953b2d7d0a7cabe5b9ad9ac1b4821f3c1ec83d0c36028bc88c",
+      "bytes": 10329,
+      "git_blob": "0c268d4c16afbc3c771ac469cac5eee0a263b726"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/development-capture.json",
+      "sha256": "368285473ea35d9dbef1b5086baf6d8ff7d41f378bbebcb51244087c41acb0e6",
+      "bytes": 602435,
+      "git_blob": "af99f7ba6d4f968e0f6f83d4380e535338745c2b"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/development-check.json",
+      "sha256": "797888dd866be67c41c099b38fd7c87c494f8dcd90626792b7378c41ee7fa520",
+      "bytes": 215302,
+      "git_blob": "fda1705675dcc74d2046a02da6368405bf4af920"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/development-negative-reasons.json",
+      "sha256": "e00178e2de61eae72b261d15319adf71f13108ecfbcda3a74c3d8a234bfe7e96",
+      "bytes": 19685,
+      "git_blob": "18353184a979eb0ab78250e2da0d7b99a38d10de"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/public-h01-h06-capture.json",
+      "sha256": "980ef6064746ab90c600cbff86f180222b288649b5d9c9ad99e962eaf8601244",
+      "bytes": 507684,
+      "git_blob": "d7bfeb9f0aa2299906771d010e56bde7d86ea06f"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/public-h01-h06-check.json",
+      "sha256": "6c7e0be01364792142f670423599594788e864503fff6942c5fe6e423eb6a62b",
+      "bytes": 343610,
+      "git_blob": "375c4a72d10325fdc6b9390ed20c8ecdd4639412"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/public-h01-h06-negative-reasons.json",
+      "sha256": "93822f30b738a85dc7776c865d639adba0723d30bc60c2fbea51a178addb2354",
+      "bytes": 25105,
+      "git_blob": "91eb580d4bced50d9ea3889eb89eb4991af75c34"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/summary.json",
+      "sha256": "9126475e04c5fea3c803a41ef132f616288e5c8a67a4dbbf373cab6cac1c6f79",
+      "bytes": 10319,
+      "git_blob": "b23c65ce2dbf7d5455a7b69a7064e3ad5b75a0f0"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/development-capture.json",
+      "sha256": "1da30249f23fdced994df9f0a792d5d8ca65eaf6528e7667f4b5ed1646802557",
+      "bytes": 609813,
+      "git_blob": "8fddaaf79252f1e104c8a0f537f46fdb4fe0c720"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/development-check.json",
+      "sha256": "e810d224d370c0bc307afd0ff47f1cb4872e294368448fcd49acea4dd951a1f5",
+      "bytes": 215302,
+      "git_blob": "68b5040d846e745a90d7a3f199e837c5167ca4e8"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/development-negative-reasons.json",
+      "sha256": "e00178e2de61eae72b261d15319adf71f13108ecfbcda3a74c3d8a234bfe7e96",
+      "bytes": 19685,
+      "git_blob": "18353184a979eb0ab78250e2da0d7b99a38d10de"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/public-h01-h06-capture.json",
+      "sha256": "71f0d1b1a5418854998d8d126a8630d3899cd92a30037889c343a77cc1f45724",
+      "bytes": 769267,
+      "git_blob": "d6f7e580b6dd3f4183c3de3b55ef7b3e68a0485d"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/public-h01-h06-check.json",
+      "sha256": "c8af40b3d02ae159799c25ea6a28c487768f1e5d0b1d5410b3853289aae67a0d",
+      "bytes": 332595,
+      "git_blob": "c01354ecf5ea96cea94222e8f3f85895b096a303"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/public-h01-h06-negative-reasons.json",
+      "sha256": "70518ae4c2687aac08240f912b1738d4878b3c4de1f56492080b01b600041b93",
+      "bytes": 29996,
+      "git_blob": "777698a3c15b488568df73226bd5eee4462499bc"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/summary.json",
+      "sha256": "27f097380e76af4d8e027f8ce0ca9edf7f673fc6a07065e2bfd58a82b0de181e",
+      "bytes": 10433,
+      "git_blob": "7e8eb54134406f0c75ae117ef5daea006e2e1684"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical-development-strong.json",
+      "sha256": "716103ff2c1831c78a292f2e9cc7c953e50d43b950b377be2177f900abaa6e84",
+      "bytes": 34847,
+      "git_blob": "2b3c5eae1ea6c5febf0f6568605b1e448d041c29"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical-public-strong.json",
+      "sha256": "9c168ccba80e3b8921c86a8cf61d577ff5e552334f295605d9aed8c238ec665f",
+      "bytes": 34847,
+      "git_blob": "d0daf834bfc9c3e1689541641e6ad6896da272ba"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical-tests.xml",
+      "sha256": "1adf62b414e3e9a270a35df205db494b1c34f442778f00e137a56db2ccb6cfb1",
+      "bytes": 152219,
+      "git_blob": "668d46125080d7375949a9d0294b27ffe4c4b141"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-h03-tests.xml",
+      "sha256": "934efbfd4ffbaa43cc627379821206c2412870cb63fea9f7d655d4eb42d42c48",
+      "bytes": 3193,
+      "git_blob": "f197bd2bd47f9fd244842f12f5a761e7030181c0"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-enhanced-red.xml",
+      "sha256": "e97bd85ecbaf07c86c563b369e99f4163be02db6006960f716dae55bc987677b",
+      "bytes": 6721,
+      "git_blob": "9945697fd1e92324b0706e6c89a47cde2ca93d38"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-first.xml",
+      "sha256": "6740a04053f2b0c9f6c279681ca570a3c6bfe6899b06197b933c790fad3970ea",
+      "bytes": 6509,
+      "git_blob": "0828ab8888c1b325754630777304fb44ac2d4f4b"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-source-first.xml",
+      "sha256": "c8e32b9bc47ff0913508de3ffe254d0a396ece62a358828d1f073a23ffb52cd5",
+      "bytes": 16335,
+      "git_blob": "967c2e4a7a621cc6af7db12dabe7399a1eb07dac"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/source-proof.json",
+      "sha256": "cd32ea17f9eb4e6293c44a5b0f00ad06e877cad08b05779076fcdb05d3ee7888",
+      "bytes": 283099,
+      "git_blob": "e9d41e3b2695bf83a554fdad63526baac7786be0"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/after-h03-source.py.txt",
+      "sha256": "bf6ee5a81cbc0b71e2aa0864c0acfec8ab62b59452815e65170d42e1d60e0e66",
+      "bytes": 190020,
+      "git_blob": "5ec2ea3edc28b4ca328da0647452b8f53cd452bc"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/baseline-freeze.json",
+      "sha256": "20d25349b26f2dbc6426438fa91765a74432b953e20969f9523ed41df16fc11d",
+      "bytes": 134754,
+      "git_blob": "7e8ba7cbd690ebf4c76ec2919d67ceb3c6b3dd31"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/capture-metadata-erratum.json",
+      "sha256": "be62e7bf29dbe4ca5f9309b031c4cf55eec325fa8073bf19f60308660b604693",
+      "bytes": 930,
+      "git_blob": "4e543a913e879c905d9a50bfa10566dbb9d1d4b6"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/check-public.py",
+      "sha256": "69b5ca86ea6e4a866b254136adad12a381a0a7220ef007f457974db34d88d5f0",
+      "bytes": 10917,
+      "git_blob": "30339046420c482f9c5a24a6832c7098f1c1c98e"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/contract.md",
+      "sha256": "110e9b4f1066fa8ff7123d70c11e9a6048fc63826780ce3ee0606df5551c733c",
+      "bytes": 2719,
+      "git_blob": "0e331201e18e25e57872814007951e2576a53a83"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/final-public-test-freeze.json",
+      "sha256": "0d267de2a8d47ac5df7050f298df82eed2e4ac5a8b8bef0b7e0064f5e548d43f",
+      "bytes": 538,
+      "git_blob": "8abbd8a8f7ee5485012a7188f6f7452d837b6faa"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/header-test-first-freeze.json",
+      "sha256": "06c6054b18dfeb311477bfffd44b4aa7c1a4e9e3821ea3a77018b0748623529f",
+      "bytes": 571,
+      "git_blob": "8746d306a722dd7541b365aa1e8a04b866af2f3b"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/header-test-first.py.txt",
+      "sha256": "f60ad2e02151a0f7eb5d11f73a574c6a973d265982a72398198eafa569b3ed6b",
+      "bytes": 15554,
+      "git_blob": "96d8eaef31651318c10424629dfee17994469522"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/isolation-status.json",
+      "sha256": "982e423b50b8b609fdc95a85d9501583a4d29384b73a72f8c50ab857db570722",
+      "bytes": 1026,
+      "git_blob": "7abb532a24f513b3fe1ef2c29eb870b8e6cc12ee"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/source-test-first.py.txt",
+      "sha256": "09de15ab946b32a294feda93b5190b0790ee0ca8b25ad9b61141c65dd3db2402",
+      "bytes": 13661,
+      "git_blob": "a06d160665a73906e413fea6c27ff851cbf15dc8"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/source-test-freeze.json",
+      "sha256": "33a8c0226db4fcfdc19d53f297fde7b479f7493a76f34220850cfdefe4d31993",
+      "bytes": 409,
+      "git_blob": "d19cfafac937e6399092c64236622d575cf5eb35"
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/verify-snapshot.py",
+      "sha256": "b307017ac56972160ea2578ffc1ad1a9627c68a888947e2c2efb1336a0d05f9b",
+      "bytes": 6606,
+      "git_blob": "9559942493eb3e7304e04bc996ce50df87fe220e"
+    },
+    {
+      "path": "tests/test_document_relations_proof_headers.py",
+      "sha256": "99ea98a3675d7b305b8d62f4d451da7b436bcb7ccfae0338b0db021aa16df76a",
+      "bytes": 15531,
+      "git_blob": "9b7c4cfb1d58e9f8c2a642b75dcc2a9340244246"
+    },
+    {
+      "path": "tests/test_document_relations_source_roles.py",
+      "sha256": "1a7de4fde9db7bb2c8d531cfdf4b6f78dc01ca81da993f1dedd4a260cfd6bf32",
+      "bytes": 13659,
+      "git_blob": "13a6ff6e9ef790b4070008c6da03db2ea2f35393"
+    }
+  ]
+}

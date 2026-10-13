@@ -1,0 +1,8 @@
+{
+  "schema": "source-role-test-first-freeze-v1",
+  "frozen_at": "2026-10-13T14:37:49.399359+08:00",
+  "files": {
+    "tests/test_document_relations_source_roles.py": "09de15ab946b32a294feda93b5190b0790ee0ca8b25ad9b61141c65dd3db2402",
+    "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-source-first.xml": "c8e32b9bc47ff0913508de3ffe254d0a396ece62a358828d1f073a23ffb52cd5"
+  }
+}

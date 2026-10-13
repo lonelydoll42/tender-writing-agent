@@ -2,7 +2,52 @@
 
 ## 状态与边界
 
-### 当前边界证据评分合同（2026-10-13）
+### 当前来源职责与有限组标题修复（2026-10-13）
+
+本批由修改智能体实现、主审从 Git canonical 导出副本验收。产品只改 `document_relations.py`；冻结的 `1.0.3/1.0.4/1.0.5` 评分器、原始文件、oracle 和历史报告均未改。**H03 来源职责与 H01 有限标题识别的公开回归通过；未见隔离未建立，本批整体仍不关闭。**
+
+开发前先记录 [isolation-status.json](../benchmarks/document_relations/source-role-regression/20261013/isolation-status.json)。可用智能体仍共享同一主机、全权限文件系统及对话上下文，另建目录、进程或 worktree 不能形成可核实的独立权限边界。因此没有创建所谓新未见文件：新增未见文件 **0**，未见验收 **not_run**，H01-H06 全部沿用公开回归身份。后续未见验收须先取得独立执行主体/环境，验证开发侧不能读取输入、答案及共享对话中的内容，再于开发前冻结；不能事后补样本冒充盲测。
+
+#### 两项有限改动
+
+H03：结构层仍保留空行、纯空白块及其原文位置。关系层的 `parent_relation.position_references` 只记录通过文件身份、版本及原文坐标验证的物理位置；`source_references` 只保留非空白引文且字符跨度大于零的证据。空块不能确认父级、操作符、成员或终止边界；重复 block ID 及无效来源不能留下已验证位置。**没有为评分器添加全局空证据豁免，也没有删除空块以规避检查。**
+
+H01：明确复合组标题的有限名词从“材料／要求”补齐为“材料／要求／证明／条件”，肯定与已有否定入口一致。实际 Registry → Runtime 输出须保留 `AND(OR(A,B), OR(C,D))`、四个独立原子及每层直接子节点、操作符、scope、父级和终止来源，不以合成树代替。局部指令冲突、非单项选择、组数/标签错误及实质段落中断仍复核，`partial/manual_review` 门禁不放宽。
+
+#### 同一公开输入的分阶段结果
+
+| H01-H06 检查 | 原产品基线 | 仅 H03 修复 | 最终 canonical |
+| --- | --- | --- | --- |
+| 实际产品正例 | 1/3 | 2/3 | **3/3** |
+| 基于实际树的合法变异 | 4/8 | 8/8 | **12/12** |
+| 假设合法合成树 | 4/4 | 4/4 | **0/0，不再需要替代 H01** |
+| 错误 confirmed 图变异拒绝 | 56/56 | 56/56 | **56/56** |
+| 可用的拒绝职责检查 | 18/36 | 36/36 | **56/56** |
+| 语义检查中原始引用无效 | 18/32 | 0/32 | **0/50** |
+| 完整外层关系的复核检查 | 3/3 | 3/3 | **3/3** |
+
+三个阶段每次六份文件均实际 executed，execution_failed/not_run 均为 0。前两阶段 H01 尚无实际完整树，因此它的语义变异没有进入“可用的拒绝职责”分母；合成树另列。最终 50 项语义错误变异的原始引用有效，须按操作符、成员范围、终止或继承职责拒绝，不能借用空引用失败冒充语义识别；另 6 项检验无效来源。这里的 **3/3 复核只核对完整外层关系，不保证所有独立局部状态正确**。
+
+D01-D05 的最终实际正例 2/2、合法变异 8/8、错误变异拒绝 36/36；拒绝职责 36/36，其中 32 项语义检查的原始引用有效。旧强来源 checker 对两组准确上层引用的冲突/越界反例分别拒绝 **6/6**，调用者自报标记不能绕过原文。合法图变异、错误图变异及有限 TXT 正例都不是企业材料的误阻断/误放行率。
+
+#### 测试先行、来源与历史保护
+
+新增来源职责测试 **17/17**、标题及有限边界测试 **12/12**，既有评分器专项 **89/89**。先行红测试分别为 7 failed/10 passed、2 failed/9 passed；加强标题反例断言后的旧源码重放为 2 failed/10 passed，全部 XML 与原测试快照保留。来源测试仅修正未使用变量的 F841，标题断言加强为精确核对上层来源，不禁止独立局部 AND；没有把红测试改成通过记录。
+
+Git canonical 导出全量 **941 passed、1 条既有 Starlette 警告**，Ruff 与差异检查通过。源码树 SHA-256 为 `51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34`；65 个产品源码包含在 **83/83** 个代码文件的 Git blob 对照中，冻结合同/测试资产 **10/10** 匹配。567 个既有受保护文件的工作区哈希及 staged Git blob 均保持不变。code archive base tree 为 `d423b8d8820e6371bd43eb1916ff6195ec1826e7`，发布文档/索引随后添加；此 tree 不是最终整个提交的 tree。
+
+基线与 H03 中间采集的早期 `source_commit` 字段表示 checkout 父提交，不能标识未提交源码；[capture-metadata-erratum.json](../benchmarks/document_relations/source-role-regression/20261013/capture-metadata-erratum.json) 保留勘误，逐文件 hash 与源码汇总才是执行版本依据。最终采集将该字段显式置空，单列 `checkout_base_commit` 与精确源码 hash。三份红 XML 为保留原始 traceback 空白，仅逐文件设定 `-whitespace`，没有豁免源码或 oracle。
+
+冻结合同、隔离披露、测试/中间源码快照及复验工具见 [source-role-regression/20261013](../benchmarks/document_relations/source-role-regression/20261013)；基线、H03 中间及 canonical 报告见 [reports/source-role-followup-20261013](../benchmarks/document_relations/reports/source-role-followup-20261013)，逐文件发布索引见 [source-role-publication-record.json](../benchmarks/document_relations/source-role-publication-record.json)。
+
+```powershell
+python benchmarks/document_relations/source-role-regression/20261013/check-public.py --output-directory replay-source-role-NEW --label public-regression
+python -m pytest tests/test_document_relations_source_roles.py tests/test_document_relations_proof_headers.py tests/evals/test_document_relations_boundary_rescore.py -q
+```
+
+输出目录必须从未存在。本批未重跑 14 例总体产品采集，旧 **9/14 → 10/14** 仍是新旧评分器读取同一份历史输出的评分结果，不是当前源码的总体评分。旧公开原始文件 **0/8、企业材料 not_run/8** 也为未重跑的历史结论。企业材料与真实模型服务本批均未运行，不计算业务准确率。**未见验收、本批整体、第2步整体、通用完整性及生产验收仍未通过；`uv.lock` 继续单独处理。**
+
+### 历史边界证据评分合同（2026-10-13）
 
 本批先冻结三类证据职责及来源标注，再由智能体新增独立评分器 `1.0.5`，主审验收。**产品源码、旧 `1.0.3/1.0.4`、旧 oracle 与历史报告均未改写。仅公开回归中的有限评分修正成立，整批尚不关闭。**
 

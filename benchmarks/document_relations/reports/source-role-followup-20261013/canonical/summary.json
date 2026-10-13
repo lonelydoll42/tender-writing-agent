@@ -1,0 +1,156 @@
+{
+  "schema": "source-role-public-replay-v1",
+  "label": "canonical-product-source",
+  "generated_at": "2026-10-13T16:31:42.647116+08:00",
+  "source_commit": null,
+  "checkout_base_commit": "cb2c8e1d6ee1abaaa646e754efbc034758cfb06b",
+  "source_identity_basis": "exact source_files hashes, not checkout HEAD",
+  "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+  "source_files": {
+    "src/qiaowenshu_agent/__init__.py": "95ce4064c37b24dee4f28d7ee430ab1284763989800748738980e4ee4098c4d6",
+    "src/qiaowenshu_agent/__main__.py": "5c89df6f60b4fcc4f963d85bd89cba6944488f838071dcf985adb141cfc4adfb",
+    "src/qiaowenshu_agent/adapters/__init__.py": "264621ed2d2d2b3988992a1a53f3595fc2b124086f84f4edf4eefa1cacaebe9c",
+    "src/qiaowenshu_agent/adapters/reference.py": "47ff0de3c6d372891906ef4b3c8d3729c9f27535fb7c3a916c9c2a30449c7324",
+    "src/qiaowenshu_agent/api.py": "8f9bad456b4f0d4a4cc7669a1c2a9300102a4c287d51194080c3baae314f5344",
+    "src/qiaowenshu_agent/core/__init__.py": "d2686d1f785d709a9a42325da02e8bc7e97c5228d1a794bdf349ffaa9a5b6fbc",
+    "src/qiaowenshu_agent/core/budget.py": "47f3d5789e1333e1ce25d79d98c1670837827cf34f00e7b710f2280024b53de6",
+    "src/qiaowenshu_agent/core/context.py": "f5ea24ee1062093dcec4286fcf86574c8a044b50a153d197bbed53ba6dccd74d",
+    "src/qiaowenshu_agent/core/contracts.py": "e03aa9a10323ff2168c780bbbf125a5d147f590a89b211c11bb2d481e5978ee2",
+    "src/qiaowenshu_agent/core/events.py": "a4d0207e7af3b65b2c9c6e210504ab3e720b9dfc75fd8fe940c1f3de1e6e9ee7",
+    "src/qiaowenshu_agent/core/files.py": "b529f818dd45565e8c2142d15d7e4fdc213cca033755c2bd185b896be72ac661",
+    "src/qiaowenshu_agent/core/registry.py": "407a30f88a5c7733b661f5a285a938de6b791156b889a94de14faf6b1c7d31a2",
+    "src/qiaowenshu_agent/core/runtime.py": "925d7fc8a46c3bc1b0f0502c05c21dbb9121368f1f4ef8aa538f9cc005b612b0",
+    "src/qiaowenshu_agent/core/scope_authorization.py": "5afad51f6764efdd8103935475ff679cc0f1c7ad35396313f5ba4515406619d1",
+    "src/qiaowenshu_agent/core/store.py": "af53e4e7227412281e03cec76cc86adcf2f85f6af3d2a4d5c0a7dde8046c210f",
+    "src/qiaowenshu_agent/core/trace.py": "d4da00440f06a4edff6914bbd2969f48f690a63e7d541b0cd123f3278a67e05c",
+    "src/qiaowenshu_agent/domain/__init__.py": "1b5f1a80a1554b2180619e2ae84e7d58418e77ce6d0bf107a25f2d62405eedcb",
+    "src/qiaowenshu_agent/domain/analysis_protocol.py": "f81de2775a07e2c5ed731799eb1d6b44bfc1396f011949e2fad62faa88300e6a",
+    "src/qiaowenshu_agent/domain/document_relations.py": "106e0ade4a5c49c6130a8b54230f3417a8063554609597b9e0591f72044815bc",
+    "src/qiaowenshu_agent/domain/document_structure.py": "efec7668a5ba79367c621c783b834de86751af3a6ab864b77b3c5f933a4436b2",
+    "src/qiaowenshu_agent/domain/models.py": "8e2766d0c2323d2bfddea5f6586e6805aecbd97d1906f3147fee73b7758ce0ce",
+    "src/qiaowenshu_agent/llm/__init__.py": "c2e3f9a8b5c7dc66876c083dd7412b08a501b5a17690e69b421a47193f3c6c0b",
+    "src/qiaowenshu_agent/llm/client.py": "fb45f07e5403592818e5c2da57508845472570ac5f084f5892779eba739d717f",
+    "src/qiaowenshu_agent/llm/config.py": "3f36505b565c1748a23aea9dd710506a6a00f9b3fc165804ee62eecebdfba301",
+    "src/qiaowenshu_agent/skills/__init__.py": "641959839985498f75494933435770a0442c0b4d9add58529279a6fc35d22fbf",
+    "src/qiaowenshu_agent/skills/analysis_report/__init__.py": "4b75926e72df11fed32b55605fc6d881fa75dc1b18eeb41c239fe48c0ec97695",
+    "src/qiaowenshu_agent/skills/analysis_report/skill.py": "33c4d8e19220551a8867a90f093190278c0c8ca81aea28024fa6d924f6b3749a",
+    "src/qiaowenshu_agent/skills/bid_feasibility/__init__.py": "dffc7abdfee914b8df766e1a724e42c3c77ccc00185f1061b96bc38adba9b32d",
+    "src/qiaowenshu_agent/skills/bid_feasibility/skill.py": "97ee7a97addf71db5a4ba9fdb5cfd2d21d791f809b5bfc68155208347be57242",
+    "src/qiaowenshu_agent/skills/bidder_material_intake/__init__.py": "405f8600c0077b9f5d1cfcd9b68a146b4768159212334a35f7223de731497eca",
+    "src/qiaowenshu_agent/skills/bidder_material_intake/skill.py": "fa049b531a5b25a06b9452feaa0485b4feca9b7c15676ad4d90d4993b1592976",
+    "src/qiaowenshu_agent/skills/compliance_review/__init__.py": "d9533621be88e5a3c654ff7c091dd08432ae7856fddb412db8af29d71ac36c44",
+    "src/qiaowenshu_agent/skills/compliance_review/skill.py": "6014f8b49a328cfd5494e48c3ded94d1866f4c6fae37e83deeb377df7da005cc",
+    "src/qiaowenshu_agent/skills/consistency_review/__init__.py": "d1d52e58be5b65a04e91e3dea9af689314ee7db100e828ddd6412a7f00e230d8",
+    "src/qiaowenshu_agent/skills/consistency_review/skill.py": "786434c3639585a9e9ffba1adad9213135e91ac991b728a25b4f8be40dc577a7",
+    "src/qiaowenshu_agent/skills/document_preprocess/__init__.py": "caa5203fcb9deeefd10eab4ee58a63d83335b5240f09f66bb0697da5627636b2",
+    "src/qiaowenshu_agent/skills/document_preprocess/models.py": "83fb618fd0d676aaeaf251dc8fb5d27f838a76ece23e69add68e0c2dbde8634d",
+    "src/qiaowenshu_agent/skills/document_preprocess/skill.py": "cfb5e3e1bba65bf945dcd658c82ac5fd3940c9cbdf53de6257f8917e87b411ad",
+    "src/qiaowenshu_agent/skills/document_profile/__init__.py": "1e53095afaeef49279ec610bdb3745ace5f1c7d8ef8baa6b8ac7900ff3295f8c",
+    "src/qiaowenshu_agent/skills/document_profile/models.py": "32050fc24421f0c9d803f543014b9e877e3add8019696c117279fe25a4ae1c57",
+    "src/qiaowenshu_agent/skills/document_profile/skill.py": "e71821e42e7ecb4faa99859801fd85abd7623363f4bc87f7e231ad0dabc46979",
+    "src/qiaowenshu_agent/skills/document_writing/__init__.py": "e185a3737f650645816c94e9e4cf1beb26e9ab2f9ce2115dfeb28810a98fafc6",
+    "src/qiaowenshu_agent/skills/document_writing/skill.py": "c9237e4a384d7326ea0793553dcfc8058a53c3e2ae60244e5dcb9eab3fb6c799",
+    "src/qiaowenshu_agent/skills/document_writing/verification.py": "2f35d940b5c3f021c2ff1ae17a4fb7eb3117caa689ba3668ff5cd0106999e451",
+    "src/qiaowenshu_agent/skills/evidence_matching/__init__.py": "a5b3a14a311d07112403d627c357afc8104f1bb034c7d4e22b0c4c1d1e642ea9",
+    "src/qiaowenshu_agent/skills/evidence_matching/skill.py": "50f51798046dc8881936d5f7625d5321b09d0eda3f553bb29843b44a7a95a850",
+    "src/qiaowenshu_agent/skills/knowledge_retrieval/__init__.py": "73b3695238f4e2006fd08962b07064ca06c0d45e1f1083a72eb08647c74b793d",
+    "src/qiaowenshu_agent/skills/knowledge_retrieval/models.py": "3f9f88babf91bbcc1a70c9365b01fa07299040385db96dee142786e9d89dff62",
+    "src/qiaowenshu_agent/skills/knowledge_retrieval/ragflow_backend.py": "3f1e4b1144a4dae06c4d910b92ad9206ce49a4f0dd7c5b90c18018751728c050",
+    "src/qiaowenshu_agent/skills/knowledge_retrieval/skill.py": "4f2cf67f2bf4bf9b85eef65040c161267215a49329ca9fcf51a7cdaf39c6c11e",
+    "src/qiaowenshu_agent/skills/local_backends.py": "829a4c06ffde65fe0d62fa9860ed745aff431cdbb5b4a75536ac093b12c1eb2d",
+    "src/qiaowenshu_agent/skills/local_requirement_groups.py": "8c169c2ac129f13c3e528d110222c4c0127b443588e681851a346abdaa16cef5",
+    "src/qiaowenshu_agent/skills/local_requirement_logic.py": "0293115b4662ada65237c0e1daded355fc32cd2e0f6ccae408e0768560fefa3b",
+    "src/qiaowenshu_agent/skills/quotation_check/__init__.py": "ff55d602d9b3d9705d10ecdd3fc04d74c183c0037582dfff2c0e38daca8ad691",
+    "src/qiaowenshu_agent/skills/quotation_check/skill.py": "030de33b9a9fb7bbf6db356292e25e9ec255640ccf63f271d87525c5238d519b",
+    "src/qiaowenshu_agent/skills/requirement_ledger/__init__.py": "c418824bf2a76f4a9a2e51daad1e0ffe8a018ec931d72614b966197b99b069e8",
+    "src/qiaowenshu_agent/skills/requirement_ledger/skill.py": "0642c529c423bb22dc89b7189f8376e04d5aa316251985d76cba19f74ea36adf",
+    "src/qiaowenshu_agent/skills/rule_engine.py": "135bf428e30ae81a15808fab102badde06bd5f28a422af93f907f5c0dc237f65",
+    "src/qiaowenshu_agent/skills/scoring_strategy/__init__.py": "b16d0c3a3209dfb4ab18535b69eb37167c2ab4079b57045268487ca7de4b0263",
+    "src/qiaowenshu_agent/skills/scoring_strategy/skill.py": "21d48dd2974231bd7270f3a9fc03ed66f7a2fce5c4eba1a6ebc03272b5f77781",
+    "src/qiaowenshu_agent/skills/tender_common.py": "6b655a19ec19deabb6e66177bc3556f02258e8db5e259e62233cd5a8f1ddb1fa",
+    "src/qiaowenshu_agent/skills/tender_decomposition/__init__.py": "5d3ea118e12ab480e94f46e443b7f1c6051d253b5dc086026554d2db4e9aa4f9",
+    "src/qiaowenshu_agent/skills/tender_decomposition/skill.py": "73b50639565893e25725fce68a310c56fa889ed3ca94ae1512546cf3c34dc528",
+    "src/qiaowenshu_agent/skills/tender_intake/__init__.py": "66d52c46552c58d8a82f8ec37519606f23316a537df6e2b7b3a96a28a777a70a",
+    "src/qiaowenshu_agent/skills/tender_intake/skill.py": "c746ddcfbdadb1fac388f0ee636182df93e28a57776478dea75a6431fa407424"
+  },
+  "grader_version": "1.0.5",
+  "grader_sha256": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3",
+  "unseen_evaluation": "not_run",
+  "business_materials": "not_run",
+  "summary": {
+    "development": {
+      "product_and_graph_checks": {
+        "valid": {
+          "passed": 8,
+          "total": 8
+        },
+        "valid_synthetic": {
+          "passed": 0,
+          "total": 0
+        },
+        "invalid_confirmed": {
+          "passed": 36,
+          "total": 36
+        },
+        "product_review": {
+          "passed": 3,
+          "total": 3
+        },
+        "product_positive": {
+          "passed": 2,
+          "total": 2
+        },
+        "false_block": 0,
+        "false_accept": 0,
+        "executed_files": 5,
+        "execution_failed_files": 0,
+        "not_run_files": 0,
+        "checks_failed": 0,
+        "contract_checks_failed": 0
+      },
+      "negative_reasons": {
+        "passed": 36,
+        "total": 36,
+        "semantic_checks": 32,
+        "semantic_checks_with_invalid_source": 0
+      }
+    },
+    "public-h01-h06": {
+      "product_and_graph_checks": {
+        "valid": {
+          "passed": 12,
+          "total": 12
+        },
+        "valid_synthetic": {
+          "passed": 0,
+          "total": 0
+        },
+        "invalid_confirmed": {
+          "passed": 56,
+          "total": 56
+        },
+        "product_review": {
+          "passed": 3,
+          "total": 3
+        },
+        "product_positive": {
+          "passed": 3,
+          "total": 3
+        },
+        "false_block": 0,
+        "false_accept": 0,
+        "executed_files": 6,
+        "execution_failed_files": 0,
+        "not_run_files": 0,
+        "checks_failed": 0,
+        "contract_checks_failed": 0
+      },
+      "negative_reasons": {
+        "passed": 56,
+        "total": 56,
+        "semantic_checks": 50,
+        "semantic_checks_with_invalid_source": 0
+      }
+    }
+  }
+}

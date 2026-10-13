@@ -1,0 +1,704 @@
+{
+  "schema": "source-role-negative-reasons-v1",
+  "classification": "mutated graphs, not product/business decisions",
+  "summary": {
+    "passed": 36,
+    "total": 36,
+    "semantic_checks": 32,
+    "semantic_checks_with_invalid_source": 0
+  },
+  "not_applicable": [],
+  "checks": [
+    {
+      "case_id": "D01",
+      "variant": "operator_from_adjacent_group",
+      "expected_rejection_role": "operator",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "operator",
+          "reason": "S1.operator_relation cites outside its permitted raw region"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "scope_from_adjacent_group",
+      "expected_rejection_role": "scope",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "scope",
+          "reason": "S1.scope_relation cites outside its permitted raw region"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "missing_one_member_source",
+      "expected_rejection_role": "scope",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "scope",
+          "reason": "scope_relation does not cover every source for direct member A2"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "scope_not_confirmed",
+      "expected_rejection_role": "scope",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "scope",
+          "reason": "scope_relation is not confirmed"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "leaf_targets_for_root",
+      "expected_rejection_role": "scope",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S0",
+          "role": "scope",
+          "reason": "scope targets are not the exact direct children"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "boundary_from_adjacent_group",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "termination cites outside the permitted local closure"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "boundary_operator_only",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "termination cites outside the permitted local closure"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "boundary_semicolon_only",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "S1.termination has no actual source references"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "boundary_missing",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "S1.termination has no actual source references"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "boundary_wrong_occurrence",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "termination cites outside the permitted local closure"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "boundary_cross_paragraph",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "termination cites outside the permitted local closure"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "parent_not_confirmed",
+      "expected_rejection_role": "inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "inheritance",
+          "reason": "actual parent operator and scope are not both confirmed"
+        },
+        {
+          "group_id": "S2",
+          "role": "inheritance",
+          "reason": "actual parent operator and scope are not both confirmed"
+        },
+        {
+          "group_id": "S0",
+          "role": "inheritance",
+          "reason": "no unique confirmed node has the exact direct children"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "parent_scope_not_confirmed",
+      "expected_rejection_role": "inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "inheritance",
+          "reason": "actual parent operator and scope are not both confirmed"
+        },
+        {
+          "group_id": "S2",
+          "role": "inheritance",
+          "reason": "actual parent operator and scope are not both confirmed"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "parent_link_missing",
+      "expected_rejection_role": "inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "inheritance",
+          "reason": "no confirmed typed semantic parent cites this actual parent"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "structural_parent_only",
+      "expected_rejection_role": "inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "inheritance",
+          "reason": "no confirmed typed semantic parent cites this actual parent"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "parent_link_wrong_group",
+      "expected_rejection_role": "inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "inheritance",
+          "reason": "an additional conflicting semantic parent exists"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "parent_link_wrong_source",
+      "expected_rejection_role": "inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "inheritance",
+          "reason": "no confirmed typed semantic parent cites this actual parent"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "additional_conflicting_parent",
+      "expected_rejection_role": "inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "inheritance",
+          "reason": "an additional conflicting semantic parent exists"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "forged_raw_valid_flag",
+      "expected_rejection_role": "raw_source",
+      "raw_invalid_references": 2,
+      "raw_failures": [
+        {
+          "reference_index": 36,
+          "reason": "locator does not match page and raw character offsets",
+          "locator": "p1"
+        },
+        {
+          "reference_index": 36,
+          "reason": "raw character offsets do not select the exact quote on one line",
+          "locator": "p1l1"
+        },
+        {
+          "reference_index": 122,
+          "reason": "locator does not match page and raw character offsets",
+          "locator": "p1"
+        },
+        {
+          "reference_index": 122,
+          "reason": "raw character offsets do not select the exact quote on one line",
+          "locator": "p1l1"
+        }
+      ],
+      "semantic_rejections": [],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D01",
+      "variant": "wrong_source_version",
+      "expected_rejection_role": "raw_source",
+      "raw_invalid_references": 2,
+      "raw_failures": [
+        {
+          "reference_index": 36,
+          "reason": "source version mismatch"
+        },
+        {
+          "reference_index": 122,
+          "reason": "source version mismatch"
+        }
+      ],
+      "semantic_rejections": [],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "operator_from_adjacent_group",
+      "expected_rejection_role": "operator",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "operator",
+          "reason": "S1.operator_relation cites outside its permitted raw region"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "scope_from_adjacent_group",
+      "expected_rejection_role": "scope",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "scope",
+          "reason": "S1.scope_relation cites outside its permitted raw region"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "missing_one_member_source",
+      "expected_rejection_role": "scope",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "scope",
+          "reason": "scope_relation does not cover every source for direct member A2"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "scope_not_confirmed",
+      "expected_rejection_role": "scope",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "scope",
+          "reason": "scope_relation is not confirmed"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "leaf_targets_for_root",
+      "expected_rejection_role": "scope",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S0",
+          "role": "scope",
+          "reason": "scope targets are not the exact direct children"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "boundary_from_adjacent_group",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "termination cites outside the permitted local closure"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "boundary_operator_only",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "S1.termination has no actual source references"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "boundary_semicolon_only",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "S1.termination has no actual source references"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "boundary_missing",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "S1.termination has no actual source references"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "boundary_wrong_occurrence",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "termination cites outside the permitted local closure"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "boundary_cross_paragraph",
+      "expected_rejection_role": "termination",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "termination",
+          "reason": "termination cites outside the permitted local closure"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "forged_raw_valid_flag",
+      "expected_rejection_role": "raw_source",
+      "raw_invalid_references": 2,
+      "raw_failures": [
+        {
+          "reference_index": 36,
+          "reason": "locator does not match page and raw character offsets",
+          "locator": "p1"
+        },
+        {
+          "reference_index": 36,
+          "reason": "raw character offsets do not select the exact quote on one line",
+          "locator": "p1l2"
+        },
+        {
+          "reference_index": 123,
+          "reason": "locator does not match page and raw character offsets",
+          "locator": "p1"
+        },
+        {
+          "reference_index": 123,
+          "reason": "raw character offsets do not select the exact quote on one line",
+          "locator": "p1l2"
+        }
+      ],
+      "semantic_rejections": [],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D02",
+      "variant": "wrong_source_version",
+      "expected_rejection_role": "raw_source",
+      "raw_invalid_references": 2,
+      "raw_failures": [
+        {
+          "reference_index": 36,
+          "reason": "source version mismatch"
+        },
+        {
+          "reference_index": 123,
+          "reason": "source version mismatch"
+        }
+      ],
+      "semantic_rejections": [],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D03",
+      "variant": "forged_confirmed_from_review_source",
+      "expected_rejection_role": "operator_or_inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "operator",
+          "reason": "operator source has no explicit matching directive"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D04",
+      "variant": "forged_confirmed_from_review_source",
+      "expected_rejection_role": "operator_or_inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "operator",
+          "reason": "local instruction contains an unsupported selection count"
+        }
+      ],
+      "contract_errors": [],
+      "actual_rejected": true,
+      "passed": true
+    },
+    {
+      "case_id": "D05",
+      "variant": "forged_confirmed_from_review_source",
+      "expected_rejection_role": "operator_or_inheritance",
+      "raw_invalid_references": 0,
+      "raw_failures": [],
+      "semantic_rejections": [
+        {
+          "group_id": "S1",
+          "role": "operator",
+          "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        },
+        {
+          "group_id": "S1",
+          "role": "inheritance",
+          "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        },
+        {
+          "group_id": "S2",
+          "role": "operator",
+          "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        },
+        {
+          "group_id": "S2",
+          "role": "inheritance",
+          "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        },
+        {
+          "group_id": "S0",
+          "role": "operator",
+          "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        },
+        {
+          "group_id": "S0",
+          "role": "inheritance",
+          "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        }
+      ],
+      "contract_errors": [
+        "S1 inheritance is not declared contiguous",
+        "S2 inheritance is not declared contiguous"
+      ],
+      "actual_rejected": true,
+      "passed": true
+    }
+  ]
+}

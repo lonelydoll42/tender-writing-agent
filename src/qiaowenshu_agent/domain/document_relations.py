@@ -101,14 +101,14 @@ _GROUP_SELECTION_PHRASE = (
 )
 _COMPOSITE_GROUP_HEADER_RE = re.compile(
     rf"^\s*(?:(?:以下|下列)\s*)?(?P<count>{_NUMBER_TOKEN})\s*组"
-    r"(?P<subject>材料|要求)?\s*"
+    r"(?P<subject>材料|要求|证明|条件)?\s*"
     r"(?P<and_cue>均须提交|均须满足|都须提交|都须满足)"
     rf"(?:\s*，\s*但\s*(?P<selection>{_GROUP_SELECTION_PHRASE}))?"
     r"\s*[：:。]?\s*$"
 )
 _NEGATED_GROUP_SELECTION_HEADER_RE = re.compile(
     rf"^\s*(?:(?:以下|下列)\s*)?(?P<count>{_NUMBER_TOKEN})\s*组"
-    r"(?P<subject>材料|要求)?\s*并非均须提交\s*，\s*但\s*"
+    r"(?P<subject>材料|要求|证明|条件)?\s*并非均须提交\s*，\s*但\s*"
     rf"(?P<selection>{_GROUP_SELECTION_PHRASE})\s*[：:。]?\s*$"
 )
 _GROUP_DIRECTIVE_RE = re.compile(rf"(?:{_NUMBER_TOKEN}\s*组|每组|各组)")
@@ -169,7 +169,7 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
     records: list[dict[str, Any]] = []
     for index, value in enumerate(blocks):
         block = value if isinstance(value, Mapping) else {}
-        valid, references, reason = _validate_block_source(
+        valid, position_references, reason = _validate_block_source(
             structure,
             block,
             pages,
@@ -189,7 +189,13 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
                 if isinstance(block.get("raw_text"), str)
                 else "",
                 "source_valid": valid,
-                "source_references": references,
+                "position_references": position_references,
+                "source_references": [
+                    reference
+                    for reference in position_references
+                    if reference["quote"].strip()
+                    and reference["char_end"] > reference["char_start"]
+                ],
                 "source_reason": reason,
                 "kind": str(block.get("kind") or ""),
             }
@@ -207,6 +213,7 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
     for record in records:
         if record["block_id"] and id_counts.get(record["block_id"], 0) > 1:
             record["source_valid"] = False
+            record["position_references"] = []
             record["source_references"] = []
             record["source_reason"] = "block_id is duplicated"
 
@@ -4417,6 +4424,7 @@ def _parent_relation(
     status = "unresolved"
     reason = "no legacy parent pointer"
     targets: list[str] = []
+    position_references = list(record["position_references"])
     source_references = list(record["source_references"])
     if parent_id is not None:
         if not isinstance(parent_id, str) or not parent_id:
@@ -4442,6 +4450,7 @@ def _parent_relation(
     return {
         "status": status,
         "target_block_ids": targets,
+        "position_references": position_references,
         "source_references": source_references,
         "reason": reason,
     }

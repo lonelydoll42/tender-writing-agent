@@ -1,0 +1,15 @@
+{
+  "schema": "source-role-capture-metadata-erratum-v1",
+  "scope": [
+    "reports/source-role-followup-20261013/baseline/",
+    "reports/source-role-followup-20261013/after-h03/"
+  ],
+  "field": "source_commit",
+  "correction": "In these early captures source_commit records checkout HEAD/base, not an assertion that uncommitted product bytes belong to that commit.",
+  "unchanged_source_identity": "Exact source_files and source_tree_sha256 values in each saved capture are authoritative. Original reports are preserved, not rewritten.",
+  "reconstruction": {
+    "baseline": "Original cb2c8e1 working-file hashes frozen in baseline-freeze.json",
+    "after_h03": "after-h03-source.py.txt replaces only domain/document_relations.py; all other product working-file hashes remain at baseline"
+  },
+  "later_capture_policy": "source_commit=null, checkout_base_commit explicit, per-file bytes and canonical export proof retained"
+}
