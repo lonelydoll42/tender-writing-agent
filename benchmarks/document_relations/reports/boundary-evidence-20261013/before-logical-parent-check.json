@@ -1,0 +1,716 @@
+{
+  "schema": "boundary-evidence-logical-parent-review-v1",
+  "generated_at": "2026-10-13T10:48:40.564012+08:00",
+  "classification": "public synthetic reviewer counterexamples",
+  "grader_sha256": "c44e4f05b7d4fc1fdc035cab66e9489a0036bf431ad513bfbdbda79e41778b03",
+  "fixture_tests_sha256": "6df33c98f21a42fb61db1d24f476f4a9fefae1328f91b8077c2d00c85e49033b",
+  "passed": 4,
+  "total": 6,
+  "false_accept": 2,
+  "false_block": 0,
+  "checks": [
+    {
+      "layer": "semantic_parent",
+      "expected_accept": true,
+      "actual_accept": true,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "layer": "logical_parent",
+      "expected_accept": true,
+      "actual_accept": true,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "layer": "condition_parent",
+      "expected_accept": true,
+      "actual_accept": true,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "layer": "attribute_parent",
+      "expected_accept": false,
+      "actual_accept": true,
+      "input_preserved": true,
+      "passed": false,
+      "errors": [],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "layer": "contextual_parent",
+      "expected_accept": false,
+      "actual_accept": true,
+      "input_preserved": true,
+      "passed": false,
+      "errors": [],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "layer": "structural_list",
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "no confirmed typed semantic parent cites this actual parent"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "no confirmed typed semantic parent cites this actual parent"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "no confirmed typed semantic parent cites this actual parent"
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "node-S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+param(
+    [Parameter(Mandatory = $true)][string]$ExportRoot,
+    [Parameter(Mandatory = $true)][string]$Tree,
+    [Parameter(Mandatory = $true)][string]$Archive,
+    [Parameter(Mandatory = $true)][string]$Output
+)
+
+$ErrorActionPreference = 'Stop'
+$repo = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '../../../..')).Path
+$export = (Resolve-Path -LiteralPath $ExportRoot).Path
+$outputPath = [IO.Path]::GetFullPath($Output)
+if (Test-Path -LiteralPath $outputPath) { throw 'Refusing to overwrite proof' }
+
+function Get-Sha256([string]$Path) {
+    return (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()
+}
+
+function Get-BlobProof([string[]]$Paths) {
+    foreach ($path in $Paths) {
+        $gitBlob = git -C $repo rev-parse "${Tree}:$path"
+        if ($LASTEXITCODE -ne 0) { throw "Missing tree blob: $path" }
+        $local = Join-Path $export $path
+        $exportBlob = git -C $repo hash-object --no-filters -- $local
+        if ($LASTEXITCODE -ne 0) { throw "Unable to hash export: $path" }
+        [ordered]@{
+            path = $path
+            git_blob = "$gitBlob"
+            export_blob = "$exportBlob"
+            match = ("$gitBlob" -eq "$exportBlob")
+            sha256 = Get-Sha256 $local
+        }
+    }
+}
+
+$tracked = @(git -C $repo -c core.quotepath=false ls-tree -r --name-only $Tree)
+if ($LASTEXITCODE -ne 0) { throw 'Unable to list snapshot tree' }
+$sourcePaths = [string[]]@($tracked | Where-Object { $_ -match '^src/.*\.py$' })
+[Array]::Sort($sourcePaths, [StringComparer]::Ordinal)
+$legacyProof = Get-Content -Raw -LiteralPath (Join-Path $repo 'benchmarks/document_relations/reports/scorer-remap-20261012/source-proof.json') | ConvertFrom-Json
+$evalPaths = [string[]]@(
+    $legacyProof.evaluator_files | ForEach-Object { $_.Path }
+    'scripts/run_document_relations_boundary_rescore.py'
+    'tests/evals/test_document_relations_boundary_rescore.py'
+)
+$reviewerPaths = [string[]]@(
+    'freeze-cases.py', 'check-boundary.py', 'check-inheritance-source.py',
+    'compare-scores.py', 'check-logical-parent.py', 'verify-snapshot.ps1'
+) | ForEach-Object { "benchmarks/document_relations/boundary-evidence-regression/20261013/$_" }
+
+$sources = @(Get-BlobProof $sourcePaths)
+$evaluators = @(Get-BlobProof $evalPaths)
+$reviewers = @(Get-BlobProof $reviewerPaths)
+$mismatches = @(@($sources) + @($evaluators) + @($reviewers) | Where-Object { -not $_.match })
+$aggregate = [Security.Cryptography.IncrementalHash]::CreateHash([Security.Cryptography.HashAlgorithmName]::SHA256)
+foreach ($file in $sources) {
+    $aggregate.AppendData([Text.Encoding]::UTF8.GetBytes($file.path))
+    $aggregate.AppendData([byte[]]@(9))
+    $aggregate.AppendData([Convert]::FromHexString($file.sha256))
+    $aggregate.AppendData([byte[]]@(10))
+}
+$sourceHash = [Convert]::ToHexString($aggregate.GetHashAndReset()).ToLowerInvariant()
+$aggregate.Dispose()
+
+$freezePath = 'benchmarks/document_relations/boundary-evidence-regression/20261013/baseline-freeze.json'
+$baseline = Get-Content -Raw -LiteralPath (Join-Path $export $freezePath) | ConvertFrom-Json
+$protected = @()
+foreach ($entry in $baseline.protected_hashes.PSObject.Properties) {
+    $hash = Get-Sha256 (Join-Path $export $entry.Name)
+    $protected += [ordered]@{
+        path = $entry.Name
+        expected_sha256 = $entry.Value
+        export_sha256 = $hash
+        match = ($entry.Value -eq $hash)
+    }
+}
+$protectedMismatch = @($protected | Where-Object { -not $_.match })
+if ($sourceHash -ne $baseline.product_source_tree_sha256) {
+    throw 'Export product source tree differs from frozen product'
+}
+if ($mismatches.Count -or $protectedMismatch.Count) {
+    throw 'Snapshot byte verification failed'
+}
+$proof = [ordered]@{
+    schema = 'boundary-evidence-canonical-source-proof-v1'
+    generated_at = (Get-Date).ToString('o')
+    archive_base_staged_tree = $Tree
+    archive_autocrlf = 'false'
+    archive_sha256 = Get-Sha256 $Archive
+    source_tree_sha256 = $sourceHash
+    source_file_count = $sources.Count
+    source_git_blob_matches = @($sources | Where-Object { $_.match }).Count
+    evaluator_file_count = $evaluators.Count
+    evaluator_git_blob_matches = @($evaluators | Where-Object { $_.match }).Count
+    reviewer_file_count = $reviewers.Count
+    reviewer_git_blob_matches = @($reviewers | Where-Object { $_.match }).Count
+    protected_files_unchanged = @($protected | Where-Object { $_.match }).Count
+    protected_file_count = $protected.Count
+    mismatches = @($mismatches) + @($protectedMismatch)
+    scope = 'Canonical code archive, before final publication metadata. No product source changes. Existing frozen files and evaluator/test blobs independently verified.'
+    source_files = $sources
+    evaluator_files = $evaluators
+    reviewer_files = $reviewers
+    protected_files = $protected
+}
+$parent = Split-Path -Parent $outputPath
+[IO.Directory]::CreateDirectory($parent) | Out-Null
+$json = ($proof | ConvertTo-Json -Depth 12).Replace("`r`n", "`n") + "`n"
+$stream = [IO.File]::Open($outputPath, [IO.FileMode]::CreateNew)
+try {
+    $bytes = [Text.UTF8Encoding]::new($false).GetBytes($json)
+    $stream.Write($bytes, 0, $bytes.Length)
+}
+finally { $stream.Dispose() }
+$proof | Select-Object source_file_count, evaluator_file_count, reviewer_file_count, protected_files_unchanged, source_tree_sha256

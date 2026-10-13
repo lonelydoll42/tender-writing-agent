@@ -1,0 +1,31 @@
+{
+  "schema": "boundary-evidence-fixture-freeze-v1",
+  "frozen_at": "2026-10-13T00:54:39.3634876+08:00",
+  "phase": "rules frozen then fixtures frozen; no worker dispatched yet",
+  "baseline_freeze_sha256": "a37b9d8ae0f789e923fce4b174e547e1ea71013887d41c171b6f9b3256b74637",
+  "annotator_sha256": "738265f03a067202119f1e7f8ad09ded31b7f466165aa9145c000f534ca55a8f",
+  "overlay_sha256": "526a08805b88192d2351a0c0b45f9cd6060745ba1a931919e069e9d104c86d02",
+  "development_count": 5,
+  "holdout_count": 6,
+  "holdout_isolation": "policy-only shared filesystem; do not read before implementation workers close",
+  "private_case_content_used_by_developer": false,
+  "development_hashes": {
+    "benchmarks/document_relations/boundary-evidence-regression/20261013/development/cases.json": "bfa64cec5fe57620a29335297ca875bc10cdc6ea0517a30fae8c723a88370a59",
+    "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D01.txt": "141170d6399ed04cb67c724934fb43c85471cc73a4418cfc7ff51fa0949942df",
+    "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D02.txt": "a32996f89cee046dac022ed98f0ee895408f96b7a5115d8da6b107290b88dd3c",
+    "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D03.txt": "e395fcd752ce6098662ba3d16aaaf98597defc223a854db5cdceb804c3a70a07",
+    "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D04.txt": "16ed1c737fd4a090ac5291177b5941ff6ea1cf639d6c5370e5974caa4fee60ed",
+    "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D05.txt": "5cd378d56cd8ed559e8d75056ce48c311c8d3ddf4e9212bd14e491b678584883"
+  },
+  "holdout_hashes": {
+    ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/cases.json": "0393829870a0171bfe5f5fd04a76c5bf6d5c7306d26f4b5269ca4526d8879b24",
+    ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H01.txt": "c8514e67450efc67ee04f7d6c63215ff40c90761cbf3c8489fe56d5db2953a41",
+    ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H02.txt": "f979dcfa0de47ebcc8d443476619acd507772941259740721942e203c04a9d32",
+    ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H03.txt": "3c6d456de519d37cc1a25298cc3afc24c118fcc77e7e09135b6814a1dca64bda",
+    ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H04.txt": "21996c9592f2a668e3cd8263890aad39863cbafdd0ce910cc56a7ed5111ec7f3",
+    ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H05.txt": "901ef65a5d61a0b646e6aacfde27cce7b9ae3ec1dc98d10f1f4153566bb2804d",
+    ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H06.txt": "ec3b43d3795b08f39f4b8add50c5102f5bfb730e200b2f7f751b640c8695a56a"
+  },
+  "decision": "grader-only bounded role contract; source proof failures remain failures, no expected case-11 status",
+  "product_source_changes_permitted": false
+}

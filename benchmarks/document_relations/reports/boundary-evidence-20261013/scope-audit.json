@@ -1,0 +1,291 @@
+{
+  "schema": "boundary-evidence-final-scope-audit-v1",
+  "recorded_at": "2026-10-13T11:18:21.0081103+08:00",
+  "batch_status": "not_closed",
+  "accepted_scope": "Public finite logical-evidence grader correction and saved-output preservation only",
+  "product_source_changed": false,
+  "product_source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+  "canonical": {
+    "tests_passed": 912,
+    "warnings": 1,
+    "warning": "Existing StarletteDeprecationWarning",
+    "grader_tests_passed": 89,
+    "ruff": "passed",
+    "source_blob_matches": 65,
+    "evaluator_test_blob_matches": 19,
+    "reviewer_blob_matches": 6,
+    "working_frozen_hash_matches": 473,
+    "old_git_blob_matches": 473,
+    "eol_only_differences": 154,
+    "archive_base_tree": "231f251ed3362619596686ea1bcee34d097988eb",
+    "metadata_added_after_code_archive": true
+  },
+  "same_output": {
+    "product_sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+    "original_materials_preserved": 14,
+    "changed_cases": [
+      "case-11"
+    ],
+    "legacy_summary": {
+      "case_count": 14,
+      "passed": 9,
+      "failed": 5,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 2,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 5,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 6,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 3,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 18,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1083,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 40,
+        "group_structure_error_events": 7
+      }
+    },
+    "new_summary": {
+      "case_count": 14,
+      "passed": 10,
+      "failed": 4,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 2,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 4,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 3,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 10,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1083,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 25,
+        "group_structure_error_events": 4
+      }
+    },
+    "runtime_invoked_for_rescore": false,
+    "product_improvement_claimed": false
+  },
+  "development": {
+    "valid": {
+      "passed": 8,
+      "total": 8
+    },
+    "valid_synthetic": {
+      "passed": 0,
+      "total": 0
+    },
+    "invalid_confirmed": {
+      "passed": 36,
+      "total": 36
+    },
+    "product_review": {
+      "passed": 3,
+      "total": 3
+    },
+    "product_positive": {
+      "passed": 2,
+      "total": 2
+    },
+    "false_block": 0,
+    "false_accept": 0,
+    "executed_files": 5,
+    "execution_failed_files": 0,
+    "not_run_files": 0,
+    "checks_failed": 0,
+    "contract_checks_failed": 0
+  },
+  "reserved_exposed": {
+    "valid": {
+      "passed": 4,
+      "total": 8
+    },
+    "valid_synthetic": {
+      "passed": 4,
+      "total": 4
+    },
+    "invalid_confirmed": {
+      "passed": 56,
+      "total": 56
+    },
+    "product_review": {
+      "passed": 3,
+      "total": 3
+    },
+    "product_positive": {
+      "passed": 1,
+      "total": 3
+    },
+    "false_block": 4,
+    "false_accept": 0,
+    "executed_files": 6,
+    "execution_failed_files": 0,
+    "not_run_files": 0,
+    "checks_failed": 6,
+    "contract_checks_failed": 4
+  },
+  "strong_source": {
+    "development_passed": 6,
+    "development_total": 6,
+    "reserved_passed": 6,
+    "reserved_total": 6
+  },
+  "logical_parent": {
+    "passed": 6,
+    "total": 6,
+    "before_passed": 4,
+    "before_total": 6,
+    "before_false_accept": 2,
+    "final_false_accept": 0
+  },
+  "reserved_interpretation": {
+    "unseen_accepted": false,
+    "classification": "public regression due uncertain developer exposure",
+    "h01": "Actual product has no complete expected tree. Four accepted synthetic proof variants do not count as product success.",
+    "h03": "Two unresolved empty-block locators have zero-length spans and empty quotes. Existing global reference validation rejects them. Preserve 4/8 nominal false-block result; interface contract remains unresolved.",
+    "negative_limit": "H03 negative variants are also rejected by the global empty-quote error; aggregate rejection cannot establish each semantic branch independently.",
+    "review_limit": "3/3 review checks only exclude a confirmed complete outer AND; H04 still has a local confirmed AND.",
+    "files_executed_in_original_capture": 6,
+    "execution_failed": 0,
+    "not_run": 0,
+    "capture_rerun_for_canonical_grading": false
+  },
+  "business_materials": "not_run",
+  "historical_public_raw": "0/8, not rerun",
+  "not_closed": [
+    "H01 parsing completeness",
+    "H03 raw-locator versus evidence contract",
+    "pre-development unseen isolation",
+    "full Step 2",
+    "generic completeness",
+    "production acceptance",
+    "uv.lock"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "schema": "boundary-evidence-developer-access-audit-v1",
+  "recorded_at": "2026-10-13T10:42:39.5018157+08:00",
+  "test_agent_id": "01a132cb-4cd5-7e73-a181-239346c9095d",
+  "implementation_agent_id": "01a132d2-7d82-7071-b2ff-ad18522319ef",
+  "workers_closed": true,
+  "late_test_agent_self_report": {
+    "claims_direct_reserved_oracle_read": true,
+    "claims_historical_report_read_and_rescore": true,
+    "exact_private_read_time": null,
+    "content_used_in_development": "unknown",
+    "status": "self-reported; direct command details not independently recovered from available exec_command records",
+    "prior_final_denial_scope": "Last supplement only, explicitly corrected by agent."
+  },
+  "local_transcript_sha256": "e04e78608ab66053c417a17594d9ab0baecaeabdcd395dc5ce7657f9c40833a3",
+  "local_recorded_exec_calls": 111,
+  "recovered_direct_commands": [],
+  "parent_thread_read_evidence": [
+    {
+      "timestamp_utc": "2026-10-13T01:56:50.731Z",
+      "arguments": {
+        "threadId": "01a10b31-12e4-7770-a1ae-6ac3cbad6a4c",
+        "hostId": "local",
+        "turnLimit": 20,
+        "includeOutputs": true,
+        "maxOutputCharsPerItem": 3000
+      },
+      "output_character_count": 121,
+      "mentions_reserved_paths": false,
+      "contains_h01_material_text": false,
+      "contains_h03_material_text": false,
+      "meaning": "These output markers may include instructions, summaries or source content; they do not establish which content the developer used."
+    },
+    {
+      "timestamp_utc": "2026-10-13T01:56:58.998Z",
+      "arguments": {
+        "threadId": "01a10b31-12e4-7770-a1ae-6ac3cbad6a4c",
+        "hostId": "local",
+        "turnLimit": 10,
+        "includeOutputs": true,
+        "maxOutputCharsPerItem": 2500
+      },
+      "output_character_count": 40864,
+      "mentions_reserved_paths": true,
+      "contains_h01_material_text": false,
+      "contains_h03_material_text": false,
+      "meaning": "These output markers may include instructions, summaries or source content; they do not establish which content the developer used."
+    },
+    {
+      "timestamp_utc": "2026-10-13T01:57:38.787Z",
+      "arguments": {
+        "threadId": "01a10b31-12e4-7770-a1ae-6ac3cbad6a4c",
+        "hostId": "local",
+        "turnLimit": 10,
+        "includeOutputs": false
+      },
+      "output_character_count": 42756,
+      "mentions_reserved_paths": true,
+      "contains_h01_material_text": false,
+      "contains_h03_material_text": false,
+      "meaning": "These output markers may include instructions, summaries or source content; they do not establish which content the developer used."
+    }
+  ],
+  "implementation_disclosure": "Agent self-reported no actual14 rescore and no holdout access; no claim of technical blind isolation.",
+  "decision": "Conservative: exclude all H01-H06 from unseen acceptance; publish as regression. The original frozen false access field reflects pre-development intent, not a current assurance.",
+  "unseen_acceptance": "not_achieved",
+  "certified_blind": false
+}

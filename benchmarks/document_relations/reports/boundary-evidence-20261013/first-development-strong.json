@@ -1,0 +1,1216 @@
+{
+  "schema": "boundary-evidence-independent-source-guard-v1",
+  "generated_at": "2026-10-13T09:57:05.016784+08:00",
+  "classification": "deliberately incorrect confirmed graphs, not product output",
+  "cases_sha256": "bfa64cec5fe57620a29335297ca875bc10cdc6ea0517a30fae8c723a88370a59",
+  "capture_sha256": "9e26e9595313d41edbc062494ae1ea6512ea810e8b460e7b12d540125674891d",
+  "grader_sha256": "e32359594ce6d1d030e0275b9f7f24e58559b59f943c569416bd44e5d33621e3",
+  "passed": 6,
+  "total": 6,
+  "false_accept": 0,
+  "checks": [
+    {
+      "case_id": "D03",
+      "spoof_flags": false,
+      "negative_reason": "local_conflict",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组任选一项",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S2",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A3",
+            "A4"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "invalid",
+        "contract_errors": [
+          "source_context registered_input_sha256 does not match registered raw pages"
+        ],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "D03",
+      "spoof_flags": true,
+      "negative_reason": "local_conflict",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组任选一项",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S2",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A3",
+            "A4"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "invalid",
+        "contract_errors": [
+          "source_context registered_input_sha256 does not match registered raw pages"
+        ],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "D04",
+      "spoof_flags": false,
+      "negative_reason": "unsupported_count",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组任选一项",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S2",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A4",
+            "A5"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A5",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A5",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "invalid",
+        "contract_errors": [
+          "source_context registered_input_sha256 does not match registered raw pages"
+        ],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "D04",
+      "spoof_flags": true,
+      "negative_reason": "unsupported_count",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组任选一项",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S2",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A4",
+            "A5"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A5",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A5",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "invalid",
+        "contract_errors": [
+          "source_context registered_input_sha256 does not match registered raw pages"
+        ],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages"
+            },
+            "status": "rejected"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "D05",
+      "spoof_flags": false,
+      "negative_reason": "intervening_paragraph",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组只需择一",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S2",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A3",
+            "A4"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "invalid",
+        "contract_errors": [
+          "source_context registered_input_sha256 does not match registered raw pages",
+          "S1 inheritance is not declared contiguous",
+          "S2 inheritance is not declared contiguous"
+        ],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "D05",
+      "spoof_flags": true,
+      "negative_reason": "intervening_paragraph",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组只需择一",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S2",
+          "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A3",
+            "A4"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "invalid",
+        "contract_errors": [
+          "source_context registered_input_sha256 does not match registered raw pages",
+          "S2 inheritance is not declared contiguous"
+        ],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "source_context registered_input_sha256 does not match registered raw pages; S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          }
+        }
+      }
+    }
+  ]
+}

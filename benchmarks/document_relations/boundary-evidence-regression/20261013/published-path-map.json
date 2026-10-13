@@ -1,0 +1,55 @@
+{
+  "schema": "boundary-evidence-publication-path-map-v1",
+  "published_at": "2026-10-13T10:41:13.6527327+08:00",
+  "workers_closed_before_publication": true,
+  "classification": "public regression; original reserved pool is not accepted as unseen evidence",
+  "original_kind_field": "The byte-preserved cases.json still says holdout, reflecting its original intent, not current acceptance status.",
+  "inputs_or_expected_answers_changed": false,
+  "files": [
+    {
+      "original_path": ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/cases.json",
+      "published_path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/cases.json",
+      "sha256": "0393829870a0171bfe5f5fd04a76c5bf6d5c7306d26f4b5269ca4526d8879b24"
+    },
+    {
+      "original_path": ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H01.txt",
+      "published_path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H01.txt",
+      "sha256": "c8514e67450efc67ee04f7d6c63215ff40c90761cbf3c8489fe56d5db2953a41"
+    },
+    {
+      "original_path": ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H02.txt",
+      "published_path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H02.txt",
+      "sha256": "f979dcfa0de47ebcc8d443476619acd507772941259740721942e203c04a9d32"
+    },
+    {
+      "original_path": ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H03.txt",
+      "published_path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H03.txt",
+      "sha256": "3c6d456de519d37cc1a25298cc3afc24c118fcc77e7e09135b6814a1dca64bda"
+    },
+    {
+      "original_path": ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H04.txt",
+      "published_path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H04.txt",
+      "sha256": "21996c9592f2a668e3cd8263890aad39863cbafdd0ce910cc56a7ed5111ec7f3"
+    },
+    {
+      "original_path": ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H05.txt",
+      "published_path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H05.txt",
+      "sha256": "901ef65a5d61a0b646e6aacfde27cce7b9ae3ec1dc98d10f1f4153566bb2804d"
+    },
+    {
+      "original_path": ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout/raw/H06.txt",
+      "published_path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H06.txt",
+      "sha256": "ec3b43d3795b08f39f4b8add50c5102f5bfb730e200b2f7f751b640c8695a56a"
+    },
+    {
+      "original_path": ".qiaowenshu/acceptance/boundary-evidence-20261013/development-capture.json",
+      "published_path": "benchmarks/document_relations/reports/boundary-evidence-20261013/development-capture.json",
+      "sha256": "9e26e9595313d41edbc062494ae1ea6512ea810e8b460e7b12d540125674891d"
+    },
+    {
+      "original_path": ".qiaowenshu/acceptance/boundary-evidence-20261013/holdout-capture.json",
+      "published_path": "benchmarks/document_relations/reports/boundary-evidence-20261013/reserved-capture.json",
+      "sha256": "f2c7cd62219fb1e4360a434add8132746f0274d54749cf0d08cada8fc5650648"
+    }
+  ]
+}

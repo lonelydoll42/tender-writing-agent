@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.387" timestamp="2026-10-13T09:13:41.627915+08:00" hostname="捡垃圾换的2060"><testcase classname="" name="tests.evals.test_document_relations_boundary_rescore" time="0.000"><error message="collection failure">ImportError while importing test module 'E:\project\tender-writing-agent\tests\evals\test_document_relations_boundary_rescore.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\Miniconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\evals\test_document_relations_boundary_rescore.py:9: in &lt;module&gt;
+    from scripts import run_document_relations_boundary_rescore as rescore
+E   ImportError: cannot import name 'run_document_relations_boundary_rescore' from 'scripts' (E:\project\tender-writing-agent\scripts\__init__.py)</error></testcase></testsuite></testsuites>

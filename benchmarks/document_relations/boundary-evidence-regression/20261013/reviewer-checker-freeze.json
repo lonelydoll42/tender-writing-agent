@@ -1,0 +1,15 @@
+{
+  "schema": "boundary-evidence-reviewer-checker-freeze-v1",
+  "frozen_at": "2026-10-13T01:02:35.5102370+08:00",
+  "checker_sha256": "6a917ff95152b5dd510c182b4287bda4ff130837ba4b39c817c0a6cddce58cc1",
+  "checker_creation": "after raw annotations and baseline capture, before implementation; source annotations unchanged",
+  "annotator_initial_snapshot": "freeze-cases-initial.py.txt",
+  "annotator_initial_sha256": "738265f03a067202119f1e7f8ad09ded31b7f466165aa9145c000f534ca55a8f",
+  "annotator_formatted_sha256": "9ea3c03105b7c47f3bb3b66d5ab6b41ca053b5507ba4e28c0f126ca0bf499606",
+  "annotator_change": "ruff format and wrapping unchanged string constants only; initial bytes retained",
+  "captures": {
+    "development": "9e26e9595313d41edbc062494ae1ea6512ea810e8b460e7b12d540125674891d",
+    "holdout": "f2c7cd62219fb1e4360a434add8132746f0274d54749cf0d08cada8fc5650648"
+  },
+  "implementation_present": false
+}

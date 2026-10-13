@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="81" time="2.077" timestamp="2026-10-13T10:13:22.099471+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_confirmed_inherited_or_has_local_scope_and_terminal_evidence" time="0.184" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_confirmed_local_or_is_valid_without_inheritance" time="0.010" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_direct_score_accepts_context_without_registered_input_sha256" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_termination_accepts_same_position_covering_quote_or_final_mark[whole_own_line]" time="0.013" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_termination_accepts_same_position_covering_quote_or_final_mark[only_final_punctuation]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_parent_link_accepts_a_same_occurrence_superset_inside_its_scope" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[local_and_conflict]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[unsupported_selection_count]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[operator_from_adjacent_group]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[scope_from_adjacent_group]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[missing_one_member_source]" time="0.010" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[scope_not_confirmed]" time="0.010" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[leaf_targets_for_root]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_from_adjacent_group]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_operator_only]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_semicolon_only]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_missing]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_wrong_occurrence]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_cross_paragraph]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_not_confirmed]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_scope_not_confirmed]" time="0.010" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_link_missing]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[structural_parent_only]" time="0.010" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_link_wrong_group]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_link_wrong_source]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[additional_conflicting_parent]" time="0.011" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_candidate]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_scope_candidate]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_link_candidate]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[forged_raw_valid_flag]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[wrong_source_version]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[out_of_range_reference]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_malformed_sidecar_is_rejected_without_changing_the_graph" time="0.007" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_score_case_does_not_mutate_caller_owned_synthetic_inputs" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_synthetic_bundle_machine_oracle_matches_overlay_sha256" time="0.014" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_inherited_parent_or_does_not_override_local_conflict[\u987b\u540c\u65f6\u63d0\u4ea4-local_conflict-False]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_inherited_parent_or_does_not_override_local_conflict[\u4efb\u9009\u4e24\u9879-unsupported_count-True]" time="0.011" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_raw_text_overrules_forged_absent_and_contiguous_sidecar[\u987b\u540c\u65f6\u63d0\u4ea4-local_conflict-False-False]" time="0.014" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_raw_text_overrules_forged_absent_and_contiguous_sidecar[\u4efb\u9009\u4e24\u9879-unsupported_count-True-False]" time="0.011" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_raw_text_overrules_forged_absent_and_contiguous_sidecar[None-absent-False-True]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_rescore_requires_authorization_before_opening_any_input" time="0.002" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_missing_rescore_inputs_are_rejected[product_report]" time="0.017" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_missing_rescore_inputs_are_rejected[overlay]" time="0.015" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_missing_rescore_inputs_are_rejected[bundle]" time="0.018" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_rescore_checks_both_input_sha256_values_before_bundle_verification[product_report]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_rescore_checks_both_input_sha256_values_before_bundle_verification[overlay]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_product_report_schema_and_identity_are_checked_before_bundle_verification[schema-unknown-product-report-schema]" time="0.018" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_product_report_schema_and_identity_are_checked_before_bundle_verification[base_commit-synthetic-other-commit]" time="0.021" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_duplicate_or_missing_product_report_cases_are_rejected[duplicate]" time="0.023" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_duplicate_or_missing_product_report_cases_are_rejected[missing]" time="0.024" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_schema]" time="0.026" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_case_id]" time="0.028" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_duplicate_case]" time="0.031" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_input_sha256]" time="0.038" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_oracle_sha256]" time="0.031" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_product_report_sha256]" time="0.022" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[contract_schema]" time="0.030" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[contract_case_id]" time="0.023" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[contract_duplicate_group_member]" time="0.022" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[contract_missing_group]" time="0.022" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_document_id]" time="0.023" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_source_version]" time="0.023" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_page]" time="0.026" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_quote]" time="0.040" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_offset]" time="0.023" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_duplicate_group_keys_in_overlay_json_are_rejected" time="0.023" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[graph_document_id]" time="0.027" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[graph_source_version]" time="0.025" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[graph_schema]" time="0.027" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_document_id]" time="0.025" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_source_version]" time="0.024" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_pages]" time="0.025" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_raw_input_sha256]" time="0.024" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_registered_input_sha256]" time="0.025" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[runtime_input_sha256]" time="0.025" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[duplicate_node_id]" time="0.023" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_missing_frozen_input_is_rejected_without_runtime_calls" time="0.017" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_rescore_preserves_failed_and_not_run_cases_and_caller_files" time="0.022"><failure message="ValueError: case-01 sidecar evidence is invalid: S0.operator_sources[0] document identity mismatch; S1.operator_sources[0] document identity mismatch; S2.operator_sources[0] document identity mismatch">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-second-newtests/test_rescore_preserves_failed_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000000000753F690&gt;
+
+    def test_rescore_preserves_failed_and_not_run_cases_and_caller_files(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        original_report = deepcopy(inputs.product_report)
+        original_overlay = deepcopy(inputs.overlay)
+        original_report_bytes = inputs.product_report_path.read_bytes()
+        original_overlay_bytes = inputs.overlay_path.read_bytes()
+        machine_oracle_bytes = (inputs.bundle / "machine-oracle.json").read_bytes()
+        calls = _guard_synthetic_bundle(monkeypatch, inputs)
+    
+&gt;       result = _call_synthetic_rescore(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\evals\test_document_relations_boundary_rescore.py:1410: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\evals\test_document_relations_boundary_rescore.py:1002: in _call_synthetic_rescore
+    return rescore.rescore_report(
+scripts\run_document_relations_boundary_rescore.py:1926: in rescore_report
+    overlay_cases = _validate_overlay_cases(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+overlay = {'cases': [{'case_id': 'case-01', 'evidence_contract': {'case_id': 'case-01', 'groups': {'S0': {'inheritance': None, '...bf90ffc7848896aa960', 'product_report_sha256': '9302b8cf593523bf70e6899b172b00041ffc72b01208ec90e8fc365bb9ca1e3f', ...}
+freeze = {'bundle': WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-second-...9f0d5ff78ede926a8dfcb2', 'bundle_fingerprint': 'eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d6864', ...}
+bundle_inputs = {'case-01': ({'case_id': 'case-01', 'conditions': [{'id': 'A1', 'text': '营业执照', 'certainty': 'confirmed', 'source': [{...], 'relations': []}, ...}, 'e3492ac41919c7c4d2577454c02f781b710140b6f8c3f7b3ca59187eed4d85c1', ['纯合成输入：case-04']), ...}
+evaluator = &lt;module '_document_relations_eval_103_e907a323faf14a81af74ea8d9e6359b9' from 'E:\\project\\tender-writing-agent\\scripts\\run_document_relations_eval.py'&gt;
+
+    def _validate_overlay_cases(
+        overlay: Mapping[str, Any],
+        freeze: Mapping[str, Any],
+        bundle_inputs: Mapping[str, tuple[dict[str, Any], str, list[str]]],
+        evaluator: ModuleType,
+    ) -&gt; dict[str, tuple[Mapping[str, Any], Mapping[str, Any]]]:
+        rows = overlay.get("cases")
+        if not isinstance(rows, list):
+            raise ValueError("historical overlay cases must be a list")
+        oracle_cases = {
+            str(case.get("case_id")): case
+            for case in freeze["oracle"]["cases"]
+            if isinstance(case, Mapping)
+        }
+        allowed_ids = set(bundle_inputs)
+        result: dict[str, tuple[Mapping[str, Any], Mapping[str, Any]]] = {}
+        for row in rows:
+            if not isinstance(row, Mapping):
+                raise ValueError("historical overlay case entry must be an object")
+            case_id = row.get("case_id")
+            if (
+                not isinstance(case_id, str)
+                or case_id not in oracle_cases
+                or case_id not in allowed_ids
+            ):
+                raise ValueError(f"unknown historical overlay case: {case_id!r}")
+            if case_id in result:
+                raise ValueError(f"duplicate historical overlay case: {case_id}")
+            if case_id not in allowed_ids:
+                raise ValueError(f"historical overlay case is outside the frozen scope: {case_id}")
+            contract = row.get("evidence_contract")
+            if not isinstance(contract, Mapping):
+                raise ValueError(f"{case_id} evidence_contract is missing")
+            if contract.get("case_id") != case_id or contract.get("schema") != CONTRACT_SCHEMA:
+                raise ValueError(f"{case_id} evidence_contract identity/schema mismatch")
+            oracle_case, input_sha256, pages = bundle_inputs[case_id]
+            row_hash = row.get("raw_input_sha256")
+            if row_hash is not None and row_hash != input_sha256:
+                raise ValueError(f"{case_id} overlay raw input checksum mismatch")
+            oracle_hash = oracle_case.get("raw_input_sha256")
+            if oracle_hash is not None and oracle_hash != input_sha256:
+                raise ValueError(f"{case_id} bundle oracle raw input checksum mismatch")
+            groups = contract.get("groups")
+            case_groups = oracle_case.get("groups")
+            if not isinstance(groups, Mapping) or not isinstance(case_groups, list):
+                raise ValueError(f"{case_id} contract/case groups are malformed")
+            oracle_group_map: dict[str, Mapping[str, Any]] = {}
+            for group in case_groups:
+                if not isinstance(group, Mapping) or not isinstance(group.get("id"), str):
+                    raise ValueError(f"{case_id} frozen oracle group is malformed")
+                group_id = str(group["id"])
+                if group_id in oracle_group_map:
+                    raise ValueError(f"{case_id} frozen oracle repeats group {group_id}")
+                oracle_group_map[group_id] = group
+            if any(
+                not isinstance(group_id, str) or group_id not in oracle_group_map
+                for group_id in groups
+            ):
+                raise ValueError(f"{case_id} contract contains an unknown frozen group")
+            seen_groups: set[str] = set()
+            for group_id, evidence in groups.items():
+                if group_id in seen_groups:
+                    raise ValueError(f"{case_id} overlay repeats group {group_id}")
+                seen_groups.add(group_id)
+                operator = str(oracle_group_map[group_id].get("operator") or "").upper()
+                if operator not in {"AND", "OR"}:
+                    raise ValueError(
+                        f"{case_id}/{group_id} uses an operator outside the boundary contract"
+                    )
+                if not isinstance(evidence, Mapping):
+                    raise ValueError(f"{case_id}/{group_id} evidence entry is malformed")
+                expected_members = evaluator._group_members(oracle_group_map[group_id])
+                members = evidence.get("members")
+                if (
+                    not isinstance(members, list)
+                    or any(not isinstance(member, str) for member in members)
+                    or len(members) != len(set(members))
+                    or members != expected_members
+                ):
+                    raise ValueError(
+                        f"{case_id}/{group_id} sidecar members do not exactly match the frozen oracle"
+                    )
+            for group_id in seen_groups:
+                for member_id in evaluator._group_members(oracle_group_map[group_id]):
+                    nested_group = oracle_group_map.get(member_id)
+                    if not isinstance(nested_group, Mapping):
+                        continue
+                    nested_operator = str(nested_group.get("operator") or "").upper()
+                    if nested_operator in {"AND", "OR"} and member_id not in seen_groups:
+                        raise ValueError(
+                            f"{case_id}/{group_id} contract omits nested logic group {member_id}"
+                        )
+            if row_hash != input_sha256:
+                raise ValueError(f"{case_id} overlay raw input checksum is missing")
+            synthetic_context = {
+                "document_id": "frozen-overlay-validation",
+                "source_version": "frozen-overlay-validation",
+                "pages": pages,
+                "page_separator": "\f",
+                "raw_input_sha256": input_sha256,
+                "registered_input_sha256": input_sha256,
+            }
+            probe_case = dict(oracle_case)
+            probe_case.pop("raw_input_sha256", None)
+            probe_graph = {
+                "document_id": synthetic_context["document_id"],
+                "source_version": synthetic_context["source_version"],
+            }
+            auditor = _BoundaryEvidenceAuditor(
+                evaluator, probe_case, probe_graph, synthetic_context, contract
+            )
+            if not auditor.valid:
+&gt;               raise ValueError(
+                    f"{case_id} sidecar evidence is invalid: "
+                    + "; ".join(auditor.contract_errors)
+                )
+E               ValueError: case-01 sidecar evidence is invalid: S0.operator_sources[0] document identity mismatch; S1.operator_sources[0] document identity mismatch; S2.operator_sources[0] document identity mismatch
+
+scripts\run_document_relations_boundary_rescore.py:1859: ValueError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_cli_requires_authorization_before_rescore_or_output_creation" time="0.003" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_cli_creates_output_once_and_refuses_to_overwrite" time="0.024"><failure message="SystemExit: 2">argv = ['--bundle', 'E:\\project\\tender-writing-agent\\.qiaowenshu\\acceptance\\boundary-evidence-20261013\\main-second-newt...tance\\boundary-evidence-20261013\\main-second-newtests\\test_cli_creates_output_once_a0\\synthetic-overlay.json', ...]
+
+    def main(argv: list[str] | None = None) -&gt; int:
+        parser = argparse.ArgumentParser(description=__doc__)
+        parser.add_argument("--bundle", type=Path, required=True)
+        parser.add_argument("--product-report", type=Path, required=True)
+        parser.add_argument("--overlay", type=Path, required=True)
+        parser.add_argument("--expected-overlay-sha256", required=True)
+        parser.add_argument("--expected-report-sha256", required=True)
+        parser.add_argument("--output", type=Path, required=True)
+        parser.add_argument(
+            "--main-reviewer-authorized",
+            action="store_true",
+            help="attest explicit main-reviewer authorization for this offline rescore",
+        )
+        args = parser.parse_args(argv)
+        if not args.main_reviewer_authorized:
+            parser.error("offline boundary rescore requires main-reviewer authorization")
+        output = args.output.resolve()
+        if output.exists():
+            parser.error(f"refusing to overwrite existing report: {output}")
+        try:
+&gt;           report = rescore_report(
+                args.bundle,
+                args.product_report,
+                overlay=args.overlay,
+                expected_overlay_sha256=args.expected_overlay_sha256,
+                expected_report_sha256=args.expected_report_sha256,
+                main_reviewer_authorized=args.main_reviewer_authorized,
+            )
+
+scripts\run_document_relations_boundary_rescore.py:2073: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\run_document_relations_boundary_rescore.py:1926: in rescore_report
+    overlay_cases = _validate_overlay_cases(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+overlay = {'cases': [{'case_id': 'case-01', 'evidence_contract': {'case_id': 'case-01', 'groups': {'S0': {'inheritance': None, '...bf90ffc7848896aa960', 'product_report_sha256': '9302b8cf593523bf70e6899b172b00041ffc72b01208ec90e8fc365bb9ca1e3f', ...}
+freeze = {'bundle': WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-second-...9f0d5ff78ede926a8dfcb2', 'bundle_fingerprint': 'eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d6864', ...}
+bundle_inputs = {'case-01': ({'case_id': 'case-01', 'conditions': [{'id': 'A1', 'text': '营业执照', 'certainty': 'confirmed', 'source': [{...], 'relations': []}, ...}, 'e3492ac41919c7c4d2577454c02f781b710140b6f8c3f7b3ca59187eed4d85c1', ['纯合成输入：case-04']), ...}
+evaluator = &lt;module '_document_relations_eval_103_092ecba5a8c54100a575771343c6d51b' from 'E:\\project\\tender-writing-agent\\scripts\\run_document_relations_eval.py'&gt;
+
+    def _validate_overlay_cases(
+        overlay: Mapping[str, Any],
+        freeze: Mapping[str, Any],
+        bundle_inputs: Mapping[str, tuple[dict[str, Any], str, list[str]]],
+        evaluator: ModuleType,
+    ) -&gt; dict[str, tuple[Mapping[str, Any], Mapping[str, Any]]]:
+        rows = overlay.get("cases")
+        if not isinstance(rows, list):
+            raise ValueError("historical overlay cases must be a list")
+        oracle_cases = {
+            str(case.get("case_id")): case
+            for case in freeze["oracle"]["cases"]
+            if isinstance(case, Mapping)
+        }
+        allowed_ids = set(bundle_inputs)
+        result: dict[str, tuple[Mapping[str, Any], Mapping[str, Any]]] = {}
+        for row in rows:
+            if not isinstance(row, Mapping):
+                raise ValueError("historical overlay case entry must be an object")
+            case_id = row.get("case_id")
+            if (
+                not isinstance(case_id, str)
+                or case_id not in oracle_cases
+                or case_id not in allowed_ids
+            ):
+                raise ValueError(f"unknown historical overlay case: {case_id!r}")
+            if case_id in result:
+                raise ValueError(f"duplicate historical overlay case: {case_id}")
+            if case_id not in allowed_ids:
+                raise ValueError(f"historical overlay case is outside the frozen scope: {case_id}")
+            contract = row.get("evidence_contract")
+            if not isinstance(contract, Mapping):
+                raise ValueError(f"{case_id} evidence_contract is missing")
+            if contract.get("case_id") != case_id or contract.get("schema") != CONTRACT_SCHEMA:
+                raise ValueError(f"{case_id} evidence_contract identity/schema mismatch")
+            oracle_case, input_sha256, pages = bundle_inputs[case_id]
+            row_hash = row.get("raw_input_sha256")
+            if row_hash is not None and row_hash != input_sha256:
+                raise ValueError(f"{case_id} overlay raw input checksum mismatch")
+            oracle_hash = oracle_case.get("raw_input_sha256")
+            if oracle_hash is not None and oracle_hash != input_sha256:
+                raise ValueError(f"{case_id} bundle oracle raw input checksum mismatch")
+            groups = contract.get("groups")
+            case_groups = oracle_case.get("groups")
+            if not isinstance(groups, Mapping) or not isinstance(case_groups, list):
+                raise ValueError(f"{case_id} contract/case groups are malformed")
+            oracle_group_map: dict[str, Mapping[str, Any]] = {}
+            for group in case_groups:
+                if not isinstance(group, Mapping) or not isinstance(group.get("id"), str):
+                    raise ValueError(f"{case_id} frozen oracle group is malformed")
+                group_id = str(group["id"])
+                if group_id in oracle_group_map:
+                    raise ValueError(f"{case_id} frozen oracle repeats group {group_id}")
+                oracle_group_map[group_id] = group
+            if any(
+                not isinstance(group_id, str) or group_id not in oracle_group_map
+                for group_id in groups
+            ):
+                raise ValueError(f"{case_id} contract contains an unknown frozen group")
+            seen_groups: set[str] = set()
+            for group_id, evidence in groups.items():
+                if group_id in seen_groups:
+                    raise ValueError(f"{case_id} overlay repeats group {group_id}")
+                seen_groups.add(group_id)
+                operator = str(oracle_group_map[group_id].get("operator") or "").upper()
+                if operator not in {"AND", "OR"}:
+                    raise ValueError(
+                        f"{case_id}/{group_id} uses an operator outside the boundary contract"
+                    )
+                if not isinstance(evidence, Mapping):
+                    raise ValueError(f"{case_id}/{group_id} evidence entry is malformed")
+                expected_members = evaluator._group_members(oracle_group_map[group_id])
+                members = evidence.get("members")
+                if (
+                    not isinstance(members, list)
+                    or any(not isinstance(member, str) for member in members)
+                    or len(members) != len(set(members))
+                    or members != expected_members
+                ):
+                    raise ValueError(
+                        f"{case_id}/{group_id} sidecar members do not exactly match the frozen oracle"
+                    )
+            for group_id in seen_groups:
+                for member_id in evaluator._group_members(oracle_group_map[group_id]):
+                    nested_group = oracle_group_map.get(member_id)
+                    if not isinstance(nested_group, Mapping):
+                        continue
+                    nested_operator = str(nested_group.get("operator") or "").upper()
+                    if nested_operator in {"AND", "OR"} and member_id not in seen_groups:
+                        raise ValueError(
+                            f"{case_id}/{group_id} contract omits nested logic group {member_id}"
+                        )
+            if row_hash != input_sha256:
+                raise ValueError(f"{case_id} overlay raw input checksum is missing")
+            synthetic_context = {
+                "document_id": "frozen-overlay-validation",
+                "source_version": "frozen-overlay-validation",
+                "pages": pages,
+                "page_separator": "\f",
+                "raw_input_sha256": input_sha256,
+                "registered_input_sha256": input_sha256,
+            }
+            probe_case = dict(oracle_case)
+            probe_case.pop("raw_input_sha256", None)
+            probe_graph = {
+                "document_id": synthetic_context["document_id"],
+                "source_version": synthetic_context["source_version"],
+            }
+            auditor = _BoundaryEvidenceAuditor(
+                evaluator, probe_case, probe_graph, synthetic_context, contract
+            )
+            if not auditor.valid:
+&gt;               raise ValueError(
+                    f"{case_id} sidecar evidence is invalid: "
+                    + "; ".join(auditor.contract_errors)
+                )
+E               ValueError: case-01 sidecar evidence is invalid: S0.operator_sources[0] document identity mismatch; S1.operator_sources[0] document identity mismatch; S2.operator_sources[0] document identity mismatch
+
+scripts\run_document_relations_boundary_rescore.py:1859: ValueError
+
+During handling of the above exception, another exception occurred:
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-second-newtests/test_cli_creates_output_once_a0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000000007942660&gt;
+
+    def test_cli_creates_output_once_and_refuses_to_overwrite(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs)
+        output_path = tmp_path / "rescore-output.json"
+        arguments = [
+            "--bundle",
+            str(inputs.bundle),
+            "--product-report",
+            str(inputs.product_report_path),
+            "--overlay",
+            str(inputs.overlay_path),
+            "--expected-overlay-sha256",
+            inputs.overlay_sha256,
+            "--expected-report-sha256",
+            inputs.product_report_sha256,
+            "--output",
+            str(output_path),
+            "--main-reviewer-authorized",
+        ]
+    
+&gt;       rescore.main(arguments)
+
+tests\evals\test_document_relations_boundary_rescore.py:1495: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\run_document_relations_boundary_rescore.py:2090: in main
+    parser.error(str(exc))
+D:\Miniconda3\Lib\argparse.py:2658: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Offline 1.0.5 boundary-evidence rescore for preserved relation graphs.', formatter_class=&lt;class 'argparse.HelpFormatter'&gt;, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: case-01 sidecar evidence is invalid: S0.operator_sources[0] document identity mismatch; S1.operator_sources[0] document identity mismatch; S2.operator_sources[0] document identity mismatch\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+&gt;       _sys.exit(status)
+E       SystemExit: 2
+
+D:\Miniconda3\Lib\argparse.py:2645: SystemExit</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_boundary_scoring_does_not_mutate_legacy_engine_instances_or_assets" time="0.013" /></testsuite></testsuites>

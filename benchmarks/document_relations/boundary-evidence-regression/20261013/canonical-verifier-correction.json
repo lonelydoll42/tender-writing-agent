@@ -1,0 +1,16 @@
+{
+  "schema": "boundary-evidence-canonical-verifier-correction-v1",
+  "recorded_at": "2026-10-13T11:01:38.3660494+08:00",
+  "initial_archive_tree": null,
+  "initial_archive_sha256": "87900730dc50338be9c28ebba4e9549baffbfeaf91c5611a23eaeedcaf6aced4",
+  "initial_verifier_sha256": "5d2fd579a9a3cc6b488d3e98556239d4a9659507e9aa4cc377cabc3dc1f780ec",
+  "corrected_verifier_sha256": "8be3adefd599b82f0dcbfae05235e5a343e825ff63154c4612057dc59f744e3f",
+  "initial_code_blob_mismatches": 0,
+  "initial_working_vs_export_hash_differences": 154,
+  "correction": "Compare frozen working SHA to current working bytes, and old commit Git blob to staged/export blob separately. For differing working/export hashes also prove the only difference is CRLF-to-LF. Frozen hashes are unchanged.",
+  "diagnostic_xml_exceptions": [
+    "first-implemented-tests.xml",
+    "second-implemented-tests.xml"
+  ],
+  "xml_policy": "Preserve exact failure traceback bytes including CRLF and indentation-only lines; only these two archived failure XML files use per-file -whitespace, not source or oracle files."
+}

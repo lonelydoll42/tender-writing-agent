@@ -1,0 +1,12 @@
+{
+  "schema": "boundary-evidence-tests-first-initial-v1",
+  "recorded_at": "2026-10-13T09:10:08.2721908+08:00",
+  "initial_test_snapshot": "initial-test-interrupted.py.txt",
+  "test_sha256": "b90f85ae072d950423cd28f54b2547c5e05c2cfd4100912e17d06c76bcccec4e",
+  "red_report": "benchmarks/document_relations/reports/boundary-evidence-20261013/initial-collection-red.xml",
+  "red_report_sha256": "aea6cd3b9aae5af4de576a8fb5a90bdeb49021d2d71694c2efd51ece3a499f99",
+  "result": "ImportError: new module absent; zero tests executed",
+  "interruption": "first worker closed after user interruption, before its test run",
+  "fixture_correction": "new test worker assigned to fix missing named group and cross-line positive citation before implementation",
+  "implementation_present": false
+}

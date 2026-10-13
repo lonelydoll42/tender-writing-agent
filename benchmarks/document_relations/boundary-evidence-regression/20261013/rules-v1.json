@@ -1,0 +1,41 @@
+{
+  "schema": "boundary-evidence-rules-v1",
+  "version": "1",
+  "implementation_scope": "same-page contiguous named groups with inline members and explicit terminal punctuation",
+  "proof_roles": {
+    "operator": "explicit local directive or authorized per-group ancestor directive",
+    "scope": "ownership anchors plus every direct member source and exact direct targets",
+    "termination": "local final punctuation after final member; composite requires each direct child closure"
+  },
+  "reference_matching": "registered identity/version and exact offsets; containing intervals at the same occurrence only",
+  "inheritance_obligations": [
+    "explicit_each_group_directive",
+    "declared_count_and_unique_consecutive_labels",
+    "confirmed_parent_operator_and_scope_with_exact_direct_children",
+    "confirmed_typed_semantic_link_with_parent_and_local_ownership_sources",
+    "no_conflicting_additional_parent",
+    "no_local_negation_conflict_or_unsupported_selection_count",
+    "no_intervening_independent_nonempty_paragraph_or_page_boundary",
+    "local_membership_and_local_termination_are_not_inherited"
+  ],
+  "unsupported": [
+    "cross-page inheritance",
+    "arbitrary semantic paragraph continuation",
+    "K-of-N",
+    "attribute/contextual relationship evaluation",
+    "REQUIRED reinterpretation"
+  ],
+  "frozen_previous_versions": ["1.0.3", "1.0.4"],
+  "target_evaluator_version": "1.0.5",
+  "same_product_report_sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+  "must_preserve": {
+    "product_source": true,
+    "old_oracle": true,
+    "old_grader": true,
+    "historical_reports": true
+  },
+  "production_accepted": false,
+  "business_materials": "not_run",
+  "public_raw_historical": "0/8",
+  "historical_relations": "9/14"
+}

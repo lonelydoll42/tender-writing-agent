@@ -1,0 +1,602 @@
+{
+  "schema": "document-relations-boundary-evidence-publication-v1",
+  "recorded_at": "2026-10-13T11:20:41.0189022+08:00",
+  "base_commit": "b166d3d78905445f754991a0e82b6b5a94f88501",
+  "batch_status": "not_closed",
+  "accepted_scope": "Public finite logical-evidence grader correction and saved-output preservation only",
+  "classification": "Public bounded grader correction; no product parsing improvement and no unseen acceptance",
+  "product_source_changed": false,
+  "product_source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+  "evaluator": {
+    "version": "1.0.5",
+    "script": "scripts/run_document_relations_boundary_rescore.py",
+    "sha256": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3",
+    "tests": "tests/evals/test_document_relations_boundary_rescore.py",
+    "tests_sha256": "f6d744198b043ba055d972edfbb5f33fa4a01884afbd9846a50a66102f541730",
+    "contract_tests": 89,
+    "legacy_versions_unchanged": [
+      "1.0.3",
+      "1.0.4"
+    ],
+    "covered_overlay_groups": 5,
+    "typed_logical_parent_layers": [
+      "semantic_parent",
+      "logical_parent",
+      "condition_parent"
+    ]
+  },
+  "canonical": {
+    "tests_passed": 912,
+    "warnings": 1,
+    "warning": "Existing StarletteDeprecationWarning",
+    "grader_tests_passed": 89,
+    "ruff": "passed",
+    "source_blob_matches": 65,
+    "evaluator_test_blob_matches": 19,
+    "reviewer_blob_matches": 6,
+    "working_frozen_hash_matches": 473,
+    "old_git_blob_matches": 473,
+    "eol_only_differences": 154,
+    "archive_base_tree": "231f251ed3362619596686ea1bcee34d097988eb",
+    "metadata_added_after_code_archive": true
+  },
+  "historical_parent_values_preserved": 18,
+  "same_product_output": {
+    "input": "benchmarks/document_relations/reports/inheritance-followup-20261012/relations-score.json",
+    "sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+    "graphs_contexts_runtimes_preserved": 14,
+    "old_passed": 9,
+    "new_passed": 10,
+    "not_run": 0,
+    "changed_cases": [
+      "case-11"
+    ],
+    "product_runtime_invoked_for_rescore": false,
+    "old_9_of_14_preserved": true
+  },
+  "public_development": {
+    "valid": {
+      "passed": 8,
+      "total": 8
+    },
+    "valid_synthetic": {
+      "passed": 0,
+      "total": 0
+    },
+    "invalid_confirmed": {
+      "passed": 36,
+      "total": 36
+    },
+    "product_review": {
+      "passed": 3,
+      "total": 3
+    },
+    "product_positive": {
+      "passed": 2,
+      "total": 2
+    },
+    "false_block": 0,
+    "false_accept": 0,
+    "executed_files": 5,
+    "execution_failed_files": 0,
+    "not_run_files": 0,
+    "checks_failed": 0,
+    "contract_checks_failed": 0
+  },
+  "reserved_exposed": {
+    "valid": {
+      "passed": 4,
+      "total": 8
+    },
+    "valid_synthetic": {
+      "passed": 4,
+      "total": 4
+    },
+    "invalid_confirmed": {
+      "passed": 56,
+      "total": 56
+    },
+    "product_review": {
+      "passed": 3,
+      "total": 3
+    },
+    "product_positive": {
+      "passed": 1,
+      "total": 3
+    },
+    "false_block": 4,
+    "false_accept": 0,
+    "executed_files": 6,
+    "execution_failed_files": 0,
+    "not_run_files": 0,
+    "checks_failed": 6,
+    "contract_checks_failed": 4
+  },
+  "reserved_interpretation": {
+    "unseen_accepted": false,
+    "classification": "public regression due uncertain developer exposure",
+    "h01": "Actual product has no complete expected tree. Four accepted synthetic proof variants do not count as product success.",
+    "h03": "Two unresolved empty-block locators have zero-length spans and empty quotes. Existing global reference validation rejects them. Preserve 4/8 nominal false-block result; interface contract remains unresolved.",
+    "negative_limit": "H03 negative variants are also rejected by the global empty-quote error; aggregate rejection cannot establish each semantic branch independently.",
+    "review_limit": "3/3 review checks only exclude a confirmed complete outer AND; H04 still has a local confirmed AND.",
+    "files_executed_in_original_capture": 6,
+    "execution_failed": 0,
+    "not_run": 0,
+    "capture_rerun_for_canonical_grading": false
+  },
+  "strong_source": {
+    "development_passed": 6,
+    "development_total": 6,
+    "reserved_passed": 6,
+    "reserved_total": 6
+  },
+  "logical_parent": {
+    "passed": 6,
+    "total": 6,
+    "before_passed": 4,
+    "before_total": 6,
+    "before_false_accept": 2,
+    "final_false_accept": 0
+  },
+  "source_proof_scope": "Pre-publication code archive. Final metadata is added later; 65 source, 19 evaluator/test and 6 reviewer tool Git blobs must still match final commit.",
+  "developer_audit": "benchmarks/document_relations/boundary-evidence-regression/20261013/developer-access-audit.json",
+  "rule_freeze": "benchmarks/document_relations/boundary-evidence-regression/20261013/baseline-freeze.json",
+  "fixture_freeze": "benchmarks/document_relations/boundary-evidence-regression/20261013/fixture-freeze.json",
+  "asset_count": 87,
+  "asset_hashes": [
+    {
+      "path": ".gitattributes",
+      "bytes": 9903,
+      "sha256": "c4164495045fdcd884a7132041aab222dff07b5c050a3dedb31440e0be28ddc3"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/annotator-format-proof.json",
+      "bytes": 304,
+      "sha256": "7b89693e2c471a5ac5db14d93dcc19309e4eb24bc4e4e4b50564a256057815d9"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/baseline-freeze.json",
+      "bytes": 65581,
+      "sha256": "a37b9d8ae0f789e923fce4b174e547e1ea71013887d41c171b6f9b3256b74637"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/before-logical-parent-fix.py.txt",
+      "bytes": 97305,
+      "sha256": "c44e4f05b7d4fc1fdc035cab66e9489a0036bf431ad513bfbdbda79e41778b03"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/before-logical-parent-tests.py.txt",
+      "bytes": 58243,
+      "sha256": "6df33c98f21a42fb61db1d24f476f4a9fefae1328f91b8077c2d00c85e49033b"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/byte-normalization-correction.json",
+      "bytes": 792,
+      "sha256": "d1c2d6f5518e2888b68527be636978b6795fddcddc8910bd0a629dad4f3384d8"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/canonical-verifier-correction.json",
+      "bytes": 1083,
+      "sha256": "04580b8b367b99e97e8329bc7b724fe8294f34e73211f6dc183c214514418de8"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/check-boundary.py",
+      "bytes": 20457,
+      "sha256": "6a917ff95152b5dd510c182b4287bda4ff130837ba4b39c817c0a6cddce58cc1"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/check-inheritance-source.py",
+      "bytes": 5367,
+      "sha256": "a9b2dc8653c3165a14567d4e3c9a95d835a87306e965a2a6f28342e0e7e01f74"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/check-logical-parent-initial.py.txt",
+      "bytes": 2928,
+      "sha256": "a5df01300f4a4d4322c50e82ab87f2fd2fa212a8a345e3f547c7c136e609b9ec"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/check-logical-parent.py",
+      "bytes": 2969,
+      "sha256": "11cb64b29d34374102b90b164b9a65d542266b30f7d5aa475c381719ab1dcfe1"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/compare-scores.py",
+      "bytes": 5170,
+      "sha256": "680d67b7705f57c2702becd789bcbacf6702769ba7a2c56e8689cc22c11d318c"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/corrected-test-first-record.json",
+      "bytes": 692,
+      "sha256": "f59c802555039de35b4ee9e32b21b34af7c2d3d23b543205a25201566e5fc124"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/developer-access-audit.json",
+      "bytes": 3041,
+      "sha256": "bfd7e383a6f4433f24eeb8ff11becaa9ad977465c564a4eeb293dbe45c3ed194"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/cases.json",
+      "bytes": 57040,
+      "sha256": "bfa64cec5fe57620a29335297ca875bc10cdc6ea0517a30fae8c723a88370a59"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D01.txt",
+      "bytes": 138,
+      "sha256": "141170d6399ed04cb67c724934fb43c85471cc73a4418cfc7ff51fa0949942df"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D02.txt",
+      "bytes": 135,
+      "sha256": "a32996f89cee046dac022ed98f0ee895408f96b7a5115d8da6b107290b88dd3c"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D03.txt",
+      "bytes": 165,
+      "sha256": "e395fcd752ce6098662ba3d16aaaf98597defc223a854db5cdceb804c3a70a07"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D04.txt",
+      "bytes": 177,
+      "sha256": "16ed1c737fd4a090ac5291177b5941ff6ea1cf639d6c5370e5974caa4fee60ed"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D05.txt",
+      "bytes": 172,
+      "sha256": "5cd378d56cd8ed559e8d75056ce48c311c8d3ddf4e9212bd14e491b678584883"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/final-code-freeze.json",
+      "bytes": 1082,
+      "sha256": "dfa19be1fe9e3df0b12aac777662632912308a445810dbc511659dc464c34a39"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/fixture-freeze.json",
+      "bytes": 2892,
+      "sha256": "ce8f0dc8ef50ee487312527224f7f03d113f7fd4491f2a0a14ea01f2e0c40b52"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/freeze-cases-initial.py.txt",
+      "bytes": 9160,
+      "sha256": "738265f03a067202119f1e7f8ad09ded31b7f466165aa9145c000f534ca55a8f"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/freeze-cases.py",
+      "bytes": 10570,
+      "sha256": "9ea3c03105b7c47f3bb3b66d5ab6b41ca053b5507ba4e28c0f126ca0bf499606"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/historical-overlay.json",
+      "bytes": 13289,
+      "sha256": "526a08805b88192d2351a0c0b45f9cd6060745ba1a931919e069e9d104c86d02"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/initial-test-first-record.json",
+      "bytes": 784,
+      "sha256": "3be62a84aad0036c774108e01e8fc4d6b7e44eca4590bc5765a62a1aa17cdc02"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/initial-test-interrupted.py.txt",
+      "bytes": 22238,
+      "sha256": "b90f85ae072d950423cd28f54b2547c5e05c2cfd4100912e17d06c76bcccec4e"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/logical-parent-checker-correction.json",
+      "bytes": 857,
+      "sha256": "5b69211c62136fb58ebc6652c212a5b6eb1fce3aae1ac7cc9fa57ff88f56aa20"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/logical-parent-supplement-freeze.json",
+      "bytes": 1071,
+      "sha256": "d23784685ef94275f533b72a1c17bf98d086cec00cca82be76f90b26a8458fbe"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/pre-implementation-tests.py.txt",
+      "bytes": 24162,
+      "sha256": "2c13cdda9906d6f43615703246d0e0f392239494355522f26b315b2699766032"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/published-path-map.json",
+      "bytes": 3296,
+      "sha256": "6877afdfbdc0a417754e4c1753d63271148ef3f05d694ea50a6ee827bf0127bd"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/cases.json",
+      "bytes": 69925,
+      "sha256": "0393829870a0171bfe5f5fd04a76c5bf6d5c7306d26f4b5269ca4526d8879b24"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H01.txt",
+      "bytes": 184,
+      "sha256": "c8514e67450efc67ee04f7d6c63215ff40c90761cbf3c8489fe56d5db2953a41"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H02.txt",
+      "bytes": 135,
+      "sha256": "f979dcfa0de47ebcc8d443476619acd507772941259740721942e203c04a9d32"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H03.txt",
+      "bytes": 186,
+      "sha256": "3c6d456de519d37cc1a25298cc3afc24c118fcc77e7e09135b6814a1dca64bda"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H04.txt",
+      "bytes": 171,
+      "sha256": "21996c9592f2a668e3cd8263890aad39863cbafdd0ce910cc56a7ed5111ec7f3"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H05.txt",
+      "bytes": 174,
+      "sha256": "901ef65a5d61a0b646e6aacfde27cce7b9ae3ec1dc98d10f1f4153566bb2804d"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H06.txt",
+      "bytes": 218,
+      "sha256": "ec3b43d3795b08f39f4b8add50c5102f5bfb730e200b2f7f751b640c8695a56a"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reviewer-checker-freeze.json",
+      "bytes": 916,
+      "sha256": "8d2b3c06c3324f367381e43117a4c8def01e5381583b43ecffcc4fc474254dac"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/rules-v1.json",
+      "bytes": 1783,
+      "sha256": "e3b2bffa3040507819296c91a5922fd7bd78f4d2d451d06e8dbc37fb596c9a49"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/rules-v1.md",
+      "bytes": 4981,
+      "sha256": "7f3516a1a2342a0de7180e2eb0b176d468b9ed1ab4e18d3b27447a60db170544"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/strong-check-freeze.json",
+      "bytes": 695,
+      "sha256": "4695a5b6c3122b98bca4930ab9c45fd04cc5dea7b1a3a44c6e7288ecf19bef2d"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/verify-snapshot-initial.ps1.txt",
+      "bytes": 5313,
+      "sha256": "5d2fd579a9a3cc6b488d3e98556239d4a9659507e9aa4cc377cabc3dc1f780ec"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/verify-snapshot-utf8.ps1.txt",
+      "bytes": 7169,
+      "sha256": "8be3adefd599b82f0dcbfae05235e5a343e825ff63154c4612057dc59f744e3f"
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/verify-snapshot.ps1",
+      "bytes": 7245,
+      "sha256": "827f43ff13e251785c674c91b6a8dacfce64f23d67aa654f6b51a0257eecae3a"
+    },
+    {
+      "path": "benchmarks/document_relations/README.md",
+      "bytes": 19003,
+      "sha256": "73d04326a4b75e019c4ad44b49a7a05ee79136d88092042fc05287f33b300249"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/before-logical-parent-check.json",
+      "bytes": 19617,
+      "sha256": "d4e23ea6b1b5bc58271271e9a4f6d84b59dec903712be87f942c13a9f068b59a"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-1.0.4-rescore.json",
+      "bytes": 769257,
+      "sha256": "1e7d9eba20f80c90b33f9532aff11838437eb4a07a921156c18ee5e7c8b42514"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-1.0.5-rescore.json",
+      "bytes": 770815,
+      "sha256": "d2f988ae385f02a74e37737585a5f2ffd8a50401788ddc610f98f2807c2f1d0d"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-development-check.json",
+      "bytes": 214168,
+      "sha256": "5331ee94d4245db7e12e16ccc81821845706a8b3e85c74c8842a0118a8ceeb3d"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-development-strong.json",
+      "bytes": 34847,
+      "sha256": "ff4fe75ea463c89c8beafa8eb90de44277d05a51ced6bbfde9bb0313e376295e"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-grader-tests.xml",
+      "bytes": 15737,
+      "sha256": "569d50e357599b4f6271aae2350e2b676e10ba104e060eb4e9ef717b4962beca"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-logical-parent-check.json",
+      "bytes": 24011,
+      "sha256": "c7345c3da43f87482fd3db1b6f19a845f1a7dc2b9518fa6333e7c6196a6bbbcb"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-reserved-check.json",
+      "bytes": 342476,
+      "sha256": "cfcd08657b68e876120033d978f81235e68752984580c2d90e899eb35738ffea"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-reserved-strong.json",
+      "bytes": 34847,
+      "sha256": "a5782086a90666cb487bd28c9fd075bfd498299f96045c05dfe8c6808d29ca7f"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-same-output-comparison.json",
+      "bytes": 38138,
+      "sha256": "277b3af7cf9bbe1a3316e546d88459c09bade0401ddf57954919482807e38b1b"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-tests.xml",
+      "bytes": 146994,
+      "sha256": "408517e791ce3ed42ba69f5c592a337c946a58197429f508b2ee5c7cb5a90ef6"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/corrected-tests-red.xml",
+      "bytes": 1111,
+      "sha256": "f13aa1ab752bd5c812fe73e7a707cfce782e5107b71ac9bf6535b88b28aa944d"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/development-capture.json",
+      "bytes": 594251,
+      "sha256": "9e26e9595313d41edbc062494ae1ea6512ea810e8b460e7b12d540125674891d"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/development-check.json",
+      "bytes": 214168,
+      "sha256": "7208f06db18aa5f74da07b69599db40d576d3eaa83bff6e42404f5178730648c"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/development-strong.json",
+      "bytes": 34847,
+      "sha256": "0af7a651038afec160b8ec2e302fb3eb150ffa5d6ca3ee056cc03409ca9ad332"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/first-development-check.json",
+      "bytes": 284638,
+      "sha256": "0f38aa91bffc990031fa6719ddbf411b79c8b5cb86089b58a1a605a10309323b"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/first-development-strong.json",
+      "bytes": 41594,
+      "sha256": "08a3fcebf65dc2a907a43906a8a7ecf6339c928615ab95c10869fd72f242343c"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/first-implemented-tests.xml",
+      "bytes": 64135,
+      "sha256": "4b5b7653a9ef7c1e583b402d4393285afccdfadbcc067b60383b7ca5e16e39ba"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/fourth-development-check.json",
+      "bytes": 214168,
+      "sha256": "f8111422ca6446f6ee1ed029029ce28f738b3fd3b3c6a54f1b54c7e0dd8ea370"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/initial-collection-red.xml",
+      "bytes": 1111,
+      "sha256": "aea6cd3b9aae5af4de576a8fb5a90bdeb49021d2d71694c2efd51ece3a499f99"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/initial-new-1.0.5-rescore.json",
+      "bytes": 770815,
+      "sha256": "9fdfbe343638482c205ef68aea31275d4f52e05aef86d05f334e24622cf5cd99"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/initial-same-output-comparison.json",
+      "bytes": 38138,
+      "sha256": "bc989647e83cc1b44976bb7c48c88327140275499a6acc42c3a651507459faa5"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/intermediate-run-record.json",
+      "bytes": 1471,
+      "sha256": "562beaad1987d4e2b914c63efa04b36ee3f306da8df212efc6797e6b455d438b"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/legacy-1.0.4-rescore.json",
+      "bytes": 769257,
+      "sha256": "92604a6b1429a5cb668858a30b69f508a701092eebc698d25c3ea2f1d96ac71d"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/new-1.0.5-rescore.json",
+      "bytes": 770815,
+      "sha256": "e8a84242a59fcdd638cdd23e346d8a1ae3cb532cf6fd6dba834b5f1770f24abd"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/reserved-capture.json",
+      "bytes": 499500,
+      "sha256": "f2c7cd62219fb1e4360a434add8132746f0274d54749cf0d08cada8fc5650648"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/reserved-check.json",
+      "bytes": 342476,
+      "sha256": "396d4dd4e115f7bcc785cdea4e3397b3a4aa2d4a4d3f321ec2da84945236be36"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/reserved-strong.json",
+      "bytes": 34847,
+      "sha256": "1c96015460af3e51982efc7cbde47cbe16fb0b97a837c991bfa09a584f2abacb"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/same-output-comparison.json",
+      "bytes": 38138,
+      "sha256": "2694f8291b1ec9fd526d6c3778304101358db7e183889708951f90173e6802a6"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/scope-audit.json",
+      "bytes": 7886,
+      "sha256": "da216cc732df25c9e93cf3387bf7b8174d5c445cbf9929bb3dde27675f2263c8"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/second-development-check.json",
+      "bytes": 255727,
+      "sha256": "3918d25a0868944a0c83d0176c1d5b954538855aed58e8182991fdfb00506714"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/second-development-strong.json",
+      "bytes": 34847,
+      "sha256": "f27655dffbf9b082964df9e726de4c8beb1b6a50f658ca8229b6632bde6ebc55"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/second-implemented-tests.xml",
+      "bytes": 35810,
+      "sha256": "e693b81523e9135b407df4aa7d00d64989890f50372680b8f17c2291627e0a8d"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/source-proof.json",
+      "bytes": 361149,
+      "sha256": "a10608c972dd7460abdbb697b38920aef0b0eedcac73b5b0353f70ad7f7e9cd1"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/third-development-check.json",
+      "bytes": 251653,
+      "sha256": "db97e4f1bc386388dfdb9e7ef9bcb9e2d5299fe9e2a7ff64206afbb9e0a3aabb"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/third-implemented-tests.xml",
+      "bytes": 14698,
+      "sha256": "cf94864152639aa6b7bfc8ec0fb708cc125b8f1d123616b28576759d598987c1"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/unchanged-legacy-tests.xml",
+      "bytes": 19315,
+      "sha256": "263d6b70807dfeb07685cd70282bb4b123221498f9085a40397061020944bd1f"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/working-tests.xml",
+      "bytes": 146121,
+      "sha256": "1274a3e7bb7aa2cf6bbd2b5b8ba195e3d2d970d5e05099a4debb633cf7b05031"
+    },
+    {
+      "path": "docs/document_relations_acceptance.md",
+      "bytes": 53277,
+      "sha256": "375ca599f9444023631fc2b1f0077a2b15d2470fe45e72587ee4bf8ac2bcb17b"
+    },
+    {
+      "path": "scripts/run_document_relations_boundary_rescore.py",
+      "bytes": 97256,
+      "sha256": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3"
+    },
+    {
+      "path": "tests/evals/test_document_relations_boundary_rescore.py",
+      "bytes": 59797,
+      "sha256": "f6d744198b043ba055d972edfbb5f33fa4a01884afbd9846a50a66102f541730"
+    }
+  ],
+  "hash_index_exclusions": [
+    "benchmarks/document_relations/boundary-evidence-publication-record.json",
+    "benchmarks/document_relations/publication-record.json"
+  ],
+  "exclusion_reason": "Avoid a self-referential hash cycle; parent parsed values independently checked.",
+  "business_materials": "not_run",
+  "historical_public_raw": "0/8, not rerun",
+  "not_closed": [
+    "H01 parsing completeness",
+    "H03 raw-locator versus evidence contract",
+    "pre-development unseen isolation",
+    "full Step 2",
+    "generic completeness",
+    "production acceptance",
+    "uv.lock"
+  ],
+  "full_step2_accepted": false,
+  "production_accepted": false,
+  "uv_lock_changed": false
+}

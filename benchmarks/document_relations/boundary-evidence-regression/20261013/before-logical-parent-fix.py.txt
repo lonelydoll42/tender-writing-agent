@@ -1,0 +1,2289 @@
+"""Offline 1.0.5 boundary-evidence rescore for preserved relation graphs."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.util
+import json
+import re
+import sys
+import uuid
+from copy import deepcopy
+from datetime import datetime
+from pathlib import Path
+from types import ModuleType
+from typing import Any, Mapping
+
+ROOT = Path(__file__).resolve().parents[1]
+RESCORER_PATH = ROOT / "scripts" / "run_document_relations_rescore.py"
+RESCORER_SHA256 = "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf"
+RULES_DIRECTORY = (
+    ROOT
+    / "benchmarks"
+    / "document_relations"
+    / "boundary-evidence-regression"
+    / "20261013"
+)
+RULES_JSON_SHA256 = "e3b2bffa3040507819296c91a5922fd7bd78f4d2d451d06e8dbc37fb596c9a49"
+RULES_MARKDOWN_SHA256 = (
+    "7f3516a1a2342a0de7180e2eb0b176d468b9ed1ab4e18d3b27447a60db170544"
+)
+FROZEN_OVERLAY_SHA256 = (
+    "526a08805b88192d2351a0c0b45f9cd6060745ba1a931919e069e9d104c86d02"
+)
+FROZEN_ORACLE_SHA256 = (
+    "9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50"
+)
+FROZEN_PRODUCT_REPORT_SHA256 = (
+    "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7"
+)
+EVALUATOR_VERSION = "1.0.5"
+AUDIT_SCHEMA = "boundary-evidence-audit-v1"
+CONTRACT_SCHEMA = "boundary-evidence-contract-v1"
+OVERLAY_SCHEMA = "boundary-evidence-historical-overlay-v1"
+OFFLINE_REPORT_SCHEMA = "document-relations-offline-rescore-v1"
+_FINAL_MARKS = frozenset("。！？.!?")
+_SEMANTIC_PARENT_LAYERS = {
+    "semantic_parent",
+    "logical_parent",
+    "condition_parent",
+    "attribute_parent",
+    "contextual_parent",
+}
+_GROUP_LABEL = re.compile(r"第([一二三四五六七八九十\d]+)组")
+_UNSUPPORTED_COUNT = re.compile(
+    r"(?:任选|任取|择取|选择)\s*(?:两|二|三|四|五|六|七|八|九|十|\d+)\s*(?:项|个|份|种)"
+)
+_NEGATION = re.compile(r"不得(?!不)|不须|不需|不要求|无需|无须|不必|不能|不可|不接受")
+
+
+def _sha256(content: bytes) -> str:
+    return hashlib.sha256(content).hexdigest()
+
+
+def _strict_int(value: Any) -> int | None:
+    return value if isinstance(value, int) and not isinstance(value, bool) else None
+
+
+def _duplicate_rejecting_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result
+
+
+def _reject_json_constant(value: str) -> None:
+    raise ValueError(f"non-standard JSON constant: {value}")
+
+
+def _load_json_bytes(raw: bytes, *, label: str) -> dict[str, Any]:
+    try:
+        value = json.loads(
+            raw.decode("utf-8"),
+            object_pairs_hook=_duplicate_rejecting_object,
+            parse_constant=_reject_json_constant,
+        )
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError(f"{label} is not valid UTF-8 JSON") from exc
+    if not isinstance(value, dict):
+        raise ValueError(f"{label} must be a JSON object")
+    return value
+
+
+def _isolated_rescorer() -> ModuleType:
+    try:
+        source = RESCORER_PATH.read_bytes()
+    except OSError as exc:
+        raise ValueError("the frozen 1.0.4 rescorer is unavailable") from exc
+    if _sha256(source) != RESCORER_SHA256:
+        raise ValueError("the frozen 1.0.4 rescorer SHA-256 does not match")
+    name = f"_document_relations_rescore_104_{uuid.uuid4().hex}"
+    spec = importlib.util.spec_from_file_location(name, RESCORER_PATH)
+    if spec is None or spec.loader is None:
+        raise ValueError("unable to load an isolated 1.0.4 rescorer")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(name, None)
+        raise
+    if module.EVALUATOR_VERSION != "1.0.4":
+        sys.modules.pop(name, None)
+        raise ValueError("the loaded rescorer does not identify as 1.0.4")
+    return module
+
+
+def load_evaluator(version: str = "1.0.3") -> ModuleType:
+    """Load a fresh evaluator through the hash-pinned 1.0.4 rescorer."""
+    if version not in {"1.0.3", "1.0.4"}:
+        raise ValueError(f"unsupported evaluator version: {version!r}")
+    return _isolated_rescorer().load_evaluator(version)
+
+
+def _line_bounds(page_text: str, line_number: int) -> tuple[int, int] | None:
+    start = 0
+    for number, line in enumerate(page_text.split("\n"), start=1):
+        end = start + len(line)
+        if number == line_number:
+            return start, end
+        start = end + 1
+    return None
+
+
+def _reference_location(
+    reference: Mapping[str, Any],
+) -> tuple[int, int, int, int] | None:
+    page = _strict_int(reference.get("page", reference.get("page_number")))
+    start = _strict_int(reference.get("char_start", reference.get("start")))
+    end = _strict_int(reference.get("char_end", reference.get("end")))
+    span = reference.get("source_span")
+    if isinstance(span, Mapping) and ("start" in span or "end" in span):
+        span_start = _strict_int(span.get("start"))
+        span_end = _strict_int(span.get("end"))
+        if start is None:
+            start = span_start
+        if end is None:
+            end = span_end
+        if (start, end) != (span_start, span_end):
+            return None
+    if page is None or start is None or end is None:
+        return None
+    return page, start, end, 0
+
+
+def _same_occurrence(left: Mapping[str, Any], right: Mapping[str, Any]) -> bool:
+    left_page, left_start, left_end, _ = _reference_location(left) or (0, 0, 0, 0)
+    right_page, right_start, right_end, _ = _reference_location(right) or (0, 0, 0, 0)
+    return (
+        left_page == right_page and left_start == right_start and left_end == right_end
+    )
+
+
+def _covers(actual: Mapping[str, Any], expected: Mapping[str, Any]) -> bool:
+    actual_location = _reference_location(actual)
+    expected_location = _reference_location(expected)
+    if actual_location is None or expected_location is None:
+        return False
+    actual_page, actual_start, actual_end, _ = actual_location
+    expected_page, expected_start, expected_end, _ = expected_location
+    return (
+        actual_page == expected_page
+        and actual_start <= expected_start
+        and actual_end >= expected_end
+    )
+
+
+def _contains_position(
+    reference: Mapping[str, Any], *, page: int, start: int, end: int
+) -> bool:
+    location = _reference_location(reference)
+    if location is None:
+        return False
+    ref_page, ref_start, ref_end, _ = location
+    return ref_page == page and start <= ref_start and ref_end <= end
+
+
+def _result(passed: bool, reason: str = "") -> dict[str, Any]:
+    return {
+        "status": "confirmed" if passed else "rejected",
+        "passed": bool(passed),
+        "reason": reason,
+    }
+
+
+def _chinese_number(value: str) -> int | None:
+    digits = {
+        "零": 0,
+        "〇": 0,
+        "一": 1,
+        "二": 2,
+        "两": 2,
+        "三": 3,
+        "四": 4,
+        "五": 5,
+        "六": 6,
+        "七": 7,
+        "八": 8,
+        "九": 9,
+    }
+    if value.isdigit():
+        return int(value)
+    if value == "十":
+        return 10
+    if "十" in value:
+        left, right = value.split("十", 1)
+        tens = digits.get(left, 1) if left else 1
+        ones = digits.get(right, 0) if right else 0
+        return tens * 10 + ones if tens and ones >= 0 else None
+    if len(value) == 1:
+        return digits.get(value)
+    return None
+
+
+class _BoundaryEvidenceAuditor:
+    def __init__(
+        self,
+        evaluator: ModuleType,
+        case: Mapping[str, Any],
+        graph: Mapping[str, Any],
+        source_context: Mapping[str, Any],
+        evidence_contract: Mapping[str, Any],
+    ) -> None:
+        self.evaluator = evaluator
+        self.case = case
+        self.original_graph = graph
+        self.source_context = source_context
+        self.contract = evidence_contract
+        self.pages: list[str] = []
+        self.document_id = ""
+        self.source_version = ""
+        self.graph: Mapping[str, Any] = graph
+        self.nodes: dict[str, Mapping[str, Any]] = {}
+        self.case_groups: dict[str, Mapping[str, Any]] = {}
+        self.contract_groups: Mapping[str, Any] = {}
+        self.references: dict[str, dict[str, dict[str, Any]]] = {}
+        self.regions: dict[str, tuple[int, int, int]] = {}
+        self.contract_errors: list[str] = []
+        self.group_candidates: dict[str, list[str]] = {}
+        self.group_map: dict[str, str] = {}
+        self.atom_map: dict[str, str] = {}
+        self.audit_cache: dict[str, dict[str, Any]] = {}
+        self._validate_context()
+        self._validate_contract()
+        self._prepare_graph()
+
+    @property
+    def valid(self) -> bool:
+        return not self.contract_errors
+
+    def _validate_context(self) -> None:
+        pages = self.source_context.get("pages")
+        if (
+            not isinstance(pages, list)
+            or not pages
+            or not all(isinstance(page, str) for page in pages)
+        ):
+            self.contract_errors.append(
+                "source_context.pages must be non-empty text pages"
+            )
+            return
+        self.pages = list(pages)
+        self.document_id = str(self.source_context.get("document_id") or "")
+        self.source_version = str(self.source_context.get("source_version") or "")
+        if not self.document_id or not self.source_version:
+            self.contract_errors.append("source_context identity/version is missing")
+        if self.source_context.get("page_separator", "\f") != "\f":
+            self.contract_errors.append("source_context page separator is not U+000C")
+        if any("\f" in page for page in self.pages):
+            self.contract_errors.append(
+                "source_context page contains an embedded separator"
+            )
+        raw = "\f".join(self.pages).encode("utf-8")
+        raw_hash = _sha256(raw)
+        if self.source_context.get("raw_input_sha256") != raw_hash:
+            self.contract_errors.append(
+                "source_context raw_input_sha256 does not match registered raw pages"
+            )
+        registered_hash = self.source_context.get("registered_input_sha256")
+        if registered_hash is not None and registered_hash != raw_hash:
+            self.contract_errors.append(
+                "source_context registered_input_sha256 does not match "
+                "registered raw pages"
+            )
+        expected_hash = self.case.get("raw_input_sha256")
+        if expected_hash is not None and expected_hash != raw_hash:
+            self.contract_errors.append(
+                "case raw_input_sha256 does not match source_context"
+            )
+        if (
+            self.original_graph.get("document_id") != self.document_id
+            or self.original_graph.get("source_version") != self.source_version
+        ):
+            self.contract_errors.append("graph/source_context identity mismatch")
+
+    def _validate_reference(
+        self,
+        reference: Any,
+        *,
+        label: str,
+        require_identity: bool,
+    ) -> dict[str, Any]:
+        if not isinstance(reference, Mapping):
+            raise ValueError(f"{label} is not a reference object")
+        quote = reference.get("quote")
+        if not isinstance(quote, str) or not quote:
+            raise ValueError(f"{label} has no exact quote")
+        page_values = [
+            _strict_int(reference[key])
+            for key in ("page", "page_number")
+            if key in reference
+        ]
+        if not page_values or page_values[0] is None:
+            raise ValueError(f"{label} page is missing or invalid")
+        page = page_values[0]
+        if page < 1 or any(value != page for value in page_values):
+            raise ValueError(f"{label} page aliases disagree")
+
+        offset_pairs: list[tuple[Any, Any]] = []
+        if "char_start" in reference or "char_end" in reference:
+            offset_pairs.append(
+                (reference.get("char_start"), reference.get("char_end"))
+            )
+        if "start" in reference or "end" in reference:
+            offset_pairs.append((reference.get("start"), reference.get("end")))
+        span = reference.get("source_span")
+        if isinstance(span, Mapping) and ("start" in span or "end" in span):
+            offset_pairs.append((span.get("start"), span.get("end")))
+        if not offset_pairs:
+            raise ValueError(f"{label} raw character offsets are missing")
+        offsets: list[tuple[int, int]] = []
+        for start_value, end_value in offset_pairs:
+            start = _strict_int(start_value)
+            end = _strict_int(end_value)
+            if start is None or end is None or start < 0 or end <= start:
+                raise ValueError(f"{label} raw character offsets are invalid")
+            offsets.append((start, end))
+        if any(pair != offsets[0] for pair in offsets[1:]):
+            raise ValueError(f"{label} offset aliases disagree")
+        start, end = offsets[0]
+        if page > len(self.pages):
+            raise ValueError(f"{label} page is outside registered raw input")
+        page_text = self.pages[page - 1]
+        if end > len(page_text) or start >= len(page_text):
+            raise ValueError(f"{label} offsets are outside registered raw input")
+        derived_line = page_text.count("\n", 0, start) + 1
+        bounds = _line_bounds(page_text, derived_line)
+        if bounds is None or start < bounds[0] or end > bounds[1]:
+            raise ValueError(f"{label} crosses a physical line boundary")
+        if page_text[start:end] != quote:
+            raise ValueError(f"{label} quote does not match exact raw offsets")
+        for key in ("line", "line_number"):
+            if key in reference:
+                supplied = _strict_int(reference[key])
+                if supplied != derived_line:
+                    raise ValueError(f"{label} {key} disagrees with raw offsets")
+        line_values = [
+            reference[key] for key in ("line", "line_number") if key in reference
+        ]
+        if line_values and any(value != line_values[0] for value in line_values[1:]):
+            raise ValueError(f"{label} line aliases disagree")
+        locator = str(reference.get("locator") or "")
+        char_locator = re.search(
+            r"(?:^|:)p(\d+):c(\d+)-(\d+)$", locator, flags=re.IGNORECASE
+        )
+        line_locator = re.search(r"p(\d+):l(\d+)$", locator, flags=re.IGNORECASE)
+        if locator and not char_locator and not line_locator:
+            raise ValueError(f"{label} locator format is unsupported")
+        if char_locator and (
+            tuple(int(value) for value in char_locator.groups()) != (page, start, end)
+        ):
+            raise ValueError(f"{label} locator disagrees with raw offsets")
+        if line_locator and tuple(int(value) for value in line_locator.groups()) != (
+            page,
+            derived_line,
+        ):
+            raise ValueError(f"{label} line locator disagrees with raw offsets")
+
+        identity_values = [
+            reference[key] for key in ("document_id", "docid") if key in reference
+        ]
+        version_values = [
+            reference[key] for key in ("source_version", "version") if key in reference
+        ]
+        if require_identity and (not identity_values or not version_values):
+            raise ValueError(f"{label} registered identity/version is missing")
+        if identity_values and any(
+            str(value or "") != self.document_id for value in identity_values
+        ):
+            raise ValueError(f"{label} document identity mismatch")
+        if version_values and any(
+            str(value or "") != self.source_version for value in version_values
+        ):
+            raise ValueError(f"{label} source version mismatch")
+        return {
+            "page": page,
+            "line": derived_line,
+            "start": start,
+            "end": end,
+            "quote": quote,
+        }
+
+    def _reference_list(
+        self, value: Any, *, label: str, require_identity: bool = False
+    ) -> list[dict[str, Any]]:
+        if not isinstance(value, list) or not value:
+            raise ValueError(f"{label} must be a non-empty reference list")
+        return [
+            self._validate_reference(
+                reference, label=f"{label}[{index}]", require_identity=require_identity
+            )
+            for index, reference in enumerate(value)
+        ]
+
+    def _validate_contract(self) -> None:
+        if self.contract.get("schema") != CONTRACT_SCHEMA:
+            self.contract_errors.append("unsupported evidence contract schema")
+            return
+        case_id = self.case.get("case_id")
+        if self.contract.get("case_id") != case_id:
+            self.contract_errors.append("evidence contract case_id mismatch")
+        raw_groups = self.case.get("groups")
+        if not isinstance(raw_groups, list):
+            self.contract_errors.append("case groups must be a list")
+            return
+        for group in raw_groups:
+            if not isinstance(group, Mapping):
+                self.contract_errors.append("case group entry is not an object")
+                continue
+            group_id = group.get("id")
+            if not isinstance(group_id, str) or not group_id:
+                self.contract_errors.append("case group id is missing")
+                continue
+            if group_id in self.case_groups:
+                self.contract_errors.append(f"duplicate case group id: {group_id}")
+            self.case_groups[group_id] = group
+        raw_contract_groups = self.contract.get("groups")
+        if not isinstance(raw_contract_groups, Mapping):
+            self.contract_errors.append("evidence contract groups must be an object")
+            return
+        self.contract_groups = raw_contract_groups
+        for group_id, raw in raw_contract_groups.items():
+            if not isinstance(group_id, str) or group_id not in self.case_groups:
+                self.contract_errors.append(
+                    f"unknown evidence contract group: {group_id}"
+                )
+                continue
+            if not isinstance(raw, Mapping):
+                self.contract_errors.append(
+                    f"contract group {group_id} is not an object"
+                )
+                continue
+            oracle_group = self.case_groups[group_id]
+            members = raw.get("members")
+            expected_members = self.evaluator._group_members(oracle_group)
+            if (
+                not isinstance(members, list)
+                or any(not isinstance(member, str) for member in members)
+                or len(members) != len(set(members))
+                or set(members) != set(expected_members)
+            ):
+                self.contract_errors.append(
+                    f"contract group {group_id} members do not exactly match the case"
+                )
+            if (
+                str(raw.get("operator") or "").upper()
+                != str(oracle_group.get("operator") or "").upper()
+            ):
+                self.contract_errors.append(
+                    f"contract group {group_id} operator does not match the case"
+                )
+            try:
+                self._validate_contract_group(group_id, raw, expected_members)
+            except ValueError as exc:
+                self.contract_errors.append(str(exc))
+
+    def _validate_contract_group(
+        self,
+        group_id: str,
+        raw: Mapping[str, Any],
+        expected_members: list[str],
+    ) -> None:
+        region = raw.get("region")
+        if not isinstance(region, Mapping):
+            raise ValueError(f"{group_id} region is missing")
+        page = _strict_int(region.get("page"))
+        start = _strict_int(region.get("char_start"))
+        end = _strict_int(region.get("char_end"))
+        if (
+            page is None
+            or start is None
+            or end is None
+            or page < 1
+            or page > len(self.pages)
+            or start < 0
+            or end <= start
+            or end > len(self.pages[page - 1])
+        ):
+            raise ValueError(f"{group_id} region is invalid")
+        self.regions[group_id] = (page, start, end)
+        roles: dict[str, list[dict[str, Any]]] = {}
+        for role in ("operator_sources", "scope_sources", "termination_sources"):
+            roles[role] = self._reference_list(
+                raw.get(role), label=f"{group_id}.{role}"
+            )
+        member_sources = raw.get("member_sources")
+        if not isinstance(member_sources, Mapping) or set(member_sources) != set(
+            expected_members
+        ):
+            raise ValueError(
+                f"{group_id} member_sources keys do not match direct members"
+            )
+        roles["member_sources"] = []
+        normalized_member_sources: dict[str, list[dict[str, Any]]] = {}
+        for member in expected_members:
+            refs = self._reference_list(
+                member_sources.get(member), label=f"{group_id}.member_sources.{member}"
+            )
+            normalized_member_sources[member] = refs
+            roles["member_sources"].extend(refs)
+        for role in ("scope_sources", "member_sources", "termination_sources"):
+            if any(
+                not _contains_position(ref, page=page, start=start, end=end)
+                for ref in roles[role]
+            ):
+                raise ValueError(f"{group_id}.{role} escapes its declared region")
+
+        instruction = raw.get("local_instruction")
+        if not isinstance(instruction, Mapping) or not isinstance(
+            instruction.get("state"), str
+        ):
+            raise ValueError(f"{group_id} local_instruction is malformed")
+        roles["local_instruction"] = [
+            self._validate_reference(
+                instruction.get("source"),
+                label=f"{group_id}.local_instruction.source",
+                require_identity=False,
+            )
+        ]
+        inheritance = raw.get("inheritance")
+        normalized_inheritance: dict[str, Any] | None = None
+        if inheritance is not None:
+            if not isinstance(inheritance, Mapping):
+                raise ValueError(f"{group_id} inheritance must be an object or null")
+            if inheritance.get("contiguous") is not True:
+                raise ValueError(f"{group_id} inheritance is not declared contiguous")
+            parent_id = inheritance.get("parent_group_id")
+            if not isinstance(parent_id, str) or not parent_id:
+                raise ValueError(f"{group_id} inheritance parent is missing")
+            normalized_inheritance = {
+                "parent_group_id": parent_id,
+                "declared_count": inheritance.get("declared_count"),
+                "contiguous": inheritance.get("contiguous"),
+                "applicability_sources": self._reference_list(
+                    inheritance.get("applicability_sources"),
+                    label=f"{group_id}.inheritance.applicability_sources",
+                ),
+                "parent_link_sources": self._reference_list(
+                    inheritance.get("parent_link_sources"),
+                    label=f"{group_id}.inheritance.parent_link_sources",
+                ),
+                "group_labels": self._reference_list(
+                    inheritance.get("group_labels"),
+                    label=f"{group_id}.inheritance.group_labels",
+                ),
+            }
+        self.references[group_id] = {
+            **roles,
+            "member_sources_by_id": normalized_member_sources,
+            "inheritance": normalized_inheritance,
+        }
+
+    def _prepare_graph(self) -> None:
+        try:
+            validation = self.evaluator._validate_graph_source_references(
+                self.original_graph, self.source_context
+            )
+            self.graph = validation.get("normalized_graph", self.original_graph)
+            self.nodes = self.evaluator._node_map(self.graph)
+            _, atom_map, _ = self.evaluator._match_atoms(self.case, self.graph)
+            self.atom_map = {str(key): str(value) for key, value in atom_map.items()}
+            legacy_group_map, _, _ = self.evaluator._match_groups(
+                self.case, self.graph, self.atom_map
+            )
+            for group_id, node_id in legacy_group_map.items():
+                group = self.case_groups.get(group_id)
+                operator = (
+                    str(group.get("operator") or "").upper()
+                    if isinstance(group, Mapping)
+                    else ""
+                )
+                if group_id not in self.contract_groups or operator not in {
+                    "AND",
+                    "OR",
+                }:
+                    self.group_map[str(group_id)] = str(node_id)
+                    if str(node_id) in self.nodes:
+                        self.group_candidates[str(group_id)] = [str(node_id)]
+            pending = dict(self.case_groups)
+            progress = True
+            while pending and progress:
+                progress = False
+                for group_id, group in list(pending.items()):
+                    operator = str(group.get("operator") or "").upper()
+                    if operator not in {"AND", "OR"}:
+                        continue
+                    member_ids: list[str] = []
+                    unresolved = False
+                    for member in self.evaluator._group_members(group):
+                        if member in self.case_groups:
+                            resolved = self.group_map.get(member)
+                        else:
+                            resolved = self.atom_map.get(member)
+                        if resolved is None:
+                            unresolved = True
+                            break
+                        member_ids.append(resolved)
+                    if unresolved:
+                        continue
+                    candidates = [
+                        node_id
+                        for node_id, node in self.nodes.items()
+                        if str(node.get("op") or "").upper() == operator
+                        and self.evaluator._status(node.get("status")) == "confirmed"
+                        and len(self.evaluator._children(node))
+                        == len(set(self.evaluator._children(node)))
+                        and set(self.evaluator._children(node)) == set(member_ids)
+                    ]
+                    self.group_candidates[group_id] = candidates
+                    if candidates:
+                        self.group_map[group_id] = candidates[0]
+                        del pending[group_id]
+                        progress = True
+        except Exception as exc:
+            self.contract_errors.append(f"unable to prepare graph evidence map: {exc}")
+
+    def _normalize_actual_refs(
+        self, value: Any, *, label: str
+    ) -> tuple[list[dict[str, Any]], str]:
+        raw_refs = self.evaluator._actual_references(value)
+        normalized: list[dict[str, Any]] = []
+        try:
+            for index, reference in enumerate(raw_refs):
+                normalized.append(
+                    self._validate_reference(
+                        reference,
+                        label=f"{label}[{index}]",
+                        require_identity=True,
+                    )
+                )
+        except ValueError as exc:
+            return [], str(exc)
+        return normalized, ""
+
+    def _group_node(self, group_id: str) -> Mapping[str, Any] | None:
+        node_id = self.group_map.get(group_id)
+        return self.nodes.get(node_id or "")
+
+    def _member_nodes(
+        self, group_id: str
+    ) -> tuple[list[tuple[str, Mapping[str, Any]]], str]:
+        result: list[tuple[str, Mapping[str, Any]]] = []
+        group = self.case_groups.get(group_id)
+        if group is None:
+            return [], f"unknown case group {group_id}"
+        for member in self.evaluator._group_members(group):
+            node_id = (
+                self.group_map.get(member)
+                if member in self.case_groups
+                else self.atom_map.get(member)
+            )
+            node = self.nodes.get(node_id or "")
+            if node is None:
+                return [], f"direct member node is missing: {member}"
+            result.append((member, node))
+        return result, ""
+
+    def _region_for(self, group_id: str) -> tuple[int, int, int] | None:
+        return self.regions.get(group_id)
+
+    def _region_contains(self, reference: Mapping[str, Any], group_id: str) -> bool:
+        region = self._region_for(group_id)
+        return bool(
+            region
+            and _contains_position(
+                reference, page=region[0], start=region[1], end=region[2]
+            )
+        )
+
+    def _refs_cover_expected(
+        self,
+        actual: list[dict[str, Any]],
+        expected: list[dict[str, Any]],
+        *,
+        label: str,
+        allowed_ranges: list[tuple[int, int, int]],
+        require_no_unrelated: bool = True,
+    ) -> tuple[bool, str]:
+        if not expected:
+            return False, f"{label} has no expected source references"
+        if not actual:
+            return False, f"{label} has no actual source references"
+        for ref in actual:
+            if not any(
+                _contains_position(ref, page=page, start=start, end=end)
+                for page, start, end in allowed_ranges
+            ):
+                return False, f"{label} cites outside its permitted raw region"
+            if require_no_unrelated and not any(
+                _covers(ref, item) for item in expected
+            ):
+                return False, f"{label} contains an unrelated source reference"
+        missing = [
+            item for item in expected if not any(_covers(ref, item) for ref in actual)
+        ]
+        if missing:
+            first = missing[0]
+            return (
+                False,
+                f"{label} does not cover p{first['page']}l{first['line']} "
+                f"c{first['start']}-{first['end']}",
+            )
+        return True, ""
+
+    def _local_prefix(
+        self, group_id: str
+    ) -> tuple[str, tuple[int, int, int] | None, str]:
+        refs = self.references.get(group_id)
+        region = self._region_for(group_id)
+        if refs is None or region is None:
+            return "", None, "group region or source anchors are unavailable"
+        anchor = refs["scope_sources"][0]
+        page, start, _ = region
+        if anchor["page"] != page:
+            return "", None, "local scope anchor is on a different page"
+        page_text = self.pages[page - 1]
+        bounds = _line_bounds(page_text, anchor["line"])
+        if bounds is None:
+            return "", None, "local scope anchor line is unavailable"
+        line_start, line_end = bounds
+        colon_positions = [
+            position
+            for mark in ("：", ":")
+            for position in [
+                page_text.find(mark, anchor["start"], min(line_end, region[2]))
+            ]
+            if position >= 0
+        ]
+        if not colon_positions:
+            instruction = refs["local_instruction"][0]
+            if (
+                refs["inheritance"] is not None
+                or instruction["page"] != page
+                or instruction["line"] != anchor["line"]
+                or instruction["start"] < anchor["start"]
+                or instruction["end"] > min(line_end, region[2])
+            ):
+                return "", None, "local instruction has no group-owned header"
+            header_end = min(line_end, region[2])
+            return (
+                page_text[anchor["start"] : header_end],
+                (page, anchor["start"], header_end),
+                "",
+            )
+        colon = min(colon_positions)
+        if colon < anchor["end"] or anchor["start"] < line_start:
+            return "", None, "named group anchor does not precede its local colon"
+        prefix = page_text[anchor["start"] : colon]
+        return prefix, (page, anchor["start"], colon), ""
+
+    def _operator_cue(self, operator: str, text: str) -> bool:
+        return bool(self.evaluator._operator_cues(operator, text))
+
+    def _audit_operator(
+        self, group_id: str, node: Mapping[str, Any] | None
+    ) -> dict[str, Any]:
+        raw = self.contract_groups.get(group_id)
+        refs = self.references.get(group_id)
+        if not isinstance(raw, Mapping) or refs is None:
+            return _result(False, "group has no valid evidence contract")
+        if node is None:
+            return _result(False, "confirmed direct-child group node is missing")
+        operator = str(raw.get("operator") or "").upper()
+        if str(node.get("op") or "").upper() != operator:
+            return _result(False, "actual group operator does not match contract")
+        relation = node.get("operator_relation")
+        if (
+            not isinstance(relation, Mapping)
+            or self.evaluator._status(relation.get("status")) != "confirmed"
+        ):
+            return _result(False, "operator_relation is not confirmed")
+        actual_refs, error = self._normalize_actual_refs(
+            relation, label=f"{group_id}.operator_relation.source_references"
+        )
+        if error:
+            return _result(False, error)
+        expected_refs = refs["operator_sources"]
+        for expected in expected_refs:
+            if not self._operator_cue(operator, expected["quote"]):
+                return _result(
+                    False, "operator source has no explicit matching directive"
+                )
+
+        instruction = raw.get("local_instruction")
+        claimed_state = str(instruction.get("state") or "").strip().lower()
+        prefix, local_range, prefix_error = self._local_prefix(group_id)
+        if prefix_error or local_range is None:
+            return _result(False, prefix_error)
+        unsupported = bool(_UNSUPPORTED_COUNT.search(prefix))
+        negated = bool(_NEGATION.search(prefix))
+        if unsupported:
+            return _result(
+                False, "local instruction contains an unsupported selection count"
+            )
+        if negated:
+            return _result(False, "local instruction contains a negation")
+
+        inheritance = refs["inheritance"]
+        if inheritance is None:
+            if claimed_state != "compatible":
+                return _result(
+                    False, f"local instruction state is not compatible: {claimed_state}"
+                )
+            if not any(
+                _contains_position(
+                    expected,
+                    page=local_range[0],
+                    start=local_range[1],
+                    end=local_range[2],
+                )
+                for expected in expected_refs
+            ):
+                return _result(
+                    False, "operator source is outside the local instruction"
+                )
+            expected_local_cue = self._operator_cue(operator, prefix)
+            if not expected_local_cue:
+                return _result(
+                    False, "raw local instruction does not support the operator"
+                )
+            opposite = "OR" if operator == "AND" else "AND"
+            conflict_text = prefix
+            if operator == "AND" and "每组" in conflict_text:
+                conflict_text = conflict_text.split("每组", 1)[0]
+            if self._operator_cue(opposite, conflict_text):
+                return _result(
+                    False, "raw local instruction contains a conflicting operator"
+                )
+        else:
+            if claimed_state != "absent":
+                return _result(
+                    False, "inherited operator has a conflicting local instruction"
+                )
+            if self._operator_cue("AND", prefix) or self._operator_cue("OR", prefix):
+                return _result(
+                    False, "raw local group prefix contains an independent operator"
+                )
+            allowed_ranges = [
+                (
+                    item["page"],
+                    item["start"],
+                    item["end"],
+                )
+                for item in inheritance["applicability_sources"]
+            ]
+            for expected in expected_refs:
+                if not any(
+                    _contains_position(expected, page=page, start=start, end=end)
+                    for page, start, end in allowed_ranges
+                ):
+                    return _result(
+                        False, "inherited operator source is outside its directive"
+                    )
+            if operator != "OR":
+                return _result(
+                    False, "only explicit per-group OR inheritance is supported"
+                )
+
+        if not inheritance:
+            local_source = refs["local_instruction"][0]
+            if not any(_covers(source, local_source) for source in expected_refs):
+                return _result(
+                    False, "local_instruction source is not the operator instruction"
+                )
+        else:
+            local_source = refs["local_instruction"][0]
+            if not any(
+                _covers(anchor, local_source) or _covers(local_source, anchor)
+                for anchor in refs["scope_sources"]
+            ):
+                return _result(
+                    False, "absent local_instruction source is not the group anchor"
+                )
+
+        allowed_ranges = (
+            [local_range]
+            if inheritance is None
+            else [
+                (item["page"], item["start"], item["end"])
+                for item in inheritance["applicability_sources"]
+            ]
+        )
+        covered, reason = self._refs_cover_expected(
+            actual_refs,
+            expected_refs,
+            label=f"{group_id}.operator_relation",
+            allowed_ranges=allowed_ranges,
+        )
+        if not covered:
+            return _result(False, reason)
+        return _result(True)
+
+    def _audit_scope(
+        self, group_id: str, node: Mapping[str, Any] | None
+    ) -> dict[str, Any]:
+        raw = self.contract_groups.get(group_id)
+        refs = self.references.get(group_id)
+        if not isinstance(raw, Mapping) or refs is None:
+            return _result(False, "group has no valid evidence contract")
+        if node is None:
+            return _result(False, "confirmed direct-child group node is missing")
+        if self.evaluator._status(node.get("status")) != "confirmed":
+            return _result(False, "group node is not confirmed")
+        members, member_error = self._member_nodes(group_id)
+        if member_error:
+            return _result(False, member_error)
+        expected_node_ids = [
+            str(member_node.get("node_id")) for _, member_node in members
+        ]
+        actual_children = self.evaluator._children(node)
+        if len(actual_children) != len(set(actual_children)) or set(
+            actual_children
+        ) != set(expected_node_ids):
+            return _result(False, "group children do not exactly match direct members")
+        relation = node.get("scope_relation")
+        if (
+            not isinstance(relation, Mapping)
+            or self.evaluator._status(relation.get("status")) != "confirmed"
+        ):
+            return _result(False, "scope_relation is not confirmed")
+        targets = relation.get("target_node_ids")
+        if (
+            not isinstance(targets, list)
+            or any(not isinstance(target, str) for target in targets)
+            or len(targets) != len(set(targets))
+            or set(targets) != set(expected_node_ids)
+        ):
+            return _result(False, "scope targets are not the exact direct children")
+        actual_scope_refs, error = self._normalize_actual_refs(
+            relation, label=f"{group_id}.scope_relation.source_references"
+        )
+        if error:
+            return _result(False, error)
+        allowed_region = self._region_for(group_id)
+        assert allowed_region is not None
+        allowed_ranges = [allowed_region]
+        expected_scope = refs["scope_sources"]
+        covered, reason = self._refs_cover_expected(
+            actual_scope_refs,
+            expected_scope,
+            label=f"{group_id}.scope_relation",
+            allowed_ranges=allowed_ranges,
+            require_no_unrelated=False,
+        )
+        if not covered:
+            return _result(False, reason)
+        for member_id, expected_refs in refs["member_sources_by_id"].items():
+            if not all(
+                any(_covers(actual, expected) for actual in actual_scope_refs)
+                for expected in expected_refs
+            ):
+                return _result(
+                    False,
+                    "scope_relation does not cover every source for direct "
+                    f"member {member_id}",
+                )
+        for member_id, member_node in members:
+            expected_refs = refs["member_sources_by_id"][member_id]
+            actual_refs, error = self._normalize_actual_refs(
+                member_node,
+                label=f"{group_id}.member.{member_id}.source_references",
+            )
+            if error:
+                return _result(False, error)
+            if any(
+                not self._region_contains(actual, group_id) for actual in actual_refs
+            ):
+                return _result(
+                    False, f"member {member_id} cites outside its group region"
+                )
+            covered, reason = self._refs_cover_expected(
+                actual_refs,
+                expected_refs,
+                label=f"{group_id}.member.{member_id}",
+                allowed_ranges=allowed_ranges,
+                require_no_unrelated=False,
+            )
+            if not covered:
+                return _result(False, reason)
+        return _result(True)
+
+    def _all_terminal_refs(
+        self, group_id: str, seen: frozenset[str] = frozenset()
+    ) -> tuple[list[dict[str, Any]], list[tuple[int, int, int]], str]:
+        if group_id in seen:
+            return [], [], "cycle in evidence-contract group membership"
+        raw = self.contract_groups.get(group_id)
+        refs = self.references.get(group_id)
+        if not isinstance(raw, Mapping) or refs is None:
+            return [], [], f"direct child contract is missing: {group_id}"
+        case_group = self.case_groups.get(group_id)
+        if not isinstance(case_group, Mapping):
+            return [], [], f"frozen case group is missing: {group_id}"
+        child_ids = self.evaluator._group_members(case_group)
+        if child_ids and all(member in self.case_groups for member in child_ids):
+            flattened: list[dict[str, Any]] = []
+            ranges: list[tuple[int, int, int]] = []
+            parent_region = self._region_for(group_id)
+            parent_member_refs = refs["member_sources_by_id"]
+            if parent_region is None:
+                return [], [], f"parent region is missing: {group_id}"
+            anchors: dict[str, tuple[int, int]] = {}
+            for child_id in child_ids:
+                child_sources = parent_member_refs.get(child_id, [])
+                if not child_sources:
+                    return [], [], f"parent member anchor is missing: {child_id}"
+                anchors[child_id] = (
+                    min(item["page"] for item in child_sources),
+                    min(item["start"] for item in child_sources),
+                )
+            ordered_children = sorted(child_ids, key=lambda child: anchors[child])
+            for child_id in child_ids:
+                if child_id in self.contract_groups:
+                    child_terms, child_ranges, error = self._all_terminal_refs(
+                        child_id, seen | {group_id}
+                    )
+                    if error:
+                        return [], [], error
+                else:
+                    child_case_group = self.case_groups[child_id]
+                    child_members = self.evaluator._group_members(child_case_group)
+                    if (
+                        str(child_case_group.get("operator") or "").upper()
+                        != "REQUIRED"
+                        or len(child_members) != 1
+                    ):
+                        return (
+                            [],
+                            [],
+                            f"uncovered nested group is not unary REQUIRED: {child_id}",
+                        )
+                    page, start = anchors[child_id]
+                    if page != parent_region[0]:
+                        return (
+                            [],
+                            [],
+                            f"uncovered REQUIRED group crosses pages: {child_id}",
+                        )
+                    child_index = ordered_children.index(child_id)
+                    next_start = (
+                        anchors[ordered_children[child_index + 1]][1]
+                        if child_index + 1 < len(ordered_children)
+                        else parent_region[2]
+                    )
+                    child_range = (page, start, next_start)
+                    child_terms = [
+                        terminal
+                        for terminal in refs["termination_sources"]
+                        if _contains_position(
+                            terminal,
+                            page=child_range[0],
+                            start=child_range[1],
+                            end=child_range[2],
+                        )
+                    ]
+                    if not child_terms:
+                        return (
+                            [],
+                            [],
+                            f"{group_id} termination omits REQUIRED child {child_id}",
+                        )
+                    child_ranges = [child_range]
+                flattened.extend(child_terms)
+                ranges.extend(child_ranges)
+            if not self._same_reference_multiset(
+                refs["termination_sources"], flattened
+            ):
+                return (
+                    [],
+                    [],
+                    f"{group_id} termination does not cover every direct child closure",
+                )
+            return flattened, ranges, ""
+        if any(member in self.case_groups for member in child_ids):
+            return [], [], f"{group_id} mixes nested and atomic direct members"
+        return refs["termination_sources"], [self.regions[group_id]], ""
+
+    @staticmethod
+    def _same_reference_multiset(
+        left: list[Mapping[str, Any]], right: list[Mapping[str, Any]]
+    ) -> bool:
+        left_keys = sorted(
+            (
+                _reference_location(item),
+                str(item.get("quote") or ""),
+            )
+            for item in left
+        )
+        right_keys = sorted(
+            (
+                _reference_location(item),
+                str(item.get("quote") or ""),
+            )
+            for item in right
+        )
+        return left_keys == right_keys
+
+    def _terminal_raw_check(
+        self,
+        group_id: str,
+        terminal: Mapping[str, Any],
+        *,
+        region: tuple[int, int, int] | None = None,
+        member_refs: list[Mapping[str, Any]] | None = None,
+    ) -> tuple[bool, str]:
+        region = region or self._region_for(group_id)
+        if region is None or not self._region_contains(terminal, group_id):
+            if region is None or not _contains_position(
+                terminal, page=region[0], start=region[1], end=region[2]
+            ):
+                return False, "termination source escapes its group region"
+        if member_refs is None:
+            member_sources = self.references.get(group_id, {}).get(
+                "member_sources_by_id", {}
+            )
+            member_refs = [
+                reference
+                for references in member_sources.values()
+                for reference in references
+            ]
+        if not member_refs or any(
+            reference["page"] != terminal["page"]
+            or reference["end"] > terminal["start"]
+            for reference in member_refs
+        ):
+            return False, "termination punctuation does not follow every local member"
+        mark = terminal["quote"]
+        if len(mark) != 1 or mark not in _FINAL_MARKS:
+            return (
+                False,
+                "termination source is not explicit sentence-final punctuation",
+            )
+        page_text = self.pages[terminal["page"] - 1]
+        bounds = _line_bounds(page_text, terminal["line"])
+        if bounds is None:
+            return False, "termination source line is missing"
+        line_start, line_end = bounds
+        trailing = page_text[terminal["end"] : line_end]
+        if trailing.strip():
+            return (
+                False,
+                "termination punctuation is not at the original line sentence end",
+            )
+        if page_text[line_start : terminal["start"]].strip() == "":
+            return False, "termination punctuation has no preceding group content"
+        return True, ""
+
+    def _audit_termination(
+        self, group_id: str, node: Mapping[str, Any] | None
+    ) -> dict[str, Any]:
+        refs = self.references.get(group_id)
+        if refs is None:
+            return _result(False, "group has no valid evidence contract")
+        if node is None:
+            return _result(False, "confirmed direct-child group node is missing")
+        relation = node.get("scope_relation")
+        if not isinstance(relation, Mapping):
+            return _result(False, "scope_relation is missing")
+        expected_terms = refs["termination_sources"]
+        all_terms, allowed_ranges, error = self._all_terminal_refs(group_id)
+        if error:
+            return _result(False, error)
+        if not self._same_reference_multiset(expected_terms, all_terms):
+            return _result(
+                False, "termination sources do not match the contract child closures"
+            )
+        for terminal in expected_terms:
+            target_group = group_id
+            target_region: tuple[int, int, int] | None = None
+            target_member_refs: list[Mapping[str, Any]] | None = None
+            case_group = self.case_groups[group_id]
+            direct_members = self.evaluator._group_members(case_group)
+            if direct_members and all(
+                member in self.case_groups for member in direct_members
+            ):
+                child_regions: dict[str, tuple[int, int, int]] = {}
+                child_anchors = {
+                    child_id: min(
+                        self.references[group_id]["member_sources_by_id"][child_id],
+                        key=lambda item: (item["page"], item["start"]),
+                    )
+                    for child_id in direct_members
+                }
+                ordered = sorted(
+                    direct_members,
+                    key=lambda child_id: (
+                        child_anchors[child_id]["page"],
+                        child_anchors[child_id]["start"],
+                    ),
+                )
+                parent_region = self._region_for(group_id)
+                if parent_region is None:
+                    return _result(False, "parent group region is missing")
+                for index, child_id in enumerate(ordered):
+                    if child_id in self.contract_groups:
+                        child_region = self._region_for(child_id)
+                    else:
+                        anchor = child_anchors[child_id]
+                        next_start = (
+                            child_anchors[ordered[index + 1]]["start"]
+                            if index + 1 < len(ordered)
+                            else parent_region[2]
+                        )
+                        child_region = (anchor["page"], anchor["start"], next_start)
+                    if child_region is not None:
+                        child_regions[child_id] = child_region
+                target_group = next(
+                    (
+                        child_id
+                        for child_id, child_region in child_regions.items()
+                        if _contains_position(
+                            terminal,
+                            page=child_region[0],
+                            start=child_region[1],
+                            end=child_region[2],
+                        )
+                    ),
+                    group_id,
+                )
+                if target_group != group_id:
+                    target_region = child_regions[target_group]
+                    if target_group in self.contract_groups:
+                        target_terms = self.references[target_group][
+                            "termination_sources"
+                        ]
+                        if not any(
+                            _covers(terminal, item) or _covers(item, terminal)
+                            for item in target_terms
+                        ):
+                            return _result(
+                                False,
+                                "termination source is not a child-local terminal",
+                            )
+                    else:
+                        child = self.case_groups[target_group]
+                        child_members = self.evaluator._group_members(child)
+                        if (
+                            str(child.get("operator") or "").upper() != "REQUIRED"
+                            or len(child_members) != 1
+                        ):
+                            return _result(
+                                False,
+                                "termination target is not a covered group "
+                                "or unary REQUIRED",
+                            )
+                        node_id = self.group_map.get(target_group)
+                        node = self.nodes.get(node_id or "")
+                        if node is None:
+                            return _result(False, "legacy REQUIRED mapping is missing")
+                        child_member_id = child_members[0]
+                        member_node_id = (
+                            self.group_map.get(child_member_id)
+                            if child_member_id in self.case_groups
+                            else self.atom_map.get(child_member_id)
+                        )
+                        member_node = self.nodes.get(member_node_id or "")
+                        if member_node is None:
+                            return _result(
+                                False, "legacy REQUIRED member mapping is missing"
+                            )
+                        target_member_refs, error = self._normalize_actual_refs(
+                            member_node,
+                            label=f"{target_group}.legacy_member.source_references",
+                        )
+                        if error:
+                            return _result(False, error)
+            okay, reason = self._terminal_raw_check(
+                target_group,
+                terminal,
+                region=target_region,
+                member_refs=target_member_refs,
+            )
+            if not okay:
+                return _result(False, reason)
+
+        actual_refs, ref_error = self._normalize_actual_refs(
+            {"source_references": relation.get("boundary_source_references")},
+            label=f"{group_id}.scope_relation.boundary_source_references",
+        )
+        if ref_error:
+            return _result(False, ref_error)
+        group_region = self._region_for(group_id)
+        _, header_region, _ = self._local_prefix(group_id)
+        if header_region is not None:
+            page_text = self.pages[header_region[0] - 1]
+            if page_text[header_region[2] : header_region[2] + 1] in {":", "："}:
+                header_region = (
+                    header_region[0],
+                    header_region[1],
+                    header_region[2] + 1,
+                )
+        for actual in actual_refs:
+            in_closure = any(
+                _contains_position(actual, page=page, start=start, end=end)
+                for page, start, end in allowed_ranges
+            )
+            in_own_header = bool(
+                header_region
+                and _contains_position(
+                    actual,
+                    page=header_region[0],
+                    start=header_region[1],
+                    end=header_region[2],
+                )
+            )
+            if not (in_closure or in_own_header):
+                return _result(
+                    False, "termination cites outside the permitted local closure"
+                )
+        citation_ranges = list(allowed_ranges)
+        if group_region is not None:
+            citation_ranges.append(group_region)
+        terminal_citations = [
+            actual
+            for actual in actual_refs
+            if any(_covers(actual, expected) for expected in expected_terms)
+        ]
+        covered, reason = self._refs_cover_expected(
+            terminal_citations,
+            expected_terms,
+            label=f"{group_id}.termination",
+            allowed_ranges=citation_ranges,
+            require_no_unrelated=False,
+        )
+        if not covered:
+            return _result(False, reason)
+        return _result(True)
+
+    def _audit_inheritance(
+        self, group_id: str, stack: frozenset[str]
+    ) -> dict[str, Any]:
+        raw = self.contract_groups.get(group_id)
+        refs = self.references.get(group_id)
+        inheritance = refs.get("inheritance") if refs else None
+        if not isinstance(raw, Mapping) or inheritance is None:
+            return _result(True, "not required")
+        parent_id = inheritance["parent_group_id"]
+        if parent_id in stack:
+            return _result(False, "inheritance cycle detected")
+        if parent_id not in self.case_groups or parent_id not in self.contract_groups:
+            return _result(
+                False, "inheritance parent group is missing from the frozen contract"
+            )
+        parent_raw = self.contract_groups[parent_id]
+        parent_case = self.case_groups[parent_id]
+        child_ids = self.evaluator._group_members(parent_case)
+        if group_id not in child_ids:
+            return _result(
+                False, "inheritance parent does not directly contain this group"
+            )
+        if any(child_id not in self.contract_groups for child_id in child_ids):
+            return _result(
+                False, "inheritance parent is missing a direct-child contract"
+            )
+
+        count = _strict_int(inheritance.get("declared_count"))
+        labels = inheritance["group_labels"]
+        if count is None or count != len(child_ids) or count != len(labels):
+            return _result(
+                False, "declared group count does not match direct children and labels"
+            )
+        if (
+            len({(item["page"], item["start"], item["end"]) for item in labels})
+            != count
+        ):
+            return _result(False, "group labels are repeated")
+        ordinals = [
+            _chinese_number(match.group(1))
+            for item in labels
+            for match in [_GROUP_LABEL.search(item["quote"])]
+            if match
+        ]
+        if len(ordinals) != count or sorted(ordinals) != list(range(1, count + 1)):
+            return _result(
+                False, "group labels are not unique consecutive first-to-count labels"
+            )
+
+        directive_text = "\n".join(
+            item["quote"] for item in inheritance["applicability_sources"]
+        )
+        count_matches = [
+            _chinese_number(match.group(1))
+            for match in re.finditer(
+                r"(?:以下)?([一二两三四五六七八九十\d]+)组", directive_text
+            )
+        ]
+        if count not in count_matches:
+            return _result(
+                False, "raw parent directive does not declare the same group count"
+            )
+        if "每组" not in directive_text or not any(
+            self._operator_cue("OR", item["quote"]) for item in refs["operator_sources"]
+        ):
+            return _result(
+                False,
+                "raw parent directive is not an explicit per-group one-of instruction",
+            )
+        if not isinstance(parent_raw, Mapping) or str(
+            parent_raw.get("operator") or ""
+        ).upper() not in {"AND", "OR"}:
+            return _result(
+                False, "inheritance parent has no supported confirmed operator"
+            )
+        if len(child_ids) != count:
+            return _result(
+                False, "parent's direct-child count disagrees with the declaration"
+            )
+
+        parent_audit = self._audit_group(parent_id, stack | {group_id})
+        if (
+            not parent_audit["operator"]["passed"]
+            or not parent_audit["scope"]["passed"]
+        ):
+            return _result(
+                False, "actual parent operator and scope are not both confirmed"
+            )
+        parent_node_id = self.group_map.get(parent_id)
+        parent_node = self.nodes.get(parent_node_id or "")
+        if parent_node is None:
+            return _result(False, "actual parent operator node is missing")
+        parent_scope = parent_node.get("scope_relation")
+        if (
+            self.evaluator._status(parent_node.get("status")) != "confirmed"
+            or not isinstance(parent_scope, Mapping)
+            or self.evaluator._status(parent_scope.get("status")) != "confirmed"
+        ):
+            return _result(False, "actual parent node/operator/scope is not confirmed")
+
+        label_by_group: dict[str, Mapping[str, Any]] = {}
+        for child_id in child_ids:
+            child_contract_refs = self.references.get(child_id)
+            if child_contract_refs is None:
+                return _result(False, f"child group contract is missing: {child_id}")
+            found = next(
+                (
+                    label
+                    for label in labels
+                    if any(
+                        _same_occurrence(label, anchor)
+                        for anchor in child_contract_refs["scope_sources"]
+                    )
+                ),
+                None,
+            )
+            if found is None:
+                return _result(
+                    False, f"declared label does not identify child group {child_id}"
+                )
+            label_by_group[child_id] = found
+
+        pages = {
+            item["page"]
+            for item in [
+                *inheritance["applicability_sources"],
+                *labels,
+                *[
+                    terminal
+                    for child_id in child_ids
+                    for terminal in self.references[child_id]["termination_sources"]
+                ],
+            ]
+        }
+        if len(pages) != 1:
+            return _result(False, "cross-page group inheritance is unsupported")
+        page = next(iter(pages))
+        page_text = self.pages[page - 1]
+        ordered_children = sorted(
+            child_ids,
+            key=lambda child_id: label_by_group[child_id]["start"],
+        )
+        if not inheritance.get("contiguous"):
+            return _result(False, "contract does not assert contiguous inheritance")
+        app_end = max(item["end"] for item in inheritance["applicability_sources"])
+        first_label = label_by_group[ordered_children[0]]
+        if page_text[app_end : first_label["start"]].strip():
+            return _result(
+                False, "non-empty paragraph intervenes before the first group"
+            )
+        for left_id, right_id in zip(ordered_children, ordered_children[1:]):
+            left_region = self.regions.get(left_id)
+            right_label = label_by_group[right_id]
+            if (
+                left_region is None
+                or left_region[0] != page
+                or right_label["page"] != page
+            ):
+                return _result(
+                    False, "inherited group region is not on the declared page"
+                )
+            if page_text[left_region[2] : right_label["start"]].strip():
+                return _result(
+                    False, "independent non-empty paragraph interrupts inheritance"
+                )
+        for child_id in child_ids:
+            region = self.regions.get(child_id)
+            label = label_by_group[child_id]
+            if (
+                region is None
+                or region[0] != page
+                or not _contains_position(
+                    label,
+                    page=region[0],
+                    start=region[1],
+                    end=region[2],
+                )
+            ):
+                return _result(
+                    False, f"child {child_id} label/region identity mismatch"
+                )
+
+        raw_labels = [
+            (match.start(), match.group(0))
+            for match in _GROUP_LABEL.finditer(page_text)
+            if first_label["start"]
+            <= match.start()
+            <= max(self.regions[child_id][2] for child_id in ordered_children)
+        ]
+        expected_label_positions = sorted(
+            (label_by_group[child_id]["start"], label_by_group[child_id]["quote"])
+            for child_id in ordered_children
+        )
+        if raw_labels != expected_label_positions:
+            return _result(
+                False, "raw region contains missing or undeclared group labels"
+            )
+
+        child_node_id = self.group_map.get(group_id)
+        child_node = self.nodes.get(child_node_id or "")
+        child_refs = self.references[group_id]
+        links = child_refs["inheritance"]["parent_link_sources"]
+        app_anchors = inheritance["applicability_sources"]
+        own_anchors = child_refs["scope_sources"]
+        if not any(
+            any(_covers(link, app) or _covers(app, link) for app in app_anchors)
+            for link in links
+        ) or not any(
+            any(_covers(link, own) or _covers(own, link) for own in own_anchors)
+            for link in links
+        ):
+            return _result(
+                False,
+                "parent_link_sources do not identify directive and local group name",
+            )
+        if child_node is None:
+            return _result(False, "inherited child group node is missing")
+        semantic_records = self._parent_records(child_node)
+        matching: list[Mapping[str, Any]] = []
+        has_candidate_for_parent = False
+        conflict = False
+        for record in semantic_records:
+            layer = str(record.get("layer", record.get("relation_layer")) or "").lower()
+            if layer not in _SEMANTIC_PARENT_LAYERS:
+                continue
+            status = self.evaluator._status(record.get("status"))
+            targets = record.get("target_node_ids") or []
+            if isinstance(targets, str):
+                targets = [targets]
+            target_ids = {str(target) for target in targets if target is not None}
+            if status == "candidate" and parent_node_id in target_ids:
+                has_candidate_for_parent = True
+            if (
+                status in {"confirmed", "candidate"}
+                and target_ids
+                and target_ids != {parent_node_id}
+            ):
+                conflict = True
+            if (
+                status == "confirmed"
+                and target_ids == {parent_node_id}
+                and self.evaluator._relation_has_basis(record)
+            ):
+                actual_refs, ref_error = self._normalize_actual_refs(
+                    record,
+                    label=f"{group_id}.semantic_parent.source_references",
+                )
+                if ref_error:
+                    continue
+                parent_region = self._region_for(parent_id)
+                if parent_region is None:
+                    return _result(False, "confirmed semantic parent region is missing")
+                covered, _ = self._refs_cover_expected(
+                    actual_refs,
+                    links,
+                    label=f"{group_id}.semantic_parent",
+                    allowed_ranges=[parent_region],
+                    require_no_unrelated=False,
+                )
+                if covered:
+                    matching.append(record)
+        if conflict:
+            return _result(False, "an additional conflicting semantic parent exists")
+        if not matching:
+            reason = (
+                "semantic parent is only a candidate"
+                if has_candidate_for_parent
+                else "no confirmed typed semantic parent cites this actual parent"
+            )
+            return _result(False, reason)
+        return _result(True)
+
+    def _parent_records(self, node: Mapping[str, Any]) -> list[Mapping[str, Any]]:
+        values = node.get("parent_relations")
+        if isinstance(values, Mapping):
+            records = [values]
+        elif isinstance(values, list):
+            records = [value for value in values if isinstance(value, Mapping)]
+        else:
+            records = []
+        block_ids = {str(value) for value in node.get("source_block_ids") or []}
+        blocks = self.graph.get("block_relations")
+        if isinstance(blocks, list):
+            for block in blocks:
+                if (
+                    not isinstance(block, Mapping)
+                    or str(block.get("block_id")) not in block_ids
+                ):
+                    continue
+                relation = block.get("parent_relation")
+                if isinstance(relation, Mapping):
+                    records.append(relation)
+        return records
+
+    def _audit_group(
+        self, group_id: str, stack: frozenset[str] = frozenset()
+    ) -> dict[str, Any]:
+        if group_id in self.audit_cache:
+            return self.audit_cache[group_id]
+        if group_id in stack:
+            return {
+                "evaluator": EVALUATOR_VERSION,
+                "operator": _result(False, "evidence audit cycle detected"),
+                "scope": _result(False, "evidence audit cycle detected"),
+                "termination": _result(False, "evidence audit cycle detected"),
+                "inheritance": _result(False, "evidence audit cycle detected"),
+                "status": "rejected",
+            }
+        node = self._group_node(group_id)
+        candidates = self.group_candidates.get(group_id, [])
+        if not self.valid:
+            rejected = _result(False, "; ".join(self.contract_errors))
+            audit = {
+                "evaluator": EVALUATOR_VERSION,
+                "operator": rejected,
+                "scope": rejected,
+                "termination": rejected,
+                "inheritance": rejected,
+                "status": "rejected",
+            }
+            self.audit_cache[group_id] = audit
+            return audit
+        if len(candidates) != 1:
+            reason = (
+                "actual direct-child group node is ambiguous"
+                if candidates
+                else "no unique confirmed node has the exact direct children"
+            )
+            structure = _result(False, reason)
+        else:
+            structure = _result(True)
+        operator = self._audit_operator(group_id, node)
+        scope = self._audit_scope(group_id, node)
+        termination = self._audit_termination(group_id, node)
+        raw_refs = self.references.get(group_id, {})
+        inheritance = raw_refs.get("inheritance")
+        if inheritance is None:
+            inheritance_audit = _result(True, "not required")
+        else:
+            inheritance_audit = self._audit_inheritance(group_id, stack | {group_id})
+        if not structure["passed"]:
+            for entry in (operator, scope, termination, inheritance_audit):
+                if entry["passed"]:
+                    entry["reason"] = structure["reason"]
+                    entry["passed"] = False
+                    entry["status"] = "rejected"
+        passed = all(
+            entry["passed"]
+            for entry in (structure, operator, scope, termination, inheritance_audit)
+        )
+        audit = {
+            "evaluator": EVALUATOR_VERSION,
+            "actual_node_id": node.get("node_id") if node else None,
+            "structure": structure,
+            "operator": operator,
+            "scope": scope,
+            "termination": termination,
+            "inheritance": inheritance_audit,
+            "status": "confirmed" if passed else "rejected",
+        }
+        self.audit_cache[group_id] = audit
+        return audit
+
+    def render(self) -> dict[str, Any]:
+        groups: dict[str, Any] = {}
+        for group_id in self.case_groups:
+            raw_group = self.contract_groups.get(group_id)
+            operator = (
+                str(raw_group.get("operator") or "").upper()
+                if isinstance(raw_group, Mapping)
+                else ""
+            )
+            if group_id in self.contract_groups and operator in {"AND", "OR"}:
+                groups[group_id] = self._audit_group(group_id)
+            elif group_id in self.contract_groups:
+                groups[group_id] = {
+                    "evaluator": "1.0.4",
+                    "status": "not_reaudited",
+                    "reason": (
+                        "operator is outside the frozen boundary-evidence grammar"
+                    ),
+                }
+            else:
+                groups[group_id] = {
+                    "evaluator": "1.0.4",
+                    "status": "not_reaudited",
+                    "reason": "group is outside the frozen boundary-evidence overlay",
+                }
+        return {
+            "schema": AUDIT_SCHEMA,
+            "contract_status": "valid" if self.valid else "invalid",
+            "contract_errors": list(dict.fromkeys(self.contract_errors)),
+            "groups": groups,
+        }
+
+
+def score_case(
+    case: Mapping[str, Any],
+    graph: Mapping[str, Any],
+    source_context: Mapping[str, Any],
+    *,
+    evidence_contract: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Score one preserved graph with contract-scoped boundary evidence."""
+    if not isinstance(case, Mapping) or not isinstance(graph, Mapping):
+        raise ValueError("case and graph must be objects")
+    if not isinstance(source_context, Mapping):
+        raise ValueError("source_context must be an object")
+    if not isinstance(evidence_contract, Mapping):
+        raise ValueError("evidence_contract must be an object")
+
+    rescorer = _isolated_rescorer()
+    evaluator = load_evaluator("1.0.4")
+    evaluator._rescore_literal_mapping_enabled = rescorer._fallback_context_matches(
+        graph, source_context
+    )
+    safe_case = deepcopy(dict(case))
+    safe_graph = deepcopy(dict(graph))
+    safe_context = deepcopy(dict(source_context))
+    safe_contract = deepcopy(dict(evidence_contract))
+    auditor = _BoundaryEvidenceAuditor(
+        evaluator,
+        safe_case,
+        safe_graph,
+        safe_context,
+        safe_contract,
+    )
+
+    original_operator_evidence = evaluator._operator_evidence
+    original_scope_evidence = evaluator._scope_evidence
+    selected_nodes: dict[str, str] = {}
+
+    def operator_evidence(
+        group: Mapping[str, Any], node: Mapping[str, Any]
+    ) -> tuple[bool, str]:
+        group_id = str(group.get("id") or "")
+        operator = str(group.get("operator") or "").upper()
+        if group_id not in auditor.contract_groups or operator not in {"AND", "OR"}:
+            return original_operator_evidence(group, node)
+        if not auditor.valid:
+            return False, "; ".join(auditor.contract_errors)
+        audit = auditor._audit_group(group_id)
+        node_id = str(node.get("node_id") or "")
+        if audit.get("actual_node_id") != node_id:
+            return (
+                False,
+                "selected graph node differs from the audited direct-child candidate",
+            )
+        selected_nodes[group_id] = node_id
+        if not audit["operator"]["passed"]:
+            return False, audit["operator"]["reason"]
+        if not audit["inheritance"]["passed"]:
+            return False, audit["inheritance"]["reason"]
+        return True, ""
+
+    def scope_evidence(
+        group: Mapping[str, Any],
+        source_references: Any,
+        boundary_references: Any,
+        member_nodes: list[Mapping[str, Any]],
+    ) -> tuple[bool, str, bool, str]:
+        group_id = str(group.get("id") or "")
+        operator = str(group.get("operator") or "").upper()
+        if group_id not in auditor.contract_groups or operator not in {"AND", "OR"}:
+            return original_scope_evidence(
+                group, source_references, boundary_references, member_nodes
+            )
+        if not auditor.valid:
+            reason = "; ".join(auditor.contract_errors)
+            return False, reason, False, reason
+        audit = auditor._audit_group(group_id)
+        if group_id not in selected_nodes:
+            reason = "operator evidence did not select an audited group node"
+            return False, reason, False, reason
+        return (
+            audit["scope"]["passed"],
+            audit["scope"]["reason"],
+            audit["termination"]["passed"],
+            audit["termination"]["reason"],
+        )
+
+    evaluator._operator_evidence = operator_evidence
+    evaluator._scope_evidence = scope_evidence
+    result = evaluator._score_case(safe_case, safe_graph, safe_context)
+    result["evaluator_version"] = EVALUATOR_VERSION
+    result["evidence_audit"] = auditor.render()
+    return result
+
+
+def _load_frozen_rules() -> dict[str, Any]:
+    markdown_path = RULES_DIRECTORY / "rules-v1.md"
+    json_path = RULES_DIRECTORY / "rules-v1.json"
+    try:
+        markdown = markdown_path.read_bytes()
+        machine = json_path.read_bytes()
+    except OSError as exc:
+        raise ValueError("frozen boundary rules are unavailable") from exc
+    if _sha256(markdown) != RULES_MARKDOWN_SHA256:
+        raise ValueError("frozen boundary rules markdown SHA-256 does not match")
+    if _sha256(machine) != RULES_JSON_SHA256:
+        raise ValueError("frozen boundary rules JSON SHA-256 does not match")
+    rules = _load_json_bytes(machine, label="frozen boundary rules")
+    if (
+        rules.get("schema") != "boundary-evidence-rules-v1"
+        or rules.get("version") != "1"
+        or rules.get("target_evaluator_version") != EVALUATOR_VERSION
+        or rules.get("same_product_report_sha256") != FROZEN_PRODUCT_REPORT_SHA256
+        or rules.get("frozen_previous_versions") != ["1.0.3", "1.0.4"]
+    ):
+        raise ValueError("frozen boundary rules identity does not match this evaluator")
+    return rules
+
+
+def _load_overlay(
+    overlay_path: Path,
+    *,
+    expected_overlay_sha256: str,
+    expected_report_sha256: str,
+    oracle_sha256: str,
+    report_sha256: str,
+    rules: Mapping[str, Any],
+) -> tuple[dict[str, Any], str]:
+    if not re.fullmatch(r"[0-9a-fA-F]{64}", expected_overlay_sha256 or ""):
+        raise ValueError("expected_overlay_sha256 must be a 64-character SHA-256")
+    try:
+        raw = overlay_path.read_bytes()
+    except OSError as exc:
+        raise ValueError("frozen historical overlay is unavailable") from exc
+    actual_sha256 = _sha256(raw)
+    if actual_sha256 != expected_overlay_sha256.lower():
+        raise ValueError("historical overlay SHA-256 does not match the expected value")
+    if actual_sha256 != FROZEN_OVERLAY_SHA256:
+        raise ValueError("historical overlay is not the frozen sidecar")
+    overlay = _load_json_bytes(raw, label="historical overlay")
+    if (
+        overlay.get("schema") != OVERLAY_SCHEMA
+        or overlay.get("oracle_sha256") != oracle_sha256
+        or overlay.get("oracle_sha256") != FROZEN_ORACLE_SHA256
+        or overlay.get("product_report_sha256") != report_sha256
+        or report_sha256 != expected_report_sha256.lower()
+        or report_sha256 != rules.get("same_product_report_sha256")
+        or report_sha256 != FROZEN_PRODUCT_REPORT_SHA256
+        or overlay.get("unlisted_groups") != "unchanged legacy 1.0.4 rules"
+    ):
+        raise ValueError(
+            "historical overlay frozen identity does not match the report/rules"
+        )
+    return overlay, actual_sha256
+
+
+def _validate_overlay_cases(
+    overlay: Mapping[str, Any],
+    freeze: Mapping[str, Any],
+    bundle_inputs: Mapping[str, tuple[dict[str, Any], str, list[str]]],
+    source_contexts: Mapping[str, Mapping[str, Any]],
+    evaluator: ModuleType,
+) -> dict[str, tuple[Mapping[str, Any], Mapping[str, Any]]]:
+    rows = overlay.get("cases")
+    if not isinstance(rows, list):
+        raise ValueError("historical overlay cases must be a list")
+    oracle_cases = {
+        str(case.get("case_id")): case
+        for case in freeze["oracle"]["cases"]
+        if isinstance(case, Mapping)
+    }
+    allowed_ids = set(bundle_inputs)
+    result: dict[str, tuple[Mapping[str, Any], Mapping[str, Any]]] = {}
+    for row in rows:
+        if not isinstance(row, Mapping):
+            raise ValueError("historical overlay case entry must be an object")
+        case_id = row.get("case_id")
+        if (
+            not isinstance(case_id, str)
+            or case_id not in oracle_cases
+            or case_id not in allowed_ids
+        ):
+            raise ValueError(f"unknown historical overlay case: {case_id!r}")
+        if case_id in result:
+            raise ValueError(f"duplicate historical overlay case: {case_id}")
+        contract = row.get("evidence_contract")
+        if not isinstance(contract, Mapping):
+            raise ValueError(f"{case_id} evidence_contract is missing")
+        if (
+            contract.get("case_id") != case_id
+            or contract.get("schema") != CONTRACT_SCHEMA
+        ):
+            raise ValueError(f"{case_id} evidence_contract identity/schema mismatch")
+        oracle_case, input_sha256, pages = bundle_inputs[case_id]
+        row_hash = row.get("raw_input_sha256")
+        if row_hash is not None and row_hash != input_sha256:
+            raise ValueError(f"{case_id} overlay raw input checksum mismatch")
+        oracle_hash = oracle_case.get("raw_input_sha256")
+        if oracle_hash is not None and oracle_hash != input_sha256:
+            raise ValueError(f"{case_id} bundle oracle raw input checksum mismatch")
+        groups = contract.get("groups")
+        case_groups = oracle_case.get("groups")
+        if not isinstance(groups, Mapping) or not isinstance(case_groups, list):
+            raise ValueError(f"{case_id} contract/case groups are malformed")
+        oracle_group_map: dict[str, Mapping[str, Any]] = {}
+        for group in case_groups:
+            if not isinstance(group, Mapping) or not isinstance(group.get("id"), str):
+                raise ValueError(f"{case_id} frozen oracle group is malformed")
+            group_id = str(group["id"])
+            if group_id in oracle_group_map:
+                raise ValueError(f"{case_id} frozen oracle repeats group {group_id}")
+            oracle_group_map[group_id] = group
+        if any(
+            not isinstance(group_id, str) or group_id not in oracle_group_map
+            for group_id in groups
+        ):
+            raise ValueError(f"{case_id} contract contains an unknown frozen group")
+        seen_groups: set[str] = set()
+        for group_id, evidence in groups.items():
+            if group_id in seen_groups:
+                raise ValueError(f"{case_id} overlay repeats group {group_id}")
+            seen_groups.add(group_id)
+            operator = str(oracle_group_map[group_id].get("operator") or "").upper()
+            if operator not in {"AND", "OR"}:
+                raise ValueError(
+                    f"{case_id}/{group_id} uses an operator outside "
+                    "the boundary contract"
+                )
+            if not isinstance(evidence, Mapping):
+                raise ValueError(f"{case_id}/{group_id} evidence entry is malformed")
+            expected_members = evaluator._group_members(oracle_group_map[group_id])
+            members = evidence.get("members")
+            if (
+                not isinstance(members, list)
+                or any(not isinstance(member, str) for member in members)
+                or len(members) != len(set(members))
+                or set(members) != set(expected_members)
+            ):
+                raise ValueError(
+                    f"{case_id}/{group_id} sidecar members do not exactly "
+                    "match the frozen oracle"
+                )
+        for group_id in seen_groups:
+            for member_id in evaluator._group_members(oracle_group_map[group_id]):
+                nested_group = oracle_group_map.get(member_id)
+                if not isinstance(nested_group, Mapping):
+                    continue
+                nested_operator = str(nested_group.get("operator") or "").upper()
+                if nested_operator in {"AND", "OR"} and member_id not in seen_groups:
+                    raise ValueError(
+                        f"{case_id}/{group_id} contract omits nested logic "
+                        f"group {member_id}"
+                    )
+        if row_hash != input_sha256:
+            raise ValueError(f"{case_id} overlay raw input checksum is missing")
+        captured_context = source_contexts.get(case_id)
+        if not isinstance(captured_context, Mapping):
+            raise ValueError(
+                f"{case_id} overlay has no captured source_context identity"
+            )
+        document_id = captured_context.get("document_id")
+        source_version = captured_context.get("source_version")
+        if not isinstance(document_id, str) or not document_id:
+            raise ValueError(f"{case_id} captured document_id is missing")
+        if not isinstance(source_version, str) or not source_version:
+            raise ValueError(f"{case_id} captured source_version is missing")
+        validation_context = {
+            "document_id": document_id,
+            "source_version": source_version,
+            "pages": pages,
+            "raw_input_sha256": input_sha256,
+        }
+        probe_case = dict(oracle_case)
+        probe_case.pop("raw_input_sha256", None)
+        probe_graph = {
+            "document_id": document_id,
+            "source_version": source_version,
+        }
+        auditor = _BoundaryEvidenceAuditor(
+            evaluator, probe_case, probe_graph, validation_context, contract
+        )
+        if not auditor.valid:
+            raise ValueError(
+                f"{case_id} sidecar evidence is invalid: "
+                + "; ".join(auditor.contract_errors)
+            )
+        result[case_id] = (oracle_case, contract)
+    return result
+
+
+def _verified_machine_oracle_sha256(freeze: Mapping[str, Any]) -> str:
+    try:
+        bundle_root = Path(freeze["bundle"]).resolve(strict=True)
+        oracle_path = (bundle_root / "machine-oracle.json").resolve(strict=True)
+        if not bundle_root.is_dir() or oracle_path.parent != bundle_root:
+            raise ValueError("verified machine-oracle path escapes its bundle")
+        raw = oracle_path.read_bytes()
+    except (KeyError, OSError, TypeError) as exc:
+        raise ValueError("verified bundle machine-oracle.json is unavailable") from exc
+    parsed = _load_json_bytes(raw, label="verified machine-oracle.json")
+    if parsed != freeze.get("oracle"):
+        raise ValueError(
+            "verified machine-oracle bytes disagree with parsed bundle oracle"
+        )
+    return _sha256(raw)
+
+
+def rescore_report(
+    bundle: Path,
+    product_report: Path,
+    *,
+    overlay: Path,
+    expected_overlay_sha256: str,
+    expected_report_sha256: str,
+    main_reviewer_authorized: bool,
+) -> dict[str, Any]:
+    if not main_reviewer_authorized:
+        raise PermissionError(
+            "offline boundary rescore requires main-reviewer authorization"
+        )
+    if not re.fullmatch(r"[0-9a-fA-F]{64}", expected_report_sha256 or ""):
+        raise ValueError("expected_report_sha256 must be a 64-character SHA-256")
+    rules = _load_frozen_rules()
+    rescorer = _isolated_rescorer()
+    rescorer.load_evaluator = load_evaluator
+    legacy = load_evaluator("1.0.3")
+    report, _, report_sha256 = rescorer._validate_product_report(
+        Path(product_report), expected_report_sha256, legacy
+    )
+    overlay_data, overlay_sha256 = _load_overlay(
+        Path(overlay),
+        expected_overlay_sha256=expected_overlay_sha256,
+        expected_report_sha256=expected_report_sha256,
+        oracle_sha256=FROZEN_ORACLE_SHA256,
+        report_sha256=report_sha256,
+        rules=rules,
+    )
+    try:
+        freeze = legacy.verify_bundle(Path(bundle))
+    except OSError as exc:
+        raise ValueError("the frozen document-relations bundle is unavailable") from exc
+    if (
+        report["freeze"]["v2_manifest_sha256"] != freeze["manifest_sha256"]
+        or report["freeze"]["v2_bundle_fingerprint"] != freeze["bundle_fingerprint"]
+    ):
+        raise ValueError("product report freeze does not match the verified bundle")
+    oracle_sha256 = _verified_machine_oracle_sha256(freeze)
+    if (
+        oracle_sha256 != FROZEN_ORACLE_SHA256
+        or overlay_data.get("oracle_sha256") != oracle_sha256
+    ):
+        raise ValueError(
+            "historical overlay oracle SHA-256 does not match the verified bundle"
+        )
+    bundle_inputs = rescorer._bundle_case_inputs(freeze)
+    evaluator = rescorer.load_evaluator("1.0.4")
+    product_cases = {str(case["case_id"]): case for case in report["cases"]}
+    source_contexts = {
+        case_id: product_case["source_context"]
+        for case_id, product_case in product_cases.items()
+        if isinstance(product_case.get("source_context"), Mapping)
+    }
+    overlay_cases = _validate_overlay_cases(
+        overlay_data, freeze, bundle_inputs, source_contexts, evaluator
+    )
+
+    case_results: list[dict[str, Any]] = []
+    for case_id in legacy.EXPECTED_CASE_IDS:
+        oracle_case, input_sha256, pages = bundle_inputs[case_id]
+        product_case = product_cases[case_id]
+        execution_state, graph, source_context, runtime = (
+            rescorer._validate_case_replay_material(
+                case_id, product_case, input_sha256, pages
+            )
+        )
+        graph_sha256 = rescorer._canonical_sha256(graph) if graph is not None else None
+        context_sha256 = (
+            rescorer._canonical_sha256(source_context)
+            if source_context is not None
+            else None
+        )
+        if execution_state == "executed":
+            assert graph is not None and source_context is not None
+            if case_id in overlay_cases:
+                _, contract = overlay_cases[case_id]
+                scored = score_case(
+                    oracle_case,
+                    graph,
+                    source_context,
+                    evidence_contract=contract,
+                )
+            else:
+                scored = evaluator._score_case(
+                    deepcopy(oracle_case),
+                    deepcopy(dict(graph)),
+                    deepcopy(dict(source_context)),
+                )
+                scored["evaluator_version"] = "1.0.4"
+            scored["execution_state"] = "executed"
+            scored["runtime"] = deepcopy(dict(runtime))
+            scored["actual_graph"] = deepcopy(dict(graph))
+            scored["source_context"] = deepcopy(dict(source_context))
+            scored["bundle_input_sha256"] = input_sha256
+            scored["actual_graph_canonical_json_sha256"] = graph_sha256
+            scored["source_context_canonical_json_sha256"] = context_sha256
+            scored["product_report_status"] = product_case["status"]
+            if "reason" in product_case:
+                scored["reason"] = deepcopy(product_case["reason"])
+            case_results.append(scored)
+            continue
+
+        preserved: dict[str, Any] = {
+            "case_id": case_id,
+            "status": product_case["status"],
+            "execution_state": execution_state,
+            "runtime": deepcopy(dict(runtime)),
+            "metrics": {},
+            "errors": deepcopy(product_case.get("errors", [])),
+            "product_report_status": product_case["status"],
+            "bundle_input_sha256": input_sha256,
+            "actual_graph_canonical_json_sha256": graph_sha256,
+            "source_context_canonical_json_sha256": context_sha256,
+        }
+        if "reason" in product_case:
+            preserved["reason"] = deepcopy(product_case["reason"])
+        if "event_counts" in product_case:
+            preserved["event_counts"] = deepcopy(product_case["event_counts"])
+        if graph is not None:
+            preserved["actual_graph"] = deepcopy(dict(graph))
+        if source_context is not None:
+            preserved["source_context"] = deepcopy(dict(source_context))
+        if case_id in overlay_cases:
+            preserved["evidence_audit"] = {
+                "schema": AUDIT_SCHEMA,
+                "contract_status": "not_scored",
+                "groups": {},
+                "reason": f"product execution_state is {execution_state}",
+            }
+        case_results.append(preserved)
+
+    summary = rescorer._aggregate_results(case_results)
+    current_sha256 = _sha256(Path(__file__).read_bytes())
+    return {
+        "schema": OFFLINE_REPORT_SCHEMA,
+        "generated_at": datetime.now().astimezone().isoformat(),
+        "classification": "offline grader rescore of preserved product output",
+        "interpretation": (
+            "This is a grader-only offline rescore. Original product graphs, "
+            "source contexts, execution states, and runtimes are preserved."
+        ),
+        "base_commit": legacy.EXPECTED_BASE_COMMIT,
+        "source_tree_sha256": report["source_tree_sha256"],
+        "source_tree_sha256_algorithm": rescorer.LEGACY_SOURCE_TREE_ALGORITHM,
+        "evaluator": {
+            "version": EVALUATOR_VERSION,
+            "path": Path(__file__).resolve().relative_to(ROOT).as_posix(),
+            "sha256": current_sha256,
+            "legacy_evaluator_sha256": rescorer.LEGACY_EVALUATOR_SHA256,
+            "legacy_rescorer_sha256": RESCORER_SHA256,
+        },
+        "product_report": {
+            "sha256": report_sha256,
+            "schema": report["schema"],
+            "evaluator_sha256": rescorer.LEGACY_EVALUATOR_SHA256,
+            "source_tree_sha256": report["source_tree_sha256"],
+        },
+        "boundary_overlay": {
+            "sha256": overlay_sha256,
+            "schema": overlay_data["schema"],
+            "cases": sorted(overlay_cases),
+        },
+        "freeze": {
+            "v2_manifest_sha256": freeze["manifest_sha256"],
+            "v2_bundle_fingerprint": freeze["bundle_fingerprint"],
+            "payload_files": len(freeze["checked_files"]),
+        },
+        "claims": {
+            "offline_rescore": True,
+            "product_runtime_invoked": False,
+            "product_source_changed": False,
+            "main_reviewer_authorized": main_reviewer_authorized,
+            "create_only_report": True,
+        },
+        "summary": summary,
+        "cases": case_results,
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--bundle", type=Path, required=True)
+    parser.add_argument("--product-report", type=Path, required=True)
+    parser.add_argument("--overlay", type=Path, required=True)
+    parser.add_argument("--expected-overlay-sha256", required=True)
+    parser.add_argument("--expected-report-sha256", required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--main-reviewer-authorized",
+        action="store_true",
+        help="attest explicit main-reviewer authorization for this offline rescore",
+    )
+    args = parser.parse_args(argv)
+    if not args.main_reviewer_authorized:
+        parser.error("offline boundary rescore requires main-reviewer authorization")
+    output = args.output.resolve()
+    if output.exists():
+        parser.error(f"refusing to overwrite existing report: {output}")
+    try:
+        report = rescore_report(
+            args.bundle,
+            args.product_report,
+            overlay=args.overlay,
+            expected_overlay_sha256=args.expected_overlay_sha256,
+            expected_report_sha256=args.expected_report_sha256,
+            main_reviewer_authorized=args.main_reviewer_authorized,
+        )
+        rendered = (
+            json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
+        )
+        output.parent.mkdir(parents=True, exist_ok=True)
+        with output.open("x", encoding="utf-8", newline="\n") as handle:
+            handle.write(rendered)
+    except FileExistsError:
+        parser.error(f"refusing to overwrite existing report: {output}")
+    except (OSError, PermissionError, ValueError) as exc:
+        parser.error(str(exc))
+    if report["summary"]["failed"]:
+        return 1
+    if report["summary"]["not_run"]:
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

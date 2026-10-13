@@ -1,0 +1,30 @@
+{
+  "schema": "boundary-evidence-intermediate-run-record-v1",
+  "recorded_at": "2026-10-13T10:05:20.7475763+08:00",
+  "phase": "development intermediate; not final acceptance",
+  "report_hashes": {
+    "first-development-check.json": "0f38aa91bffc990031fa6719ddbf411b79c8b5cb86089b58a1a605a10309323b",
+    "first-development-strong.json": "08a3fcebf65dc2a907a43906a8a7ecf6339c928615ab95c10869fd72f242343c",
+    "first-implemented-tests.xml": "4b5b7653a9ef7c1e583b402d4393285afccdfadbcc067b60383b7ca5e16e39ba"
+  },
+  "first_development_grader_sha256": "e32359594ce6d1d030e0275b9f7f24e58559b59f943c569416bd44e5d33621e3",
+  "exact_intermediate_grader_source_saved": false,
+  "source_snapshot_limit": "Implementation agent was editing concurrently. The recorded grader identity is retained, but exact source bytes for that interim revision are not yet archived. It is not a final-code reproducibility report.",
+  "development_first": {
+    "valid_passed": 0,
+    "valid_total": 8,
+    "invalid_passed": 36,
+    "invalid_total": 36,
+    "false_block": 8,
+    "false_accept": 0,
+    "reason": "Direct Registry context does not contain optional registered_input_sha256; new auditor incorrectly required it."
+  },
+  "implemented_test_first": {
+    "passed": 64,
+    "failed": 17,
+    "test_total": 81,
+    "scope": "Intermediate implementation and synthetic fixture mismatches; not final code."
+  },
+  "rules_and_fixtures_changed": false,
+  "historical_reports_changed": false
+}

@@ -1,0 +1,673 @@
+from __future__ import annotations
+
+import hashlib
+from copy import deepcopy
+from typing import Any
+
+import pytest
+
+from scripts import run_document_relations_boundary_rescore as rescore
+
+
+DOCUMENT_ID = "synthetic-boundary-evidence-document"
+SOURCE_VERSION = "synthetic-boundary-evidence-v1"
+
+
+def _ref_at(text: str, start: int, end: int) -> dict[str, Any]:
+    return {
+        "document_id": DOCUMENT_ID,
+        "source_version": SOURCE_VERSION,
+        "page": 1,
+        "line_number": text.count("\n", 0, start) + 1,
+        "quote": text[start:end],
+        "char_start": start,
+        "char_end": end,
+    }
+
+
+def _ref(
+    text: str, quote: str, *, occurrence: int = 0
+) -> dict[str, Any]:
+    start = -1
+    search_from = 0
+    for _ in range(occurrence + 1):
+        start = text.find(quote, search_from)
+        if start < 0:
+            raise AssertionError(f"synthetic quote not found: {quote!r}")
+        search_from = start + len(quote)
+    return _ref_at(text, start, start + len(quote))
+
+
+def _oracle_ref(reference: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "page": reference["page"],
+        "line": reference["line_number"],
+        "quote": reference["quote"],
+    }
+
+
+def _fixture(
+    *,
+    mode: str = "inherited",
+    first_directive: str | None = None,
+    first_local_state: str = "compatible",
+    extra_first_member: bool = False,
+    intervening_paragraph: bool = False,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+    if mode == "inherited":
+        heading = "以下两组材料均须提交，但每组只需择一："
+        first_directive = ""
+    elif mode == "local":
+        heading = "两组要求均须满足："
+        first_directive = first_directive or "第一组任选其一"
+    else:
+        raise AssertionError(f"unsupported synthetic fixture mode: {mode}")
+
+    first_members = [
+        ("A1", "营业执照"),
+        ("A2", "审计报告"),
+    ]
+    if extra_first_member:
+        first_members.append(("A5", "资质证明"))
+    second_members = [("A3", "授权书"), ("A4", "委托书")]
+
+    first_prefix = f"{first_directive}：" if mode == "local" else "第一组："
+    second_prefix = (
+        "第二组任选其一：" if mode == "local" else "第二组："
+    )
+    first_line = first_prefix + "；".join(
+        text for _, text in first_members
+    ) + "。"
+    second_line = second_prefix + "；".join(
+        text for _, text in second_members
+    ) + "。"
+    lines = [heading, first_line]
+    if intervening_paragraph:
+        lines.append("本段为独立说明，不属于任何材料组。")
+    lines.append(second_line)
+    page_text = "\n".join(lines)
+    raw_sha256 = hashlib.sha256(page_text.encode("utf-8")).hexdigest()
+
+    heading_ref = _ref(page_text, heading)
+    parent_operator_ref = _ref(
+        page_text,
+        "以下两组材料均须提交" if mode == "inherited" else "两组要求均须满足",
+    )
+    root_scope_ref = _ref(
+        page_text,
+        "以下两组材料" if mode == "inherited" else "两组要求",
+    )
+    labels = {
+        "S1": _ref(page_text, "第一组"),
+        "S2": _ref(page_text, "第二组"),
+    }
+    if mode == "inherited":
+        inherited_operator_ref = _ref(page_text, "每组只需择一")
+        first_operator_ref = inherited_operator_ref
+        second_operator_ref = inherited_operator_ref
+    else:
+        first_operator_ref = _ref(page_text, first_directive)
+        second_operator_ref = _ref(page_text, "第二组任选其一")
+    operator_refs = {
+        "S1": first_operator_ref,
+        "S2": second_operator_ref,
+    }
+    members = {"S1": first_members, "S2": second_members}
+    member_refs: dict[str, dict[str, dict[str, Any]]] = {}
+    terminal_refs: dict[str, dict[str, Any]] = {}
+    group_lines: dict[str, dict[str, Any]] = {}
+    for group_id, line in (("S1", first_line), ("S2", second_line)):
+        group_lines[group_id] = _ref(page_text, line)
+        occurrence = 0 if group_id == "S1" else 1
+        terminal_refs[group_id] = _ref(
+            page_text, "。", occurrence=occurrence
+        )
+        member_refs[group_id] = {
+            atom_id: _ref(page_text, text) for atom_id, text in members[group_id]
+        }
+
+    def _group_contract(group_id: str) -> dict[str, Any]:
+        return {
+            "operator": "OR",
+            "members": [atom_id for atom_id, _ in members[group_id]],
+            "operator_sources": [operator_refs[group_id]],
+            "scope_sources": [labels[group_id]],
+            "member_sources": {
+                atom_id: [member_refs[group_id][atom_id]]
+                for atom_id, _ in members[group_id]
+            },
+            "region": {
+                "page": 1,
+                "char_start": group_lines[group_id]["char_start"],
+                "char_end": group_lines[group_id]["char_end"],
+            },
+            "termination_sources": [terminal_refs[group_id]],
+            "local_instruction": {
+                "state": (
+                    first_local_state
+                    if group_id == "S1" and mode == "local"
+                    else "absent"
+                    if mode == "inherited"
+                    else "compatible"
+                ),
+                "source": (
+                    operator_refs[group_id]
+                    if mode == "local"
+                    else labels[group_id]
+                ),
+            },
+            "inheritance": (
+                {
+                    "parent_group_id": "S0",
+                    "applicability_sources": [heading_ref],
+                    "parent_link_sources": [
+                        parent_operator_ref,
+                        labels[group_id],
+                    ],
+                    "declared_count": 2,
+                    "group_labels": [labels["S1"], labels["S2"]],
+                    "contiguous": not intervening_paragraph,
+                }
+                if mode == "inherited"
+                else None
+            ),
+        }
+
+    evidence_contract = {
+        "schema": "boundary-evidence-contract-v1",
+        "case_id": "synthetic-boundary-evidence",
+        "groups": {
+            "S1": _group_contract("S1"),
+            "S2": _group_contract("S2"),
+            "S0": {
+                "operator": "AND",
+                "members": ["S1", "S2"],
+                "operator_sources": [parent_operator_ref],
+                "scope_sources": [root_scope_ref],
+                "member_sources": {
+                    "S1": [labels["S1"]],
+                    "S2": [labels["S2"]],
+                },
+                "region": {
+                    "page": 1,
+                    "char_start": 0,
+                    "char_end": len(page_text),
+                },
+                "termination_sources": [
+                    terminal_refs["S1"],
+                    terminal_refs["S2"],
+                ],
+                "local_instruction": {
+                    "state": "compatible",
+                    "source": parent_operator_ref,
+                },
+                "inheritance": None,
+            },
+        },
+    }
+
+    conditions = [
+        {
+            "id": atom_id,
+            "text": text,
+            "certainty": "confirmed",
+            "source": [_oracle_ref(member_refs[group_id][atom_id])],
+        }
+        for group_id in ("S1", "S2")
+        for atom_id, text in members[group_id]
+    ]
+    groups = []
+    for group_id in ("S1", "S2"):
+        groups.append(
+            {
+                "id": group_id,
+                "operator": "OR",
+                "status": "confirmed",
+                "members": [atom_id for atom_id, _ in members[group_id]],
+                "boundary_basis": [
+                    _oracle_ref(operator_refs[group_id]),
+                    _oracle_ref(group_lines[group_id]),
+                ],
+            }
+        )
+    groups.append(
+        {
+            "id": "S0",
+            "operator": "AND",
+            "status": "confirmed",
+            "members": ["S1", "S2"],
+            "boundary_basis": [_oracle_ref(parent_operator_ref)],
+        }
+    )
+    atom_count = len(conditions)
+    case = {
+        "case_id": "synthetic-boundary-evidence",
+        "conditions": conditions,
+        "expect_confirmed": {
+            "conditions": [condition["id"] for condition in conditions],
+            "relations": [],
+        },
+        "groups": groups,
+        "forbidden": [],
+        "needs_review": [],
+        "denominators": {
+            "confirmed_atom_count": atom_count,
+            "condition_omission": atom_count,
+            "wrong_merge_pairs": atom_count * (atom_count - 1) // 2,
+            "wrong_split_atom_units": atom_count,
+            "confirmed_scope_count": len(groups),
+            "scope_membership_decisions": atom_count * len(groups),
+        },
+    }
+
+    graph_nodes: list[dict[str, Any]] = []
+    for group_id in ("S1", "S2"):
+        group_member_refs = [
+            member_refs[group_id][atom_id]
+            for atom_id, _ in members[group_id]
+        ]
+        child_ids = [f"node-{atom_id}" for atom_id, _ in members[group_id]]
+        graph_nodes.append(
+            {
+                "node_id": f"node-{group_id}",
+                "op": "OR",
+                "status": "confirmed",
+                "text": group_lines[group_id]["quote"],
+                "children": child_ids,
+                "source_references": [labels[group_id], *group_member_refs],
+                "operator_relation": {
+                    "status": "confirmed",
+                    "source_references": [operator_refs[group_id]],
+                },
+                "scope_relation": {
+                    "status": "confirmed",
+                    "target_node_ids": child_ids,
+                    "source_references": [labels[group_id], *group_member_refs],
+                    "boundary_source_references": [terminal_refs[group_id]],
+                },
+                "parent_relations": (
+                    [
+                        {
+                            "status": "confirmed",
+                            "layer": "semantic_parent",
+                            "target_node_ids": ["node-S0"],
+                            "basis": "每组只需择一适用于已命名子组",
+                            "source_references": [
+                                parent_operator_ref,
+                                labels[group_id],
+                            ],
+                        }
+                    ]
+                    if mode == "inherited"
+                    else []
+                ),
+            }
+        )
+    graph_nodes.append(
+        {
+            "node_id": "node-S0",
+            "op": "AND",
+            "status": "confirmed",
+            "text": heading,
+            "children": ["node-S1", "node-S2"],
+            "source_references": [parent_operator_ref, root_scope_ref],
+            "operator_relation": {
+                "status": "confirmed",
+                "source_references": [parent_operator_ref],
+            },
+            "scope_relation": {
+                "status": "confirmed",
+                "target_node_ids": ["node-S1", "node-S2"],
+                "source_references": [
+                    root_scope_ref,
+                    labels["S1"],
+                    labels["S2"],
+                ],
+                "boundary_source_references": [
+                    terminal_refs["S1"],
+                    terminal_refs["S2"],
+                ],
+            },
+            "parent_relations": [],
+        }
+    )
+    for group_id in ("S1", "S2"):
+        for atom_id, text in members[group_id]:
+            graph_nodes.append(
+                {
+                    "node_id": f"node-{atom_id}",
+                    "op": "ATOM",
+                    "status": "confirmed",
+                    "text": text,
+                    "children": [],
+                    "source_references": [member_refs[group_id][atom_id]],
+                    "parent_relations": [],
+                }
+            )
+
+    graph = {
+        "schema": "document-relations-v1",
+        "document_id": DOCUMENT_ID,
+        "source_version": SOURCE_VERSION,
+        "condition_nodes": graph_nodes,
+        "block_relations": [],
+        "roots": ["node-S0"],
+        "references": [],
+    }
+    source_context = {
+        "document_id": DOCUMENT_ID,
+        "source_version": SOURCE_VERSION,
+        "pages": [page_text],
+        "page_separator": "\f",
+        "raw_input_sha256": raw_sha256,
+        "registered_input_sha256": raw_sha256,
+    }
+    return case, deepcopy(graph), source_context, evidence_contract
+
+
+def _score(
+    case: dict[str, Any],
+    graph: dict[str, Any],
+    source_context: dict[str, Any],
+    evidence_contract: dict[str, Any],
+) -> dict[str, Any]:
+    return rescore.score_case(
+        case,
+        graph,
+        source_context,
+        evidence_contract=evidence_contract,
+    )
+
+
+def _assert_accepted(result: dict[str, Any]) -> None:
+    assert result["status"] == "passed"
+    assert "evidence_audit" in result
+
+
+def _assert_rejected(result: dict[str, Any]) -> None:
+    assert result["status"] != "passed"
+    assert "evidence_audit" in result
+
+
+def test_confirmed_inherited_or_has_local_scope_and_terminal_evidence() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+
+    _assert_accepted(_score(case, graph, context, contract))
+
+
+def test_confirmed_local_or_is_valid_without_inheritance() -> None:
+    case, graph, context, contract = _fixture(mode="local")
+
+    _assert_accepted(_score(case, graph, context, contract))
+
+
+@pytest.mark.parametrize(
+    "boundary_mode",
+    ["whole_own_line", "only_final_punctuation"],
+)
+def test_termination_accepts_same_position_covering_quote_or_final_mark(
+    boundary_mode: str,
+) -> None:
+    case, graph, context, contract = _fixture(mode="local")
+    original_case = deepcopy(case)
+    original_contract = deepcopy(contract)
+    first_contract = contract["groups"]["S1"]
+    first_node = next(
+        node for node in graph["condition_nodes"] if node["node_id"] == "node-S1"
+    )
+    if boundary_mode == "whole_own_line":
+        line_reference = _ref(context["pages"][0], first_node["text"])
+        first_node["scope_relation"]["boundary_source_references"] = [
+            line_reference
+        ]
+
+    _assert_accepted(_score(case, graph, context, contract))
+    assert case == original_case
+    assert contract == original_contract
+    assert first_contract["termination_sources"][0]["quote"] == "।"
+
+
+def test_parent_link_accepts_a_same_occurrence_superset_inside_its_scope() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    page_text = context["pages"][0]
+    original_case = deepcopy(case)
+    original_contract = deepcopy(contract)
+    first_group_line = next(
+        node["text"]
+        for node in graph["condition_nodes"]
+        if node["node_id"] == "node-S1"
+    )
+    first_relation = next(
+        node
+        for node in graph["condition_nodes"]
+        if node["node_id"] == "node-S1"
+    )["parent_relations"][0]
+    first_relation["source_references"] = [
+        _ref(page_text, "以下两组材料均须提交，但每组只需择一："),
+        _ref(page_text, first_group_line),
+    ]
+
+    _assert_accepted(_score(case, graph, context, contract))
+    assert case == original_case
+    assert contract == original_contract
+    required_references = contract["groups"]["S1"]["inheritance"][
+        "parent_link_sources"
+    ]
+    for wide_reference, required_reference in zip(
+        first_relation["source_references"], required_references, strict=True
+    ):
+        assert wide_reference["page"] == required_reference["page"] == 1
+        assert wide_reference["line_number"] == required_reference["line_number"]
+        assert "\n" not in wide_reference["quote"]
+        assert wide_reference["char_start"] <= required_reference["char_start"]
+        assert wide_reference["char_end"] >= required_reference["char_end"]
+
+
+def _mutated_fixture(
+    mutation: str,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+    if mutation in {
+        "operator_from_adjacent_group",
+        "scope_from_adjacent_group",
+        "boundary_from_adjacent_group",
+        "boundary_operator_only",
+        "boundary_semicolon_only",
+        "boundary_missing",
+        "boundary_wrong_occurrence",
+    }:
+        mode = "local"
+    else:
+        mode = "inherited"
+
+    if mutation == "local_and_conflict":
+        fixture = _fixture(
+            mode="local",
+            first_directive="第一组须同时提交",
+            first_local_state="local_conflict",
+        )
+    elif mutation == "unsupported_selection_count":
+        fixture = _fixture(
+            mode="local",
+            first_directive="第一组任选两项",
+            first_local_state="unsupported_count",
+            extra_first_member=True,
+        )
+    elif mutation == "boundary_cross_paragraph":
+        fixture = _fixture(mode="inherited", intervening_paragraph=True)
+    else:
+        fixture = _fixture(mode=mode)
+
+    case, graph, context, contract = fixture
+    original_case = deepcopy(case)
+    original_contract = deepcopy(contract)
+    groups = contract["groups"]
+    nodes = {
+        node["node_id"]: node for node in graph["condition_nodes"]
+    }
+    first_contract = groups["S1"]
+    second_contract = groups["S2"]
+    first_node = nodes["node-S1"]
+    second_node = nodes["node-S2"]
+
+    if mutation == "local_and_conflict" or mutation == "unsupported_selection_count":
+        assert case == original_case
+        assert contract == original_contract
+        return fixture
+    if mutation == "operator_from_adjacent_group":
+        first_node["operator_relation"]["source_references"] = [
+            second_node["operator_relation"]["source_references"][0]
+        ]
+    elif mutation == "scope_from_adjacent_group":
+        first_node["scope_relation"]["source_references"] = (
+            second_node["scope_relation"]["source_references"]
+        )
+    elif mutation == "missing_one_member_source":
+        nodes["node-A2"]["source_references"] = []
+        first_node["source_references"] = [
+            reference
+            for reference in first_node["source_references"]
+            if reference["quote"] != "审计报告"
+        ]
+        first_node["scope_relation"]["source_references"] = [
+            reference
+            for reference in first_node["scope_relation"]["source_references"]
+            if reference["quote"] != "审计报告"
+        ]
+    elif mutation == "scope_not_confirmed":
+        first_node["scope_relation"]["status"] = "candidate"
+    elif mutation == "leaf_targets_for_root":
+        root = nodes["node-S0"]
+        leaf_ids = [
+            f"node-{atom_id}"
+            for group_id in ("S1", "S2")
+            for atom_id in groups[group_id]["members"]
+        ]
+        root["children"] = leaf_ids
+        root["scope_relation"]["target_node_ids"] = leaf_ids
+    elif mutation == "boundary_from_adjacent_group":
+        first_node["scope_relation"]["boundary_source_references"] = [
+            second_node["scope_relation"]["boundary_source_references"][0]
+        ]
+    elif mutation == "boundary_operator_only":
+        first_node["scope_relation"]["boundary_source_references"] = [
+            first_node["operator_relation"]["source_references"][0]
+        ]
+    elif mutation == "boundary_semicolon_only":
+        semicolon = _ref(context["pages"][0], "；")
+        first_node["scope_relation"]["boundary_source_references"] = [semicolon]
+    elif mutation == "boundary_missing":
+        first_node["scope_relation"]["boundary_source_references"] = []
+    elif mutation == "boundary_wrong_occurrence":
+        first_node["scope_relation"]["boundary_source_references"] = [
+            second_node["scope_relation"]["boundary_source_references"][0]
+        ]
+    elif mutation == "parent_not_confirmed":
+        nodes["node-S0"]["status"] = "candidate"
+    elif mutation == "parent_scope_not_confirmed":
+        nodes["node-S0"]["scope_relation"]["status"] = "candidate"
+    elif mutation == "parent_link_missing":
+        first_node["parent_relations"] = []
+    elif mutation == "structural_parent_only":
+        first_node["parent_relations"][0]["layer"] = "structural_list"
+    elif mutation == "parent_link_wrong_group":
+        first_node["parent_relations"][0]["target_node_ids"] = ["node-S2"]
+    elif mutation == "parent_link_wrong_source":
+        first_node["parent_relations"][0]["source_references"] = [
+            first_contract["scope_sources"][0]
+        ]
+    elif mutation == "additional_conflicting_parent":
+        first_node["parent_relations"].append(
+            {
+                "status": "confirmed",
+                "layer": "semantic_parent",
+                "target_node_ids": ["node-S2"],
+                "basis": "conflicting synthetic parent",
+                "source_references": [
+                    contract["groups"]["S0"]["operator_sources"][0],
+                    second_contract["scope_sources"][0],
+                ],
+            }
+        )
+    elif mutation == "parent_candidate":
+        first_node["parent_relations"][0]["status"] = "candidate"
+    elif mutation == "parent_scope_candidate":
+        nodes["node-S0"]["scope_relation"]["status"] = "candidate"
+    elif mutation == "parent_link_candidate":
+        first_node["parent_relations"][0]["status"] = "candidate"
+    elif mutation == "boundary_cross_paragraph":
+        pass
+    elif mutation == "forged_raw_valid_flag":
+        reference = nodes["node-A1"]["source_references"][0]
+        reference["char_start"] += 1
+        reference["char_end"] += 1
+        reference["_raw_coordinate_valid"] = True
+    elif mutation == "wrong_source_version":
+        nodes["node-A1"]["source_references"][0]["source_version"] = (
+            "synthetic-boundary-evidence-v0"
+        )
+    elif mutation == "out_of_range_reference":
+        reference = nodes["node-A1"]["source_references"][0]
+        reference["char_end"] = len(context["pages"][0]) + 1
+    else:
+        raise AssertionError(f"unknown synthetic mutation: {mutation}")
+    assert case == original_case
+    assert contract == original_contract
+    return fixture
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "local_and_conflict",
+        "unsupported_selection_count",
+        "operator_from_adjacent_group",
+        "scope_from_adjacent_group",
+        "missing_one_member_source",
+        "scope_not_confirmed",
+        "leaf_targets_for_root",
+        "boundary_from_adjacent_group",
+        "boundary_operator_only",
+        "boundary_semicolon_only",
+        "boundary_missing",
+        "boundary_wrong_occurrence",
+        "boundary_cross_paragraph",
+        "parent_not_confirmed",
+        "parent_scope_not_confirmed",
+        "parent_link_missing",
+        "structural_parent_only",
+        "parent_link_wrong_group",
+        "parent_link_wrong_source",
+        "additional_conflicting_parent",
+        "parent_candidate",
+        "parent_scope_candidate",
+        "parent_link_candidate",
+        "forged_raw_valid_flag",
+        "wrong_source_version",
+        "out_of_range_reference",
+    ],
+)
+def test_invalid_confirmed_evidence_is_rejected(mutation: str) -> None:
+    case, graph, context, contract = _mutated_fixture(mutation)
+
+    _assert_rejected(_score(case, graph, context, contract))
+
+
+def test_malformed_sidecar_is_rejected_without_changing_the_graph() -> None:
+    case, graph, context, contract = _fixture(mode="local")
+    original_case = deepcopy(case)
+    original_graph = deepcopy(graph)
+    contract["schema"] = "unsupported-boundary-evidence-contract"
+
+    _assert_rejected(_score(case, graph, context, contract))
+    assert case == original_case
+    assert graph == original_graph
+
+
+def test_score_case_does_not_mutate_caller_owned_synthetic_inputs() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    original_inputs = deepcopy((case, graph, context, contract))
+
+    result = _score(case, graph, context, contract)
+
+    _assert_accepted(result)
+    assert (case, graph, context, contract) == original_inputs

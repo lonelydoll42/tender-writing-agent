@@ -1,0 +1,11 @@
+{
+  "schema": "boundary-evidence-corrected-tests-first-v1",
+  "frozen_at": "2026-10-13T09:15:42.0041631+08:00",
+  "test_snapshot": "pre-implementation-tests.py.txt",
+  "test_sha256": "2c13cdda9906d6f43615703246d0e0f392239494355522f26b315b2699766032",
+  "red_sha256": "f13aa1ab752bd5c812fe73e7a707cfce782e5107b71ac9bf6535b88b28aa944d",
+  "result": "ImportError at collection, new module absent; zero role tests executed",
+  "implementation_present": false,
+  "fixture_correction": "proper named labels and same-line parent reference supersets; graph mutations preserve frozen expectations",
+  "io_tests": "to be added independently during implementation; final suite hash separately frozen"
+}

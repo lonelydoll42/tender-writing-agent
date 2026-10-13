@@ -1,0 +1,1658 @@
+from __future__ import annotations
+
+import hashlib
+import json
+from copy import deepcopy
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+
+import pytest
+
+from scripts import run_document_relations_boundary_rescore as rescore
+from scripts import run_document_relations_rescore as legacy_rescore
+
+
+DOCUMENT_ID = "synthetic-boundary-evidence-document"
+SOURCE_VERSION = "synthetic-boundary-evidence-v1"
+
+
+def _ref_at(text: str, start: int, end: int) -> dict[str, Any]:
+    return {
+        "document_id": DOCUMENT_ID,
+        "source_version": SOURCE_VERSION,
+        "page": 1,
+        "line_number": text.count("\n", 0, start) + 1,
+        "quote": text[start:end],
+        "char_start": start,
+        "char_end": end,
+    }
+
+
+def _ref(
+    text: str, quote: str, *, occurrence: int = 0
+) -> dict[str, Any]:
+    start = -1
+    search_from = 0
+    for _ in range(occurrence + 1):
+        start = text.find(quote, search_from)
+        if start < 0:
+            raise AssertionError(f"synthetic quote not found: {quote!r}")
+        search_from = start + len(quote)
+    return _ref_at(text, start, start + len(quote))
+
+
+def _oracle_ref(reference: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "page": reference["page"],
+        "line": reference["line_number"],
+        "quote": reference["quote"],
+    }
+
+
+def _fixture(
+    *,
+    mode: str = "inherited",
+    root_header_ending: str = "：",
+    first_directive: str | None = None,
+    first_local_state: str = "compatible",
+    extra_first_member: bool = False,
+    intervening_paragraph: bool = False,
+    inherited_local_directive: str | None = None,
+    inherited_local_state: str = "absent",
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+    if mode == "inherited":
+        heading = (
+            "以下两组材料均须提交，但每组只需择一" + root_header_ending
+        )
+        first_directive = ""
+    elif mode == "local":
+        heading = "两组要求均须满足" + root_header_ending
+        first_directive = first_directive or "第一组任选其一"
+    else:
+        raise AssertionError(f"unsupported synthetic fixture mode: {mode}")
+
+    first_members = [
+        ("A1", "营业执照"),
+        ("A2", "审计报告"),
+    ]
+    if extra_first_member:
+        first_members.append(("A5", "资质证明"))
+    second_members = [("A3", "授权书"), ("A4", "委托书")]
+
+    first_prefix = (
+        f"{first_directive}："
+        if mode == "local"
+        else f"第一组{inherited_local_directive}："
+        if inherited_local_directive
+        else "第一组："
+    )
+    second_prefix = (
+        "第二组任选其一：" if mode == "local" else "第二组："
+    )
+    first_line = first_prefix + "；".join(
+        text for _, text in first_members
+    ) + "。"
+    second_line = second_prefix + "；".join(
+        text for _, text in second_members
+    ) + "。"
+    lines = [heading, first_line]
+    if intervening_paragraph:
+        lines.append("本段为独立说明，不属于任何材料组。")
+    lines.append(second_line)
+    page_text = "\n".join(lines)
+    raw_sha256 = hashlib.sha256(page_text.encode("utf-8")).hexdigest()
+
+    heading_ref = _ref(page_text, heading)
+    parent_operator_ref = _ref(
+        page_text,
+        "以下两组材料均须提交" if mode == "inherited" else "两组要求均须满足",
+    )
+    root_scope_ref = _ref(
+        page_text,
+        "以下两组材料" if mode == "inherited" else "两组要求",
+    )
+    labels = {
+        "S1": _ref(page_text, "第一组"),
+        "S2": _ref(page_text, "第二组"),
+    }
+    if mode == "inherited":
+        inherited_operator_ref = _ref(page_text, "每组只需择一")
+        first_operator_ref = inherited_operator_ref
+        second_operator_ref = inherited_operator_ref
+    else:
+        first_operator_ref = _ref(page_text, first_directive)
+        second_operator_ref = _ref(page_text, "第二组任选其一")
+    operator_refs = {
+        "S1": first_operator_ref,
+        "S2": second_operator_ref,
+    }
+    members = {"S1": first_members, "S2": second_members}
+    member_refs: dict[str, dict[str, dict[str, Any]]] = {}
+    terminal_refs: dict[str, dict[str, Any]] = {}
+    group_lines: dict[str, dict[str, Any]] = {}
+    for group_id, line in (("S1", first_line), ("S2", second_line)):
+        group_line = _ref(page_text, line)
+        group_lines[group_id] = group_line
+        terminal_start = group_line["char_end"] - 1
+        if page_text[terminal_start : group_line["char_end"]] != "。":
+            raise AssertionError(f"{group_id} line has no final sentence mark")
+        terminal_refs[group_id] = _ref_at(
+            page_text, terminal_start, group_line["char_end"]
+        )
+        member_refs[group_id] = {
+            atom_id: _ref(page_text, text) for atom_id, text in members[group_id]
+        }
+
+    def _local_instruction(group_id: str) -> dict[str, Any]:
+        if mode == "local":
+            return {
+                "state": (
+                    first_local_state if group_id == "S1" else "compatible"
+                ),
+                "source": operator_refs[group_id],
+            }
+        if group_id == "S1" and inherited_local_directive:
+            return {
+                "state": inherited_local_state,
+                "source": _ref(page_text, inherited_local_directive),
+            }
+        return {"state": "absent", "source": labels[group_id]}
+
+    def _group_contract(group_id: str) -> dict[str, Any]:
+        return {
+            "operator": "OR",
+            "members": [atom_id for atom_id, _ in members[group_id]],
+            "operator_sources": [operator_refs[group_id]],
+            "scope_sources": [labels[group_id]],
+            "member_sources": {
+                atom_id: [member_refs[group_id][atom_id]]
+                for atom_id, _ in members[group_id]
+            },
+            "region": {
+                "page": 1,
+                "char_start": group_lines[group_id]["char_start"],
+                "char_end": group_lines[group_id]["char_end"],
+            },
+            "termination_sources": [terminal_refs[group_id]],
+            "local_instruction": _local_instruction(group_id),
+            "inheritance": (
+                {
+                    "parent_group_id": "S0",
+                    "applicability_sources": [heading_ref],
+                    "parent_link_sources": [
+                        parent_operator_ref,
+                        labels[group_id],
+                    ],
+                    "declared_count": 2,
+                    "group_labels": [labels["S1"], labels["S2"]],
+                    "contiguous": not intervening_paragraph,
+                }
+                if mode == "inherited"
+                else None
+            ),
+        }
+
+    evidence_contract = {
+        "schema": "boundary-evidence-contract-v1",
+        "case_id": "synthetic-boundary-evidence",
+        "groups": {
+            "S1": _group_contract("S1"),
+            "S2": _group_contract("S2"),
+            "S0": {
+                "operator": "AND",
+                "members": ["S1", "S2"],
+                "operator_sources": [parent_operator_ref],
+                "scope_sources": [root_scope_ref],
+                "member_sources": {
+                    "S1": [labels["S1"]],
+                    "S2": [labels["S2"]],
+                },
+                "region": {
+                    "page": 1,
+                    "char_start": 0,
+                    "char_end": len(page_text),
+                },
+                "termination_sources": [
+                    terminal_refs["S1"],
+                    terminal_refs["S2"],
+                ],
+                "local_instruction": {
+                    "state": "compatible",
+                    "source": parent_operator_ref,
+                },
+                "inheritance": None,
+            },
+        },
+    }
+
+    conditions = [
+        {
+            "id": atom_id,
+            "text": text,
+            "certainty": "confirmed",
+            "source": [_oracle_ref(member_refs[group_id][atom_id])],
+        }
+        for group_id in ("S1", "S2")
+        for atom_id, text in members[group_id]
+    ]
+    groups = []
+    for group_id in ("S1", "S2"):
+        groups.append(
+            {
+                "id": group_id,
+                "operator": "OR",
+                "status": "confirmed",
+                "members": [atom_id for atom_id, _ in members[group_id]],
+                "boundary_basis": [
+                    _oracle_ref(operator_refs[group_id]),
+                    _oracle_ref(group_lines[group_id]),
+                ],
+            }
+        )
+    groups.append(
+        {
+            "id": "S0",
+            "operator": "AND",
+            "status": "confirmed",
+            "members": ["S1", "S2"],
+            "boundary_basis": [_oracle_ref(parent_operator_ref)],
+        }
+    )
+    atom_count = len(conditions)
+    case = {
+        "case_id": "synthetic-boundary-evidence",
+        "conditions": conditions,
+        "expect_confirmed": {
+            "conditions": [condition["id"] for condition in conditions],
+            "relations": [],
+        },
+        "groups": groups,
+        "forbidden": [],
+        "needs_review": [],
+        "denominators": {
+            "confirmed_atom_count": atom_count,
+            "condition_omission": atom_count,
+            "wrong_merge_pairs": atom_count * (atom_count - 1) // 2,
+            "wrong_split_atom_units": atom_count,
+            "confirmed_scope_count": len(groups),
+            "scope_membership_decisions": atom_count * len(groups),
+        },
+    }
+
+    graph_nodes: list[dict[str, Any]] = []
+    for group_id in ("S1", "S2"):
+        group_member_refs = [
+            member_refs[group_id][atom_id]
+            for atom_id, _ in members[group_id]
+        ]
+        child_ids = [f"node-{atom_id}" for atom_id, _ in members[group_id]]
+        graph_nodes.append(
+            {
+                "node_id": f"node-{group_id}",
+                "op": "OR",
+                "status": "confirmed",
+                "text": group_lines[group_id]["quote"],
+                "children": child_ids,
+                "source_references": [labels[group_id], *group_member_refs],
+                "operator_relation": {
+                    "status": "confirmed",
+                    "source_references": [operator_refs[group_id]],
+                },
+                "scope_relation": {
+                    "status": "confirmed",
+                    "target_node_ids": child_ids,
+                    "source_references": [labels[group_id], *group_member_refs],
+                    "boundary_source_references": [terminal_refs[group_id]],
+                },
+                "parent_relations": (
+                    [
+                        {
+                            "status": "confirmed",
+                            "layer": "semantic_parent",
+                            "target_node_ids": ["node-S0"],
+                            "basis": "每组只需择一适用于已命名子组",
+                            "source_references": [
+                                parent_operator_ref,
+                                labels[group_id],
+                            ],
+                        }
+                    ]
+                    if mode == "inherited"
+                    else []
+                ),
+            }
+        )
+    graph_nodes.append(
+        {
+            "node_id": "node-S0",
+            "op": "AND",
+            "status": "confirmed",
+            "text": heading,
+            "children": ["node-S1", "node-S2"],
+            "source_references": [parent_operator_ref, root_scope_ref],
+            "operator_relation": {
+                "status": "confirmed",
+                "source_references": [parent_operator_ref],
+            },
+            "scope_relation": {
+                "status": "confirmed",
+                "target_node_ids": ["node-S1", "node-S2"],
+                "source_references": [
+                    root_scope_ref,
+                    labels["S1"],
+                    labels["S2"],
+                ],
+                "boundary_source_references": [
+                    terminal_refs["S1"],
+                    terminal_refs["S2"],
+                ],
+            },
+            "parent_relations": [],
+        }
+    )
+    for group_id in ("S1", "S2"):
+        for atom_id, text in members[group_id]:
+            graph_nodes.append(
+                {
+                    "node_id": f"node-{atom_id}",
+                    "op": "ATOM",
+                    "status": "confirmed",
+                    "text": text,
+                    "children": [],
+                    "source_references": [member_refs[group_id][atom_id]],
+                    "parent_relations": [],
+                }
+            )
+
+    graph = {
+        "schema": "document-relations-v1",
+        "document_id": DOCUMENT_ID,
+        "source_version": SOURCE_VERSION,
+        "condition_nodes": graph_nodes,
+        "block_relations": [],
+        "roots": ["node-S0"],
+        "references": [],
+    }
+    source_context = {
+        "document_id": DOCUMENT_ID,
+        "source_version": SOURCE_VERSION,
+        "pages": [page_text],
+        "page_separator": "\f",
+        "raw_input_sha256": raw_sha256,
+        "registered_input_sha256": raw_sha256,
+    }
+    return case, deepcopy(graph), source_context, evidence_contract
+
+
+def _score(
+    case: dict[str, Any],
+    graph: dict[str, Any],
+    source_context: dict[str, Any],
+    evidence_contract: dict[str, Any],
+) -> dict[str, Any]:
+    return rescore.score_case(
+        case,
+        graph,
+        source_context,
+        evidence_contract=evidence_contract,
+    )
+
+
+def _assert_accepted(result: dict[str, Any]) -> None:
+    assert result["status"] == "passed"
+    assert "evidence_audit" in result
+
+
+def _assert_rejected(result: dict[str, Any]) -> None:
+    assert result["status"] != "passed"
+    assert "evidence_audit" in result
+
+
+def test_confirmed_inherited_or_has_local_scope_and_terminal_evidence() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+
+    _assert_accepted(_score(case, graph, context, contract))
+
+
+@pytest.mark.parametrize(
+    "layer",
+    ["semantic_parent", "logical_parent", "condition_parent"],
+)
+def test_confirmed_logical_parent_layers_authorize_inherited_or(
+    layer: str,
+) -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    nodes = {node["node_id"]: node for node in graph["condition_nodes"]}
+    nodes["node-S1"]["parent_relations"][0]["layer"] = layer
+
+    result = _score(case, graph, context, contract)
+
+    _assert_accepted(result)
+    first_group_audit = result["evidence_audit"]["groups"]["S1"]
+    assert first_group_audit["status"] == "confirmed"
+    assert first_group_audit["inheritance"]["status"] == "confirmed"
+    assert first_group_audit["inheritance"]["passed"] is True
+
+
+@pytest.mark.parametrize("layer", ["attribute_parent", "contextual_parent"])
+def test_nonlogical_parent_layers_do_not_authorize_inherited_or(
+    layer: str,
+) -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    nodes = {node["node_id"]: node for node in graph["condition_nodes"]}
+    nodes["node-S1"]["parent_relations"][0]["layer"] = layer
+
+    result = _score(case, graph, context, contract)
+
+    _assert_rejected(result)
+    first_group_audit = result["evidence_audit"]["groups"]["S1"]
+    assert first_group_audit["status"] == "rejected"
+    assert first_group_audit["inheritance"]["status"] == "rejected"
+    assert first_group_audit["inheritance"]["passed"] is False
+    for role in ("structure", "operator", "scope", "termination"):
+        assert first_group_audit[role]["passed"] is True
+
+
+def test_confirmed_local_or_is_valid_without_inheritance() -> None:
+    case, graph, context, contract = _fixture(mode="local")
+
+    _assert_accepted(_score(case, graph, context, contract))
+
+
+def test_finite_relation_accepts_reordered_direct_children_and_scope_targets() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    original_case = deepcopy(case)
+    original_context = deepcopy(context)
+    original_contract = deepcopy(contract)
+    expected_graph = deepcopy(graph)
+    graph_nodes = {
+        node["node_id"]: node for node in graph["condition_nodes"]
+    }
+    expected_nodes = {
+        node["node_id"]: node for node in expected_graph["condition_nodes"]
+    }
+
+    for node_id in ("node-S1", "node-S0"):
+        node = graph_nodes[node_id]
+        expected_node = expected_nodes[node_id]
+        node["children"].reverse()
+        node["scope_relation"]["target_node_ids"].reverse()
+        expected_node["children"].reverse()
+        expected_node["scope_relation"]["target_node_ids"].reverse()
+
+    _assert_accepted(_score(case, graph, context, contract))
+    assert case == original_case
+    assert context == original_context
+    assert contract == original_contract
+    assert graph == expected_graph
+
+
+def test_public_inherited_root_header_accepts_sentence_final_punctuation() -> None:
+    case, graph, context, contract = _fixture(
+        mode="inherited",
+        root_header_ending="。",
+    )
+    root = next(
+        node for node in graph["condition_nodes"] if node["node_id"] == "node-S0"
+    )
+    assert root["text"].endswith("。")
+
+    _assert_accepted(_score(case, graph, context, contract))
+
+
+def test_public_inherited_root_accepts_count_and_descendant_scope_references() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    page_text = context["pages"][0]
+    nodes = {
+        node["node_id"]: node for node in graph["condition_nodes"]
+    }
+    root = nodes["node-S0"]
+    original_case = deepcopy(case)
+    original_context = deepcopy(context)
+    original_contract = deepcopy(contract)
+    original_graph = deepcopy(graph)
+    root_operator_quote = (
+        root["operator_relation"]["source_references"][0]["quote"]
+    )
+    assert root_operator_quote == "以下两组材料均须提交"
+    assert ":" not in root_operator_quote and "：" not in root_operator_quote
+
+    additional_scope_references = [
+        _ref(page_text, "以下两组材料均须提交，但每组只需择一："),
+        nodes["node-A1"]["source_references"][0],
+        nodes["node-A3"]["source_references"][0],
+    ]
+    root["source_references"].extend(deepcopy(additional_scope_references))
+    root["scope_relation"]["source_references"].extend(
+        deepcopy(additional_scope_references)
+    )
+
+    _assert_accepted(_score(case, graph, context, contract))
+    assert case == original_case
+    assert context == original_context
+    assert contract == original_contract
+    assert root["scope_relation"]["target_node_ids"] == ["node-S1", "node-S2"]
+    assert graph != original_graph
+def test_direct_score_accepts_context_without_registered_input_sha256() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    capture_context = {
+        key: deepcopy(context[key])
+        for key in (
+            "document_id",
+            "source_version",
+            "pages",
+            "raw_input_sha256",
+        )
+    }
+    original_context = deepcopy(capture_context)
+
+    _assert_accepted(_score(case, graph, capture_context, contract))
+
+    assert capture_context == original_context
+
+
+@pytest.mark.parametrize(
+    "boundary_mode",
+    ["whole_own_line", "only_final_punctuation"],
+)
+def test_termination_accepts_same_position_covering_quote_or_final_mark(
+    boundary_mode: str,
+) -> None:
+    case, graph, context, contract = _fixture(mode="local")
+    original_case = deepcopy(case)
+    original_contract = deepcopy(contract)
+    first_contract = contract["groups"]["S1"]
+    first_node = next(
+        node for node in graph["condition_nodes"] if node["node_id"] == "node-S1"
+    )
+    if boundary_mode == "whole_own_line":
+        line_reference = _ref(context["pages"][0], first_node["text"])
+        first_node["scope_relation"]["boundary_source_references"] = [
+            line_reference
+        ]
+
+    _assert_accepted(_score(case, graph, context, contract))
+    assert case == original_case
+    assert contract == original_contract
+    assert first_contract["termination_sources"][0]["quote"] == "。"
+
+
+def test_parent_link_accepts_a_same_occurrence_superset_inside_its_scope() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    page_text = context["pages"][0]
+    original_case = deepcopy(case)
+    original_contract = deepcopy(contract)
+    first_group_line = next(
+        node["text"]
+        for node in graph["condition_nodes"]
+        if node["node_id"] == "node-S1"
+    )
+    first_relation = next(
+        node
+        for node in graph["condition_nodes"]
+        if node["node_id"] == "node-S1"
+    )["parent_relations"][0]
+    first_relation["source_references"] = [
+        _ref(page_text, "以下两组材料均须提交，但每组只需择一："),
+        _ref(page_text, first_group_line),
+    ]
+
+    _assert_accepted(_score(case, graph, context, contract))
+    assert case == original_case
+    assert contract == original_contract
+    required_references = contract["groups"]["S1"]["inheritance"][
+        "parent_link_sources"
+    ]
+    for wide_reference, required_reference in zip(
+        first_relation["source_references"], required_references, strict=True
+    ):
+        assert wide_reference["page"] == required_reference["page"] == 1
+        assert wide_reference["line_number"] == required_reference["line_number"]
+        assert "\n" not in wide_reference["quote"]
+        assert wide_reference["char_start"] <= required_reference["char_start"]
+        assert wide_reference["char_end"] >= required_reference["char_end"]
+
+
+def _mutated_fixture(
+    mutation: str,
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+    if mutation in {
+        "operator_from_adjacent_group",
+        "scope_from_adjacent_group",
+        "boundary_from_adjacent_group",
+        "boundary_operator_only",
+        "boundary_semicolon_only",
+        "boundary_missing",
+        "boundary_wrong_occurrence",
+    }:
+        mode = "local"
+    else:
+        mode = "inherited"
+
+    if mutation == "local_and_conflict":
+        fixture = _fixture(
+            mode="local",
+            first_directive="第一组须同时提交",
+            first_local_state="local_conflict",
+        )
+    elif mutation == "unsupported_selection_count":
+        fixture = _fixture(
+            mode="local",
+            first_directive="第一组任选两项",
+            first_local_state="unsupported_count",
+            extra_first_member=True,
+        )
+    elif mutation == "boundary_cross_paragraph":
+        fixture = _fixture(mode="inherited", intervening_paragraph=True)
+    else:
+        fixture = _fixture(mode=mode)
+
+    case, graph, context, contract = fixture
+    original_case = deepcopy(case)
+    original_contract = deepcopy(contract)
+    groups = contract["groups"]
+    nodes = {
+        node["node_id"]: node for node in graph["condition_nodes"]
+    }
+    first_contract = groups["S1"]
+    second_contract = groups["S2"]
+    first_node = nodes["node-S1"]
+    second_node = nodes["node-S2"]
+
+    if mutation == "local_and_conflict" or mutation == "unsupported_selection_count":
+        assert case == original_case
+        assert contract == original_contract
+        return fixture
+    if mutation == "operator_from_adjacent_group":
+        first_node["operator_relation"]["source_references"] = [
+            second_node["operator_relation"]["source_references"][0]
+        ]
+    elif mutation == "scope_from_adjacent_group":
+        first_node["scope_relation"]["source_references"] = (
+            second_node["scope_relation"]["source_references"]
+        )
+    elif mutation == "missing_one_member_source":
+        nodes["node-A2"]["source_references"] = []
+        first_node["source_references"] = [
+            reference
+            for reference in first_node["source_references"]
+            if reference["quote"] != "审计报告"
+        ]
+        first_node["scope_relation"]["source_references"] = [
+            reference
+            for reference in first_node["scope_relation"]["source_references"]
+            if reference["quote"] != "审计报告"
+        ]
+    elif mutation == "scope_not_confirmed":
+        first_node["scope_relation"]["status"] = "candidate"
+    elif mutation == "leaf_targets_for_root":
+        root = nodes["node-S0"]
+        leaf_ids = [
+            f"node-{atom_id}"
+            for group_id in ("S1", "S2")
+            for atom_id in groups[group_id]["members"]
+        ]
+        root["children"] = leaf_ids
+        root["scope_relation"]["target_node_ids"] = leaf_ids
+    elif mutation == "boundary_from_adjacent_group":
+        first_node["scope_relation"]["boundary_source_references"] = [
+            second_node["scope_relation"]["boundary_source_references"][0]
+        ]
+    elif mutation == "boundary_operator_only":
+        first_node["scope_relation"]["boundary_source_references"] = [
+            first_node["operator_relation"]["source_references"][0]
+        ]
+    elif mutation == "boundary_semicolon_only":
+        semicolon = _ref(context["pages"][0], "；")
+        first_node["scope_relation"]["boundary_source_references"] = [semicolon]
+    elif mutation == "boundary_missing":
+        first_node["scope_relation"]["boundary_source_references"] = []
+    elif mutation == "boundary_wrong_occurrence":
+        first_node["scope_relation"]["boundary_source_references"] = [
+            second_node["scope_relation"]["boundary_source_references"][0]
+        ]
+    elif mutation == "parent_not_confirmed":
+        nodes["node-S0"]["status"] = "candidate"
+    elif mutation == "parent_scope_not_confirmed":
+        nodes["node-S0"]["scope_relation"]["status"] = "candidate"
+    elif mutation == "parent_link_missing":
+        first_node["parent_relations"] = []
+    elif mutation == "structural_parent_only":
+        first_node["parent_relations"][0]["layer"] = "structural_list"
+    elif mutation == "parent_link_wrong_group":
+        first_node["parent_relations"][0]["target_node_ids"] = ["node-S2"]
+    elif mutation == "parent_link_wrong_source":
+        first_node["parent_relations"][0]["source_references"] = [
+            first_contract["scope_sources"][0]
+        ]
+    elif mutation == "additional_conflicting_parent":
+        first_node["parent_relations"].append(
+            {
+                "status": "confirmed",
+                "layer": "semantic_parent",
+                "target_node_ids": ["node-S2"],
+                "basis": "conflicting synthetic parent",
+                "source_references": [
+                    contract["groups"]["S0"]["operator_sources"][0],
+                    second_contract["scope_sources"][0],
+                ],
+            }
+        )
+    elif mutation == "parent_candidate":
+        first_node["parent_relations"][0]["status"] = "candidate"
+    elif mutation == "parent_scope_candidate":
+        nodes["node-S0"]["scope_relation"]["status"] = "candidate"
+    elif mutation == "parent_link_candidate":
+        first_node["parent_relations"][0]["status"] = "candidate"
+    elif mutation == "boundary_cross_paragraph":
+        pass
+    elif mutation == "forged_raw_valid_flag":
+        reference = nodes["node-A1"]["source_references"][0]
+        reference["char_start"] += 1
+        reference["char_end"] += 1
+        reference["_raw_coordinate_valid"] = True
+    elif mutation == "wrong_source_version":
+        nodes["node-A1"]["source_references"][0]["source_version"] = (
+            "synthetic-boundary-evidence-v0"
+        )
+    elif mutation == "out_of_range_reference":
+        reference = nodes["node-A1"]["source_references"][0]
+        reference["char_end"] = len(context["pages"][0]) + 1
+    else:
+        raise AssertionError(f"unknown synthetic mutation: {mutation}")
+    assert case == original_case
+    assert contract == original_contract
+    return fixture
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    [
+        "local_and_conflict",
+        "unsupported_selection_count",
+        "operator_from_adjacent_group",
+        "scope_from_adjacent_group",
+        "missing_one_member_source",
+        "scope_not_confirmed",
+        "leaf_targets_for_root",
+        "boundary_from_adjacent_group",
+        "boundary_operator_only",
+        "boundary_semicolon_only",
+        "boundary_missing",
+        "boundary_wrong_occurrence",
+        "boundary_cross_paragraph",
+        "parent_not_confirmed",
+        "parent_scope_not_confirmed",
+        "parent_link_missing",
+        "structural_parent_only",
+        "parent_link_wrong_group",
+        "parent_link_wrong_source",
+        "additional_conflicting_parent",
+        "parent_candidate",
+        "parent_scope_candidate",
+        "parent_link_candidate",
+        "forged_raw_valid_flag",
+        "wrong_source_version",
+        "out_of_range_reference",
+    ],
+)
+def test_invalid_confirmed_evidence_is_rejected(mutation: str) -> None:
+    case, graph, context, contract = _mutated_fixture(mutation)
+
+    _assert_rejected(_score(case, graph, context, contract))
+
+
+def test_malformed_sidecar_is_rejected_without_changing_the_graph() -> None:
+    case, graph, context, contract = _fixture(mode="local")
+    original_case = deepcopy(case)
+    original_graph = deepcopy(graph)
+    contract["schema"] = "unsupported-boundary-evidence-contract"
+
+    _assert_rejected(_score(case, graph, context, contract))
+    assert case == original_case
+    assert graph == original_graph
+
+
+def test_score_case_does_not_mutate_caller_owned_synthetic_inputs() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    original_inputs = deepcopy((case, graph, context, contract))
+
+    result = _score(case, graph, context, contract)
+
+    _assert_accepted(result)
+    assert (case, graph, context, contract) == original_inputs
+
+
+@dataclass
+class _SyntheticRescoreInputs:
+    bundle: Path
+    product_report_path: Path
+    overlay_path: Path
+    product_report: dict[str, Any]
+    overlay: dict[str, Any]
+    freeze: dict[str, Any]
+    product_report_sha256: str
+    overlay_sha256: str
+
+
+def _json_bytes(value: Any) -> bytes:
+    return json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        allow_nan=False,
+    ).encode("utf-8")
+
+
+def _write_json(path: Path, value: Any) -> str:
+    raw = _json_bytes(value)
+    path.write_bytes(raw)
+    return hashlib.sha256(raw).hexdigest()
+
+
+def _refresh_synthetic_report(inputs: _SyntheticRescoreInputs) -> None:
+    inputs.product_report_sha256 = _write_json(
+        inputs.product_report_path, inputs.product_report
+    )
+    inputs.overlay["product_report_sha256"] = inputs.product_report_sha256
+    _refresh_synthetic_overlay(inputs)
+
+
+def _refresh_synthetic_overlay(inputs: _SyntheticRescoreInputs) -> None:
+    inputs.overlay_sha256 = _write_json(inputs.overlay_path, inputs.overlay)
+
+
+def _empty_synthetic_oracle_case(case_id: str, input_name: str) -> dict[str, Any]:
+    return {
+        "case_id": case_id,
+        "input": input_name,
+        "conditions": [],
+        "expect_confirmed": {"conditions": [], "relations": []},
+        "groups": [],
+        "forbidden": [],
+        "needs_review": [],
+        "denominators": {
+            "confirmed_atom_count": 0,
+            "condition_omission": 0,
+            "wrong_merge_pairs": 0,
+            "wrong_split_atom_units": 0,
+            "confirmed_scope_count": 0,
+            "scope_membership_decisions": 0,
+        },
+    }
+
+
+def _synthetic_rescore_inputs(tmp_path: Path) -> _SyntheticRescoreInputs:
+    legacy = legacy_rescore.load_evaluator("1.0.3")
+    bundle = tmp_path / "synthetic-bundle"
+    raw_dir = bundle / "raw"
+    raw_dir.mkdir(parents=True)
+
+    first_case, graph, source_context, evidence_contract = _fixture(
+        mode="inherited"
+    )
+    first_case["case_id"] = "case-01"
+    evidence_contract["case_id"] = "case-01"
+    source_context["page_separator"] = "\f"
+
+    oracle_cases: list[dict[str, Any]] = []
+    product_cases: list[dict[str, Any]] = []
+    raw_hashes: dict[str, str] = {}
+    for index in range(1, 15):
+        case_id = f"case-{index:02d}"
+        input_name = f"raw/{case_id}.txt"
+        raw_text = (
+            "\f".join(source_context["pages"])
+            if index == 1
+            else f"纯合成输入：{case_id}"
+        )
+        raw = raw_text.encode("utf-8")
+        (bundle / input_name).write_bytes(raw)
+        input_sha256 = hashlib.sha256(raw).hexdigest()
+        raw_hashes[case_id] = input_sha256
+
+        if index == 1:
+            oracle_case = deepcopy(first_case)
+            oracle_case["input"] = input_name
+        else:
+            oracle_case = _empty_synthetic_oracle_case(case_id, input_name)
+        oracle_cases.append(oracle_case)
+
+        runtime = {
+            "registered_input_sha256": input_sha256,
+            "intake_status": "success",
+            "decomposition_status": "success",
+        }
+        product_case: dict[str, Any] = {
+            "case_id": case_id,
+            "runtime": runtime,
+            "metrics": {
+                "condition_omission": {
+                    "numerator": 0,
+                    "denominator": len(first_case["conditions"]) if index == 1 else 0,
+                }
+            },
+            "errors": [],
+        }
+        if index == 1:
+            product_case.update(
+                {
+                    "status": "passed",
+                    "execution_state": "executed",
+                    "actual_graph": deepcopy(graph),
+                    "source_context": deepcopy(source_context),
+                }
+            )
+        elif index == 2:
+            product_case.update(
+                {
+                    "status": "failed",
+                    "execution_state": "failed",
+                    "reason": "synthetic runtime failure",
+                }
+            )
+        else:
+            product_case.update(
+                {
+                    "status": "not_run",
+                    "execution_state": "not_run",
+                    "reason": f"synthetic not-run case {case_id}",
+                }
+            )
+        product_cases.append(product_case)
+
+    machine_oracle_bytes = _json_bytes({"cases": oracle_cases})
+    (bundle / "machine-oracle.json").write_bytes(machine_oracle_bytes)
+    oracle_sha256 = hashlib.sha256(machine_oracle_bytes).hexdigest()
+    freeze = {
+        "bundle": bundle.resolve(),
+        "oracle": {"cases": oracle_cases},
+        "manifest_sha256": legacy.EXPECTED_V2_MANIFEST_SHA256,
+        "bundle_fingerprint": legacy.EXPECTED_V2_FINGERPRINT,
+        "checked_files": [{} for _ in range(legacy.EXPECTED_PAYLOAD_COUNT)],
+    }
+    product_report = {
+        "schema": legacy.REPORT_SCHEMA,
+        "base_commit": legacy.EXPECTED_BASE_COMMIT,
+        "source_tree_sha256": "a" * 64,
+        "source_tree_sha256_algorithm": (
+            legacy_rescore.LEGACY_SOURCE_TREE_ALGORITHM
+        ),
+        "evaluator": {
+            "version": "1.0.3",
+            "path": "scripts/run_document_relations_eval.py",
+            "sha256": legacy_rescore.LEGACY_EVALUATOR_SHA256,
+        },
+        "freeze": {
+            "v2_manifest_sha256": legacy.EXPECTED_V2_MANIFEST_SHA256,
+            "v2_bundle_fingerprint": legacy.EXPECTED_V2_FINGERPRINT,
+            "payload_files": legacy.EXPECTED_PAYLOAD_COUNT,
+        },
+        "summary": {"case_count": 14},
+        "cases": product_cases,
+    }
+    product_report_path = tmp_path / "synthetic-product-report.json"
+    product_report_sha256 = _write_json(product_report_path, product_report)
+    overlay = {
+        "schema": "boundary-evidence-historical-overlay-v1",
+        "frozen_at": "synthetic-only",
+        "oracle_sha256": oracle_sha256,
+        "product_report_sha256": product_report_sha256,
+        "unlisted_groups": "unchanged legacy 1.0.4 rules",
+        "cases": [
+            {
+                "case_id": "case-01",
+                "raw_input_sha256": raw_hashes["case-01"],
+                "evidence_contract": evidence_contract,
+            }
+        ],
+    }
+    overlay_path = tmp_path / "synthetic-overlay.json"
+    overlay_sha256 = _write_json(overlay_path, overlay)
+    return _SyntheticRescoreInputs(
+        bundle=bundle,
+        product_report_path=product_report_path,
+        overlay_path=overlay_path,
+        product_report=product_report,
+        overlay=overlay,
+        freeze=freeze,
+        product_report_sha256=product_report_sha256,
+        overlay_sha256=overlay_sha256,
+    )
+
+
+def test_synthetic_bundle_machine_oracle_matches_overlay_sha256(
+    tmp_path: Path,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    machine_oracle_bytes = (inputs.bundle / "machine-oracle.json").read_bytes()
+
+    assert machine_oracle_bytes == _json_bytes(inputs.freeze["oracle"])
+    assert inputs.overlay["oracle_sha256"] == hashlib.sha256(
+        machine_oracle_bytes
+    ).hexdigest()
+    assert "oracle_sha256" not in inputs.freeze
+
+
+def _guard_synthetic_bundle(
+    monkeypatch: pytest.MonkeyPatch,
+    inputs: _SyntheticRescoreInputs,
+) -> dict[str, list[Any]]:
+    freeze = inputs.freeze
+    original_loader = legacy_rescore.load_evaluator
+    frozen_rules = rescore._load_frozen_rules()
+    synthetic_rules = deepcopy(frozen_rules)
+    synthetic_rules["same_product_report_sha256"] = inputs.product_report_sha256
+    calls: dict[str, list[Any]] = {
+        "loader_versions": [],
+        "verify_bundle": [],
+        "runtime": [],
+    }
+
+    def forbidden_runtime(*args: Any, **kwargs: Any) -> None:
+        calls["runtime"].append((args, kwargs))
+        raise AssertionError("offline rescore must not invoke Runtime")
+
+    def fake_verify_bundle(bundle_path: Path) -> dict[str, Any]:
+        path = Path(bundle_path)
+        calls["verify_bundle"].append(path)
+        if not path.is_dir():
+            raise OSError("synthetic bundle is missing")
+        return deepcopy(freeze)
+
+    def guarded_loader(version: str = "1.0.3") -> Any:
+        calls["loader_versions"].append(version)
+        evaluator = original_loader(version)
+        evaluator.verify_bundle = fake_verify_bundle
+        for name in (
+            "_run_input",
+            "ProjectFileRegistry",
+            "AgentRuntime",
+            "build_default_registry",
+        ):
+            if hasattr(evaluator, name):
+                setattr(evaluator, name, forbidden_runtime)
+        return evaluator
+
+    monkeypatch.setattr(legacy_rescore, "load_evaluator", guarded_loader)
+    monkeypatch.setattr(rescore, "load_evaluator", guarded_loader, raising=False)
+    monkeypatch.setattr(
+        rescore,
+        "_load_frozen_rules",
+        lambda: deepcopy(synthetic_rules),
+    )
+    monkeypatch.setattr(rescore, "FROZEN_OVERLAY_SHA256", inputs.overlay_sha256)
+    monkeypatch.setattr(
+        rescore,
+        "FROZEN_ORACLE_SHA256",
+        inputs.overlay["oracle_sha256"],
+    )
+    monkeypatch.setattr(
+        rescore,
+        "FROZEN_PRODUCT_REPORT_SHA256",
+        inputs.product_report_sha256,
+    )
+    for module in (legacy_rescore, rescore):
+        for name in (
+            "_run_input",
+            "ProjectFileRegistry",
+            "AgentRuntime",
+            "build_default_registry",
+        ):
+            if hasattr(module, name):
+                monkeypatch.setattr(module, name, forbidden_runtime)
+    if hasattr(rescore, "verify_bundle"):
+        monkeypatch.setattr(rescore, "verify_bundle", fake_verify_bundle)
+    return calls
+
+
+def _call_synthetic_rescore(
+    inputs: _SyntheticRescoreInputs,
+    *,
+    bundle: Path | None = None,
+    product_report: Path | None = None,
+    overlay: Path | None = None,
+    expected_report_sha256: str | None = None,
+    expected_overlay_sha256: str | None = None,
+    main_reviewer_authorized: bool = True,
+) -> dict[str, Any]:
+    return rescore.rescore_report(
+        bundle if bundle is not None else inputs.bundle,
+        product_report
+        if product_report is not None
+        else inputs.product_report_path,
+        overlay=overlay if overlay is not None else inputs.overlay_path,
+        expected_overlay_sha256=(
+            expected_overlay_sha256
+            if expected_overlay_sha256 is not None
+            else inputs.overlay_sha256
+        ),
+        expected_report_sha256=(
+            expected_report_sha256
+            if expected_report_sha256 is not None
+            else inputs.product_report_sha256
+        ),
+        main_reviewer_authorized=main_reviewer_authorized,
+    )
+
+
+def _refresh_synthetic_inputs(inputs: _SyntheticRescoreInputs) -> None:
+    _refresh_synthetic_report(inputs)
+
+
+def _assert_inherited_parent_graph_is_well_formed(
+    graph: dict[str, Any],
+    contract: dict[str, Any],
+) -> None:
+    nodes = {
+        node["node_id"]: node for node in graph["condition_nodes"]
+    }
+    first_contract = contract["groups"]["S1"]
+    first_group = nodes["node-S1"]
+    parent = nodes["node-S0"]
+    operator_refs = first_contract["operator_sources"]
+    parent_refs = first_contract["inheritance"]["parent_link_sources"]
+    parent_relation = first_group["parent_relations"][0]
+
+    assert first_contract["operator"] == "OR"
+    assert [ref["quote"] for ref in operator_refs] == ["每组只需择一"]
+    assert first_group["op"] == "OR"
+    assert first_group["operator_relation"]["status"] == "confirmed"
+    assert first_group["operator_relation"]["source_references"] == operator_refs
+    assert first_group["children"] == [
+        f"node-{atom_id}" for atom_id in first_contract["members"]
+    ]
+    assert first_group["scope_relation"]["status"] == "confirmed"
+    assert first_group["scope_relation"]["target_node_ids"] == first_group["children"]
+    assert parent["status"] == "confirmed"
+    assert parent["op"] == "AND"
+    assert parent["children"] == ["node-S1", "node-S2"]
+    assert parent["scope_relation"]["status"] == "confirmed"
+    assert parent["scope_relation"]["target_node_ids"] == parent["children"]
+    assert parent_relation["status"] == "confirmed"
+    assert parent_relation["layer"] == "semantic_parent"
+    assert parent_relation["target_node_ids"] == ["node-S0"]
+    assert parent_relation["basis"]
+    assert parent_relation["source_references"] == parent_refs
+
+
+@pytest.mark.parametrize(
+    ("directive", "local_state", "extra_member"),
+    [
+        ("须同时提交", "local_conflict", False),
+        ("任选两项", "unsupported_count", True),
+    ],
+)
+def test_supplement_inherited_parent_or_does_not_override_local_conflict(
+    directive: str,
+    local_state: str,
+    extra_member: bool,
+) -> None:
+    case, graph, context, contract = _fixture(
+        mode="inherited",
+        inherited_local_directive=directive,
+        inherited_local_state=local_state,
+        extra_first_member=extra_member,
+    )
+    _assert_inherited_parent_graph_is_well_formed(graph, contract)
+    assert contract["groups"]["S1"]["local_instruction"]["state"] == local_state
+
+    _assert_rejected(_score(case, graph, context, contract))
+
+
+@pytest.mark.parametrize(
+    ("directive", "local_state", "extra_member", "intervening_paragraph"),
+    [
+        ("须同时提交", "local_conflict", False, False),
+        ("任选两项", "unsupported_count", True, False),
+        (None, "absent", False, True),
+    ],
+)
+def test_supplement_raw_text_overrules_forged_absent_and_contiguous_sidecar(
+    directive: str | None,
+    local_state: str,
+    extra_member: bool,
+    intervening_paragraph: bool,
+) -> None:
+    case, graph, context, contract = _fixture(
+        mode="inherited",
+        inherited_local_directive=directive,
+        inherited_local_state=local_state,
+        extra_first_member=extra_member,
+        intervening_paragraph=intervening_paragraph,
+    )
+    first_contract = contract["groups"]["S1"]
+    first_contract["local_instruction"]["state"] = "absent"
+    first_contract["local_instruction"]["source"] = first_contract[
+        "scope_sources"
+    ][0]
+    for group_id in ("S1", "S2"):
+        contract["groups"][group_id]["inheritance"]["contiguous"] = True
+
+    _assert_inherited_parent_graph_is_well_formed(graph, contract)
+    _assert_rejected(_score(case, graph, context, contract))
+
+
+def test_rescore_requires_authorization_before_opening_any_input(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def forbidden_loader(*args: Any, **kwargs: Any) -> None:
+        pytest.fail("evaluator loaded before reviewer authorization")
+
+    monkeypatch.setattr(legacy_rescore, "load_evaluator", forbidden_loader)
+    monkeypatch.setattr(rescore, "load_evaluator", forbidden_loader, raising=False)
+
+    with pytest.raises(PermissionError):
+        rescore.rescore_report(
+            tmp_path / "missing-bundle",
+            tmp_path / "missing-product-report.json",
+            overlay=tmp_path / "missing-overlay.json",
+            expected_overlay_sha256="invalid",
+            expected_report_sha256="invalid",
+            main_reviewer_authorized=False,
+        )
+
+
+@pytest.mark.parametrize("missing_input", ["product_report", "overlay", "bundle"])
+def test_missing_rescore_inputs_are_rejected(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    missing_input: str,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+    overrides: dict[str, Path] = {}
+    if missing_input == "product_report":
+        overrides["product_report"] = tmp_path / "missing-report.json"
+    elif missing_input == "overlay":
+        overrides["overlay"] = tmp_path / "missing-overlay.json"
+    else:
+        overrides["bundle"] = tmp_path / "missing-bundle"
+
+    with pytest.raises(ValueError):
+        _call_synthetic_rescore(inputs, **overrides)
+
+    assert calls["runtime"] == []
+    if missing_input == "bundle":
+        assert len(calls["verify_bundle"]) == 1
+    else:
+        assert calls["verify_bundle"] == []
+
+
+@pytest.mark.parametrize("sha_target", ["product_report", "overlay"])
+def test_rescore_checks_both_input_sha256_values_before_bundle_verification(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    sha_target: str,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+    kwargs = (
+        {"expected_report_sha256": "0" * 64}
+        if sha_target == "product_report"
+        else {"expected_overlay_sha256": "0" * 64}
+    )
+
+    with pytest.raises(ValueError):
+        _call_synthetic_rescore(inputs, **kwargs)
+
+    assert calls["verify_bundle"] == []
+    assert calls["runtime"] == []
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("schema", "unknown-product-report-schema"),
+        ("base_commit", "synthetic-other-commit"),
+    ],
+)
+def test_product_report_schema_and_identity_are_checked_before_bundle_verification(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    field: str,
+    value: str,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    inputs.product_report[field] = value
+    _refresh_synthetic_inputs(inputs)
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+
+    with pytest.raises(ValueError):
+        _call_synthetic_rescore(inputs)
+
+    assert calls["verify_bundle"] == []
+    assert calls["runtime"] == []
+
+
+@pytest.mark.parametrize("case_id_tampering", ["duplicate", "missing"])
+def test_duplicate_or_missing_product_report_cases_are_rejected(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    case_id_tampering: str,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    if case_id_tampering == "duplicate":
+        inputs.product_report["cases"][-1]["case_id"] = (
+            inputs.product_report["cases"][0]["case_id"]
+        )
+    else:
+        inputs.product_report["cases"][-1]["case_id"] = "case-99"
+    _refresh_synthetic_inputs(inputs)
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+
+    with pytest.raises(ValueError):
+        _call_synthetic_rescore(inputs)
+
+    assert calls["verify_bundle"] == []
+    assert calls["runtime"] == []
+
+
+@pytest.mark.parametrize(
+    "tampering",
+    [
+        "overlay_schema",
+        "overlay_case_id",
+        "overlay_duplicate_case",
+        "overlay_input_sha256",
+        "overlay_oracle_sha256",
+        "overlay_product_report_sha256",
+        "contract_schema",
+        "contract_case_id",
+        "contract_duplicate_group_member",
+        "contract_missing_group",
+        "reference_document_id",
+        "reference_source_version",
+        "reference_page",
+        "reference_quote",
+        "reference_offset",
+    ],
+)
+def test_sidecar_schema_identity_and_source_references_are_validated(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    tampering: str,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    sidecar_case = inputs.overlay["cases"][0]
+    contract = sidecar_case["evidence_contract"]
+    reference = contract["groups"]["S1"]["member_sources"]["A1"][0]
+    if tampering == "overlay_schema":
+        inputs.overlay["schema"] = "unknown-boundary-overlay-schema"
+    elif tampering == "overlay_case_id":
+        sidecar_case["case_id"] = "case-99"
+    elif tampering == "overlay_duplicate_case":
+        inputs.overlay["cases"].append(deepcopy(sidecar_case))
+    elif tampering == "overlay_input_sha256":
+        sidecar_case["raw_input_sha256"] = "0" * 64
+    elif tampering == "overlay_oracle_sha256":
+        inputs.overlay["oracle_sha256"] = "0" * 64
+    elif tampering == "overlay_product_report_sha256":
+        inputs.overlay["product_report_sha256"] = "0" * 64
+    elif tampering == "contract_schema":
+        contract["schema"] = "unknown-evidence-contract-schema"
+    elif tampering == "contract_case_id":
+        contract["case_id"] = "case-99"
+    elif tampering == "contract_duplicate_group_member":
+        contract["groups"]["S0"]["members"] = ["S1", "S1"]
+    elif tampering == "contract_missing_group":
+        contract["groups"].pop("S1")
+    elif tampering == "reference_document_id":
+        reference["document_id"] = "other-synthetic-document"
+    elif tampering == "reference_source_version":
+        reference["source_version"] = "synthetic-boundary-evidence-v0"
+    elif tampering == "reference_page":
+        reference["page"] = 2
+    elif tampering == "reference_quote":
+        reference["quote"] = "未出现在合成原文中的引用"
+    else:
+        reference["char_start"] += 1
+    _refresh_synthetic_overlay(inputs)
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+
+    with pytest.raises(ValueError):
+        _call_synthetic_rescore(inputs)
+
+    assert calls["runtime"] == []
+
+
+def test_duplicate_group_keys_in_overlay_json_are_rejected(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    contract = inputs.overlay["cases"][0]["evidence_contract"]
+    group_json = _json_bytes(contract["groups"]["S1"]).decode("utf-8")
+    raw_overlay = _json_bytes(inputs.overlay).decode("utf-8")
+    raw_overlay = raw_overlay.replace(
+        '"groups":{',
+        f'"groups":{{"S1":{group_json},',
+        1,
+    )
+    raw_bytes = raw_overlay.encode("utf-8")
+    inputs.overlay_path.write_bytes(raw_bytes)
+    inputs.overlay_sha256 = hashlib.sha256(raw_bytes).hexdigest()
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+
+    with pytest.raises(ValueError):
+        _call_synthetic_rescore(inputs)
+
+    assert calls["runtime"] == []
+
+
+@pytest.mark.parametrize(
+    "tampering",
+    [
+        "graph_document_id",
+        "graph_source_version",
+        "graph_schema",
+        "context_document_id",
+        "context_source_version",
+        "context_pages",
+        "context_raw_input_sha256",
+        "context_registered_input_sha256",
+        "runtime_input_sha256",
+        "duplicate_node_id",
+    ],
+)
+def test_replay_graph_context_and_runtime_identity_are_validated(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    tampering: str,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    executed = inputs.product_report["cases"][0]
+    graph = executed["actual_graph"]
+    source_context = executed["source_context"]
+    if tampering == "graph_document_id":
+        graph["document_id"] = "other-synthetic-document"
+    elif tampering == "graph_source_version":
+        graph["source_version"] = "synthetic-boundary-evidence-v0"
+    elif tampering == "graph_schema":
+        graph["schema"] = "unknown-graph-schema"
+    elif tampering == "context_document_id":
+        source_context["document_id"] = "other-synthetic-document"
+    elif tampering == "context_source_version":
+        source_context["source_version"] = "synthetic-boundary-evidence-v0"
+    elif tampering == "context_pages":
+        source_context["pages"] = ["different synthetic page"]
+    elif tampering == "context_raw_input_sha256":
+        source_context["raw_input_sha256"] = "0" * 64
+    elif tampering == "context_registered_input_sha256":
+        source_context["registered_input_sha256"] = "0" * 64
+    elif tampering == "runtime_input_sha256":
+        executed["runtime"]["registered_input_sha256"] = "0" * 64
+    else:
+        graph["condition_nodes"].append(
+            deepcopy(graph["condition_nodes"][0])
+        )
+    _refresh_synthetic_inputs(inputs)
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+
+    with pytest.raises(ValueError):
+        _call_synthetic_rescore(inputs)
+
+    assert calls["verify_bundle"] == [inputs.bundle]
+    assert calls["runtime"] == []
+
+
+def test_missing_frozen_input_is_rejected_without_runtime_calls(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    inputs.freeze["oracle"]["cases"][-1]["input"] = "raw/missing-case-14.txt"
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+
+    with pytest.raises(ValueError):
+        _call_synthetic_rescore(inputs)
+
+    assert calls["verify_bundle"] == [inputs.bundle]
+    assert calls["runtime"] == []
+
+
+def test_rescore_preserves_failed_and_not_run_cases_and_caller_files(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    original_report = deepcopy(inputs.product_report)
+    original_overlay = deepcopy(inputs.overlay)
+    original_report_bytes = inputs.product_report_path.read_bytes()
+    original_overlay_bytes = inputs.overlay_path.read_bytes()
+    machine_oracle_bytes = (inputs.bundle / "machine-oracle.json").read_bytes()
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+
+    result = _call_synthetic_rescore(inputs)
+
+    assert machine_oracle_bytes == _json_bytes(inputs.freeze["oracle"])
+    assert inputs.overlay["oracle_sha256"] == hashlib.sha256(
+        machine_oracle_bytes
+    ).hexdigest()
+    assert "oracle_sha256" not in inputs.freeze
+    assert result["summary"]["case_count"] == 14
+    assert len(result["cases"]) == 14
+    by_id = {case["case_id"]: case for case in result["cases"]}
+    assert by_id["case-01"]["execution_state"] == "executed"
+    assert by_id["case-02"]["status"] == "failed"
+    assert by_id["case-02"]["execution_state"] == "failed"
+    assert by_id["case-02"]["reason"] == "synthetic runtime failure"
+    assert by_id["case-02"]["metrics"] == {}
+    assert by_id["case-03"]["status"] == "not_run"
+    assert by_id["case-03"]["execution_state"] == "not_run"
+    assert by_id["case-03"]["reason"] == "synthetic not-run case case-03"
+    assert by_id["case-03"]["metrics"] == {}
+    assert "actual_graph" not in by_id["case-02"]
+    assert "source_context" not in by_id["case-02"]
+    assert "actual_graph" not in by_id["case-03"]
+    assert "source_context" not in by_id["case-03"]
+    assert inputs.product_report == original_report
+    assert inputs.overlay == original_overlay
+    assert inputs.product_report_path.read_bytes() == original_report_bytes
+    assert inputs.overlay_path.read_bytes() == original_overlay_bytes
+    assert calls["verify_bundle"] == [inputs.bundle]
+    assert calls["runtime"] == []
+
+
+def test_cli_requires_authorization_before_rescore_or_output_creation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def forbidden_rescore(*args: Any, **kwargs: Any) -> None:
+        pytest.fail("CLI attempted rescore without reviewer authorization")
+
+    monkeypatch.setattr(rescore, "rescore_report", forbidden_rescore)
+    output_path = tmp_path / "unauthorized-output.json"
+    with pytest.raises(SystemExit) as error:
+        rescore.main(
+            [
+                "--bundle",
+                str(tmp_path / "missing-bundle"),
+                "--product-report",
+                str(tmp_path / "missing-report.json"),
+                "--overlay",
+                str(tmp_path / "missing-overlay.json"),
+                "--expected-overlay-sha256",
+                "0" * 64,
+                "--expected-report-sha256",
+                "0" * 64,
+                "--output",
+                str(output_path),
+            ]
+        )
+
+    assert error.value.code == 2
+    assert not output_path.exists()
+
+
+def test_cli_creates_output_once_and_refuses_to_overwrite(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    inputs = _synthetic_rescore_inputs(tmp_path)
+    calls = _guard_synthetic_bundle(monkeypatch, inputs)
+    output_path = tmp_path / "rescore-output.json"
+    arguments = [
+        "--bundle",
+        str(inputs.bundle),
+        "--product-report",
+        str(inputs.product_report_path),
+        "--overlay",
+        str(inputs.overlay_path),
+        "--expected-overlay-sha256",
+        inputs.overlay_sha256,
+        "--expected-report-sha256",
+        inputs.product_report_sha256,
+        "--output",
+        str(output_path),
+        "--main-reviewer-authorized",
+    ]
+
+    rescore.main(arguments)
+
+    assert output_path.is_file()
+    output_bytes = output_path.read_bytes()
+    output_report = json.loads(output_bytes.decode("utf-8"))
+    assert output_report["summary"]["case_count"] == 14
+    assert calls["runtime"] == []
+
+    def forbidden_second_rescore(*args: Any, **kwargs: Any) -> None:
+        pytest.fail("CLI attempted to overwrite an existing output")
+
+    monkeypatch.setattr(rescore, "rescore_report", forbidden_second_rescore)
+    with pytest.raises(SystemExit) as error:
+        rescore.main(arguments)
+
+    assert error.value.code == 2
+    assert output_path.read_bytes() == output_bytes
+
+
+def test_boundary_scoring_does_not_mutate_legacy_engine_instances_or_assets() -> None:
+    case, graph, context, contract = _fixture(mode="inherited")
+    legacy_103 = legacy_rescore.load_evaluator("1.0.3")
+    legacy_104 = legacy_rescore.load_evaluator("1.0.4")
+    old_103_atom_matcher = legacy_103._atom_candidates
+    old_104_atom_matcher = legacy_104._atom_candidates
+    legacy_module_version = legacy_rescore.EVALUATOR_VERSION
+    legacy_script_path = Path(legacy_rescore.__file__)
+    frozen_evaluator_path = Path(legacy_rescore.LEGACY_EVALUATOR_PATH)
+    legacy_script_bytes = legacy_script_path.read_bytes()
+    frozen_evaluator_bytes = frozen_evaluator_path.read_bytes()
+
+    _assert_accepted(_score(case, graph, context, contract))
+
+    assert legacy_103 is not legacy_104
+    assert legacy_103.EVALUATOR_VERSION == "1.0.3"
+    assert legacy_104.EVALUATOR_VERSION == "1.0.4"
+    assert legacy_103._atom_candidates is old_103_atom_matcher
+    assert legacy_104._atom_candidates is old_104_atom_matcher
+    assert legacy_rescore.EVALUATOR_VERSION == legacy_module_version == "1.0.4"
+    assert legacy_script_path.read_bytes() == legacy_script_bytes
+    assert frozen_evaluator_path.read_bytes() == frozen_evaluator_bytes
+    assert (
+        hashlib.sha256(frozen_evaluator_bytes).hexdigest()
+        == legacy_rescore.LEGACY_EVALUATOR_SHA256
+    )

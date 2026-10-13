@@ -1,0 +1,483 @@
+{
+  "schema": "boundary-evidence-historical-overlay-v1",
+  "frozen_at": "2026-10-13T00:54:00.866064+08:00",
+  "oracle_sha256": "9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50",
+  "product_report_sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+  "unlisted_groups": "unchanged legacy 1.0.4 rules",
+  "cases": [
+    {
+      "case_id": "case-03",
+      "raw_input_sha256": "c8b9cfdd5d645f522cad6c05a08666ff0f23322352b775637cdf3cc39ef0e732",
+      "evidence_contract": {
+        "schema": "boundary-evidence-contract-v1",
+        "case_id": "case-03",
+        "groups": {
+          "S1": {
+            "operator": "OR",
+            "members": [
+              "A1",
+              "A2"
+            ],
+            "operator_sources": [
+              {
+                "page": 1,
+                "line": 2,
+                "quote": "第一组任选其一",
+                "char_start": 10,
+                "char_end": 17
+              }
+            ],
+            "scope_sources": [
+              {
+                "page": 1,
+                "line": 2,
+                "quote": "第一组",
+                "char_start": 10,
+                "char_end": 13
+              }
+            ],
+            "member_sources": {
+              "A1": [
+                {
+                  "page": 1,
+                  "line": 2,
+                  "quote": "营业执照复印件",
+                  "char_start": 18,
+                  "char_end": 25
+                }
+              ],
+              "A2": [
+                {
+                  "page": 1,
+                  "line": 2,
+                  "quote": "资质证书",
+                  "char_start": 26,
+                  "char_end": 30
+                }
+              ]
+            },
+            "region": {
+              "page": 1,
+              "char_start": 10,
+              "char_end": 31
+            },
+            "termination_sources": [
+              {
+                "page": 1,
+                "line": 2,
+                "quote": "。",
+                "char_start": 30,
+                "char_end": 31
+              }
+            ],
+            "local_instruction": {
+              "state": "compatible",
+              "source": {
+                "page": 1,
+                "line": 2,
+                "quote": "第一组任选其一",
+                "char_start": 10,
+                "char_end": 17
+              }
+            },
+            "inheritance": null
+          },
+          "S0": {
+            "operator": "AND",
+            "members": [
+              "S1",
+              "S2"
+            ],
+            "operator_sources": [
+              {
+                "page": 1,
+                "line": 1,
+                "quote": "两组要求均须满足",
+                "char_start": 0,
+                "char_end": 8
+              }
+            ],
+            "scope_sources": [
+              {
+                "page": 1,
+                "line": 1,
+                "quote": "两组要求",
+                "char_start": 0,
+                "char_end": 4
+              }
+            ],
+            "member_sources": {
+              "S1": [
+                {
+                  "page": 1,
+                  "line": 2,
+                  "quote": "第一组",
+                  "char_start": 10,
+                  "char_end": 13
+                }
+              ],
+              "S2": [
+                {
+                  "page": 1,
+                  "line": 3,
+                  "quote": "第二组",
+                  "char_start": 32,
+                  "char_end": 35
+                }
+              ]
+            },
+            "region": {
+              "page": 1,
+              "char_start": 0,
+              "char_end": 49
+            },
+            "termination_sources": [
+              {
+                "page": 1,
+                "line": 2,
+                "quote": "。",
+                "char_start": 30,
+                "char_end": 31
+              },
+              {
+                "page": 1,
+                "line": 3,
+                "quote": "。",
+                "char_start": 48,
+                "char_end": 49
+              }
+            ],
+            "local_instruction": {
+              "state": "compatible",
+              "source": {
+                "page": 1,
+                "line": 1,
+                "quote": "两组要求均须满足",
+                "char_start": 0,
+                "char_end": 8
+              }
+            },
+            "inheritance": null
+          }
+        }
+      }
+    },
+    {
+      "case_id": "case-11",
+      "raw_input_sha256": "40ad4e00f70972566b3696078601455e815bf9fa5787ea500aa7d29fe823ba86",
+      "evidence_contract": {
+        "schema": "boundary-evidence-contract-v1",
+        "case_id": "case-11",
+        "groups": {
+          "S1": {
+            "operator": "OR",
+            "members": [
+              "A1",
+              "A2"
+            ],
+            "operator_sources": [
+              {
+                "page": 1,
+                "line": 1,
+                "quote": "每组只需择一",
+                "char_start": 12,
+                "char_end": 18
+              }
+            ],
+            "scope_sources": [
+              {
+                "page": 1,
+                "line": 2,
+                "quote": "第一组",
+                "char_start": 20,
+                "char_end": 23
+              }
+            ],
+            "member_sources": {
+              "A1": [
+                {
+                  "page": 1,
+                  "line": 2,
+                  "quote": "近两年1.9号表",
+                  "char_start": 27,
+                  "char_end": 35
+                }
+              ],
+              "A2": [
+                {
+                  "page": 1,
+                  "line": 2,
+                  "quote": "近两年1.10号表",
+                  "char_start": 39,
+                  "char_end": 48
+                }
+              ]
+            },
+            "region": {
+              "page": 1,
+              "char_start": 20,
+              "char_end": 49
+            },
+            "termination_sources": [
+              {
+                "page": 1,
+                "line": 2,
+                "quote": "。",
+                "char_start": 48,
+                "char_end": 49
+              }
+            ],
+            "local_instruction": {
+              "state": "absent",
+              "source": {
+                "page": 1,
+                "line": 2,
+                "quote": "第一组",
+                "char_start": 20,
+                "char_end": 23
+              }
+            },
+            "inheritance": {
+              "parent_group_id": "S0",
+              "applicability_sources": [
+                {
+                  "page": 1,
+                  "line": 1,
+                  "quote": "以下两组材料均须提交，但每组只需择一：",
+                  "char_start": 0,
+                  "char_end": 19
+                }
+              ],
+              "parent_link_sources": [
+                {
+                  "page": 1,
+                  "line": 1,
+                  "quote": "以下两组材料均须提交",
+                  "char_start": 0,
+                  "char_end": 10
+                },
+                {
+                  "page": 1,
+                  "line": 2,
+                  "quote": "第一组",
+                  "char_start": 20,
+                  "char_end": 23
+                }
+              ],
+              "declared_count": 2,
+              "group_labels": [
+                {
+                  "page": 1,
+                  "line": 2,
+                  "quote": "第一组",
+                  "char_start": 20,
+                  "char_end": 23
+                },
+                {
+                  "page": 1,
+                  "line": 3,
+                  "quote": "第二组",
+                  "char_start": 50,
+                  "char_end": 53
+                }
+              ],
+              "contiguous": true
+            }
+          },
+          "S2": {
+            "operator": "OR",
+            "members": [
+              "A3",
+              "A4"
+            ],
+            "operator_sources": [
+              {
+                "page": 1,
+                "line": 1,
+                "quote": "每组只需择一",
+                "char_start": 12,
+                "char_end": 18
+              }
+            ],
+            "scope_sources": [
+              {
+                "page": 1,
+                "line": 3,
+                "quote": "第二组",
+                "char_start": 50,
+                "char_end": 53
+              }
+            ],
+            "member_sources": {
+              "A3": [
+                {
+                  "page": 1,
+                  "line": 3,
+                  "quote": "近三年1.9号表",
+                  "char_start": 57,
+                  "char_end": 65
+                }
+              ],
+              "A4": [
+                {
+                  "page": 1,
+                  "line": 3,
+                  "quote": "近三年1.10号表",
+                  "char_start": 69,
+                  "char_end": 78
+                }
+              ]
+            },
+            "region": {
+              "page": 1,
+              "char_start": 50,
+              "char_end": 79
+            },
+            "termination_sources": [
+              {
+                "page": 1,
+                "line": 3,
+                "quote": "。",
+                "char_start": 78,
+                "char_end": 79
+              }
+            ],
+            "local_instruction": {
+              "state": "absent",
+              "source": {
+                "page": 1,
+                "line": 3,
+                "quote": "第二组",
+                "char_start": 50,
+                "char_end": 53
+              }
+            },
+            "inheritance": {
+              "parent_group_id": "S0",
+              "applicability_sources": [
+                {
+                  "page": 1,
+                  "line": 1,
+                  "quote": "以下两组材料均须提交，但每组只需择一：",
+                  "char_start": 0,
+                  "char_end": 19
+                }
+              ],
+              "parent_link_sources": [
+                {
+                  "page": 1,
+                  "line": 1,
+                  "quote": "以下两组材料均须提交",
+                  "char_start": 0,
+                  "char_end": 10
+                },
+                {
+                  "page": 1,
+                  "line": 3,
+                  "quote": "第二组",
+                  "char_start": 50,
+                  "char_end": 53
+                }
+              ],
+              "declared_count": 2,
+              "group_labels": [
+                {
+                  "page": 1,
+                  "line": 2,
+                  "quote": "第一组",
+                  "char_start": 20,
+                  "char_end": 23
+                },
+                {
+                  "page": 1,
+                  "line": 3,
+                  "quote": "第二组",
+                  "char_start": 50,
+                  "char_end": 53
+                }
+              ],
+              "contiguous": true
+            }
+          },
+          "S0": {
+            "operator": "AND",
+            "members": [
+              "S1",
+              "S2"
+            ],
+            "operator_sources": [
+              {
+                "page": 1,
+                "line": 1,
+                "quote": "以下两组材料均须提交",
+                "char_start": 0,
+                "char_end": 10
+              }
+            ],
+            "scope_sources": [
+              {
+                "page": 1,
+                "line": 1,
+                "quote": "以下两组材料",
+                "char_start": 0,
+                "char_end": 6
+              }
+            ],
+            "member_sources": {
+              "S1": [
+                {
+                  "page": 1,
+                  "line": 2,
+                  "quote": "第一组",
+                  "char_start": 20,
+                  "char_end": 23
+                }
+              ],
+              "S2": [
+                {
+                  "page": 1,
+                  "line": 3,
+                  "quote": "第二组",
+                  "char_start": 50,
+                  "char_end": 53
+                }
+              ]
+            },
+            "region": {
+              "page": 1,
+              "char_start": 0,
+              "char_end": 79
+            },
+            "termination_sources": [
+              {
+                "page": 1,
+                "line": 2,
+                "quote": "。",
+                "char_start": 48,
+                "char_end": 49
+              },
+              {
+                "page": 1,
+                "line": 3,
+                "quote": "。",
+                "char_start": 78,
+                "char_end": 79
+              }
+            ],
+            "local_instruction": {
+              "state": "compatible",
+              "source": {
+                "page": 1,
+                "line": 1,
+                "quote": "以下两组材料均须提交",
+                "char_start": 0,
+                "char_end": 10
+              }
+            },
+            "inheritance": null
+          }
+        }
+      }
+    }
+  ]
+}

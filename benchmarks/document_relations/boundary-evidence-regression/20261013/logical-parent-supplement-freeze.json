@@ -1,0 +1,19 @@
+{
+  "schema": "boundary-evidence-logical-parent-supplement-freeze-v1",
+  "frozen_at": "2026-10-13T10:47:47.8186127+08:00",
+  "phase": "after first implementation, before new corrective worker",
+  "rule": "Only confirmed logical semantic_parent/logical_parent/condition_parent authorizes inherited AND/OR scope; attribute_parent/contextual_parent do not prove logical ownership and remain unsupported in this finite contract.",
+  "frozen_rule_files_unchanged": true,
+  "expected": {
+    "semantic_parent": true,
+    "logical_parent": true,
+    "condition_parent": true,
+    "attribute_parent": false,
+    "contextual_parent": false,
+    "structural_list": false
+  },
+  "script_sha256": "a5df01300f4a4d4322c50e82ab87f2fd2fa212a8a345e3f547c7c136e609b9ec",
+  "before_grader_sha256": "c44e4f05b7d4fc1fdc035cab66e9489a0036bf431ad513bfbdbda79e41778b03",
+  "before_tests_sha256": "6df33c98f21a42fb61db1d24f476f4a9fefae1328f91b8077c2d00c85e49033b",
+  "reserved_pool": "Already conservatively classified exposed; corrective worker must not read pool, reports, or parent thread."
+}

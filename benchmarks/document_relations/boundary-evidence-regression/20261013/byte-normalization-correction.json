@@ -1,0 +1,10 @@
+{
+  "schema": "boundary-evidence-byte-normalization-correction-v1",
+  "recorded_at": "2026-10-13T11:06:05.4286998+08:00",
+  "second_archive_tree": "e78629568c4db428e49c2d718989260fdaf927ef",
+  "second_verifier_sha256": "8be3adefd599b82f0dcbfae05235e5a343e825ff63154c4612057dc59f744e3f",
+  "second_attempt": "Strict UTF-8 decoding failed for a pre-existing non-UTF8 protected asset; no successful proof emitted.",
+  "final_verifier_sha256": "827f43ff13e251785c674c91b6a8dacfce64f23d67aa654f6b51a0257eecae3a",
+  "change": "Use a bijective Latin1 byte adapter only to remove CR before LF and compare exact hashes; it is not document decoding. Original Git blob, current tree blob, export blob and frozen working hash still checked independently.",
+  "source_or_frozen_payloads_changed": false
+}

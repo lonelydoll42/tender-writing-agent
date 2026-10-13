@@ -1,0 +1,930 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="17" skipped="0" tests="81" time="2.037" timestamp="2026-10-13T10:03:53.486648+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_confirmed_inherited_or_has_local_scope_and_terminal_evidence" time="0.182" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_confirmed_local_or_is_valid_without_inheritance" time="0.011" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_direct_score_accepts_context_without_registered_input_sha256" time="0.008"><failure message="AssertionError: assert 'failed' == 'passed'&#10;  &#10;  - passed&#10;  + failed">def test_direct_score_accepts_context_without_registered_input_sha256() -&gt; None:
+        case, graph, context, contract = _fixture(mode="inherited")
+        capture_context = {
+            key: deepcopy(context[key])
+            for key in (
+                "document_id",
+                "source_version",
+                "pages",
+                "raw_input_sha256",
+            )
+        }
+        original_context = deepcopy(capture_context)
+    
+&gt;       _assert_accepted(_score(case, graph, capture_context, contract))
+
+tests\evals\test_document_relations_boundary_rescore.py:431: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+result = {'case_id': 'synthetic-boundary-evidence', 'status': 'failed', 'expected_confirmed_atom_ids': ['A1', 'A2', 'A3', 'A4'], 'matched_atom_ids': ['A1', 'A2', 'A3', 'A4'], ...}
+
+    def _assert_accepted(result: dict[str, Any]) -&gt; None:
+&gt;       assert result["status"] == "passed"
+E       AssertionError: assert 'failed' == 'passed'
+E         
+E         - passed
+E         + failed
+
+tests\evals\test_document_relations_boundary_rescore.py:397: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_termination_accepts_same_position_covering_quote_or_final_mark[whole_own_line]" time="0.009"><failure message="AssertionError: assert '。' == '।'&#10;  &#10;  - ।&#10;  + 。">boundary_mode = 'whole_own_line'
+
+    @pytest.mark.parametrize(
+        "boundary_mode",
+        ["whole_own_line", "only_final_punctuation"],
+    )
+    def test_termination_accepts_same_position_covering_quote_or_final_mark(
+        boundary_mode: str,
+    ) -&gt; None:
+        case, graph, context, contract = _fixture(mode="local")
+        original_case = deepcopy(case)
+        original_contract = deepcopy(contract)
+        first_contract = contract["groups"]["S1"]
+        first_node = next(
+            node for node in graph["condition_nodes"] if node["node_id"] == "node-S1"
+        )
+        if boundary_mode == "whole_own_line":
+            line_reference = _ref(context["pages"][0], first_node["text"])
+            first_node["scope_relation"]["boundary_source_references"] = [
+                line_reference
+            ]
+    
+        _assert_accepted(_score(case, graph, context, contract))
+        assert case == original_case
+        assert contract == original_contract
+&gt;       assert first_contract["termination_sources"][0]["quote"] == "।"
+E       AssertionError: assert '。' == '।'
+E         
+E         - ।
+E         + 。
+
+tests\evals\test_document_relations_boundary_rescore.py:459: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_termination_accepts_same_position_covering_quote_or_final_mark[only_final_punctuation]" time="0.009"><failure message="AssertionError: assert '。' == '।'&#10;  &#10;  - ।&#10;  + 。">boundary_mode = 'only_final_punctuation'
+
+    @pytest.mark.parametrize(
+        "boundary_mode",
+        ["whole_own_line", "only_final_punctuation"],
+    )
+    def test_termination_accepts_same_position_covering_quote_or_final_mark(
+        boundary_mode: str,
+    ) -&gt; None:
+        case, graph, context, contract = _fixture(mode="local")
+        original_case = deepcopy(case)
+        original_contract = deepcopy(contract)
+        first_contract = contract["groups"]["S1"]
+        first_node = next(
+            node for node in graph["condition_nodes"] if node["node_id"] == "node-S1"
+        )
+        if boundary_mode == "whole_own_line":
+            line_reference = _ref(context["pages"][0], first_node["text"])
+            first_node["scope_relation"]["boundary_source_references"] = [
+                line_reference
+            ]
+    
+        _assert_accepted(_score(case, graph, context, contract))
+        assert case == original_case
+        assert contract == original_contract
+&gt;       assert first_contract["termination_sources"][0]["quote"] == "।"
+E       AssertionError: assert '。' == '।'
+E         
+E         - ।
+E         + 。
+
+tests\evals\test_document_relations_boundary_rescore.py:459: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_parent_link_accepts_a_same_occurrence_superset_inside_its_scope" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[local_and_conflict]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[unsupported_selection_count]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[operator_from_adjacent_group]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[scope_from_adjacent_group]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[missing_one_member_source]" time="0.007" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[scope_not_confirmed]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[leaf_targets_for_root]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_from_adjacent_group]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_operator_only]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_semicolon_only]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_missing]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_wrong_occurrence]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[boundary_cross_paragraph]" time="0.007" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_not_confirmed]" time="0.010" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_scope_not_confirmed]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_link_missing]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[structural_parent_only]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_link_wrong_group]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_link_wrong_source]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[additional_conflicting_parent]" time="0.008" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_candidate]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_scope_candidate]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[parent_link_candidate]" time="0.010" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[forged_raw_valid_flag]" time="0.010" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[wrong_source_version]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_invalid_confirmed_evidence_is_rejected[out_of_range_reference]" time="0.011" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_malformed_sidecar_is_rejected_without_changing_the_graph" time="0.011" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_score_case_does_not_mutate_caller_owned_synthetic_inputs" time="0.013" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_synthetic_bundle_machine_oracle_matches_overlay_sha256" time="0.014" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_inherited_parent_or_does_not_override_local_conflict[\u987b\u540c\u65f6\u63d0\u4ea4-local_conflict-False]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_inherited_parent_or_does_not_override_local_conflict[\u4efb\u9009\u4e24\u9879-unsupported_count-True]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_raw_text_overrules_forged_absent_and_contiguous_sidecar[\u987b\u540c\u65f6\u63d0\u4ea4-local_conflict-False-False]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_raw_text_overrules_forged_absent_and_contiguous_sidecar[\u4efb\u9009\u4e24\u9879-unsupported_count-True-False]" time="0.009" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_supplement_raw_text_overrules_forged_absent_and_contiguous_sidecar[None-absent-False-True]" time="0.007" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_rescore_requires_authorization_before_opening_any_input" time="0.002" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_missing_rescore_inputs_are_rejected[product_report]" time="0.017" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_missing_rescore_inputs_are_rejected[overlay]" time="0.015" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_missing_rescore_inputs_are_rejected[bundle]" time="0.015"><failure message="assert 0 == 1&#10; +  where 0 = len([])">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_missing_rescore_inputs_ar2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000000065CB460&gt;
+missing_input = 'bundle'
+
+    @pytest.mark.parametrize("missing_input", ["product_report", "overlay", "bundle"])
+    def test_missing_rescore_inputs_are_rejected(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        missing_input: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+        overrides: dict[str, Path] = {}
+        if missing_input == "product_report":
+            overrides["product_report"] = tmp_path / "missing-report.json"
+        elif missing_input == "overlay":
+            overrides["overlay"] = tmp_path / "missing-overlay.json"
+        else:
+            overrides["bundle"] = tmp_path / "missing-bundle"
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs, **overrides)
+    
+        assert calls["runtime"] == []
+        if missing_input == "bundle":
+&gt;           assert len(calls["verify_bundle"]) == 1
+E           assert 0 == 1
+E            +  where 0 = len([])
+
+tests\evals\test_document_relations_boundary_rescore.py:1141: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_rescore_checks_both_input_sha256_values_before_bundle_verification[product_report]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_rescore_checks_both_input_sha256_values_before_bundle_verification[overlay]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_product_report_schema_and_identity_are_checked_before_bundle_verification[schema-unknown-product-report-schema]" time="0.017" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_product_report_schema_and_identity_are_checked_before_bundle_verification[base_commit-synthetic-other-commit]" time="0.017" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_duplicate_or_missing_product_report_cases_are_rejected[duplicate]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_duplicate_or_missing_product_report_cases_are_rejected[missing]" time="0.017" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_schema]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_case_id]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_duplicate_case]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_input_sha256]" time="0.017" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_oracle_sha256]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[overlay_product_report_sha256]" time="0.017" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[contract_schema]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[contract_case_id]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[contract_duplicate_group_member]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[contract_missing_group]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_document_id]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_source_version]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_page]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_quote]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_sidecar_schema_identity_and_source_references_are_validated[reference_offset]" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_duplicate_group_keys_in_overlay_json_are_rejected" time="0.016" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[graph_document_id]" time="0.016"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_0/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000000006D59CC0&gt;
+tampering = 'graph_document_id'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_0/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[graph_source_version]" time="0.018"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_1/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000000006F43770&gt;
+tampering = 'graph_source_version'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_1/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[graph_schema]" time="0.017"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_2/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000000006F93620&gt;
+tampering = 'graph_schema'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_2/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_document_id]" time="0.017"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_3/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000000006FCF850&gt;
+tampering = 'context_document_id'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_3/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_source_version]" time="0.017"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_4/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_4')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000000007025FD0&gt;
+tampering = 'context_source_version'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_4/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_pages]" time="0.018"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_5/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_5')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000000070BFBD0&gt;
+tampering = 'context_pages'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_5/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_raw_input_sha256]" time="0.017"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_6/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_6')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000000071AA6D0&gt;
+tampering = 'context_raw_input_sha256'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_6/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[context_registered_input_sha256]" time="0.017"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_7/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_7')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000000071BFC40&gt;
+tampering = 'context_registered_input_sha256'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_7/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[runtime_input_sha256]" time="0.017"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_8/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_8')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000000071A3700&gt;
+tampering = 'runtime_input_sha256'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_8/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_replay_graph_context_and_runtime_identity_are_validated[duplicate_node_id]" time="0.017"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_9/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_9')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000000073CB0E0&gt;
+tampering = 'duplicate_node_id'
+
+    @pytest.mark.parametrize(
+        "tampering",
+        [
+            "graph_document_id",
+            "graph_source_version",
+            "graph_schema",
+            "context_document_id",
+            "context_source_version",
+            "context_pages",
+            "context_raw_input_sha256",
+            "context_registered_input_sha256",
+            "runtime_input_sha256",
+            "duplicate_node_id",
+        ],
+    )
+    def test_replay_graph_context_and_runtime_identity_are_validated(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+        tampering: str,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        executed = inputs.product_report["cases"][0]
+        graph = executed["actual_graph"]
+        source_context = executed["source_context"]
+        if tampering == "graph_document_id":
+            graph["document_id"] = "other-synthetic-document"
+        elif tampering == "graph_source_version":
+            graph["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "graph_schema":
+            graph["schema"] = "unknown-graph-schema"
+        elif tampering == "context_document_id":
+            source_context["document_id"] = "other-synthetic-document"
+        elif tampering == "context_source_version":
+            source_context["source_version"] = "synthetic-boundary-evidence-v0"
+        elif tampering == "context_pages":
+            source_context["pages"] = ["different synthetic page"]
+        elif tampering == "context_raw_input_sha256":
+            source_context["raw_input_sha256"] = "0" * 64
+        elif tampering == "context_registered_input_sha256":
+            source_context["registered_input_sha256"] = "0" * 64
+        elif tampering == "runtime_input_sha256":
+            executed["runtime"]["registered_input_sha256"] = "0" * 64
+        else:
+            graph["condition_nodes"].append(
+                deepcopy(graph["condition_nodes"][0])
+            )
+        _refresh_synthetic_inputs(inputs)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_replay_graph_context_and_9/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1359: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_missing_frozen_input_is_rejected_without_runtime_calls" time="0.016"><failure message="AssertionError: assert [] == [WindowsPath(...etic-bundle')]&#10;  &#10;  Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_missing_frozen_input_is_r0/synthetic-bundle')&#10;  Use -v to get more diff">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_missing_frozen_input_is_r0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000000073637E0&gt;
+
+    def test_missing_frozen_input_is_rejected_without_runtime_calls(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        inputs.freeze["oracle"]["cases"][-1]["input"] = "raw/missing-case-14.txt"
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+        with pytest.raises(ValueError):
+            _call_synthetic_rescore(inputs)
+    
+&gt;       assert calls["verify_bundle"] == [inputs.bundle]
+E       AssertionError: assert [] == [WindowsPath(...etic-bundle')]
+E         
+E         Right contains one more item: WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_missing_frozen_input_is_r0/synthetic-bundle')
+E         Use -v to get more diff
+
+tests\evals\test_document_relations_boundary_rescore.py:1374: AssertionError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_rescore_preserves_failed_and_not_run_cases_and_caller_files" time="0.019"><failure message="ValueError: historical overlay is not the frozen sidecar">tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_rescore_preserves_failed_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000000007222200&gt;
+
+    def test_rescore_preserves_failed_and_not_run_cases_and_caller_files(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        original_report = deepcopy(inputs.product_report)
+        original_overlay = deepcopy(inputs.overlay)
+        original_report_bytes = inputs.product_report_path.read_bytes()
+        original_overlay_bytes = inputs.overlay_path.read_bytes()
+        machine_oracle_bytes = (inputs.bundle / "machine-oracle.json").read_bytes()
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+    
+&gt;       result = _call_synthetic_rescore(inputs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\evals\test_document_relations_boundary_rescore.py:1390: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\evals\test_document_relations_boundary_rescore.py:982: in _call_synthetic_rescore
+    return rescore.rescore_report(
+scripts\run_document_relations_boundary_rescore.py:1724: in rescore_report
+    overlay_data, overlay_sha256 = _load_overlay(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+overlay_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_rescore_preserves_failed_0/synthetic-overlay.json')
+expected_overlay_sha256 = '09e35cdc4caf2c8a0f7f14e9c860c8cc3c861c38d17b2c5f0b4c3ab79f97fda5'
+expected_report_sha256 = '9302b8cf593523bf70e6899b172b00041ffc72b01208ec90e8fc365bb9ca1e3f'
+oracle_sha256 = '9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50'
+report_sha256 = '9302b8cf593523bf70e6899b172b00041ffc72b01208ec90e8fc365bb9ca1e3f'
+rules = {'schema': 'boundary-evidence-rules-v1', 'version': '1', 'implementation_scope': 'same-page contiguous named groups wi...gets', 'termination': 'local final punctuation after final member; composite requires each direct child closure'}, ...}
+
+    def _load_overlay(
+        overlay_path: Path,
+        *,
+        expected_overlay_sha256: str,
+        expected_report_sha256: str,
+        oracle_sha256: str,
+        report_sha256: str,
+        rules: Mapping[str, Any],
+    ) -&gt; tuple[dict[str, Any], str]:
+        if not re.fullmatch(r"[0-9a-fA-F]{64}", expected_overlay_sha256 or ""):
+            raise ValueError("expected_overlay_sha256 must be a 64-character SHA-256")
+        try:
+            raw = overlay_path.read_bytes()
+        except OSError as exc:
+            raise ValueError("frozen historical overlay is unavailable") from exc
+        actual_sha256 = _sha256(raw)
+        if actual_sha256 != expected_overlay_sha256.lower():
+            raise ValueError("historical overlay SHA-256 does not match the expected value")
+        if actual_sha256 != FROZEN_OVERLAY_SHA256:
+&gt;           raise ValueError("historical overlay is not the frozen sidecar")
+E           ValueError: historical overlay is not the frozen sidecar
+
+scripts\run_document_relations_boundary_rescore.py:1571: ValueError</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_cli_requires_authorization_before_rescore_or_output_creation" time="0.003" /><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_cli_creates_output_once_and_refuses_to_overwrite" time="0.017"><failure message="SystemExit: 2">argv = ['--bundle', 'E:\\project\\tender-writing-agent\\.qiaowenshu\\acceptance\\boundary-evidence-20261013\\main-first-newte...ptance\\boundary-evidence-20261013\\main-first-newtests\\test_cli_creates_output_once_a0\\synthetic-overlay.json', ...]
+
+    def main(argv: list[str] | None = None) -&gt; int:
+        parser = argparse.ArgumentParser(description=__doc__)
+        parser.add_argument("--bundle", type=Path, required=True)
+        parser.add_argument("--product-report", type=Path, required=True)
+        parser.add_argument("--overlay", type=Path, required=True)
+        parser.add_argument("--expected-overlay-sha256", required=True)
+        parser.add_argument("--expected-report-sha256", required=True)
+        parser.add_argument("--output", type=Path, required=True)
+        parser.add_argument(
+            "--main-reviewer-authorized",
+            action="store_true",
+            help="attest explicit main-reviewer authorization for this offline rescore",
+        )
+        args = parser.parse_args(argv)
+        if not args.main_reviewer_authorized:
+            parser.error("offline boundary rescore requires main-reviewer authorization")
+        output = args.output.resolve()
+        if output.exists():
+            parser.error(f"refusing to overwrite existing report: {output}")
+        try:
+&gt;           report = rescore_report(
+                args.bundle,
+                args.product_report,
+                overlay=args.overlay,
+                expected_overlay_sha256=args.expected_overlay_sha256,
+                expected_report_sha256=args.expected_report_sha256,
+                main_reviewer_authorized=args.main_reviewer_authorized,
+            )
+
+scripts\run_document_relations_boundary_rescore.py:1895: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\run_document_relations_boundary_rescore.py:1724: in rescore_report
+    overlay_data, overlay_sha256 = _load_overlay(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+overlay_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_cli_creates_output_once_a0/synthetic-overlay.json')
+expected_overlay_sha256 = '09e35cdc4caf2c8a0f7f14e9c860c8cc3c861c38d17b2c5f0b4c3ab79f97fda5'
+expected_report_sha256 = '9302b8cf593523bf70e6899b172b00041ffc72b01208ec90e8fc365bb9ca1e3f'
+oracle_sha256 = '9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50'
+report_sha256 = '9302b8cf593523bf70e6899b172b00041ffc72b01208ec90e8fc365bb9ca1e3f'
+rules = {'schema': 'boundary-evidence-rules-v1', 'version': '1', 'implementation_scope': 'same-page contiguous named groups wi...gets', 'termination': 'local final punctuation after final member; composite requires each direct child closure'}, ...}
+
+    def _load_overlay(
+        overlay_path: Path,
+        *,
+        expected_overlay_sha256: str,
+        expected_report_sha256: str,
+        oracle_sha256: str,
+        report_sha256: str,
+        rules: Mapping[str, Any],
+    ) -&gt; tuple[dict[str, Any], str]:
+        if not re.fullmatch(r"[0-9a-fA-F]{64}", expected_overlay_sha256 or ""):
+            raise ValueError("expected_overlay_sha256 must be a 64-character SHA-256")
+        try:
+            raw = overlay_path.read_bytes()
+        except OSError as exc:
+            raise ValueError("frozen historical overlay is unavailable") from exc
+        actual_sha256 = _sha256(raw)
+        if actual_sha256 != expected_overlay_sha256.lower():
+            raise ValueError("historical overlay SHA-256 does not match the expected value")
+        if actual_sha256 != FROZEN_OVERLAY_SHA256:
+&gt;           raise ValueError("historical overlay is not the frozen sidecar")
+E           ValueError: historical overlay is not the frozen sidecar
+
+scripts\run_document_relations_boundary_rescore.py:1571: ValueError
+
+During handling of the above exception, another exception occurred:
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/boundary-evidence-20261013/main-first-newtests/test_cli_creates_output_once_a0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x000000000766B230&gt;
+
+    def test_cli_creates_output_once_and_refuses_to_overwrite(
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -&gt; None:
+        inputs = _synthetic_rescore_inputs(tmp_path)
+        calls = _guard_synthetic_bundle(monkeypatch, inputs.freeze)
+        output_path = tmp_path / "rescore-output.json"
+        arguments = [
+            "--bundle",
+            str(inputs.bundle),
+            "--product-report",
+            str(inputs.product_report_path),
+            "--overlay",
+            str(inputs.overlay_path),
+            "--expected-overlay-sha256",
+            inputs.overlay_sha256,
+            "--expected-report-sha256",
+            inputs.product_report_sha256,
+            "--output",
+            str(output_path),
+            "--main-reviewer-authorized",
+        ]
+    
+&gt;       rescore.main(arguments)
+
+tests\evals\test_document_relations_boundary_rescore.py:1475: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\run_document_relations_boundary_rescore.py:1912: in main
+    parser.error(str(exc))
+D:\Miniconda3\Lib\argparse.py:2658: in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = ArgumentParser(prog='__main__.py', usage=None, description='Offline 1.0.5 boundary-evidence rescore for preserved relation graphs.', formatter_class=&lt;class 'argparse.HelpFormatter'&gt;, conflict_handler='error', add_help=True)
+status = 2
+message = '__main__.py: error: historical overlay is not the frozen sidecar\n'
+
+    def exit(self, status=0, message=None):
+        if message:
+            self._print_message(message, _sys.stderr)
+&gt;       _sys.exit(status)
+E       SystemExit: 2
+
+D:\Miniconda3\Lib\argparse.py:2645: SystemExit</failure></testcase><testcase classname="tests.evals.test_document_relations_boundary_rescore" name="test_boundary_scoring_does_not_mutate_legacy_engine_instances_or_assets" time="0.012" /></testsuite></testsuites>

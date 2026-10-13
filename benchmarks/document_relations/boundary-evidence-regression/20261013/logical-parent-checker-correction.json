@@ -1,0 +1,13 @@
+{
+  "schema": "boundary-evidence-checker-import-correction-v1",
+  "recorded_at": "2026-10-13T10:51:18.3552148+08:00",
+  "corrected_at": "2026-10-13T10:48:25.7462770+08:00",
+  "initial_checker_sha256": "a5df01300f4a4d4322c50e82ab87f2fd2fa212a8a345e3f547c7c136e609b9ec",
+  "corrected_checker_sha256": "11cb64b29d34374102b90b164b9a65d542266b30f7d5aa475c381719ab1dcfe1",
+  "initial_attempt": "ModuleNotFoundError: scripts; zero checks executed",
+  "change": "Added sys import and repository sys.path before runpy test fixture import. All six expected outcomes unchanged.",
+  "corrected_checker_run_before_worker_dispatch": true,
+  "before_grader_sha256": "c44e4f05b7d4fc1fdc035cab66e9489a0036bf431ad513bfbdbda79e41778b03",
+  "corrected_baseline": "4/6 passed; attribute_parent/contextual_parent incorrectly accepted",
+  "cases_or_frozen_rules_changed": false
+}

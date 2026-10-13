@@ -1,0 +1,10 @@
+{
+  "schema": "boundary-evidence-strong-check-freeze-v1",
+  "frozen_at": "2026-10-13T09:23:16.3837013+08:00",
+  "checker": "benchmarks/document_relations/boundary-evidence-regression/20261013/check-inheritance-source.py",
+  "checker_sha256": "a9b2dc8653c3165a14567d4e3c9a95d835a87306e965a2a6f28342e0e7e01f74",
+  "implementation_present": false,
+  "new_grading_executed": false,
+  "classification": "after baseline capture, before independent new grading; supplements frozen cases without rewriting them",
+  "criterion": "accurate inherited OR citation with correct semantic link must still reject local conflict/count or intervening paragraph, including self-reported absent/contiguous flags"
+}

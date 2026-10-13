@@ -2,7 +2,67 @@
 
 ## 状态与边界
 
-### 当前评分器原子映射重评（2026-10-12）
+### 当前边界证据评分合同（2026-10-13）
+
+本批先冻结三类证据职责及来源标注，再由智能体新增独立评分器 `1.0.5`，主审验收。**产品源码、旧 `1.0.3/1.0.4`、旧 oracle 与历史报告均未改写。仅公开回归中的有限评分修正成立，整批尚不关闭。**
+
+操作符证据证明明确指令；scope 证据证明组的归属及每个直接成员；termination 证据证明最后一个成员之后的局部终止标点。引用须匹配注册身份、版本、原始页、精确字符位置及引文。同一位置的包含区间可提供证明，相邻组的同词不能代替。AND/OR 的直接 children、scope targets 按唯一的精确成员集合核对，不要求数组同序，不能用后代叶子替代直接子组。
+
+上层“每组择一”只能授权操作符，不能代替子组成员或终止来源。继承还须核对已确认父组、组数/标签、带 basis 的逻辑父级及来源、局部指令和原文连续性；调用者填写 `absent/contiguous` 不能绕过原文检查。逻辑授权仅接受 `semantic_parent/logical_parent/condition_parent`，属性、上下文或结构父级不能代替。有限合同不重解释 REQUIRED、attribute/contextual、跨页或 K-of-N。
+
+#### 同输出的评分变化
+
+两版读取同一份 `af7db0f` 的历史输出，输入 SHA-256 仍为 `1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7`。canonical 对照保留全部 14 例 graph、source_context、runtime、执行状态和指纹；**离线重评没有重新调用产品 Runtime、Registry 或模型。**
+
+| 指标 | 1.0.4 | 1.0.5 |
+| --- | --- | --- |
+| 整例通过 / 失败 / 未执行 | 9 / 5 / 0 | 10 / 4 / 0 |
+| 边界证据错误 | 2/17 | 0/17 |
+| 分组结构错误 | 5/14 | 2/14 |
+| 父级关系错误 | 6/16 | 4/16 |
+| scope 成员判定错误 | 18/50 | 10/50 |
+| 条件未映射、来源未覆盖 | 各 2/37 | 各 2/37 |
+| 原始引用错误 | 0/1083 | 0/1083 |
+
+只有 case-11 的状态/汇总指标变化。它已有上层选择指令、自身成员及局部句末证据，新合同不再要求局部终止引用重复覆盖上层操作符指令；逐角色核对通过后整例通过。这是**评分变化，不是产品解析提升**。旧 **9/14** 不改写；case-07/09/12/13 仍失败。
+
+#### 公开回归与预留失败
+
+| 检查 | canonical 结果 | 解释 |
+| --- | --- | --- |
+| 新评分器合成合约 | 89/89 | 包含证据职责、继承、输入身份、离线 I/O 和父级类型；不是业务准确率 |
+| 开发两份正例的合法变异 | 8/8 | 原产品树及合法的同位置引用变异 |
+| 开发错误 confirmed 变异 | 36/36 拒绝 | 仅已列固定案例 |
+| 三份开发冲突/越界的强来源反例 | 6/6 拒绝 | 准确上层 OR 引用不能覆盖局部冲突；自报标记无效 |
+| 父级类型补充 | 6/6 | 三种逻辑父级通过；属性、上下文、结构父级拒绝 |
+| 六份原预留文件实际正例 | **1/3** | H01 条件树不完整；H03 空行定位与现有证据校验合同冲突 |
+| 原预留合法变异 / 假设合法合成树 | **4/8、4/4** | 后一项是 H01 人工断言的完整证明树，不是产品解析结果 |
+| 原预留错误变异 / 强来源反例 | 56/56、6/6 拒绝 | H03 的空引用也会使负例失败，不能据此证明每种语义错误均被单独识别 |
+
+11 份 TXT 的 Registry 分析链路于开发前采集，全部 executed，execution_failed/not_run 均为 0；canonical 检查读取这些保留输出，未再次运行该产品采集。六份原预留输入、答案、输出及失败均按原字节入库。
+
+H03 的两个空行块保留了 `unresolved parent_relation` 和零长度原文定位，但引用引文为空；未改的全局源校验拒绝它们。冻结 checker 的名义误阻断是 4/8，四项来自同一 H03，不是四份独立文件。本批不放宽来源校验；需另行明确“原文空块定位”和“关系证据”的接口合同。H04-H06 的 `product_review=3/3` 只证明没有错误 confirmed 完整外层 AND；H04 仍有独立 confirmed AND，**不代表所有局部状态均正确**。
+
+**未见验收未达成。** 测试智能体末尾自报曾读取预留 oracle 和历史报告；可用 exec 日志未恢复对应直接读取命令，但证实它读取了含预留路径的主线程输出，接触及使用范围无法可靠确认。该自报与日志证据分开保留，六份全部保守降为公开回归。原冻结记录中的 `private_case_content_used_by_developer=false` 是开发前意图，不是当前保证；不宣称 certified blind，也不事后挑选新文件替代。
+
+#### 快照与发布
+
+canonical 全量 **912 passed、1 条既有 Starlette 警告**，Ruff 通过。源码树仍为 `da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0`；65 个产品源码、19 个评测器/测试及 6 个验收工具与 Git blob 匹配。code archive base tree 为 `231f251ed3362619596686ea1bcee34d097988eb`，最终发布元数据随后添加。
+
+473 个既有受保护文件的工作区冻结哈希不变，473 个导出 blob 与旧提交一致；154 项工作区/导出差异均另行证明只来自 CRLF/LF。第一次验收工具混用两套哈希、第二次假定 UTF-8 的失败及工具快照保留，没有修改旧文件来消除差异。两份首次失败 XML 保留原始 traceback 空白，只有这两份归档文件设定 `-whitespace`，不豁免源码或 oracle。
+
+测试先行的两次收集 ImportError 均为零项执行；开发期 64 passed/17 failed、79 passed/2 failed 和合法变异 0/8 等失败也保留。开发期首个 grader 精确源码未完整归档，仅有身份哈希，不能将其冒充最终代码复现。末尾父级类型反例的补修前 **4/6、2 次误接受**及准确源码/测试快照完整保留，修补后为 6/6。
+
+规则、原始/修正工具、冻结与访问记录、11 份 TXT 和补修快照见 [boundary-evidence-regression/20261013](../benchmarks/document_relations/boundary-evidence-regression/20261013)；正式及中间报告见 [reports/boundary-evidence-20261013](../benchmarks/document_relations/reports/boundary-evidence-20261013)，索引为 [boundary-evidence-publication-record.json](../benchmarks/document_relations/boundary-evidence-publication-record.json)。
+
+```powershell
+python scripts/run_document_relations_boundary_rescore.py --bundle benchmarks/document_relations/reserved/v2 --product-report benchmarks/document_relations/reports/inheritance-followup-20261012/relations-score.json --expected-report-sha256 1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7 --overlay benchmarks/document_relations/boundary-evidence-regression/20261013/historical-overlay.json --expected-overlay-sha256 526a08805b88192d2351a0c0b45f9cd6060745ba1a931919e069e9d104c86d02 --output replay-boundary-NEW.json --main-reviewer-authorized
+python benchmarks/document_relations/boundary-evidence-regression/20261013/check-boundary.py --cases benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/cases.json --captures benchmarks/document_relations/reports/boundary-evidence-20261013/reserved-capture.json --output replay-reserved-NEW.json
+```
+
+输出须使用新路径；前者仍有四例评分失败，后者保留上述失败，返回 1 不表示未执行。企业材料本批未运行，不计算业务误阻断/误放行率；旧公开原始文件 **0/8、企业 not_run/8** 为未重跑的历史结论。**整批、第2步整体、通用完整性与生产验收仍未通过**，`partial/manual_review` 与 `uv.lock` 独立处理的边界不变。下一批应先取得可核实的开发前未见隔离，再处理 H01 及 H03 的合同/解析问题。
+
+### 历史评分器原子映射重评（2026-10-12）
 
 本批由修改智能体新增独立评分器 `1.0.4`，主审只验收原子映射与离线重评。**产品解析源码、旧 `1.0.3` 评分器、冻结 oracle 和历史报告均未修改；case-11 的整例评分仍未通过。**
 

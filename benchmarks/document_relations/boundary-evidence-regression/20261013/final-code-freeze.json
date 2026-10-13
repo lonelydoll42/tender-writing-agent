@@ -1,0 +1,21 @@
+{
+  "schema": "boundary-evidence-final-code-freeze-v1",
+  "frozen_at": "2026-10-13T10:56:07.8702939+08:00",
+  "all_workers_closed": true,
+  "implementation_sha256": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3",
+  "tests_sha256": "f6d744198b043ba055d972edfbb5f33fa4a01884afbd9846a50a66102f541730",
+  "product_source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+  "product_source_changed": false,
+  "main_reviewer": "Independent final code export, replay, and tests follow this freeze.",
+  "scope_status": "Public grader correction only. Reserved positive failures and unseen isolation are not closed.",
+  "last_worker": {
+    "agent_id": "01a13329-eb3a-7563-b1f0-4559d94c14f7",
+    "write_scope": [
+      "scripts/run_document_relations_boundary_rescore.py",
+      "tests/evals/test_document_relations_boundary_rescore.py"
+    ],
+    "red": "3 passed, 2 failed",
+    "green": "89 passed",
+    "self_report_warning": "Unknown asyncio_mode in worker environment; main uses repository venv for authoritative final test."
+  }
+}

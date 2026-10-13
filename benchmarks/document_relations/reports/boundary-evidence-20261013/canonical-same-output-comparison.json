@@ -1,0 +1,1445 @@
+{
+  "schema": "boundary-evidence-same-output-comparison-v1",
+  "generated_at": "2026-10-13T11:16:29.375975+08:00",
+  "classification": "grader comparison, not product parsing improvement",
+  "product_report_sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+  "product_source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+  "old_report_sha256": "1e7d9eba20f80c90b33f9532aff11838437eb4a07a921156c18ee5e7c8b42514",
+  "new_report_sha256": "d2f988ae385f02a74e37737585a5f2ffd8a50401788ddc610f98f2807c2f1d0d",
+  "old_evaluator": {
+    "version": "1.0.4",
+    "path": "scripts/run_document_relations_rescore.py",
+    "sha256": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf",
+    "legacy_evaluator_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483"
+  },
+  "new_evaluator": {
+    "version": "1.0.5",
+    "path": "scripts/run_document_relations_boundary_rescore.py",
+    "sha256": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3",
+    "legacy_evaluator_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+    "legacy_rescorer_sha256": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf"
+  },
+  "old_summary": {
+    "case_count": 14,
+    "passed": 9,
+    "failed": 5,
+    "not_run": 0,
+    "metrics": {
+      "boundary_evidence": {
+        "numerator": 2,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "condition_omission": {
+        "numerator": 2,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "forbidden_claims": {
+        "numerator": 1,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "operator_evidence": {
+        "numerator": 0,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "operator_group_structure": {
+        "numerator": 5,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "parent_relations": {
+        "numerator": 6,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "reference_relations": {
+        "numerator": 3,
+        "denominator": 3,
+        "status": "measured"
+      },
+      "review_handling": {
+        "numerator": 0,
+        "denominator": 19,
+        "status": "measured"
+      },
+      "scope_evidence": {
+        "numerator": 0,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "scope_membership_decisions": {
+        "numerator": 18,
+        "denominator": 50,
+        "status": "measured"
+      },
+      "source_coverage": {
+        "numerator": 2,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "source_invalid": {
+        "numerator": 0,
+        "denominator": 1083,
+        "status": "measured"
+      },
+      "wrong_merge_pairs": {
+        "numerator": 0,
+        "denominator": 34,
+        "status": "measured"
+      },
+      "wrong_split_atom_units": {
+        "numerator": 0,
+        "denominator": 37,
+        "status": "measured"
+      }
+    },
+    "event_counts": {
+      "error_events": 40,
+      "group_structure_error_events": 7
+    }
+  },
+  "new_summary": {
+    "case_count": 14,
+    "passed": 10,
+    "failed": 4,
+    "not_run": 0,
+    "metrics": {
+      "boundary_evidence": {
+        "numerator": 0,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "condition_omission": {
+        "numerator": 2,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "forbidden_claims": {
+        "numerator": 1,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "operator_evidence": {
+        "numerator": 0,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "operator_group_structure": {
+        "numerator": 2,
+        "denominator": 14,
+        "status": "measured"
+      },
+      "parent_relations": {
+        "numerator": 4,
+        "denominator": 16,
+        "status": "measured"
+      },
+      "reference_relations": {
+        "numerator": 3,
+        "denominator": 3,
+        "status": "measured"
+      },
+      "review_handling": {
+        "numerator": 0,
+        "denominator": 19,
+        "status": "measured"
+      },
+      "scope_evidence": {
+        "numerator": 0,
+        "denominator": 17,
+        "status": "measured"
+      },
+      "scope_membership_decisions": {
+        "numerator": 10,
+        "denominator": 50,
+        "status": "measured"
+      },
+      "source_coverage": {
+        "numerator": 2,
+        "denominator": 37,
+        "status": "measured"
+      },
+      "source_invalid": {
+        "numerator": 0,
+        "denominator": 1083,
+        "status": "measured"
+      },
+      "wrong_merge_pairs": {
+        "numerator": 0,
+        "denominator": 34,
+        "status": "measured"
+      },
+      "wrong_split_atom_units": {
+        "numerator": 0,
+        "denominator": 37,
+        "status": "measured"
+      }
+    },
+    "event_counts": {
+      "error_events": 25,
+      "group_structure_error_events": 4
+    }
+  },
+  "all_14_original_materials_preserved": true,
+  "changed_cases": [
+    "case-11"
+  ],
+  "cases": [
+    {
+      "case_id": "case-01",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "ab7b35b2256c433412bac56ce1017d0abf3203caf53954288197207a2feb026a",
+      "source_context_sha256": "dea2ac42cf24a247437af6b6e6e37cfa6c3c52ff1c7f59354fb5c2ee08f81cab",
+      "status": {
+        "old": "passed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2"
+        ],
+        "new": [
+          "A1",
+          "A2"
+        ]
+      },
+      "groups": {
+        "old": [
+          "S1"
+        ],
+        "new": [
+          "S1"
+        ]
+      },
+      "metric_delta": {},
+      "old_errors": [],
+      "new_errors": [],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-02",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "6e3fcdc515e80feab709de73da662150d64cda1f4d3c0808b57a93a6f1e20148",
+      "source_context_sha256": "78427ca4e387ded5ed672e39f04c3535902b7afadc0b9ca2d6a79a270a78a392",
+      "status": {
+        "old": "passed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3"
+        ]
+      },
+      "groups": {
+        "old": [
+          "S1"
+        ],
+        "new": [
+          "S1"
+        ]
+      },
+      "metric_delta": {},
+      "old_errors": [],
+      "new_errors": [],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-03",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "c7b7b7d327f763aadc03b027334d0668523e6adb9f32d0eb830c155f1a8bcbe8",
+      "source_context_sha256": "bba5656a15aeb7224475e214140648f2bd7fef2f22f1dac787c70c47f20a4c1c",
+      "status": {
+        "old": "passed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3"
+        ]
+      },
+      "groups": {
+        "old": [
+          "S0",
+          "S1",
+          "S2"
+        ],
+        "new": [
+          "S0",
+          "S1",
+          "S2"
+        ]
+      },
+      "metric_delta": {},
+      "old_errors": [],
+      "new_errors": [],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "cond_9e277c10dbab0f0caf3f3d72",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          },
+          "S2": {
+            "evaluator": "1.0.4",
+            "status": "not_reaudited",
+            "reason": "group is outside the frozen boundary-evidence overlay"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "cond_a79e986e33dc024f52f827a1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "case-04",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "a3eafbda6a57efd582143e1adbe55595f74e802137fff846a7937419c0b3b48e",
+      "source_context_sha256": "0ff4e75081b77fee1d6534e8707cc262172e8c687cc61c9eb409316f1572c769",
+      "status": {
+        "old": "passed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3"
+        ]
+      },
+      "groups": {
+        "old": [],
+        "new": []
+      },
+      "metric_delta": {},
+      "old_errors": [],
+      "new_errors": [],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-05",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "e9030324e30a7d6d91076434d92af576fdca815edce5829df45d215fd5bcade5",
+      "source_context_sha256": "4769ef645ac50b13a13c23b13a2b5d63e04f900963fdb6e126210ab57268579d",
+      "status": {
+        "old": "passed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2"
+        ],
+        "new": [
+          "A1",
+          "A2"
+        ]
+      },
+      "groups": {
+        "old": [],
+        "new": []
+      },
+      "metric_delta": {},
+      "old_errors": [],
+      "new_errors": [],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-06",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "2f67112b7219f03e32ad6a0155fb441fd7b1cd9579251a9756802a445cefb888",
+      "source_context_sha256": "364b44658e3a0e98bcb104d16c89587693f7c7655691561fbb78dbc2da71105d",
+      "status": {
+        "old": "passed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3",
+          "A4"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3",
+          "A4"
+        ]
+      },
+      "groups": {
+        "old": [
+          "S1",
+          "S2"
+        ],
+        "new": [
+          "S1",
+          "S2"
+        ]
+      },
+      "metric_delta": {},
+      "old_errors": [],
+      "new_errors": [],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-07",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "d81e337945a9ad8a61166b056828d8565b88ef76fbef9181340112e70c9b6e1e",
+      "source_context_sha256": "be0555f2044de85874f8dad260211f7948e07809cfea0f03033c73bda0e49c71",
+      "status": {
+        "old": "failed",
+        "new": "failed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3"
+        ]
+      },
+      "groups": {
+        "old": [],
+        "new": []
+      },
+      "metric_delta": {},
+      "old_errors": [
+        {
+          "metric": "condition_status",
+          "expected_id": "A3",
+          "actual_status": "candidate",
+          "reason": "explicitly confirmed atom was not confirmed"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "confirmed operator node missing exact children"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "oracle parent does not identify one condition node"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "reference_relations",
+          "missing_locators": [
+            "confirmed reference status/source/target mismatch"
+          ]
+        },
+        {
+          "metric": "forbidden_claims",
+          "claim_type": "scope",
+          "direction": "require_members",
+          "reason": "explicitly required scope members were omitted"
+        }
+      ],
+      "new_errors": [
+        {
+          "metric": "condition_status",
+          "expected_id": "A3",
+          "actual_status": "candidate",
+          "reason": "explicitly confirmed atom was not confirmed"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "confirmed operator node missing exact children"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "oracle parent does not identify one condition node"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "reference_relations",
+          "missing_locators": [
+            "confirmed reference status/source/target mismatch"
+          ]
+        },
+        {
+          "metric": "forbidden_claims",
+          "claim_type": "scope",
+          "direction": "require_members",
+          "reason": "explicitly required scope members were omitted"
+        }
+      ],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-08",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "bffebc16b830a7b5b81ba7c9919712b1a8b7a57e8060cd1c3c60cf0f8741d7b2",
+      "source_context_sha256": "9a92538780ccc04647ea5faa62c6c5077524a842ab81ef18f3039a3dbffdfcdc",
+      "status": {
+        "old": "passed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3"
+        ]
+      },
+      "groups": {
+        "old": [
+          "S1"
+        ],
+        "new": [
+          "S1"
+        ]
+      },
+      "metric_delta": {},
+      "old_errors": [],
+      "new_errors": [],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-09",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "c0deb5029373978bd2c5443a916eeb8e3ff2b5212582f2c3b69a8f3544e0b0aa",
+      "source_context_sha256": "c92e8375bfcafe23c28d961c938d7756b6d424e96d3a615e98bd27c48dc85897",
+      "status": {
+        "old": "failed",
+        "new": "failed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2"
+        ],
+        "new": [
+          "A1",
+          "A2"
+        ]
+      },
+      "groups": {
+        "old": [],
+        "new": []
+      },
+      "metric_delta": {},
+      "old_errors": [
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "attribute_scope",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A2"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "no confirmed directed parent relation for A2"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "reference_relations",
+          "missing_locators": [
+            "confirmed reference status/source/target mismatch"
+          ]
+        }
+      ],
+      "new_errors": [
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "attribute_scope",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A2"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "no confirmed directed parent relation for A2"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "reference_relations",
+          "missing_locators": [
+            "confirmed reference status/source/target mismatch"
+          ]
+        }
+      ],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-10",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "63825b994501257553f9f793a61196b163ff0d891a56b281e8e0b2618f3b6eea",
+      "source_context_sha256": "3fb385c91d6474c9f3ea5562874ed99a37d1dc7856e753582bd995044d91a0bb",
+      "status": {
+        "old": "passed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3"
+        ]
+      },
+      "groups": {
+        "old": [
+          "S1"
+        ],
+        "new": [
+          "S1"
+        ]
+      },
+      "metric_delta": {},
+      "old_errors": [],
+      "new_errors": [],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-11",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "eb2855b5e7d37b71b29ee5b2d02041e37e0de0972b455d64ba45bea81f2fd118",
+      "source_context_sha256": "37188895185a72ad4b1de41210c470493f7e9c3c810d9b98a8413a2beb71ee49",
+      "status": {
+        "old": "failed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3",
+          "A4"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3",
+          "A4"
+        ]
+      },
+      "groups": {
+        "old": [],
+        "new": [
+          "S0",
+          "S1",
+          "S2"
+        ]
+      },
+      "metric_delta": {
+        "boundary_evidence": {
+          "old": {
+            "numerator": 2,
+            "denominator": 3
+          },
+          "new": {
+            "numerator": 0,
+            "denominator": 3
+          }
+        },
+        "operator_group_structure": {
+          "old": {
+            "numerator": 3,
+            "denominator": 3
+          },
+          "new": {
+            "numerator": 0,
+            "denominator": 3
+          }
+        },
+        "parent_relations": {
+          "old": {
+            "numerator": 2,
+            "denominator": 2
+          },
+          "new": {
+            "numerator": 0,
+            "denominator": 2
+          }
+        },
+        "scope_membership_decisions": {
+          "old": {
+            "numerator": 8,
+            "denominator": 12
+          },
+          "new": {
+            "numerator": 0,
+            "denominator": 12
+          }
+        }
+      },
+      "old_errors": [
+        {
+          "metric": "boundary_evidence",
+          "expected_group_id": "S1",
+          "reason": "termination boundary does not cover frozen boundary_basis: p1l1"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "confirmed operator node missing exact children"
+        },
+        {
+          "metric": "boundary_evidence",
+          "expected_group_id": "S2",
+          "reason": "termination boundary does not cover frozen boundary_basis: p1l1"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A3",
+            "A4"
+          ],
+          "reason": "confirmed operator node missing exact children"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "oracle parent does not identify one condition node"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A3",
+            "A4"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "oracle parent does not identify one condition node"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        }
+      ],
+      "new_errors": [],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "cond_7724a0a62b8789f1a140a222",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "cond_5aab6b87913fe6e451fb4a45",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "cond_24723c6ac82450538d5daffb",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "case-12",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "350e7d7678c9aee1e543ef5113fee503db1e4ca200ce4a464bd6e6e2f51b984d",
+      "source_context_sha256": "3d1919dec46594ba8f3a81eff0828d89f663df1ff0c3f6e71fe5c5076cd6b824",
+      "status": {
+        "old": "failed",
+        "new": "failed"
+      },
+      "atoms": {
+        "old": [],
+        "new": []
+      },
+      "groups": {
+        "old": [],
+        "new": []
+      },
+      "metric_delta": {},
+      "old_errors": [
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "oracle parent does not identify one condition node"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        }
+      ],
+      "new_errors": [
+        {
+          "metric": "condition_omission",
+          "expected_id": "A1",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "condition_omission",
+          "expected_id": "A2",
+          "reason": "no unique source-anchored ATOM matched"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A1",
+            "A2"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "oracle parent does not identify one condition node"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        }
+      ],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-13",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "bae0790ce77376c1d98d1898b93d992ce6ccb6ab0df595ab56d303a9a2bb153c",
+      "source_context_sha256": "aacdbcb53ed9f1a2ebb15f0dd2a6cc1a5b06b9092b1097f78add91690bbac068",
+      "status": {
+        "old": "failed",
+        "new": "failed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3"
+        ]
+      },
+      "groups": {
+        "old": [],
+        "new": []
+      },
+      "metric_delta": {},
+      "old_errors": [
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "contextual_scope_no_flat_operator",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A3"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "no confirmed directed parent relation for A3"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "reference_relations",
+          "missing_locators": [
+            "confirmed reference status/source/target mismatch"
+          ]
+        }
+      ],
+      "new_errors": [
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "contextual_scope_no_flat_operator",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "parent_relations",
+          "expected_children": [
+            "A3"
+          ],
+          "expected_parent_kind": "semantic",
+          "missing_locators": [
+            "no confirmed directed parent relation for A3"
+          ],
+          "reason": "confirmed semantic parent/scope relation missing"
+        },
+        {
+          "metric": "reference_relations",
+          "missing_locators": [
+            "confirmed reference status/source/target mismatch"
+          ]
+        }
+      ],
+      "evidence_audit": null
+    },
+    {
+      "case_id": "case-14",
+      "product_material_preserved": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "original_product_graph_sha256": "a0f9dd6d8135066a895ae02b6c68e6b9eee74838598d64b4733d8583cf97fc0b",
+      "source_context_sha256": "b6b259bf8c65d9ea8df5a176ae6d0b70d9baa512ad671a45b3706980463f7691",
+      "status": {
+        "old": "passed",
+        "new": "passed"
+      },
+      "atoms": {
+        "old": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "new": [
+          "A1",
+          "A2",
+          "A3"
+        ]
+      },
+      "groups": {
+        "old": [
+          "S1"
+        ],
+        "new": [
+          "S1"
+        ]
+      },
+      "metric_delta": {},
+      "old_errors": [],
+      "new_errors": [],
+      "evidence_audit": null
+    }
+  ]
+}

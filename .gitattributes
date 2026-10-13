@@ -98,3 +98,11 @@ benchmarks/document_relations/reports/scorer-remap-20261012/initial-comparison.j
 benchmarks/document_relations/reports/scorer-remap-20261012/comparison.json -text whitespace=cr-at-eol
 benchmarks/document_relations/reports/scorer-remap-20261012/pre-implementation-red.xml -text whitespace=cr-at-eol
 benchmarks/document_relations/scorer-remap-publication-record.json -text whitespace=cr-at-eol
+scripts/run_document_relations_boundary_rescore.py -text
+tests/evals/test_document_relations_boundary_rescore.py -text
+benchmarks/document_relations/boundary-evidence-regression/20261013/** -text
+benchmarks/document_relations/reports/boundary-evidence-20261013/** -text
+benchmarks/document_relations/reports/boundary-evidence-20261013/*red.xml -text whitespace=cr-at-eol
+benchmarks/document_relations/boundary-evidence-publication-record.json -text
+benchmarks/document_relations/reports/boundary-evidence-20261013/first-implemented-tests.xml -text -whitespace
+benchmarks/document_relations/reports/boundary-evidence-20261013/second-implemented-tests.xml -text -whitespace

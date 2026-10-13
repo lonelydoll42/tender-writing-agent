@@ -1,0 +1,1182 @@
+{
+  "schema": "boundary-evidence-independent-source-guard-v1",
+  "generated_at": "2026-10-13T10:39:01.968534+08:00",
+  "classification": "deliberately incorrect confirmed graphs, not product output",
+  "cases_sha256": "0393829870a0171bfe5f5fd04a76c5bf6d5c7306d26f4b5269ca4526d8879b24",
+  "capture_sha256": "f2c7cd62219fb1e4360a434add8132746f0274d54749cf0d08cada8fc5650648",
+  "grader_sha256": "c44e4f05b7d4fc1fdc035cab66e9489a0036bf431ad513bfbdbda79e41778b03",
+  "passed": 6,
+  "total": 6,
+  "false_accept": 0,
+  "checks": [
+    {
+      "case_id": "H04",
+      "spoof_flags": false,
+      "negative_reason": "local_conflict",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组任选一项",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "inherited operator has a conflicting local instruction"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "inherited operator has a conflicting local instruction"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "inherited operator has a conflicting local instruction"
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "H04",
+      "spoof_flags": true,
+      "negative_reason": "local_conflict",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组任选一项",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "raw local group prefix contains an independent operator"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "raw local group prefix contains an independent operator"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "raw local group prefix contains an independent operator"
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "H05",
+      "spoof_flags": false,
+      "negative_reason": "unsupported_count",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组任选一项",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "local instruction contains an unsupported selection count"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "local instruction contains an unsupported selection count"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A5",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "local instruction contains an unsupported selection count"
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "H05",
+      "spoof_flags": true,
+      "negative_reason": "unsupported_count",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组任选一项",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "local instruction contains an unsupported selection count"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "local instruction contains an unsupported selection count"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2",
+            "A3"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A5",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "valid",
+        "contract_errors": [],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S1",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "local instruction contains an unsupported selection count"
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S2",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "actual_node_id": "S0",
+            "structure": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "operator": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "scope": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "termination": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": ""
+            },
+            "inheritance": {
+              "status": "confirmed",
+              "passed": true,
+              "reason": "not required"
+            },
+            "status": "confirmed"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "H06",
+      "spoof_flags": false,
+      "negative_reason": "intervening_paragraph",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组只需择一",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S2",
+          "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A3",
+            "A4"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "invalid",
+        "contract_errors": [
+          "S1 inheritance is not declared contiguous",
+          "S2 inheritance is not declared contiguous"
+        ],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S1 inheritance is not declared contiguous; S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "H06",
+      "spoof_flags": true,
+      "negative_reason": "intervening_paragraph",
+      "operator_reference_is_accurate_ancestor_or": {
+        "page": 1,
+        "line": 1,
+        "quote": "每组只需择一",
+        "char_start": 12,
+        "char_end": 18
+      },
+      "expected_accept": false,
+      "actual_accept": false,
+      "input_preserved": true,
+      "passed": true,
+      "errors": [
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S1",
+          "reason": "S2 inheritance is not declared contiguous"
+        },
+        {
+          "metric": "operator_evidence",
+          "expected_group_id": "S2",
+          "reason": "S2 inheritance is not declared contiguous"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S1",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A1",
+            "A2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S2",
+          "expected_operator": "OR",
+          "expected_direct_members": [
+            "A3",
+            "A4"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "group_structure",
+          "expected_group_id": "S0",
+          "expected_operator": "AND",
+          "expected_direct_members": [
+            "S1",
+            "S2"
+          ],
+          "reason": "expected nested member could not be resolved"
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S1",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S2",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A3",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A1",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A4",
+          "expected_member": true,
+          "actual_member": false
+        },
+        {
+          "metric": "scope_membership_decisions",
+          "group_id": "S0",
+          "condition_id": "A2",
+          "expected_member": true,
+          "actual_member": false
+        }
+      ],
+      "evidence_audit": {
+        "schema": "boundary-evidence-audit-v1",
+        "contract_status": "invalid",
+        "contract_errors": [
+          "S2 inheritance is not declared contiguous"
+        ],
+        "groups": {
+          "S1": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          },
+          "S2": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          },
+          "S0": {
+            "evaluator": "1.0.5",
+            "operator": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "scope": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "termination": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "inheritance": {
+              "status": "rejected",
+              "passed": false,
+              "reason": "S2 inheritance is not declared contiguous"
+            },
+            "status": "rejected"
+          }
+        }
+      }
+    }
+  ]
+}
