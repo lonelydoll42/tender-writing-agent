@@ -1,0 +1,39 @@
+Finite-copy case-09 final freeze handoff
+Date: 2026-10-14
+
+Frozen product
+Path: src/qiaowenshu_agent/domain/document_relations.py
+SHA256: d9ffcf70e14d68d6cc941686f0c62714c3a60768060a9800bb660556d5a17686
+Snapshot: source-case09-evidence-green.py.txt
+
+Frozen new tests
+Path: tests/test_document_relations_attributes.py
+SHA256: b47067c1223ae9e0aa619a2bfbc126677e7bb64ac3e1744f3c2b76b7559ae6e0
+Snapshot: test-case09-evidence-green.py.txt
+
+Final read-only checks verified both current files against their snapshots,
+all red/intermediate source and test snapshot hashes, and JUnit results.
+Red: 2 failures. Preserved intermediate: 2 failures.
+Direct green: 2 passed. Final focused green: 19 passed.
+Both final actual Registry/Runtime captures are executed/passed under the
+unchanged frozen 1.0.3 and 1.0.4 scoring APIs, with 22 checked source references,
+0 invalid references and 0 scoring errors each. Ruff previously passed.
+Complete evidence responsibilities, interface diagnosis and exact hashes are
+listed in case09-evidence-followup.txt. Existing assets were not overwritten.
+
+Reviewer-reported independent verification
+Provenance: main reviewer's user message on 2026-10-14; not rerun by this worker.
+Staged canonical tree: 77ce2da6a3465430993b09e9a9a62ba4f862950b
+Verified product SHA256: d9ffcf70e14d68d6cc941686f0c62714c3a60768060a9800bb660556d5a17686
+Public actual execution checks: 21/21 passed.
+Semantic mutations, including node/block equality: 15/15 rejected.
+Source mutations: 2/2 rejected. Valid references: 475.
+Unchanged actual positive passed frozen 1.0.3 and 1.0.4.
+The complete 14-case capture, three-version scoring and publication audit
+remain with the main reviewer; no overall result is asserted here.
+
+Product and tests received no further edits during final handoff.
+No Git operation, repeated test run or full capture was performed.
+Scope remains the adjacent same-page single-copy affirmative seal branch and
+its existing review boundaries. The same nonlogical scope is exposed through
+block and attribute-node entries; no additional scope identity is introduced.

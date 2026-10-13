@@ -1,0 +1,3 @@
+python -m ruff check scripts/run_document_relations_snapshot_rescore.py tests/evals/test_document_relations_snapshot_rescore.py
+D:\Miniconda3\python.exe: No module named ruff
+EXIT_CODE=1

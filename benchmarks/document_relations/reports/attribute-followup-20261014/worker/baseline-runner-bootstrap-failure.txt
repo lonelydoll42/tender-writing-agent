@@ -1,0 +1,8 @@
+Command:
+uv run --frozen python scripts/run_document_relations_attribute_eval.py --output benchmarks/document_relations/reports/attribute-followup-20261014/worker/attribute-eval-12-before.json
+
+Observed failure:
+ModuleNotFoundError: No module named 'scripts'
+
+The runner was invoked directly, so the repository root was absent from sys.path.
+The failure occurred before Registry/Runtime execution. No report output was created.

@@ -1,0 +1,90 @@
+{
+  "schema": "immutable-snapshot-path-aliases-v1",
+  "reason": "Preserve exact historical source/test bytes as archival text rather than active Python. Earlier immutable worker records retain original names; resolve them through this manifest.",
+  "aliases": [
+    {
+      "original_report_name": "worker/source-question-probe-green.py",
+      "archived_name": "worker/source-question-probe-green.py.txt",
+      "sha256": "1069dc5845116dd563dda8435c938600ab36947051e1e234054e8d11d241bcad",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/source-question-probe-red.py",
+      "archived_name": "worker/source-question-probe-red.py.txt",
+      "sha256": "4d9b208e3f2f805a9610bb8ea9629bb5e23be6ae079e1658fdd411425af55d57",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/source-subject-boundary-prepage-fix.py",
+      "archived_name": "worker/source-subject-boundary-prepage-fix.py.txt",
+      "sha256": "367cf1ff25870ffd850dc74a73c44586139bc1639a6947cb8d2d0d114f2cec99",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/source-subject-boundary-red.py",
+      "archived_name": "worker/source-subject-boundary-red.py.txt",
+      "sha256": "cc5e5f1c54f65bd8ce17878f759a8f00039243cb5078b4f7ef4d7d44abaa73a5",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/source-subject-switch-green.py",
+      "archived_name": "worker/source-subject-switch-green.py.txt",
+      "sha256": "4d9b208e3f2f805a9610bb8ea9629bb5e23be6ae079e1658fdd411425af55d57",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/test-first-source-snapshot.py",
+      "archived_name": "worker/test-first-source-snapshot.py.txt",
+      "sha256": "6fbe1c74c1e1a8fdac7b004746925e710b1860f94cd936a3f236d60aa67dbe08",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/test-public-probe-coverage-green.py",
+      "archived_name": "worker/test-public-probe-coverage-green.py.txt",
+      "sha256": "b686715942fde2c350114483a68abdb74cf80d0f5a9c82ec9372baf58bcb8e29",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/test-question-probe-green.py",
+      "archived_name": "worker/test-question-probe-green.py.txt",
+      "sha256": "d7a162f8084f60ad11c86e7f147233653f157c227ecc9c282cb4c60b5f374482",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/test-question-probe-red.py",
+      "archived_name": "worker/test-question-probe-red.py.txt",
+      "sha256": "d7a162f8084f60ad11c86e7f147233653f157c227ecc9c282cb4c60b5f374482",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/test-subject-boundary-red.py",
+      "archived_name": "worker/test-subject-boundary-red.py.txt",
+      "sha256": "b551f848c4302778890b1599a7a534cd69b0290b3bcbd7216be79954e85b14f3",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/test-subject-switch-green.py",
+      "archived_name": "worker/test-subject-switch-green.py.txt",
+      "sha256": "8d0dde07f7807efb4a496fe06ca3d311b43472b2478016dc0a9f28683b33466f",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "worker/test-subject-switch-red.py",
+      "archived_name": "worker/test-subject-switch-red.py.txt",
+      "sha256": "e8a7b1425f7a5ed5f05284231da66f0c0ab695f329016f31da0c0f55d93eef2f",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "scoring-worker/snapshot-rescore-focused-tests-final-source.py",
+      "archived_name": "scoring-worker/snapshot-rescore-focused-tests-final-source.py.txt",
+      "sha256": "bfb2f6295983481671692de6acb6bb65a21554358d52ca6e195af2512586d59e",
+      "bytes_unchanged": true
+    },
+    {
+      "original_report_name": "scoring-worker/snapshot-rescore-focused-tests-red-source.py",
+      "archived_name": "scoring-worker/snapshot-rescore-focused-tests-red-source.py.txt",
+      "sha256": "175d74775b4d4e5bcf013b5516e0fdb972cc0d934c573f763f1dcc12179883ec",
+      "bytes_unchanged": true
+    }
+  ]
+}

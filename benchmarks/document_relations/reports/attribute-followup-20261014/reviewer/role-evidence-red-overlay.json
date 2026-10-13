@@ -1,0 +1,10 @@
+{
+  "schema": "reviewer-checker-overlay-v1",
+  "product_archive_base_tree": "27bd0d493beed31d10484595659f400f8025d943",
+  "product_source_tree_sha256": "e0ca121966b413c70c3737bcfa5880a96770f0948dcea3399b1f583ae6e60bb7",
+  "only_replaced_path": "benchmarks/document_relations/attribute-regression/20261014/check-acceptance.py",
+  "checker_sha256": "f4ddf7aed70f59fedf2eee9f4e9134aeab3b768e6b15fd113a3699717b76e5d8",
+  "archived_checker_path": "benchmarks/document_relations/reports/attribute-followup-20261014/reviewer/role-evidence-check-acceptance.py.txt",
+  "product_source_changed_by_reviewer": false,
+  "purpose": "Apply explicit source-role acceptance checks to the preserved pre-role-fix actual product; not a new product snapshot."
+}

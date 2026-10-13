@@ -1,0 +1,18 @@
+{
+  "schema": "attribute-isolation-status-v1",
+  "recorded_at": "2026-10-14T02:08:04.8737712+08:00",
+  "classification": "Reuse accepted actual access preflight; no new deny-test performed",
+  "previous_preflight_path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/isolation-verification.json",
+  "previous_preflight_sha256": "d069a56c980f7cd8581fc9a2d6451c08e9a04008aba903e73e729cf3085cbb74",
+  "previous_result": "developer actual read succeeded; no denied access",
+  "current_exec_mode": "unrestricted shared Windows filesystem",
+  "new_independently_administered_environment_supplied": false,
+  "new_denied_access_proof": "not_run",
+  "new_unseen_files": 0,
+  "unseen_evaluation": "not_run",
+  "current_status": "not_established",
+  "required_external_condition": "An independent administrator must supply an environment whose input, answer, credentials, conversation and logs are inaccessible to actual developer tools; verify a real authorization denial before freezing unseen inputs.",
+  "new_examples": "public development regressions; no unseen claim",
+  "credentials_read": false,
+  "unrelated_remote_hosts_modified": false
+}

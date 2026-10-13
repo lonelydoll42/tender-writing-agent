@@ -1,0 +1,166 @@
+{
+  "schema": "document-relations-other-case-diagnosis-v1",
+  "analysis_date": "2026-10-14",
+  "purpose": "只读诊断 case-13、case-07、case-12；不实施产品或评分器修改。",
+  "assessment_boundary": {
+    "baseline_stage": "case-09 有限属性修复之前的公开基线",
+    "post_case09_change_evaluated": false,
+    "current_worktree_or_future_result_claimed": false,
+    "product_baseline": {
+      "requested_commit": "91fb1b9",
+      "captured_equivalent_commit": "20e79af22ef1666dc862234d3f7c555c82eb90e0",
+      "source_file_count": 65,
+      "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+      "identity_note": "按用户给定信息，91fb1b9 的65个源码文件与20e79af相同；本报告只引用 canonical-scores 对20e79af捕获的固定源码树证明，不将其解释为case-09修改后的评测。"
+    },
+    "canonical_report": {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-scores.json",
+      "sha256": "620db613b5138c7be007e078f60a46bef44e4c263f90f1a3767b8f7b21a3fbb9",
+      "generated_at": "2026-10-14T00:03:08.555432+08:00",
+      "classification": "固定产品捕获图的离线评分报告"
+    },
+    "captured_graph_report": {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/product-capture-1.0.3.json",
+      "sha256": "bf8b04db11d5b4ca10cdcf1744e3c8505181da1fbbe2a8194bad764bb672d090"
+    },
+    "frozen_v2_bundle": {
+      "manifest_sha256": "14072deebb73f993759272f19ca687649903c201b49f0d5ff78ede926a8dfcb2",
+      "bundle_fingerprint": "eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d6864",
+      "machine_oracle_path": "benchmarks/document_relations/reserved/v2/machine-oracle.json",
+      "machine_oracle_sha256": "9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50"
+    },
+    "scorer_basis": {
+      "score_views_examined": [
+        "1.0.3",
+        "1.0.4",
+        "1.0.5"
+      ],
+      "scorer_sha256": {
+        "1.0.3": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+        "1.0.4": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf",
+        "1.0.5": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3"
+      },
+      "selected_case_scoring": "三例在1.0.3与1.0.4视图均失败；1.0.5视图对这三例使用1.0.4回退规则，不是1.0.5 overlay案例。",
+      "inspection_method": "静态核对固定 canonical-scores 中的 actual_graph、v2 TXT/Markdown oracle 与 machine-oracle，并阅读现有评分函数；未运行真实模型，也未重新执行产品或评分。"
+    },
+    "task_boundary": {
+      "case09_scope_kept_separate": true,
+      "other_cases_added_to_case09_implementation": false,
+      "new_tasks_created": false,
+      "recommendations_only": true
+    }
+  },
+  "cases_in_requested_order": [
+    {
+      "case_id": "case-13",
+      "classification": {
+        "overall": "product_missing",
+        "additional_finding": "reference评分可能存在映射假阴性，证据挂载契约仍需单独确认",
+        "rationale": "整体失败已由原图中缺失的confirmed contextual scope membership和A3到A2营业收入字段的directed parent关系支持；reference子项则有已输出的confirmed链接，评分结果需按关系证据的归属规则另行核实。"
+      },
+      "artifacts": {
+        "input_path": "benchmarks/document_relations/reserved/v2/case-13.txt",
+        "input_sha256": "602c972bbcfa424204660fa48cd89820cf46af9029a62580883c2f4091d9f8ed",
+        "oracle_path": "benchmarks/document_relations/reserved/v2/case-13.oracle.md",
+        "oracle_sha256": "c1cccec02323cbc462173fbfb16c11d32f80fcfc4ab334888fa6adea4daae9aa",
+        "machine_oracle_case_id": "case-13"
+      },
+      "product_evidence": {
+        "source": "canonical-scores.json 的 case-13.actual_graph",
+        "atoms": "A1、A2、A3均匹配到confirmed ATOM，condition_omission为0/3；原子抽取不是本例主要缺口。",
+        "explicit_operator": "图中有confirmed AND节点 cond_036626643ccf4d34699c3955，直接子节点为提交编号1.9财务说明和在说明中列明营业收入两项；与oracle的AND(A1,A2)一致。",
+        "scope_gap": "oracle的confirmed S1要求A1、A2、A3同属编号1.9财务说明及其收入字段范围。图中confirmed AND仅覆盖A1/A2；金额原子 cond_13261a7b2a260eade1089d27 是另一个root，没有覆盖三项的confirmed scope关系。",
+        "parent_gap": "oracle要求A3金额谓词以A2的营业收入字段为semantic parent。图中A3没有parent_relations且仍是独立root；reference target指向A2，不等同于parent关系。",
+        "reference_state": "图中已有confirmed anaphora reference：P1-L02“营业收入”指向P1-L01的A2节点 cond_6efa4b8f8ae2e001ef369fda。关系的source/context证据在P1-L02；target节点自身有P1-L01“在说明中列明营业收入”的source reference。"
+      },
+      "scoring_evidence": {
+        "baseline_result": "1.0.3、1.0.4均failed；1.0.5视图回退到1.0.4。1.0.4结果中condition_omission为0/3，但group_structure、scope_membership_decisions、parent_relations、reference_relations各有失败。",
+        "consistent_product_failures": "S1三项成员关系和A3 parent失败与actual_graph中缺少三项scope及A3 directed parent相符。",
+        "reference_mapping_concern": "machine-oracle的reference.source包含P1-L01与P1-L02证据。actual_graph的reference.source_references只带P1-L02，但target_node_ids指向的A2节点带有P1-L01证据。现有 run_document_relations_eval.py 的 _check_confirmed_reference 通过 _actual_references 只取关系记录自身source_references，并要求 _references_cover 覆盖全部oracle source；它没有把已解析target node的source refs并入这一步。因此即使from/to位置和confirmed target link吻合，也会报reference mismatch。",
+        "interpretation_limit": "这构成评分映射假阴性的强迹象，但尚不能仅凭现有材料断言评分器违反契约：若契约要求关系记录自身重复携带P1-L01 target证据，则该项也可能是产品关系证据不完整。"
+      },
+      "remaining_uncertainty": [
+        "需要单独确认reference关系的source证据是否允许由target_node_ids所指节点提供，还是必须复制进关系自身的source_references；冻结材料没有明确解决这一字段归属问题。",
+        "即使reference子项最终判为评分映射，scope与parent两处产品缺口仍足以解释本例失败。"
+      ],
+      "next_separate_task_minimum_scope": {
+        "product_followup": "仅针对case-13：保留现有A1/A2及AND，补足A3对A2收入字段的confirmed parent，以及覆盖A1-A3的confirmed contextual scope；只加本例定向回归。",
+        "scorer_followup": "另立独立评分诊断：只验证reference.source双位置证据与target_node source证据的组合规则，并增加针对该规则的单元测试；不改oracle，不并入case-09或产品修复。"
+      }
+    },
+    {
+      "case_id": "case-07",
+      "classification": {
+        "overall": "product_missing",
+        "additional_finding": "未发现足以改变整体归因的评分映射问题",
+        "rationale": "固定图直接显示A3未确认、跨页承接未连到P1基本材料组、且reference列表为空；评分错误与这些缺失一致。"
+      },
+      "artifacts": {
+        "input_path": "benchmarks/document_relations/reserved/v2/case-07.txt",
+        "input_sha256": "da739873ce9ba42b2c1401cf0ae3cb5b1e50fd719ec06819c16b9bcdf0b23f73",
+        "oracle_path": "benchmarks/document_relations/reserved/v2/case-07.oracle.md",
+        "oracle_sha256": "bdfbc2a7bfacfe233bc4c8487004e866c736413836d6880a722ea99ed3cbbc7d",
+        "machine_oracle_case_id": "case-07"
+      },
+      "product_evidence": {
+        "source": "canonical-scores.json 的 case-07.actual_graph",
+        "explicit_input_evidence": "P1-L01“基本材料须全部提交：营业执照、审计报告”；P2-L01“承接上一页‘基本材料’清单”；P2-L02“并须提交纳税证明”。",
+        "atom_state": "A1营业执照和A2审计报告为confirmed；A3“并须提交纳税证明”为candidate，虽有对应ATOM cond_8735ad6067b2b6f2088a4f6a，但未提升为confirmed。",
+        "group_gap": "图中confirmed AND节点 cond_0af30cd5f8807465a7272d13只含A1、A2；A3是独立root。P2-L02的scope relation为candidate，operator为UNRESOLVED，target_block_ids和target_node_ids均为空，因此没有覆盖A1-A3的confirmed S1。",
+        "cross_page_relation_gap": "P2-L01承接说明块的parent_relation为unresolved；图中references为空。冻结oracle明确要求P2-L01回指P1-L01的“基本材料”，并要求A3延续同一清单。"
+      },
+      "scoring_evidence": {
+        "baseline_result": "1.0.3、1.0.4均failed；1.0.5视图回退到1.0.4。canonical-scores记录A3状态错误、三成员AND组缺失、scope成员判断失败、parent/reference缺失及forbidden scope claim。",
+        "interpretation": "这些失败均能在原图找到对应缺项，不需要以评分映射错误解释。oracle的parent是描述性“基本材料清单”而非A编号，故parent单项依赖评分器的组回退路径；该映射限制不影响图中A3 candidate、两成员组及空reference列表这些独立产品证据。"
+      },
+      "remaining_uncertainty": [
+        "原图和oracle足以确认跨页关系缺失；但未来产品应以block parent、scope membership或显式reference中的哪种组合表达该关系，可在独立实现任务中按现有图契约确定。"
+      ],
+      "next_separate_task_minimum_scope": {
+        "product_followup": "仅针对case-07的分页承接：利用P2-L01明确的承接证据，使A3成为confirmed并纳入A1/A2/A3的confirmed AND基本材料组，同时建立可验证的跨页parent/reference证据；只加本例定向回归。",
+        "exclusions": "不修改冻结oracle、评分器或case-09实现；不扩展到其他分页规则。"
+      }
+    },
+    {
+      "case_id": "case-12",
+      "classification": {
+        "overall": "product_missing",
+        "additional_finding": "parent评分子项存在描述性parent标签映射限制，但不改变整体归因",
+        "rationale": "oracle要求两个confirmed编号材料原子及AND；原图只有一个candidate opaque整句节点，缺失在评分映射之前已经成立。"
+      },
+      "artifacts": {
+        "input_path": "benchmarks/document_relations/reserved/v2/case-12.txt",
+        "input_sha256": "6ea791a6fcb1334dadb5b7987a1c485cfa4e6ce16d3cc991b29dc0fadd1c478d",
+        "oracle_path": "benchmarks/document_relations/reserved/v2/case-12.oracle.md",
+        "oracle_sha256": "fd82486e8ef590081d4e33786773e2b9fcf9e5af4b499cab03ed63c8d53e2cdc",
+        "machine_oracle_case_id": "case-12"
+      },
+      "product_evidence": {
+        "source": "canonical-scores.json 的 case-12.actual_graph",
+        "explicit_input_evidence": "P1-L01明确写明“编号1.9项和编号1.10项，共两项材料均须提交”，并用“仅按材料编号理解”排除小数区间解释。",
+        "atom_state": "图中只有一个candidate ATOM cond_5a9e9ba572b1a5216355697e，role为opaque，text覆盖整句“编号1.9至1.10……”；不存在分别对应编号1.9、编号1.10的confirmed原子。",
+        "relation_gap": "图中只有operator UNKNOWN、status candidate的scope relation，指向单个opaque节点；没有confirmed AND节点、两个材料成员或confirmed parent/scope结构。",
+        "evidence_gap": "输入分别给出“编号1.9项”和“编号1.10项”及“共两项材料均须提交”，但图没有从整句中切出两个独立、有源定位的条件。"
+      },
+      "scoring_evidence": {
+        "baseline_result": "1.0.3、1.0.4均failed；1.0.5视图回退到1.0.4。1.0.4记录A1/A2 condition_omission为2/2，并记录AND组和scope成员缺失。",
+        "interpretation": "遗漏与组结构错误均由图中单一candidate opaque节点直接解释。parent oracle使用“编号1.9至1.10范围”描述而非A编号，评分器的显式parent节点解析可能无法直接映射该标签；但实际图同样没有两个原子或可匹配的confirmed组，所以parent子项不能推翻产品缺失结论。"
+      },
+      "remaining_uncertainty": [
+        "本结论只针对冻结case-12，不外推到所有编号区间或小数编号表达。",
+        "评分器对描述性parent的单项映射是否需要增强，可另行讨论；当前失败的原子和AND缺口不依赖该问题。"
+      ],
+      "next_separate_task_minimum_scope": {
+        "product_followup": "仅针对case-12：将明确的编号端点解析为恰好两个confirmed材料原子，并输出有来源证据的AND及对应scope；验证不得生成区间中间编号、金额条件或额外材料。",
+        "exclusions": "不改冻结oracle或评分器，不并入case-09，也不宣称覆盖一般编号范围。"
+      }
+    }
+  ],
+  "summary": {
+    "case-13": "整体产品缺失；另有reference评分证据挂载映射疑点待单独确认。",
+    "case-07": "产品缺失，跨页A3确认、同组关系和回指均未出现在原图中。",
+    "case-12": "产品缺失，两个编号原子及confirmed AND均未出现在原图中。",
+    "unable_to_determine_overall_cases": [],
+    "interpretation": "以上均为case-09实施前固定canonical-scores基线的诊断，不是当前工作树或任何后续改版的重评。"
+  }
+}

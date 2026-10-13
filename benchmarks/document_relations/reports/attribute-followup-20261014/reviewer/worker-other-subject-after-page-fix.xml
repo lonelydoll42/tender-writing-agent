@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.270" timestamp="2026-10-14T01:26:09.420515+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.test_document_relations_attributes" name="test_other_subject_seal_predicate_does_not_confirm_copy_attribute" time="0.003"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">def test_other_subject_seal_predicate_does_not_confirm_copy_attribute() -&gt; None:
+        antecedent_text = "须提交身份证复印件。"
+        attribute_text = "该复印件作为附件保存，授权书必须加盖公章。"
+        structure = _structure(f"{antecedent_text}\n{attribute_text}")
+        antecedent = _block_for_text(structure, antecedent_text)
+        attribute = _block_for_text(structure, attribute_text)
+    
+        assert antecedent["source_references"]
+        assert attribute["source_references"]
+        assert all(
+            reference["document_id"] == structure["document_id"]
+            and reference["source_version"] == structure["source_version"]
+            and reference["quote"] in {antecedent_text, attribute_text}
+            for block in (antecedent, attribute)
+            for reference in block["source_references"]
+        )
+    
+        graph = build_document_relations(structure)
+    
+&gt;       _assert_review_only(structure, graph, attribute_text)
+
+tests\test_document_relations_attributes.py:206: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+structure = {'schema_version': 'document-structure-v1', 'document_id': 'finite-copy-attribute-test', 'source_version': 'v1', 'source_checksum': 'public-regression', ...}
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'finite-copy-attribute-test', 'source_version': 'v1', 'bloc...ence_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_ff4f697b5abbe3cd0b36e9b3', ...}], ...}], ...}
+attribute_text = '该复印件作为附件保存，授权书必须加盖公章。'
+
+    def _assert_review_only(structure: dict, graph: dict, attribute_text: str) -&gt; None:
+        block = _block_for_text(structure, attribute_text)
+        scope = _attribute_scope(graph, block)
+        node = next(node for node in _nodes_for_block(graph, block) if node["op"] == "ATOM")
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_attributes.py:90: AssertionError</failure></testcase></testsuite></testsuites>

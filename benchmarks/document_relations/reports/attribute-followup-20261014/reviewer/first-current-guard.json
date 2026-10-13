@@ -1,0 +1,19 @@
+{
+  "schema": "attribute-current-adapter-guard-v1",
+  "capture_sha256": "d8aeffc3a398902dbc37307d7314e50e51fe7b3009b220fbbffe519ee032b394",
+  "results": [
+    {
+      "guard": "current-20e79af-adapter",
+      "exit_code": 2,
+      "output_created": false,
+      "output": [
+        "usage: run_document_relations_current_rescore.py [-h] --bundle BUNDLE",
+        "                                                 --product-report PRODUCT_REPORT",
+        "                                                 --expected-report-sha256 EXPECTED_REPORT_SHA256",
+        "                                                 --output OUTPUT",
+        "                                                 [--main-reviewer-authorized]",
+        "run_document_relations_current_rescore.py: error: product report does not match the expected current product source-tree"
+      ]
+    }
+  ]
+}

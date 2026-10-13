@@ -1,0 +1,796 @@
+{
+  "schema": "finite-copy-attribute-frozen-case09-regression-v1",
+  "classification": "public actual Registry/Runtime regression; not unseen",
+  "case_id": "case-09",
+  "evaluator_version": "1.0.3",
+  "input_sha256": "41b364624ee0b41eeb281cff1d03bba2e5b2a9fdd560c0f5a35b3357c0f0c8c5",
+  "product_source_sha256": "d9ffcf70e14d68d6cc941686f0c62714c3a60768060a9800bb660556d5a17686",
+  "test_source_sha256": "41d6713ed19e437153478c629cbdcc00ba13755d6711c32328296e82a5975801",
+  "source_tree_sha256": "1ee8a31ffc1abdfd375e6d776149588b7ad070461bf7bc1c9672492844d62710",
+  "grader_hashes": {
+    "scripts/run_document_relations_eval.py": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+    "scripts/run_document_relations_rescore.py": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf"
+  },
+  "manifest_sha256": "14072deebb73f993759272f19ca687649903c201b49f0d5ff78ede926a8dfcb2",
+  "oracle_sha256": "9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50",
+  "oracle_case": {
+    "case_id": "case-09",
+    "input": "case-09.txt",
+    "markdown_oracle": "case-09.oracle.md",
+    "conditions": [
+      {
+        "id": "A1",
+        "text": "提交法定代表人身份证复印件",
+        "certainty": "confirmed",
+        "source": [
+          {
+            "page": 1,
+            "line": 1,
+            "quote": "提交法定代表人身份证复印件"
+          }
+        ]
+      },
+      {
+        "id": "A2",
+        "text": "该复印件加盖公章",
+        "certainty": "confirmed",
+        "source": [
+          {
+            "page": 1,
+            "line": 2,
+            "quote": "该复印件必须加盖公章"
+          }
+        ]
+      }
+    ],
+    "expect_confirmed": {
+      "conditions": [
+        "A1",
+        "A2"
+      ],
+      "relations": [
+        {
+          "type": "parent",
+          "parent": "A1 的复印件条件",
+          "children": [
+            "A2"
+          ],
+          "claim": "加盖公章要求修饰 A1 指向的复印件",
+          "source": [
+            {
+              "page": 1,
+              "line": 1,
+              "quote": "法定代表人身份证复印件"
+            },
+            {
+              "page": 1,
+              "line": 2,
+              "quote": "该复印件必须加盖公章"
+            }
+          ]
+        },
+        {
+          "type": "reference",
+          "from": "该复印件",
+          "to": "A1",
+          "claim": "唯一先行项为法定代表人身份证复印件",
+          "source": [
+            {
+              "page": 1,
+              "line": 1,
+              "quote": "法定代表人身份证复印件"
+            },
+            {
+              "page": 1,
+              "line": 2,
+              "quote": "该复印件必须加盖公章"
+            }
+          ]
+        }
+      ]
+    },
+    "forbidden": [],
+    "needs_review": [],
+    "groups": [
+      {
+        "id": "S1",
+        "status": "confirmed",
+        "operator": "attribute_scope",
+        "members": [
+          "A1",
+          "A2"
+        ],
+        "boundary_basis": [
+          {
+            "page": 1,
+            "line": 1,
+            "quote": "须提交法定代表人身份证复印件"
+          },
+          {
+            "page": 1,
+            "line": 2,
+            "quote": "该复印件必须加盖公章"
+          }
+        ]
+      }
+    ],
+    "denominators": {
+      "confirmed_atom_count": 2,
+      "condition_omission": 2,
+      "wrong_merge_pairs": 1,
+      "wrong_split_atom_units": 2,
+      "confirmed_scope_count": 1,
+      "scope_membership_decisions": 2
+    }
+  },
+  "execution_state": "executed",
+  "grading_status": "passed",
+  "actual_graph": {
+    "schema_version": "document-relations-v1",
+    "document_id": "file_2a13d3af56ce4543",
+    "source_version": "file_2a13d3af56ce4543:v1",
+    "block_relations": [
+      {
+        "block_id": "blk_f917cb0ccd9578d7acde200b",
+        "parent_relation": {
+          "status": "unresolved",
+          "target_block_ids": [],
+          "position_references": [
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c0-15",
+              "char_start": 0,
+              "char_end": 15,
+              "quote": "须提交法定代表人身份证复印件。"
+            }
+          ],
+          "source_references": [
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c0-15",
+              "char_start": 0,
+              "char_end": 15,
+              "quote": "须提交法定代表人身份证复印件。"
+            }
+          ],
+          "reason": "no legacy parent pointer"
+        },
+        "scope_relations": [],
+        "reference_relations": [],
+        "list_membership_relations": []
+      },
+      {
+        "block_id": "blk_848d33c02760de6e9a62eb2b",
+        "parent_relation": {
+          "status": "unresolved",
+          "target_block_ids": [],
+          "position_references": [
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c16-27",
+              "char_start": 16,
+              "char_end": 27,
+              "quote": "该复印件必须加盖公章。"
+            }
+          ],
+          "source_references": [
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c16-27",
+              "char_start": 16,
+              "char_end": 27,
+              "quote": "该复印件必须加盖公章。"
+            }
+          ],
+          "reason": "no legacy parent pointer"
+        },
+        "scope_relations": [
+          {
+            "relation_id": "cond_bbc4aecc0753360e830c03b1",
+            "relation_type": "anaphoric_attribute_scope",
+            "kind": "attribute_scope",
+            "operator": "ATTRIBUTE",
+            "status": "confirmed",
+            "operator_status": "confirmed",
+            "scope_status": "confirmed",
+            "basis": "adjacent_explicit_single_copy_attribute",
+            "target_block_ids": [
+              "blk_f917cb0ccd9578d7acde200b",
+              "blk_848d33c02760de6e9a62eb2b"
+            ],
+            "target_node_ids": [
+              "cond_5a379880b6dcb9f134346cd3",
+              "cond_6a076d3ac5dd8fa81163dafe"
+            ],
+            "member_node_ids": [
+              "cond_5a379880b6dcb9f134346cd3",
+              "cond_6a076d3ac5dd8fa81163dafe"
+            ],
+            "trigger_text": "该复印件必须加盖公章。",
+            "source_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c0-15",
+                "char_start": 0,
+                "char_end": 15,
+                "quote": "须提交法定代表人身份证复印件。"
+              },
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c16-27",
+                "char_start": 16,
+                "char_end": 27,
+                "quote": "该复印件必须加盖公章。"
+              }
+            ],
+            "scope_source_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c0-15",
+                "char_start": 0,
+                "char_end": 15,
+                "quote": "须提交法定代表人身份证复印件。"
+              },
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c16-27",
+                "char_start": 16,
+                "char_end": 27,
+                "quote": "该复印件必须加盖公章。"
+              }
+            ],
+            "candidate_target_source_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c0-15",
+                "char_start": 0,
+                "char_end": 15,
+                "quote": "须提交法定代表人身份证复印件。"
+              }
+            ],
+            "operator_source_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c16-27",
+                "char_start": 16,
+                "char_end": 27,
+                "quote": "该复印件必须加盖公章。"
+              }
+            ],
+            "boundary_source_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c0-15",
+                "char_start": 0,
+                "char_end": 15,
+                "quote": "须提交法定代表人身份证复印件。"
+              },
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c16-27",
+                "char_start": 16,
+                "char_end": 27,
+                "quote": "该复印件必须加盖公章。"
+              },
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c26-27",
+                "char_start": 26,
+                "char_end": 27,
+                "quote": "。"
+              }
+            ],
+            "reason": "one adjacent source-verified copy antecedent is explicitly bound"
+          }
+        ],
+        "reference_relations": [
+          {
+            "reference_id": "cond_1b7bddc09eb3d32095f54f80",
+            "reference_kind": "anaphora",
+            "reference_text": "该复印件",
+            "source_block_id": "blk_848d33c02760de6e9a62eb2b",
+            "status": "confirmed",
+            "target_block_ids": [
+              "blk_f917cb0ccd9578d7acde200b"
+            ],
+            "target_node_ids": [
+              "cond_5a379880b6dcb9f134346cd3"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c16-20",
+                "char_start": 16,
+                "char_end": 20,
+                "quote": "该复印件"
+              },
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c16-27",
+                "char_start": 16,
+                "char_end": 27,
+                "quote": "该复印件必须加盖公章。"
+              },
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c0-15",
+                "char_start": 0,
+                "char_end": 15,
+                "quote": "须提交法定代表人身份证复印件。"
+              }
+            ],
+            "expression_source_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c16-20",
+                "char_start": 16,
+                "char_end": 20,
+                "quote": "该复印件"
+              }
+            ],
+            "context_source_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c16-27",
+                "char_start": 16,
+                "char_end": 27,
+                "quote": "该复印件必须加盖公章。"
+              }
+            ],
+            "candidate_source_references": [],
+            "candidate_target_context_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c0-15",
+                "char_start": 0,
+                "char_end": 15,
+                "quote": "须提交法定代表人身份证复印件。"
+              }
+            ],
+            "reason": "referential expression has one source-verified antecedent"
+          }
+        ],
+        "list_membership_relations": []
+      }
+    ],
+    "condition_nodes": [
+      {
+        "node_id": "cond_5a379880b6dcb9f134346cd3",
+        "op": "ATOM",
+        "status": "confirmed",
+        "text": "须提交法定代表人身份证复印件。",
+        "children": [],
+        "source_block_ids": [
+          "blk_f917cb0ccd9578d7acde200b"
+        ],
+        "source_references": [
+          {
+            "document_id": "file_2a13d3af56ce4543",
+            "source_version": "file_2a13d3af56ce4543:v1",
+            "page": 1,
+            "locator": "p1:c0-15",
+            "char_start": 0,
+            "char_end": 15,
+            "quote": "须提交法定代表人身份证复印件。"
+          }
+        ],
+        "parent_relations": [],
+        "reason": "explicit requirement predicate is source-verified"
+      },
+      {
+        "node_id": "cond_6a076d3ac5dd8fa81163dafe",
+        "op": "ATOM",
+        "status": "confirmed",
+        "text": "该复印件必须加盖公章。",
+        "children": [],
+        "source_block_ids": [
+          "blk_848d33c02760de6e9a62eb2b"
+        ],
+        "source_references": [
+          {
+            "document_id": "file_2a13d3af56ce4543",
+            "source_version": "file_2a13d3af56ce4543:v1",
+            "page": 1,
+            "locator": "p1:c16-27",
+            "char_start": 16,
+            "char_end": 27,
+            "quote": "该复印件必须加盖公章。"
+          }
+        ],
+        "parent_relations": [
+          {
+            "relation_id": "cond_4437a063387358f4a3d45b7e",
+            "status": "confirmed",
+            "layer": "attribute_parent",
+            "basis": "explicit_adjacent_single_copy_attribute",
+            "target_block_ids": [
+              "blk_f917cb0ccd9578d7acde200b"
+            ],
+            "target_node_ids": [
+              "cond_5a379880b6dcb9f134346cd3"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c0-15",
+                "char_start": 0,
+                "char_end": 15,
+                "quote": "须提交法定代表人身份证复印件。"
+              },
+              {
+                "document_id": "file_2a13d3af56ce4543",
+                "source_version": "file_2a13d3af56ce4543:v1",
+                "page": 1,
+                "locator": "p1:c16-27",
+                "char_start": 16,
+                "char_end": 27,
+                "quote": "该复印件必须加盖公章。"
+              }
+            ],
+            "reason": "one adjacent source-verified copy antecedent is explicitly bound"
+          }
+        ],
+        "reason": "explicit requirement predicate is source-verified",
+        "scope_relation": {
+          "relation_id": "cond_bbc4aecc0753360e830c03b1",
+          "relation_type": "anaphoric_attribute_scope",
+          "kind": "attribute_scope",
+          "operator": "ATTRIBUTE",
+          "status": "confirmed",
+          "operator_status": "confirmed",
+          "scope_status": "confirmed",
+          "basis": "adjacent_explicit_single_copy_attribute",
+          "target_block_ids": [
+            "blk_f917cb0ccd9578d7acde200b",
+            "blk_848d33c02760de6e9a62eb2b"
+          ],
+          "target_node_ids": [
+            "cond_5a379880b6dcb9f134346cd3",
+            "cond_6a076d3ac5dd8fa81163dafe"
+          ],
+          "member_node_ids": [
+            "cond_5a379880b6dcb9f134346cd3",
+            "cond_6a076d3ac5dd8fa81163dafe"
+          ],
+          "trigger_text": "该复印件必须加盖公章。",
+          "source_references": [
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c0-15",
+              "char_start": 0,
+              "char_end": 15,
+              "quote": "须提交法定代表人身份证复印件。"
+            },
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c16-27",
+              "char_start": 16,
+              "char_end": 27,
+              "quote": "该复印件必须加盖公章。"
+            }
+          ],
+          "scope_source_references": [
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c0-15",
+              "char_start": 0,
+              "char_end": 15,
+              "quote": "须提交法定代表人身份证复印件。"
+            },
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c16-27",
+              "char_start": 16,
+              "char_end": 27,
+              "quote": "该复印件必须加盖公章。"
+            }
+          ],
+          "candidate_target_source_references": [
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c0-15",
+              "char_start": 0,
+              "char_end": 15,
+              "quote": "须提交法定代表人身份证复印件。"
+            }
+          ],
+          "operator_source_references": [
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c16-27",
+              "char_start": 16,
+              "char_end": 27,
+              "quote": "该复印件必须加盖公章。"
+            }
+          ],
+          "boundary_source_references": [
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c0-15",
+              "char_start": 0,
+              "char_end": 15,
+              "quote": "须提交法定代表人身份证复印件。"
+            },
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c16-27",
+              "char_start": 16,
+              "char_end": 27,
+              "quote": "该复印件必须加盖公章。"
+            },
+            {
+              "document_id": "file_2a13d3af56ce4543",
+              "source_version": "file_2a13d3af56ce4543:v1",
+              "page": 1,
+              "locator": "p1:c26-27",
+              "char_start": 26,
+              "char_end": 27,
+              "quote": "。"
+            }
+          ],
+          "reason": "one adjacent source-verified copy antecedent is explicitly bound"
+        }
+      }
+    ],
+    "roots": [
+      "cond_5a379880b6dcb9f134346cd3",
+      "cond_6a076d3ac5dd8fa81163dafe"
+    ],
+    "references": [
+      {
+        "reference_id": "cond_1b7bddc09eb3d32095f54f80",
+        "reference_kind": "anaphora",
+        "reference_text": "该复印件",
+        "source_block_id": "blk_848d33c02760de6e9a62eb2b",
+        "status": "confirmed",
+        "target_block_ids": [
+          "blk_f917cb0ccd9578d7acde200b"
+        ],
+        "target_node_ids": [
+          "cond_5a379880b6dcb9f134346cd3"
+        ],
+        "source_references": [
+          {
+            "document_id": "file_2a13d3af56ce4543",
+            "source_version": "file_2a13d3af56ce4543:v1",
+            "page": 1,
+            "locator": "p1:c16-20",
+            "char_start": 16,
+            "char_end": 20,
+            "quote": "该复印件"
+          },
+          {
+            "document_id": "file_2a13d3af56ce4543",
+            "source_version": "file_2a13d3af56ce4543:v1",
+            "page": 1,
+            "locator": "p1:c16-27",
+            "char_start": 16,
+            "char_end": 27,
+            "quote": "该复印件必须加盖公章。"
+          },
+          {
+            "document_id": "file_2a13d3af56ce4543",
+            "source_version": "file_2a13d3af56ce4543:v1",
+            "page": 1,
+            "locator": "p1:c0-15",
+            "char_start": 0,
+            "char_end": 15,
+            "quote": "须提交法定代表人身份证复印件。"
+          }
+        ],
+        "expression_source_references": [
+          {
+            "document_id": "file_2a13d3af56ce4543",
+            "source_version": "file_2a13d3af56ce4543:v1",
+            "page": 1,
+            "locator": "p1:c16-20",
+            "char_start": 16,
+            "char_end": 20,
+            "quote": "该复印件"
+          }
+        ],
+        "context_source_references": [
+          {
+            "document_id": "file_2a13d3af56ce4543",
+            "source_version": "file_2a13d3af56ce4543:v1",
+            "page": 1,
+            "locator": "p1:c16-27",
+            "char_start": 16,
+            "char_end": 27,
+            "quote": "该复印件必须加盖公章。"
+          }
+        ],
+        "candidate_source_references": [],
+        "candidate_target_context_references": [
+          {
+            "document_id": "file_2a13d3af56ce4543",
+            "source_version": "file_2a13d3af56ce4543:v1",
+            "page": 1,
+            "locator": "p1:c0-15",
+            "char_start": 0,
+            "char_end": 15,
+            "quote": "须提交法定代表人身份证复印件。"
+          }
+        ],
+        "reason": "referential expression has one source-verified antecedent"
+      }
+    ],
+    "coverage_status": "partial",
+    "needs_human_review": true,
+    "warnings": [],
+    "source_identity_status": "registry_verified",
+    "source_reference_status": "verified"
+  },
+  "source_context": {
+    "document_id": "file_2a13d3af56ce4543",
+    "source_version": "file_2a13d3af56ce4543:v1",
+    "pages": [
+      "须提交法定代表人身份证复印件。\n该复印件必须加盖公章。"
+    ],
+    "raw_input_sha256": "41b364624ee0b41eeb281cff1d03bba2e5b2a9fdd560c0f5a35b3357c0f0c8c5"
+  },
+  "runtime": {
+    "execution_state": "executed",
+    "reason": "",
+    "registered_input_sha256": "41b364624ee0b41eeb281cff1d03bba2e5b2a9fdd560c0f5a35b3357c0f0c8c5",
+    "intake_status": "success",
+    "decomposition_status": "success"
+  },
+  "source_check": {
+    "checked_references": 22,
+    "unique_references": 4,
+    "raw_offsets_checked": 22,
+    "invalid_references": 0,
+    "line_numbers_derived": 22,
+    "line_numbers_supplied": 0,
+    "failures": []
+  },
+  "frozen_score": {
+    "case_id": "case-09",
+    "status": "passed",
+    "expected_confirmed_atom_ids": [
+      "A1",
+      "A2"
+    ],
+    "matched_atom_ids": [
+      "A1",
+      "A2"
+    ],
+    "confirmed_group_ids": [
+      "S1"
+    ],
+    "matched_group_ids": [
+      "S1"
+    ],
+    "group_status_review_count": 0,
+    "actual_source_validation": {
+      "checked_references": 22,
+      "unique_references": 4,
+      "raw_offsets_checked": 22,
+      "invalid_references": 0,
+      "line_numbers_derived": 22,
+      "line_numbers_supplied": 0
+    },
+    "event_counts": {
+      "error_events": 0,
+      "group_structure_error_events": 0
+    },
+    "metrics": {
+      "condition_omission": {
+        "numerator": 0,
+        "denominator": 2
+      },
+      "wrong_merge_pairs": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "wrong_split_atom_units": {
+        "numerator": 0,
+        "denominator": 2
+      },
+      "scope_membership_decisions": {
+        "numerator": 0,
+        "denominator": 2
+      },
+      "operator_group_structure": {
+        "numerator": 0,
+        "denominator": 0
+      },
+      "operator_evidence": {
+        "numerator": 0,
+        "denominator": 0
+      },
+      "scope_evidence": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "boundary_evidence": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "parent_relations": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "reference_relations": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "forbidden_claims": {
+        "numerator": 0,
+        "denominator": 0
+      },
+      "review_handling": {
+        "numerator": 0,
+        "denominator": 0,
+        "raw_needs_review_items": 0
+      },
+      "source_coverage": {
+        "numerator": 0,
+        "denominator": 2
+      },
+      "source_invalid": {
+        "numerator": 0,
+        "denominator": 22
+      }
+    },
+    "errors": [],
+    "evaluator_version": "1.0.3"
+  }
+}

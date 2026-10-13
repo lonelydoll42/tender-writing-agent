@@ -1,0 +1,65 @@
+Final worker evidence
+Date: 2026-10-14
+Classification: public development work; no unseen or production claim.
+
+Frozen inputs were left unchanged:
+  contract.md SHA-256:
+    8204635e3ece53755fe488c05900c161d92c9dd6d0d1c3d53fff2d80612ac2f1
+  cases.json SHA-256:
+    64c876600b0c7ba0ae504831f1a401d89c34bc0405c50ea6d6d5e080e7396605
+  scope-freeze.json SHA-256:
+    2969bc885fbb15638c37f286d3d0b85f23d57918a6bf432ad70bc9958f4d1a2a
+
+Final code hashes:
+  src/qiaowenshu_agent/domain/document_relations.py:
+    4d9b208e3f2f805a9610bb8ea9629bb5e23be6ae079e1658fdd411425af55d57
+  scripts/run_document_relations_attribute_eval.py:
+    a4ffb56592e33677a4b0e8e1b1bf7fc36315678722e9e221e12c69e484745a90
+  tests/test_document_relations_attributes.py:
+    b686715942fde2c350114483a68abdb74cf80d0f5a9c82ec9372baf58bcb8e29
+
+Semantic boundary diagnosis:
+  The original predicate search accepted any occurrence of "必须/须/应/需
+  加盖公章" in the attribute block. It could therefore bind another subject's
+  seal instruction to "该复印件", even when source identities and coordinates
+  were valid and the anaphora itself correctly targeted the antecedent.
+  Reviewer post-page checks recorded both comma and semicolon subject-switch
+  probes as executed failures, with 30 source references checked and zero
+  invalid. The worker reproduced the comma case as a real graph-level failure:
+  one antecedent ATOM, one attribute ATOM, confirmed exact anaphora, but an
+  incorrectly confirmed attribute scope. The failing JUnit XML and exact source
+  and test snapshots are retained in the task acceptance scratch and this
+  worker directory.
+
+Final verification:
+  worker/attribute-eval-12-current.json
+    Registry/Runtime cases: 12/12 executed, 12/12 semantic pass.
+    Positive cases: 4/4 exact scopes, typed parents, references and source roles.
+    Review cases: 8/8 candidate/unresolved, no confirmed attribute parent.
+    Existing source checker: 241/241 references valid.
+    Product source SHA-256 in report matches the final source above.
+  tests/test_document_relations_attributes.py and
+  tests/test_document_relations.py: 149 passed.
+  JUnit XML: .qiaowenshu/acceptance/attribute-followup-20261014/
+  focused-public-probes-final.xml
+  Ruff: passed for the product module, new focused test and new runner.
+  git diff --check: passed for the product module.
+  The independent post-delegation public probes are covered by tests but were
+  not appended to or represented as part of the frozen cases.json.
+
+The initial pre-page-fix test run raised KeyError('page_number') before graph
+creation and is retained separately; it is not counted as a semantic failure.
+The page value is stored on each record's block and the lookup now uses that
+field.
+
+Limits and remaining review:
+  The affirmative confirmation is intentionally narrow: the full attribute
+  block must be a single explicit "该复印件 + affirmative modal + 加盖公章"
+  predicate. Other wording and syntactically expanded clauses remain review
+  candidates, even where a human might resolve them.
+  This is not a general Chinese clause parser, does not infer identity or time,
+  and does not run the 18-case, all-14-case, unseen, enterprise-material or
+  production evaluations. The main reviewer should perform the planned final
+  independent rerun after source freeze.
+  No scorer, oracle, prior evaluator, frozen input, old test or uv.lock was
+  edited. No commit or push was performed.

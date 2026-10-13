@@ -1,0 +1,9 @@
+{
+  "schema": "main-acceptance-format-attempt-v1",
+  "status": "failed",
+  "source_snapshot": "benchmarks/document_relations/reports/attribute-followup-20261014/reviewer/first-check-acceptance.py.txt",
+  "source_snapshot_sha256": "8b17bb37293f906d542df69a757782d34550ebf9b6cdc79bd5428c7bbc6d77d1",
+  "ruff_errors": 12,
+  "error_code": "E501",
+  "correction": "Format the new acceptance tool only; no product or grader changes."
+}

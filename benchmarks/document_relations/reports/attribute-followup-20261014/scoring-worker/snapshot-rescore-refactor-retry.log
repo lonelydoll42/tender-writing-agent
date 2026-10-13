@@ -1,0 +1,35 @@
+PYTHONDONTWRITEBYTECODE=1 python -m pytest -p no:cacheprovider --basetemp=.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp tests/evals/test_document_relations_snapshot_rescore.py -q
+...........F.....                                                        [100%]
+================================== FAILURES ===================================
+_____________ test_changed_attribute_contract_freeze_is_rejected ______________
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_changed_attribute_contrac0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000000079B7100>
+
+    def test_changed_attribute_contract_freeze_is_rejected(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        changed_contract = tmp_path / "contract.md"
+        changed_contract.write_bytes(snapshot_rescore.CONTRACT_PATH.read_bytes())
+        with changed_contract.open("ab") as handle:
+            handle.write(b"\n")
+        monkeypatch.setattr(snapshot_rescore, "CONTRACT_PATH", changed_contract)
+    
+>       with pytest.raises(ValueError, match="attribute contract SHA-256"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'attribute contract SHA-256'
+E         Actual message: 'attribute contract/cases/scope freeze identity is invalid'
+
+tests\evals\test_document_relations_snapshot_rescore.py:280: AssertionError
+============================== warnings summary ===============================
+D:\Miniconda3\Lib\site-packages\_pytest\config\__init__.py:1464
+  D:\Miniconda3\Lib\site-packages\_pytest\config\__init__.py:1464: PytestConfigWarning: Unknown config option: asyncio_mode
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/evals/test_document_relations_snapshot_rescore.py::test_changed_attribute_contract_freeze_is_rejected
+1 failed, 16 passed, 1 warning in 3.87s
+EXIT_CODE=1

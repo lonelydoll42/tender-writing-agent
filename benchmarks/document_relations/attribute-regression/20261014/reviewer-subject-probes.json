@@ -1,0 +1,18 @@
+{
+  "schema": "finite-copy-attribute-cases-v1",
+  "classification": "public reviewer subject-switch probes added after initial implementation inspection; not pre-development or unseen",
+  "cases": [
+    {
+      "case_id": "RS01-comma-subject-switch",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证复印件。\n该复印件作为附件保存，授权书必须加盖公章。",
+      "attribute_text": "该复印件作为附件保存，授权书必须加盖公章。"
+    },
+    {
+      "case_id": "RS02-semicolon-subject-switch",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证复印件。\n该复印件必须提交；授权书须加盖公章。",
+      "attribute_text": "该复印件必须提交；授权书须加盖公章。"
+    }
+  ]
+}

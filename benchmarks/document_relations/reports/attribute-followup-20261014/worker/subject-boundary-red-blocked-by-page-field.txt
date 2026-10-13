@@ -1,0 +1,18 @@
+Public development probe added after the frozen case batch; it is not part of
+the pre-implementation contract or cases.json.
+
+Input:
+  antecedent: "須提交身份证复印件。"
+  attribute:  "该复印件作为附件保存，授权书必须加盖公章。"
+
+The source structure contained non-empty source references for both blocks,
+matching document_id/source_version and exact block quotes. The focused pytest
+run failed before producing a graph because _finite_copy_attribute_decision
+read record["page_number"], while page_number is stored on record["block"].
+This is a setup defect, not evidence for or against the subject-attribution
+hypothesis. The original JUnit XML is retained in ignored task scratch at
+.qiaowenshu/acceptance/attribute-followup-20261014/other-subject-before-page-fix.xml.
+
+Exact test and source snapshots from this run:
+  test-subject-boundary-red.py
+  source-subject-boundary-prepage-fix.py

@@ -1,0 +1,8 @@
+{
+  "schema": "audit-command-correction-v1",
+  "first_command_result": "Stopped at the Chinese-named notice fixture; no audit report emitted",
+  "cause": "git ls-files quoted Unicode paths by default, while frozen paths use literal Unicode; this was an inventory-key mismatch, not an observed file-byte change",
+  "corrected_command": "git -c core.quotepath=false ls-files -s",
+  "independent_check": "Working SHA and staged blob of the notice fixture match freeze after literal-path inventory is used",
+  "code_archive_base_tree": "27bd0d493beed31d10484595659f400f8025d943"
+}

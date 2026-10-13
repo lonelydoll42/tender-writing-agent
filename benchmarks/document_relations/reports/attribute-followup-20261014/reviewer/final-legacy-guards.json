@@ -1,0 +1,36 @@
+{
+  "schema": "attribute-final-legacy-guards-v1",
+  "capture_sha256": "68bc7742f83dfadb37845c507a9c970c70b930316b9b17ccc3b74a849e9775c8",
+  "overlay_sha256": "526a08805b88192d2351a0c0b45f9cd6060745ba1a931919e069e9d104c86d02",
+  "frozen_guards_unchanged": true,
+  "results": [
+    {
+      "guard": "current",
+      "exit_code": 2,
+      "output_created": false,
+      "raw_command_output": [
+        "usage: run_document_relations_current_rescore.py [-h] --bundle BUNDLE",
+        "                                                 --product-report PRODUCT_REPORT",
+        "                                                 --expected-report-sha256 EXPECTED_REPORT_SHA256",
+        "                                                 --output OUTPUT",
+        "                                                 [--main-reviewer-authorized]",
+        "run_document_relations_current_rescore.py: error: product report does not match the expected current product source-tree"
+      ]
+    },
+    {
+      "guard": "historical",
+      "exit_code": 2,
+      "output_created": false,
+      "raw_command_output": [
+        "usage: run_document_relations_boundary_rescore.py [-h] --bundle BUNDLE",
+        "                                                  --product-report PRODUCT_REPORT",
+        "                                                  --overlay OVERLAY",
+        "                                                  --expected-overlay-sha256 EXPECTED_OVERLAY_SHA256",
+        "                                                  --expected-report-sha256 EXPECTED_REPORT_SHA256",
+        "                                                  --output OUTPUT",
+        "                                                  [--main-reviewer-authorized]",
+        "run_document_relations_boundary_rescore.py: error: historical overlay frozen identity does not match the report/rules"
+      ]
+    }
+  ]
+}

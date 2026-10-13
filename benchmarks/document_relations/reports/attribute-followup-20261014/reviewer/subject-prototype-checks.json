@@ -1,0 +1,44 @@
+{
+  "schema": "finite-copy-attribute-main-acceptance-v1",
+  "generated_at": "2026-10-14T01:25:20.977610+08:00",
+  "classification": "independent public actual product checks; not unseen",
+  "acceptance_tool_sha256": "1ac46c6172ade814cbfc0c6d723372b3c08a5e2a6531f50afbf1d3022ac59244",
+  "source_tree_sha256": "1182e48f565445f8f278976d923faaf8a29485353214a583d1e072e5da29c81f",
+  "cases": [
+    {
+      "case_id": "RS01-comma-subject-switch",
+      "execution_state": "failed",
+      "status": "failed",
+      "errors": [
+        "actual decomposition graph missing"
+      ]
+    },
+    {
+      "case_id": "RS02-semicolon-subject-switch",
+      "execution_state": "failed",
+      "status": "failed",
+      "errors": [
+        "actual decomposition graph missing"
+      ]
+    }
+  ],
+  "graph_mutations": [],
+  "mutation_execution": "not_run_original_positive_unavailable",
+  "input_fixtures": [
+    {
+      "path": ".qiaowenshu\\acceptance\\attribute-followup-20261014\\subject-prototype\\benchmarks\\document_relations\\attribute-regression\\20261014\\reviewer-subject-probes.json",
+      "sha256": "cfeffaedbe984e5c8e817a4f83a5852ccae8aee275bfba5c4b0b0d22061cd4b6"
+    }
+  ],
+  "summary": {
+    "total": 2,
+    "passed": 0,
+    "executed": 0,
+    "semantic_mutations_rejected": 0,
+    "source_mutations_rejected": 0,
+    "source_invalid": 0,
+    "source_checked": 0
+  },
+  "unseen_evaluation": "not_run",
+  "production_accepted": false
+}

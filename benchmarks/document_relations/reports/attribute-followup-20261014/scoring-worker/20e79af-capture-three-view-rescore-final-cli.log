@@ -1,0 +1,3 @@
+python -m scripts.run_document_relations_snapshot_rescore --bundle benchmarks/document_relations/reserved/v2 --product-report benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-product-20e79af-capture.json --expected-report-sha256 c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066 --expected-source-tree-sha256 51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34 --output benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/20e79af-capture-three-view-rescore-final.json --main-reviewer-authorized
+CLI_EXIT_CODE=1
+CAPTURE_SHA256=c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066

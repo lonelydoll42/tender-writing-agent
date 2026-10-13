@@ -1,0 +1,82 @@
+{
+  "schema": "finite-copy-attribute-cases-v1",
+  "classification": "public development regression; frozen before implementation, not unseen",
+  "cases": [
+    {
+      "case_id": "P01-original",
+      "expectation": "confirmed_attribute",
+      "input_text": "须提交法定代表人身份证复印件。\n该复印件必须加盖公章。",
+      "antecedent_text": "须提交法定代表人身份证复印件。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "P02-license",
+      "expectation": "confirmed_attribute",
+      "input_text": "投标人须提交营业执照复印件。\n该复印件须加盖公章。",
+      "antecedent_text": "投标人须提交营业执照复印件。",
+      "attribute_text": "该复印件须加盖公章。"
+    },
+    {
+      "case_id": "P03-certificate",
+      "expectation": "confirmed_attribute",
+      "input_text": "应提交项目经理证书复印件。\n该复印件必须加盖公章。",
+      "antecedent_text": "应提交项目经理证书复印件。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "P04-blank",
+      "expectation": "confirmed_attribute",
+      "input_text": "须提交法定代表人身份证复印件。\n\n该复印件必须加盖公章。",
+      "antecedent_text": "须提交法定代表人身份证复印件。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "N01-two-antecedents",
+      "expectation": "review_attribute",
+      "input_text": "须提交法定代表人身份证复印件。\n须提交营业执照复印件。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "N02-compound-object",
+      "expectation": "review_attribute",
+      "input_text": "须提交法定代表人身份证复印件及营业执照复印件。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "N03-interruption",
+      "expectation": "review_attribute",
+      "input_text": "须提交法定代表人身份证复印件。\n须提供审计报告。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "N04-heading-boundary",
+      "expectation": "review_attribute",
+      "input_text": "须提交法定代表人身份证复印件。\n第二章 其他事项\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "N05-page-boundary",
+      "expectation": "review_attribute",
+      "input_text": "须提交法定代表人身份证复印件。\f该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "N06-generic-object",
+      "expectation": "review_attribute",
+      "input_text": "须提交法定代表人身份证复印件。\n该材料必须加盖公章。",
+      "attribute_text": "该材料必须加盖公章。"
+    },
+    {
+      "case_id": "N07-negated-property",
+      "expectation": "review_attribute",
+      "input_text": "须提交法定代表人身份证复印件。\n该复印件无需加盖公章。",
+      "attribute_text": "该复印件无需加盖公章。"
+    },
+    {
+      "case_id": "N08-conditional-property",
+      "expectation": "review_attribute",
+      "input_text": "须提交法定代表人身份证复印件。\n该复印件如为彩色则须加盖公章。",
+      "attribute_text": "该复印件如为彩色则须加盖公章。"
+    }
+  ]
+}

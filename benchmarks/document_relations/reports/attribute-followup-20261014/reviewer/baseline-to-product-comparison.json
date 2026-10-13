@@ -1,0 +1,359 @@
+{
+  "schema": "attribute-baseline-product-comparison-v1",
+  "baseline_report": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-scores.json",
+  "baseline_report_sha256": "620db613b5138c7be007e078f60a46bef44e4c263f90f1a3767b8f7b21a3fbb9",
+  "current_report": "benchmarks/document_relations/reports/attribute-followup-20261014/reviewer/canonical-v2-three-view-scores.json",
+  "current_report_sha256": "ed001b9f6c56634df935941648a19cc5648ddd6182deb49bde7fea13369b3604",
+  "changed_case_ids": [
+    "case-09",
+    "case-10"
+  ],
+  "frozen_grader_or_oracle_changed": false,
+  "raw_graphs_synthesized": false,
+  "comparison_scope": "Per-case status and all metric objects; independent runs have new Registry identities. Within each three-view scoring, exact replay material fingerprints are preserved.",
+  "cases": [
+    {
+      "case_id": "case-01",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-02",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-03",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-04",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-05",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-06",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-07",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-08",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-09",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "failed",
+          "after_status": "passed",
+          "changed_metrics": [
+            "parent_relations",
+            "reference_relations",
+            "scope_membership_decisions",
+            "source_invalid"
+          ]
+        },
+        "1.0.4": {
+          "before_status": "failed",
+          "after_status": "passed",
+          "changed_metrics": [
+            "parent_relations",
+            "reference_relations",
+            "scope_membership_decisions",
+            "source_invalid"
+          ]
+        },
+        "1.0.5": {
+          "before_status": "failed",
+          "after_status": "passed",
+          "changed_metrics": [
+            "parent_relations",
+            "reference_relations",
+            "scope_membership_decisions",
+            "source_invalid"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "case-10",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": [
+            "source_invalid"
+          ]
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": [
+            "source_invalid"
+          ]
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": [
+            "source_invalid"
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "case-11",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-12",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-13",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "changed_metrics": []
+        }
+      }
+    },
+    {
+      "case_id": "case-14",
+      "input_sha256_unchanged": true,
+      "fresh_execution_state": "executed",
+      "raw_capture_preserved_across_views": true,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "changed_metrics": []
+        }
+      }
+    }
+  ]
+}

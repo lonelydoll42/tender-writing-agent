@@ -1,0 +1,506 @@
+"""Independent public acceptance checks for actual copy-attribute output."""
+
+from __future__ import annotations
+
+import argparse
+import asyncio
+import hashlib
+import json
+import sys
+from copy import deepcopy
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+ROOT = Path(__file__).resolve().parents[4]
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
+
+from qiaowenshu_agent.core.contracts import SkillRequest  # noqa: E402
+from qiaowenshu_agent.core.files import ProjectFileRegistry  # noqa: E402
+from qiaowenshu_agent.core.runtime import AgentRuntime  # noqa: E402
+from qiaowenshu_agent.skills import build_default_registry  # noqa: E402
+from scripts import run_document_relations_rescore as rescorer  # noqa: E402
+from scripts.run_document_relations_eval import (  # noqa: E402
+    _source_tree_sha256,
+    _validate_graph_source_references,
+)
+from scripts.run_document_relations_negation_eval import _step  # noqa: E402
+
+
+def _objects(value: Any):
+    if isinstance(value, dict):
+        yield value
+        for item in value.values():
+            yield from _objects(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _objects(item)
+
+
+def _clauses_cited(
+    record: dict, *clauses: str, field: str = "source_references"
+) -> bool:
+    quotes = [
+        str(ref.get("quote", ""))
+        for ref in record.get(field, [])
+        if isinstance(ref, dict)
+    ]
+    return all(
+        any(clause.rstrip("。") in quote for quote in quotes) for clause in clauses
+    )
+
+
+def check_graph(case: dict, graph: dict, context: dict) -> dict:
+    errors = []
+    if (
+        graph.get("document_id") != context["document_id"]
+        or graph.get("source_version") != context["source_version"]
+    ):
+        errors.append("graph identity/version does not match Registry")
+    source = _validate_graph_source_references(graph, context)
+    if source["invalid_references"]:
+        errors.append("invalid registered source references")
+    nodes = graph.get("condition_nodes", [])
+    attributes = [n for n in nodes if n.get("text") == case["attribute_text"]]
+    refs = [
+        ref
+        for ref in graph.get("references", [])
+        if ref.get("reference_kind") == "anaphora"
+        and any(
+            case["attribute_text"].rstrip("。") in str(r.get("quote", ""))
+            for r in ref.get("source_references", [])
+        )
+    ]
+    attribute_blocks = {
+        block_id for node in attributes for block_id in node.get("source_block_ids", [])
+    } | {ref.get("source_block_id") for ref in refs}
+    scope_records = [
+        scope
+        for block in graph.get("block_relations", [])
+        if block.get("block_id") in attribute_blocks
+        for scope in block.get("scope_relations", [])
+        if scope.get("relation_type") == "anaphoric_attribute_scope"
+    ]
+    parent_records = [
+        parent
+        for node in nodes
+        if set(node.get("source_block_ids", [])) & attribute_blocks
+        for parent in node.get("parent_relations", [])
+    ]
+    if case["expectation"] == "confirmed_attribute":
+        anchors = [n for n in nodes if n.get("text") == case["antecedent_text"]]
+        if len(anchors) != 1 or len(attributes) != 1:
+            errors.append("exact separate anchor/attribute atoms missing")
+        else:
+            anchor, attr = anchors[0], attributes[0]
+            expected_nodes = {anchor["node_id"], attr["node_id"]}
+            expected_blocks = set(anchor["source_block_ids"]) | set(
+                attr["source_block_ids"]
+            )
+            if any(n.get("op") != "ATOM" for n in nodes) or len(nodes) != 2:
+                errors.append("invented logical wrapper or duplicate atom")
+            if anchor.get("status") != "confirmed" or attr.get("status") != "confirmed":
+                errors.append("positive atoms are not confirmed")
+            valid_scopes = [
+                scope
+                for scope in scope_records
+                if scope.get("status") == "confirmed"
+                and scope.get("scope_status", scope["status"]) == "confirmed"
+                and scope.get("operator") not in {"AND", "OR", "REQUIRED"}
+                and scope.get("operator_status") == "confirmed"
+                and set(scope.get("target_node_ids", [])) == expected_nodes
+                and set(scope.get("member_node_ids", [])) == expected_nodes
+                and set(scope.get("target_block_ids", [])) == expected_blocks
+                and _clauses_cited(
+                    scope, case["antecedent_text"], case["attribute_text"]
+                )
+                and _clauses_cited(
+                    scope,
+                    case["antecedent_text"],
+                    case["attribute_text"],
+                    field="scope_source_references",
+                )
+                and _clauses_cited(
+                    scope,
+                    case["antecedent_text"],
+                    case["attribute_text"],
+                    field="boundary_source_references",
+                )
+                and _clauses_cited(
+                    scope,
+                    case["attribute_text"],
+                    field="operator_source_references",
+                )
+            ]
+            if not valid_scopes:
+                errors.append("source-backed nonlogical exact attribute scope missing")
+            if not any(attr.get("scope_relation") == scope for scope in valid_scopes):
+                errors.append("attribute node/block scope interface disagrees")
+            valid_parents = [
+                parent
+                for parent in parent_records
+                if parent.get("status") == "confirmed"
+                and parent.get("layer") == "attribute_parent"
+                and parent.get("basis")
+                and set(parent.get("target_node_ids", [])) == {anchor["node_id"]}
+                and set(parent.get("target_block_ids", []))
+                == set(anchor["source_block_ids"])
+                and _clauses_cited(
+                    parent, case["antecedent_text"], case["attribute_text"]
+                )
+            ]
+            if not valid_parents:
+                errors.append("exact directed typed attribute parent missing")
+            valid_refs = [
+                ref
+                for ref in refs
+                if ref.get("status") == "confirmed"
+                and set(ref.get("target_node_ids", [])) == {anchor["node_id"]}
+                and set(ref.get("target_block_ids", []))
+                == set(anchor["source_block_ids"])
+                and _clauses_cited(ref, case["antecedent_text"], case["attribute_text"])
+            ]
+            if not valid_refs:
+                errors.append("exact anaphora target or bilateral evidence missing")
+    else:
+        if not any(
+            s.get("status") in {"candidate", "unresolved"} for s in scope_records
+        ):
+            errors.append("explicit attribute review relation missing")
+        if any(s.get("status") == "confirmed" for s in scope_records):
+            errors.append("review attribute incorrectly confirmed")
+        if any(
+            node.get("scope_relation", {}).get("relation_type")
+            == "anaphoric_attribute_scope"
+            and node["scope_relation"].get("status") == "confirmed"
+            for node in nodes
+            if set(node.get("source_block_ids", [])) & attribute_blocks
+        ):
+            errors.append("review attribute node scope incorrectly confirmed")
+        if any(
+            p.get("status") == "confirmed"
+            and p.get("layer")
+            in {"attribute_parent", "semantic_parent", "logical_parent"}
+            for p in parent_records
+        ):
+            errors.append("review attribute has a confirmed semantic binding")
+        if not graph.get("needs_human_review"):
+            errors.append("review boundary does not request human review")
+    return {
+        "status": "passed" if not errors else "failed",
+        "errors": errors,
+        "source_checked": source["checked_references"],
+        "source_invalid": source["invalid_references"],
+    }
+
+
+async def capture(case: dict) -> dict:
+    raw = case["input_text"].encode("utf-8")
+    registry = ProjectFileRegistry()
+    project = f"attribute-main-{case['case_id']}"
+    registration = registry.register(
+        project_id=project,
+        file_name=f"{case['case_id']}.txt",
+        file_role="tender",
+        content=raw,
+    )
+    file_id = registration.file.file_id
+    context = {
+        "document_id": file_id,
+        "source_version": registry.file_version_token(file_id),
+        "pages": case["input_text"].split("\f"),
+        "raw_input_sha256": hashlib.sha256(raw).hexdigest(),
+    }
+    runtime = AgentRuntime(
+        build_default_registry(file_registry=registry),
+        services={"file_registry": registry},
+    )
+    result = await runtime.run(
+        SkillRequest.create(
+            {
+                "project_id": project,
+                "file_ids": [file_id],
+                "bidder_file_ids": [],
+                "bidder_id": "",
+                "bidder_name": "",
+                "task": "分析招标文件",
+            }
+        )
+    )
+    intake_status, _ = _step(result, "tender-intake")
+    decomposition_status, data = _step(result, "tender-decomposition")
+    runtime_record = {
+        "run_status": str(result.status),
+        "intake_status": intake_status,
+        "decomposition_status": decomposition_status,
+        "step_failures": [
+            {
+                "skill": step.skill_name,
+                "status": step.result.status,
+                "error_code": step.result.error_code,
+                "message": step.result.message,
+            }
+            for step in result.steps
+            if step.result.status not in {"success", "partial"}
+        ],
+    }
+    if data is None or len(data.get("document_relations", [])) != 1:
+        return {
+            "case_id": case["case_id"],
+            "execution_state": "failed",
+            "status": "failed",
+            "errors": ["actual decomposition graph missing"],
+            "source_context": context,
+            "runtime": runtime_record,
+        }
+    graph = data["document_relations"][0]
+    checked = check_graph(case, graph, context)
+    if intake_status not in {"success", "partial"} or decomposition_status not in {
+        "success",
+        "partial",
+    }:
+        checked["status"] = "failed"
+        checked["errors"].append("Runtime intake/decomposition did not complete")
+    return {
+        "case_id": case["case_id"],
+        "expectation": case["expectation"],
+        "input_sha256": hashlib.sha256(raw).hexdigest(),
+        "execution_state": "executed",
+        **checked,
+        "actual_graph": graph,
+        "source_context": context,
+        "runtime": runtime_record,
+    }
+
+
+def mutations(case: dict, captured: dict) -> list[dict]:
+    graph = captured["actual_graph"]
+    _anchor, attr = graph["condition_nodes"]
+    output = []
+    for kind in (
+        "parent_wrong_target",
+        "parent_missing_antecedent",
+        "scope_missing_anchor",
+        "scope_extra_member",
+        "scope_fabricated_or",
+        "reference_wrong_target",
+        "reference_missing_antecedent",
+        "parent_logical_layer",
+        "scope_missing_attribute",
+        "scope_wrong_member_alias",
+        "scope_missing_membership_evidence",
+        "scope_missing_boundary_evidence",
+        "scope_missing_operator_evidence",
+        "scope_unconfirmed_operator",
+        "node_block_scope_disagrees",
+        "invalid_version",
+        "invalid_offset",
+    ):
+        changed = deepcopy(graph)
+        if kind == "node_block_scope_disagrees":
+            changed["condition_nodes"][1]["scope_relation"] = deepcopy(
+                changed["condition_nodes"][1]["scope_relation"]
+            )
+            changed["condition_nodes"][1]["scope_relation"]["reason"] = (
+                "inconsistent node representation"
+            )
+        for record in _objects(changed):
+            is_parent = record.get("layer") == "attribute_parent"
+            is_scope = record.get("relation_type") == "anaphoric_attribute_scope"
+            is_ref = record.get("reference_kind") == "anaphora"
+            if kind == "parent_wrong_target" and is_parent:
+                record["target_node_ids"] = [attr["node_id"]]
+                record["target_block_ids"] = attr["source_block_ids"]
+            if kind == "scope_missing_anchor" and is_scope:
+                record["target_node_ids"] = [attr["node_id"]]
+                record["target_block_ids"] = attr["source_block_ids"]
+            if kind == "scope_extra_member" and is_scope:
+                record["target_node_ids"] = [
+                    *record.get("target_node_ids", []),
+                    "nonexistent-third-member",
+                ]
+            if kind == "scope_fabricated_or" and is_scope:
+                record["operator"] = "OR"
+            if kind == "scope_missing_attribute" and is_scope:
+                record["target_node_ids"] = [_anchor["node_id"]]
+                record["target_block_ids"] = _anchor["source_block_ids"]
+            if kind == "scope_wrong_member_alias" and is_scope:
+                record["member_node_ids"] = ["unrelated-member"]
+            if kind == "scope_missing_membership_evidence" and is_scope:
+                record["scope_source_references"] = []
+            if kind == "scope_missing_boundary_evidence" and is_scope:
+                record["boundary_source_references"] = []
+            if kind == "scope_missing_operator_evidence" and is_scope:
+                record["operator_source_references"] = []
+            if kind == "scope_unconfirmed_operator" and is_scope:
+                record["operator_status"] = "candidate"
+            if kind == "reference_wrong_target" and is_ref:
+                record["target_node_ids"] = [attr["node_id"]]
+                record["target_block_ids"] = attr["source_block_ids"]
+            if (kind == "parent_missing_antecedent" and is_parent) or (
+                kind == "reference_missing_antecedent" and is_ref
+            ):
+                record["source_references"] = [
+                    ref
+                    for ref in record.get("source_references", [])
+                    if case["antecedent_text"].rstrip("。") not in ref.get("quote", "")
+                ]
+            if kind == "parent_logical_layer" and is_parent:
+                record["layer"] = "logical_parent"
+            if kind == "invalid_version" and "quote" in record:
+                record["source_version"] = "wrong-version"
+            if kind == "invalid_offset" and "char_start" in record:
+                record["char_start"] += 1
+        checked = check_graph(case, changed, captured["source_context"])
+        output.append(
+            {
+                "mutation": kind,
+                "kind": "source" if kind.startswith("invalid_") else "semantic",
+                "rejected": checked["status"] == "failed",
+                **checked,
+            }
+        )
+    oracle = json.loads(
+        (
+            ROOT / "benchmarks/document_relations/reserved/v2/machine-oracle.json"
+        ).read_bytes()
+    )
+    frozen_case = next(c for c in oracle["cases"] if c["case_id"] == "case-09")
+    original_scores = {
+        version: rescorer.score_case(
+            frozen_case, graph, captured["source_context"], version=version
+        )
+        for version in ("1.0.3", "1.0.4")
+    }
+    output.append(
+        {
+            "mutation": "unchanged_actual_positive",
+            "kind": "unchanged_actual_positive",
+            "accepted": all(s["status"] == "passed" for s in original_scores.values()),
+            "frozen_scores": original_scores,
+        }
+    )
+    return output
+
+
+async def run(case_files: list[Path] | None = None) -> dict:
+    fixtures = []
+    selected = case_files or [
+        Path(__file__).with_name(name)
+        for name in ("cases.json", "reviewer-public-probes.json")
+    ]
+    for path in selected:
+        payload = json.loads(path.read_bytes())
+        rows = payload.get("cases")
+        if (
+            payload.get("schema") != "finite-copy-attribute-cases-v1"
+            or not isinstance(rows, list)
+            or not rows
+        ):
+            raise ValueError("expected a nonempty public case fixture")
+        fixtures.extend(rows)
+    if len({c["case_id"] for c in fixtures}) != len(fixtures):
+        raise ValueError("duplicate public case IDs")
+    for case in fixtures:
+        if (
+            case.get("expectation") not in {"confirmed_attribute", "review_attribute"}
+            or not isinstance(case.get("input_text"), str)
+            or not case["input_text"].strip()
+            or not case.get("attribute_text")
+            or (
+                case["expectation"] == "confirmed_attribute"
+                and not case.get("antecedent_text")
+            )
+        ):
+            raise ValueError("invalid public case expectation or text")
+    results = []
+    for case in fixtures:
+        try:
+            results.append(await capture(case))
+        except Exception as exc:
+            results.append(
+                {
+                    "case_id": case["case_id"],
+                    "status": "failed",
+                    "execution_state": "failed",
+                    "errors": [f"{type(exc).__name__}: {exc}"],
+                }
+            )
+    original = next((r for r in results if r["case_id"] == "P01-original"), None)
+    original_case = next((c for c in fixtures if c["case_id"] == "P01-original"), None)
+    changed = (
+        mutations(original_case, original)
+        if original and original["status"] == "passed"
+        else []
+    )
+    return {
+        "schema": "finite-copy-attribute-main-acceptance-v1",
+        "generated_at": datetime.now().astimezone().isoformat(),
+        "classification": "independent public actual product checks; not unseen",
+        "acceptance_tool_sha256": hashlib.sha256(
+            Path(__file__).read_bytes()
+        ).hexdigest(),
+        "source_tree_sha256": _source_tree_sha256(ROOT),
+        "cases": results,
+        "graph_mutations": changed,
+        "mutation_execution": (
+            "executed" if changed else "not_run_original_positive_unavailable"
+        ),
+        "input_fixtures": [
+            {
+                "path": str(path),
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            }
+            for path in selected
+        ],
+        "summary": {
+            "total": len(results),
+            "passed": sum(r["status"] == "passed" for r in results),
+            "executed": sum(r["execution_state"] == "executed" for r in results),
+            "semantic_mutations_rejected": sum(
+                m.get("rejected", False) for m in changed if m.get("kind") == "semantic"
+            ),
+            "semantic_mutations_total": sum(
+                m.get("kind") == "semantic" for m in changed
+            ),
+            "source_mutations_rejected": sum(
+                m.get("rejected", False) for m in changed if m.get("kind") == "source"
+            ),
+            "source_mutations_total": sum(m.get("kind") == "source" for m in changed),
+            "source_invalid": sum(r.get("source_invalid", 0) for r in results),
+            "source_checked": sum(r.get("source_checked", 0) for r in results),
+        },
+        "unseen_evaluation": "not_run",
+        "production_accepted": False,
+    }
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--case-file", type=Path, action="append")
+    args = parser.parse_args()
+    if args.output.exists():
+        parser.error("output must be a new path")
+    report = asyncio.run(run(args.case_file))
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with args.output.open("x", encoding="utf-8", newline="\n") as stream:
+        json.dump(report, stream, ensure_ascii=False, indent=2)
+        stream.write("\n")
+    print(json.dumps(report["summary"]))
+    passed = report["summary"]["passed"] == report["summary"]["total"]
+    if report["graph_mutations"]:
+        passed = (
+            passed
+            and report["summary"]["semantic_mutations_rejected"]
+            == report["summary"]["semantic_mutations_total"]
+            and report["summary"]["source_mutations_rejected"]
+            == report["summary"]["source_mutations_total"]
+            and any(m.get("accepted") for m in report["graph_mutations"])
+        )
+    return 0 if passed else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

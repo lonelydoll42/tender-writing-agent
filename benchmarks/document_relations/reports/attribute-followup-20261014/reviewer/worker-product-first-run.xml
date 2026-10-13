@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="13" skipped="0" tests="19" time="2.328" timestamp="2026-10-14T01:17:00.188281+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.test_document_relations_attributes" name="test_adjacent_single_copy_attribute_has_exact_typed_relations[P01-original]" time="0.003"><failure message="KeyError: 'page_number'">case = {'case_id': 'P01-original', 'expectation': 'confirmed_attribute', 'input_text': '须提交法定代表人身份证复印件。\n该复印件必须加盖公章。', 'antecedent_text': '须提交法定代表人身份证复印件。', ...}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in _cases() if case["expectation"] == "confirmed_attribute"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_adjacent_single_copy_attribute_has_exact_typed_relations(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。'...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_77e8536601aff756b98c418c', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 1
+reference = {'reference_id': 'cond_bfd1a0fe7bfec6951285c527', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_77e8536601aff756b98c418c', ...}
+reference_text = '该复印件'
+record = {'index': 1, 'block': {'block_id': 'blk_77e8536601aff756b98c418c', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_77e8536601aff756b98c418c', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。',...malized_text': '须提交法定代表人身份证复印件。', ...}, 'block_id': 'blk_d2355872e21033087d2eb835', 'raw_text': '须提交法定代表人身份证复印件。', ...}
+antecedent_node = {'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交法定代表人身份证复印件。', ...}
+candidate_nodes = [{'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交法定代表人身份证复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_eb696f6ded2771a998f5d6fe', 'op': 'ATOM', 'status': 'confirmed', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_d2355872e21033087d2eb835': 1, 'blk_77e8536601aff756b98c418c': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_adjacent_single_copy_attribute_has_exact_typed_relations[P02-license]" time="0.001"><failure message="KeyError: 'page_number'">case = {'case_id': 'P02-license', 'expectation': 'confirmed_attribute', 'input_text': '投标人须提交营业执照复印件。\n该复印件须加盖公章。', 'antecedent_text': '投标人须提交营业执照复印件。', ...}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in _cases() if case["expectation"] == "confirmed_attribute"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_adjacent_single_copy_attribute_has_exact_typed_relations(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_26340217b51beb654ac2323d', 'kind': 'paragraph', 'raw_text': '投标人须提交营业执照复印件。',...章。', 'normalized_text': '该复印件须加盖公章。', ...}, 'block_id': 'blk_7255bd02ea579a9300876fe3', 'raw_text': '该复印件须加盖公章。', ...}]
+attribute_index = 1
+reference = {'reference_id': 'cond_41fa2767ff5d43993b3b9bb8', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_7255bd02ea579a9300876fe3', ...}
+reference_text = '该复印件'
+record = {'index': 1, 'block': {'block_id': 'blk_7255bd02ea579a9300876fe3', 'kind': 'paragraph', 'raw_text': '该复印件须加盖公章。', 'normalized_text': '该复印件须加盖公章。', ...}, 'block_id': 'blk_7255bd02ea579a9300876fe3', 'raw_text': '该复印件须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_26340217b51beb654ac2323d', 'kind': 'paragraph', 'raw_text': '投标人须提交营业执照复印件。', 'normalized_text': '投标人须提交营业执照复印件。', ...}, 'block_id': 'blk_26340217b51beb654ac2323d', 'raw_text': '投标人须提交营业执照复印件。', ...}
+antecedent_node = {'node_id': 'cond_b21c7c68ef8279e7cedcf8da', 'op': 'ATOM', 'status': 'confirmed', 'text': '投标人须提交营业执照复印件。', ...}
+candidate_nodes = [{'node_id': 'cond_b21c7c68ef8279e7cedcf8da', 'op': 'ATOM', 'status': 'confirmed', 'text': '投标人须提交营业执照复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_1354dd85cdc05b8ea2c5e975', 'op': 'ATOM', 'status': 'confirmed', 'text': '该复印件须加盖公章。', ...}]
+id_counts = {'blk_26340217b51beb654ac2323d': 1, 'blk_7255bd02ea579a9300876fe3': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_adjacent_single_copy_attribute_has_exact_typed_relations[P03-certificate]" time="0.001"><failure message="KeyError: 'page_number'">case = {'case_id': 'P03-certificate', 'expectation': 'confirmed_attribute', 'input_text': '应提交项目经理证书复印件。\n该复印件必须加盖公章。', 'antecedent_text': '应提交项目经理证书复印件。', ...}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in _cases() if case["expectation"] == "confirmed_attribute"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_adjacent_single_copy_attribute_has_exact_typed_relations(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_5e9ce86435363fb126a358a1', 'kind': 'paragraph', 'raw_text': '应提交项目经理证书复印件。', ...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_fa91d0636be2e1dad33288df', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 1
+reference = {'reference_id': 'cond_ad249ee9fcafe2aedf126f20', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_fa91d0636be2e1dad33288df', ...}
+reference_text = '该复印件'
+record = {'index': 1, 'block': {'block_id': 'blk_fa91d0636be2e1dad33288df', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_fa91d0636be2e1dad33288df', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_5e9ce86435363fb126a358a1', 'kind': 'paragraph', 'raw_text': '应提交项目经理证书复印件。', 'normalized_text': '应提交项目经理证书复印件。', ...}, 'block_id': 'blk_5e9ce86435363fb126a358a1', 'raw_text': '应提交项目经理证书复印件。', ...}
+antecedent_node = {'node_id': 'cond_b8320260eb852ca0d63038b5', 'op': 'ATOM', 'status': 'confirmed', 'text': '应提交项目经理证书复印件。', ...}
+candidate_nodes = [{'node_id': 'cond_b8320260eb852ca0d63038b5', 'op': 'ATOM', 'status': 'confirmed', 'text': '应提交项目经理证书复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_46fea899e77b30d381c23282', 'op': 'ATOM', 'status': 'confirmed', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_5e9ce86435363fb126a358a1': 1, 'blk_fa91d0636be2e1dad33288df': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_adjacent_single_copy_attribute_has_exact_typed_relations[P04-blank]" time="0.001"><failure message="KeyError: 'page_number'">case = {'case_id': 'P04-blank', 'expectation': 'confirmed_attribute', 'input_text': '须提交法定代表人身份证复印件。\n\n该复印件必须加盖公章。', 'antecedent_text': '须提交法定代表人身份证复印件。', ...}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in _cases() if case["expectation"] == "confirmed_attribute"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_adjacent_single_copy_attribute_has_exact_typed_relations(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。'...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_25b4ce0d5bc2707c50b97b50', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 2
+reference = {'reference_id': 'cond_065bf4ae9379a1117ba070d3', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_25b4ce0d5bc2707c50b97b50', ...}
+reference_text = '该复印件'
+record = {'index': 2, 'block': {'block_id': 'blk_25b4ce0d5bc2707c50b97b50', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_25b4ce0d5bc2707c50b97b50', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。',...malized_text': '须提交法定代表人身份证复印件。', ...}, 'block_id': 'blk_d2355872e21033087d2eb835', 'raw_text': '须提交法定代表人身份证复印件。', ...}
+antecedent_node = {'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交法定代表人身份证复印件。', ...}
+candidate_nodes = [{'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交法定代表人身份证复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_7b429156f21e3b1961df4cd6', 'op': 'ATOM', 'status': 'confirmed', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_d2355872e21033087d2eb835': 1, 'blk_02e0af3d9549b924d5bfea6b': 1, 'blk_25b4ce0d5bc2707c50b97b50': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_frozen_ambiguity_and_boundary_cases_remain_reviewable[N01-two-antecedents]" time="0.001"><failure message="KeyError: 'page_number'">case = {'case_id': 'N01-two-antecedents', 'expectation': 'review_attribute', 'input_text': '须提交法定代表人身份证复印件。\n须提交营业执照复印件。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in _cases() if case["expectation"] == "review_attribute"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_ambiguity_and_boundary_cases_remain_reviewable(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。'...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_66693bd42b1971214faef643', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 2
+reference = {'reference_id': 'cond_bf159cf33cad5a713413d570', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_66693bd42b1971214faef643', ...}
+reference_text = '该复印件'
+record = {'index': 2, 'block': {'block_id': 'blk_66693bd42b1971214faef643', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_66693bd42b1971214faef643', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 1, 'block': {'block_id': 'blk_70a53663706185e89b610027', 'kind': 'paragraph', 'raw_text': '须提交营业执照复印件。', 'normalized_text': '须提交营业执照复印件。', ...}, 'block_id': 'blk_70a53663706185e89b610027', 'raw_text': '须提交营业执照复印件。', ...}
+antecedent_node = None
+candidate_nodes = [{'node_id': 'cond_391a3dd25cf9ded29ce38663', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交营业执照复印件。', ...}, {'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交法定代表人身份证复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_201889bca66236aa41acaf62', 'op': 'ATOM', 'status': 'candidate', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_d2355872e21033087d2eb835': 1, 'blk_70a53663706185e89b610027': 1, 'blk_66693bd42b1971214faef643': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_frozen_ambiguity_and_boundary_cases_remain_reviewable[N02-compound-object]" time="0.001"><failure message="KeyError: 'page_number'">case = {'case_id': 'N02-compound-object', 'expectation': 'review_attribute', 'input_text': '须提交法定代表人身份证复印件及营业执照复印件。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in _cases() if case["expectation"] == "review_attribute"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_ambiguity_and_boundary_cases_remain_reviewable(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_65356ef90e1262a4f1559ec5', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件及营...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_71c724bc30c7739f3cfcf379', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 1
+reference = {'reference_id': 'cond_a7a82b304f0c8c3b947a0deb', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_71c724bc30c7739f3cfcf379', ...}
+reference_text = '该复印件'
+record = {'index': 1, 'block': {'block_id': 'blk_71c724bc30c7739f3cfcf379', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_71c724bc30c7739f3cfcf379', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_65356ef90e1262a4f1559ec5', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件及营业...须提交法定代表人身份证复印件及营业执照复印件。', ...}, 'block_id': 'blk_65356ef90e1262a4f1559ec5', 'raw_text': '须提交法定代表人身份证复印件及营业执照复印件。', ...}
+antecedent_node = None
+candidate_nodes = [{'node_id': 'cond_ebcdfb056cf04264e0361dbb', 'op': 'ATOM', 'status': 'confirmed', 'text': '营业执照复印件', ...}, {'node_id': 'cond_35f7b923b1e45123f831eb77', 'op': 'ATOM', 'status': 'confirmed', 'text': '法定代表人身份证复印件', ...}]
+attribute_roots = [{'node_id': 'cond_78e891cf4cc13a9a85e7b814', 'op': 'ATOM', 'status': 'candidate', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_65356ef90e1262a4f1559ec5': 1, 'blk_71c724bc30c7739f3cfcf379': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_frozen_ambiguity_and_boundary_cases_remain_reviewable[N03-interruption]" time="0.001"><failure message="KeyError: 'page_number'">case = {'case_id': 'N03-interruption', 'expectation': 'review_attribute', 'input_text': '须提交法定代表人身份证复印件。\n须提供审计报告。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in _cases() if case["expectation"] == "review_attribute"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_ambiguity_and_boundary_cases_remain_reviewable(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:166: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。'...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_532b53c34ac01d6eb48fc80a', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 2
+reference = {'reference_id': 'cond_fd0f4b29665b7e1ada215b50', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_532b53c34ac01d6eb48fc80a', ...}
+reference_text = '该复印件'
+record = {'index': 2, 'block': {'block_id': 'blk_532b53c34ac01d6eb48fc80a', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_532b53c34ac01d6eb48fc80a', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 1, 'block': {'block_id': 'blk_ad0382c532823ad28813c741', 'kind': 'paragraph', 'raw_text': '须提供审计报告。', 'normalized_text': '须提供审计报告。', ...}, 'block_id': 'blk_ad0382c532823ad28813c741', 'raw_text': '须提供审计报告。', ...}
+antecedent_node = {'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交法定代表人身份证复印件。', ...}
+candidate_nodes = [{'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交法定代表人身份证复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_868522ad4f6062de713e2749', 'op': 'ATOM', 'status': 'confirmed', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_d2355872e21033087d2eb835': 1, 'blk_ad0382c532823ad28813c741': 1, 'blk_532b53c34ac01d6eb48fc80a': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_frozen_ambiguity_and_boundary_cases_remain_reviewable[N04-heading-boundary]" time="0.001" /><testcase classname="tests.test_document_relations_attributes" name="test_frozen_ambiguity_and_boundary_cases_remain_reviewable[N05-page-boundary]" time="0.001" /><testcase classname="tests.test_document_relations_attributes" name="test_frozen_ambiguity_and_boundary_cases_remain_reviewable[N06-generic-object]" time="0.001" /><testcase classname="tests.test_document_relations_attributes" name="test_frozen_ambiguity_and_boundary_cases_remain_reviewable[N07-negated-property]" time="0.001" /><testcase classname="tests.test_document_relations_attributes" name="test_frozen_ambiguity_and_boundary_cases_remain_reviewable[N08-conditional-property]" time="0.001" /><testcase classname="tests.test_document_relations_attributes" name="test_one_atom_with_multiple_copy_objects_does_not_confirm_binding" time="0.001"><failure message="KeyError: 'page_number'">def test_one_atom_with_multiple_copy_objects_does_not_confirm_binding() -&gt; None:
+        antecedent_text = (
+            "须提交营业执照复印件（包括法定代表人身份证复印件）。"
+        )
+        attribute_text = "该复印件必须加盖公章。"
+        structure = _structure(f"{antecedent_text}\n{attribute_text}")
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:177: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_eda89b1f96cad196513f2f34', 'kind': 'paragraph', 'raw_text': '须提交营业执照复印件（包括法定代...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_47f2672f5c1812f3faf6cb6b', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 1
+reference = {'reference_id': 'cond_3ad0036265587a81c88ffd92', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_47f2672f5c1812f3faf6cb6b', ...}
+reference_text = '该复印件'
+record = {'index': 1, 'block': {'block_id': 'blk_47f2672f5c1812f3faf6cb6b', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_47f2672f5c1812f3faf6cb6b', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_eda89b1f96cad196513f2f34', 'kind': 'paragraph', 'raw_text': '须提交营业执照复印件（包括法定代表...照复印件（包括法定代表人身份证复印件）。', ...}, 'block_id': 'blk_eda89b1f96cad196513f2f34', 'raw_text': '须提交营业执照复印件（包括法定代表人身份证复印件）。', ...}
+antecedent_node = {'node_id': 'cond_506979bc0d521a69217d8b30', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交营业执照复印件（包括法定代表人身份证复印件）。', ...}
+candidate_nodes = [{'node_id': 'cond_506979bc0d521a69217d8b30', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交营业执照复印件（包括法定代表人身份证复印件）。', ...}]
+attribute_roots = [{'node_id': 'cond_ba6b874036d7332c32afd945', 'op': 'ATOM', 'status': 'confirmed', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_eda89b1f96cad196513f2f34': 1, 'blk_47f2672f5c1812f3faf6cb6b': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_alternative_antecedent_does_not_confirm_attribute_binding" time="0.001"><failure message="KeyError: 'page_number'">def test_alternative_antecedent_does_not_confirm_attribute_binding() -&gt; None:
+        antecedent_text = "须提交法定代表人身份证复印件或营业执照复印件。"
+        attribute_text = "该复印件必须加盖公章。"
+        structure = _structure(f"{antecedent_text}\n{attribute_text}")
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:191: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_311eee56562f76861a629fb1', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件或营...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_71c724bc30c7739f3cfcf379', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 1
+reference = {'reference_id': 'cond_a7a82b304f0c8c3b947a0deb', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_71c724bc30c7739f3cfcf379', ...}
+reference_text = '该复印件'
+record = {'index': 1, 'block': {'block_id': 'blk_71c724bc30c7739f3cfcf379', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_71c724bc30c7739f3cfcf379', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_311eee56562f76861a629fb1', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件或营业...须提交法定代表人身份证复印件或营业执照复印件。', ...}, 'block_id': 'blk_311eee56562f76861a629fb1', 'raw_text': '须提交法定代表人身份证复印件或营业执照复印件。', ...}
+antecedent_node = None
+candidate_nodes = [{'node_id': 'cond_d0efc6cb6e059c0e5a5e179f', 'op': 'ATOM', 'status': 'confirmed', 'text': '营业执照复印件', ...}, {'node_id': 'cond_171f24d2404f6b2f6079019a', 'op': 'ATOM', 'status': 'confirmed', 'text': '法定代表人身份证复印件', ...}]
+attribute_roots = [{'node_id': 'cond_78e891cf4cc13a9a85e7b814', 'op': 'ATOM', 'status': 'candidate', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_311eee56562f76861a629fb1': 1, 'blk_71c724bc30c7739f3cfcf379': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_physical_parent_pointer_cannot_authorize_nonadjacent_attribute" time="0.001"><failure message="KeyError: 'page_number'">def test_physical_parent_pointer_cannot_authorize_nonadjacent_attribute() -&gt; None:
+        antecedent_text = "须提交法定代表人身份证复印件。"
+        interruption_text = "须提供审计报告。"
+        attribute_text = "该复印件必须加盖公章。"
+        structure = _structure(
+            f"{antecedent_text}\n{interruption_text}\n{attribute_text}"
+        )
+        antecedent = _block_for_text(structure, antecedent_text)
+        attribute = _block_for_text(structure, attribute_text)
+        attribute["parent_block_id"] = antecedent["block_id"]
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:208: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。'...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_532b53c34ac01d6eb48fc80a', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 2
+reference = {'reference_id': 'cond_fd0f4b29665b7e1ada215b50', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_532b53c34ac01d6eb48fc80a', ...}
+reference_text = '该复印件'
+record = {'index': 2, 'block': {'block_id': 'blk_532b53c34ac01d6eb48fc80a', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_532b53c34ac01d6eb48fc80a', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 1, 'block': {'block_id': 'blk_ad0382c532823ad28813c741', 'kind': 'paragraph', 'raw_text': '须提供审计报告。', 'normalized_text': '须提供审计报告。', ...}, 'block_id': 'blk_ad0382c532823ad28813c741', 'raw_text': '须提供审计报告。', ...}
+antecedent_node = {'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交法定代表人身份证复印件。', ...}
+candidate_nodes = [{'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'confirmed', 'text': '须提交法定代表人身份证复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_868522ad4f6062de713e2749', 'op': 'ATOM', 'status': 'confirmed', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_d2355872e21033087d2eb835': 1, 'blk_ad0382c532823ad28813c741': 1, 'blk_532b53c34ac01d6eb48fc80a': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_forged_source_identity_coordinates_and_block_ids_never_confirm[document_id]" time="0.001"><failure message="KeyError: 'page_number'">tamper = 'document_id'
+
+    @pytest.mark.parametrize(
+        "tamper",
+        ["document_id", "source_version", "coordinates", "duplicate_block_id"],
+    )
+    def test_forged_source_identity_coordinates_and_block_ids_never_confirm(
+        tamper: str,
+    ) -&gt; None:
+        text = "须提交法定代表人身份证复印件。\n该复印件必须加盖公章。"
+        structure = _structure(text)
+        antecedent, attribute = structure["blocks"]
+    
+        if tamper == "document_id":
+            antecedent["source_references"][0]["document_id"] = "other-document"
+        elif tamper == "source_version":
+            antecedent["source_references"][0]["source_version"] = "other-version"
+        elif tamper == "coordinates":
+            antecedent["source_references"][0]["char_end"] += 1
+            antecedent["source_span"]["end"] += 1
+        else:
+            attribute["block_id"] = antecedent["block_id"]
+    
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:234: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。'...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_77e8536601aff756b98c418c', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 1
+reference = {'reference_id': 'cond_bfd1a0fe7bfec6951285c527', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_77e8536601aff756b98c418c', ...}
+reference_text = '该复印件'
+record = {'index': 1, 'block': {'block_id': 'blk_77e8536601aff756b98c418c', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_77e8536601aff756b98c418c', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。',...malized_text': '须提交法定代表人身份证复印件。', ...}, 'block_id': 'blk_d2355872e21033087d2eb835', 'raw_text': '须提交法定代表人身份证复印件。', ...}
+antecedent_node = {'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'unresolved', 'text': '须提交法定代表人身份证复印件。', ...}
+candidate_nodes = [{'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'unresolved', 'text': '须提交法定代表人身份证复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_eb696f6ded2771a998f5d6fe', 'op': 'ATOM', 'status': 'candidate', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_d2355872e21033087d2eb835': 1, 'blk_77e8536601aff756b98c418c': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_forged_source_identity_coordinates_and_block_ids_never_confirm[source_version]" time="0.001"><failure message="KeyError: 'page_number'">tamper = 'source_version'
+
+    @pytest.mark.parametrize(
+        "tamper",
+        ["document_id", "source_version", "coordinates", "duplicate_block_id"],
+    )
+    def test_forged_source_identity_coordinates_and_block_ids_never_confirm(
+        tamper: str,
+    ) -&gt; None:
+        text = "须提交法定代表人身份证复印件。\n该复印件必须加盖公章。"
+        structure = _structure(text)
+        antecedent, attribute = structure["blocks"]
+    
+        if tamper == "document_id":
+            antecedent["source_references"][0]["document_id"] = "other-document"
+        elif tamper == "source_version":
+            antecedent["source_references"][0]["source_version"] = "other-version"
+        elif tamper == "coordinates":
+            antecedent["source_references"][0]["char_end"] += 1
+            antecedent["source_span"]["end"] += 1
+        else:
+            attribute["block_id"] = antecedent["block_id"]
+    
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:234: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。'...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_77e8536601aff756b98c418c', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 1
+reference = {'reference_id': 'cond_bfd1a0fe7bfec6951285c527', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_77e8536601aff756b98c418c', ...}
+reference_text = '该复印件'
+record = {'index': 1, 'block': {'block_id': 'blk_77e8536601aff756b98c418c', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_77e8536601aff756b98c418c', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。',...malized_text': '须提交法定代表人身份证复印件。', ...}, 'block_id': 'blk_d2355872e21033087d2eb835', 'raw_text': '须提交法定代表人身份证复印件。', ...}
+antecedent_node = {'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'unresolved', 'text': '须提交法定代表人身份证复印件。', ...}
+candidate_nodes = [{'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'unresolved', 'text': '须提交法定代表人身份证复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_eb696f6ded2771a998f5d6fe', 'op': 'ATOM', 'status': 'candidate', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_d2355872e21033087d2eb835': 1, 'blk_77e8536601aff756b98c418c': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_forged_source_identity_coordinates_and_block_ids_never_confirm[coordinates]" time="0.001"><failure message="KeyError: 'page_number'">tamper = 'coordinates'
+
+    @pytest.mark.parametrize(
+        "tamper",
+        ["document_id", "source_version", "coordinates", "duplicate_block_id"],
+    )
+    def test_forged_source_identity_coordinates_and_block_ids_never_confirm(
+        tamper: str,
+    ) -&gt; None:
+        text = "须提交法定代表人身份证复印件。\n该复印件必须加盖公章。"
+        structure = _structure(text)
+        antecedent, attribute = structure["blocks"]
+    
+        if tamper == "document_id":
+            antecedent["source_references"][0]["document_id"] = "other-document"
+        elif tamper == "source_version":
+            antecedent["source_references"][0]["source_version"] = "other-version"
+        elif tamper == "coordinates":
+            antecedent["source_references"][0]["char_end"] += 1
+            antecedent["source_span"]["end"] += 1
+        else:
+            attribute["block_id"] = antecedent["block_id"]
+    
+&gt;       graph = build_document_relations(structure)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_attributes.py:234: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\qiaowenshu_agent\domain\document_relations.py:761: in build_document_relations
+    _add_finite_copy_attribute_relations(
+src\qiaowenshu_agent\domain\document_relations.py:4935: in _add_finite_copy_attribute_relations
+    positive, reason = _finite_copy_attribute_decision(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+records = [{'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。'...', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_77e8536601aff756b98c418c', 'raw_text': '该复印件必须加盖公章。', ...}]
+attribute_index = 1
+reference = {'reference_id': 'cond_bfd1a0fe7bfec6951285c527', 'reference_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_77e8536601aff756b98c418c', ...}
+reference_text = '该复印件'
+record = {'index': 1, 'block': {'block_id': 'blk_77e8536601aff756b98c418c', 'kind': 'paragraph', 'raw_text': '该复印件必须加盖公章。', 'normalized_text': '该复印件必须加盖公章。', ...}, 'block_id': 'blk_77e8536601aff756b98c418c', 'raw_text': '该复印件必须加盖公章。', ...}
+antecedent_record = {'index': 0, 'block': {'block_id': 'blk_d2355872e21033087d2eb835', 'kind': 'paragraph', 'raw_text': '须提交法定代表人身份证复印件。',...malized_text': '须提交法定代表人身份证复印件。', ...}, 'block_id': 'blk_d2355872e21033087d2eb835', 'raw_text': '须提交法定代表人身份证复印件。', ...}
+antecedent_node = {'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'unresolved', 'text': '须提交法定代表人身份证复印件。', ...}
+candidate_nodes = [{'node_id': 'cond_5555c0166a6d0871e9a53617', 'op': 'ATOM', 'status': 'unresolved', 'text': '须提交法定代表人身份证复印件。', ...}]
+attribute_roots = [{'node_id': 'cond_eb696f6ded2771a998f5d6fe', 'op': 'ATOM', 'status': 'candidate', 'text': '该复印件必须加盖公章。', ...}]
+id_counts = {'blk_d2355872e21033087d2eb835': 1, 'blk_77e8536601aff756b98c418c': 1}
+
+    def _finite_copy_attribute_decision(
+        *,
+        records: list[dict[str, Any]],
+        attribute_index: int,
+        reference: Mapping[str, Any],
+        reference_text: str,
+        record: Mapping[str, Any],
+        antecedent_record: Mapping[str, Any] | None,
+        antecedent_node: Mapping[str, Any] | None,
+        candidate_nodes: list[dict[str, Any]],
+        attribute_roots: list[dict[str, Any]],
+        id_counts: Mapping[str, int],
+    ) -&gt; tuple[bool, str]:
+        text = str(record["raw_text"])
+        if reference_text != "该复印件":
+            return False, "generic object expression requires attribute review"
+        if _find_negation(text):
+            return False, "negated seal instruction requires attribute review"
+        if _ATTRIBUTE_CONDITION_RE.search(text):
+            return False, "conditional seal instruction requires attribute review"
+        if not _AFFIRMATIVE_SEAL_RE.search(text):
+            return False, "unconditional affirmative seal requirement is not explicit"
+        if not record["source_valid"]:
+            return False, "attribute source identity or coordinates are unverified"
+        if id_counts.get(record["block_id"], 0) != 1:
+            return False, "attribute source block identifier is not unique"
+        if antecedent_record is None:
+            previous_index = attribute_index - 1
+            while previous_index &gt;= 0 and records[previous_index]["kind"] == "blank":
+                previous_index -= 1
+            if previous_index &gt;= 0:
+                previous = records[previous_index]
+                if previous["kind"] == "page_boundary":
+                    return False, "page boundary prevents attribute confirmation"
+                if previous["kind"] == "heading":
+                    return False, "heading boundary prevents attribute confirmation"
+            return False, "no adjacent same-page antecedent is available"
+&gt;       if antecedent_record["page_number"] != record["page_number"]:
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'page_number'
+
+src\qiaowenshu_agent\domain\document_relations.py:5101: KeyError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_forged_source_identity_coordinates_and_block_ids_never_confirm[duplicate_block_id]" time="0.001" /></testsuite></testsuites>

@@ -1,0 +1,34 @@
+Public development regression evidence. This probe was added after the frozen
+contract and cases.json; it is not represented as pre-implementation coverage.
+
+Input blocks, with valid source references:
+  "须提交身份证复印件。"
+  "该复印件作为附件保存，授权书必须加盖公章。"
+
+The focused graph-level test constructed the product graph successfully. Both
+blocks have exact source quotes and matching document_id/source_version. The
+antecedent and attribute each remain one ATOM. The anaphora reference remains
+confirmed to the exact antecedent ATOM and cites both original clauses. Despite
+those facts, the product marked the attribute scope confirmed, which is the
+incorrect result: the seal predicate belongs to "授权书", not "该复印件".
+
+The strengthened focused test failed only at the review-only assertion:
+  expected scope status candidate/unresolved; actual confirmed
+JUnit XML:
+  .qiaowenshu/acceptance/attribute-followup-20261014/other-subject-switch-red.xml
+JUnit XML SHA-256:
+  9703C3B248B19D78449079B9D9CF1219B23EF4E858216955A41717C24D54A1E1
+Test snapshot:
+  test-subject-switch-red.py
+Test snapshot SHA-256:
+  E8A7B1425F7A5ED5F05284231DA66F0C0AB695F329016F31DA0C0F55D93EEF2F
+Product source snapshot with the prerequisite page lookup corrected:
+  source-subject-boundary-red.py
+Product source SHA-256:
+  CC5E5F1C54F65BD8CE17878F759A8F00039243CB5078B4F7EF4D7D44ABAA73A5
+
+The first attempt against the uncorrected local prototype failed with
+KeyError('page_number') before graph creation. Its XML and exact source snapshot
+are retained separately in subject-boundary-red-blocked-by-page-field.txt.
+The main reviewer's separately reported 0/2 executed prototype run is likewise
+not counted as semantic evidence.

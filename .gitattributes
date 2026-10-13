@@ -128,4 +128,22 @@ benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p
 benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-final-2.stdout-stderr.txt -whitespace
 benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-final.stdout-stderr.txt -whitespace
 benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-p2-01.stdout-stderr.txt -whitespace
+benchmarks/document_relations/attribute-regression/20261014/** -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/attribute-followup-20261014/** -text whitespace=cr-at-eol
+benchmarks/document_relations/attribute-publication-record.json -text whitespace=cr-at-eol
+# Retain the exact indentation and whitespace in archived pytest failure traces.
+benchmarks/document_relations/reports/attribute-followup-20261014/worker/question-boundary-red.xml -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/reviewer/worker-*.xml -whitespace
+# Archive the worker's unedited command output, including traceback whitespace.
+benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/snapshot-rescore-final-regression.log -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/snapshot-rescore-final-tests-2.log -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/snapshot-rescore-final-tests.log -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/snapshot-rescore-focused-green.log -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/snapshot-rescore-focused-red.log -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/snapshot-rescore-focused-retry-2.log -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/snapshot-rescore-refactor-retry.log -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/snapshot-rescore-refactor-tests.log -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/scoring-worker/snapshot-rescore-regression-tests.log -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/worker/case09-evidence-red.xml -whitespace
+benchmarks/document_relations/reports/attribute-followup-20261014/worker/case09-evidence-intermediate-failure.xml -whitespace
 benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests.stdout-stderr.txt -whitespace

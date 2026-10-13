@@ -1,0 +1,532 @@
+PYTHONDONTWRITEBYTECODE=1 python -m pytest -p no:cacheprovider --basetemp=.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp tests/evals/test_document_relations_snapshot_rescore.py tests/evals/test_document_relations_current_rescore.py tests/evals/test_document_relations_rescore.py tests/evals/test_document_relations_boundary_rescore.py -q
+FF.F......FFFFF......................................................... [ 43%]
+........................................................................ [ 86%]
+.......................                                                  [100%]
+================================== FAILURES ===================================
+___ test_versioned_capture_scores_three_views_and_preserves_replay_material ___
+
+    def test_versioned_capture_scores_three_views_and_preserves_replay_material() -> None:
+        original = _capture()
+>       result = _rescore()
+                 ^^^^^^^^^^
+
+tests\evals\test_document_relations_snapshot_rescore.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\evals\test_document_relations_snapshot_rescore.py:66: in _rescore
+    return snapshot_rescore.rescore_report(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+bundle = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reserved/v2')
+product_report = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-product-20e79af-capture.json')
+expected_report_sha256 = 'c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066'
+expected_source_tree_sha256 = '51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34'
+main_reviewer_authorized = True
+
+    def rescore_report(
+        bundle: Path,
+        product_report: Path,
+        *,
+        expected_report_sha256: str,
+        expected_source_tree_sha256: str,
+        main_reviewer_authorized: bool,
+    ) -> dict[str, Any]:
+        if not main_reviewer_authorized:
+            raise PermissionError("snapshot offline scoring requires authorization")
+        if not isinstance(expected_report_sha256, str) or not rescorer._is_sha256(
+            expected_report_sha256.lower()
+        ):
+            raise ValueError("expected_report_sha256 must be a 64-character SHA-256")
+        if not rescorer._is_sha256(expected_source_tree_sha256):
+            raise ValueError(
+                "expected_source_tree_sha256 must be a lowercase 64-character SHA-256"
+            )
+    
+        attribute_hashes = _verify_attribute_freeze()
+        scorer_hashes, historical = _verify_frozen_inputs()
+        bundle_path, freeze, oracle_sha, bundle_inputs = _verify_bundle(bundle)
+        product_report = Path(product_report)
+        validated, report = _validated_capture(
+            bundle_path,
+            product_report,
+            expected_report_sha256,
+            expected_source_tree_sha256,
+        )
+        if (
+            validated["freeze"]["v2_manifest_sha256"] != freeze["manifest_sha256"]
+            or validated["freeze"]["v2_bundle_fingerprint"]
+            != freeze["bundle_fingerprint"]
+        ):
+            raise ValueError("product report freeze does not match the pinned v2 bundle")
+    
+        raw_cases = {row["case_id"]: row for row in report["cases"]}
+        checked_cases = {row["case_id"]: row for row in validated["cases"]}
+        if (
+            len(raw_cases) != len(CASE_IDS)
+            or set(raw_cases) != set(CASE_IDS)
+            or tuple(checked_cases) != CASE_IDS
+        ):
+            raise ValueError("validated capture case inventory/order changed")
+    
+        source_contexts: dict[str, Mapping[str, Any]] = {}
+        for case_id in CASE_IDS:
+            raw_case, checked = raw_cases[case_id], checked_cases[case_id]
+            if any(raw_case.get(key) != checked.get(key) for key in MATERIAL_FIELDS):
+>               raise ValueError(f"{case_id} replay material changed after validation")
+E               ValueError: case-01 replay material changed after validation
+
+scripts\run_document_relations_snapshot_rescore.py:224: ValueError
+__________ test_frozen_1_0_5_scorer_is_called_only_for_overlay_cases __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000000044FCC30>
+
+    def test_frozen_1_0_5_scorer_is_called_only_for_overlay_cases(
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        original_score_case = snapshot_rescore.boundary.score_case
+        called_case_ids: list[str] = []
+    
+        def record_call(case: dict[str, Any], *args: Any, **kwargs: Any) -> dict[str, Any]:
+            called_case_ids.append(str(case["case_id"]))
+            return original_score_case(case, *args, **kwargs)
+    
+        monkeypatch.setattr(snapshot_rescore.boundary, "score_case", record_call)
+>       _rescore()
+
+tests\evals\test_document_relations_snapshot_rescore.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\evals\test_document_relations_snapshot_rescore.py:66: in _rescore
+    return snapshot_rescore.rescore_report(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+bundle = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reserved/v2')
+product_report = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-product-20e79af-capture.json')
+expected_report_sha256 = 'c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066'
+expected_source_tree_sha256 = '51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34'
+main_reviewer_authorized = True
+
+    def rescore_report(
+        bundle: Path,
+        product_report: Path,
+        *,
+        expected_report_sha256: str,
+        expected_source_tree_sha256: str,
+        main_reviewer_authorized: bool,
+    ) -> dict[str, Any]:
+        if not main_reviewer_authorized:
+            raise PermissionError("snapshot offline scoring requires authorization")
+        if not isinstance(expected_report_sha256, str) or not rescorer._is_sha256(
+            expected_report_sha256.lower()
+        ):
+            raise ValueError("expected_report_sha256 must be a 64-character SHA-256")
+        if not rescorer._is_sha256(expected_source_tree_sha256):
+            raise ValueError(
+                "expected_source_tree_sha256 must be a lowercase 64-character SHA-256"
+            )
+    
+        attribute_hashes = _verify_attribute_freeze()
+        scorer_hashes, historical = _verify_frozen_inputs()
+        bundle_path, freeze, oracle_sha, bundle_inputs = _verify_bundle(bundle)
+        product_report = Path(product_report)
+        validated, report = _validated_capture(
+            bundle_path,
+            product_report,
+            expected_report_sha256,
+            expected_source_tree_sha256,
+        )
+        if (
+            validated["freeze"]["v2_manifest_sha256"] != freeze["manifest_sha256"]
+            or validated["freeze"]["v2_bundle_fingerprint"]
+            != freeze["bundle_fingerprint"]
+        ):
+            raise ValueError("product report freeze does not match the pinned v2 bundle")
+    
+        raw_cases = {row["case_id"]: row for row in report["cases"]}
+        checked_cases = {row["case_id"]: row for row in validated["cases"]}
+        if (
+            len(raw_cases) != len(CASE_IDS)
+            or set(raw_cases) != set(CASE_IDS)
+            or tuple(checked_cases) != CASE_IDS
+        ):
+            raise ValueError("validated capture case inventory/order changed")
+    
+        source_contexts: dict[str, Mapping[str, Any]] = {}
+        for case_id in CASE_IDS:
+            raw_case, checked = raw_cases[case_id], checked_cases[case_id]
+            if any(raw_case.get(key) != checked.get(key) for key in MATERIAL_FIELDS):
+>               raise ValueError(f"{case_id} replay material changed after validation")
+E               ValueError: case-01 replay material changed after validation
+
+scripts\run_document_relations_snapshot_rescore.py:224: ValueError
+______ test_synthetic_source_identity_metadata_mutation_is_not_git_proof ______
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_synthetic_source_identity0')
+
+    def test_synthetic_source_identity_metadata_mutation_is_not_git_proof(
+        tmp_path: Path,
+    ) -> None:
+        synthetic_source_sha256 = "f" * 64
+        product_report, report_sha256 = _save_capture(
+            tmp_path,
+            lambda report: report.update(source_tree_sha256=synthetic_source_sha256),
+        )
+    
+>       result = _rescore(
+            product_report,
+            expected_report_sha256=report_sha256,
+            expected_source_tree_sha256=synthetic_source_sha256,
+        )
+
+tests\evals\test_document_relations_snapshot_rescore.py:205: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\evals\test_document_relations_snapshot_rescore.py:66: in _rescore
+    return snapshot_rescore.rescore_report(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+bundle = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reserved/v2')
+product_report = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_synthetic_source_identity0/mutated-product-report.json')
+expected_report_sha256 = '5ed39e4a621b7da377819b4269896646ede7b3cc35931adedf5474b1bfed8cf3'
+expected_source_tree_sha256 = 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+main_reviewer_authorized = True
+
+    def rescore_report(
+        bundle: Path,
+        product_report: Path,
+        *,
+        expected_report_sha256: str,
+        expected_source_tree_sha256: str,
+        main_reviewer_authorized: bool,
+    ) -> dict[str, Any]:
+        if not main_reviewer_authorized:
+            raise PermissionError("snapshot offline scoring requires authorization")
+        if not isinstance(expected_report_sha256, str) or not rescorer._is_sha256(
+            expected_report_sha256.lower()
+        ):
+            raise ValueError("expected_report_sha256 must be a 64-character SHA-256")
+        if not rescorer._is_sha256(expected_source_tree_sha256):
+            raise ValueError(
+                "expected_source_tree_sha256 must be a lowercase 64-character SHA-256"
+            )
+    
+        attribute_hashes = _verify_attribute_freeze()
+        scorer_hashes, historical = _verify_frozen_inputs()
+        bundle_path, freeze, oracle_sha, bundle_inputs = _verify_bundle(bundle)
+        product_report = Path(product_report)
+        validated, report = _validated_capture(
+            bundle_path,
+            product_report,
+            expected_report_sha256,
+            expected_source_tree_sha256,
+        )
+        if (
+            validated["freeze"]["v2_manifest_sha256"] != freeze["manifest_sha256"]
+            or validated["freeze"]["v2_bundle_fingerprint"]
+            != freeze["bundle_fingerprint"]
+        ):
+            raise ValueError("product report freeze does not match the pinned v2 bundle")
+    
+        raw_cases = {row["case_id"]: row for row in report["cases"]}
+        checked_cases = {row["case_id"]: row for row in validated["cases"]}
+        if (
+            len(raw_cases) != len(CASE_IDS)
+            or set(raw_cases) != set(CASE_IDS)
+            or tuple(checked_cases) != CASE_IDS
+        ):
+            raise ValueError("validated capture case inventory/order changed")
+    
+        source_contexts: dict[str, Mapping[str, Any]] = {}
+        for case_id in CASE_IDS:
+            raw_case, checked = raw_cases[case_id], checked_cases[case_id]
+            if any(raw_case.get(key) != checked.get(key) for key in MATERIAL_FIELDS):
+>               raise ValueError(f"{case_id} replay material changed after validation")
+E               ValueError: case-01 replay material changed after validation
+
+scripts\run_document_relations_snapshot_rescore.py:224: ValueError
+_ test_original_rescore_input_guards_are_reused[<lambda>-captured Registry source_version] _
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_original_rescore_input_gu5')
+mutate = <function <lambda> at 0x00000000045C13A0>
+message = 'captured Registry source_version'
+
+    @pytest.mark.parametrize(
+        ("mutate", "message"),
+        [
+            (
+                lambda report: report.update(schema="unknown-product-report-v99"),
+                "unsupported product report schema",
+            ),
+            (
+                lambda report: report["cases"][0]["source_context"]["pages"].__setitem__(
+                    0, "synthetic page mutation"
+                ),
+                "pages do not match frozen input",
+            ),
+            (
+                lambda report: report["cases"][13].update(case_id="case-01"),
+                "case IDs must be unique",
+            ),
+            (
+                lambda report: report["cases"].pop(),
+                "exactly 14 cases",
+            ),
+            (
+                lambda report: report["evaluator"].update(version="1.0.4"),
+                "frozen 1.0.3 evaluator",
+            ),
+            (
+                lambda report: (
+                    report["cases"][2]["source_context"].update(
+                        source_version="synthetic-version:v1"
+                    ),
+                    report["cases"][2]["actual_graph"].update(
+                        source_version="synthetic-version:v1"
+                    ),
+                ),
+                "captured Registry source_version",
+            ),
+        ],
+    )
+    def test_original_rescore_input_guards_are_reused(
+        tmp_path: Path,
+        mutate: Callable[[dict[str, Any]], None],
+        message: str,
+    ) -> None:
+        product_report, report_sha256 = _save_capture(tmp_path, mutate)
+    
+>       with pytest.raises(ValueError, match=message):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'captured Registry source_version'
+E         Actual message: 'case-01 replay material changed after validation'
+
+tests\evals\test_document_relations_snapshot_rescore.py:267: AssertionError
+_____________ test_changed_attribute_contract_freeze_is_rejected ______________
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_changed_attribute_contrac0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000000000565B5C0>
+
+    def test_changed_attribute_contract_freeze_is_rejected(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        changed_contract = tmp_path / "contract.md"
+>       changed_contract.write_bytes(snapshot_rescore.ATTRIBUTE_CONTRACT_PATH.read_bytes())
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'scripts.run_document_relations_snapshot_rescore' has no attribute 'ATTRIBUTE_CONTRACT_PATH'
+
+tests\evals\test_document_relations_snapshot_rescore.py:275: AttributeError
+_________________ test_changed_historical_overlay_is_rejected _________________
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_changed_historical_overla0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000000000456B410>
+
+    def test_changed_historical_overlay_is_rejected(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+>       original = snapshot_rescore.current_rescore.HISTORICAL_OVERLAY_PATH
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'scripts.run_document_relations_snapshot_rescore' has no attribute 'current_rescore'
+
+tests\evals\test_document_relations_snapshot_rescore.py:287: AttributeError
+_ test_nonexecuted_overlay_case_is_not_scored_or_given_context[case-03-failed] _
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_nonexecuted_overlay_case_0')
+case_id = 'case-03', execution_state = 'failed'
+
+    @pytest.mark.parametrize(
+        ("case_id", "execution_state"),
+        [("case-03", "failed"), ("case-11", "not_run")],
+    )
+    def test_nonexecuted_overlay_case_is_not_scored_or_given_context(
+        tmp_path: Path, case_id: str, execution_state: str
+    ) -> None:
+        status = "failed" if execution_state == "failed" else "not_run"
+    
+        def mark_nonexecuted(report: dict[str, Any]) -> None:
+            row = next(case for case in report["cases"] if case["case_id"] == case_id)
+            row.update(
+                execution_state=execution_state,
+                status=status,
+                actual_graph=None,
+                source_context=None,
+                reason=f"synthetic test mutation: {execution_state}",
+            )
+    
+        product_report, report_sha256 = _save_capture(tmp_path, mark_nonexecuted)
+>       result = _rescore(product_report, expected_report_sha256=report_sha256)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\evals\test_document_relations_snapshot_rescore.py:318: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\evals\test_document_relations_snapshot_rescore.py:66: in _rescore
+    return snapshot_rescore.rescore_report(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+bundle = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reserved/v2')
+product_report = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_nonexecuted_overlay_case_0/mutated-product-report.json')
+expected_report_sha256 = '96b27f5607328b181affc3930b1a51b783821076b3c65170086e496f3dedb09c'
+expected_source_tree_sha256 = '51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34'
+main_reviewer_authorized = True
+
+    def rescore_report(
+        bundle: Path,
+        product_report: Path,
+        *,
+        expected_report_sha256: str,
+        expected_source_tree_sha256: str,
+        main_reviewer_authorized: bool,
+    ) -> dict[str, Any]:
+        if not main_reviewer_authorized:
+            raise PermissionError("snapshot offline scoring requires authorization")
+        if not isinstance(expected_report_sha256, str) or not rescorer._is_sha256(
+            expected_report_sha256.lower()
+        ):
+            raise ValueError("expected_report_sha256 must be a 64-character SHA-256")
+        if not rescorer._is_sha256(expected_source_tree_sha256):
+            raise ValueError(
+                "expected_source_tree_sha256 must be a lowercase 64-character SHA-256"
+            )
+    
+        attribute_hashes = _verify_attribute_freeze()
+        scorer_hashes, historical = _verify_frozen_inputs()
+        bundle_path, freeze, oracle_sha, bundle_inputs = _verify_bundle(bundle)
+        product_report = Path(product_report)
+        validated, report = _validated_capture(
+            bundle_path,
+            product_report,
+            expected_report_sha256,
+            expected_source_tree_sha256,
+        )
+        if (
+            validated["freeze"]["v2_manifest_sha256"] != freeze["manifest_sha256"]
+            or validated["freeze"]["v2_bundle_fingerprint"]
+            != freeze["bundle_fingerprint"]
+        ):
+            raise ValueError("product report freeze does not match the pinned v2 bundle")
+    
+        raw_cases = {row["case_id"]: row for row in report["cases"]}
+        checked_cases = {row["case_id"]: row for row in validated["cases"]}
+        if (
+            len(raw_cases) != len(CASE_IDS)
+            or set(raw_cases) != set(CASE_IDS)
+            or tuple(checked_cases) != CASE_IDS
+        ):
+            raise ValueError("validated capture case inventory/order changed")
+    
+        source_contexts: dict[str, Mapping[str, Any]] = {}
+        for case_id in CASE_IDS:
+            raw_case, checked = raw_cases[case_id], checked_cases[case_id]
+            if any(raw_case.get(key) != checked.get(key) for key in MATERIAL_FIELDS):
+>               raise ValueError(f"{case_id} replay material changed after validation")
+E               ValueError: case-01 replay material changed after validation
+
+scripts\run_document_relations_snapshot_rescore.py:224: ValueError
+_ test_nonexecuted_overlay_case_is_not_scored_or_given_context[case-11-not_run] _
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_nonexecuted_overlay_case_1')
+case_id = 'case-11', execution_state = 'not_run'
+
+    @pytest.mark.parametrize(
+        ("case_id", "execution_state"),
+        [("case-03", "failed"), ("case-11", "not_run")],
+    )
+    def test_nonexecuted_overlay_case_is_not_scored_or_given_context(
+        tmp_path: Path, case_id: str, execution_state: str
+    ) -> None:
+        status = "failed" if execution_state == "failed" else "not_run"
+    
+        def mark_nonexecuted(report: dict[str, Any]) -> None:
+            row = next(case for case in report["cases"] if case["case_id"] == case_id)
+            row.update(
+                execution_state=execution_state,
+                status=status,
+                actual_graph=None,
+                source_context=None,
+                reason=f"synthetic test mutation: {execution_state}",
+            )
+    
+        product_report, report_sha256 = _save_capture(tmp_path, mark_nonexecuted)
+>       result = _rescore(product_report, expected_report_sha256=report_sha256)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\evals\test_document_relations_snapshot_rescore.py:318: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\evals\test_document_relations_snapshot_rescore.py:66: in _rescore
+    return snapshot_rescore.rescore_report(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+bundle = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reserved/v2')
+product_report = WindowsPath('E:/project/tender-writing-agent/.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp/test_nonexecuted_overlay_case_1/mutated-product-report.json')
+expected_report_sha256 = '01d362bee2149b8938f7e01de49a3ca81fc6f2b918682ce99858801d2f1ddc04'
+expected_source_tree_sha256 = '51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34'
+main_reviewer_authorized = True
+
+    def rescore_report(
+        bundle: Path,
+        product_report: Path,
+        *,
+        expected_report_sha256: str,
+        expected_source_tree_sha256: str,
+        main_reviewer_authorized: bool,
+    ) -> dict[str, Any]:
+        if not main_reviewer_authorized:
+            raise PermissionError("snapshot offline scoring requires authorization")
+        if not isinstance(expected_report_sha256, str) or not rescorer._is_sha256(
+            expected_report_sha256.lower()
+        ):
+            raise ValueError("expected_report_sha256 must be a 64-character SHA-256")
+        if not rescorer._is_sha256(expected_source_tree_sha256):
+            raise ValueError(
+                "expected_source_tree_sha256 must be a lowercase 64-character SHA-256"
+            )
+    
+        attribute_hashes = _verify_attribute_freeze()
+        scorer_hashes, historical = _verify_frozen_inputs()
+        bundle_path, freeze, oracle_sha, bundle_inputs = _verify_bundle(bundle)
+        product_report = Path(product_report)
+        validated, report = _validated_capture(
+            bundle_path,
+            product_report,
+            expected_report_sha256,
+            expected_source_tree_sha256,
+        )
+        if (
+            validated["freeze"]["v2_manifest_sha256"] != freeze["manifest_sha256"]
+            or validated["freeze"]["v2_bundle_fingerprint"]
+            != freeze["bundle_fingerprint"]
+        ):
+            raise ValueError("product report freeze does not match the pinned v2 bundle")
+    
+        raw_cases = {row["case_id"]: row for row in report["cases"]}
+        checked_cases = {row["case_id"]: row for row in validated["cases"]}
+        if (
+            len(raw_cases) != len(CASE_IDS)
+            or set(raw_cases) != set(CASE_IDS)
+            or tuple(checked_cases) != CASE_IDS
+        ):
+            raise ValueError("validated capture case inventory/order changed")
+    
+        source_contexts: dict[str, Mapping[str, Any]] = {}
+        for case_id in CASE_IDS:
+            raw_case, checked = raw_cases[case_id], checked_cases[case_id]
+            if any(raw_case.get(key) != checked.get(key) for key in MATERIAL_FIELDS):
+>               raise ValueError(f"{case_id} replay material changed after validation")
+E               ValueError: case-01 replay material changed after validation
+
+scripts\run_document_relations_snapshot_rescore.py:224: ValueError
+============================== warnings summary ===============================
+D:\Miniconda3\Lib\site-packages\_pytest\config\__init__.py:1464
+  D:\Miniconda3\Lib\site-packages\_pytest\config\__init__.py:1464: PytestConfigWarning: Unknown config option: asyncio_mode
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/evals/test_document_relations_snapshot_rescore.py::test_versioned_capture_scores_three_views_and_preserves_replay_material
+FAILED tests/evals/test_document_relations_snapshot_rescore.py::test_frozen_1_0_5_scorer_is_called_only_for_overlay_cases
+FAILED tests/evals/test_document_relations_snapshot_rescore.py::test_synthetic_source_identity_metadata_mutation_is_not_git_proof
+FAILED tests/evals/test_document_relations_snapshot_rescore.py::test_original_rescore_input_guards_are_reused[<lambda>-captured Registry source_version]
+FAILED tests/evals/test_document_relations_snapshot_rescore.py::test_changed_attribute_contract_freeze_is_rejected
+FAILED tests/evals/test_document_relations_snapshot_rescore.py::test_changed_historical_overlay_is_rejected
+FAILED tests/evals/test_document_relations_snapshot_rescore.py::test_nonexecuted_overlay_case_is_not_scored_or_given_context[case-03-failed]
+FAILED tests/evals/test_document_relations_snapshot_rescore.py::test_nonexecuted_overlay_case_is_not_scored_or_given_context[case-11-not_run]
+8 failed, 159 passed, 1 warning in 6.34s
+EXIT_CODE=1

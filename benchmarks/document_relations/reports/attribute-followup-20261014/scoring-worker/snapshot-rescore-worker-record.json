@@ -1,0 +1,63 @@
+{
+  "schema": "document-relations-snapshot-rescore-worker-record-v1",
+  "date": "2026-10-14",
+  "implementation": {
+    "helper": "scripts/run_document_relations_snapshot_rescore.py",
+    "helper_sha256": "33d5ecd56167a0332fd0a8534aad5ac361ad295b08c5cae6f4f34da60ba4cecd",
+    "tests": "tests/evals/test_document_relations_snapshot_rescore.py",
+    "tests_sha256": "bfb2f6295983481671692de6acb6bb65a21554358d52ca6e195af2512586d59e",
+    "old_rescore_adapters_modified": false,
+    "product_source_modified_by_this_task": false
+  },
+  "test_first": {
+    "initial_source_snapshot": "snapshot-rescore-focused-tests-red-source.py",
+    "initial_source_sha256": "175d74775b4d4e5bcf013b5516e0fdb972cc0d934c573f763f1dcc12179883ec",
+    "initial_red_log": "snapshot-rescore-focused-red.log",
+    "initial_red_log_sha256": "a7f867a570ff4466c9a9483946ee8905062ed81cbc8cd9c0229f33a07a1710e7",
+    "initial_result": "collection_failed_as_expected_because_helper_did_not_exist"
+  },
+  "verification": {
+    "final_test_source_snapshot": "snapshot-rescore-focused-tests-final-source.py",
+    "final_test_source_sha256": "bfb2f6295983481671692de6acb6bb65a21554358d52ca6e195af2512586d59e",
+    "command": "python -m pytest -p no:cacheprovider --basetemp=.qiaowenshu/acceptance/attribute-followup-20261014/pytest-basetemp tests/evals/test_document_relations_snapshot_rescore.py tests/evals/test_document_relations_current_rescore.py tests/evals/test_document_relations_rescore.py tests/evals/test_document_relations_boundary_rescore.py -q",
+    "log": "snapshot-rescore-final-regression.log",
+    "log_sha256": "c1aab82089c0627d410bf34e1bbbb3382c8bd08fef96e9bcb45e4de952c6464f",
+    "result": "167_passed",
+    "warning": "pytest reported the existing asyncio_mode option as unknown"
+  },
+  "offline_score": {
+    "report": "20e79af-capture-three-view-rescore-final.json",
+    "report_sha256": "5c22b9f46c3ffa5c8dee268bfa805776eecde6c07931f40f8028d93fa5d0136a",
+    "cli_log": "20e79af-capture-three-view-rescore-final-cli.log",
+    "cli_log_sha256": "f99fa8d3c5b2403859e0905fc747d52fe2ad11b0e2c5aad7f51df047e991bc96",
+    "cli_exit_code": 1,
+    "cli_exit_interpretation": "score report was created; one or more views contain failed cases",
+    "product_capture": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-product-20e79af-capture.json",
+    "product_capture_sha256": "c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066",
+    "captured_source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+    "expected_source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+    "source_metadata_match": true,
+    "git_provenance_verified": false,
+    "product_runtime_or_model_invoked": false,
+    "cases": 14,
+    "views": {
+      "1.0.3": "9_pass_5_failed_0_not_run",
+      "1.0.4": "9_pass_5_failed_0_not_run",
+      "1.0.5": "10_pass_4_failed_0_not_run"
+    },
+    "errors_order_only_difference_cases": [
+      "case-07",
+      "case-09",
+      "case-11",
+      "case-12",
+      "case-13"
+    ]
+  },
+  "limitations": {
+    "capture_classification": "shared-filesystem synthetic evaluation; not certified blind",
+    "capture_repository_context": "archive/no_local_git_root",
+    "current_product_source_capture_claimed": false,
+    "source_hash_is_git_proof": false,
+    "ruff": "not installed in the active Python environment; line-length check was performed separately"
+  }
+}

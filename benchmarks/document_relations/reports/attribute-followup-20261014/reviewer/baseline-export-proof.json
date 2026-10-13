@@ -1,0 +1,3377 @@
+{
+  "schema": "attribute-baseline-export-proof-v1",
+  "product_commit": "91fb1b9751d010af9c0f804dc6afbfee1de36dd2",
+  "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+  "original_export_files": 672,
+  "original_git_blob_matches": 672,
+  "added_acceptance_files": [
+    "check-acceptance.py",
+    "cases.json",
+    "reviewer-public-probes.json"
+  ],
+  "added_acceptance_files_are_not_product_changes": true,
+  "acceptance_tool_sha256": "2dfaf633925fa9b17b11573fed63ad911649c4c959cee17ebfbdcac059a940dd",
+  "files": [
+    {
+      "path": ".env.example",
+      "git_blob": "c004d39ea2e21317c51e4dbce91b5170d333cd42",
+      "matches": true
+    },
+    {
+      "path": ".gitattributes",
+      "git_blob": "559de37e32587e52ccf93bfae9866cf86b1f5a5d",
+      "matches": true
+    },
+    {
+      "path": ".gitignore",
+      "git_blob": "72aa8917628af3e564de66e8d1545d175aaf71cd",
+      "matches": true
+    },
+    {
+      "path": "LICENSE",
+      "git_blob": "261eeb9e9f8b2b4b0d119366dda99c6fd7d35c64",
+      "matches": true
+    },
+    {
+      "path": "README.md",
+      "git_blob": "d879e183e16ee1df367b1b4c008f15133e54caa9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/README.md",
+      "git_blob": "0dc76a23a5b7e1dd3eefe6ab0227b5b8a71f1e12",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/challenge/README.md",
+      "git_blob": "2cb351170ca49e0e81d6a18c6f2f650f8539c6ca",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/challenge/tender_v3_answers.json",
+      "git_blob": "4638b1e898fca873f13daa9df377444b177fce4e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/challenge/tender_v3_cases.json",
+      "git_blob": "78a8bd713e1b35e6c03c487718aeb79ccb4c61d6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/dev/README.md",
+      "git_blob": "80166b00170b9ec628535ee07f63e8a6b8d5e97b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/README.md",
+      "git_blob": "99ab9f183fa8134de32b1acd65bbf48eb526fe44",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-publication-record.json",
+      "git_blob": "39c93a561cc257d64af973a95f7cea1b76430a12",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/annotator-format-proof.json",
+      "git_blob": "ed9e4eea97d67a82793a61fd9fcc8d67acb07eca",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/baseline-freeze.json",
+      "git_blob": "9ec112f6bfcafaf8121d20f92e07dbdb61db87d6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/before-logical-parent-fix.py.txt",
+      "git_blob": "367c0df22a236a4e8b66307f3bc78ad8cc22d984",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/before-logical-parent-tests.py.txt",
+      "git_blob": "5bec20d77387c8bbf0f639e571c919a68cb978ff",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/byte-normalization-correction.json",
+      "git_blob": "b9057380219b393b8e49cefebcddbdeca23ff461",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/canonical-verifier-correction.json",
+      "git_blob": "70b8d7c83d3579452979ec702025d534bce9488e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/check-boundary.py",
+      "git_blob": "41e082d04b35c15a6a97caafb4da58cc71861a0f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/check-inheritance-source.py",
+      "git_blob": "b304f3f3a807e4912379c161e563760b7a71edba",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/check-logical-parent-initial.py.txt",
+      "git_blob": "ad332f860d0986a00da1a650b4e5a7827afd3057",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/check-logical-parent.py",
+      "git_blob": "04bc9a194eecaba3f51c0c653eb50f3b0c13b911",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/compare-scores.py",
+      "git_blob": "1a2d478cf12104a05b5f863d5bc416cb6c8f88c0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/corrected-test-first-record.json",
+      "git_blob": "94ed4aa794ad036639e422632f02973ef41483b9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/developer-access-audit.json",
+      "git_blob": "d41cf3b47c0220a0eb4675301195059f98c53b5b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/cases.json",
+      "git_blob": "50636a8e7527652de3902eaa5cae675c0b561491",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D01.txt",
+      "git_blob": "c7947e7bed7dfb306eb3a316eec9a82ea15d2a02",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D02.txt",
+      "git_blob": "b7417a3e8ecf45e083fe5ce0680a61e6d0f91be7",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D03.txt",
+      "git_blob": "b57845377636f5178053bf1f20c4ec815cae21e6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D04.txt",
+      "git_blob": "cf00b12a1463990ffb1197c74df768e78da6fd03",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/development/raw/D05.txt",
+      "git_blob": "6c9dcd1bd4619fdb7fb60092ef3d7d2638229028",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/final-code-freeze.json",
+      "git_blob": "e008816296d196ce6480329021f3ebc187879800",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/fixture-freeze.json",
+      "git_blob": "460b514f530df34d65d3df0c6ca7e8bec3c793e0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/freeze-cases-initial.py.txt",
+      "git_blob": "ccaf7fc8c26d8e8ce2126f3dd6e29ec57bcde2a2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/freeze-cases.py",
+      "git_blob": "e20119e28614170736a373ffc0fbe065ad90ae5a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/historical-overlay.json",
+      "git_blob": "2bae28740b7617682cc607e55998b487f84b1407",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/initial-test-first-record.json",
+      "git_blob": "25e858a86b2d20d0b3ec8e51a7adf3f6f74c680c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/initial-test-interrupted.py.txt",
+      "git_blob": "1f14696f41d5f45ecd919f78ede6cc7c2dafb158",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/logical-parent-checker-correction.json",
+      "git_blob": "c59102aaceb5a40d769db86032f8724187ffbf6b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/logical-parent-supplement-freeze.json",
+      "git_blob": "61a155a7e3aa8e06241c4a13dd3b520a128e480d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/pre-implementation-tests.py.txt",
+      "git_blob": "4584273b796020c29c2690d25fe232a8d554365f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/published-path-map.json",
+      "git_blob": "21c3a7665eceaeda6d7b9b5f58ef8d4ba6f7bff0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/cases.json",
+      "git_blob": "99d72932b4bb3ab8f580706b181773e4f262559d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H01.txt",
+      "git_blob": "16c9ea4dbf490c42902be6b6151c2c494bac39c5",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H02.txt",
+      "git_blob": "cb52bb7fb37c962933119a1d3ded6af5ebb024f1",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H03.txt",
+      "git_blob": "1942a3fbdbcf0f01663902120ff95c8618f3b345",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H04.txt",
+      "git_blob": "1d04231130ecb3d032b38b0c019ea7959df6bb77",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H05.txt",
+      "git_blob": "d8fcf7461278a50c8a044a7fff1caeb37cf4b620",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reserved-exposed/raw/H06.txt",
+      "git_blob": "37887dd6d92dd0d41bf30b8debe0824666dac2e6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/reviewer-checker-freeze.json",
+      "git_blob": "08a97481435e34fd7509cbbdaa2688151f2b1897",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/rules-v1.json",
+      "git_blob": "b643e6e3c4c877821acf4f747891a66fde13f28b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/rules-v1.md",
+      "git_blob": "d75940e616cbef1072068b1d30b7b247373f92d5",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/strong-check-freeze.json",
+      "git_blob": "a7d4b17a593757b036502e8e24e306db66a3e086",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/verify-snapshot-initial.ps1.txt",
+      "git_blob": "5a5aebeacf6802e19b0630822f6346939fb18656",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/verify-snapshot-utf8.ps1.txt",
+      "git_blob": "acb352ceb596b0fc1f41f4de1a8cf5242d44fac5",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/boundary-evidence-regression/20261013/verify-snapshot.ps1",
+      "git_blob": "aea9676b6b5680180fa3b2abc3ffd358aa16284a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-publication-record.json",
+      "git_blob": "4f2b4e1988118a8cbdfbbb0b8fa0efdccce1ff3a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/contract.md",
+      "git_blob": "d79bb58ed55cc444b458f76f51c860c5444c0ee9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/product-snapshot-proof.json",
+      "git_blob": "2ba83dcf609f9737097c89ebceeeaeb28dc2864b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/public-access-canary.txt",
+      "git_blob": "738f179fdfcaf491ad6b096df349e56a5f03ec6f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/reviewer-probe-contract.json",
+      "git_blob": "504477d1f63335b15feec5ef33148f2361773aef",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/scope-freeze.json",
+      "git_blob": "480962ee8597f8bed5462abd9907ae142cce9906",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-publication-record.json",
+      "git_blob": "c3dc70a08c3046c726f3603c73fd63606c2e155c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/boundary-audit-record.json",
+      "git_blob": "58061661c77b544ed07a465345249be314201eda",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/cases.json",
+      "git_blob": "87b2c4f2532affc1a14045e2e626d41c38d62deb",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/check-local-review.ps1",
+      "git_blob": "193a3a65049666d390177e3196850830cff68857",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/freeze.json",
+      "git_blob": "ac9caccbdbec08b907efa410a69c3595935080a6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/grader-freeze.json",
+      "git_blob": "c7344624a22a54b01fc80423c3a376283c4401b9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/historical-hashes.json",
+      "git_blob": "48e2d6f219cc34b28ff7b02269730ce8aa277732",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/inspection-freeze.json",
+      "git_blob": "a931845abfe59b900d26a800d66938487c4a2c29",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/quantity-boundary-cases.json",
+      "git_blob": "80103f00dab0eee1ab79540e954b82a2bde8600f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/B01.txt",
+      "git_blob": "b76fb6e930b80e6569cf84e1b1a49f0edc331392",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/B02.txt",
+      "git_blob": "0cfbff6bb4920395eaac351d4359ef3e86360f22",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/B03.txt",
+      "git_blob": "700b075791ddd7f1236d595115faaeb6d403cf8b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I01.txt",
+      "git_blob": "54ab8f7ed662cda605f27e9cbeca9c847808c82a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I02.txt",
+      "git_blob": "7c1e8a82d00c03ae520c7208af84124477ab0da1",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I03.txt",
+      "git_blob": "1491bf6fdd892fd8e1fbb4e0ed11863b3b26fd02",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I04.txt",
+      "git_blob": "70ec9b89cc92d1f2ce86b34b6933cbf9bfc6a56b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I05.txt",
+      "git_blob": "627d0b27e2076985f32e097576c01cb688721d05",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I06.txt",
+      "git_blob": "905cfc94b855137f44f2625fb1719cae5c39b2c8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I07.txt",
+      "git_blob": "943e30ca1d802a912e3db64abdfbf33ceb3acf3b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/I08.txt",
+      "git_blob": "b8181a2ea3829871e1d757b918b436308faa8ed2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/U01.txt",
+      "git_blob": "62c5afb184f85cc587dc44cb4072884cc85b20ad",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/U02.txt",
+      "git_blob": "a1126141aa1cae47331dd009b3ed7c118d0ac4f3",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/U03.txt",
+      "git_blob": "e1e935b9132a61fdac7391e1e956ce91a27ff91c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/raw/U04.txt",
+      "git_blob": "86b31a1c1291a8c2fd31694b60a0fc9b072d1307",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/inheritance-regression/20261012/unit-boundary-cases.json",
+      "git_blob": "7bd72ebfa3ca0f1067701ce8ae552e34c72f4edf",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-publication-record.json",
+      "git_blob": "82d96201a5acb468f126f0695d89aa4b6b851c9e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/cases-v2.json",
+      "git_blob": "5de4029b89cd8dfaaeb5e27ad8e63dbe59dd7b28",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/cases.json",
+      "git_blob": "60d9c33653f4459b663369fe6496ff0a450b86cf",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/freeze.json",
+      "git_blob": "c97a73c694472103548d349c42b4bef4ccdf33f9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/grader-freeze.json",
+      "git_blob": "9e30bb8a5e0a75406f3c8474e58c8ea4462d53aa",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/historical-hashes.json",
+      "git_blob": "f8106764aaca940609cd643949629faacfec50c4",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/oracle-clarification.json",
+      "git_blob": "0294fe24c408fc597754c8efae10025ed96ed283",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/public-nested-cases.json",
+      "git_blob": "dd89f271be8eb09ae2fb3c2365b64055752e3d8b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/public-nested-oracle.json",
+      "git_blob": "cf7181b8e29150c6ee9bc66b882bb894a07202af",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N01.txt",
+      "git_blob": "dd03b3330dea3360035dc4e50691ffcc2f5fc8fb",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N02.txt",
+      "git_blob": "7f46b123dfda67c02b9f3553fc64ec882fe7cf66",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N03.txt",
+      "git_blob": "9b601db593c0335de623e8e3061e41a9004e52f8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N04.txt",
+      "git_blob": "db70c464789c2af0faded428359700d4d628227d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N05.txt",
+      "git_blob": "41876d4b3d447b4ebaa60288e6a68a478411a612",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N06.txt",
+      "git_blob": "2807d6ee1f37c84816856495c5c8cbe806d41c7b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N07.txt",
+      "git_blob": "7bacc0158066add3dc53ae91bcdc3b413b5b8cd9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/nested-regression/20261010/raw/N08.txt",
+      "git_blob": "3aa117bf83cad67878277869c5574a1bee4360de",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/publication-record.json",
+      "git_blob": "ac1f1964eda17e2fcaaa70f65d9a3bdc0b49c281",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/before-logical-parent-check.json",
+      "git_blob": "a912048bd02312f93356410b3eded9ae17108ccd",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-1.0.4-rescore.json",
+      "git_blob": "f68c75308f854b13e6476479022fa7441c32f55b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-1.0.5-rescore.json",
+      "git_blob": "291bd90bcfcf295c5f3bce254b7f499c878f713e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-development-check.json",
+      "git_blob": "0e3d72277dd51359679e0f9de996b1e7edc0675a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-development-strong.json",
+      "git_blob": "a6c5097c19df61a3c1df500ac7d3cadc7af47739",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-grader-tests.xml",
+      "git_blob": "be80acce5b04bc0e82c7db763502b2256bc4c817",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-logical-parent-check.json",
+      "git_blob": "edb0fe1613ef710da5ddf76fe6e713f8591e4992",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-reserved-check.json",
+      "git_blob": "b4958ab3ed9b4e4618471f7496bfcca4a716b6ff",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-reserved-strong.json",
+      "git_blob": "f997e05d91ee50209e16b0fa7282dc23b1cfe2da",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-same-output-comparison.json",
+      "git_blob": "aa04f482ba244e2b03bc7e2da9efe749b849a2ad",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/canonical-tests.xml",
+      "git_blob": "a9d8fb89c9b77e7f5eabf340dcddcd63e1f0496c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/corrected-tests-red.xml",
+      "git_blob": "227f089fca2e2428c21d220913458fbb2b5de206",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/development-capture.json",
+      "git_blob": "81c5346446d34ee04db3c6b54a16125ec5e43c10",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/development-check.json",
+      "git_blob": "5121500b4cd488d6f1f6a89965268a6d0fa3e297",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/development-strong.json",
+      "git_blob": "cdffc86920f6c18a28e6481eab0bf9d78254d459",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/first-development-check.json",
+      "git_blob": "630545dfbbe581e717246699e607688bcf281eb8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/first-development-strong.json",
+      "git_blob": "c1e013e382b117b6ac2be3fdf5c4e466df89dd93",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/first-implemented-tests.xml",
+      "git_blob": "460b62aec475dd718fbb5ee242f8865914c158a5",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/fourth-development-check.json",
+      "git_blob": "58a0436ea12d58485e28f2eb4dc641b5a1ea4531",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/initial-collection-red.xml",
+      "git_blob": "0f7e3b9bfe9727626487d50b6b82c41feded03da",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/initial-new-1.0.5-rescore.json",
+      "git_blob": "4fa17c7f882ab4343f02dab21e0396c42d552b9f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/initial-same-output-comparison.json",
+      "git_blob": "351d098e63741451f85b66eb941d77163bc0389e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/intermediate-run-record.json",
+      "git_blob": "841a1b2631f73203cb4ea52a120372d2faf8ba30",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/legacy-1.0.4-rescore.json",
+      "git_blob": "a2f87a14daff7996317a721d9500821a32fa76ed",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/new-1.0.5-rescore.json",
+      "git_blob": "a16ad827c4d2770ea913e4956a4b40d3f478350d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/reserved-capture.json",
+      "git_blob": "c47800b912188c9ea4e34ee7564f20402155213c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/reserved-check.json",
+      "git_blob": "ab6e3f47e7940343ccae0416300634cb5d7dcdbd",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/reserved-strong.json",
+      "git_blob": "7d65d3901b01adba11a66eee05eea88c8a0ee10a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/same-output-comparison.json",
+      "git_blob": "2ac1106b74d8155ba44b9a77fb9bcbe68a727b0e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/scope-audit.json",
+      "git_blob": "cd641dbb8cb84fca494b32d42d42a281214336ac",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/second-development-check.json",
+      "git_blob": "8f89518384fc11ee390721dc984a198de910db41",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/second-development-strong.json",
+      "git_blob": "a59e24fd70a6ff8f7269c65df0151a1bbad62917",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/second-implemented-tests.xml",
+      "git_blob": "a71e58ad3cf81349c88b7e493596690cc6a39e80",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/source-proof.json",
+      "git_blob": "55897df95586c7ac0fab314dc112aa7322016346",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/third-development-check.json",
+      "git_blob": "e62466f0a9de4299385a896d483e51394b23f388",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/third-implemented-tests.xml",
+      "git_blob": "d6f40e224efddac4fca16e77f7490ad9baa20c0a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/unchanged-legacy-tests.xml",
+      "git_blob": "e30f8b9a473255aeb69fd10e4aabc1b95f91f7f5",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/boundary-evidence-20261013/working-tests.xml",
+      "git_blob": "3f0285a579a87b5c339f50a006d48b933dd49b1a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/isolation/developer-access-probe.json",
+      "git_blob": "a9d18e5ac4779080f278dc15e6d5234655a6fd2f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/isolation/environment-capability-audit.json",
+      "git_blob": "b0997801280b39f49cc7b996456415ed1d74a351",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/adapter-tests.xml",
+      "git_blob": "85d3b011a653aa86bbada629a99a92af78856add",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-scores.json",
+      "git_blob": "a8bd28e9526e3ccaa3d6e1a772967dfd32b4467f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-tests-no-cache.xml",
+      "git_blob": "8e18a4c362ee944bf6f637bb6c043f8903b615b2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-tests.xml",
+      "git_blob": "018d25e2556828d3d1a913ce2fb86b060c55e9c9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/final-code-proof.json",
+      "git_blob": "cb25af20f92f2d1dbe91a69369fd6a94a701b678",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/guard-probes.json",
+      "git_blob": "23e7a8ac62ba0fd9dcab7593fa2ec7b991fa5208",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/historical-cli-guard.json",
+      "git_blob": "b4409dda010309ea80cf59ae5f16284c75204770",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/independent-comparison.json",
+      "git_blob": "172af05db22e6e7945dce294fede17bca859ab1e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/initial-adapter-review.json",
+      "git_blob": "ea9eb01036231b48f63394f1d2d8339bb300d2fe",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/isolation-verification.json",
+      "git_blob": "5fbcaa5db858f8534f51affcbe9c0335f8313a51",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/pre-adapter-comparison.json",
+      "git_blob": "733baed7d64bb10dbc7f1c4f7cf6129b1ee29e13",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/pre-review-adapter.py.txt",
+      "git_blob": "77b3ceb8f5a10552cdd2b58a2382ef036028ce40",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/pre-review-tests.py.txt",
+      "git_blob": "b2fb6c2a085c0119be3744131c9b58c5e886a311",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/product-20e79af-tests.xml",
+      "git_blob": "3f6bb8c53b94fa85edfa852c76d4d408831b1d7c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/product-capture-1.0.3.json",
+      "git_blob": "9c042ae337fc7fe5b0712ac3fa2b00dae4e7e03c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.3.json",
+      "git_blob": "b4dad4774494e23631129587d5267d43dbc43b10",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.4.json",
+      "git_blob": "199bfe68f1e8a7309ccb12eebdda8e0e6dbe9515",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.5-first-adapter.py.txt",
+      "git_blob": "723957310accffb34ba54e73996fe3cc097e1c0d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.5-first.json",
+      "git_blob": "a647b99e0ad08496c3c53aba48ab11b9c50aa7fa",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-product-20e79af-capture.json",
+      "git_blob": "aba1ca82215e08214a3fdd6fce51cfbf36c15d69",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-rescore-20e79af-report.json",
+      "git_blob": "b219cb043f4fbdc630fae939022226c39097a8d4",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-rescore-cli.stdout-stderr.txt",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-rescore-command.txt",
+      "git_blob": "eb58e588777a1a138e57039015c5411630fcb534",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/overlay-preflight-command.txt",
+      "git_blob": "893c8370322ad1cfbff1bd3ced07318a747d73c5",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/overlay-preflight.stdout-stderr.txt",
+      "git_blob": "1393a16c97fce558d3dd85e8ac54e4c8fff5ab83",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-ruff-01-command.txt",
+      "git_blob": "cf16398e9a0c9e8dff8c07d2b315b50ee5f41cf2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-ruff-02-command.txt",
+      "git_blob": "a29919ca9f6504d367681cc8f4e94000ddea49f6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-specialized-tests-01-command.txt",
+      "git_blob": "9d1957acc6af6862bd957a37660a7df487f8ce0d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-specialized-tests-02-command.txt",
+      "git_blob": "aa9641a010341fab776fc177ad13834a032ab1f0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/pre-p2-test-source-snapshot.py",
+      "git_blob": "82a2f1de0884c84e3ebbd0b4cbaa291f00eed2e4",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/product-capture-command.txt",
+      "git_blob": "675470fd702ffe802761ac6aac69b158935e92ba",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/product-capture.stdout-stderr.txt",
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-command.txt",
+      "git_blob": "7675b246c25f9ba0c05bbb0cb0704c0b341be3ec",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-final-2.stdout-stderr.txt",
+      "git_blob": "7f6ba294132e156ccce54256b2567c8763f1b628",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-final.stdout-stderr.txt",
+      "git_blob": "7f6ba294132e156ccce54256b2567c8763f1b628",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-p2-01.stdout-stderr.txt",
+      "git_blob": "7f6ba294132e156ccce54256b2567c8763f1b628",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-p2-02.stdout-stderr.txt",
+      "git_blob": "7f6ba294132e156ccce54256b2567c8763f1b628",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff.stdout-stderr.txt",
+      "git_blob": "0fa443859bd9e0a9ab1147df4d104310a2672421",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-command.txt",
+      "git_blob": "5670cb81c55aa395aa475c87bec3194c50f5e898",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-final-2.stdout-stderr.txt",
+      "git_blob": "9426a4928fbbf9281dcddb83f36e2b7840a04d02",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-final.stdout-stderr.txt",
+      "git_blob": "32baa474f43ee76b916f0481abd6419a89ab3fb2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-p2-01.stdout-stderr.txt",
+      "git_blob": "c57d1326e7f9f1dd2c48468ead864ed6ff8d5f0f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-p2-02.stdout-stderr.txt",
+      "git_blob": "810b30b5605a250329e9816c39609de880bfbc53",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests.stdout-stderr.txt",
+      "git_blob": "ce6e33ef13ca9acee7af4d40d52201abe2155831",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/test-first-red-command.txt",
+      "git_blob": "dbfee48f582d6cfb9132101354c186bb7027b9b4",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/test-first-red.stdout-stderr.txt",
+      "git_blob": "0da88c24f1f7abd65ea39d7473247872f2674ef4",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/old-public-score.json",
+      "git_blob": "3c4ed9137d9241f9d10e7d1153e35664ed31f1ff",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/raw-file-score.json",
+      "git_blob": "97b426127f4f1bbe2511a5b7234d7c79435f352b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/relations-score.json",
+      "git_blob": "8eb17b692f9e3ed37dec789b6a3f8f6220cafb93",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/reliability-score.json",
+      "git_blob": "f8e16820409d22cea5ab977c72dc45708c780a13",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/source-proof.json",
+      "git_blob": "38c454cfdfa7fbe8dd552f672ee6b19cdc0fba28",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/final-20261010/structure-score.json",
+      "git_blob": "3e48673e80c961b0d8d86910f5be3943f144bdde",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/first-valid/first-valid-score.json",
+      "git_blob": "13f916f6720b22e7e367b93e7f751b9e876da599",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/first-valid/source-proof.json",
+      "git_blob": "8220b843f5b045219bed5a483b2ec508baaa8629",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-inheritance-score.json",
+      "git_blob": "3edd3360d3f4d1cb756ac8d9e71d36a919dbabaf",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-local-review.json",
+      "git_blob": "906b34e8b4406807a911429254136810dd2b06ba",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-quantity-boundary-score.json",
+      "git_blob": "e09e154bd475ab265aab623e2da8bb4e53639e4b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-source-proof.json",
+      "git_blob": "33620228365c6fb05f615ea9ed63281a1b35266c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/baseline-unit-boundary-score.json",
+      "git_blob": "dd4a032a1bdb1e5818d3922552b1be2ca1a27ebf",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-bound-review.patch",
+      "git_blob": "3b34b34188d575bfcd5418d69232ef3efbf1015d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-reconstruction.json",
+      "git_blob": "c31a4667dfdea8e8dd5b466167a03edc1fd73af2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-source-proof.json",
+      "git_blob": "ee826da30157e839b0dafac5bbb9b14fbd5f31cc",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/first-prefix-unit-boundary-score.json",
+      "git_blob": "1fabdcbae3576ccb63c378fdb28743d3cec30921",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/inheritance-score.json",
+      "git_blob": "65bb7e6cd927fe7cb31c23d56837c4ae7cb96345",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/local-review.json",
+      "git_blob": "95a6b41b460687ba9ecc6cd2c805d07b95c6c31b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/negation-score.json",
+      "git_blob": "bd220226c7a514ce7456138e61db6b1cf7894f87",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/nested-score.json",
+      "git_blob": "6d56e8a57fcc390eb5d73be9f10a5413598878d7",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/public-nested-score.json",
+      "git_blob": "75b8a66d743447b8dab69722877de86b8f08760a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/pytest-final.xml",
+      "git_blob": "e0ee899f10548cae9d91a3efa5984ad43006d983",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/quantity-boundary-score.json",
+      "git_blob": "0bdf893f5b6fe97c6eb08e803a8d95b3c09e8813",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/quantity-local-review.json",
+      "git_blob": "39492fdd492d9f929ac221d76d2ab9556e9f3245",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/relations-score.json",
+      "git_blob": "461b1127ffe8a4cdd5c6276015cfa567c2f5512c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/source-proof.json",
+      "git_blob": "1f4f415deabfd7eb2b65f4795900b1a1c13ebdeb",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/unit-boundary-score.json",
+      "git_blob": "5a6fc94bb900c8051b545a9a2183c4bd5f5e6a37",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/inheritance-followup-20261012/unit-local-review.json",
+      "git_blob": "daefd4b26e62bf6b5e383e08793722cb924ae50e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/initial-invalid-evaluator/first-score.json",
+      "git_blob": "9c3ea6f23dbee7ec53c4ab99cd75a00f8cb25328",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/initial-invalid-evaluator/source-proof.json",
+      "git_blob": "bc1b54814eb487f519417b7c7a8e0e8e72d6d131",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/baseline-negation-score.json",
+      "git_blob": "381cabda334b3515799a8344f2081a5e89fe2499",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/negation-score.json",
+      "git_blob": "23c96a8b45a3c47c9ab449da1d43230bb79d9275",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/old-public-score.json",
+      "git_blob": "66b8ccaf2b6db41c412bb574baefcd81f3e1cd11",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/raw-file-score.json",
+      "git_blob": "46f326f221f8c54d43c9a023747d4d36108e6951",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/relations-score.json",
+      "git_blob": "4625339ab8f6f07b97dbc69ad856f8ecad675c15",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/reliability-score.json",
+      "git_blob": "f93d2cbca70ebdfd1451389662050c095729aa70",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/source-proof.json",
+      "git_blob": "3ed97b587f6a09b62fde1664a0a1176615155c99",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/negation-followup-20261010/structure-score.json",
+      "git_blob": "a41b01a1ead7eee0f5b99b8ff3b47c165e65c2b3",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/baseline-nested-score.json",
+      "git_blob": "8ddbd48757ea42d5a697590f5abd1b2c2774646e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-public-score.json",
+      "git_blob": "aea6013330e5b857edd434808ed9e37e99b6c3de",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-relations-score.json",
+      "git_blob": "8f33ab07b4c9583e93e47f77f2b81d32642a0793",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-score.json",
+      "git_blob": "ea6462943b5be93b330111a5d7e6eca4d7b4b9ab",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-source-overlay-manifest.json",
+      "git_blob": "256a9d1294f99ec53b820353d1e4a1ebe7c1493f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-source-overlay.zip",
+      "git_blob": "41b3bdcd0701f7b7beddb32a41a76d87d6decb08",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-nested-source-proof.json",
+      "git_blob": "67221ec74f81243c2e114f1a6253b9fef6f7bb8d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-negation-score.json",
+      "git_blob": "b4c41b9e108d7a5c1efd7c573e0d0d3d1aea12c0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-score.json",
+      "git_blob": "06f5a701803a3dd11b386afdb833a581a837f9fc",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-source-overlay-manifest.json",
+      "git_blob": "33332d1f6da768876e4f4d64554b428032005a99",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-source-overlay.zip",
+      "git_blob": "a396e92d1890de72d64a87c66ec739fe3b467409",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/first-public-source-proof.json",
+      "git_blob": "62293b992fe16ade41809802986955aa70e748e6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/negation-score.json",
+      "git_blob": "3ec76463d2a9817ca402ef24eac0f9e557049ae0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/nested-score.json",
+      "git_blob": "8a5e3553ab37b674f0d9074574cede57de133709",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/old-public-score.json",
+      "git_blob": "d0052d97c6ae2b4aa29bd62793780676b8411b27",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/public-nested-score.json",
+      "git_blob": "717ab147f52863083719082d699bad8060ff8d31",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/raw-file-score.json",
+      "git_blob": "83735c153498a359e3dd4357e163e7b9342491e7",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/relations-score.json",
+      "git_blob": "458c1904fd52a3ede45f189b08d3619f5526434a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/reliability-score.json",
+      "git_blob": "a4514c9f39db0872468f65235f8e2609042752fd",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/source-proof.json",
+      "git_blob": "12556b0c03483be8ce3024bb5251219b8c00a018",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/nested-followup-20261011/structure-score.json",
+      "git_blob": "1a4bf5825e5d473aa4391c5d52bb29596e387860",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/pre-operator-adapter-20261010/relations-score.json",
+      "git_blob": "6e32b1752f9f589b14465ffec6e35b66015125f8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/pre-operator-adapter-20261010/source-proof.json",
+      "git_blob": "0960f294ff4fd980d200e6e9ca9b0afc086ceddd",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/canonical-pytest.xml",
+      "git_blob": "ecdaca1e1ec11e149362f60cc56ca255e1583d58",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/canonical-scorer-tests.xml",
+      "git_blob": "0f672deed1ab15764463108fc7cf807f4ddb20e1",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/comparison.json",
+      "git_blob": "144ff86e1c248df6051c64defe5740ce980ec7ae",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/initial-boundary-score.json",
+      "git_blob": "b16edc975436bf6bf624a1a1e467be5f72d94272",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/initial-comparison.json",
+      "git_blob": "54ea914e69f05cb3f1860ec3c54873a06497f5a6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/initial-legacy-rescore.json",
+      "git_blob": "e13b5a59493616e33dbbdd104d0f9b7798dceaa0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/initial-literal-rescore.json",
+      "git_blob": "8442e4d2918559fa5348b511223ac005d8dc2802",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/legacy-rescore.json",
+      "git_blob": "d52304c48b52986aaf96267d210edd7079db0660",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/literal-rescore.json",
+      "git_blob": "c48aebd4abebeb0033b463eb95e141f0f73400df",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/pre-implementation-red.xml",
+      "git_blob": "903ae18adbb0545d9db96ede706f78cad22b753f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/public-preview.xml",
+      "git_blob": "4ba1d6be250a9b015e1751721306b7557bbca207",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/scope-audit.json",
+      "git_blob": "0d65c5e166306ade461b58f0541075ff9a7f14dd",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/scorer-remap-20261012/source-proof.json",
+      "git_blob": "1a6b81e872f05eacdbc81289f0d90dafe915737c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/development-capture.json",
+      "git_blob": "d805bc295a768855b4ade50125fa8727930ed603",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/development-check.json",
+      "git_blob": "4b133f3fedf4cbafe9f9f593068acd9642dcda32",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/development-negative-reasons.json",
+      "git_blob": "18353184a979eb0ab78250e2da0d7b99a38d10de",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/public-h01-h06-capture.json",
+      "git_blob": "77a418eaa20984fd794a8639978f25810b6d6716",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/public-h01-h06-check.json",
+      "git_blob": "aa4cfc48e0a205ab49cde24f60544aba053a2c91",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/public-h01-h06-negative-reasons.json",
+      "git_blob": "99ae5e46dc87ee281d49551a011a875755bd42da",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/after-h03/summary.json",
+      "git_blob": "0c268d4c16afbc3c771ac469cac5eee0a263b726",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/development-capture.json",
+      "git_blob": "af99f7ba6d4f968e0f6f83d4380e535338745c2b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/development-check.json",
+      "git_blob": "fda1705675dcc74d2046a02da6368405bf4af920",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/development-negative-reasons.json",
+      "git_blob": "18353184a979eb0ab78250e2da0d7b99a38d10de",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/public-h01-h06-capture.json",
+      "git_blob": "d7bfeb9f0aa2299906771d010e56bde7d86ea06f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/public-h01-h06-check.json",
+      "git_blob": "375c4a72d10325fdc6b9390ed20c8ecdd4639412",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/public-h01-h06-negative-reasons.json",
+      "git_blob": "91eb580d4bced50d9ea3889eb89eb4991af75c34",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/baseline/summary.json",
+      "git_blob": "b23c65ce2dbf7d5455a7b69a7064e3ad5b75a0f0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical-development-strong.json",
+      "git_blob": "2b3c5eae1ea6c5febf0f6568605b1e448d041c29",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical-public-strong.json",
+      "git_blob": "d0daf834bfc9c3e1689541641e6ad6896da272ba",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical-tests.xml",
+      "git_blob": "668d46125080d7375949a9d0294b27ffe4c4b141",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/development-capture.json",
+      "git_blob": "8fddaaf79252f1e104c8a0f537f46fdb4fe0c720",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/development-check.json",
+      "git_blob": "68b5040d846e745a90d7a3f199e837c5167ca4e8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/development-negative-reasons.json",
+      "git_blob": "18353184a979eb0ab78250e2da0d7b99a38d10de",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/public-h01-h06-capture.json",
+      "git_blob": "d6f7e580b6dd3f4183c3de3b55ef7b3e68a0485d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/public-h01-h06-check.json",
+      "git_blob": "c01354ecf5ea96cea94222e8f3f85895b096a303",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/public-h01-h06-negative-reasons.json",
+      "git_blob": "777698a3c15b488568df73226bd5eee4462499bc",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/canonical/summary.json",
+      "git_blob": "7e8eb54134406f0c75ae117ef5daea006e2e1684",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-h03-tests.xml",
+      "git_blob": "f197bd2bd47f9fd244842f12f5a761e7030181c0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-enhanced-red.xml",
+      "git_blob": "9945697fd1e92324b0706e6c89a47cde2ca93d38",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-first.xml",
+      "git_blob": "0828ab8888c1b325754630777304fb44ac2d4f4b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-source-first.xml",
+      "git_blob": "967c2e4a7a621cc6af7db12dabe7399a1eb07dac",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/source-role-followup-20261013/source-proof.json",
+      "git_blob": "e9d41e3b2695bf83a554fdad63526baac7786be0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-01.oracle.md",
+      "git_blob": "c6586479dc6ed4becb20a4af1f718db6599b851d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-01.txt",
+      "git_blob": "3e13b061c530d12a7ddec6d8edc2c3ceacf84a12",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-02.oracle.md",
+      "git_blob": "e10e9ff72dd1e577e0d749155c07f84837fb5554",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-02.txt",
+      "git_blob": "e054e085cdce14e0746b61bd9edef0d0271a79a9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-03.oracle.md",
+      "git_blob": "2776666139d14215973579e6e64af67ac1c0099e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-03.txt",
+      "git_blob": "2f03a00db3c53110488e1456070ea8497576aafb",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-04.oracle.md",
+      "git_blob": "25e6ceb8c7b7771162989c32c05df283f02c2e6d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-04.txt",
+      "git_blob": "a3422a11c1b1251e7dfa49d0be1b213db93dc9b9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-05.oracle.md",
+      "git_blob": "d4587e480358a094c85fb38c14dc0c40128cd115",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-05.txt",
+      "git_blob": "6f23000eae21e2e539da3ea313ae100c4e048fee",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-06.oracle.md",
+      "git_blob": "b48c7caa4f91ecbd6afe2afeae9a7b659e62ad88",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-06.txt",
+      "git_blob": "e8b58fea8fb641bcd5a6b6801dcf6e9efef09e7d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-07.oracle.md",
+      "git_blob": "6b572135b352259ea4e212cfb5210929afa2c41b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-07.txt",
+      "git_blob": "c944beb1a36052e9b20c10c2f2afefae421811e3",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-08.oracle.md",
+      "git_blob": "2cc4e7855554bc232ff06d9dd431fe50e9e268de",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-08.txt",
+      "git_blob": "36c28fe2fcb54751adc94d7ae18ac34e32a4ac81",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-09.oracle.md",
+      "git_blob": "a3525021765e7aa43a68a87c174ed12a8fade38c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-09.txt",
+      "git_blob": "2b629c4699821adac6cb3258f2ed6728babe212c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-10.oracle.md",
+      "git_blob": "077fca1d2449751df41d628ac3f917b2235f977f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-10.txt",
+      "git_blob": "7e5618301d9081c933b49d3648f877e16016d4ef",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-11.oracle.md",
+      "git_blob": "6c0fa73663d4168220a0146880eb010e2b49baf2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-11.txt",
+      "git_blob": "88142034ab415c2151c49b252376f195dc2b254a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-12.oracle.md",
+      "git_blob": "8cfb5455a53e9e0b89a48ceb478085fd699ff753",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-12.txt",
+      "git_blob": "ebfe7a6eb99e6f900e56987b9ee56b17b02a40bc",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-13.oracle.md",
+      "git_blob": "496e257d60cdde6f5006ca9220093c1acc95706b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-13.txt",
+      "git_blob": "c2d927e92adce83f9ad0c55cb2416ceca8f748c7",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-14.oracle.md",
+      "git_blob": "3798e7f3a73155915030c12db62066dc74ed76b8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/case-14.txt",
+      "git_blob": "212280b06fa72ec0c7eb86d64d2bfe0630104590",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/freeze.json",
+      "git_blob": "8b43bcf811cff797b3e208b44a83c40a6a32ca64",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v1/machine-oracle.json",
+      "git_blob": "00b54e44938a2a061bf3760805633e054f05cd88",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-01.oracle.md",
+      "git_blob": "c6586479dc6ed4becb20a4af1f718db6599b851d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-01.txt",
+      "git_blob": "88182b19ef993507604daef79990a64fddd81d6c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-02.oracle.md",
+      "git_blob": "e10e9ff72dd1e577e0d749155c07f84837fb5554",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-02.txt",
+      "git_blob": "983f395c3a30271da0d674ed48480169a0463d1c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-03.oracle.md",
+      "git_blob": "2776666139d14215973579e6e64af67ac1c0099e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-03.txt",
+      "git_blob": "9ced5d8affc5299952b9a82e0d235fcd03bf8062",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-04.oracle.md",
+      "git_blob": "25e6ceb8c7b7771162989c32c05df283f02c2e6d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-04.txt",
+      "git_blob": "ccbf7d904537123eb68c9f4b0f69d2eac29281a2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-05.oracle.md",
+      "git_blob": "d4587e480358a094c85fb38c14dc0c40128cd115",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-05.txt",
+      "git_blob": "1cdb74971822c4162c11b22ba9ed72b70c099fac",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-06.oracle.md",
+      "git_blob": "b48c7caa4f91ecbd6afe2afeae9a7b659e62ad88",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-06.txt",
+      "git_blob": "7f1a3019651772406937287f317da589630c8f9e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-07.oracle.md",
+      "git_blob": "6b572135b352259ea4e212cfb5210929afa2c41b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-07.txt",
+      "git_blob": "43214e387f253f1654f635b7dc30dd828d688b26",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-08.oracle.md",
+      "git_blob": "2cc4e7855554bc232ff06d9dd431fe50e9e268de",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-08.txt",
+      "git_blob": "20d914e5309e090dcddc8831289cbf26d87b5169",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-09.oracle.md",
+      "git_blob": "a3525021765e7aa43a68a87c174ed12a8fade38c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-09.txt",
+      "git_blob": "3c4ec09e7d0021d674a0ed2873a03fdff11edd15",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-10.oracle.md",
+      "git_blob": "077fca1d2449751df41d628ac3f917b2235f977f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-10.txt",
+      "git_blob": "bd4967866eecb25c589ad5d0019e0f4cb0d68018",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-11.oracle.md",
+      "git_blob": "6c0fa73663d4168220a0146880eb010e2b49baf2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-11.txt",
+      "git_blob": "d3f8986c45ad824d585552faa1daecbfc8a15e37",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-12.oracle.md",
+      "git_blob": "8cfb5455a53e9e0b89a48ceb478085fd699ff753",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-12.txt",
+      "git_blob": "fc5cbb142011462ed19e50aec880664ddc5a68d2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-13.oracle.md",
+      "git_blob": "496e257d60cdde6f5006ca9220093c1acc95706b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-13.txt",
+      "git_blob": "1d1709e45f46514743077172c20a50f0c3c03a29",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-14.oracle.md",
+      "git_blob": "3798e7f3a73155915030c12db62066dc74ed76b8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/case-14.txt",
+      "git_blob": "f896c3f987e241b0b0a29d79e956e21a536985ec",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/freeze.json",
+      "git_blob": "2521d268670883b351dcec540a155f3632b65574",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reserved/v2/machine-oracle.json",
+      "git_blob": "bca8ef803c9dbb417eedeb78dd088eb5a7fae423",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-publication-record.json",
+      "git_blob": "7459e4c14a16e3a7760ee5ac645612262627675f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/baseline-freeze.json",
+      "git_blob": "da7bed2ba6546fd2e3f2034c69e817d47649009f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/boundary-freeze.json",
+      "git_blob": "05fca0ccbf4b0e614e16cd46c77c89cf3cdcfbb5",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/check-boundary.py",
+      "git_blob": "194b34092c56b409c8ea45aa1a72044ea3d60a0d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/grader-freeze.json",
+      "git_blob": "1682e15baba77cccb0c95fd084a1c30fd34a1c2b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/initial-grader-freeze.json",
+      "git_blob": "99dfccbffa817f87f23bee5afb5a5ade4fa9b0e7",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/initial-grader.py.txt",
+      "git_blob": "b6b78dcc68fd0df1dc581dc9222dc3bac114515c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/pre-implementation-tests.py.txt",
+      "git_blob": "9304be32ef57b54e2a47fb397fbe2b6edcc293be",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/scorer-remap-regression/20261012/test-first-record.json",
+      "git_blob": "4405b74d63eb75fc3ba53261000ca27b042db5fe",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-publication-record.json",
+      "git_blob": "14bb5f5aad88e0aa9dbc9dac8d8789478832036c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/after-h03-source.py.txt",
+      "git_blob": "5ec2ea3edc28b4ca328da0647452b8f53cd452bc",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/baseline-freeze.json",
+      "git_blob": "7e8ba7cbd690ebf4c76ec2919d67ceb3c6b3dd31",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/capture-metadata-erratum.json",
+      "git_blob": "4e543a913e879c905d9a50bfa10566dbb9d1d4b6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/check-public.py",
+      "git_blob": "30339046420c482f9c5a24a6832c7098f1c1c98e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/contract.md",
+      "git_blob": "0e331201e18e25e57872814007951e2576a53a83",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/final-public-test-freeze.json",
+      "git_blob": "8abbd8a8f7ee5485012a7188f6f7452d837b6faa",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/header-test-first-freeze.json",
+      "git_blob": "8746d306a722dd7541b365aa1e8a04b866af2f3b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/header-test-first.py.txt",
+      "git_blob": "96d8eaef31651318c10424629dfee17994469522",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/isolation-status.json",
+      "git_blob": "7abb532a24f513b3fe1ef2c29eb870b8e6cc12ee",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/source-test-first.py.txt",
+      "git_blob": "a06d160665a73906e413fea6c27ff851cbf15dc8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/source-test-freeze.json",
+      "git_blob": "d19cfafac937e6399092c64236622d575cf5eb35",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/verify-snapshot.py",
+      "git_blob": "9559942493eb3e7304e04bc996ce50df87fe220e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/errata/v1-to-v2.md",
+      "git_blob": "6fc9c89c979382d8fec086b94c7b98fa0b495432",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/errata/v2-to-v3.md",
+      "git_blob": "e736bf0e13434a6eb22feffdac3c30687c022744",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/fixtures/cases.json",
+      "git_blob": "e091eab12fe7a4d728d97f712b0281c0a1f7ac9d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/freeze-manifest-v2.json",
+      "git_blob": "6307e0c9821420da25718329ea9098d61e851666",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/freeze-manifest-v3.json",
+      "git_blob": "69ae328807e07742e1eb4adc32d1b0843803b798",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/freeze-manifest.json",
+      "git_blob": "d338cd5c1896b80cc8b9001c726bf16588d25d1c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/oracle/structure-oracle-v2.json",
+      "git_blob": "0913415ed0c7c89ed2f3aa3114843f2bbca28dca",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/oracle/structure-oracle-v3.json",
+      "git_blob": "bf8875115c40d381b492d595695f5d93e00302bb",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/oracle/structure-oracle.json",
+      "git_blob": "7cc1c000aec815a5321ddffe58796935d62777c6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/initial-debug-worktree-v2.json",
+      "git_blob": "c817d25fabffe4597eaba3b00ba0d536943b8f11",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/initial-debug-worktree-v3.json",
+      "git_blob": "489dbbb30b03c7df019cbff8e0e3668db593f561",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/initial-debug-worktree-v4.json",
+      "git_blob": "dd6de5362955dc40a849d5293f77ea4fb7d39f58",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/initial-debug-worktree-v5-20261009.json",
+      "git_blob": "9b5b695fba54530f72a4c784159f78a1a59e56f6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/initial-debug-worktree-v6-20261009.json",
+      "git_blob": "8c71b9a0bf3a5c5614a45ba6f017858648f6a825",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/initial-debug-worktree.json",
+      "git_blob": "0b04c4432f85ecaa5353cfc5296764f24d5043c9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/raw-file-regression-step1-final-20261009.json",
+      "git_blob": "f69b260cf92dbabb432ca2a8d1e5481c344867e0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/raw-requirement-regression-step1-final-20261009.json",
+      "git_blob": "7fb9a0183db55fef64bcbca139c49447cba177f1",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/reliability-followup-step1-final-20261009.json",
+      "git_blob": "6524fa4df4a6b3e3f90da5d2c9f84591140b3f47",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/snapshot-verification-step1-final-20261009.json",
+      "git_blob": "ca447c94dc409bf142509b918d77cf512a755208",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reports/structure-step1-final-20261009.json",
+      "git_blob": "775ef0681f6344b40840e0e7b3664ca31f7b7134",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved-copy-manifest.json",
+      "git_blob": "b9c7b00f48cfd2359762fd1ba13999e53313d393",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/freeze.json",
+      "git_blob": "f0309a899da2893cbb7408fc05bd0fe6eb399112",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/oracle/case-01-unpunctuated.json",
+      "git_blob": "e09f4e6325a2d5bf6e359f1963bb24dddcbe0a78",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/oracle/case-02-cross-page.json",
+      "git_blob": "988f88d2af80179cea6eff7f4bb2f6b3941330d9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/oracle/case-03-lettered-items.json",
+      "git_blob": "797b2be67d21f83fefa98dee0a4947af488b5c23",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/oracle/case-04-multilevel.json",
+      "git_blob": "8d684b685dd9907aa528400ee77ec433aa732aba",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/oracle/case-05-repeated-number-text.json",
+      "git_blob": "fd58a7f32c3771f4099066368cb48c6711645ea9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/oracle/case-06-layout-crlf.json",
+      "git_blob": "d87dac230943b6b98c10e4ba0bb8834bfab8d9ee",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/oracle/case-07-version-v1.json",
+      "git_blob": "f61214444c9686e8e32e9b07be181786b6e37251",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/oracle/case-08-version-v2.json",
+      "git_blob": "3c1e1550f88e290885096f6bde832e77fbadeb72",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/oracle/oracle-contract.json",
+      "git_blob": "9cfd9b05605900c74b6dce7836d64826f8eb8d7d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/source/case-01-unpunctuated.json",
+      "git_blob": "2e71a8c508ee014e7c0b88185d42c0023d5a91b4",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/source/case-02-cross-page.json",
+      "git_blob": "658561272f816c292249199c191439d7b2ef3e7e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/source/case-03-lettered-items.json",
+      "git_blob": "e6f8ca601562adc764198c42b246168141a0e5d2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/source/case-04-multilevel.json",
+      "git_blob": "fbebf9dc6345a847e4173fc59c91ed32c5d88639",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/source/case-05-repeated-number-text.json",
+      "git_blob": "c5ff8518b949653d774eff48f6f5ba4e718ebe2e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/source/case-06-layout-crlf.json",
+      "git_blob": "ccfe157845f21c169367d8b64f908d11e1989a0d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/source/case-07-version-v1.json",
+      "git_blob": "d5beeeb0020db6c4ee11cd4075178bd650db3a1c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_structure/reserved/source/case-08-version-v2.json",
+      "git_blob": "8ed418daddaa6b27659a623e836e56a72ffe8bcd",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/README.md",
+      "git_blob": "c0461e23be68f3e4d0f38b1a0de6afaa01b299c8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/cases.json",
+      "git_blob": "9558a9b454a4d29af502f343af1cb3e31fd13244",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/ISO9001证明.txt",
+      "git_blob": "153123c85f952265777622d4162bf4b976192e2e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/amount_boundary_tender.txt",
+      "git_blob": "e3754c53ebe4e321b9b838c3d4151d9658385897",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/bond_40000.txt",
+      "git_blob": "76b047b3ad4dd4e38fd3d23982fc953fbffef204",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/conflicting_scores.txt",
+      "git_blob": "e4acd830bdeddfbe618b76075445caadbc3dd2a0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/contract_135wan.txt",
+      "git_blob": "3d4d46c05bfc575426477c970114b82028aec574",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/contract_negative_amount.txt",
+      "git_blob": "1a60163c6b6e967dc130f3a846e9f9c787f4c5e0",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/contract_unprovided_next_bond.txt",
+      "git_blob": "6f2d4d101637b213b0e4babff0bd24203c3b4f96",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/correction_original.txt",
+      "git_blob": "2fefd0cee2ba96ce72f49a643c1d34f9a23cb099",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/cross_page_score.txt",
+      "git_blob": "66de016b6a1c9aaccd25a5e2e93082f6e3867f70",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/iso27001_requirement.txt",
+      "git_blob": "e821bf4a7660ba51749e3a6f121e4398fdda8858",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/minimal_repro_tender.txt",
+      "git_blob": "bf355946451ba1006bd2370153ff6f4808e75199",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_file/fixtures/更正公告_notice.txt",
+      "git_blob": "a272647ad9a719394d16efbd6e41432fccf84f31",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/README.md",
+      "git_blob": "e76d4d909aeb172e15bb333922ad9034a79dddf3",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/errata/source-version-token-erratum.md",
+      "git_blob": "503e498febd17c7f40a7e1bcc122d5f856418ac2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/freeze-manifest.json",
+      "git_blob": "38bd955f0bb8e66bb352dce5578e79ec378266b7",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/oracle/cases.json",
+      "git_blob": "ba93aa277420265d68ad238fef1d8b1a1335e2b2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/oracle/expected-semantics.md",
+      "git_blob": "44573d228ed8bfa337a32240a3b6f2dfee680484",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/oracle/machine-freeze.json",
+      "git_blob": "d69988727a4c6d356004aced6fcf8e97afe662e4",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-01-qualification-finance.txt",
+      "git_blob": "e3bc8dfc068878ef851d03ec30778d7e1182188d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-02-legal-credit-table.txt",
+      "git_blob": "a8a284d2550a660e2e991cb52cecfd74d7e4cfba",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-03-manager-social-positive.txt",
+      "git_blob": "499c5d0a993787e35a96a997ce40e480be298d6b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-04-manager-social-gap.txt",
+      "git_blob": "c8bcb9dab103148a3ee0c129bafd5c6e25039594",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-05-identity-oauth-no-replace.txt",
+      "git_blob": "752de7a925b86f29d83635dd86f8714d55b32d0c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-06-identity-replacement-negative.txt",
+      "git_blob": "56cd0eaeed676968f09af69130182bc747d28a5b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-07-transport-db-crypto-manual.txt",
+      "git_blob": "12c4f1fde95d4a6688588e3bcf2fbc30300ce01f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/raw/holdout-08-platform-portability-positive.txt",
+      "git_blob": "4b83f37bcd15380db34ff83c6ec14a06469b3690",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/reports/public-regression-20261007.json",
+      "git_blob": "60d07d03fc9ed2554e989833ae15ff447ee9df68",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/reports/public-regression-final-20261007.json",
+      "git_blob": "c4ded8e3c95b27ca1c3c61e1b9bfcd28d5612291",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/reports/public-regression-final-20261008.json",
+      "git_blob": "fed09bdc8fb3db46e85e8f2275f5220c725c079f",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.json",
+      "git_blob": "91587b22dcf0e6dda1e2abec602325e353787b6c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/reports/raw-requirement-holdout-acceptance-v2-final-20261006-rerun.md",
+      "git_blob": "ebe2c2635e12405bb00d2a2cf474c5ff03d0b3b1",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/raw_requirement_holdout/reports/validate_holdout_v2.py.txt",
+      "git_blob": "bb0f791b86be21cd1b5555d2b79e58a94dcbee7e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/regression/README.md",
+      "git_blob": "108e945cd5dfe0496421111455e56d29c794c16a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/regression/baseline-v3-ocr.json",
+      "git_blob": "c9faef70932a09b13b218bb1e86f8e97099d12c6",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/reliability_followup/README.md",
+      "git_blob": "a0a02aceea442bcde9b0bd6a2f3fe477348909ca",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/reliability_followup/cases.json",
+      "git_blob": "3e29e6f77ca7b608a1022dabb7c4ecdef612227a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/reliability_followup/fixtures/runtime.json",
+      "git_blob": "dbf374e9f1ff5b1138794bb32c2ba9fd20281073",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/reliability_followup/fixtures/writing.json",
+      "git_blob": "dc43dd12a20c1bd2c16d09364ed906ef2c754e7b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/reliability_followup/oracle.json",
+      "git_blob": "425bcdc0de6fd38f283ecf82f93671746f83e076",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/reports/benchmark_v2.json",
+      "git_blob": "4b7b5c0042e820fc229b9b6463f776da53b3838e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/reports/benchmark_v3.json",
+      "git_blob": "664081ca28b44f215f5e027aae46e21e9f60062b",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/tender_v2_corpus.json",
+      "git_blob": "d0c3efc9480865cc46fca9a23cb8461540f0d4d0",
+      "matches": true
+    },
+    {
+      "path": "docs/architecture.md",
+      "git_blob": "442fb73eb084f1dd8c8f078dc609b3fcd6171f19",
+      "matches": true
+    },
+    {
+      "path": "docs/chatgpt_project_prompt.md",
+      "git_blob": "c3d25e10bb5b3262a0d0a6581af5b3b93a152dc1",
+      "matches": true
+    },
+    {
+      "path": "docs/document_relations_acceptance.md",
+      "git_blob": "df541e1887e31527f5b5b62a04ddc8bcfad1d510",
+      "matches": true
+    },
+    {
+      "path": "docs/document_structure_acceptance.md",
+      "git_blob": "77c0ec9e85b8449c26569b404e2a0978bd053f33",
+      "matches": true
+    },
+    {
+      "path": "docs/reliability_acceptance.md",
+      "git_blob": "4cd8bf251419914fbbce4e749e6dffed6aea0522",
+      "matches": true
+    },
+    {
+      "path": "docs/tender_skill_evaluation.md",
+      "git_blob": "0a5cb3831aa9aecc04338d932093951c01a8f831",
+      "matches": true
+    },
+    {
+      "path": "pyproject.toml",
+      "git_blob": "1f8ab97c0c729b8d34b9c3ac7c91a7e1a8bd0a08",
+      "matches": true
+    },
+    {
+      "path": "scripts/__init__.py",
+      "git_blob": "614885d1d47904e9786919e95f3579ae69bd3ab2",
+      "matches": true
+    },
+    {
+      "path": "scripts/build_release_zip.py",
+      "git_blob": "23bdf00a447e5f080faaacd4be4bc1d6699b82dd",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_benchmark_v2.py",
+      "git_blob": "075c5eb969b3f5ca3e18d7f7a853d24653cbc936",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_benchmark_v3.py",
+      "git_blob": "a7910a5737a09c19d394d2e8498cc2dfcf0eabce",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_boundary_rescore.py",
+      "git_blob": "937154d2f6c67a0925c0b88adbf798d8c6b05480",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_current_rescore.py",
+      "git_blob": "723957310accffb34ba54e73996fe3cc097e1c0d",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_eval.py",
+      "git_blob": "7a39460bcf6d6cea801ebbd2508b95d6e18010b9",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_negation_eval.py",
+      "git_blob": "8f384ab2c49d16cfbd0ce4c24620a9ed4278c405",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_nested_eval.py",
+      "git_blob": "3c9955659f8781ef336267a735d3a96491092412",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_rescore.py",
+      "git_blob": "b6b78dcc68fd0df1dc581dc9222dc3bac114515c",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_structure_eval.py",
+      "git_blob": "ff9e281fa7fd7393b835cd14e5030086cd0a66ba",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_raw_file_eval.py",
+      "git_blob": "aa012eca9d9061a5a72c85d8617e55f88ac8c162",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_raw_requirement_holdout_eval.py",
+      "git_blob": "3e9345a2c91aeee385f861cf53dfa024f76065a4",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_reliability_followup_eval.py",
+      "git_blob": "f1e173e26083b0fb78b0756ca6f289821699c5f2",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_tender_eval.py",
+      "git_blob": "1778c04efebbbf6b43c2389c5ef3c66094f60e56",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_tender_v2_eval.py",
+      "git_blob": "e45f252ef9a31ce7ad27024653cc1ad2121b0412",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/__init__.py",
+      "git_blob": "0d7fe52b1506890e5ef7e09fd0a20e1eda48e2d5",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/__main__.py",
+      "git_blob": "292cc1fbac71a4c7145261aa338ce26464b701dd",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/adapters/__init__.py",
+      "git_blob": "2ff0949b6c8ce0a8df3099bde5b0024f28bfbc7e",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/adapters/reference.py",
+      "git_blob": "450f5383592bf7307dfb337426dcd050fa4a6103",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/api.py",
+      "git_blob": "50ee532d34d72ab94d8bec0fa3890f4198994e83",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/__init__.py",
+      "git_blob": "8544d9b6895eea367e631d412866323aff316dbe",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/budget.py",
+      "git_blob": "5b3eb4943d4ff0beb5abbbabff1026cb0a6b0533",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/context.py",
+      "git_blob": "673b9bb9bf2db9eea8a33ec5b13ff5604c983315",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/contracts.py",
+      "git_blob": "6b27716d5dcadb74d205d524f29b47991a1b9272",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/events.py",
+      "git_blob": "a9a3f49c3e71e1b95e7c6147a132c8e24d442402",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/files.py",
+      "git_blob": "e493dee1395bb1107c2663e19ada91ea66beb740",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/registry.py",
+      "git_blob": "c119862e013ee33664861bbf60002ab0ea25cf39",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/runtime.py",
+      "git_blob": "33bec26411fafd6b9f73019a022573aea4b87ba3",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/scope_authorization.py",
+      "git_blob": "fbe927b039a45aeaa1101da4b18f2569dc3f1e86",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/store.py",
+      "git_blob": "3b11ef6180bd11b80c5abd1177a676b159289b9e",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/trace.py",
+      "git_blob": "5e1ecc6a5ecf20d86ffae32d38c9a3efa4239475",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/__init__.py",
+      "git_blob": "49ea12e4da1407bbf52731e2e45b7da0f73d7a14",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/analysis_protocol.py",
+      "git_blob": "0b1048eb72f54ecaf8ac4539c01b05c681d25397",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/document_relations.py",
+      "git_blob": "325535e0afab33cec36e223f2cf58f7dcab7df51",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/document_structure.py",
+      "git_blob": "c7106c3c24f315ff4d36c2ed5785b9dcd154f5ec",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/models.py",
+      "git_blob": "e140a66a489a8b3cf28173af3a6bdc991d7e28d0",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/llm/__init__.py",
+      "git_blob": "f740bf0306376f480e44962f1da3b6dfbd796bf6",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/llm/client.py",
+      "git_blob": "70f07cb3e0b5a514151f025b2d87ab66dfb8b404",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/llm/config.py",
+      "git_blob": "d30ad7793531abe98b97306828f97050342f0c51",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/__init__.py",
+      "git_blob": "18d8d82499d25b3e79f5d01b46de25d8780a3d82",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/analysis_report/SKILL.md",
+      "git_blob": "d5ef64cca1d2a43862bd12a6a2e19da610240220",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/analysis_report/__init__.py",
+      "git_blob": "e97bd6cdb3736a933503518f842fbdfad62812fd",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/analysis_report/manifest.json",
+      "git_blob": "cb1bc4f7180845dd1e167988db67c073f138278e",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/analysis_report/skill.py",
+      "git_blob": "5110bca3e15c539692a0c774f022f72c8437881f",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bid_feasibility/SKILL.md",
+      "git_blob": "65cf440f939a6b31f5d3dce25679905445821b12",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bid_feasibility/__init__.py",
+      "git_blob": "268c9e4e6230dbb24488f038dff75d088e27dc8f",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bid_feasibility/manifest.json",
+      "git_blob": "739dfd3f75887f5f438289fd64b9e555e3f93225",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bid_feasibility/skill.py",
+      "git_blob": "cb3ba006ae88686961044c6c9308b66cb2e2737d",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bidder_material_intake/SKILL.md",
+      "git_blob": "037d7f6c507582995c6e156b6b62cff32edafa13",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bidder_material_intake/__init__.py",
+      "git_blob": "02040d82e0b51c7f48664728941c24e383f057cf",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bidder_material_intake/manifest.json",
+      "git_blob": "2d3f990d97bb3e0f7b5845ff77fd18e438bc76f4",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bidder_material_intake/skill.py",
+      "git_blob": "cf496905ed8a7291a4e7b17fb1e726faf19de697",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/compliance_review/SKILL.md",
+      "git_blob": "d3a450758b2073064147ae1e0ff2b8d7cd9d0db3",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/compliance_review/__init__.py",
+      "git_blob": "3a2c749a51b351776154a7dcda57f15d39ec7f08",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/compliance_review/manifest.json",
+      "git_blob": "bee4c13959dc4ca6bb433d683842a00eb9b13e94",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/compliance_review/skill.py",
+      "git_blob": "c9a3dc617f99523154e3b6aa14ee480edbef6fa9",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/consistency_review/SKILL.md",
+      "git_blob": "44e54dfaebd22127291b9407124f238651d698d3",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/consistency_review/__init__.py",
+      "git_blob": "ac23dbea600eadfc1bd687a549e7ea9a7d7ea41f",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/consistency_review/manifest.json",
+      "git_blob": "ec48222d4c64acb2fdd8e3159d4a91b22bc633e5",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/consistency_review/skill.py",
+      "git_blob": "5457868a02fa451079fe24619c3bf8a0c3f62a02",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/SKILL.md",
+      "git_blob": "eb4a62da72d3c10d6d30a5a1f68f663e5cf01218",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/__init__.py",
+      "git_blob": "3f6ddee920594fd615e33537dca547dd2b0df87f",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/manifest.json",
+      "git_blob": "f3d1ca14877cd12ee3713749e267a4be6c0ccb75",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/models.py",
+      "git_blob": "bcfe78aae7b8b47b6cbf7ebf541b701c432dca6a",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/skill.py",
+      "git_blob": "9d3057723145f9df9b3ff97c47bc19d3dce8777a",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/SKILL.md",
+      "git_blob": "fccfbfa4ba6c8b060f1e0650ba0bd89e55fa228b",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/__init__.py",
+      "git_blob": "35185a59b8f7f2432d5dd675b78f24974acf5121",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/manifest.json",
+      "git_blob": "53fb8dcfbc035633cadd95bba9edcdeade43aba8",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/models.py",
+      "git_blob": "16a7e89b7f253452cad9bd106d03cfd5c403ade3",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/skill.py",
+      "git_blob": "682bea5826583eb358c438a88670384e549b1fbe",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/SKILL.md",
+      "git_blob": "3491445db35965d1bec1bb6dea485207a3cbf6c6",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/__init__.py",
+      "git_blob": "a0fda70b2a9a31f21d2de1a696b435695ee958d9",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/manifest.json",
+      "git_blob": "5cf77e4be8382c97fd6f5dd8fc2ecc77e4cd9c0c",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/skill.py",
+      "git_blob": "d6a26b09901f3a17b54e4ee6bb40c3a8edfa535b",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/verification.py",
+      "git_blob": "98b8282abf3f6d31465a12ff0f7e1e167c7c26f3",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/evidence_matching/SKILL.md",
+      "git_blob": "4aa6d3eefef36f29b8e7e5fe251cfa32a9ad7755",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/evidence_matching/__init__.py",
+      "git_blob": "5ea341ef004436d34673d4fc428800a8e7fd1c09",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/evidence_matching/manifest.json",
+      "git_blob": "8e5e3d909d345b36f2e08bfc2212f8293936fd73",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/evidence_matching/skill.py",
+      "git_blob": "9c23413d91701cedda3ef0fe58f4c14ee6c984c7",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/SKILL.md",
+      "git_blob": "904cfc5a0dd360a6a4632a708f7a271ea4432ecb",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/__init__.py",
+      "git_blob": "c041107863e9fe0fee13cd26fd35c71bda48d7ab",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/manifest.json",
+      "git_blob": "e29b5eec307b007f99cbea68b49c47b40f584e55",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/models.py",
+      "git_blob": "84c8096d46ebb5b10a85c4274dd40067fe5af07c",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/ragflow_backend.py",
+      "git_blob": "86d5b2128a67dac2c14549321803c0d095c9ca0e",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/skill.py",
+      "git_blob": "448ff8fd64ab9276a8dbbb3ba75e4f88854f6012",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/local_backends.py",
+      "git_blob": "621bcfbf1b14c84c5ba02cd2e12295e6abd6c2ea",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/local_requirement_groups.py",
+      "git_blob": "9a822c8e32352119f58f8de16633b088ec54e305",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/local_requirement_logic.py",
+      "git_blob": "011d9b22668fc23435a2cdfb75df653a5d472d21",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/quotation_check/SKILL.md",
+      "git_blob": "294defb33475707458bb8e6f00ec2db4fc3c3a8f",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/quotation_check/__init__.py",
+      "git_blob": "aaae404962d7348143a7223f82e560fe4a957045",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/quotation_check/manifest.json",
+      "git_blob": "f4ec8f5bd969f85ffd264910177a4ea3ed3478f1",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/quotation_check/skill.py",
+      "git_blob": "d17846f6774f201b6c5ec26e4ac3ff64635a608b",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/requirement_ledger/SKILL.md",
+      "git_blob": "dc1b8fc11a322c5842b8b5b337f6d5657742c767",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/requirement_ledger/__init__.py",
+      "git_blob": "ca2322eac7653c19fcb5bbc1af44446f2694134c",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/requirement_ledger/manifest.json",
+      "git_blob": "3510f260d153e9ec92e3c5629c799b1be557ad40",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/requirement_ledger/skill.py",
+      "git_blob": "c8d9dd434f03feee36763191f2d40c9a162ace5d",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/rule_engine.py",
+      "git_blob": "db88a02eb699bf55384c59bd0c1dc768aad5a13d",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/scoring_strategy/SKILL.md",
+      "git_blob": "3c7404ba2dc8d51ad2695a440a645a4270ad8eac",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/scoring_strategy/__init__.py",
+      "git_blob": "128565fc69787319585568b325462bb0f0183d83",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/scoring_strategy/manifest.json",
+      "git_blob": "60569442b2e0583f5c20f67f53d2461a97aa3d0c",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/scoring_strategy/skill.py",
+      "git_blob": "0749047d9c69915ffbbf23a143019b437aef370e",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_common.py",
+      "git_blob": "d7a4a7094f67948a89d937d1fa2665ee5be22cd1",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_decomposition/SKILL.md",
+      "git_blob": "e714275afe3e188a47a291e22edf27173bef6dcb",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_decomposition/__init__.py",
+      "git_blob": "93052e14354407ec5b4967cb626b05237b2cd5f2",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_decomposition/manifest.json",
+      "git_blob": "07d31d5e573280546b91e4f399a2b68304b79ad2",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_decomposition/skill.py",
+      "git_blob": "ef71b426d566c3ada6ff55ef71720383ff42b118",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_intake/SKILL.md",
+      "git_blob": "a5a5651992d75e64c7414af0ba26d17bec996663",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_intake/__init__.py",
+      "git_blob": "16e555e22c3be25ae2174623690f2faa49d7b783",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_intake/manifest.json",
+      "git_blob": "7c213a1c75c42c6938d2fbaaf8727958c56b939a",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_intake/skill.py",
+      "git_blob": "23abd4c7021c6f0c8b94d9f48ef65d602f45eb81",
+      "matches": true
+    },
+    {
+      "path": "tests/__init__.py",
+      "git_blob": "02b6f6459501e0e3a4c137a44feea94867ef75cf",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/__init__.py",
+      "git_blob": "796338f9cdcd1fe123cf5c9801025405e7900dd6",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/cases.py",
+      "git_blob": "a3fa930ebae35899795e7e23514ad4675b096b9a",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_benchmark_v2.py",
+      "git_blob": "6fcc5c9c37816afbd1dc5ed5e7714e94cf852066",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_benchmark_v3.py",
+      "git_blob": "709190cef1da674fa516c7fe072418fd2eb66ecc",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_boundary_rescore.py",
+      "git_blob": "0fd3934ed0a5d250c9c5127999f51ae236355dc0",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_current_rescore.py",
+      "git_blob": "251b7057560d77469b43019c80b4315ff91359f2",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_eval.py",
+      "git_blob": "f18fcc0aec0e6afbea1e002f1aceb11065e4d05c",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_negation_eval.py",
+      "git_blob": "b9a33e2c8c2aba6ae2fe5eb41f9de64da8207fa6",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_nested_eval.py",
+      "git_blob": "785bcb3499c52c48c5b92627dbbc9ad7a1c086cf",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_rescore.py",
+      "git_blob": "597f5b5056c490b5a07696e914036e52939e86ea",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_structure_eval.py",
+      "git_blob": "998a44107fb11e714bb244094c88e47c2cb234c7",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_raw_file_benchmark.py",
+      "git_blob": "09ce2e3eb8453571cb6d395e8775cc04301ad42f",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_raw_requirement_holdout.py",
+      "git_blob": "67a767c5ff3634c89bb1a84fb4e74410218e01ad",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_regression_catalog.py",
+      "git_blob": "13fce5922387a498a3141d25992ef75dfd713b58",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_reliability_followup.py",
+      "git_blob": "c0f129347e0ccc75e73f256de8bb37e3823760d4",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_tender_acceptance.py",
+      "git_blob": "714459776c508ed260204bcc2f3eaa89a6ec3053",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_tender_v2.py",
+      "git_blob": "38e602ba9930be83c4ffc25bc106702e83feba78",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/A_normal_bid/bidder_materials.json",
+      "git_blob": "05385096438e4a8a04a87c9b1971762492f2b9e0",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/A_normal_bid/correction_notice.json",
+      "git_blob": "66b7d6ef33fb9af73d42f96bf325d2451fd1d2d7",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/A_normal_bid/ground_truth.json",
+      "git_blob": "bceab01f246fdfb5ffc2e3c8a77ac66b433eaece",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/A_normal_bid/scenario.json",
+      "git_blob": "19dd09e48c45dbe65932e6cb8676f5585d75f525",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/A_normal_bid/tender_requirements.json",
+      "git_blob": "9c2d21224fc9c9ff48b47b6e92b253a254b6760d",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/B_no_bid/bidder_materials.json",
+      "git_blob": "54f3a0e20b2d1ba87fff5f61742cc6df5c1d7e40",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/B_no_bid/correction_notice.json",
+      "git_blob": "66b7d6ef33fb9af73d42f96bf325d2451fd1d2d7",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/B_no_bid/ground_truth.json",
+      "git_blob": "3be1dbc7bf77f6d2852eb8119737b600eb8e15de",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/B_no_bid/scenario.json",
+      "git_blob": "1177806d5adffe9b39345ffbae3c2907e52e28e9",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/B_no_bid/tender_requirements.json",
+      "git_blob": "9c2d21224fc9c9ff48b47b6e92b253a254b6760d",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/C_human_review/bidder_materials.json",
+      "git_blob": "4c2528534698a629307afa9aab250cdc2678e087",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/C_human_review/correction_notice.json",
+      "git_blob": "66b7d6ef33fb9af73d42f96bf325d2451fd1d2d7",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/C_human_review/ground_truth.json",
+      "git_blob": "8bb73899b3e2191052f0864ce2c6334096a5d7a5",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/C_human_review/scenario.json",
+      "git_blob": "b22227896f754257b82f51c49af1e98a5d12304b",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/C_human_review/tender_requirements.json",
+      "git_blob": "9c2d21224fc9c9ff48b47b6e92b253a254b6760d",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/D_conflict/bidder_materials.json",
+      "git_blob": "6365de0df88fcb687391468f8f8efadaa875efdf",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/D_conflict/correction_notice.json",
+      "git_blob": "66b7d6ef33fb9af73d42f96bf325d2451fd1d2d7",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/D_conflict/ground_truth.json",
+      "git_blob": "d67b57fc803eb5e27852f72bf0ca91d445f3262a",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/D_conflict/scenario.json",
+      "git_blob": "83fa6a21ad5e7c9622bf80a1f8e9f8fa0499c7e8",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/D_conflict/tender_requirements.json",
+      "git_blob": "9c2d21224fc9c9ff48b47b6e92b253a254b6760d",
+      "matches": true
+    },
+    {
+      "path": "tests/fixtures/tender_v2/catalog.json",
+      "git_blob": "b90caedb41e9bf01a7d829a1e682f95c9637827b",
+      "matches": true
+    },
+    {
+      "path": "tests/skills/test_scoring_strategy.py",
+      "git_blob": "246c0b60670c76078c4a472361b7b15252cfe275",
+      "matches": true
+    },
+    {
+      "path": "tests/test_api.py",
+      "git_blob": "867eb503dbb5f35b9412c422447e65a9ef747347",
+      "matches": true
+    },
+    {
+      "path": "tests/test_bid_feasibility.py",
+      "git_blob": "8254abef52c66bd16cd8472448922f6d68707d4d",
+      "matches": true
+    },
+    {
+      "path": "tests/test_compliance_review_reliability.py",
+      "git_blob": "836df77a2b3bb7ef07d4ee59ce396ad3fcdb3941",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations.py",
+      "git_blob": "4febba89f93b3372b5e0c11ce9e4bd745d652e96",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_inheritance_pipeline.py",
+      "git_blob": "9f6d409ae488fe15bf182b3f871e36f404f7d77a",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_nested_pipeline.py",
+      "git_blob": "f470309e8c5e379b802937d3eb542ba245ab74e8",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_pipeline.py",
+      "git_blob": "8286ae052de59842371608fd135c22006c59c510",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_proof_headers.py",
+      "git_blob": "9b7c4cfb1d58e9f8c2a642b75dcc2a9340244246",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_source_roles.py",
+      "git_blob": "13a6ff6e9ef790b4070008c6da03db2ea2f35393",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_structure.py",
+      "git_blob": "afe5b086832357cea4d1328c3239b9fe599e18de",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_structure_pipeline.py",
+      "git_blob": "6bb34580be9014092eed489c25f33c4e9cb2cbfa",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_writing.py",
+      "git_blob": "5ff5f89b94117e67747f2d3743fe82c7e3df2f60",
+      "matches": true
+    },
+    {
+      "path": "tests/test_domain_models.py",
+      "git_blob": "02ec78de4ff11cadf4b3a6b1065af96bd021b3c3",
+      "matches": true
+    },
+    {
+      "path": "tests/test_evidence_matching.py",
+      "git_blob": "8b35d0e518c00eca51e995283ebf6e4a2b50950c",
+      "matches": true
+    },
+    {
+      "path": "tests/test_file_registry_and_review.py",
+      "git_blob": "18ed47452cbd566cdf4a7f2823b04131a8f71b76",
+      "matches": true
+    },
+    {
+      "path": "tests/test_llm.py",
+      "git_blob": "e50690e7826c5f2917b36da10f8936d1efa114ce",
+      "matches": true
+    },
+    {
+      "path": "tests/test_local_parser_reliability.py",
+      "git_blob": "8b25f9592fa302d426126ce10aad79625ed77759",
+      "matches": true
+    },
+    {
+      "path": "tests/test_local_requirement_extraction.py",
+      "git_blob": "f5909aaa049b32eaa673cef8aec0775615b9d5f9",
+      "matches": true
+    },
+    {
+      "path": "tests/test_local_requirement_group_safety.py",
+      "git_blob": "d48c7758c97ba1f9011bd1e22b67757a5f37774e",
+      "matches": true
+    },
+    {
+      "path": "tests/test_local_requirement_groups.py",
+      "git_blob": "7b9c5fd2e33aaa09143060089c2517ddb1c27a1b",
+      "matches": true
+    },
+    {
+      "path": "tests/test_local_requirement_logic.py",
+      "git_blob": "1517b7ad2686ab4181a3ef7f35f1f1c450cb2c10",
+      "matches": true
+    },
+    {
+      "path": "tests/test_ocr_ingestion.py",
+      "git_blob": "0e4e86b444ebcd8267b3d6869fff1d5638bbee63",
+      "matches": true
+    },
+    {
+      "path": "tests/test_persistence.py",
+      "git_blob": "730be24ab6b0145a489937560ab768953ae958ea",
+      "matches": true
+    },
+    {
+      "path": "tests/test_preprocess_backend.py",
+      "git_blob": "ff8e067077225368a0d5547e530f81fbb43bf0ed",
+      "matches": true
+    },
+    {
+      "path": "tests/test_ragflow_backend.py",
+      "git_blob": "c1dee68c004f9ee3290bbd94b001240daae7440a",
+      "matches": true
+    },
+    {
+      "path": "tests/test_real_file_ingestion.py",
+      "git_blob": "f0ec3cbe3b81a078e0283fc2170745b78a75b09c",
+      "matches": true
+    },
+    {
+      "path": "tests/test_registry.py",
+      "git_blob": "7034ca2d13acfbee86ff4501e7bb57d6497f3e88",
+      "matches": true
+    },
+    {
+      "path": "tests/test_rule_engine.py",
+      "git_blob": "0da482cf427fd64164efcdcd6bd65e007035abb2",
+      "matches": true
+    },
+    {
+      "path": "tests/test_runtime.py",
+      "git_blob": "fca3683ad0166521451855263f38787cea6c2b74",
+      "matches": true
+    },
+    {
+      "path": "tests/test_runtime_reliability.py",
+      "git_blob": "98c6842e5a42688638a8a732570fa5d5e8d81e4a",
+      "matches": true
+    },
+    {
+      "path": "tests/test_runtime_scope_authorization.py",
+      "git_blob": "54327c7368590536c99b6274751ed1591d9367cb",
+      "matches": true
+    },
+    {
+      "path": "tests/test_skills.py",
+      "git_blob": "bf132b2f30a4bd6720b9ed26bb4998be31244e0a",
+      "matches": true
+    },
+    {
+      "path": "tests/test_tender_workflow.py",
+      "git_blob": "f17dec47f6d605200cd4fb07b89dda74c58eb789",
+      "matches": true
+    },
+    {
+      "path": "tests/test_writing_verification.py",
+      "git_blob": "3555b24ffb9d86e86df629083beeece8c19a23c5",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1.zip",
+      "git_blob": "12c7824999dc15771a37271fc0197f97c31f660b",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/00_使用说明_请勿输入待测Agent.pdf",
+      "git_blob": "810aadb55b18883476e1d5c36147876ab1335790",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/01_招标文件_政务数据治理平台建设项目_模拟.pdf",
+      "git_blob": "9f6e783996d728d6c7c76d4be6d97669d1edf31f",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/02_更正公告_模拟.pdf",
+      "git_blob": "3eedf5159d8b36d124b6716ef843126e712bdc35",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/03B_企业基本情况与能力说明_模拟.pdf",
+      "git_blob": "4c9faabf5d240e28413eb21a0573da39388fdd50",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/03_营业执照_华辰数科_模拟.pdf",
+      "git_blob": "68a9d558234c211dd9fa25d0b1856b00067d646d",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/04A_ISO27001_有效_模拟_扫描件.pdf",
+      "git_blob": "00f5455cb63f6140927a08d67ac0bb5716da688f",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/04B_ISO27001_过期_模拟_扫描件.pdf",
+      "git_blob": "8c9c507a6df15b1a51e532a722aa392e9a9a15ee",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/05_ISO9001_有效_模拟.pdf",
+      "git_blob": "684d69408b105b2f5167e22721aeb76694da3bb5",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/06_类似项目合同_A_135万元_模拟.pdf",
+      "git_blob": "ed3d18cb9bb97f7304adb544fb8d998a3fdd8752",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/07_类似项目合同_B_90万元_模拟.pdf",
+      "git_blob": "ceb64791ca49abb103b55d50c275c52005d8960a",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/08_项目经理_信息系统项目管理师证书_模拟.pdf",
+      "git_blob": "7e233c191032b0098e2034b8d7ed5b325f0c031d",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/09A_项目经理社保_202603-202608_完整_模拟.pdf",
+      "git_blob": "d2a5ab80efc51794db2a42d9dd35d5f0266ae90c",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/09B_项目经理社保_缺202608_模拟.pdf",
+      "git_blob": "a0b8cc8e454dc0ad0764125179cccb253e640e19",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/10A_投标保证金回单_40000元_合规_模拟.pdf",
+      "git_blob": "9528330c2acfbbec3c1dec3871f17308709c82b5",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/10B_投标保证金回单_30000元_金额不足_模拟.pdf",
+      "git_blob": "1cf64fa8ea9c7d2157b8ee2818e17677e7835e26",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/11_法定代表人授权委托书_模拟.pdf",
+      "git_blob": "5384ce857aa73c790cac8afbb1d06d2f016601bc",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/12_2025年度审计报告关键页_模拟.pdf",
+      "git_blob": "421f5864d8ad86f39b1a35dee4d0d4e929ce2a7b",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/13_ground_truth_预期规则与结果.json",
+      "git_blob": "fa5e1a77d6379112c742a00621bfb2ae76ef9df0",
+      "matches": true
+    },
+    {
+      "path": "tests/标书Agent全流程模拟测试包_v1/README.txt",
+      "git_blob": "e6c7c1283a440bbcc74addcf3a2a47915673f0f4",
+      "matches": true
+    }
+  ],
+  "status": "passed"
+}

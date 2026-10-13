@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.644" timestamp="2026-10-14T02:11:21.067984+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.test_document_relations_attributes" name="test_real_case09_scope_and_boundary_pass_frozen_graders[1.0.3]" time="0.116"><failure message="AssertionError: [{'metric': 'scope_evidence', 'expected_group_id': 'S1', 'reason': 'scope source does not match a frozen boundary or a..., ...}, {'metric': 'scope_membership_decisions', 'group_id': 'S1', 'condition_id': 'A2', 'expected_member': True, ...}]&#10;assert 'failed' == 'passed'&#10;  &#10;  - passed&#10;  + failed">tests\test_document_relations_attributes.py:541: in test_real_case09_scope_and_boundary_pass_frozen_graders
+    assert score["status"] == "passed", score["errors"]
+E   AssertionError: [{'metric': 'scope_evidence', 'expected_group_id': 'S1', 'reason': 'scope source does not match a frozen boundary or a..., ...}, {'metric': 'scope_membership_decisions', 'group_id': 'S1', 'condition_id': 'A2', 'expected_member': True, ...}]
+E   assert 'failed' == 'passed'
+E     
+E     - passed
+E     + failed</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_real_case09_scope_and_boundary_pass_frozen_graders[1.0.4]" time="0.094"><failure message="AssertionError: [{'metric': 'scope_evidence', 'expected_group_id': 'S1', 'reason': 'scope source does not match a frozen boundary or a..., ...}, {'metric': 'scope_membership_decisions', 'group_id': 'S1', 'condition_id': 'A2', 'expected_member': True, ...}]&#10;assert 'failed' == 'passed'&#10;  &#10;  - passed&#10;  + failed">tests\test_document_relations_attributes.py:541: in test_real_case09_scope_and_boundary_pass_frozen_graders
+    assert score["status"] == "passed", score["errors"]
+E   AssertionError: [{'metric': 'scope_evidence', 'expected_group_id': 'S1', 'reason': 'scope source does not match a frozen boundary or a..., ...}, {'metric': 'scope_membership_decisions', 'group_id': 'S1', 'condition_id': 'A2', 'expected_member': True, ...}]
+E   assert 'failed' == 'passed'
+E     
+E     - passed
+E     + failed</failure></testcase></testsuite></testsuites>

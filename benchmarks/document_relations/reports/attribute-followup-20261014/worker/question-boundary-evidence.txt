@@ -1,0 +1,49 @@
+Finite-copy affirmative question-boundary follow-up
+Date: 2026-10-14
+Classification: public reviewer probe added after implementation inspection; not unseen.
+
+Probe
+Input: "须提交身份证复印件。\n该复印件必须加盖公章？"
+Public probe SHA256: 8e5d32b146e0ae13b28dd1632aed30ce733bd917a0e66692963751990d3aa024
+Reviewer report: reviewer/question-prototype-checks.json
+Reviewer result: executed 1/1, passed 0/1, source_checked 15, source_invalid 0.
+
+Red evidence
+Pre-fix source: source-question-probe-red.py
+Pre-fix source SHA256: 4d9b208e3f2f805a9610bb8ea9629bb5e23be6ae079e1658fdd411425af55d57
+This is byte-identical to source-subject-switch-green.py.
+Test snapshot: test-question-probe-red.py
+Test SHA256: d7a162f8084f60ad11c86e7f147233653f157c227ecc9c282cb4c60b5f374482
+JUnit: question-boundary-red.xml
+JUnit SHA256: 9e964a8ac92821b6cbb637e0e47c40e29a42cfbfbd95b47bce6dcdb43c6bfa3c
+Result: 3 cases, 2 failed and 1 passed. ASCII '?' and fullwidth '？'
+were incorrectly confirmed as attributes; the affirmative '。' control passed.
+The test also confirmed the anaphora target remained the antecedent and
+validated source references with zero invalid references.
+
+Green evidence
+Final source: source-question-probe-green.py
+Final source SHA256: 1069dc5845116dd563d2da8435c938600ab36947051e1e234054e8d11d241bcad
+Final test snapshot: test-question-probe-green.py
+Test SHA256: d7a162f8084f60ad11c86e7f147233653f157c227ecc9c282cb4c60b5f374482
+JUnit: question-boundary-green.xml
+JUnit SHA256: ccee73e9729ea5b24b82ea204656c29953b3c3b03e41ed4b4ebf96f910bfa616
+Focused result: 3 passed. The affirmative regex no longer accepts either
+question mark; both questions remain candidate/review while the affirmative
+full-stop control keeps its typed attribute binding.
+
+Verification
+Ruff passed for document_relations.py, test_document_relations_attributes.py,
+and run_document_relations_attribute_eval.py.
+git diff --check passed for the modified product and attribute test.
+Frozen contract SHA256:
+8204635e3ece53755fe488c05900c161d92c9dd6d0d1c3d53fff2d80612ac2f1
+Frozen cases SHA256:
+64c876600b0c7ba0ae504831f1a401d89c34bc0405c50ea6d6d5e080e7396605
+Frozen scope-freeze SHA256:
+2969bc885fbb15638c37f286d3d0b85f23d57918a6bf432ad70bc9958f4d1a2a
+
+The 12-case Registry/Runtime evaluation was not rerun after this narrow
+terminal-character change. Its existing report is pre-fix evidence and does
+not identify the final source SHA. The main reviewer should rerun acceptance
+against source-question-probe-green.py / the final source SHA above.

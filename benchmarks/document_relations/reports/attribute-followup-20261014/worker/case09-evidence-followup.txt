@@ -1,0 +1,71 @@
+Finite-copy case-09 evidence and node-interface follow-up
+Date: 2026-10-14
+Classification: public actual Registry/Runtime regression; not unseen.
+
+Product change
+Only the confirmed finite-copy attribute branch changed.
+scope_source_references now cite both complete original member clauses.
+boundary_source_references cover both clauses and the existing terminator.
+The same scope is exposed on the original attribute ATOM via scope_relation.
+Its relation_id, kind, nonlogical operator, members, targets and evidence are
+identical to the block entry. No extra scope identity or logical node is added.
+Binding decisions, review branches, typed attribute parent and anaphora targets
+remain unchanged.
+
+Red
+Source: source-case09-evidence-red.py.txt
+SHA256: 1069dc5845116dd563dda8435c938600ab36947051e1e234054e8d11d241bcad
+Test: test-case09-evidence-red.py.txt
+SHA256: 41d6713ed19e437153478c629cbdcc00ba13755d6711c32328296e82a5975801
+JUnit: case09-evidence-red.xml
+SHA256: daaf232b6691f9acbe42464c2442cd09584a8f3a1cee99a5c3182c1a9c165bbc
+Frozen 1.0.3 and 1.0.4: executed/failed, 15 source checks each, 0 invalid.
+Both report scope_evidence and boundary_evidence failures, plus the resulting
+group-structure and scope-membership failures. Exact errors and denominators
+are in case09-evidence-red-1.0.3.json and case09-evidence-red-1.0.4.json.
+
+Preserved intermediate failure
+Source: source-case09-evidence-intermediate.py.txt
+SHA256: 281386e76b6f6fa4a06e3389f199e2abc13cd5295d04309a2cc2f742e310c5dd
+Test: test-case09-evidence-intermediate.py.txt (same test SHA as red).
+JUnit: case09-evidence-intermediate-failure.xml
+SHA256: 8f4ba5aca7105607affe8734ebd2cda8897a0e3ad1a07a9ca118e665df0f356b
+Frozen 1.0.3 and 1.0.4: executed/failed, 17 source checks each, 0 invalid.
+Both complete clauses were present on the block entry, but the original
+attribute ATOM had no scope_relation. The frozen nonlogical-group consumer
+collects evidence from member-node scope_relation fields.
+Raw records: case09-evidence-intermediate-1.0.3.json and
+case09-evidence-intermediate-1.0.4.json.
+
+Final
+Source: source-case09-evidence-green.py.txt
+SHA256: d9ffcf70e14d68d6cc941686f0c62714c3a60768060a9800bb660556d5a17686
+Test: test-case09-evidence-green.py.txt
+SHA256: b47067c1223ae9e0aa619a2bfbc126677e7bb64ac3e1744f3c2b76b7559ae6e0
+Direct frozen-scoring JUnit: case09-evidence-direct-green.xml (2 passed).
+SHA256: 15ad3d0cf1d6652a17879ec5c91c8875afeb27990c35721beb562de606538694
+That direct run used the exact red test snapshot; final identity/evidence
+assertions were then added without changing the final product source.
+Final focused JUnit: case09-evidence-green.xml (19 passed).
+SHA256: ec170a036721498678e6ec4200f62a940cbe5d66e40686d6bf4d45d3d10b6b16
+Final actual captures: case09-evidence-green-1.0.3.json and
+case09-evidence-green-1.0.4.json.
+Each is executed/passed, has 22 source checks, 0 invalid and 0 scoring errors.
+Each confirms node/block scope content equality. Captures preserve the raw
+graph, registered source context, Runtime execution metadata, input/source/test
+hashes, frozen oracle identity and complete scoring errors/denominators.
+
+Focused checks
+Two actual Registry/Runtime case-09 tests call unchanged score_case APIs for
+frozen 1.0.3 and 1.0.4. Four finite positives check exact node/block identity,
+members and complete scope/boundary/operator evidence. Eight frozen review
+boundaries, two subject switches and three question/affirmative controls pass.
+Ruff passed for the only product module and the new attribute test file.
+
+Frozen scripts and oracle verified unchanged:
+1.0.3: 26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483
+1.0.4: 05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf
+Oracle: 9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50
+The attribute contract/cases/scope-freeze hashes also remain unchanged.
+No Git operations or full 14-case recapture were performed. Overall canonical
+scoring and historical publication/audit work remain with the main reviewer.

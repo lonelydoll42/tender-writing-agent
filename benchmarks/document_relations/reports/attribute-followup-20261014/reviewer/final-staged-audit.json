@@ -1,0 +1,381 @@
+{
+  "schema": "attribute-final-staged-audit-v1",
+  "generated_at": "2026-10-14T02:34:43.9813490+08:00",
+  "all_checks_passed": true,
+  "source_tree_sha256": "06558a5194ff789acf8b7136bfe776c3587678e068bb233c3d80be3ff929bb39",
+  "code_archive_base_tree": "77ce2da6a3465430993b09e9a9a62ba4f862950b",
+  "code_file_matches": 91,
+  "protected_file_matches": 667,
+  "indexed_artifacts_verified": 128,
+  "original_publication_values_preserved": 21,
+  "parent_publication_key_count": 22,
+  "frozen_input_hashes": {
+    "contract.md": "8204635e3ece53755fe488c05900c161d92c9dd6d0d1c3d53fff2d80612ac2f1",
+    "cases.json": "64c876600b0c7ba0ae504831f1a401d89c34bc0405c50ea6d6d5e080e7396605",
+    "scope-freeze.json": "2969bc885fbb15638c37f286d3d0b85f23d57918a6bf432ad70bc9958f4d1a2a"
+  },
+  "publication_record_sha256": "e71d6dbce1ae2e4dcc7fa29c6002f89c0678e833d30a5729b4ee6ae80e91779f",
+  "publication_record_git_blob": "06c121203556aa7d5eb3fb36d503a76db74155f3",
+  "parent_record_sha256": "b43f3af2ab3bbfa144037f1b1f0b2e5fae5285545c67b0ec67335496f991fb46",
+  "unexpected_staged_paths": [],
+  "uv_lock_staged": false,
+  "staged_tree_before_this_audit": "30194fcee21c75642a13b0793d2ba9ed2a840612",
+  "working_canonical_code_ending_differences": [
+    {
+      "path": "src/qiaowenshu_agent/__init__.py",
+      "working_sha256": "5a1a55e90b33d5a9db4eceb9e46cea8c3d02c08f3540fb96ceb3026e1c29c974",
+      "canonical_sha256": "95ce4064c37b24dee4f28d7ee430ab1284763989800748738980e4ee4098c4d6",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/__main__.py",
+      "working_sha256": "096873e84769f5ed39c367aca23b632b283df01115a4c154f902acb9a9bfd0e4",
+      "canonical_sha256": "5c89df6f60b4fcc4f963d85bd89cba6944488f838071dcf985adb141cfc4adfb",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/adapters/__init__.py",
+      "working_sha256": "87807729bdf1761dd8b2c36527d650af6cc65d0395f312f4ce45a0edad9c8930",
+      "canonical_sha256": "264621ed2d2d2b3988992a1a53f3595fc2b124086f84f4edf4eefa1cacaebe9c",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/adapters/reference.py",
+      "working_sha256": "09de03ace0372a268201074ae3e1e687251309ad6bf2cc93163e61ac1f1d2644",
+      "canonical_sha256": "47ff0de3c6d372891906ef4b3c8d3729c9f27535fb7c3a916c9c2a30449c7324",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/api.py",
+      "working_sha256": "85b874a1c6a86202fa6ccfeb899a9f278c122f1c9f080f191e834486dc38db4b",
+      "canonical_sha256": "8f9bad456b4f0d4a4cc7669a1c2a9300102a4c287d51194080c3baae314f5344",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/__init__.py",
+      "working_sha256": "87ef57d17bf3aa338bddc0b23bfa75665ea35beabc9cf9d52f283e2f3356ceda",
+      "canonical_sha256": "d2686d1f785d709a9a42325da02e8bc7e97c5228d1a794bdf349ffaa9a5b6fbc",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/budget.py",
+      "working_sha256": "cee2ca71c381e5448ba4df6b9f7b89d8c6e8f0c9533836da552081fc55ec2c12",
+      "canonical_sha256": "47f3d5789e1333e1ce25d79d98c1670837827cf34f00e7b710f2280024b53de6",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/context.py",
+      "working_sha256": "aae8690b3235fe64058947403c683ac0d7c14aa39ce1e97c6ff1e3ef0f374ce6",
+      "canonical_sha256": "f5ea24ee1062093dcec4286fcf86574c8a044b50a153d197bbed53ba6dccd74d",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/contracts.py",
+      "working_sha256": "eed7071dd8dac28542fdae48866276a118919e59fb3511ce5e3afa0e598cd613",
+      "canonical_sha256": "e03aa9a10323ff2168c780bbbf125a5d147f590a89b211c11bb2d481e5978ee2",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/events.py",
+      "working_sha256": "c2f3d8642db38bf5af8890635cb72e869c18139b367374c30cb983b5c15ea53e",
+      "canonical_sha256": "a4d0207e7af3b65b2c9c6e210504ab3e720b9dfc75fd8fe940c1f3de1e6e9ee7",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/files.py",
+      "working_sha256": "b398ad4ccbeab8e2c8289c9e27205cfc08c11d57024ba4d4bafea867e8628df0",
+      "canonical_sha256": "b529f818dd45565e8c2142d15d7e4fdc213cca033755c2bd185b896be72ac661",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/registry.py",
+      "working_sha256": "13cb1866efe8430ced86cc61d66b3c02c60abbbe005b3972bf7aeba17830019c",
+      "canonical_sha256": "407a30f88a5c7733b661f5a285a938de6b791156b889a94de14faf6b1c7d31a2",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/runtime.py",
+      "working_sha256": "f33e6556ae1bdf876a98aa664da47d352c6217201ea6c4837ab07508f57c6d94",
+      "canonical_sha256": "925d7fc8a46c3bc1b0f0502c05c21dbb9121368f1f4ef8aa538f9cc005b612b0",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/store.py",
+      "working_sha256": "8423354ea790b133d1c3161a036215681570bd3ed280270dd886395830efd42a",
+      "canonical_sha256": "af53e4e7227412281e03cec76cc86adcf2f85f6af3d2a4d5c0a7dde8046c210f",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/trace.py",
+      "working_sha256": "c83b46a8cfea98119f72d64292cc607c47d31fa7ff0819a06ee1d38b6276b5e9",
+      "canonical_sha256": "d4da00440f06a4edff6914bbd2969f48f690a63e7d541b0cd123f3278a67e05c",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/__init__.py",
+      "working_sha256": "b187d1b28f97042f5ddb025938df2104a17c0d217b589cdd2a4134dca24c5301",
+      "canonical_sha256": "1b5f1a80a1554b2180619e2ae84e7d58418e77ce6d0bf107a25f2d62405eedcb",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/analysis_protocol.py",
+      "working_sha256": "25097cb1fb6e4dbde4483fef0e9afe552b0ce3c9ff3c9dff6579f90bc20a9d98",
+      "canonical_sha256": "f81de2775a07e2c5ed731799eb1d6b44bfc1396f011949e2fad62faa88300e6a",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/models.py",
+      "working_sha256": "c4669ce26fb8a03bb608f051feea34630233d752f7c009358118501eeca38119",
+      "canonical_sha256": "8e2766d0c2323d2bfddea5f6586e6805aecbd97d1906f3147fee73b7758ce0ce",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/llm/__init__.py",
+      "working_sha256": "2561c835a74bc0ab3eaa52def0d7d1741b73d9b8bec8648fb84684995928c000",
+      "canonical_sha256": "c2e3f9a8b5c7dc66876c083dd7412b08a501b5a17690e69b421a47193f3c6c0b",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/llm/client.py",
+      "working_sha256": "234a39b86bcae3daa05bbc57e6934cc4913aef8ef1c7f07ed7e4a64cd76afbbe",
+      "canonical_sha256": "fb45f07e5403592818e5c2da57508845472570ac5f084f5892779eba739d717f",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/llm/config.py",
+      "working_sha256": "1d3acc31032de87fca0ebcc7fa060bd55ae7e91c0f825e4a2f7939e18f72c5e3",
+      "canonical_sha256": "3f36505b565c1748a23aea9dd710506a6a00f9b3fc165804ee62eecebdfba301",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/__init__.py",
+      "working_sha256": "e577699366417d5c53b3e513a77ec13901c4f4d0e3316ab8438e8cc8bad34672",
+      "canonical_sha256": "641959839985498f75494933435770a0442c0b4d9add58529279a6fc35d22fbf",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/analysis_report/__init__.py",
+      "working_sha256": "6a4b7d93e5a45cd2337613f47baa1e307f923cb2fd5cf7f9696bf014f6652665",
+      "canonical_sha256": "4b75926e72df11fed32b55605fc6d881fa75dc1b18eeb41c239fe48c0ec97695",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/analysis_report/skill.py",
+      "working_sha256": "57a8fdcd50dfce39b0a3b7de041879de4ea8af957a2b6193e74064055f3503ef",
+      "canonical_sha256": "33c4d8e19220551a8867a90f093190278c0c8ca81aea28024fa6d924f6b3749a",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bid_feasibility/__init__.py",
+      "working_sha256": "04e3d9e9f20045c2b1a83383cf914dc52cc085d795a2e96777411ac4001a8452",
+      "canonical_sha256": "dffc7abdfee914b8df766e1a724e42c3c77ccc00185f1061b96bc38adba9b32d",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bid_feasibility/skill.py",
+      "working_sha256": "2f82829c6371fadb71c93449ffc48a5499324443d8d313d83e2b074d147d1637",
+      "canonical_sha256": "97ee7a97addf71db5a4ba9fdb5cfd2d21d791f809b5bfc68155208347be57242",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bidder_material_intake/__init__.py",
+      "working_sha256": "dbe1bb1d05d0d8fae54c023611f052a838d9b8412aa20ac326dd7c9ed38d3989",
+      "canonical_sha256": "405f8600c0077b9f5d1cfcd9b68a146b4768159212334a35f7223de731497eca",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bidder_material_intake/skill.py",
+      "working_sha256": "ae63a0bfb673c83372dea71798f869825927bff5f1ee567c62ba037952c41917",
+      "canonical_sha256": "fa049b531a5b25a06b9452feaa0485b4feca9b7c15676ad4d90d4993b1592976",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/compliance_review/__init__.py",
+      "working_sha256": "28f4ee16298273995eaa58978d0aa29a5ca9998530767fb5251569aadcab1715",
+      "canonical_sha256": "d9533621be88e5a3c654ff7c091dd08432ae7856fddb412db8af29d71ac36c44",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/compliance_review/skill.py",
+      "working_sha256": "df392322b005ba45550401eb8b42fb8fedf986097d4fed827b5acb43cd7f5ea6",
+      "canonical_sha256": "6014f8b49a328cfd5494e48c3ded94d1866f4c6fae37e83deeb377df7da005cc",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/consistency_review/__init__.py",
+      "working_sha256": "364198dc91d168476372a86e49ba353e25b149fbf2a50f05e50cc5ab93934910",
+      "canonical_sha256": "d1d52e58be5b65a04e91e3dea9af689314ee7db100e828ddd6412a7f00e230d8",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/consistency_review/skill.py",
+      "working_sha256": "f3ed05120cd31997d504bff95579e62d171785007227e3f3bad3d5ecfb6053b4",
+      "canonical_sha256": "786434c3639585a9e9ffba1adad9213135e91ac991b728a25b4f8be40dc577a7",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/__init__.py",
+      "working_sha256": "c0e3831a77c0dd6b740dc6b2cc49e688a25e1da24797834845f15cb74ed4968c",
+      "canonical_sha256": "caa5203fcb9deeefd10eab4ee58a63d83335b5240f09f66bb0697da5627636b2",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/models.py",
+      "working_sha256": "ed533ec1585189e1255b136d01b2953522c387c527b69979be7b469283076c0b",
+      "canonical_sha256": "83fb618fd0d676aaeaf251dc8fb5d27f838a76ece23e69add68e0c2dbde8634d",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/skill.py",
+      "working_sha256": "401d9092e99ccdc9ba50966a67a427b1e1f054ac343a9fcdf3f75e0e0eb59d8f",
+      "canonical_sha256": "cfb5e3e1bba65bf945dcd658c82ac5fd3940c9cbdf53de6257f8917e87b411ad",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/__init__.py",
+      "working_sha256": "667648f91286e3e7a1e9ff9bebf588a52737a2fa11bf022cf4cf6e8708580091",
+      "canonical_sha256": "1e53095afaeef49279ec610bdb3745ace5f1c7d8ef8baa6b8ac7900ff3295f8c",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/models.py",
+      "working_sha256": "591732f8ab8ecd8e8f72492a764c01dabc57e0fc14030c51d26882714bfa7d0f",
+      "canonical_sha256": "32050fc24421f0c9d803f543014b9e877e3add8019696c117279fe25a4ae1c57",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/skill.py",
+      "working_sha256": "d13eb1934355affe8ea705403c34b1f13daff2a2a2360de4fd251036eb6e2d1d",
+      "canonical_sha256": "e71821e42e7ecb4faa99859801fd85abd7623363f4bc87f7e231ad0dabc46979",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/__init__.py",
+      "working_sha256": "0f2cfd2d7c0381c2ab5a259cb9aa2333d7f269df5ed4a8fa7c3a8cbb99048b7e",
+      "canonical_sha256": "e185a3737f650645816c94e9e4cf1beb26e9ab2f9ce2115dfeb28810a98fafc6",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/skill.py",
+      "working_sha256": "7f6793d1d7fac669335cf703e9a81109cd4038c76eaf4e3388d36240d3fa7a5e",
+      "canonical_sha256": "c9237e4a384d7326ea0793553dcfc8058a53c3e2ae60244e5dcb9eab3fb6c799",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/evidence_matching/__init__.py",
+      "working_sha256": "e0b741608415ab9bd8bf3ceaf3e725d6d63d297de31cfb1ec3b586d382f09f95",
+      "canonical_sha256": "a5b3a14a311d07112403d627c357afc8104f1bb034c7d4e22b0c4c1d1e642ea9",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/evidence_matching/skill.py",
+      "working_sha256": "d5108962cdc9c75a75833ba8b4095520c6e12fde8799808a80a4052d2e9c1671",
+      "canonical_sha256": "50f51798046dc8881936d5f7625d5321b09d0eda3f553bb29843b44a7a95a850",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/__init__.py",
+      "working_sha256": "2e9a30aa1a4163883a3047d8b4df80d992b22e96c304e7189723c93d987ca209",
+      "canonical_sha256": "73b3695238f4e2006fd08962b07064ca06c0d45e1f1083a72eb08647c74b793d",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/models.py",
+      "working_sha256": "c5e790289fc414631186c5213b838556f51415749e74785f2c7cd4fd04d09e83",
+      "canonical_sha256": "3f9f88babf91bbcc1a70c9365b01fa07299040385db96dee142786e9d89dff62",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/ragflow_backend.py",
+      "working_sha256": "9e7b5c8915c82ec076f5759411f6875e7521001a9fc10e79d232ca817438a3ab",
+      "canonical_sha256": "3f1e4b1144a4dae06c4d910b92ad9206ce49a4f0dd7c5b90c18018751728c050",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/skill.py",
+      "working_sha256": "ec2e1fd4fd742143c26c184d691080a464b4026abde21fdebd5c47473409b5e7",
+      "canonical_sha256": "4f2cf67f2bf4bf9b85eef65040c161267215a49329ca9fcf51a7cdaf39c6c11e",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/local_backends.py",
+      "working_sha256": "f2699e4899d750eff8d19022dae13321cea85d76d642821307f930af6729b7e0",
+      "canonical_sha256": "829a4c06ffde65fe0d62fa9860ed745aff431cdbb5b4a75536ac093b12c1eb2d",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/quotation_check/__init__.py",
+      "working_sha256": "ff92e7f37740c1636cb4950f9c2b4dfb34a278e9df35db1ea2c9cbb4252cbc1c",
+      "canonical_sha256": "ff55d602d9b3d9705d10ecdd3fc04d74c183c0037582dfff2c0e38daca8ad691",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/quotation_check/skill.py",
+      "working_sha256": "8d65d71543dfc6f30792b05effed03b4011c3ac2e5660b74200f201ad6b5f8be",
+      "canonical_sha256": "030de33b9a9fb7bbf6db356292e25e9ec255640ccf63f271d87525c5238d519b",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/requirement_ledger/__init__.py",
+      "working_sha256": "48a46c17e146407fd37faf405ada2cceb78829d614a7796b15269f1144ca32a8",
+      "canonical_sha256": "c418824bf2a76f4a9a2e51daad1e0ffe8a018ec931d72614b966197b99b069e8",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/requirement_ledger/skill.py",
+      "working_sha256": "816bdb4d55529335e0891c6572248bd3a6b4eb5d83eb25ef86090286c5941931",
+      "canonical_sha256": "0642c529c423bb22dc89b7189f8376e04d5aa316251985d76cba19f74ea36adf",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/rule_engine.py",
+      "working_sha256": "266236e534f68031580035240b18f37f4aa4944884b476dd861617a78328c15c",
+      "canonical_sha256": "135bf428e30ae81a15808fab102badde06bd5f28a422af93f907f5c0dc237f65",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/scoring_strategy/__init__.py",
+      "working_sha256": "339700814f7d6cb9d283d8d79e8268ad7f80a04dd1d6f06873bceffe8f253d33",
+      "canonical_sha256": "b16d0c3a3209dfb4ab18535b69eb37167c2ab4079b57045268487ca7de4b0263",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/scoring_strategy/skill.py",
+      "working_sha256": "7279e2769e2b79e1f6367e908152e29e7472636cf38e97e32c8f04dd98c93683",
+      "canonical_sha256": "21d48dd2974231bd7270f3a9fc03ed66f7a2fce5c4eba1a6ebc03272b5f77781",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_common.py",
+      "working_sha256": "63f16e2e4233dc7060d0959c802404c9e827ecc41dae256045f8562236f6712a",
+      "canonical_sha256": "6b655a19ec19deabb6e66177bc3556f02258e8db5e259e62233cd5a8f1ddb1fa",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_decomposition/__init__.py",
+      "working_sha256": "c5de4eff12e34a8c72779ee2d5b2d44f51f7e5c834f4e1a3ffda020ea4804c77",
+      "canonical_sha256": "5d3ea118e12ab480e94f46e443b7f1c6051d253b5dc086026554d2db4e9aa4f9",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_decomposition/skill.py",
+      "working_sha256": "9e75f02de76d639a327a56ff5c94f2bb2695bcf4446d97351d16560aed34c2ed",
+      "canonical_sha256": "73b50639565893e25725fce68a310c56fa889ed3ca94ae1512546cf3c34dc528",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_intake/__init__.py",
+      "working_sha256": "377fcb8236b2acd732bbf4c1de00f348efb8350050cd68ca279d56cb0fa7acb1",
+      "canonical_sha256": "66d52c46552c58d8a82f8ec37519606f23316a537df6e2b7b3a96a28a777a70a",
+      "normalized_git_blob_matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_intake/skill.py",
+      "working_sha256": "3836e8c50409ea1c7fe564ea8cbe015c22b4626bd3f177c3176fcd424b71dd47",
+      "canonical_sha256": "c746ddcfbdadb1fac388f0ee636182df93e28a57776478dea75a6431fa407424",
+      "normalized_git_blob_matches": true
+    }
+  ],
+  "audit_command_correction": "First final audit compared raw working SHA with canonical SHA and stopped at src/qiaowenshu_agent/__init__.py because of existing CRLF/LF differences. No audit output emitted. Corrected check compares filtered working Git blob and staged/canonical blob; protected raw working hashes remain independently required unchanged. No file bytes changed by this correction.",
+  "audit_inventory_cycle_note": "This post-publication audit verifies publication and parent hashes; excluded from publication inventory to avoid a self-hash cycle."
+}

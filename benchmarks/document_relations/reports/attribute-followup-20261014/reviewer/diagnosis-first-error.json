@@ -1,0 +1,9 @@
+{
+  "schema": "reviewer-diagnosis-attempt-v1",
+  "status": "failed",
+  "classification": "acceptance tooling field-name error; not a product execution failure",
+  "error": "KeyError: 'invalid'",
+  "stage": "Both synthetic frozen grader calls had passed; reading the source-check result failed before output creation.",
+  "correction": "Use the original checker fields invalid_references and checked_references; do not change the checker or product.",
+  "first_exact_command_source_archived": false
+}

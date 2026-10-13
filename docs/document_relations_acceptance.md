@@ -2,7 +2,67 @@
 
 ## 状态与边界
 
-### 当前总体基线与隔离预检（2026-10-14）
+### 当前 case-09 有限属性关联（2026-10-14）
+
+**case-09 的公开回归按有限范围通过；本批整体仍不关闭。** 修改智能体实施，主审从 Git canonical 导出独立验收。产品仅修改 `document_relations.py`，冻结的三版评分器、v2 输入、oracle 和历史报告不改。开发前冻结的 [contract.md](../benchmarks/document_relations/attribute-regression/20261014/contract.md)、十二例及范围清单保持原字节；后续九例公开审查探针单独保存，均不宣称未见。
+
+#### 属性归属与证据职责
+
+仅确认同页、相邻实质要求明确引入唯一复印件，随后单独明确要求“该复印件”加盖公章的有限形式。保留两个原始 ATOM，增加非 AND/OR 的属性 scope 和指向先行对象的 `attribute_parent`；指代、操作符、成员范围、终止边界分别保留来源。属性节点与块层提供同一个 scope，关系 ID、成员、状态及证据一致，不新增逻辑包装。空行可跳过；章节、跨页、其他要求、复合对象、泛称、否定、条件、主体切换和问句进入复核。
+
+例如“须提交法定代表人身份证复印件。／该复印件必须加盖公章。”确认有限属性关联；“该复印件作为附件保存，授权书必须加盖公章。”和“该复印件必须加盖公章？”不能据此确认属性。问句的指代本身可以明确，但不代表肯定盖章要求。该规则不解决企业、人员、时间关联，也不提高业务门禁权限。
+
+首轮真实专项 21/21，但冻结评分仍拒绝 case-09：块层存在关系，成员/终止证据不充分，且属性节点未提供相同 scope 的接口。加强职责检查后，同一旧源码实际为 15/21，六个正例失败；仅补块层完整证据的中间版本仍被冻结评分器拒绝。这些失败、原始输出、测试 XML 和精确源码/验收器快照均保留，不能写成初版已通过。最终补齐完整原句证据及节点入口后再验收。
+
+#### 独立运行与重新采集
+
+| 最终检查 | 结果 |
+| --- | --- |
+| 开发前冻结十二例 | 12/12 执行并通过；4 个确认正例、8 个复核例 |
+| 主审全部公开实际样例 | 21/21 执行并通过；6 个确认正例、15 个复核例 |
+| 基于实际图的语义变异 | 15/15 拒绝；各变异原始引用均有效 |
+| 身份版本/坐标错误变异 | 2/2 拒绝 |
+| 不变实际 case-09 图 | 冻结 1.0.3、1.0.4 均通过 |
+| 来源核对 | 十二例 269/269；主审二十一例 475/475 有效 |
+| 最终完整测试 | 1010 passed、1 条既有 Starlette 警告；无失败/错误/跳过 |
+| Ruff、差异检查 | 通过；归档 traceback 的原空白只作逐文件保留 |
+
+主审重新运行原 Registry → Runtime，十四例全部执行、执行失败与未执行均为 0。三版对同一份新 graph/context/runtime/执行状态重评并核对指纹：
+
+| 同一份新捕获 | 冻结 1.0.3 | 冻结 1.0.4 | 冻结 1.0.5 合同视图 |
+| --- | --- | --- | --- |
+| 整例通过 / 失败 / 未执行 | 10 / 4 / 0 | 10 / 4 / 0 | **11 / 3 / 0** |
+| 条件未映射 / 来源未覆盖 | 各 6/37 | 各 2/37 | 各 2/37 |
+| 分组结构错误 | 5/14 | 5/14 | 2/14 |
+| 父级关系错误 | 5/16 | 5/16 | 3/16 |
+| scope 成员判定错误 | 16/50 | 16/50 | 8/50 |
+| 边界证据错误 | 0/17 | 2/17 | 0/17 |
+| 原始引用错误 | 0/1095 | 0/1095 | 0/1095 |
+
+与已验收的旧 9/14、9/14、10/14 相比，**仅 case-09 的状态与语义错误计数改善**；case-10 保持通过，仅因候选来源记录增加而改变来源检查分母。case-07、12、13 在当前 1.0.5 视图仍失败；逐项对照见 [baseline-to-product-comparison.json](../benchmarks/document_relations/reports/attribute-followup-20261014/reviewer/baseline-to-product-comparison.json)。本次提升来自实际产品输出，评分合同没有变化；三版之间的分差仍是合同差异。
+
+新增 `run_document_relations_snapshot_rescore.py` 只验证捕获身份并调用冻结评分 API：case-03/11 使用原 1.0.5 sidecar，其他十二例使用原 1.0.4。它比较指定源码 hash 与捕获元数据，**本身不证明 Git 归属**。主审另行核对导出：65 产品源码的汇总 SHA 为 `06558a5194ff789acf8b7136bfe776c3587678e068bb233c3d80be3ff929bb39`，**91/91 代码文件、786/786 导出文件**与 code archive tree `77ce2da6a3465430993b09e9a9a62ba4f862950b` 的 Git blob 匹配；667 件受保护历史文件的工作区 SHA/index blob 未变。该 tree 是代码及发布前资产快照，随后补充的文档/发布元数据不在其中；最终提交继续核对同一代码 blob。原历史报告 SHA 守卫与旧 `20e79af` 源码守卫仍拒绝新捕获，没有放宽。
+
+新增适配器专项 17/17 已独立运行；最终全量包含实际 case-09 的双版本回归及全部既有门禁/解析测试。首轮 1008 passed 属于补证据前版本，另存且不冒充最终成绩。评分脚本退出 1 表示固定案例仍有评分失败，不等于采集未执行。源码与测试归档改用 `.py.txt`，原字节不改；旧记录中的名称通过 [archive-path-aliases.json](../benchmarks/document_relations/reports/attribute-followup-20261014/reviewer/archive-path-aliases.json) 解析。原先指向忽略目录的本批十三份测试 XML 已按原字节入库并登记来源。
+
+资产目录为 [attribute-regression/20261014](../benchmarks/document_relations/attribute-regression/20261014) 和 [reports/attribute-followup-20261014](../benchmarks/document_relations/reports/attribute-followup-20261014)，完整发布/hash 索引见 [attribute-publication-record.json](../benchmarks/document_relations/attribute-publication-record.json)。`verify-snapshot.py` 负责 Git/历史字节核对，`check-acceptance.py` 负责实际输出及职责变异，两者用途分开。
+
+```powershell
+$python = (Resolve-Path .venv/Scripts/python.exe).Path
+git -c core.autocrlf=false archive --format=zip --output=.qiaowenshu/attribute-replay-NEW.zip HEAD
+Expand-Archive -LiteralPath .qiaowenshu/attribute-replay-NEW.zip -DestinationPath .qiaowenshu/attribute-replay-NEW
+$export = (Resolve-Path .qiaowenshu/attribute-replay-NEW).Path
+& $python "$export/scripts/run_document_relations_eval.py" --bundle "$export/benchmarks/document_relations/reserved/v2" --output replay-attribute-capture-NEW.json --main-reviewer-authorized
+$capture = Get-Content -Raw replay-attribute-capture-NEW.json | ConvertFrom-Json
+$sha = (Get-FileHash replay-attribute-capture-NEW.json -Algorithm SHA256).Hash.ToLowerInvariant()
+& $python "$export/scripts/run_document_relations_snapshot_rescore.py" --bundle "$export/benchmarks/document_relations/reserved/v2" --product-report replay-attribute-capture-NEW.json --expected-report-sha256 $sha --expected-source-tree-sha256 $capture.source_tree_sha256 --output replay-attribute-scores-NEW.json --main-reviewer-authorized
+```
+
+归档/报告均使用新路径，并先独立核对提交导出的源码 hash；不能以采集自报 hash 替代来源证明。其余失败案例的只读诊断引用补修前 `20e79af` 输出，case-13 的映射疑点仍是待确认假设，没有据此修改评分器。
+
+**隔离仍未建立**：沿用已独立确认的真实 canary 可读取证据；本批没有获得独立管理且开发不可访问的环境，没有新的访问拒绝证明。新增未见文件 0，未见验收 `not_run`；换目录/worktree 不作为替代。需独立管理方先阻断开发的文件、凭据及共享对话/日志访问，再验证实际授权拒绝并冻结输入/答案。旧公开原始文件 **0/8** 未重跑，企业材料未运行，通用完整性、生产验收及第2步整体仍未通过；`uv.lock` 继续单独处理。
+
+### 历史总体基线与隔离预检（2026-10-14）
 
 本批补齐 `20e79af22ef1666dc862234d3f7c555c82eb90e0` 的十四例当前基线，**不修改产品源码、冻结评分器、oracle 或历史报告**。执行智能体采集与主审独立采集分开保存，不复用 `af7db0f` 的历史产品输出。H03/H01 继续标记为公开回归已完成；未见环境没有建立，本批整体仍不关闭。
 

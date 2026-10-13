@@ -1,0 +1,18 @@
+{
+  "schema": "attribute-historical-cli-guard-v1",
+  "capture_sha256": "d8aeffc3a398902dbc37307d7314e50e51fe7b3009b220fbbffe519ee032b394",
+  "overlay_sha256": "526a08805b88192d2351a0c0b45f9cd6060745ba1a931919e069e9d104c86d02",
+  "exit_code": 2,
+  "output_created": false,
+  "raw_command_output": [
+    "usage: run_document_relations_boundary_rescore.py [-h] --bundle BUNDLE",
+    "                                                  --product-report PRODUCT_REPORT",
+    "                                                  --overlay OVERLAY",
+    "                                                  --expected-overlay-sha256 EXPECTED_OVERLAY_SHA256",
+    "                                                  --expected-report-sha256 EXPECTED_REPORT_SHA256",
+    "                                                  --output OUTPUT",
+    "                                                  [--main-reviewer-authorized]",
+    "run_document_relations_boundary_rescore.py: error: historical overlay frozen identity does not match the report/rules"
+  ],
+  "expected_result": "Pinned historical report SHA mismatch rejected; no new output"
+}

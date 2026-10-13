@@ -1,0 +1,14 @@
+Preserved artifact:
+attribute-eval-12-before.json
+
+Correction:
+The initial report applied the positive-only two-ATOM preservation check to all
+cases, although frozen review cases do not define antecedent_text. This caused
+eight unrelated denominator failures. The original file remains unchanged.
+
+The runner now checks two distinct original ATOM nodes only for the four
+confirmed-attribute cases, and checks preservation of the original attribute
+ATOM for the eight review cases. Registry/Runtime execution and the existing
+source checker completed for all twelve cases in the preserved report.
+
+The corrected pre-product baseline is written to a new create-only output file.

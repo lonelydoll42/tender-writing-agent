@@ -93,6 +93,19 @@ _ANAPHORA_RE = re.compile(
     r"该项|该条件|该对象|营业收入|此类|"
     r"同上|其(?:应|须|需|必须|不得|不应|可|具有|提供|提交|法定代表人)"
 )
+_FINITE_COPY_ATTRIBUTE_REFERENCES = {"该复印件", "该材料"}
+_AFFIRMATIVE_SEAL_RE = re.compile(
+    r"\s*该复印件\s*(?:必须|须|应当|应|需要|需)\s*加盖\s*公章"
+    r"\s*[。；;]?\s*"
+)
+_ATTRIBUTE_CONDITION_RE = re.compile(
+    r"如果|假如|倘若|若|如|仅当|除非|"
+    r"当.{1,16}时|在.{1,16}情况下|前提是|条件是"
+)
+_COPY_OBJECT_INTRO_RE = re.compile(r"(?:提交|提供|出具)[^。；;！？!?]{0,40}复印件")
+_MULTIPLE_COPY_OBJECT_CUE_RE = re.compile(
+    r"、|及|和|与|或|或者|以及|并|同时|另行"
+)
 _LOGIC_RE = re.compile(r"并且|或者|且|或|及|以及|并")
 _NAMED_GROUP_RE = re.compile(r"第(?P<label>[一二三四五六七八九十0-9]+)组")
 _GROUP_SELECTION_PHRASE = (
@@ -747,6 +760,14 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
         block_relation_by_index,
         roots_by_block,
         node_builder.by_id,
+    )
+    _add_finite_copy_attribute_relations(
+        records,
+        reference_nodes,
+        block_relation_by_index,
+        roots_by_block,
+        node_builder.by_id,
+        id_counts,
     )
     _add_cross_page_candidate_relations(
         records,
@@ -4693,13 +4714,18 @@ def _add_candidate_reference_relations(
         record["block_id"]: record for record in records if record["block_id"]
     }
     for reference in references:
-        if (
-            reference.get("reference_kind") != "anaphora"
-            or reference["status"] == "confirmed"
-        ):
+        if reference.get("reference_kind") != "anaphora":
             continue
         record = records_by_id.get(reference["source_block_id"])
         if record is None:
+            continue
+        if _is_finite_copy_attribute_reference(
+            reference.get("reference_text"),
+            record["raw_text"],
+            reference.get("status"),
+        ):
+            continue
+        if reference["status"] == "confirmed":
             continue
 
         candidate_nodes = [
@@ -4707,32 +4733,10 @@ def _add_candidate_reference_relations(
             for node_id in reference["target_node_ids"]
             if node_id in nodes_by_id
         ]
-        candidate_context_refs: list[dict[str, Any]] = []
-        for candidate in candidate_nodes:
-            candidate_context_refs.extend(candidate.get("source_references", []))
-            for parent in candidate.get("parent_relations", []):
-                if (
-                    parent.get("layer") != "semantic_parent"
-                    or parent.get("status") != "confirmed"
-                ):
-                    continue
-                for parent_id in parent.get("target_node_ids", []):
-                    parent_node = nodes_by_id.get(parent_id)
-                    if (
-                        parent_node is None
-                        or parent_node.get("op") not in {"AND", "OR"}
-                    ):
-                        continue
-                    parent_scope = parent_node.get("scope_relation", {})
-                    candidate_context_refs.extend(
-                        parent_scope.get("source_references", [])
-                    )
-                    candidate_context_refs.extend(
-                        parent_scope.get("boundary_source_references", [])
-                    )
-        candidate_context_refs = _merge_refs(
-            reference.get("candidate_source_references", []),
-            candidate_context_refs,
+        candidate_context_refs = _candidate_anaphora_context_references(
+            reference,
+            candidate_nodes,
+            nodes_by_id,
         )
         source_refs = _merge_refs(
             reference.get("source_references", []),
@@ -4806,6 +4810,368 @@ def _add_candidate_reference_relations(
             node = nodes_by_id.get(node_id)
             if node is not None and node["op"] == "ATOM":
                 node["parent_relations"].append(dict(parent_relation))
+
+
+def _candidate_anaphora_context_references(
+    reference: Mapping[str, Any],
+    candidate_nodes: list[Mapping[str, Any]],
+    nodes_by_id: Mapping[str, Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    context_refs: list[dict[str, Any]] = []
+    for candidate in candidate_nodes:
+        context_refs.extend(candidate.get("source_references", []))
+        for parent in candidate.get("parent_relations", []):
+            if (
+                parent.get("layer") != "semantic_parent"
+                or parent.get("status") != "confirmed"
+            ):
+                continue
+            for parent_id in parent.get("target_node_ids", []):
+                parent_node = nodes_by_id.get(parent_id)
+                if (
+                    parent_node is None
+                    or parent_node.get("op") not in {"AND", "OR"}
+                ):
+                    continue
+                parent_scope = parent_node.get("scope_relation", {})
+                context_refs.extend(parent_scope.get("source_references", []))
+                context_refs.extend(
+                    parent_scope.get("boundary_source_references", [])
+                )
+    return _merge_refs(
+        reference.get("candidate_source_references", []),
+        context_refs,
+    )
+
+
+def _is_finite_copy_attribute_reference(
+    reference_text: Any,
+    text: str,
+    reference_status: Any = None,
+) -> bool:
+    return "加盖公章" in text and (
+        reference_text == "该复印件"
+        or (reference_text == "该材料" and reference_status == "confirmed")
+    )
+
+
+def _add_finite_copy_attribute_relations(
+    records: list[dict[str, Any]],
+    references: list[dict[str, Any]],
+    block_relations: Mapping[int, dict[str, Any]],
+    roots_by_block: Mapping[int, list[str]],
+    nodes_by_id: Mapping[str, dict[str, Any]],
+    id_counts: Mapping[str, int],
+) -> None:
+    records_by_id: dict[str, list[dict[str, Any]]] = {}
+    for record in records:
+        block_id = record["block_id"]
+        if block_id:
+            records_by_id.setdefault(block_id, []).append(record)
+
+    for reference in references:
+        if reference.get("reference_kind") != "anaphora":
+            continue
+        reference_text = reference.get("reference_text")
+        if reference_text not in _FINITE_COPY_ATTRIBUTE_REFERENCES:
+            continue
+        if (
+            reference_text == "该材料"
+            and reference.get("status") != "confirmed"
+        ):
+            continue
+        matching_records = [
+            record
+            for record in records_by_id.get(reference.get("source_block_id"), [])
+            if _is_finite_copy_attribute_reference(
+                reference_text,
+                record["raw_text"],
+                reference.get("status"),
+            )
+            and reference_text in record["raw_text"]
+        ]
+        if len(matching_records) != 1:
+            continue
+        record = matching_records[0]
+        record_index = record["index"]
+        if not record["raw_text"]:
+            continue
+
+        candidate_nodes = [
+            nodes_by_id[node_id]
+            for node_id in reference.get("target_node_ids", [])
+            if node_id in nodes_by_id
+            and nodes_by_id[node_id].get("op") == "ATOM"
+        ]
+        candidate_node_ids = _unique(
+            [node["node_id"] for node in candidate_nodes]
+        )
+        candidate_block_ids = _unique(
+            [
+                block_id
+                for node in candidate_nodes
+                for block_id in node.get("source_block_ids", [])
+                if isinstance(block_id, str)
+                and id_counts.get(block_id) == 1
+            ]
+        )
+        candidate_context_refs = _candidate_anaphora_context_references(
+            reference,
+            candidate_nodes,
+            nodes_by_id,
+        )
+        source_refs = _merge_refs(
+            reference.get("source_references", []),
+            record["source_references"],
+            candidate_context_refs,
+        )
+        reference["source_references"] = source_refs
+        reference["candidate_target_context_references"] = candidate_context_refs
+        if reference.get("status") != "confirmed":
+            reference["candidate_source_references"] = candidate_context_refs
+
+        for block_reference in block_relations[record_index]["reference_relations"]:
+            if block_reference.get("reference_id") == reference.get("reference_id"):
+                block_reference["source_references"] = source_refs
+                block_reference["candidate_target_context_references"] = (
+                    candidate_context_refs
+                )
+                if reference.get("status") != "confirmed":
+                    block_reference["candidate_source_references"] = (
+                        candidate_context_refs
+                    )
+                break
+
+        attribute_roots = [
+            nodes_by_id[node_id]
+            for node_id in roots_by_block.get(record_index, [])
+            if node_id in nodes_by_id
+            and nodes_by_id[node_id].get("op") == "ATOM"
+        ]
+        attribute_node_ids = _unique(
+            [node["node_id"] for node in attribute_roots]
+        )
+        antecedent_record = _unique_adjacent_antecedent(records, record_index)
+        antecedent_node = (
+            candidate_nodes[0] if len(candidate_nodes) == 1 else None
+        )
+        positive, reason = _finite_copy_attribute_decision(
+            records=records,
+            attribute_index=record_index,
+            reference=reference,
+            reference_text=reference_text,
+            record=record,
+            antecedent_record=antecedent_record,
+            antecedent_node=antecedent_node,
+            candidate_nodes=candidate_nodes,
+            attribute_roots=attribute_roots,
+            id_counts=id_counts,
+        )
+        status = (
+            "confirmed"
+            if positive
+            else "unresolved"
+            if not record["source_valid"]
+            or reference.get("status") == "unresolved"
+            else "candidate"
+        )
+
+        antecedent_object_refs: list[dict[str, Any]] = []
+        if antecedent_record is not None and antecedent_record["source_valid"]:
+            object_match = re.search("复印件", antecedent_record["raw_text"])
+            if object_match is not None:
+                antecedent_object_refs = _refs_for_span(
+                    antecedent_record,
+                    object_match.start(),
+                    object_match.end(),
+                )
+        expression_refs = reference.get("expression_source_references", [])
+        scope_evidence = _merge_refs(antecedent_object_refs, expression_refs)
+        affirmative_match = _AFFIRMATIVE_SEAL_RE.fullmatch(record["raw_text"])
+        operator_refs = (
+            _refs_for_span(
+                record,
+                affirmative_match.start(),
+                affirmative_match.end(),
+            )
+            if affirmative_match is not None
+            else []
+        )
+        terminal = _terminal_span(record["raw_text"], 0, len(record["raw_text"]))
+        boundary_refs = (
+            _refs_for_span(record, terminal[0], terminal[1]) if terminal else []
+        )
+        if positive and antecedent_record is not None:
+            scope_evidence = _merge_refs(
+                antecedent_record["source_references"],
+                record["source_references"],
+            )
+            boundary_refs = _merge_refs(scope_evidence, boundary_refs)
+        member_node_ids = (
+            _unique([*candidate_node_ids, *attribute_node_ids])
+            if positive
+            else candidate_node_ids
+        )
+        member_block_ids = (
+            _unique([*candidate_block_ids, record["block_id"]])
+            if positive
+            else candidate_block_ids
+        )
+        relation_id = _stable_id(
+            "anaphoric_attribute_scope",
+            reference.get("reference_id"),
+            member_node_ids,
+        )
+        scope_relation = {
+            "relation_id": relation_id,
+            "relation_type": "anaphoric_attribute_scope",
+            "kind": "attribute_scope",
+            "operator": "ATTRIBUTE",
+            "status": status,
+            "operator_status": "confirmed" if positive else "unresolved",
+            "scope_status": status,
+            "basis": (
+                "adjacent_explicit_single_copy_attribute"
+                if positive
+                else "unresolved_anaphoric_attribute"
+            ),
+            "target_block_ids": member_block_ids,
+            "target_node_ids": member_node_ids,
+            "member_node_ids": member_node_ids,
+            "trigger_text": record["raw_text"],
+            "source_references": _merge_refs(
+                candidate_context_refs,
+                record["source_references"],
+            ),
+            "scope_source_references": scope_evidence,
+            "candidate_target_source_references": candidate_context_refs,
+            "operator_source_references": operator_refs,
+            "boundary_source_references": boundary_refs,
+            "reason": reason,
+        }
+        block_relations[record_index]["scope_relations"].append(scope_relation)
+
+        parent_relation = {
+            "relation_id": _stable_id(
+                "attribute_parent",
+                reference.get("reference_id"),
+                candidate_node_ids,
+            ),
+            "status": status,
+            "layer": "attribute_parent",
+            "basis": (
+                "explicit_adjacent_single_copy_attribute"
+                if positive
+                else "unresolved_anaphoric_attribute"
+            ),
+            "target_block_ids": candidate_block_ids,
+            "target_node_ids": candidate_node_ids,
+            "source_references": _merge_refs(
+                candidate_context_refs,
+                record["source_references"],
+            ),
+            "reason": reason,
+        }
+        for attribute_node in attribute_roots:
+            if positive:
+                attribute_node["scope_relation"] = dict(scope_relation)
+            attribute_node["parent_relations"].append(dict(parent_relation))
+
+
+def _unique_adjacent_antecedent(
+    records: list[dict[str, Any]],
+    attribute_index: int,
+) -> dict[str, Any] | None:
+    previous_index = attribute_index - 1
+    while previous_index >= 0 and records[previous_index]["kind"] == "blank":
+        previous_index -= 1
+    if previous_index < 0:
+        return None
+    previous = records[previous_index]
+    if (
+        previous["kind"] not in _CONDITION_KINDS
+        or not previous["raw_text"].strip()
+    ):
+        return None
+    return previous
+
+
+def _finite_copy_attribute_decision(
+    *,
+    records: list[dict[str, Any]],
+    attribute_index: int,
+    reference: Mapping[str, Any],
+    reference_text: str,
+    record: Mapping[str, Any],
+    antecedent_record: Mapping[str, Any] | None,
+    antecedent_node: Mapping[str, Any] | None,
+    candidate_nodes: list[dict[str, Any]],
+    attribute_roots: list[dict[str, Any]],
+    id_counts: Mapping[str, int],
+) -> tuple[bool, str]:
+    text = str(record["raw_text"])
+    if reference_text != "该复印件":
+        return False, "generic object expression requires attribute review"
+    if _find_negation(text):
+        return False, "negated seal instruction requires attribute review"
+    if _ATTRIBUTE_CONDITION_RE.search(text):
+        return False, "conditional seal instruction requires attribute review"
+    if _AFFIRMATIVE_SEAL_RE.fullmatch(text) is None:
+        return (
+            False,
+            "seal predicate is not an exclusive unconditional predicate "
+            "of 该复印件",
+        )
+    if not record["source_valid"]:
+        return False, "attribute source identity or coordinates are unverified"
+    if id_counts.get(record["block_id"], 0) != 1:
+        return False, "attribute source block identifier is not unique"
+    if antecedent_record is None:
+        previous_index = attribute_index - 1
+        while previous_index >= 0 and records[previous_index]["kind"] == "blank":
+            previous_index -= 1
+        if previous_index >= 0:
+            previous = records[previous_index]
+            if previous["kind"] == "page_boundary":
+                return False, "page boundary prevents attribute confirmation"
+            if previous["kind"] == "heading":
+                return False, "heading boundary prevents attribute confirmation"
+        return False, "no adjacent same-page antecedent is available"
+    if antecedent_record["block"].get("page_number") != record["block"].get(
+        "page_number"
+    ):
+        return False, "page boundary prevents attribute confirmation"
+    if not antecedent_record["source_valid"]:
+        return False, "antecedent source identity or coordinates are unverified"
+    if id_counts.get(antecedent_record["block_id"], 0) != 1:
+        return False, "antecedent source block identifier is not unique"
+    if len(candidate_nodes) != 1 or antecedent_node is None:
+        return False, "multiple or missing copy antecedents require attribute review"
+    antecedent_ids = antecedent_node.get("source_block_ids")
+    if antecedent_ids != [antecedent_record["block_id"]]:
+        return False, "intervening substantive condition blocks attribute binding"
+    if antecedent_node.get("status") != "confirmed":
+        return False, "antecedent requirement is not confirmed"
+    antecedent_text = str(antecedent_record["raw_text"])
+    copy_mentions = list(re.finditer("复印件", antecedent_text))
+    if (
+        len(copy_mentions) != 1
+        or not _COPY_OBJECT_INTRO_RE.search(antecedent_text)
+        or _MULTIPLE_COPY_OBJECT_CUE_RE.search(antecedent_text)
+    ):
+        return (
+            False,
+            "antecedent does not explicitly introduce exactly one copy object",
+        )
+    if (
+        len(attribute_roots) != 1
+        or attribute_roots[0].get("status") != "confirmed"
+        or attribute_roots[0].get("op") != "ATOM"
+    ):
+        return False, "attribute clause is not one confirmed original ATOM"
+    if reference.get("status") != "confirmed":
+        return False, "anaphora target is not uniquely source-verified"
+    return True, "one adjacent source-verified copy antecedent is explicitly bound"
 
 
 def _add_cross_page_candidate_relations(

@@ -1,0 +1,44 @@
+{
+  "schema": "finite-copy-attribute-cases-v1",
+  "classification": "main reviewer public probes recorded after delegation; not unseen or pre-development blind",
+  "cases": [
+    {
+      "case_id": "RP01-provided-copy",
+      "expectation": "confirmed_attribute",
+      "input_text": "须提供税务登记证明复印件。\n该复印件应加盖公章。",
+      "antecedent_text": "须提供税务登记证明复印件。",
+      "attribute_text": "该复印件应加盖公章。"
+    },
+    {
+      "case_id": "RP02-whitespace-block",
+      "expectation": "confirmed_attribute",
+      "input_text": "须提交营业执照复印件。\n \n该复印件必须加盖公章。",
+      "antecedent_text": "须提交营业执照复印件。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "RN01-compound-other-object",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证复印件和授权书。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "RN02-absent-copy",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证原件。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "RN03-conditional-inside-verb",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证复印件。\n该复印件必须在需要时加盖公章。",
+      "attribute_text": "该复印件必须在需要时加盖公章。"
+    },
+    {
+      "case_id": "RN04-numbered-interruption",
+      "expectation": "review_attribute",
+      "input_text": "（1）须提交身份证复印件。\n（2）须提供审计报告。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    }
+  ]
+}

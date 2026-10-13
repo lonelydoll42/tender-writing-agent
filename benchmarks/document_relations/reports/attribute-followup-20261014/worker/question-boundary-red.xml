@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="3" time="0.446" timestamp="2026-10-14T01:53:21.774399+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.test_document_relations_attributes" name="test_question_terminators_require_attribute_review[ascii-question]" time="0.004"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">terminal = '?', should_confirm = False
+
+    @pytest.mark.parametrize(
+        ("terminal", "should_confirm"),
+        [
+            ("?", False),
+            ("？", False),
+            ("。", True),
+        ],
+        ids=["ascii-question", "fullwidth-question", "affirmative-full-stop"],
+    )
+    def test_question_terminators_require_attribute_review(
+        terminal: str,
+        should_confirm: bool,
+    ) -&gt; None:
+        antecedent_text = "须提交身份证复印件。"
+        attribute_text = f"该复印件必须加盖公章{terminal}"
+        input_text = f"{antecedent_text}\n{attribute_text}"
+        structure = _structure(input_text)
+        graph = build_document_relations(structure)
+        antecedent = _block_for_text(structure, antecedent_text)
+        attribute = _block_for_text(structure, attribute_text)
+        antecedent_node = _nodes_for_block(graph, antecedent)[0]
+        attribute_nodes = _nodes_for_block(graph, attribute)
+        reference = _anaphora_reference(graph, attribute)
+    
+        assert len(attribute_nodes) == 1
+        assert reference["status"] == "confirmed"
+        assert reference["target_node_ids"] == [antecedent_node["node_id"]]
+        source_check = existing_eval._validate_graph_source_references(
+            graph,
+            {
+                "document_id": structure["document_id"],
+                "source_version": structure["source_version"],
+                "pages": [input_text],
+            },
+        )
+        assert source_check["checked_references"] &gt; 0
+        assert source_check["invalid_references"] == 0
+    
+        if not should_confirm:
+&gt;           _assert_review_only(structure, graph, attribute_text)
+
+tests\test_document_relations_attributes.py:443: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+structure = {'schema_version': 'document-structure-v1', 'document_id': 'finite-copy-attribute-test', 'source_version': 'v1', 'source_checksum': 'public-regression', ...}
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'finite-copy-attribute-test', 'source_version': 'v1', 'bloc...ence_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_cac8b5f06a701a5b7e4f556a', ...}], ...}], ...}
+attribute_text = '该复印件必须加盖公章?'
+
+    def _assert_review_only(structure: dict, graph: dict, attribute_text: str) -&gt; None:
+        block = _block_for_text(structure, attribute_text)
+        scope = _attribute_scope(graph, block)
+        node = next(node for node in _nodes_for_block(graph, block) if node["op"] == "ATOM")
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_attributes.py:90: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_question_terminators_require_attribute_review[fullwidth-question]" time="0.002"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">terminal = '？', should_confirm = False
+
+    @pytest.mark.parametrize(
+        ("terminal", "should_confirm"),
+        [
+            ("?", False),
+            ("？", False),
+            ("。", True),
+        ],
+        ids=["ascii-question", "fullwidth-question", "affirmative-full-stop"],
+    )
+    def test_question_terminators_require_attribute_review(
+        terminal: str,
+        should_confirm: bool,
+    ) -&gt; None:
+        antecedent_text = "须提交身份证复印件。"
+        attribute_text = f"该复印件必须加盖公章{terminal}"
+        input_text = f"{antecedent_text}\n{attribute_text}"
+        structure = _structure(input_text)
+        graph = build_document_relations(structure)
+        antecedent = _block_for_text(structure, antecedent_text)
+        attribute = _block_for_text(structure, attribute_text)
+        antecedent_node = _nodes_for_block(graph, antecedent)[0]
+        attribute_nodes = _nodes_for_block(graph, attribute)
+        reference = _anaphora_reference(graph, attribute)
+    
+        assert len(attribute_nodes) == 1
+        assert reference["status"] == "confirmed"
+        assert reference["target_node_ids"] == [antecedent_node["node_id"]]
+        source_check = existing_eval._validate_graph_source_references(
+            graph,
+            {
+                "document_id": structure["document_id"],
+                "source_version": structure["source_version"],
+                "pages": [input_text],
+            },
+        )
+        assert source_check["checked_references"] &gt; 0
+        assert source_check["invalid_references"] == 0
+    
+        if not should_confirm:
+&gt;           _assert_review_only(structure, graph, attribute_text)
+
+tests\test_document_relations_attributes.py:443: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+structure = {'schema_version': 'document-structure-v1', 'document_id': 'finite-copy-attribute-test', 'source_version': 'v1', 'source_checksum': 'public-regression', ...}
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'finite-copy-attribute-test', 'source_version': 'v1', 'bloc...ence_kind': 'anaphora', 'reference_text': '该复印件', 'source_block_id': 'blk_fb30ad513519a251dc355e73', ...}], ...}], ...}
+attribute_text = '该复印件必须加盖公章？'
+
+    def _assert_review_only(structure: dict, graph: dict, attribute_text: str) -&gt; None:
+        block = _block_for_text(structure, attribute_text)
+        scope = _attribute_scope(graph, block)
+        node = next(node for node in _nodes_for_block(graph, block) if node["op"] == "ATOM")
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_attributes.py:90: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_attributes" name="test_question_terminators_require_attribute_review[affirmative-full-stop]" time="0.002" /></testsuite></testsuites>

@@ -1,0 +1,12 @@
+{
+  "schema": "finite-copy-attribute-cases-v1",
+  "classification": "public reviewer affirmative-instruction boundary added after implementation inspection; not unseen",
+  "cases": [
+    {
+      "case_id": "RQ01-question",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证复印件。\n该复印件必须加盖公章？",
+      "attribute_text": "该复印件必须加盖公章？"
+    }
+  ]
+}

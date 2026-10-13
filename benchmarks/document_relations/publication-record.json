@@ -739,7 +739,7 @@
   "current_baseline_20e79af_followup_20261014": {
     "record": "benchmarks/document_relations/current-baseline-publication-record.json",
     "record_sha256": "1c9dd02d1cfa79ea7d36d43c62f4849b632a4bd2fe8c183cc9b17ffce46674b1",
-    "recorded_at": "2026-10-14T00:15:34.1046110+08:00",
+    "recorded_at": "2026-10-14T00:15:34.104611+08:00",
     "status": "not_closed",
     "scope": "Fresh public 14-case current baseline and actual developer isolation preflight; no product, frozen grader or oracle changes",
     "product_commit": "20e79af22ef1666dc862234d3f7c555c82eb90e0",
@@ -756,6 +756,19 @@
     "unseen_evaluation": "not_run",
     "new_unseen_files": 0,
     "business_materials": "not_run/14",
+    "production_accepted": false
+  },
+  "finite_copy_attribute_followup_20261014": {
+    "record": "benchmarks/document_relations/attribute-publication-record.json",
+    "sha256": "e71d6dbce1ae2e4dcc7fa29c6002f89c0678e833d30a5729b4ee6ae80e91779f",
+    "limited_public_regression": "passed",
+    "current_three_view_scores": [
+      "10/14",
+      "10/14",
+      "11/14"
+    ],
+    "overall_closed": false,
+    "unseen_evaluation": "not_run",
     "production_accepted": false
   }
 }

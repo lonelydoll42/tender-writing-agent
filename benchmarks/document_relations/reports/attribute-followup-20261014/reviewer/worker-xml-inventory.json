@@ -1,0 +1,70 @@
+{
+  "schema": "worker-xml-preservation-v1",
+  "copies": [
+    {
+      "original_scratch_name": "attributes-after-page-fix-before-subject-guard.xml",
+      "repository_name": "reviewer/worker-attributes-after-page-fix-before-subject-guard.xml",
+      "sha256": "b9052287ee047bd4987836f3c3af3012f724980de174ed6274e5ffcb2cd92f0c"
+    },
+    {
+      "original_scratch_name": "focused-green-02.xml",
+      "repository_name": "reviewer/worker-focused-green-02.xml",
+      "sha256": "e14b5777e239578f3998cc051165450a5b8fea5a89b50ae70fbdc5cecd1d780c"
+    },
+    {
+      "original_scratch_name": "focused-green-03.xml",
+      "repository_name": "reviewer/worker-focused-green-03.xml",
+      "sha256": "2bd63e23e1c160f2be5e17d402d67d8cc240c6d8a84a0e96297342d7660d5654"
+    },
+    {
+      "original_scratch_name": "focused-green-final.xml",
+      "repository_name": "reviewer/worker-focused-green-final.xml",
+      "sha256": "14207043cc0a322fda8e965b2d991d211acb18eac6ed222d511eea2a76997106"
+    },
+    {
+      "original_scratch_name": "focused-green.xml",
+      "repository_name": "reviewer/worker-focused-green.xml",
+      "sha256": "ef02a9cc65ceec1cbdd705f22c4c4fa2681dc8f1e8c597cf0be33186707986d2"
+    },
+    {
+      "original_scratch_name": "focused-public-probes-final.xml",
+      "repository_name": "reviewer/worker-focused-public-probes-final.xml",
+      "sha256": "ff5a1b4a2b046d080e2da5ebf6febcb36dda6f9fcbde0bacc11d2657e14c7ceb"
+    },
+    {
+      "original_scratch_name": "other-subject-after-page-fix.xml",
+      "repository_name": "reviewer/worker-other-subject-after-page-fix.xml",
+      "sha256": "724c8df52e63afee4f39b433966ba0222161524ee275730906b5a1c576ef7693"
+    },
+    {
+      "original_scratch_name": "other-subject-before-page-fix.xml",
+      "repository_name": "reviewer/worker-other-subject-before-page-fix.xml",
+      "sha256": "0902b3ba3139277813a9550888acadf9d07606a18efa4933248b3fd3e5472d35"
+    },
+    {
+      "original_scratch_name": "other-subject-switch-red.xml",
+      "repository_name": "reviewer/worker-other-subject-switch-red.xml",
+      "sha256": "9703c3b248b19d78449079b9d9cf1219b23ef4e858216955a41717c24d54a1e1"
+    },
+    {
+      "original_scratch_name": "product-first-run.xml",
+      "repository_name": "reviewer/worker-product-first-run.xml",
+      "sha256": "2db61be17b937b59f719b0236780e8eb121b852e0616288f99d5a848e5067a60"
+    },
+    {
+      "original_scratch_name": "question-boundary-green.xml",
+      "repository_name": "reviewer/worker-question-boundary-green.xml",
+      "sha256": "ccee73e9729ea5b24b82ea204656c29953b3c3b03e41ed4b4ebf96f910bfa616"
+    },
+    {
+      "original_scratch_name": "question-boundary-red.xml",
+      "repository_name": "reviewer/worker-question-boundary-red.xml",
+      "sha256": "9e964a8ac92821b6cbb637e0e47c40e29a42cfbfbd95b47bce6dcdb43c6bfa3c"
+    },
+    {
+      "original_scratch_name": "test-first-red.xml",
+      "repository_name": "reviewer/worker-test-first-red.xml",
+      "sha256": "c6e4fb3749667eb4a4296e3a48cdb5338c20139fcff808622ff0603c093a9ff7"
+    }
+  ]
+}
