@@ -1,0 +1,65 @@
+F841 Local variable `frozen_documents` is assigned to but never used
+   --> scripts\run_document_relations_current_rescore.py:370:5
+    |
+368 |         Path(product_report), label="product report", strict=True
+369 |     )
+370 |     frozen_documents = _verify_freeze_documents()
+    |     ^^^^^^^^^^^^^^^^
+371 |     scorer_hashes = _verify_existing_scorer_hashes()
+372 |     historical_reference = _verify_historical_af7_reference()
+    |
+help: Remove assignment to unused variable `frozen_documents`
+
+E501 Line too long (98 > 88)
+   --> scripts\run_document_relations_current_rescore.py:379:89
+    |
+377 |     )
+378 |     if report.get("source_tree_sha256") != EXPECTED_SOURCE_TREE_SHA256:
+379 |         raise ValueError("product report does not match the expected current product source-tree")
+    |                                                                                         ^^^^^^^^^^
+380 |
+381 |     try:
+    |
+
+E501 Line too long (89 > 88)
+   --> scripts\run_document_relations_current_rescore.py:485:89
+    |
+483 |             for view in VIEWS:
+484 |                 scorer_version = (
+485 |                     "1.0.4" if view == "1.0.5" and case_id not in overlay_cases else view
+    |                                                                                         ^
+486 |                 )
+487 |                 scores[view] = _not_scored_record(
+    |
+
+E501 Line too long (89 > 88)
+   --> scripts\run_document_relations_current_rescore.py:557:89
+    |
+555 |                     scorer_version="1.0.4",
+556 |                     scoring_method=(
+557 |                         "frozen 1.0.4 score_case; case is outside the historical overlay"
+    |                                                                                         ^
+558 |                     ),
+559 |                     fingerprints=fingerprints,
+    |
+
+E501 Line too long (95 > 88)
+  --> tests\evals\test_document_relations_current_rescore.py:44:89
+   |
+44 | def _save_report(tmp_path: Path, mutate: Callable[[dict[str, Any]], None]) -> tuple[Path, str]:
+   |                                                                                         ^^^^^^^
+45 |     report = deepcopy(_capture())
+46 |     mutate(report)
+   |
+
+E501 Line too long (90 > 88)
+  --> tests\evals\test_document_relations_current_rescore.py:74:89
+   |
+74 | def test_valid_current_capture_scores_three_views_and_preserves_replay_material() -> None:
+   |                                                                                         ^^
+75 |     product_capture = _capture()
+76 |     report = _rescore()
+   |
+
+Found 6 errors.
+No fixes available (1 hidden fix can be enabled with the `--unsafe-fixes` option).

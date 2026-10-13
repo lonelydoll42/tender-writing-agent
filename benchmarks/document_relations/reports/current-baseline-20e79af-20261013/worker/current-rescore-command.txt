@@ -1,0 +1,8 @@
+command="E:\project\tender-writing-agent\.venv\Scripts\python.exe" -B "scripts/run_document_relations_current_rescore.py" --bundle "benchmarks/document_relations/reserved/v2" --product-report "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-product-20e79af-capture.json" --expected-report-sha256 "c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066" --output "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-rescore-20e79af-report.json" --main-reviewer-authorized
+exit_code=1
+result="Report created successfully; nonzero exit reflects frozen scorer failures in the current evaluation, not a CLI or validation error"
+adapter_sha256=0591b1703f6e831628e94ab1944a1d043e0f8668c0de855e5760167b2c72ce89
+product_capture_sha256=c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066
+rescore_report_sha256=7f5f04b40c1e730974d7257ae03a90794f888e0ec93d1d544c23082b50eb696e
+stdout_stderr=current-rescore-cli.stdout-stderr.txt
+

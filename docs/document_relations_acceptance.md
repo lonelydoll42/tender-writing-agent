@@ -2,7 +2,63 @@
 
 ## 状态与边界
 
-### 当前来源职责与有限组标题修复（2026-10-13）
+### 当前总体基线与隔离预检（2026-10-14）
+
+本批补齐 `20e79af22ef1666dc862234d3f7c555c82eb90e0` 的十四例当前基线，**不修改产品源码、冻结评分器、oracle 或历史报告**。执行智能体采集与主审独立采集分开保存，不复用 `af7db0f` 的历史产品输出。H03/H01 继续标记为公开回归已完成；未见环境没有建立，本批整体仍不关闭。
+
+#### 当前版本的真实采集
+
+2026-10-13 开发前冻结 [contract.md](../benchmarks/document_relations/current-baseline-regression/20261013/contract.md) 与 [scope-freeze.json](../benchmarks/document_relations/current-baseline-regression/20261013/scope-freeze.json)，2026-10-14 完成复验；目录日期保留冻结日期。`core.autocrlf=false` 导出的目标提交 **616/616 个文件**匹配 Git blob，其中 **65/65 产品源码**的汇总 SHA-256 为 `51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34`。
+
+主审从这个精确副本运行原 `1.0.3` runner，真实执行 Registry → Runtime；十四例全部 `executed`，execution_failed/not_run 均为 0。报告保留实际 graph、注册 source_context、runtime 与执行状态。归档目录没有 Git 根，报告里的 `git_revision_at_run=null`；版本归属由 [product-snapshot-proof.json](../benchmarks/document_relations/current-baseline-regression/20261013/product-snapshot-proof.json) 和逐文件字节证明，不能把旧 `base_commit=bbb8309`（冻结 bundle 的沿革字段）误读成执行版本。
+
+| 同一份新采集的评分 | 冻结 1.0.3 | 冻结 1.0.4 | 冻结 1.0.5 合同视图 |
+| --- | --- | --- | --- |
+| 整例通过 / 失败 / 未执行 | 9 / 5 / 0 | 9 / 5 / 0 | **10 / 4 / 0** |
+| 条件未映射 / 来源未覆盖 | 各 6/37 | 各 2/37 | 各 2/37 |
+| 分组结构错误 | 5/14 | 5/14 | 2/14 |
+| 父级关系错误 | 6/16 | 6/16 | 4/16 |
+| scope 成员判定错误 | 18/50 | 18/50 | 10/50 |
+| 边界证据错误 | 0/17 | 2/17 | 0/17 |
+| 原始引用错误 | 0/1083 | 0/1083 | 0/1083 |
+
+**新 10/14 来自当前采集，不是把历史 10/14 改名。** 三版在同一捕获中的原始 graph/context/runtime/执行状态与指纹逐例保持不变；评分器间差异不能算产品提升。1.0.5 视图仍失败 case-07、09、12、13；十四份固定合成 TXT 也不能代表任意原始文件或企业材料准确率。旧原件、旧 9/14、旧 10/14 均原样保留。
+
+智能体与主审独立采集的三版汇总完全一致。离线 1.0.3 与采集时评分有八处错误数组顺序差异（主审五例、智能体三例），逐项错误多重集、状态和指标相同；保留原数组，不重写报告来制造字节一致。逐例核对见 [independent-comparison.json](../benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/independent-comparison.json)。
+
+#### 冻结评分 API 与新适配器
+
+原 `1.0.5 rescore_report` 只接受绑定的历史报告 SHA；主审实测它仍拒绝新捕获，未创建输出，[historical-cli-guard.json](../benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/historical-cli-guard.json) 保留原错误。没有修改该守卫或伪装新报告身份。
+
+新增 `run_document_relations_current_rescore.py` 仅作验证与调用层：先固定三版评分器、原规则/sidecar、冻结文档、v2 oracle 的 hash，核对新报告 SHA、当前源码树、十四个 case、原始输入/页文本及 Registry 身份/版本，再调用原评分 API。仅 case-03/11 使用原 sidecar 中的 `1.0.5 score_case`，其余十二例按原合同继续使用 `1.0.4`；没有增加 oracle 节点或重新定义证据职责。历史 sidecar 的原报告绑定与对当前输入的适用性分别验证。
+
+接口不限定智能体的 worker 目录，合法主审或临时路径也能使用，输出必须为新路径。未执行的 case 不评分或伪造 graph/context；缺少当前上下文的 sidecar 明示 `not_validated_non_executed`，其他已执行 case 可继续评分。新增专项 **20/20**，主审公开接口探针 **22/22**；它们不是业务误阻断/误放行率。第一版错误目录限制、测试字段/分类假设错误及 Ruff/测试失败均另存，没有修改原捕获来掩盖失败。主审探针在下发任务后记录，不能冒充开发前盲测。
+
+目标提交独立全量 **941 passed、1 条既有 Starlette 警告**；加入适配器/测试后的 Git canonical 副本全量 **961 passed、1 条既有警告**，全仓 Ruff 与差异检查通过。首轮同为 961 passed，但有额外 pytest 缓存写入权限警告，保留 [canonical-tests.xml](../benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-tests.xml)；未改代码，仅用 `-p no:cacheprovider` 复跑得到 [canonical-tests-no-cache.xml](../benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-tests-no-cache.xml)，两次都无失败/错误/跳过。
+
+65 个产品源码包含在 **85/85 个代码文件**的 canonical Git blob 对照中；**612/612 件既有受保护文件**的工作区 hash 和 staged blob 均未变。code archive base tree 为 `33118c1ed243b47bda1135f9c5a71f847b4fcddd`，不是随后补充发布元数据的整个提交 tree。新资产按原字节入库，Windows 诊断 TXT 仅局部识别 CRLF；五份命令的末尾空行、四份失败 traceback 的缩进空白逐文件保留，没有放宽源码或 oracle 检查。快照、全量结果和逐文件 hash 见本批独立发布索引。
+
+#### 隔离尚未建立
+
+开发智能体的真实 exec **成功读取**主审路径下的 PUBLIC 非敏感 canary，其内容 SHA 与冻结值一致，SID/主机哈希也与主审一致；这不是访问拒绝。工具可见性在主审与智能体上下文中不同，主审另行确认可用 spawn schema 仍没有强制不同 principal、凭据或权限边界的字段。原始预检与主审核对分开保存，没有据此宣称所有外部环境都不可行。
+
+**新增未见文件 0，未见验收 not_run。** 本批没有读取凭据内容、启动 VM、改变账号/安全策略或操作无关服务器。仍需要独立管理的审查主体/环境，开发工具不可访问其文件、凭据及含未见内容的对话/日志；审查方先确认 canary 存在且可读，再让实际开发工具验证明确授权拒绝及其他访问路径。命令不存在、路径不存在或未测试的远端都不能代替拒绝证据，验证通过后才冻结输入和答案。
+
+新资产见 [current-baseline-regression/20261013](../benchmarks/document_relations/current-baseline-regression/20261013) 与 [reports/current-baseline-20e79af-20261013](../benchmarks/document_relations/reports/current-baseline-20e79af-20261013)，发布索引为 [current-baseline-publication-record.json](../benchmarks/document_relations/current-baseline-publication-record.json)。报告中的采集与离线评分分别标识，所有输出 create-only。
+
+```powershell
+New-Item -ItemType Directory -Path .qiaowenshu -Force | Out-Null
+git -c core.autocrlf=false archive --format=zip --output=.qiaowenshu/product-20e79af-NEW.zip 20e79af22ef1666dc862234d3f7c555c82eb90e0
+Expand-Archive -LiteralPath .qiaowenshu/product-20e79af-NEW.zip -DestinationPath .qiaowenshu/product-20e79af-NEW
+$python = (Resolve-Path .venv/Scripts/python.exe).Path
+& $python .qiaowenshu/product-20e79af-NEW/scripts/run_document_relations_eval.py --bundle .qiaowenshu/product-20e79af-NEW/benchmarks/document_relations/reserved/v2 --output replay-current-capture-NEW.json --main-reviewer-authorized
+$sha = (Get-FileHash -LiteralPath replay-current-capture-NEW.json -Algorithm SHA256).Hash.ToLowerInvariant()
+& $python scripts/run_document_relations_current_rescore.py --bundle benchmarks/document_relations/reserved/v2 --product-report replay-current-capture-NEW.json --expected-report-sha256 $sha --output replay-current-score-NEW.json --main-reviewer-authorized
+```
+
+归档、解压目录和报告均须为新路径；有评分失败时返回 1，不表示采集未执行。**当前总体基线可单独完成；独立未见环境、本批整体、第2步整体、通用完整性与生产验收仍未完成/通过。** 旧公开原始文件 **0/8** 本批未重跑，企业材料仍未运行，`partial/manual_review` 保留，`uv.lock` 单独处理。
+
+### 历史来源职责与有限组标题修复（2026-10-13）
 
 本批由修改智能体实现、主审从 Git canonical 导出副本验收。产品只改 `document_relations.py`；冻结的 `1.0.3/1.0.4/1.0.5` 评分器、原始文件、oracle 和历史报告均未改。**H03 来源职责与 H01 有限标题识别的公开回归通过；未见隔离未建立，本批整体仍不关闭。**
 

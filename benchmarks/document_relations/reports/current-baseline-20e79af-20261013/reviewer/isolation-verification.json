@@ -1,0 +1,38 @@
+{
+  "schema": "current-baseline-reviewer-isolation-verification-v1",
+  "generated_at": "2026-10-13T23:14:54.214591+08:00",
+  "agent_probe_sha256": "9fe939550c1395ddec6c1c073b58dcfeca22803ab9f795e8913581998dc7a90f",
+  "agent_audit_sha256": "96ab7bf8ca5a1773268b4241b258ec4fe08d007ceaf54a5086abd5621af6c4eb",
+  "public_canary_sha256": "ae311dc9e9ae52837fd16652d49a8396390aa34d5fae01ba59c604061e7fae82",
+  "versioned_public_canary": "benchmarks/document_relations/current-baseline-regression/20261013/public-access-canary.txt",
+  "reviewer_identity_hashes": {
+    "sid_sha256": "56e439a01df70ef3688968710426d1f5775e061466f2e9fbf3bea34dca29fda0",
+    "machine_sha256": "57c28017c69be2e8acec42213fbb6ba01a00a47de0089af7bb6cc437343223e0"
+  },
+  "developer_identity_matches_reviewer": true,
+  "developer_probe_recorded_successful_read": true,
+  "main_reviewer_canary_read_succeeded": true,
+  "denied_access_observed": false,
+  "status": "not_established",
+  "new_unseen_files": 0,
+  "unseen_evaluation": "not_run",
+  "tool_schema_scope_clarification": {
+    "dedicated_multi_agent_spawn_exposed_to_main": true,
+    "main_spawn_fields": [
+      "fork_context",
+      "items",
+      "message",
+      "model",
+      "reasoning_effort"
+    ],
+    "enforced_principal_credential_or_permission_boundary_field": false,
+    "agent_report_exposure_statement_scope": "The developer audit reports tools visible in that agent context, not a claim that the main reviewer lacks a dedicated spawn tool.",
+    "effective_exec_filesystem_mode": "danger-full-access; shared Windows execution identity"
+  },
+  "limits": [
+    "No credential contents were read or recorded by this verification.",
+    "This validates failure of the available local arrangement, not impossibility of all externally administered environments.",
+    "No VM, account, security policy, or unrelated remote host was modified.",
+    "Freeze unseen inputs only after a independently administered access boundary denies the actual developer tools and prevents shared credential/conversation/log access."
+  ]
+}

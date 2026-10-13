@@ -1,0 +1,6 @@
+command="E:\project\tender-writing-agent\.venv\Scripts\python.exe" "E:\project\tender-writing-agent\.qiaowenshu\acceptance\current-baseline-20e79af-20261013\product-20e79af\scripts\run_document_relations_eval.py" --bundle "E:\project\tender-writing-agent\.qiaowenshu\acceptance\current-baseline-20e79af-20261013\product-20e79af\benchmarks\document_relations\reserved\v2" --output "E:\project\tender-writing-agent\benchmarks\document_relations\reports\current-baseline-20e79af-20261013\worker\current-product-20e79af-capture.json" --main-reviewer-authorized
+exit_code=1
+runner_sha256=26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483
+product_export=E:\project\tender-writing-agent\.qiaowenshu\acceptance\current-baseline-20e79af-20261013\product-20e79af
+bundle=E:\project\tender-writing-agent\.qiaowenshu\acceptance\current-baseline-20e79af-20261013\product-20e79af\benchmarks\document_relations\reserved\v2
+output=E:\project\tender-writing-agent\benchmarks\document_relations\reports\current-baseline-20e79af-20261013\worker\current-product-20e79af-capture.json

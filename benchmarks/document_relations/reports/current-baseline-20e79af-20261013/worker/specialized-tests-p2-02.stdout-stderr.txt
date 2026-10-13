@@ -1,0 +1,12 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: E:\project\tender-writing-agent
+configfile: pyproject.toml
+plugins: anyio-4.15.1, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 20 items
+
+tests\evals\test_document_relations_current_rescore.py ................. [ 85%]
+...                                                                      [100%]
+
+============================= 20 passed in 2.17s ==============================

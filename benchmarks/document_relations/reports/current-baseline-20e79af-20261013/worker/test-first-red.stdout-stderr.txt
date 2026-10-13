@@ -1,0 +1,23 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: E:\project\tender-writing-agent
+configfile: pyproject.toml
+plugins: anyio-4.15.1, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 0 items / 1 error
+
+=================================== ERRORS ====================================
+___ ERROR collecting tests/evals/test_document_relations_current_rescore.py ___
+ImportError while importing test module 'E:\project\tender-writing-agent\tests\evals\test_document_relations_current_rescore.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+D:\Miniconda3\Lib\importlib\__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\evals\test_document_relations_current_rescore.py:11: in <module>
+    from scripts import run_document_relations_current_rescore as current_rescore
+E   ImportError: cannot import name 'run_document_relations_current_rescore' from 'scripts' (E:\project\tender-writing-agent\scripts\__init__.py)
+=========================== short test summary info ===========================
+ERROR tests/evals/test_document_relations_current_rescore.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+============================== 1 error in 0.26s ===============================

@@ -1,0 +1,875 @@
+{
+  "schema": "document-relations-current-baseline-publication-v1",
+  "recorded_at": "2026-10-14T00:15:34.1046110+08:00",
+  "base_commit": "20e79af22ef1666dc862234d3f7c555c82eb90e0",
+  "product_commit": "20e79af22ef1666dc862234d3f7c555c82eb90e0",
+  "frozen_at": "2026-10-13T23:03:49.857772+08:00",
+  "directory_date_basis": "20261013: pre-development freeze; final reviewer checks completed 2026-10-14 Asia/Shanghai",
+  "batch_status": "not_closed",
+  "limited_completed_scope": [
+    "Fresh 14-case Registry/Runtime baseline for exact 20e79af export",
+    "Three frozen grading views on each new capture with preserved source graph/context/runtime",
+    "Public current-rescore input guard tests and actual developer access preflight"
+  ],
+  "pending_scope": [
+    "Independent unseen acceptance environment",
+    "Unseen input and answer freeze after effective denied-access verification"
+  ],
+  "implementation": {
+    "mode": "Subagent implementation and separate main reviewer command acceptance",
+    "changed_product_files": [],
+    "changed_frozen_graders_or_oracle": false,
+    "new_adapter": "scripts/run_document_relations_current_rescore.py",
+    "adapter_sha256": "0591b1703f6e831628e94ab1944a1d043e0f8668c0de855e5760167b2c72ce89",
+    "new_test_file": "tests/evals/test_document_relations_current_rescore.py",
+    "new_test_sha256": "23a632b2c37062d48b596540d49b60ab6f115f735599832e4ece1b5cdeff27b4",
+    "overlay_scope": "Frozen 1.0.5 score_case for case-03/case-11 only; frozen 1.0.4 fallback for other twelve cases",
+    "historical_cli_sha_guard_unchanged": true,
+    "historical_cli_actual_rejection": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/historical-cli-guard.json",
+    "no_worker_path_only_restriction": true,
+    "nonexecuted_cases_not_upgraded": true,
+    "outputs_create_only": true,
+    "all_development_subagents_closed_before_publication": true
+  },
+  "source_identity": {
+    "target_product_commit": "20e79af22ef1666dc862234d3f7c555c82eb90e0",
+    "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+    "product_source_files": 65,
+    "product_snapshot_proof": "benchmarks/document_relations/current-baseline-regression/20261013/product-snapshot-proof.json",
+    "product_snapshot_proof_sha256": "43b3b01cfe3258b78982f9306329b8abaa774e20fce7db9db357f02f6b2f1ea1",
+    "target_exported_files": 616,
+    "target_export_git_blob_matches": 616,
+    "code_archive_base_tree": "33118c1ed243b47bda1135f9c5a71f847b4fcddd",
+    "archive_scope": "Code and pre-publication asset snapshot; final publication metadata and doc final test count are added later.",
+    "code_proof": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/final-code-proof.json",
+    "code_proof_sha256": "e5d7c5022c11406228538abe296b06244f15288bce21ebd1c52ca5776118cd54",
+    "canonical_code_files": 85,
+    "canonical_code_git_blob_matches": 85,
+    "main_capture_git_revision_at_run": null,
+    "capture_commit_binding_basis": "Exact target commit export and per-file Git blobs/source-tree SHA, not old bundle base_commit or missing archive Git root"
+  },
+  "current_baseline": {
+    "identity": "Fresh current-product capture, not historical af7 output",
+    "classification": "Public fixed synthetic TXT regression; not certified blind",
+    "actual_registry_runtime_capture": true,
+    "real_model_called": false,
+    "reviewer_capture": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/product-capture-1.0.3.json",
+    "reviewer_capture_sha256": "bf8b04db11d5b4ca10cdcf1744e3c8505181da1fbbe2a8194bad764bb672d090",
+    "worker_capture": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-product-20e79af-capture.json",
+    "worker_capture_sha256": "c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066",
+    "executed_files_per_capture": 14,
+    "execution_failed_files_per_capture": 0,
+    "not_run_files_per_capture": 0,
+    "canonical_scores": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-scores.json",
+    "canonical_scores_sha256": "620db613b5138c7be007e078f60a46bef44e4c263f90f1a3767b8f7b21a3fbb9",
+    "scoring_views": {
+      "1.0.3": {
+        "case_count": 14,
+        "passed": 9,
+        "failed": 5,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 5,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 6,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 3,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 18,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1083,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 42,
+          "group_structure_error_events": 7
+        },
+        "method": "frozen 1.0.3 score_case",
+        "overlay_case_ids": []
+      },
+      "1.0.4": {
+        "case_count": 14,
+        "passed": 9,
+        "failed": 5,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 2,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 5,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 6,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 3,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 18,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1083,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 40,
+          "group_structure_error_events": 7
+        },
+        "method": "frozen 1.0.4 score_case",
+        "overlay_case_ids": []
+      },
+      "1.0.5": {
+        "case_count": 14,
+        "passed": 10,
+        "failed": 4,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 2,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 4,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 3,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 10,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1083,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 25,
+          "group_structure_error_events": 4
+        },
+        "method": "frozen 1.0.5 score_case on case-03/case-11; frozen 1.0.4 fallback on the other twelve cases",
+        "overlay_case_ids": [
+          "case-03",
+          "case-11"
+        ]
+      }
+    },
+    "failed_current_1_0_5_case_ids": [
+      "case-07",
+      "case-09",
+      "case-12",
+      "case-13"
+    ],
+    "independent_comparison": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/independent-comparison.json",
+    "independent_comparison_sha256": "0dce8ea9dec9b74b3b5e1687821dc9a1423c17baafdf2cff52432304a1a3358e",
+    "independent_summary_matches": "3/3",
+    "material_preservation_checks": 28,
+    "source_invalid": "0/1083 in all three views",
+    "scoring_error_array_order_differences": [
+      {
+        "capture": "reviewer",
+        "case_id": "case-07",
+        "error_array_order_equal": false,
+        "error_multiset_equal": true
+      },
+      {
+        "capture": "reviewer",
+        "case_id": "case-09",
+        "error_array_order_equal": false,
+        "error_multiset_equal": true
+      },
+      {
+        "capture": "reviewer",
+        "case_id": "case-11",
+        "error_array_order_equal": false,
+        "error_multiset_equal": true
+      },
+      {
+        "capture": "reviewer",
+        "case_id": "case-12",
+        "error_array_order_equal": false,
+        "error_multiset_equal": true
+      },
+      {
+        "capture": "reviewer",
+        "case_id": "case-13",
+        "error_array_order_equal": false,
+        "error_multiset_equal": true
+      },
+      {
+        "capture": "worker",
+        "case_id": "case-07",
+        "error_array_order_equal": false,
+        "error_multiset_equal": true
+      },
+      {
+        "capture": "worker",
+        "case_id": "case-11",
+        "error_array_order_equal": false,
+        "error_multiset_equal": true
+      },
+      {
+        "capture": "worker",
+        "case_id": "case-13",
+        "error_array_order_equal": false,
+        "error_multiset_equal": true
+      }
+    ],
+    "scoring_error_order_interpretation": "Only the scoring error arrays vary in order; their exact error multisets, statuses and metrics match. Original arrays are not rewritten.",
+    "score_changes_are_not_product_improvement": true
+  },
+  "frozen_scorers": {
+    "1.0.3": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+    "1.0.4": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf",
+    "1.0.5": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3",
+    "adapter_sha256": "0591b1703f6e831628e94ab1944a1d043e0f8668c0de855e5760167b2c72ce89"
+  },
+  "frozen_inputs": {
+    "v2_manifest_sha256": "14072deebb73f993759272f19ca687649903c201b49f0d5ff78ede926a8dfcb2",
+    "v2_bundle_fingerprint": "eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d6864",
+    "machine_oracle_sha256": "9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50",
+    "payload_files": 29,
+    "case_input_sha256": {
+      "case-01": "cd2110251d92484a5d963191c1c0a09939a559e398d97082772f844da7ce1a03",
+      "case-02": "2d2b5673cbbe1cf1401b571f758feaf36052ca2b9010c839f3b55f86c2b36c9e",
+      "case-03": "c8b9cfdd5d645f522cad6c05a08666ff0f23322352b775637cdf3cc39ef0e732",
+      "case-04": "25573beb369fc9e4f6a987d841a987a1d901ef74f5085eeed0250b5d32bd3e8a",
+      "case-05": "3aef03b168540f155e06001c37e50db0e9d0d7cfa8ac6bf2fd87ca66e07151f5",
+      "case-06": "5399efff2a1b2e6b6b3f9d02c8bfce4000a40e6e6975d1777ad82a2477cde841",
+      "case-07": "da739873ce9ba42b2c1401cf0ae3cb5b1e50fd719ec06819c16b9bcdf0b23f73",
+      "case-08": "3aaf208ed06673fb24e69ae2a12a1b2e3b5d120b33b06f443c6ff1f17bd71ae2",
+      "case-09": "41b364624ee0b41eeb281cff1d03bba2e5b2a9fdd560c0f5a35b3357c0f0c8c5",
+      "case-10": "1b58f8222c8260251a44efc70dc43bffb8a3ffd06368b4d9ad7f23373118a1ff",
+      "case-11": "40ad4e00f70972566b3696078601455e815bf9fa5787ea500aa7d29fe823ba86",
+      "case-12": "6ea791a6fcb1334dadb5b7987a1c485cfa4e6ce16d3cc991b29dc0fadd1c478d",
+      "case-13": "602c972bbcfa424204660fa48cd89820cf46af9029a62580883c2f4091d9f8ed",
+      "case-14": "6d337296e80caf344c39bd11203e125df0938e31860988e72d5e17dfb42eda18"
+    },
+    "overlay_sha256": "526a08805b88192d2351a0c0b45f9cd6060745ba1a931919e069e9d104c86d02",
+    "overlay_case_ids": [
+      "case-03",
+      "case-11"
+    ],
+    "rules_json_sha256": "e3b2bffa3040507819296c91a5922fd7bd78f4d2d451d06e8dbc37fb596c9a49",
+    "rules_markdown_sha256": "7f3516a1a2342a0de7180e2eb0b176d468b9ed1ab4e18d3b27447a60db170544"
+  },
+  "historical_af7_reference": {
+    "classification": "historical only; not the current baseline",
+    "product_commit": "af7db0f467ea5912dd5482c67752e78482659779",
+    "source_tree_sha256": "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0",
+    "product_report_sha256": "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7",
+    "evaluator_version": "1.0.5",
+    "passed": 10,
+    "failed": 4,
+    "not_run": 0,
+    "case_count": 14,
+    "rescore_report_sha256": "d2f988ae385f02a74e37737585a5f2ffd8a50401788ddc610f98f2807c2f1d0d"
+  },
+  "isolation": {
+    "status": "not_established",
+    "developer_read_result": "Successfully read the public nonsensitive canary using actual developer exec",
+    "denied_access_observed": false,
+    "developer_identity_matches_reviewer": true,
+    "public_canary": "benchmarks/document_relations/current-baseline-regression/20261013/public-access-canary.txt",
+    "public_canary_sha256": "ae311dc9e9ae52837fd16652d49a8396390aa34d5fae01ba59c604061e7fae82",
+    "developer_probe": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/isolation/developer-access-probe.json",
+    "developer_probe_sha256": "9fe939550c1395ddec6c1c073b58dcfeca22803ab9f795e8913581998dc7a90f",
+    "capability_audit": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/isolation/environment-capability-audit.json",
+    "capability_audit_sha256": "96ab7bf8ca5a1773268b4241b258ec4fe08d007ceaf54a5086abd5621af6c4eb",
+    "main_verification": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/isolation-verification.json",
+    "main_verification_sha256": "d069a56c980f7cd8581fc9a2d6451c08e9a04008aba903e73e729cf3085cbb74",
+    "new_unseen_files_created": 0,
+    "unseen_evaluation": "not_run",
+    "certified_blind": false,
+    "holdout_passed": false,
+    "credential_contents_read": false,
+    "account_vm_security_policy_or_unrelated_server_changes": false,
+    "required_next_precondition": "Independently administered reviewer principal/environment; actual developer tools denied file, credential and shared conversation/log access before freezing unseen inputs and answers.",
+    "finding_scope": "Available shared local execution arrangement only; not a claim that all external environments are impossible."
+  },
+  "historical_preservation": {
+    "baseline_tracked_files": 616,
+    "allowed_existing_changes": [
+      ".gitattributes",
+      "docs/document_relations_acceptance.md",
+      "benchmarks/document_relations/README.md",
+      "benchmarks/document_relations/publication-record.json"
+    ],
+    "protected_working_hashes_unchanged": 612,
+    "protected_staged_git_blobs_unchanged": 612,
+    "scope_freeze": "benchmarks/document_relations/current-baseline-regression/20261013/scope-freeze.json",
+    "scope_freeze_sha256": "90568455fa1a18287846ca597145f5a84af3c13b24fb047d563c3e3ac21d6fbb",
+    "preimplementation_contract_sha256": "91c8178a35d16b00f4fd037dd1a40ed8e32de9c2310b2f55846fea87230725a1",
+    "original_failure_reports_and_code_snapshots_retained": true,
+    "historical_9_of_14_and_10_of_14_unchanged": true,
+    "exact_diagnostic_bytes_preserved": "New Windows TXT artifacts retain CRLF; five exact command files keep EOF blank lines; four exact failed traceback files retain indentation-only whitespace. No source/oracle blanket exemption."
+  },
+  "checks": {
+    "exact_product_20e79af_tests": {
+      "report": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/product-20e79af-tests.xml",
+      "sha256": "128e76f1fd4be0cc7e567f40d5e938188296e93d32fb1b0a1caa778448baff81",
+      "tests": 941,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 58.956,
+      "warnings": 1,
+      "warning_kind": "Existing StarletteDeprecationWarning; observed in exec stdout"
+    },
+    "canonical_full_tests_first": {
+      "report": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-tests.xml",
+      "sha256": "424a8177d9156d3467c47680b59cd8923d7a6fc8360f6221b30a0cbc20ba86f3",
+      "tests": 961,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 62.791,
+      "warnings": 2,
+      "warning_kinds": [
+        "Existing StarletteDeprecationWarning",
+        "PytestCacheWarning: cache directory creation denied on Windows"
+      ]
+    },
+    "canonical_full_tests_no_cache": {
+      "report": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-tests-no-cache.xml",
+      "sha256": "e6a049fc82a893e96c45cbd5ec5e44fe2c96af98e2d3d12d62a16b80e2c15b29",
+      "tests": 961,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 60.673,
+      "warnings": 1,
+      "warning_kind": "Existing StarletteDeprecationWarning; observed in exec stdout",
+      "command": "& .venv/Scripts/python.exe -m pytest -q -p no:cacheprovider --basetemp .qiaowenshu/acceptance/current-baseline-20e79af-20261013/pytest-canonical-no-cache-20261014 --junitxml benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-tests-no-cache.xml",
+      "command_context": "Executed from canonical-code using resolved absolute interpreter, basetemp and XML paths; no code changes between runs."
+    },
+    "new_adapter_tests": {
+      "report": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/adapter-tests.xml",
+      "sha256": "2bdb18214982acc5045e1b7d229e3400d21caa59017b2513ecf7879bf6cf9925",
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 2.237
+    },
+    "main_public_guard_probes": {
+      "report": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/guard-probes.json",
+      "sha256": "27b6d9cc437243f11be099e4200270207b6cb94d5f3de43253eeb75aa74b8b13",
+      "passed": 22,
+      "total": 22,
+      "classification": "Public main reviewer interface probes recorded after delegation, not pre-development blind files"
+    },
+    "ruff": "passed: full repository python -m ruff check .",
+    "staged_diff_check": "passed before record generation; rechecked after final publication staging",
+    "initial_directory_guard_failure_retained": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/initial-adapter-review.json"
+  },
+  "limits": [
+    "H03/H01 public regression completed; full batch remains not_closed",
+    "Full Step 2, general completeness and production acceptance not passed",
+    "Fourteen synthetic files do not establish arbitrary raw-file or real-model accuracy",
+    "Historical public raw-file result 0/8 retained and not rerun in this batch",
+    "Business materials not_run/14 and prior public business not_run/8; no business false-block/release rate computed",
+    "New unseen acceptance not_run; no replacement files fabricated",
+    "uv.lock remains unmodified, untracked and a separate environment-reproducibility task"
+  ],
+  "production_accepted": false,
+  "business_materials": "not_run/14",
+  "new_asset_count": 55,
+  "new_assets": [
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/contract.md",
+      "sha256": "91c8178a35d16b00f4fd037dd1a40ed8e32de9c2310b2f55846fea87230725a1",
+      "bytes": 4119,
+      "git_blob": "d79bb58ed55cc444b458f76f51c860c5444c0ee9"
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/product-snapshot-proof.json",
+      "sha256": "43b3b01cfe3258b78982f9306329b8abaa774e20fce7db9db357f02f6b2f1ea1",
+      "bytes": 180433,
+      "git_blob": "2ba83dcf609f9737097c89ebceeeaeb28dc2864b"
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/public-access-canary.txt",
+      "sha256": "ae311dc9e9ae52837fd16652d49a8396390aa34d5fae01ba59c604061e7fae82",
+      "bytes": 253,
+      "git_blob": "738f179fdfcaf491ad6b096df349e56a5f03ec6f"
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/reviewer-probe-contract.json",
+      "sha256": "287f6a5e13fa31b0acbdbe040627d2f89e6db1d8c14bb9b25df9cb5f9cfc1dcc",
+      "bytes": 2593,
+      "git_blob": "504477d1f63335b15feec5ef33148f2361773aef"
+    },
+    {
+      "path": "benchmarks/document_relations/current-baseline-regression/20261013/scope-freeze.json",
+      "sha256": "90568455fa1a18287846ca597145f5a84af3c13b24fb047d563c3e3ac21d6fbb",
+      "bytes": 162025,
+      "git_blob": "480962ee8597f8bed5462abd9907ae142cce9906"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/isolation/developer-access-probe.json",
+      "sha256": "9fe939550c1395ddec6c1c073b58dcfeca22803ab9f795e8913581998dc7a90f",
+      "bytes": 3269,
+      "git_blob": "a9d18e5ac4779080f278dc15e6d5234655a6fd2f"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/isolation/environment-capability-audit.json",
+      "sha256": "96ab7bf8ca5a1773268b4241b258ec4fe08d007ceaf54a5086abd5621af6c4eb",
+      "bytes": 5190,
+      "git_blob": "b0997801280b39f49cc7b996456415ed1d74a351"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/adapter-tests.xml",
+      "sha256": "2bdb18214982acc5045e1b7d229e3400d21caa59017b2513ecf7879bf6cf9925",
+      "bytes": 3906,
+      "git_blob": "85d3b011a653aa86bbada629a99a92af78856add"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-scores.json",
+      "sha256": "620db613b5138c7be007e078f60a46bef44e4c263f90f1a3767b8f7b21a3fbb9",
+      "bytes": 939447,
+      "git_blob": "a8bd28e9526e3ccaa3d6e1a772967dfd32b4467f"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-tests-no-cache.xml",
+      "sha256": "e6a049fc82a893e96c45cbd5ec5e44fe2c96af98e2d3d12d62a16b80e2c15b29",
+      "bytes": 155869,
+      "git_blob": "8e18a4c362ee944bf6f637bb6c043f8903b615b2"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/canonical-tests.xml",
+      "sha256": "424a8177d9156d3467c47680b59cd8923d7a6fc8360f6221b30a0cbc20ba86f3",
+      "bytes": 155869,
+      "git_blob": "018d25e2556828d3d1a913ce2fb86b060c55e9c9"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/final-code-proof.json",
+      "sha256": "e5d7c5022c11406228538abe296b06244f15288bce21ebd1c52ca5776118cd54",
+      "bytes": 191608,
+      "git_blob": "cb25af20f92f2d1dbe91a69369fd6a94a701b678"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/guard-probes.json",
+      "sha256": "27b6d9cc437243f11be099e4200270207b6cb94d5f3de43253eeb75aa74b8b13",
+      "bytes": 6199,
+      "git_blob": "23e7a8ac62ba0fd9dcab7593fa2ec7b991fa5208"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/historical-cli-guard.json",
+      "sha256": "67307ff5b14f4aef8c3dc3e332b9026ffb3df0f5e9251e9c3b0de7dcfc02099c",
+      "bytes": 2226,
+      "git_blob": "b4409dda010309ea80cf59ae5f16284c75204770"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/independent-comparison.json",
+      "sha256": "0dce8ea9dec9b74b3b5e1687821dc9a1423c17baafdf2cff52432304a1a3358e",
+      "bytes": 16333,
+      "git_blob": "172af05db22e6e7945dce294fede17bca859ab1e"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/initial-adapter-review.json",
+      "sha256": "70aa2b9ddc04615814ed1f6a2af142bd8ac6d674e6541afdeb793184c6ce8589",
+      "bytes": 2048,
+      "git_blob": "ea9eb01036231b48f63394f1d2d8339bb300d2fe"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/isolation-verification.json",
+      "sha256": "d069a56c980f7cd8581fc9a2d6451c08e9a04008aba903e73e729cf3085cbb74",
+      "bytes": 2057,
+      "git_blob": "5fbcaa5db858f8534f51affcbe9c0335f8313a51"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/pre-adapter-comparison.json",
+      "sha256": "8ebe4e136fa065dac7053ba5be6e26fd5933c97379afd265f311ff0eab0c0b22",
+      "bytes": 12030,
+      "git_blob": "733baed7d64bb10dbc7f1c4f7cf6129b1ee29e13"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/pre-review-adapter.py.txt",
+      "sha256": "dbcefd27396e7bdc0d616c9c56a93d7431fc7d9562d0f6da7c150145a90134f6",
+      "bytes": 29521,
+      "git_blob": "77b3ceb8f5a10552cdd2b58a2382ef036028ce40"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/pre-review-tests.py.txt",
+      "sha256": "9c98e1a5fe9fb93de1d3d7d08343f8410f0b45dd42cc34c7cf2ff05140b7c4de",
+      "bytes": 9437,
+      "git_blob": "b2fb6c2a085c0119be3744131c9b58c5e886a311"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/product-20e79af-tests.xml",
+      "sha256": "128e76f1fd4be0cc7e567f40d5e938188296e93d32fb1b0a1caa778448baff81",
+      "bytes": 152219,
+      "git_blob": "3f6bb8c53b94fa85edfa852c76d4d408831b1d7c"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/product-capture-1.0.3.json",
+      "sha256": "bf8b04db11d5b4ca10cdcf1744e3c8505181da1fbbe2a8194bad764bb672d090",
+      "bytes": 786658,
+      "git_blob": "9c042ae337fc7fe5b0712ac3fa2b00dae4e7e03c"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.3.json",
+      "sha256": "a03b9f53a5c525d5d0b5e38dca265b655d4468f45f64f7b0ab047c70dd129a5f",
+      "bytes": 784572,
+      "git_blob": "b4dad4774494e23631129587d5267d43dbc43b10"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.4.json",
+      "sha256": "b22f9207f6d42b5fdad848d1259cac53ee0e1427d740833e87ce5dad3afc6044",
+      "bytes": 784388,
+      "git_blob": "199bfe68f1e8a7309ccb12eebdda8e0e6dbe9515"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.5-first-adapter.py.txt",
+      "sha256": "0591b1703f6e831628e94ab1944a1d043e0f8668c0de855e5760167b2c72ce89",
+      "bytes": 32708,
+      "git_blob": "723957310accffb34ba54e73996fe3cc097e1c0d"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.5-first.json",
+      "sha256": "e195d7ec3afd1815bcd7fdb305a3bc5670d39055f281a2f32729f2f618b6d96b",
+      "bytes": 939443,
+      "git_blob": "a647b99e0ad08496c3c53aba48ab11b9c50aa7fa"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-product-20e79af-capture.json",
+      "sha256": "c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066",
+      "bytes": 786658,
+      "git_blob": "aba1ca82215e08214a3fdd6fce51cfbf36c15d69"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-rescore-20e79af-report.json",
+      "sha256": "7f5f04b40c1e730974d7257ae03a90794f888e0ec93d1d544c23082b50eb696e",
+      "bytes": 939453,
+      "git_blob": "b219cb043f4fbdc630fae939022226c39097a8d4"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-rescore-cli.stdout-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-rescore-command.txt",
+      "sha256": "9f6bc8d3c207ab67e5a461accb45fd02194637747c76f9fb5b0593d0aa6d9cf9",
+      "bytes": 1015,
+      "git_blob": "eb58e588777a1a138e57039015c5411630fcb534"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/overlay-preflight-command.txt",
+      "sha256": "218e257e6dbe33f8c659b4ba57f5c91fea64439db9489ad9e47578c9e3dff47d",
+      "bytes": 513,
+      "git_blob": "893c8370322ad1cfbff1bd3ced07318a747d73c5"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/overlay-preflight.stdout-stderr.txt",
+      "sha256": "62fa4e275b1298c6bc868d1b03f9968d6187c4a2e363052fd68bae9484f5bc9f",
+      "bytes": 536,
+      "git_blob": "1393a16c97fce558d3dd85e8ac54e4c8fff5ab83"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-ruff-01-command.txt",
+      "sha256": "a8993a70797836a9cb94e3e44d54dac6a4fd979f496afcdf709cc9af712fe216",
+      "bytes": 431,
+      "git_blob": "cf16398e9a0c9e8dff8c07d2b315b50ee5f41cf2"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-ruff-02-command.txt",
+      "sha256": "51cdf38831b23357d6fe74254eed576f15f6cce03ed048acb2eb8740780fae0f",
+      "bytes": 431,
+      "git_blob": "a29919ca9f6504d367681cc8f4e94000ddea49f6"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-specialized-tests-01-command.txt",
+      "sha256": "aac73c92b9cd429f99b0d1b789f2620b512fbf381b01b2e1136574f81da6b3f2",
+      "bytes": 669,
+      "git_blob": "9d1957acc6af6862bd957a37660a7df487f8ce0d"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-specialized-tests-02-command.txt",
+      "sha256": "6bae4319bb4b7e661b1de3a81e5f6e09df3b6134c43c0d8727b66f517565deaa",
+      "bytes": 771,
+      "git_blob": "aa9641a010341fab776fc177ad13834a032ab1f0"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/pre-p2-test-source-snapshot.py",
+      "sha256": "7f4138f1db1213fcf4d455ae2f793ab7410ccfbb03406f85a8a1393fa52b4fc4",
+      "bytes": 9445,
+      "git_blob": "82a2f1de0884c84e3ebbd0b4cbaa291f00eed2e4"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/product-capture-command.txt",
+      "sha256": "ebe8732f7a3549522d7f835543ba3718fe7390b932675c0f75b21f02625c4045",
+      "bytes": 1083,
+      "git_blob": "675470fd702ffe802761ac6aac69b158935e92ba"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/product-capture.stdout-stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-command.txt",
+      "sha256": "e0f495a7eeca59155113728eb439f73dbf0868d5a428c7784bde69ee6a1d4c86",
+      "bytes": 364,
+      "git_blob": "7675b246c25f9ba0c05bbb0cb0704c0b341be3ec"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-final-2.stdout-stderr.txt",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "bytes": 20,
+      "git_blob": "7f6ba294132e156ccce54256b2567c8763f1b628"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-final.stdout-stderr.txt",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "bytes": 20,
+      "git_blob": "7f6ba294132e156ccce54256b2567c8763f1b628"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-p2-01.stdout-stderr.txt",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "bytes": 20,
+      "git_blob": "7f6ba294132e156ccce54256b2567c8763f1b628"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff-p2-02.stdout-stderr.txt",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "bytes": 20,
+      "git_blob": "7f6ba294132e156ccce54256b2567c8763f1b628"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/ruff.stdout-stderr.txt",
+      "sha256": "4206b48f54a8f67098ffa1d6ed2bd80eebb9b632c5ded3d1d3051198ee1a9f7c",
+      "bytes": 2760,
+      "git_blob": "0fa443859bd9e0a9ab1147df4d104310a2672421"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-command.txt",
+      "sha256": "9160c570e9d910a36027bc73801720944d958d24e4ece2b294e7de0c5c0a6827",
+      "bytes": 476,
+      "git_blob": "5670cb81c55aa395aa475c87bec3194c50f5e898"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-final-2.stdout-stderr.txt",
+      "sha256": "290e66a0d28ed6fd5147d209d7ddd7253abfedfc4bcaadf9718170fc35fe6cd6",
+      "bytes": 3948,
+      "git_blob": "9426a4928fbbf9281dcddb83f36e2b7840a04d02"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-final.stdout-stderr.txt",
+      "sha256": "954e214cd0ecd6fd0974541fcc11fdd88061f169c6f4820c11b9ccb3572036ac",
+      "bytes": 1578,
+      "git_blob": "32baa474f43ee76b916f0481abd6419a89ab3fb2"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-p2-01.stdout-stderr.txt",
+      "sha256": "7c260fb26b41218a0c83d3e57a2ca93302d628f27f1fd904f5dc0cec1b7d5ffc",
+      "bytes": 41386,
+      "git_blob": "c57d1326e7f9f1dd2c48468ead864ed6ff8d5f0f"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-p2-02.stdout-stderr.txt",
+      "sha256": "d6fbc205332e248bd6dcebe0fb2cf65f770d452b33d55bc21b92b81e9d64446f",
+      "bytes": 638,
+      "git_blob": "810b30b5605a250329e9816c39609de880bfbc53"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests.stdout-stderr.txt",
+      "sha256": "3b32cb884a180ca8557e0106b36ac0d9465d72aed99b7bd4a59286da67220283",
+      "bytes": 3208,
+      "git_blob": "ce6e33ef13ca9acee7af4d40d52201abe2155831"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/test-first-red-command.txt",
+      "sha256": "c44232091d1dd882365f990ac61977564a38b9eb9e6a3717376c99d274b649aa",
+      "bytes": 444,
+      "git_blob": "dbfee48f582d6cfb9132101354c186bb7027b9b4"
+    },
+    {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/test-first-red.stdout-stderr.txt",
+      "sha256": "93862cb3b10b32243f3ff82a26778c5d8d7a54635b046ecebb4488a8057e3194",
+      "bytes": 1575,
+      "git_blob": "0da88c24f1f7abd65ea39d7473247872f2674ef4"
+    },
+    {
+      "path": "scripts/run_document_relations_current_rescore.py",
+      "sha256": "0591b1703f6e831628e94ab1944a1d043e0f8668c0de855e5760167b2c72ce89",
+      "bytes": 32708,
+      "git_blob": "723957310accffb34ba54e73996fe3cc097e1c0d"
+    },
+    {
+      "path": "tests/evals/test_document_relations_current_rescore.py",
+      "sha256": "23a632b2c37062d48b596540d49b60ab6f115f735599832e4ece1b5cdeff27b4",
+      "bytes": 12898,
+      "git_blob": "251b7057560d77469b43019c80b4315ff91359f2"
+    }
+  ]
+}

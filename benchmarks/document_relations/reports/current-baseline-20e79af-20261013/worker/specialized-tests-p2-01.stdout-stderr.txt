@@ -1,0 +1,740 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: E:\project\tender-writing-agent
+configfile: pyproject.toml
+plugins: anyio-4.15.1, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 20 items
+
+tests\evals\test_document_relations_current_rescore.py FE.EEEEEEEEEEEEEE [ 85%]
+E.E                                                                      [100%]
+
+=================================== ERRORS ====================================
+__ ERROR at setup of test_cli_accepts_capture_and_output_at_arbitrary_paths ___
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_cli_accepts_capture_and_output_at_arbitrary_paths>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-expected current product source-tree] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-expected current product source-tree]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-runtime input checksum mismatch] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-runtime input checksum mismatch]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-pages do not match frozen input] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-pages do not match frozen input]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-graph/source_context identity mismatch] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-graph/source_context identity mismatch]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-Registry source_version] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-Registry source_version]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-frozen 1.0.3 evaluator] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-frozen 1.0.3 evaluator]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_duplicate_or_missing_cases_are_rejected[<lambda>-case IDs must be unique] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_duplicate_or_missing_cases_are_rejected[<lambda>-case IDs must be unique]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_duplicate_or_missing_cases_are_rejected[<lambda>-exactly 14 cases0] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_duplicate_or_missing_cases_are_rejected[<lambda>-exactly 14 cases0]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_duplicate_or_missing_cases_are_rejected[<lambda>-exactly 14 cases1] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_duplicate_or_missing_cases_are_rejected[<lambda>-exactly 14 cases1]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+__ ERROR at setup of test_tampered_historical_evidence_contract_is_rejected ___
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_tampered_historical_evidence_contract_is_rejected>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_changed_frozen_baseline_documents_are_rejected[CONTRACT_PATH-contract.md-contract SHA-256] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_changed_frozen_baseline_documents_are_rejected[CONTRACT_PATH-contract.md-contract SHA-256]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_changed_frozen_baseline_documents_are_rejected[SCOPE_FREEZE_PATH-scope-freeze.json-scope freeze SHA-256] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_changed_frozen_baseline_documents_are_rejected[SCOPE_FREEZE_PATH-scope-freeze.json-scope freeze SHA-256]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_changed_frozen_baseline_documents_are_rejected[PRODUCT_SNAPSHOT_PROOF_PATH-product-snapshot-proof.json-product snapshot proof SHA-256] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_changed_frozen_baseline_documents_are_rejected[PRODUCT_SNAPSHOT_PROOF_PATH-product-snapshot-proof.json-product snapshot proof SHA-256]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_nonexecuted_overlay_case_without_graph_or_context_is_preserved[case-03-failed] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_nonexecuted_overlay_case_without_graph_or_context_is_preserved[case-03-failed]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_ ERROR at setup of test_nonexecuted_overlay_case_without_graph_or_context_is_preserved[case-11-not_run] _
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_nonexecuted_overlay_case_without_graph_or_context_is_preserved[case-11-not_run]>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+_____ ERROR at setup of test_cli_refuses_to_overwrite_an_existing_output ______
+
+fixturedef = <FixtureDef argname='tmp_path' scope='function' baseid=''>
+request = <SubRequest 'tmp_path' for <Function test_cli_refuses_to_overwrite_an_existing_output>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+                return (yield)
+            if not _is_coroutine_or_asyncgen(fixturedef.func):
+>               return (yield)
+                        ^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:926: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-01-20261013')
+mode = 448, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\worker\\.pytest_cache\\pytest-p2-01-20261013'
+
+D:\Miniconda3\Lib\pathlib\_local.py:722: FileNotFoundError
+================================== FAILURES ===================================
+___________ test_valid_capture_scores_views_and_preserves_material ____________
+
+    def test_valid_capture_scores_views_and_preserves_material() -> None:
+        product_capture = _capture()
+>       report = _rescore()
+                 ^^^^^^^^^^
+
+tests\evals\test_document_relations_current_rescore.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\evals\test_document_relations_current_rescore.py:68: in _rescore
+    return current_rescore.rescore_report(
+scripts\run_document_relations_current_rescore.py:468: in rescore_report
+    overlay_rows = _validate_overlay_inventory(overlay, bundle_inputs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+overlay = {'schema': 'boundary-evidence-historical-overlay-v1', 'frozen_at': '2026-10-13T00:54:00.866064+08:00', 'oracle_sha256'...48bb0a9090821beac50', 'product_report_sha256': '1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7', ...}
+bundle_inputs = {'case-01': ({'case_id': 'case-01', 'input': 'case-01.txt', 'markdown_oracle': 'case-01.oracle.md', 'conditions': [{'i...beb369fc9e4f6a987d841a987a1d901ef74f5085eeed0250b5d32bd3e8a', ['���������£�\n1. ���ύӪҵִ�ա�\n2. ���ύ���񱨱���\n2.1 ���ύ��Ʊ��档']), ...}
+
+    def _validate_overlay_inventory(
+        overlay: Mapping[str, Any],
+        bundle_inputs: Mapping[str, tuple[dict[str, Any], str, list[str]]],
+    ) -> dict[str, Mapping[str, Any]]:
+        rows = overlay.get("cases")
+        if not isinstance(rows, list):
+            raise ValueError("historical overlay cases must be a list")
+        result: dict[str, Mapping[str, Any]] = {}
+        for row in rows:
+            if not isinstance(row, Mapping):
+                raise ValueError("historical overlay case entry must be an object")
+            case_id = row.get("case_id")
+            if not isinstance(case_id, str) or case_id not in OVERLAY_CASE_IDS:
+                raise ValueError(f"unknown historical overlay case: {case_id!r}")
+            if case_id in result:
+                raise ValueError(f"duplicate historical overlay case: {case_id}")
+            oracle_case, input_sha256, _ = bundle_inputs[case_id]
+            if (
+                row.get("raw_input_sha256") != input_sha256
+                or oracle_case.get("raw_input_sha256") != input_sha256
+            ):
+>               raise ValueError(f"{case_id} overlay raw input checksum mismatch")
+E               ValueError: case-03 overlay raw input checksum mismatch
+
+scripts\run_document_relations_current_rescore.py:356: ValueError
+=========================== short test summary info ===========================
+FAILED tests/evals/test_document_relations_current_rescore.py::test_valid_capture_scores_views_and_preserves_material
+ERROR tests/evals/test_document_relations_current_rescore.py::test_cli_accepts_capture_and_output_at_arbitrary_paths
+ERROR tests/evals/test_document_relations_current_rescore.py::test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-expected current product source-tree]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-runtime input checksum mismatch]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-pages do not match frozen input]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-graph/source_context identity mismatch]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-Registry source_version]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_changed_capture_identity_or_replay_material_fails_closed[<lambda>-frozen 1.0.3 evaluator]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_duplicate_or_missing_cases_are_rejected[<lambda>-case IDs must be unique]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_duplicate_or_missing_cases_are_rejected[<lambda>-exactly 14 cases0]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_duplicate_or_missing_cases_are_rejected[<lambda>-exactly 14 cases1]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_tampered_historical_evidence_contract_is_rejected
+ERROR tests/evals/test_document_relations_current_rescore.py::test_changed_frozen_baseline_documents_are_rejected[CONTRACT_PATH-contract.md-contract SHA-256]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_changed_frozen_baseline_documents_are_rejected[SCOPE_FREEZE_PATH-scope-freeze.json-scope freeze SHA-256]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_changed_frozen_baseline_documents_are_rejected[PRODUCT_SNAPSHOT_PROOF_PATH-product-snapshot-proof.json-product snapshot proof SHA-256]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_nonexecuted_overlay_case_without_graph_or_context_is_preserved[case-03-failed]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_nonexecuted_overlay_case_without_graph_or_context_is_preserved[case-11-not_run]
+ERROR tests/evals/test_document_relations_current_rescore.py::test_cli_refuses_to_overwrite_an_existing_output
+=================== 1 failed, 2 passed, 17 errors in 1.17s ====================

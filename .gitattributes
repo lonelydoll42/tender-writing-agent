@@ -113,3 +113,19 @@ benchmarks/document_relations/source-role-publication-record.json -text
 benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-source-first.xml -text -whitespace
 benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-first.xml -text -whitespace
 benchmarks/document_relations/reports/source-role-followup-20261013/reviewer-header-enhanced-red.xml -text -whitespace
+benchmarks/document_relations/current-baseline-regression/20261013/** -text
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/** -text
+benchmarks/document_relations/current-baseline-publication-record.json -text
+# Recognize CRLF in this batch's immutable Windows diagnostic text only.
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/*.txt whitespace=cr-at-eol
+# Preserve the exact extra EOF blank line in these five command records.
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-rescore-command.txt whitespace=cr-at-eol,-blank-at-eof
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-ruff-01-command.txt whitespace=cr-at-eol,-blank-at-eof
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-ruff-02-command.txt whitespace=cr-at-eol,-blank-at-eof
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-specialized-tests-01-command.txt whitespace=cr-at-eol,-blank-at-eof
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/p2-specialized-tests-02-command.txt whitespace=cr-at-eol,-blank-at-eof
+# These four frozen failure tracebacks contain indentation-only source lines.
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-final-2.stdout-stderr.txt -whitespace
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-final.stdout-stderr.txt -whitespace
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests-p2-01.stdout-stderr.txt -whitespace
+benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/specialized-tests.stdout-stderr.txt -whitespace

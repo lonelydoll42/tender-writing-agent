@@ -1,0 +1,815 @@
+"""Validate and compare frozen scorers on a newly captured current product report."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import sys
+from copy import deepcopy
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Mapping
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts import run_document_relations_boundary_rescore as boundary  # noqa: E402
+from scripts import run_document_relations_rescore as rescorer  # noqa: E402
+
+
+CONTRACT_PATH = (
+    ROOT
+    / "benchmarks"
+    / "document_relations"
+    / "current-baseline-regression"
+    / "20261013"
+    / "contract.md"
+)
+SCOPE_FREEZE_PATH = CONTRACT_PATH.with_name("scope-freeze.json")
+PRODUCT_SNAPSHOT_PROOF_PATH = CONTRACT_PATH.with_name("product-snapshot-proof.json")
+HISTORICAL_OVERLAY_PATH = boundary.RULES_DIRECTORY / "historical-overlay.json"
+HISTORICAL_1_0_5_REPORT_PATH = (
+    ROOT
+    / "benchmarks"
+    / "document_relations"
+    / "reports"
+    / "boundary-evidence-20261013"
+    / "canonical-1.0.5-rescore.json"
+)
+SCORER_REMAP_PUBLICATION_PATH = (
+    ROOT
+    / "benchmarks"
+    / "document_relations"
+    / "scorer-remap-publication-record.json"
+)
+
+EXPECTED_CONTRACT_SHA256 = (
+    "91c8178a35d16b00f4fd037dd1a40ed8e32de9c2310b2f55846fea87230725a1"
+)
+EXPECTED_SCOPE_FREEZE_SHA256 = (
+    "90568455fa1a18287846ca597145f5a84af3c13b24fb047d563c3e3ac21d6fbb"
+)
+EXPECTED_PRODUCT_PROOF_SHA256 = (
+    "43b3b01cfe3258b78982f9306329b8abaa774e20fce7db9db357f02f6b2f1ea1"
+)
+EXPECTED_PRODUCT_COMMIT = "20e79af22ef1666dc862234d3f7c555c82eb90e0"
+EXPECTED_SOURCE_TREE_SHA256 = (
+    "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34"
+)
+EXPECTED_V2_MANIFEST_SHA256 = (
+    "14072deebb73f993759272f19ca687649903c201b49f0d5ff78ede926a8dfcb2"
+)
+EXPECTED_V2_FINGERPRINT = (
+    "eb7322ccbdafba33db9ab17a6bc35c793fdce2ff9cb0bad82a38d5920e0d6864"
+)
+EXPECTED_MACHINE_ORACLE_SHA256 = (
+    "9ed9b9ce5a38322f0bf43f9c21606fa5028b3c31b79b248bb0a9090821beac50"
+)
+EXPECTED_EVALUATOR_1_0_3_SHA256 = (
+    "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483"
+)
+EXPECTED_RESCORE_1_0_4_SHA256 = (
+    "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf"
+)
+EXPECTED_BOUNDARY_1_0_5_SHA256 = (
+    "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3"
+)
+EXPECTED_RULES_JSON_SHA256 = (
+    "e3b2bffa3040507819296c91a5922fd7bd78f4d2d451d06e8dbc37fb596c9a49"
+)
+EXPECTED_RULES_MARKDOWN_SHA256 = (
+    "7f3516a1a2342a0de7180e2eb0b176d468b9ed1ab4e18d3b27447a60db170544"
+)
+EXPECTED_OVERLAY_SHA256 = (
+    "526a08805b88192d2351a0c0b45f9cd6060745ba1a931919e069e9d104c86d02"
+)
+EXPECTED_HISTORICAL_REPORT_SHA256 = (
+    "d2f988ae385f02a74e37737585a5f2ffd8a50401788ddc610f98f2807c2f1d0d"
+)
+EXPECTED_SCORER_REMAP_PUBLICATION_SHA256 = (
+    "2e26df7b5425050905cf07c4dc435f3c7e546a7966712c0b2551c1983827d034"
+)
+EXPECTED_HISTORICAL_PRODUCT_COMMIT = "af7db0f467ea5912dd5482c67752e78482659779"
+EXPECTED_HISTORICAL_SOURCE_TREE_SHA256 = (
+    "da6ccd4982e25f3e245070c179f37be03bb47dff2f0d680a54d355cfbc1cd1b0"
+)
+EXPECTED_HISTORICAL_PRODUCT_REPORT_SHA256 = (
+    "1745cb650edca81e163fc773c71cd9db96e33b3e2df10dc3b8c208af050eb7b7"
+)
+FROZEN_TRACKED_HASHES = {
+    "scripts/run_document_relations_eval.py": EXPECTED_EVALUATOR_1_0_3_SHA256,
+    "scripts/run_document_relations_rescore.py": EXPECTED_RESCORE_1_0_4_SHA256,
+    "scripts/run_document_relations_boundary_rescore.py": (
+        EXPECTED_BOUNDARY_1_0_5_SHA256
+    ),
+    "benchmarks/document_relations/boundary-evidence-regression/20261013/"
+    "rules-v1.json": EXPECTED_RULES_JSON_SHA256,
+    "benchmarks/document_relations/boundary-evidence-regression/20261013/"
+    "rules-v1.md": EXPECTED_RULES_MARKDOWN_SHA256,
+    "benchmarks/document_relations/boundary-evidence-regression/20261013/"
+    "historical-overlay.json": EXPECTED_OVERLAY_SHA256,
+    "benchmarks/document_relations/reserved/v2/freeze.json": (
+        EXPECTED_V2_MANIFEST_SHA256
+    ),
+    "benchmarks/document_relations/reserved/v2/machine-oracle.json": (
+        EXPECTED_MACHINE_ORACLE_SHA256
+    ),
+}
+EXPECTED_CASE_IDS = tuple(f"case-{index:02d}" for index in range(1, 15))
+OVERLAY_CASE_IDS = ("case-03", "case-11")
+VIEWS = ("1.0.3", "1.0.4", "1.0.5")
+REPORT_CLASSIFICATION = "offline current-capture scoring through frozen 1.0.5 API"
+
+
+def _sha256(content: bytes) -> str:
+    return hashlib.sha256(content).hexdigest()
+
+
+def _load_json_bytes(raw: bytes, *, label: str) -> dict[str, Any]:
+    return rescorer._load_json_bytes(raw, label=label)
+
+
+def _read_pinned_json(
+    path: Path, expected_sha256: str, *, label: str
+) -> dict[str, Any]:
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise ValueError(f"{label} is unavailable") from exc
+    if _sha256(raw) != expected_sha256:
+        raise ValueError(f"{label} SHA-256 does not match the frozen value")
+    return _load_json_bytes(raw, label=label)
+
+
+def _verify_existing_scorer_hashes() -> dict[str, str]:
+    paths = {
+        "1.0.3": ROOT / "scripts" / "run_document_relations_eval.py",
+        "1.0.4": ROOT / "scripts" / "run_document_relations_rescore.py",
+        "1.0.5": ROOT / "scripts" / "run_document_relations_boundary_rescore.py",
+        "rules_v1_json": boundary.RULES_DIRECTORY / "rules-v1.json",
+        "rules_v1_markdown": boundary.RULES_DIRECTORY / "rules-v1.md",
+        "historical_overlay": HISTORICAL_OVERLAY_PATH,
+    }
+    expected = {
+        "1.0.3": EXPECTED_EVALUATOR_1_0_3_SHA256,
+        "1.0.4": EXPECTED_RESCORE_1_0_4_SHA256,
+        "1.0.5": EXPECTED_BOUNDARY_1_0_5_SHA256,
+        "rules_v1_json": EXPECTED_RULES_JSON_SHA256,
+        "rules_v1_markdown": EXPECTED_RULES_MARKDOWN_SHA256,
+        "historical_overlay": EXPECTED_OVERLAY_SHA256,
+    }
+    actual: dict[str, str] = {}
+    for name, path in paths.items():
+        try:
+            digest = _sha256(path.read_bytes())
+        except OSError as exc:
+            raise ValueError(f"frozen scorer input is unavailable: {name}") from exc
+        if digest != expected[name]:
+            raise ValueError(f"frozen scorer/rule hash mismatch: {name}")
+        actual[name] = digest
+    return actual
+
+
+def _verify_freeze_documents() -> dict[str, Any]:
+    contract_raw = CONTRACT_PATH.read_bytes()
+    if _sha256(contract_raw) != EXPECTED_CONTRACT_SHA256:
+        raise ValueError("current baseline contract SHA-256 does not match")
+    scope = _read_pinned_json(
+        SCOPE_FREEZE_PATH, EXPECTED_SCOPE_FREEZE_SHA256, label="scope freeze"
+    )
+    proof = _read_pinned_json(
+        PRODUCT_SNAPSHOT_PROOF_PATH,
+        EXPECTED_PRODUCT_PROOF_SHA256,
+        label="product snapshot proof",
+    )
+    if (
+        scope.get("schema") != "current-product-baseline-scope-freeze-v1"
+        or scope.get("product_commit") != EXPECTED_PRODUCT_COMMIT
+        or scope.get("contract_sha256") != EXPECTED_CONTRACT_SHA256
+        or scope.get("expected_source_tree_sha256") != EXPECTED_SOURCE_TREE_SHA256
+        or scope.get("source_file_count") != 65
+        or scope.get("protected_files") != 612
+        or scope.get("new_unseen_files_created") != 0
+    ):
+        raise ValueError("current baseline scope freeze identity is invalid")
+    if (
+        proof.get("schema") != "current-product-commit-snapshot-proof-v1"
+        or proof.get("product_commit") != EXPECTED_PRODUCT_COMMIT
+        or proof.get("source_tree_sha256") != EXPECTED_SOURCE_TREE_SHA256
+        or proof.get("source_file_count") != 65
+        or proof.get("exported_files") != 616
+        or proof.get("git_blob_matches") != 616
+        or proof.get("status") != "passed"
+    ):
+        raise ValueError("verified product snapshot proof identity is invalid")
+    source_files = proof.get("source_files")
+    exported_files = proof.get("files")
+    if (
+        not isinstance(source_files, list)
+        or len(source_files) != 65
+        or any(item.get("matches") is not True for item in source_files)
+        or not isinstance(exported_files, list)
+        or len(exported_files) != 616
+        or any(item.get("matches") is not True for item in exported_files)
+    ):
+        raise ValueError("product snapshot proof contains unmatched Git blobs")
+
+    tracked_files = scope.get("tracked_files")
+    if not isinstance(tracked_files, Mapping):
+        raise ValueError("scope freeze tracked_files inventory is invalid")
+    for relative, expected_sha256 in FROZEN_TRACKED_HASHES.items():
+        entry = tracked_files.get(relative)
+        if (
+            not isinstance(entry, Mapping)
+            or entry.get("working_sha256") != expected_sha256
+        ):
+            raise ValueError(f"scope freeze does not pin {relative}")
+    return {"scope": scope, "proof": proof}
+
+
+def _verify_historical_af7_reference() -> dict[str, Any]:
+    publication = _read_pinned_json(
+        SCORER_REMAP_PUBLICATION_PATH,
+        EXPECTED_SCORER_REMAP_PUBLICATION_SHA256,
+        label="historical af7 scorer-remap publication",
+    )
+    if (
+        publication.get("base_product_commit") != EXPECTED_HISTORICAL_PRODUCT_COMMIT
+        or publication.get("product_source_tree_sha256")
+        != EXPECTED_HISTORICAL_SOURCE_TREE_SHA256
+        or publication.get("product_input", {}).get("sha256")
+        != EXPECTED_HISTORICAL_PRODUCT_REPORT_SHA256
+    ):
+        raise ValueError("historical af7 publication identity is invalid")
+    historical = _read_pinned_json(
+        HISTORICAL_1_0_5_REPORT_PATH,
+        EXPECTED_HISTORICAL_REPORT_SHA256,
+        label="historical 1.0.5 rescore",
+    )
+    summary = historical.get("summary")
+    evaluator = historical.get("evaluator")
+    product_report = historical.get("product_report")
+    if (
+        historical.get("classification")
+        != "offline grader rescore of preserved product output"
+        or not isinstance(summary, Mapping)
+        or summary.get("case_count") != 14
+        or summary.get("passed") != 10
+        or summary.get("failed") != 4
+        or summary.get("not_run") != 0
+        or not isinstance(evaluator, Mapping)
+        or evaluator.get("version") != "1.0.5"
+        or not isinstance(product_report, Mapping)
+        or product_report.get("sha256") != EXPECTED_HISTORICAL_PRODUCT_REPORT_SHA256
+        or product_report.get("source_tree_sha256")
+        != EXPECTED_HISTORICAL_SOURCE_TREE_SHA256
+    ):
+        raise ValueError("historical af7 10/14 result is not the pinned report")
+    return {
+        "classification": "historical only; not the current baseline",
+        "product_commit": EXPECTED_HISTORICAL_PRODUCT_COMMIT,
+        "source_tree_sha256": EXPECTED_HISTORICAL_SOURCE_TREE_SHA256,
+        "product_report_sha256": EXPECTED_HISTORICAL_PRODUCT_REPORT_SHA256,
+        "evaluator_version": "1.0.5",
+        "passed": 10,
+        "failed": 4,
+        "not_run": 0,
+        "case_count": 14,
+        "rescore_report_sha256": EXPECTED_HISTORICAL_REPORT_SHA256,
+    }
+
+
+def _score_record(
+    result: Mapping[str, Any],
+    *,
+    scorer_version: str,
+    scoring_method: str,
+    fingerprints: Mapping[str, str | None],
+) -> dict[str, Any]:
+    return {
+        "scored": True,
+        "scorer_version": scorer_version,
+        "scoring_method": scoring_method,
+        "status": result.get("status"),
+        "execution_state": "executed",
+        "metrics": deepcopy(result.get("metrics", {})),
+        "errors": deepcopy(result.get("errors", [])),
+        "event_counts": deepcopy(result.get("event_counts", {})),
+        "replay_fingerprints": dict(fingerprints),
+        **(
+            {"evidence_audit": deepcopy(result["evidence_audit"])}
+            if "evidence_audit" in result
+            else {}
+        ),
+    }
+
+
+def _not_scored_record(
+    product_case: Mapping[str, Any],
+    *,
+    scorer_version: str,
+    execution_state: str,
+    scoring_method: str,
+    fingerprints: Mapping[str, str | None],
+    evidence_contract_validation: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    result = {
+        "scored": False,
+        "scorer_version": scorer_version,
+        "scoring_method": scoring_method,
+        "status": product_case["status"],
+        "execution_state": execution_state,
+        "metrics": {},
+        "errors": [],
+        "replay_fingerprints": dict(fingerprints),
+    }
+    if evidence_contract_validation is not None:
+        result["evidence_contract_validation"] = deepcopy(
+            dict(evidence_contract_validation)
+        )
+    return result
+
+
+def _validate_overlay_inventory(
+    overlay: Mapping[str, Any],
+    bundle_inputs: Mapping[str, tuple[dict[str, Any], str, list[str]]],
+) -> dict[str, Mapping[str, Any]]:
+    rows = overlay.get("cases")
+    if not isinstance(rows, list):
+        raise ValueError("historical overlay cases must be a list")
+    result: dict[str, Mapping[str, Any]] = {}
+    for row in rows:
+        if not isinstance(row, Mapping):
+            raise ValueError("historical overlay case entry must be an object")
+        case_id = row.get("case_id")
+        if not isinstance(case_id, str) or case_id not in OVERLAY_CASE_IDS:
+            raise ValueError(f"unknown historical overlay case: {case_id!r}")
+        if case_id in result:
+            raise ValueError(f"duplicate historical overlay case: {case_id}")
+        oracle_case, input_sha256, _ = bundle_inputs[case_id]
+        oracle_input_sha256 = oracle_case.get("raw_input_sha256")
+        if row.get("raw_input_sha256") != input_sha256 or (
+            oracle_input_sha256 is not None
+            and oracle_input_sha256 != input_sha256
+        ):
+            raise ValueError(f"{case_id} overlay raw input checksum mismatch")
+        contract = row.get("evidence_contract")
+        if (
+            not isinstance(contract, Mapping)
+            or contract.get("case_id") != case_id
+            or contract.get("schema") != boundary.CONTRACT_SCHEMA
+            or not isinstance(contract.get("groups"), Mapping)
+        ):
+            raise ValueError(f"{case_id} evidence_contract identity/schema mismatch")
+        result[case_id] = row
+    if tuple(sorted(result)) != OVERLAY_CASE_IDS:
+        raise ValueError("historical overlay case inventory changed")
+    return result
+
+
+def _captured_score(product_case: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "status": product_case["status"],
+        "metrics": deepcopy(product_case.get("metrics", {})),
+        "errors": deepcopy(product_case.get("errors", [])),
+        "event_counts": deepcopy(product_case.get("event_counts", {})),
+    }
+
+
+def rescore_report(
+    bundle: Path,
+    product_report: Path,
+    *,
+    expected_report_sha256: str,
+    main_reviewer_authorized: bool,
+) -> dict[str, Any]:
+    if not main_reviewer_authorized:
+        raise PermissionError("current-capture offline scoring requires authorization")
+    product_report = Path(product_report)
+    _verify_freeze_documents()
+    scorer_hashes = _verify_existing_scorer_hashes()
+    historical_reference = _verify_historical_af7_reference()
+
+    legacy = rescorer.load_evaluator("1.0.3")
+    report, _, report_sha256 = rescorer._validate_product_report(
+        product_report, expected_report_sha256, legacy
+    )
+    if report.get("source_tree_sha256") != EXPECTED_SOURCE_TREE_SHA256:
+        raise ValueError(
+            "product report does not match the expected current product source-tree"
+        )
+
+    try:
+        freeze = legacy.verify_bundle(Path(bundle).resolve(strict=True))
+    except OSError as exc:
+        raise ValueError("the frozen v2 relation bundle is unavailable") from exc
+    if (
+        freeze.get("manifest_sha256") != EXPECTED_V2_MANIFEST_SHA256
+        or freeze.get("bundle_fingerprint") != EXPECTED_V2_FINGERPRINT
+        or len(freeze.get("checked_files", [])) != 29
+        or report["freeze"].get("v2_manifest_sha256")
+        != EXPECTED_V2_MANIFEST_SHA256
+        or report["freeze"].get("v2_bundle_fingerprint")
+        != EXPECTED_V2_FINGERPRINT
+    ):
+        raise ValueError("product report does not match the frozen v2 bundle")
+    oracle_sha256 = boundary._verified_machine_oracle_sha256(freeze)
+    if oracle_sha256 != EXPECTED_MACHINE_ORACLE_SHA256:
+        raise ValueError("verified v2 machine oracle SHA-256 does not match")
+
+    bundle_inputs = rescorer._bundle_case_inputs(freeze)
+    if tuple(bundle_inputs) != EXPECTED_CASE_IDS:
+        raise ValueError("verified v2 input case IDs/order do not match the freeze")
+    product_cases = {case["case_id"]: case for case in report["cases"]}
+    checked_material: dict[
+        str,
+        tuple[
+            str,
+            Mapping[str, Any] | None,
+            Mapping[str, Any] | None,
+            Mapping[str, Any],
+        ],
+    ] = {}
+    source_contexts: dict[str, Mapping[str, Any]] = {}
+
+    for case_id in EXPECTED_CASE_IDS:
+        _, input_sha256, pages = bundle_inputs[case_id]
+        product_case = product_cases[case_id]
+        material = rescorer._validate_case_replay_material(
+            case_id, product_case, input_sha256, pages
+        )
+        execution_state, graph, source_context, _ = material
+        if execution_state == "executed":
+            assert graph is not None and source_context is not None
+            document_id = source_context.get("document_id")
+            expected_source_version = f"{document_id}:v1"
+            if source_context.get("source_version") != expected_source_version:
+                raise ValueError(
+                    f"{case_id} captured Registry source_version does not match "
+                    "the newly registered v1 input"
+                )
+            if graph.get("source_version") != expected_source_version:
+                raise ValueError(
+                    f"{case_id} graph source_version does not match the Registry"
+                )
+            source_contexts[case_id] = source_context
+        checked_material[case_id] = material
+
+    rules = boundary._load_frozen_rules()
+    overlay, overlay_sha256 = boundary._load_overlay(
+        HISTORICAL_OVERLAY_PATH,
+        expected_overlay_sha256=EXPECTED_OVERLAY_SHA256,
+        expected_report_sha256=boundary.FROZEN_PRODUCT_REPORT_SHA256,
+        oracle_sha256=oracle_sha256,
+        report_sha256=boundary.FROZEN_PRODUCT_REPORT_SHA256,
+        rules=rules,
+    )
+    overlay_rows = _validate_overlay_inventory(overlay, bundle_inputs)
+    evaluator_1_0_4 = boundary.load_evaluator("1.0.4")
+    executable_overlay_ids = tuple(
+        case_id for case_id in OVERLAY_CASE_IDS if case_id in source_contexts
+    )
+    executable_overlay = {
+        **overlay,
+        "cases": [overlay_rows[case_id] for case_id in executable_overlay_ids],
+    }
+    overlay_cases = boundary._validate_overlay_cases(
+        executable_overlay,
+        freeze,
+        bundle_inputs,
+        source_contexts,
+        evaluator_1_0_4,
+    )
+    if tuple(sorted(overlay_cases)) != executable_overlay_ids:
+        raise ValueError("validated executable historical overlay inventory changed")
+    historical_overlay_validation = {
+        case_id: (
+            {
+                "status": "validated_against_current_registry_context",
+                "execution_state": "executed",
+            }
+            if case_id in overlay_cases
+            else {
+                "status": "not_validated_non_executed",
+                "execution_state": checked_material[case_id][0],
+                "detail": (
+                    "The frozen sidecar hash, case identity, and raw-input "
+                    "binding were verified. Product execution_state was not "
+                    "executed, so context-bound validation and scoring were "
+                    "not performed."
+                ),
+            }
+        )
+        for case_id in OVERLAY_CASE_IDS
+    }
+
+    results_by_view: dict[str, list[dict[str, Any]]] = {
+        version: [] for version in VIEWS
+    }
+    case_results: list[dict[str, Any]] = []
+    for case_id in EXPECTED_CASE_IDS:
+        oracle_case, input_sha256, _ = bundle_inputs[case_id]
+        product_case = product_cases[case_id]
+        execution_state, graph, source_context, runtime = checked_material[case_id]
+        graph_sha256 = (
+            rescorer._canonical_sha256(graph) if graph is not None else None
+        )
+        context_sha256 = (
+            rescorer._canonical_sha256(source_context)
+            if source_context is not None
+            else None
+        )
+        runtime_sha256 = rescorer._canonical_sha256(runtime)
+        fingerprints: dict[str, str | None] = {
+            "bundle_input_sha256": input_sha256,
+            "actual_graph_canonical_json_sha256": graph_sha256,
+            "source_context_canonical_json_sha256": context_sha256,
+            "runtime_canonical_json_sha256": runtime_sha256,
+        }
+
+        if execution_state != "executed":
+            scores: dict[str, dict[str, Any]] = {}
+            for view in VIEWS:
+                scorer_version = (
+                    "1.0.4" if view == "1.0.5" and case_id not in OVERLAY_CASE_IDS
+                    else view
+                )
+                is_unvalidated_overlay = (
+                    view == "1.0.5"
+                    and case_id in historical_overlay_validation
+                    and historical_overlay_validation[case_id]["status"]
+                    == "not_validated_non_executed"
+                )
+                scores[view] = _not_scored_record(
+                    product_case,
+                    scorer_version=scorer_version,
+                    execution_state=execution_state,
+                    scoring_method=(
+                        "not scored; frozen evidence contract was not applied "
+                        "because the case was not executed"
+                        if is_unvalidated_overlay
+                        else "not scored because product execution did not "
+                        "produce an executable graph"
+                    ),
+                    fingerprints=fingerprints,
+                    evidence_contract_validation=(
+                        historical_overlay_validation[case_id]
+                        if is_unvalidated_overlay
+                        else None
+                    ),
+                )
+                results_by_view[view].append(
+                    {
+                        "case_id": case_id,
+                        "status": product_case["status"],
+                        "execution_state": execution_state,
+                        "metrics": {},
+                        "errors": deepcopy(product_case.get("errors", [])),
+                        "event_counts": deepcopy(product_case.get("event_counts", {})),
+                    }
+                )
+        else:
+            assert graph is not None and source_context is not None
+            score_1_0_3 = rescorer.score_case(
+                oracle_case,
+                graph,
+                source_context,
+                version="1.0.3",
+            )
+            score_1_0_4 = rescorer.score_case(
+                oracle_case,
+                graph,
+                source_context,
+                version="1.0.4",
+            )
+            scores = {
+                "1.0.3": _score_record(
+                    score_1_0_3,
+                    scorer_version="1.0.3",
+                    scoring_method="frozen 1.0.3 score_case on the captured graph",
+                    fingerprints=fingerprints,
+                ),
+                "1.0.4": _score_record(
+                    score_1_0_4,
+                    scorer_version="1.0.4",
+                    scoring_method="frozen 1.0.4 score_case on the captured graph",
+                    fingerprints=fingerprints,
+                ),
+            }
+            if case_id in overlay_cases:
+                _, evidence_contract = overlay_cases[case_id]
+                score_1_0_5 = boundary.score_case(
+                    oracle_case,
+                    graph,
+                    source_context,
+                    evidence_contract=evidence_contract,
+                )
+                scores["1.0.5"] = _score_record(
+                    score_1_0_5,
+                    scorer_version="1.0.5",
+                    scoring_method=(
+                        "frozen 1.0.5 score_case with validated historical "
+                        "evidence contract"
+                    ),
+                    fingerprints=fingerprints,
+                )
+                scores["1.0.5"]["evidence_contract_validation"] = (
+                    historical_overlay_validation[case_id]
+                )
+            else:
+                scores["1.0.5"] = _score_record(
+                    score_1_0_4,
+                    scorer_version="1.0.4",
+                    scoring_method=(
+                        "frozen 1.0.4 score_case; case is outside "
+                        "the historical overlay"
+                    ),
+                    fingerprints=fingerprints,
+                )
+
+            for view in VIEWS:
+                selected = (
+                    score_1_0_5
+                    if view == "1.0.5" and case_id in overlay_cases
+                    else score_1_0_4
+                    if view == "1.0.5"
+                    else score_1_0_3
+                    if view == "1.0.3"
+                    else score_1_0_4
+                )
+                results_by_view[view].append(
+                    {
+                        "case_id": case_id,
+                        "status": selected["status"],
+                        "execution_state": "executed",
+                        "metrics": deepcopy(selected.get("metrics", {})),
+                        "errors": deepcopy(selected.get("errors", [])),
+                        "event_counts": deepcopy(selected.get("event_counts", {})),
+                    }
+                )
+
+        case_result: dict[str, Any] = {
+            "case_id": case_id,
+            "execution_state": execution_state,
+            "product_capture_status": product_case["status"],
+            "product_capture_errors": deepcopy(product_case.get("errors", [])),
+            "input_sha256": input_sha256,
+            "runtime": deepcopy(dict(runtime)),
+            "scores": scores,
+        }
+        if "reason" in product_case:
+            case_result["reason"] = deepcopy(product_case["reason"])
+        if graph is not None:
+            case_result["actual_graph"] = deepcopy(dict(graph))
+        if source_context is not None:
+            case_result["source_context"] = deepcopy(dict(source_context))
+        if execution_state == "executed":
+            capture_score = _captured_score(product_case)
+            offline_score = scores["1.0.3"]
+            case_result["product_capture_1_0_3_score"] = capture_score
+            case_result["capture_1_0_3_parity"] = {
+                "status_match": capture_score["status"] == offline_score["status"],
+                "metrics_match": capture_score["metrics"] == offline_score["metrics"],
+                "errors_match": capture_score["errors"] == offline_score["errors"],
+            }
+        case_results.append(case_result)
+
+    scoring_views = {
+        view: {
+            **rescorer._aggregate_results(results_by_view[view]),
+            "method": (
+                "frozen 1.0.3 score_case"
+                if view == "1.0.3"
+                else "frozen 1.0.4 score_case"
+                if view == "1.0.4"
+                else (
+                    "frozen 1.0.5 score_case on case-03/case-11; "
+                    "frozen 1.0.4 fallback on the other twelve cases"
+                )
+            ),
+            "overlay_case_ids": list(OVERLAY_CASE_IDS) if view == "1.0.5" else [],
+        }
+        for view in VIEWS
+    }
+    capture_cases = [
+        {
+            "case_id": case["case_id"],
+            "status": case["status"],
+            "execution_state": case["execution_state"],
+            "metrics": case.get("metrics", {}),
+            "errors": case.get("errors", []),
+            "event_counts": case.get("event_counts", {}),
+        }
+        for case in report["cases"]
+    ]
+    capture_summary = rescorer._aggregate_results(capture_cases)
+    adapter_path = Path(__file__).resolve()
+    return {
+        "schema": "document-relations-current-baseline-rescore-v1",
+        "generated_at": datetime.now().astimezone().isoformat(),
+        "classification": REPORT_CLASSIFICATION,
+        "interpretation": (
+            "All three views use one newly captured product report. 1.0.5 is "
+            "applied only to its two frozen overlay cases; the other twelve "
+            "retain 1.0.4. Product execution failures, scoring failures, and "
+            "not-run cases remain separate."
+        ),
+        "product": {
+            "commit": EXPECTED_PRODUCT_COMMIT,
+            "source_tree_sha256": EXPECTED_SOURCE_TREE_SHA256,
+            "source_file_count": 65,
+            "snapshot_proof_sha256": EXPECTED_PRODUCT_PROOF_SHA256,
+        },
+        "source_capture": {
+            "path": product_report.resolve().as_posix(),
+            "sha256": report_sha256,
+            "classification": report["classification"],
+            "evaluator_version": "1.0.3",
+            "evaluator_sha256": EXPECTED_EVALUATOR_1_0_3_SHA256,
+            "source_tree_sha256": report["source_tree_sha256"],
+            "execution_summary": capture_summary,
+        },
+        "frozen_inputs": {
+            "v2_manifest_sha256": freeze["manifest_sha256"],
+            "v2_bundle_fingerprint": freeze["bundle_fingerprint"],
+            "machine_oracle_sha256": oracle_sha256,
+            "payload_files": len(freeze["checked_files"]),
+            "case_input_sha256": {
+                case_id: bundle_inputs[case_id][1] for case_id in EXPECTED_CASE_IDS
+            },
+            "overlay_sha256": overlay_sha256,
+            "overlay_case_ids": list(OVERLAY_CASE_IDS),
+            "rules_json_sha256": scorer_hashes["rules_v1_json"],
+            "rules_markdown_sha256": scorer_hashes["rules_v1_markdown"],
+        },
+        "frozen_scorers": {
+            "1.0.3": EXPECTED_EVALUATOR_1_0_3_SHA256,
+            "1.0.4": EXPECTED_RESCORE_1_0_4_SHA256,
+            "1.0.5": EXPECTED_BOUNDARY_1_0_5_SHA256,
+            "adapter_sha256": _sha256(adapter_path.read_bytes()),
+        },
+        "scoring_views": scoring_views,
+        "historical_overlay_validation": historical_overlay_validation,
+        "historical_af7_reference": historical_reference,
+        "claims": {
+            "main_reviewer_authorized": main_reviewer_authorized,
+            "product_runtime_invoked_during_rescore": False,
+            "product_source_changed": False,
+            "synthetic_inputs_only": True,
+            "real_model_service": "not_run",
+            "enterprise_materials": "not_run",
+            "new_unseen_files_created": 0,
+            "unseen_evaluation": "not_run",
+            "actual_graphs_synthesized": False,
+            "create_only_output": True,
+        },
+        "cases": case_results,
+    }
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--bundle", type=Path, required=True)
+    parser.add_argument("--product-report", type=Path, required=True)
+    parser.add_argument("--expected-report-sha256", required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--main-reviewer-authorized",
+        action="store_true",
+        help="attest explicit authorization for offline current-capture scoring",
+    )
+    args = parser.parse_args(argv)
+    if not args.main_reviewer_authorized:
+        parser.error("current-capture offline scoring requires authorization")
+
+    output = args.output.resolve()
+    if output.exists():
+        parser.error(f"refusing to overwrite existing report: {output}")
+    try:
+        report = rescore_report(
+            args.bundle,
+            args.product_report,
+            expected_report_sha256=args.expected_report_sha256,
+            main_reviewer_authorized=args.main_reviewer_authorized,
+        )
+    except (OSError, PermissionError, ValueError) as exc:
+        parser.error(str(exc))
+
+    rendered = json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + "\n"
+    output.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with output.open("x", encoding="utf-8", newline="\n") as handle:
+            handle.write(rendered)
+    except FileExistsError:
+        parser.error(f"refusing to overwrite existing report: {output}")
+    if any(view["failed"] for view in report["scoring_views"].values()):
+        return 1
+    if any(view["not_run"] for view in report["scoring_views"].values()):
+        return 2
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

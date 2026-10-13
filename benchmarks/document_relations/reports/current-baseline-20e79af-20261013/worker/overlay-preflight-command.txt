@@ -1,0 +1,6 @@
+command=& "E:\project\tender-writing-agent\.venv\Scripts\python.exe" -B -c <embedded preflight script>
+exit_code=0
+bundle=benchmarks/document_relations/reserved/v2
+product_capture=benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/current-product-20e79af-capture.json
+overlay=benchmarks/document_relations/boundary-evidence-regression/20261013/historical-overlay.json
+frozen_rules=benchmarks/document_relations/boundary-evidence-regression/20261013/rules-v1.json and rules-v1.md

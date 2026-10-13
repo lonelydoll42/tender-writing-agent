@@ -1,0 +1,475 @@
+{
+  "schema": "current-baseline-pre-adapter-comparison-v1",
+  "generated_at": "2026-10-13T23:18:23.544313+08:00",
+  "phase": "Independent main-reviewer capture and unchanged 1.0.3/1.0.4 scoring before the new 1.0.5 public-API adapter is accepted.",
+  "product_commit": "20e79af22ef1666dc862234d3f7c555c82eb90e0",
+  "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+  "product_capture": {
+    "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/product-capture-1.0.3.json",
+    "sha256": "bf8b04db11d5b4ca10cdcf1744e3c8505181da1fbbe2a8194bad764bb672d090",
+    "command_exit_code": 1,
+    "exit_interpretation": "Scoring failures, not an execution failure: all 14 cases have execution_state=executed.",
+    "live_registry_runtime_invoked": true
+  },
+  "scoring": {
+    "1.0.3": {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.3.json",
+      "sha256": "a03b9f53a5c525d5d0b5e38dca265b655d4468f45f64f7b0ab047c70dd129a5f",
+      "summary": {
+        "case_count": 14,
+        "passed": 9,
+        "failed": 5,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 5,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 6,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 3,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 18,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1083,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 42,
+          "group_structure_error_events": 7
+        }
+      }
+    },
+    "1.0.4": {
+      "path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/score-1.0.4.json",
+      "sha256": "b22f9207f6d42b5fdad848d1259cac53ee0e1427d740833e87ce5dad3afc6044",
+      "summary": {
+        "case_count": 14,
+        "passed": 9,
+        "failed": 5,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 2,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 5,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 6,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 3,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 18,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1083,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 40,
+          "group_structure_error_events": 7
+        }
+      }
+    }
+  },
+  "material_checks": [
+    {
+      "version": "1.0.3",
+      "case_id": "case-01",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-02",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-03",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-04",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-05",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-06",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-07",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-08",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-09",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-10",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-11",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-12",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-13",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.3",
+      "case_id": "case-14",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-01",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-02",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-03",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-04",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-05",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-06",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-07",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-08",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-09",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-10",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-11",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-12",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-13",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    },
+    {
+      "version": "1.0.4",
+      "case_id": "case-14",
+      "preservation": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      }
+    }
+  ],
+  "version_1_0_5_at_this_phase": "not_run",
+  "historical_10_of_14_used_as_current_result": false,
+  "business_materials": "not_run/14",
+  "unseen_evaluation": "not_run",
+  "production_accepted": false
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "current-baseline-reviewer-probe-contract-v1",
+  "classification": "public adapter acceptance probes, not unseen inputs",
+  "phase": "Recorded after delegation and the reviewer's first product capture, before the reviewer's adapter replay; not a pre-development blind freeze.",
+  "source_product_commit": "20e79af22ef1666dc862234d3f7c555c82eb90e0",
+  "probes": [
+    {"id": "valid-capture", "expected": "Score all 14 cases without altering graphs, source contexts, runtime records or execution states."},
+    {"id": "no-authorization", "expected": "Reject without scoring or writing an output."},
+    {"id": "wrong-report-hash", "expected": "Reject the changed capture without writing an output."},
+    {"id": "invalid-hash-format", "expected": "Reject without writing an output."},
+    {"id": "wrong-source-tree", "expected": "Reject even when the caller supplies the updated report hash."},
+    {"id": "duplicate-case", "expected": "Reject even when the caller supplies the updated report hash."},
+    {"id": "missing-case", "expected": "Reject even when the caller supplies the updated report hash."},
+    {"id": "extra-case", "expected": "Reject even when the caller supplies the updated report hash."},
+    {"id": "wrong-v2-fingerprint", "expected": "Reject even when the caller supplies the updated report hash."},
+    {"id": "wrong-input-hash", "expected": "Reject even when the caller supplies the updated report hash."},
+    {"id": "changed-original-pages", "expected": "Reject even when the caller supplies the updated report hash."},
+    {"id": "graph-document-identity-mismatch", "expected": "Reject or score the affected case as failed; it cannot pass."},
+    {"id": "graph-source-version-mismatch", "expected": "Reject or score the affected case as failed; it cannot pass."},
+    {"id": "changed-frozen-contract", "expected": "Reject a changed rules or overlay artifact; do not update its pinned hash."},
+    {"id": "existing-output", "expected": "Refuse overwrite and preserve the existing bytes."},
+    {"id": "source-role-mutation", "expected": "An invalid raw source reference cannot make a case pass; input rejection and semantic failure are recorded separately."},
+    {"id": "historical-cli-guard", "expected": "The original frozen 1.0.5 historical CLI still rejects the new report."},
+    {"id": "same-capture-fingerprints", "expected": "All scoring versions preserve exactly the same original graph/context/runtime fingerprints."}
+  ],
+  "claims": {
+    "certified_blind": false,
+    "business_materials_run": false,
+    "production_accepted": false
+  }
+}

@@ -1,0 +1,4 @@
+PUBLIC NONSENSITIVE ISOLATION PREFLIGHT CANARY
+This file contains no unseen input, oracle, credential, or business document.
+Marker: current-baseline-20e79af-public-canary-v1
+Purpose: test whether a developer subagent can directly read a reviewer path.

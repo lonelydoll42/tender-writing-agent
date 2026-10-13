@@ -1,0 +1,81 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: E:\project\tender-writing-agent
+configfile: pyproject.toml
+plugins: anyio-4.15.1, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 16 items
+
+tests\evals\test_document_relations_current_rescore.py F...............  [100%]
+
+================================== FAILURES ===================================
+___________ test_valid_capture_scores_views_and_preserves_material ____________
+
+    def test_valid_capture_scores_views_and_preserves_material() -> None:
+        product_capture = _capture()
+        report = _rescore()
+    
+        assert report["classification"] == (
+            "offline current-capture scoring through frozen 1.0.5 API"
+        )
+        assert report["source_capture"]["sha256"] == _capture_sha256()
+        assert report["source_capture"]["classification"] == product_capture[
+            "classification"
+        ]
+        for version in ("1.0.3", "1.0.4", "1.0.5"):
+            assert report["scoring_views"][version]["case_count"] == 14
+            assert report["scoring_views"][version]["not_run"] == 0
+        assert list(row["case_id"] for row in report["cases"]) == list(
+            EXPECTED_CASE_IDS
+        )
+    
+        original_by_id = {row["case_id"]: row for row in product_capture["cases"]}
+        for row in report["cases"]:
+            original = original_by_id[row["case_id"]]
+            assert row["execution_state"] == original["execution_state"]
+            assert row["product_capture_status"] == original["status"]
+            assert row["runtime"] == original["runtime"]
+            assert row.get("actual_graph") == original.get("actual_graph")
+            assert row.get("source_context") == original.get("source_context")
+    
+            fingerprints = [
+                row["scores"][version]["replay_fingerprints"]
+                for version in ("1.0.3", "1.0.4", "1.0.5")
+            ]
+            assert fingerprints[0] == fingerprints[1] == fingerprints[2]
+    
+            if row["execution_state"] == "executed":
+                assert all(
+                    row["scores"][version]["scored"]
+                    for version in ("1.0.3", "1.0.4", "1.0.5")
+                )
+            else:
+                assert all(
+                    not row["scores"][version]["scored"]
+                    for version in ("1.0.3", "1.0.4", "1.0.5")
+                )
+                assert all(
+                    row["scores"][version]["execution_state"]
+                    == row["execution_state"]
+                    for version in ("1.0.3", "1.0.4", "1.0.5")
+                )
+    
+            if row["case_id"] in {"case-03", "case-11"}:
+                assert row["scores"]["1.0.5"]["scorer_version"] == "1.0.5"
+                assert row["scores"]["1.0.5"]["scoring_method"] == (
+                    "frozen 1.0.5 score_case with validated historical evidence contract"
+                )
+            else:
+                assert row["scores"]["1.0.5"]["scorer_version"] == "1.0.4"
+                assert row["scores"]["1.0.5"]["scoring_method"] == (
+                    "frozen 1.0.4 score_case; case is outside the historical overlay"
+                )
+    
+>       assert report["historical_reference"]["passed"] == 10
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'historical_reference'
+
+tests\evals\test_document_relations_current_rescore.py:136: KeyError
+=========================== short test summary info ===========================
+FAILED tests/evals/test_document_relations_current_rescore.py::test_valid_capture_scores_views_and_preserves_material
+======================== 1 failed, 15 passed in 1.35s =========================

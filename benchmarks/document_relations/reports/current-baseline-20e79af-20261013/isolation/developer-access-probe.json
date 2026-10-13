@@ -1,0 +1,47 @@
+{
+  "schema": "developer-access-probe-v1",
+  "recorded_at": "2026-10-13",
+  "status": "not_established",
+  "new_unseen_files": 0,
+  "unseen_evaluation": "not_run",
+  "output_policy": "create_only",
+  "canary_probe": {
+    "source": "benchmarks/document_relations/current-baseline-regression/20261013/scope-freeze.json:public_canary",
+    "relative_path": ".qiaowenshu/acceptance/current-baseline-20e79af-20261013/public-access-canary.txt",
+    "classification": "public nonsensitive capability test, not an unseen input or oracle",
+    "read_result": "read_succeeded",
+    "method": "PowerShell [System.IO.File]::ReadAllBytes from the actual exec tool; bytes were hashed in process only",
+    "byte_count": 253,
+    "frozen_sha256": "ae311dc9e9ae52837fd16652d49a8396390aa34d5fae01ba59c604061e7fae82",
+    "observed_content_sha256": "ae311dc9e9ae52837fd16652d49a8396390aa34d5fae01ba59c604061e7fae82",
+    "content_hash_matches_freeze": true,
+    "content_emitted_or_saved": false,
+    "replay_command": "$freeze = Get-Content -LiteralPath 'benchmarks/document_relations/current-baseline-regression/20261013/scope-freeze.json' -Raw | ConvertFrom-Json; $p = Join-Path (Get-Location).Path $freeze.public_canary.path; $b = [IO.File]::ReadAllBytes($p); [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($b)).ToLowerInvariant()"
+  },
+  "identity_comparison": {
+    "developer_sid_sha256": "56e439a01df70ef3688968710426d1f5775e061466f2e9fbf3bea34dca29fda0",
+    "frozen_reviewer_sid_sha256": "56e439a01df70ef3688968710426d1f5775e061466f2e9fbf3bea34dca29fda0",
+    "sid_hash_matches_reviewer": true,
+    "developer_machine_casefold_sha256": "57c28017c69be2e8acec42213fbb6ba01a00a47de0089af7bb6cc437343223e0",
+    "frozen_reviewer_machine_sha256": "57c28017c69be2e8acec42213fbb6ba01a00a47de0089af7bb6cc437343223e0",
+    "machine_hash_matches_reviewer": true,
+    "machine_hash_method": "Python socket.gethostname().casefold(), UTF-8 SHA-256",
+    "raw_sid_or_machine_name_written": false,
+    "credential_contents_read": false
+  },
+  "assessment": "The actual developer exec read the canary successfully and matched its frozen content hash. This is successful access, not a denial test. The current execution identity also matches the frozen reviewer identity. Isolation is therefore not established; no unseen inputs or answers were created.",
+  "required_prerequisites": [
+    {
+      "item": "Independent reviewer principal and execution environment",
+      "acceptance": "Provide a separately administered environment with a distinct OS principal and enforceable separation from the developer process; a new path, worktree, process, or prompt is insufficient."
+    },
+    {
+      "item": "No shared information or credentials",
+      "acceptance": "The developer tools must not share reviewer workspace access, conversation or execution logs containing unseen material, credential stores, mounts, or usable reviewer credentials."
+    },
+    {
+      "item": "Verified deny-test",
+      "acceptance": "Keep the same frozen canary available to the reviewer, then run the actual developer exec/tool surfaces against it and observe an explicit authorization denial. A successful read, missing file, or untested alternate tool does not establish denial."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "current-baseline-initial-adapter-review-v1",
+  "generated_at": "2026-10-13T23:28:30.098927+08:00",
+  "classification": "legitimate current capture incorrectly rejected by adapter path policy; not a product-parser failure",
+  "expected": "accept the validated main-reviewer capture and write only a new output path",
+  "observed": "rejects non-worker output or input path",
+  "passed": false,
+  "return_code": 2,
+  "output_created": false,
+  "stderr": "usage: run_document_relations_current_rescore.py [-h] --bundle BUNDLE\n                                                 --product-report PRODUCT_REPORT\n                                                 --expected-report-sha256 EXPECTED_REPORT_SHA256\n                                                 --output OUTPUT\n                                                 [--main-reviewer-authorized]\nrun_document_relations_current_rescore.py: error: output must be inside the worker report directory\n",
+  "command": [
+    "E:\\project\\tender-writing-agent\\.venv\\Scripts\\python.exe",
+    "E:\\project\\tender-writing-agent\\scripts\\run_document_relations_current_rescore.py",
+    "--bundle",
+    "E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reserved\\v2",
+    "--product-report",
+    "E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\reports\\current-baseline-20e79af-20261013\\reviewer\\product-capture-1.0.3.json",
+    "--expected-report-sha256",
+    "bf8b04db11d5b4ca10cdcf1744e3c8505181da1fbbe2a8194bad764bb672d090",
+    "--output",
+    "E:\\project\\tender-writing-agent\\.qiaowenshu\\acceptance\\current-baseline-20e79af-20261013\\pre-review-valid-report-result.json",
+    "--main-reviewer-authorized"
+  ],
+  "snapshots": {
+    "pre-review-adapter.py.txt": "dbcefd27396e7bdc0d616c9c56a93d7431fc7d9562d0f6da7c150145a90134f6",
+    "pre-review-tests.py.txt": "9c98e1a5fe9fb93de1d3d7d08343f8410f0b45dd42cc34c7cf2ff05140b7c4de"
+  },
+  "source_script_sha256_at_review": "dbcefd27396e7bdc0d616c9c56a93d7431fc7d9562d0f6da7c150145a90134f6"
+}

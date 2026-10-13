@@ -1,0 +1,58 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: E:\project\tender-writing-agent
+configfile: pyproject.toml
+plugins: anyio-4.15.1, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 13 items
+
+tests\evals\test_document_relations_current_rescore.py F.........F..     [100%]
+
+================================== FAILURES ===================================
+_ test_valid_current_capture_scores_three_views_and_preserves_replay_material _
+
+    def test_valid_current_capture_scores_three_views_and_preserves_replay_material() -> None:
+        product_capture = _capture()
+        report = _rescore()
+    
+        assert report["classification"] == (
+            "offline current-capture scoring through frozen 1.0.5 API"
+        )
+        assert report["source_capture"]["sha256"] == _capture_sha256()
+>       assert report["source_capture"]["classification"] == (
+            "live product capture by frozen 1.0.3 runner"
+        )
+E       AssertionError: assert 'shared-files...rtified blind' == 'live product... 1.0.3 runner'
+E         
+E         - live product capture by frozen 1.0.3 runner
+E         + shared-filesystem synthetic evaluation; not certified blind
+
+tests\evals\test_document_relations_current_rescore.py:82: AssertionError
+___________ test_tampered_historical_evidence_contract_is_rejected ____________
+
+tmp_path = WindowsPath('E:/project/tender-writing-agent/benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/pytest-green-20261013/test_tampered_historical_evide0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000000005DB5220>
+
+    def test_tampered_historical_evidence_contract_is_rejected(
+        tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        overlay = json.loads(OVERLAY_PATH.read_text(encoding="utf-8"))
+        overlay["cases"][0]["evidence_contract"]["groups"]["S1"]["operator"] = "AND"
+        path = tmp_path / "tampered-historical-overlay.json"
+        path.write_text(
+            json.dumps(overlay, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        monkeypatch.setattr(current_rescore, "HISTORICAL_OVERLAY_PATH", path)
+    
+>       with pytest.raises(ValueError, match="overlay SHA-256"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'overlay SHA-256'
+E         Actual message: 'frozen scorer/rule hash mismatch: historical_overlay'
+
+tests\evals\test_document_relations_current_rescore.py:233: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/evals/test_document_relations_current_rescore.py::test_valid_current_capture_scores_three_views_and_preserves_replay_material
+FAILED tests/evals/test_document_relations_current_rescore.py::test_tampered_historical_evidence_contract_is_rejected
+======================== 2 failed, 11 passed in 1.35s =========================

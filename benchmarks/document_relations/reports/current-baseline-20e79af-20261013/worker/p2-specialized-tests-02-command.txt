@@ -1,0 +1,12 @@
+command="E:\project\tender-writing-agent\.venv\Scripts\python.exe" -B -m pytest -p no:cacheprovider --basetemp "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/worker/.pytest_cache/pytest-p2-02-20261013" "tests/evals/test_document_relations_current_rescore.py"
+exit_code=0
+result="20 passed"
+preexisting_full_suite_count=941
+new_specialized_collected_cases=20
+full_suite_run=false
+adapter_sha256=0591b1703f6e831628e94ab1944a1d043e0f8668c0de855e5760167b2c72ce89
+test_sha256=23a632b2c37062d48b596540d49b60ab6f115f735599832e4ece1b5cdeff27b4
+pre_p2_test_source_snapshot_sha256=7f4138f1db1213fcf4d455ae2f793ab7410ccfbb03406f85a8a1393fa52b4fc4
+basetemp=worker/.pytest_cache/pytest-p2-02-20261013
+stdout_stderr=specialized-tests-p2-02.stdout-stderr.txt
+

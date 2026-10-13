@@ -1,0 +1,4 @@
+command="E:\project\tender-writing-agent\.venv\Scripts\python.exe" -B -m pytest -p no:cacheprovider --basetemp "E:\project\tender-writing-agent\benchmarks\document_relations\reports\current-baseline-20e79af-20261013\worker\pytest-red-20261013" "tests/evals/test_document_relations_current_rescore.py"
+exit_code=2
+test_sha256=a233732bb555305965372e0b1bad40e608130cdd82f93db055ef4e836b025f69
+result=expected red before adapter implementation

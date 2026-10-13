@@ -1,0 +1,7 @@
+command="E:\project\tender-writing-agent\.venv\Scripts\ruff.exe" check --no-cache "scripts/run_document_relations_current_rescore.py" "tests/evals/test_document_relations_current_rescore.py"
+exit_code=0
+result="All checks passed"
+adapter_sha256=b81da710b2c06cd3ce4be84b535c373f00d9397bc980f61b4bfc2f0bf49e5f0e
+test_sha256=23a632b2c37062d48b596540d49b60ab6f115f735599832e4ece1b5cdeff27b4
+stdout_stderr=ruff-p2-01.stdout-stderr.txt
+

@@ -1,0 +1,643 @@
+{
+  "schema": "current-baseline-independent-comparison-v1",
+  "generated_at": "2026-10-14T00:07:12.963403+08:00",
+  "product_commit": "20e79af22ef1666dc862234d3f7c555c82eb90e0",
+  "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+  "adapter_sha256": "0591b1703f6e831628e94ab1944a1d043e0f8668c0de855e5760167b2c72ce89",
+  "worker_capture_sha256": "c856165e7adeafa8bc98c6d5a9012ce0895a9d4db29f68fa4a488561ff3ea066",
+  "reviewer_capture_sha256": "bf8b04db11d5b4ca10cdcf1744e3c8505181da1fbbe2a8194bad764bb672d090",
+  "canonical_score_sha256": "620db613b5138c7be007e078f60a46bef44e4c263f90f1a3767b8f7b21a3fbb9",
+  "scoring_views": {
+    "1.0.3": {
+      "case_count": 14,
+      "passed": 9,
+      "failed": 5,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 5,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 6,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 3,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 18,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1083,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 42,
+        "group_structure_error_events": 7
+      },
+      "method": "frozen 1.0.3 score_case",
+      "overlay_case_ids": []
+    },
+    "1.0.4": {
+      "case_count": 14,
+      "passed": 9,
+      "failed": 5,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 2,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 5,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 6,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 3,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 18,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1083,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 40,
+        "group_structure_error_events": 7
+      },
+      "method": "frozen 1.0.4 score_case",
+      "overlay_case_ids": []
+    },
+    "1.0.5": {
+      "case_count": 14,
+      "passed": 10,
+      "failed": 4,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 2,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 4,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 3,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 10,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1083,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 25,
+        "group_structure_error_events": 4
+      },
+      "method": "frozen 1.0.5 score_case on case-03/case-11; frozen 1.0.4 fallback on the other twelve cases",
+      "overlay_case_ids": [
+        "case-03",
+        "case-11"
+      ]
+    }
+  },
+  "independent_summary_matches": "3/3",
+  "same_capture_material_preservation": [
+    {
+      "capture": "reviewer",
+      "case_id": "case-01",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-02",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-03",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-04",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-05",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-06",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-07",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-08",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-09",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-10",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-11",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-12",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-13",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-14",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-01",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-02",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-03",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-04",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-05",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-06",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-07",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-08",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-09",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-10",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-11",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-12",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-13",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-14",
+      "material_matches": {
+        "actual_graph": true,
+        "source_context": true,
+        "runtime": true,
+        "execution_state": true
+      },
+      "view_fingerprints_equal": true
+    }
+  ],
+  "error_order_differences": [
+    {
+      "capture": "reviewer",
+      "case_id": "case-07",
+      "error_array_order_equal": false,
+      "error_multiset_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-09",
+      "error_array_order_equal": false,
+      "error_multiset_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-11",
+      "error_array_order_equal": false,
+      "error_multiset_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-12",
+      "error_array_order_equal": false,
+      "error_multiset_equal": true
+    },
+    {
+      "capture": "reviewer",
+      "case_id": "case-13",
+      "error_array_order_equal": false,
+      "error_multiset_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-07",
+      "error_array_order_equal": false,
+      "error_multiset_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-11",
+      "error_array_order_equal": false,
+      "error_multiset_equal": true
+    },
+    {
+      "capture": "worker",
+      "case_id": "case-13",
+      "error_array_order_equal": false,
+      "error_multiset_equal": true
+    }
+  ],
+  "error_order_interpretation": "Only the scoring error arrays vary in order; their exact error multisets, statuses and metrics match. Original arrays are not rewritten.",
+  "failed_current_1_0_5_cases": [
+    "case-07",
+    "case-09",
+    "case-12",
+    "case-13"
+  ],
+  "executed_files_per_capture": 14,
+  "execution_failed_files_per_capture": 0,
+  "not_run_files_per_capture": 0,
+  "historical_af7_10_of_14_retained_not_used_as_current": true,
+  "unseen_evaluation": "not_run",
+  "business_materials": "not_run/14",
+  "production_accepted": false,
+  "status": "passed"
+}

@@ -735,5 +735,27 @@
     "unseen_evaluation": "not_run",
     "historical_14_case_output_score": "10/14 retained; current parser not recaptured",
     "production_accepted": false
+  },
+  "current_baseline_20e79af_followup_20261014": {
+    "record": "benchmarks/document_relations/current-baseline-publication-record.json",
+    "record_sha256": "1c9dd02d1cfa79ea7d36d43c62f4849b632a4bd2fe8c183cc9b17ffce46674b1",
+    "recorded_at": "2026-10-14T00:15:34.1046110+08:00",
+    "status": "not_closed",
+    "scope": "Fresh public 14-case current baseline and actual developer isolation preflight; no product, frozen grader or oracle changes",
+    "product_commit": "20e79af22ef1666dc862234d3f7c555c82eb90e0",
+    "source_tree_sha256": "51b1b18212c84ce50e8606106b96e4b5d5b548fb68bab491669cf08cf4e1ea34",
+    "current_baseline_status": "completed",
+    "current_same_capture_scores": "1.0.3 9/14; 1.0.4 9/14; frozen 1.0.5 contract view 10/14",
+    "actual_registry_runtime_capture_per_reviewer": "14 executed; 0 execution_failed; 0 not_run",
+    "historical_10_of_14_retained": true,
+    "canonical_tests": 961,
+    "canonical_existing_warnings": 1,
+    "canonical_code_blob_matches": "85/85",
+    "protected_historical_files_unchanged": "612/612",
+    "unseen_isolation": "not_established: actual developer canary read succeeded",
+    "unseen_evaluation": "not_run",
+    "new_unseen_files": 0,
+    "business_materials": "not_run/14",
+    "production_accepted": false
   }
 }

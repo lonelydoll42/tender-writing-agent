@@ -1,0 +1,99 @@
+{
+  "schema": "environment-capability-audit-v1",
+  "recorded_at": "2026-10-13",
+  "status": "not_established",
+  "new_unseen_files": 0,
+  "unseen_evaluation": "not_run",
+  "output_policy": "create_only",
+  "observed": {
+    "execution_surface": {
+      "tool": "functions.exec_command",
+      "shell": "PowerShell",
+      "runtime_filesystem_mode": "danger-full-access; no filesystem sandboxing",
+      "direct_canary_read_result": "read_succeeded",
+      "developer_sid_sha256": "56e439a01df70ef3688968710426d1f5775e061466f2e9fbf3bea34dca29fda0",
+      "frozen_reviewer_sid_sha256": "56e439a01df70ef3688968710426d1f5775e061466f2e9fbf3bea34dca29fda0",
+      "sid_hash_matches_reviewer": true,
+      "developer_machine_casefold_sha256": "57c28017c69be2e8acec42213fbb6ba01a00a47de0089af7bb6cc437343223e0",
+      "frozen_reviewer_machine_sha256": "57c28017c69be2e8acec42213fbb6ba01a00a47de0089af7bb6cc437343223e0",
+      "machine_hash_matches_reviewer": true,
+      "windows_token": {
+        "authenticated": true,
+        "is_system": false,
+        "impersonation_level": "None",
+        "elevated_administrator_role": false,
+        "raw_sid_or_username_recorded": false
+      }
+    },
+    "spawn_and_task_tool_schema": {
+      "dedicated_spawn_tool_exposed": false,
+      "available_task_tools_checked": [
+        {
+          "name": "create_thread",
+          "environment_options": [
+            "local",
+            "worktree"
+          ],
+          "enforced_different_principal_field": false,
+          "credential_boundary_field": false,
+          "permission_or_tool_boundary_field": false
+        },
+        {
+          "name": "fork_thread",
+          "environment_options": [
+            "same-directory",
+            "worktree"
+          ],
+          "retains_task_history": true,
+          "enforced_different_principal_field": false,
+          "credential_boundary_field": false,
+          "permission_or_tool_boundary_field": false
+        }
+      ],
+      "exec_command_schema": {
+        "sandbox_permissions_field_present": true,
+        "run_as_principal_field": false,
+        "credential_scope_field": false,
+        "mandatory_tool_allowlist_field": false,
+        "effective_runtime_filesystem_boundary": false,
+        "note": "The exposed schema has no field that enforces a distinct principal or credential boundary; the supplied runtime is unrestricted."
+      }
+    },
+    "local_vm_container_command_presence": {
+      "present": [
+        "wsl.exe",
+        "Get-VM"
+      ],
+      "not_found": [
+        "docker",
+        "podman",
+        "containerd",
+        "nerdctl",
+        "vmrun",
+        "VirtualBox",
+        "VBoxManage"
+      ],
+      "commands_invoked": false,
+      "services_started": false,
+      "vm_or_container_state_inspected": false,
+      "remote_endpoints_contacted": false
+    }
+  },
+  "not_verified": [
+    "Whether WSL or a Hyper-V virtual machine is configured, running, isolated, or available to the developer was not tested; command presence alone does not establish a boundary.",
+    "Credential availability was not inspected, and no credential contents were read. Their absence from developer-accessible tools or storage is unverified.",
+    "No remote host or existing server was contacted; remote isolation is unverified.",
+    "No independent reviewer environment or principal was exposed by the available task/spawn schemas; other external arrangements were not audited."
+  ],
+  "conditional_prerequisites_before_unseen_material": [
+    "The user must provide an independently administered reviewer principal and execution environment, not merely a new path, worktree, process, ordinary container, or untested remote.",
+    "Host-enforced controls must deny developer access to reviewer files, credentials, mounts, and any conversation or logs that could contain unseen material; controls must apply to the actual developer tools and resist alternate access paths.",
+    "The reviewer must confirm the canary exists and is readable in the protected environment. Then the actual developer exec/tool surfaces must receive an explicit authorization denial on that same canary; file-not-found, tool unavailability, or a successful read is insufficient.",
+    "Only after the deny-test and alternate-capability audit pass may unseen inputs or answers be created."
+  ],
+  "reproducible_commands": {
+    "identity_hashes_without_raw_identifiers": "$i = [System.Security.Principal.WindowsIdentity]::GetCurrent(); $sid = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($i.User.Value))).ToLowerInvariant(); $machine = (& py -3 -c \"import socket,hashlib; print(hashlib.sha256(socket.gethostname().casefold().encode('utf-8')).hexdigest())\").Trim(); [pscustomobject]@{ sid_sha256 = $sid; machine_casefold_sha256 = $machine } | ConvertTo-Json -Compress",
+    "command_presence_only": "$wanted = @('docker','podman','containerd','nerdctl','wsl','vmrun','VirtualBox','VBoxManage','Get-VM'); Get-Command -Name $wanted -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name -Unique"
+  },
+  "final_disposition": "not_established; new_unseen_files=0; unseen_evaluation=not_run"
+}

@@ -1,0 +1,32 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-9.1.1, pluggy-1.6.0
+rootdir: E:\project\tender-writing-agent
+configfile: pyproject.toml
+plugins: anyio-4.15.1, asyncio-1.4.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 16 items
+
+tests\evals\test_document_relations_current_rescore.py F...............  [100%]
+
+================================== FAILURES ===================================
+___________ test_valid_capture_scores_views_and_preserves_material ____________
+
+    def test_valid_capture_scores_views_and_preserves_material() -> None:
+        product_capture = _capture()
+        report = _rescore()
+    
+        assert report["classification"] == (
+            "offline current-capture scoring through frozen 1.0.5 API"
+        )
+        assert report["source_capture"]["sha256"] == _capture_sha256()
+        assert report["source_capture"]["classification"] == product_capture[
+            "classification"
+        ]
+>       assert report["summary"]["case_count"] == 14
+               ^^^^^^^^^^^^^^^^^
+E       KeyError: 'summary'
+
+tests\evals\test_document_relations_current_rescore.py:87: KeyError
+=========================== short test summary info ===========================
+FAILED tests/evals/test_document_relations_current_rescore.py::test_valid_capture_scores_views_and_preserves_material
+======================== 1 failed, 15 passed in 1.37s =========================

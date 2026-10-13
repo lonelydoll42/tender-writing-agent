@@ -1,0 +1,198 @@
+{
+  "schema": "current-baseline-reviewer-guard-probes-v1",
+  "generated_at": "2026-10-13T23:45:34.102732+08:00",
+  "classification": "public adapter/source validation and graph-negative probes, not business material decisions or unseen cases",
+  "adapter_sha256": "0591b1703f6e831628e94ab1944a1d043e0f8668c0de855e5760167b2c72ce89",
+  "test_sha256": "23a632b2c37062d48b596540d49b60ab6f115f735599832e4ece1b5cdeff27b4",
+  "product_capture_sha256": "bf8b04db11d5b4ca10cdcf1744e3c8505181da1fbbe2a8194bad764bb672d090",
+  "passed": 22,
+  "total": 22,
+  "checks": [
+    {
+      "id": "valid-capture",
+      "phase": "positive_scoring",
+      "observed": "9/14, 9/14, 10/14 with 14 executed",
+      "passed": true
+    },
+    {
+      "id": "no-authorization",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "PermissionError",
+      "reason": "current-capture offline scoring requires authorization",
+      "passed": true
+    },
+    {
+      "id": "wrong-report-hash",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "product report SHA-256 does not match the expected value",
+      "passed": true
+    },
+    {
+      "id": "invalid-hash-format",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "expected_report_sha256 must be a 64-character SHA-256",
+      "passed": true
+    },
+    {
+      "id": "wrong-source-tree",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "product report does not match the expected current product source-tree",
+      "passed": true
+    },
+    {
+      "id": "duplicate-case",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "product report case IDs must be unique strings",
+      "passed": true
+    },
+    {
+      "id": "missing-case",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "product report must contain exactly 14 cases",
+      "passed": true
+    },
+    {
+      "id": "extra-case",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "product report must contain exactly 14 cases",
+      "passed": true
+    },
+    {
+      "id": "wrong-v2-fingerprint",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "product report frozen manifest/fingerprint does not match",
+      "passed": true
+    },
+    {
+      "id": "wrong-input-hash",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "runtime input checksum mismatch for case-03",
+      "passed": true
+    },
+    {
+      "id": "changed-original-pages",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "source_context pages do not match frozen input: case-03",
+      "passed": true
+    },
+    {
+      "id": "graph-document-identity-mismatch",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "graph/source_context identity mismatch for case-03",
+      "passed": true
+    },
+    {
+      "id": "graph-source-version-mismatch",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "graph/source_context identity mismatch for case-03",
+      "passed": true
+    },
+    {
+      "id": "changed-frozen-contract",
+      "phase": "input_or_artifact_validation",
+      "expected": "reject",
+      "observed": "ValueError",
+      "reason": "frozen scorer/rule hash mismatch: historical_overlay",
+      "passed": true
+    },
+    {
+      "id": "existing-output",
+      "phase": "output_validation",
+      "return_code": 2,
+      "existing_bytes_unchanged": true,
+      "passed": true
+    },
+    {
+      "id": "source-role-mutation",
+      "phase": "negative_scoring_not_validation_rejection",
+      "affected_case": "case-03",
+      "statuses": {
+        "1.0.3": "failed",
+        "1.0.4": "failed",
+        "1.0.5": "failed"
+      },
+      "source_invalid": {
+        "1.0.3": {
+          "numerator": 1,
+          "denominator": 208
+        },
+        "1.0.4": {
+          "numerator": 1,
+          "denominator": 208
+        },
+        "1.0.5": {
+          "numerator": 1,
+          "denominator": 208
+        }
+      },
+      "passed": true
+    },
+    {
+      "id": "nonexecuted-case-03-failed",
+      "phase": "execution_state_preservation",
+      "contract_context_validation": "not_validated_non_executed",
+      "other_executed_cases_still_scored": true,
+      "passed": true
+    },
+    {
+      "id": "nonexecuted-case-03-not_run",
+      "phase": "execution_state_preservation",
+      "contract_context_validation": "not_validated_non_executed",
+      "other_executed_cases_still_scored": true,
+      "passed": true
+    },
+    {
+      "id": "nonexecuted-case-11-failed",
+      "phase": "execution_state_preservation",
+      "contract_context_validation": "not_validated_non_executed",
+      "other_executed_cases_still_scored": true,
+      "passed": true
+    },
+    {
+      "id": "nonexecuted-case-11-not_run",
+      "phase": "execution_state_preservation",
+      "contract_context_validation": "not_validated_non_executed",
+      "other_executed_cases_still_scored": true,
+      "passed": true
+    },
+    {
+      "id": "same-capture-fingerprints",
+      "phase": "material_preservation",
+      "preserved_cases": 14,
+      "passed": true
+    },
+    {
+      "id": "historical-cli-guard",
+      "phase": "historical_identity_guard",
+      "proof_path": "benchmarks/document_relations/reports/current-baseline-20e79af-20261013/reviewer/historical-cli-guard.json",
+      "proof_sha256": "67307ff5b14f4aef8c3dc3e332b9026ffb3df0f5e9251e9c3b0de7dcfc02099c",
+      "passed": true
+    }
+  ],
+  "new_unseen_files": 0,
+  "business_materials": "not_run",
+  "production_accepted": false
+}

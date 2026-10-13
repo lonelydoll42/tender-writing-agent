@@ -1,0 +1,4 @@
+command="E:\project\tender-writing-agent\.venv\Scripts\python.exe" -B -m pytest -p no:cacheprovider --basetemp "E:\project\tender-writing-agent\benchmarks\document_relations\reports\current-baseline-20e79af-20261013\worker\pytest-green-20261013" "tests/evals/test_document_relations_current_rescore.py"
+exit_code=1
+test_sha256=a233732bb555305965372e0b1bad40e608130cdd82f93db055ef4e836b025f69
+adapter_sha256=de4f5ab2a73572b19cdb8cc6a2f1da853d6e6b54ba0329824d83a6b0c6a404c3
