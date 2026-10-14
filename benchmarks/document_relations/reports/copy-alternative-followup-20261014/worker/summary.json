@@ -1,0 +1,50 @@
+{
+  "base_commit": "1b50e96f810209dde21989ad4b25b2e39df40ed9",
+  "change": "Require a full match against a finite affirmative single-copy antecedent grammar before confirming the copy attribute binding.",
+  "finite_grammar": {
+    "optional_subject": "投标人",
+    "modal": ["必须", "须", "应当", "应", "需要", "需"],
+    "verb": ["提交", "提供", "出具"],
+    "copy_objects": ["法定代表人身份证", "项目经理证书", "税务登记证明", "营业执照", "身份证"],
+    "suffix": "复印件 with optional Chinese full stop; no other prefix or suffix"
+  },
+  "red": {
+    "file": "finite-copy-red-20261014.xml",
+    "failed": 8,
+    "passed": 8,
+    "source": "HEAD decision logic"
+  },
+  "green": {
+    "file": "finite-copy-green-20261014.xml",
+    "failed": 0,
+    "passed": 48,
+    "tests": [
+      "tests/test_document_relations_copy_alternatives.py",
+      "tests/test_document_relations_attributes.py"
+    ]
+  },
+  "ruff": {
+    "command": "python -m ruff check src/qiaowenshu_agent/domain/document_relations.py tests/test_document_relations_copy_alternatives.py",
+    "result": "passed"
+  },
+  "snapshots": [
+    {
+      "file": "document_relations.py.txt",
+      "state": "final"
+    },
+    {
+      "file": "test_document_relations_copy_alternatives.py.txt",
+      "state": "pre-format; retained"
+    },
+    {
+      "file": "test_document_relations_copy_alternatives.formatted.txt",
+      "state": "final after ruff format"
+    }
+  ],
+  "formatting": {
+    "command": "python -m ruff format tests/test_document_relations_copy_alternatives.py",
+    "result": "1 file reformatted",
+    "product_file_formatted": false
+  },
+  "scope": "Unsupported alternatives, selection, compound or unparsed prefix/suffix forms remain candidates. Original source references are retained and validated. Generic anaphora and business gates are unchanged. No case-13 or unseen acceptance claim."
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "finite-copy-attribute-cases-v1",
+  "classification": "user supplied public regressions; not unseen",
+  "base_commit": "1b50e96f810209dde21989ad4b25b2e39df40ed9",
+  "cases": [
+    {
+      "case_id": "ALT01-slash-selection",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证/营业执照复印件（任选一种）。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "ALT02-substitution",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证复印件（也可以用护照代替）。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    }
+  ]
+}

@@ -770,5 +770,21 @@
     "overall_closed": false,
     "unseen_evaluation": "not_run",
     "production_accepted": false
+  },
+  "copy_alternative_followup_20261014": {
+    "record": "benchmarks/document_relations/copy-alternative-publication-record.json",
+    "sha256": "19e9495cddf9d834b21cbb16093791bb12dc74188964eb2a2841a2fd4ccc2456",
+    "limited_public_regression": "passed",
+    "original_two": "candidate scope and attribute_parent; first failures retained",
+    "actual_public": "33/33; existing positive six retained",
+    "canonical_tests": 1026,
+    "current_three_view_scores": [
+      "10/14",
+      "10/14",
+      "11/14"
+    ],
+    "overall_closed": false,
+    "unseen_evaluation": "not_run",
+    "production_accepted": false
   }
 }

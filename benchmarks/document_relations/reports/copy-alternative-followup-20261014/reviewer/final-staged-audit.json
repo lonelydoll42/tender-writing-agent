@@ -1,0 +1,777 @@
+{
+  "schema": "copy-alternative-final-staged-audit-v1",
+  "generated_at": "2026-10-14T11:48:45.7929133+08:00",
+  "scope": "Post-publication audit excluding its own hash; the next commit must preserve these code/artifact blobs",
+  "base_commit": "1b50e96f810209dde21989ad4b25b2e39df40ed9",
+  "source_tree_sha256": "122ddbd58a0004732c2b0a26a392dce36a3a7ff739ba5fffb47609b4fbb3532c",
+  "tested_code_git_matches": 93,
+  "protected_history_matches": 793,
+  "inventory_artifact_matches": 28,
+  "parent_original_values_preserved": 22,
+  "parent_final_keys": 23,
+  "record_sha256": "19e9495cddf9d834b21cbb16093791bb12dc74188964eb2a2841a2fd4ccc2456",
+  "uv_lock_unchanged_and_untracked": true,
+  "staged_paths_before_this_audit": [
+    ".gitattributes",
+    "benchmarks/document_relations/README.md",
+    "benchmarks/document_relations/copy-alternative-publication-record.json",
+    "benchmarks/document_relations/copy-alternative-regression/20261014/cases.json",
+    "benchmarks/document_relations/copy-alternative-regression/20261014/contract.md",
+    "benchmarks/document_relations/copy-alternative-regression/20261014/reviewer-public-probes.json",
+    "benchmarks/document_relations/copy-alternative-regression/20261014/scope-freeze.json",
+    "benchmarks/document_relations/copy-alternative-regression/20261014/verify-snapshot.py",
+    "benchmarks/document_relations/publication-record.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-additional-public.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-comparison.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-export-proof.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-first-failure.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/canonical-public-checks.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/canonical-tests.xml",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/canonical-three-view-scores.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/final-checks.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/final-code-proof.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/product-v2-capture-1.0.3.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/document_relations.py.txt",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/finite-copy-green-20261014.xml",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/finite-copy-red-20261014.xml",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/pytest-green-20261014.xml",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/pytest-red-20261014.xml",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/summary.json",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/test_document_relations_copy_alternatives.formatted.txt",
+    "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/test_document_relations_copy_alternatives.py.txt",
+    "docs/document_relations_acceptance.md",
+    "src/qiaowenshu_agent/domain/document_relations.py",
+    "tests/test_document_relations_copy_alternatives.py"
+  ],
+  "code": [
+    {
+      "path": "benchmarks/document_relations/attribute-regression/20261014/check-acceptance.py",
+      "canonical_sha256": "0f2943e0e3d230b04cbe2fd6f291ba5fe00967b737d7decc721e1e88d6c431f7",
+      "git_blob": "808e7daf24d8c73917cd8c6b3f79111b0f13dcd3",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/attribute-regression/20261014/verify-snapshot.py",
+      "canonical_sha256": "483d3cae90418ab85d923381eafa6637f7ead15ac2af0c6157856cba365b9f35",
+      "git_blob": "92dd10adf85897835138ef77ca22f962048a910d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/verify-snapshot.py",
+      "canonical_sha256": "20a15bb4e6f82f7c704b4630284578fd1e849d6a9a28e23f3a1ebadfd079352e",
+      "git_blob": "08ef25071a08cdffaa2dcc0d99843f36caa86f8e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/check-public.py",
+      "canonical_sha256": "69b5ca86ea6e4a866b254136adad12a381a0a7220ef007f457974db34d88d5f0",
+      "git_blob": "30339046420c482f9c5a24a6832c7098f1c1c98e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/source-role-regression/20261013/verify-snapshot.py",
+      "canonical_sha256": "b307017ac56972160ea2578ffc1ad1a9627c68a888947e2c2efb1336a0d05f9b",
+      "git_blob": "9559942493eb3e7304e04bc996ce50df87fe220e",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_attribute_eval.py",
+      "canonical_sha256": "a4ffb56592e33677a4b0e8e1b1bf7fc36315678722e9e221e12c69e484745a90",
+      "git_blob": "a7f3ddca5aff6cbbe0b3cb7b579f810d5ec428c9",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_boundary_rescore.py",
+      "canonical_sha256": "23e7b6363ea3ab2e765e836f7bfeba4cf7966dc7045bcbd24c148f14e2d19ed3",
+      "git_blob": "937154d2f6c67a0925c0b88adbf798d8c6b05480",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_current_rescore.py",
+      "canonical_sha256": "0591b1703f6e831628e94ab1944a1d043e0f8668c0de855e5760167b2c72ce89",
+      "git_blob": "723957310accffb34ba54e73996fe3cc097e1c0d",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_eval.py",
+      "canonical_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+      "git_blob": "7a39460bcf6d6cea801ebbd2508b95d6e18010b9",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_negation_eval.py",
+      "canonical_sha256": "245871311639815ad0ec35fb7d06f27d2c43b4afe450327902be559570733e43",
+      "git_blob": "8f384ab2c49d16cfbd0ce4c24620a9ed4278c405",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_nested_eval.py",
+      "canonical_sha256": "da7fba3f95cdf52e47bbda80754c624401d74c5a8b7fa36ee455d6492d1c920e",
+      "git_blob": "3c9955659f8781ef336267a735d3a96491092412",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_rescore.py",
+      "canonical_sha256": "05380973db4fd848a4c01e043847f4b648e738f8efa9b0c0affe6bf10cb41abf",
+      "git_blob": "b6b78dcc68fd0df1dc581dc9222dc3bac114515c",
+      "matches": true
+    },
+    {
+      "path": "scripts/run_document_relations_snapshot_rescore.py",
+      "canonical_sha256": "33d5ecd56167a0332fd0a8534aad5ac361ad295b08c5cae6f4f34da60ba4cecd",
+      "git_blob": "6a3f7c6dbdc3ad85699281ec4fa0ec6df4970ab3",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/__init__.py",
+      "canonical_sha256": "95ce4064c37b24dee4f28d7ee430ab1284763989800748738980e4ee4098c4d6",
+      "git_blob": "0d7fe52b1506890e5ef7e09fd0a20e1eda48e2d5",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/__main__.py",
+      "canonical_sha256": "5c89df6f60b4fcc4f963d85bd89cba6944488f838071dcf985adb141cfc4adfb",
+      "git_blob": "292cc1fbac71a4c7145261aa338ce26464b701dd",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/adapters/__init__.py",
+      "canonical_sha256": "264621ed2d2d2b3988992a1a53f3595fc2b124086f84f4edf4eefa1cacaebe9c",
+      "git_blob": "2ff0949b6c8ce0a8df3099bde5b0024f28bfbc7e",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/adapters/reference.py",
+      "canonical_sha256": "47ff0de3c6d372891906ef4b3c8d3729c9f27535fb7c3a916c9c2a30449c7324",
+      "git_blob": "450f5383592bf7307dfb337426dcd050fa4a6103",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/api.py",
+      "canonical_sha256": "8f9bad456b4f0d4a4cc7669a1c2a9300102a4c287d51194080c3baae314f5344",
+      "git_blob": "50ee532d34d72ab94d8bec0fa3890f4198994e83",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/__init__.py",
+      "canonical_sha256": "d2686d1f785d709a9a42325da02e8bc7e97c5228d1a794bdf349ffaa9a5b6fbc",
+      "git_blob": "8544d9b6895eea367e631d412866323aff316dbe",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/budget.py",
+      "canonical_sha256": "47f3d5789e1333e1ce25d79d98c1670837827cf34f00e7b710f2280024b53de6",
+      "git_blob": "5b3eb4943d4ff0beb5abbbabff1026cb0a6b0533",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/context.py",
+      "canonical_sha256": "f5ea24ee1062093dcec4286fcf86574c8a044b50a153d197bbed53ba6dccd74d",
+      "git_blob": "673b9bb9bf2db9eea8a33ec5b13ff5604c983315",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/contracts.py",
+      "canonical_sha256": "e03aa9a10323ff2168c780bbbf125a5d147f590a89b211c11bb2d481e5978ee2",
+      "git_blob": "6b27716d5dcadb74d205d524f29b47991a1b9272",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/events.py",
+      "canonical_sha256": "a4d0207e7af3b65b2c9c6e210504ab3e720b9dfc75fd8fe940c1f3de1e6e9ee7",
+      "git_blob": "a9a3f49c3e71e1b95e7c6147a132c8e24d442402",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/files.py",
+      "canonical_sha256": "b529f818dd45565e8c2142d15d7e4fdc213cca033755c2bd185b896be72ac661",
+      "git_blob": "e493dee1395bb1107c2663e19ada91ea66beb740",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/registry.py",
+      "canonical_sha256": "407a30f88a5c7733b661f5a285a938de6b791156b889a94de14faf6b1c7d31a2",
+      "git_blob": "c119862e013ee33664861bbf60002ab0ea25cf39",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/runtime.py",
+      "canonical_sha256": "925d7fc8a46c3bc1b0f0502c05c21dbb9121368f1f4ef8aa538f9cc005b612b0",
+      "git_blob": "33bec26411fafd6b9f73019a022573aea4b87ba3",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/scope_authorization.py",
+      "canonical_sha256": "5afad51f6764efdd8103935475ff679cc0f1c7ad35396313f5ba4515406619d1",
+      "git_blob": "fbe927b039a45aeaa1101da4b18f2569dc3f1e86",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/store.py",
+      "canonical_sha256": "af53e4e7227412281e03cec76cc86adcf2f85f6af3d2a4d5c0a7dde8046c210f",
+      "git_blob": "3b11ef6180bd11b80c5abd1177a676b159289b9e",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/core/trace.py",
+      "canonical_sha256": "d4da00440f06a4edff6914bbd2969f48f690a63e7d541b0cd123f3278a67e05c",
+      "git_blob": "5e1ecc6a5ecf20d86ffae32d38c9a3efa4239475",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/__init__.py",
+      "canonical_sha256": "1b5f1a80a1554b2180619e2ae84e7d58418e77ce6d0bf107a25f2d62405eedcb",
+      "git_blob": "49ea12e4da1407bbf52731e2e45b7da0f73d7a14",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/analysis_protocol.py",
+      "canonical_sha256": "f81de2775a07e2c5ed731799eb1d6b44bfc1396f011949e2fad62faa88300e6a",
+      "git_blob": "0b1048eb72f54ecaf8ac4539c01b05c681d25397",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/document_relations.py",
+      "canonical_sha256": "416892a6e967f4ab43cb60125e6263c28e799e2392375bdb1acf8b3f63372d64",
+      "git_blob": "b654d35dfc704efa61d5306c07e130835fbe3322",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/document_structure.py",
+      "canonical_sha256": "efec7668a5ba79367c621c783b834de86751af3a6ab864b77b3c5f933a4436b2",
+      "git_blob": "c7106c3c24f315ff4d36c2ed5785b9dcd154f5ec",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/models.py",
+      "canonical_sha256": "8e2766d0c2323d2bfddea5f6586e6805aecbd97d1906f3147fee73b7758ce0ce",
+      "git_blob": "e140a66a489a8b3cf28173af3a6bdc991d7e28d0",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/llm/__init__.py",
+      "canonical_sha256": "c2e3f9a8b5c7dc66876c083dd7412b08a501b5a17690e69b421a47193f3c6c0b",
+      "git_blob": "f740bf0306376f480e44962f1da3b6dfbd796bf6",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/llm/client.py",
+      "canonical_sha256": "fb45f07e5403592818e5c2da57508845472570ac5f084f5892779eba739d717f",
+      "git_blob": "70f07cb3e0b5a514151f025b2d87ab66dfb8b404",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/llm/config.py",
+      "canonical_sha256": "3f36505b565c1748a23aea9dd710506a6a00f9b3fc165804ee62eecebdfba301",
+      "git_blob": "d30ad7793531abe98b97306828f97050342f0c51",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/__init__.py",
+      "canonical_sha256": "641959839985498f75494933435770a0442c0b4d9add58529279a6fc35d22fbf",
+      "git_blob": "18d8d82499d25b3e79f5d01b46de25d8780a3d82",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/analysis_report/__init__.py",
+      "canonical_sha256": "4b75926e72df11fed32b55605fc6d881fa75dc1b18eeb41c239fe48c0ec97695",
+      "git_blob": "e97bd6cdb3736a933503518f842fbdfad62812fd",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/analysis_report/skill.py",
+      "canonical_sha256": "33c4d8e19220551a8867a90f093190278c0c8ca81aea28024fa6d924f6b3749a",
+      "git_blob": "5110bca3e15c539692a0c774f022f72c8437881f",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bid_feasibility/__init__.py",
+      "canonical_sha256": "dffc7abdfee914b8df766e1a724e42c3c77ccc00185f1061b96bc38adba9b32d",
+      "git_blob": "268c9e4e6230dbb24488f038dff75d088e27dc8f",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bid_feasibility/skill.py",
+      "canonical_sha256": "97ee7a97addf71db5a4ba9fdb5cfd2d21d791f809b5bfc68155208347be57242",
+      "git_blob": "cb3ba006ae88686961044c6c9308b66cb2e2737d",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bidder_material_intake/__init__.py",
+      "canonical_sha256": "405f8600c0077b9f5d1cfcd9b68a146b4768159212334a35f7223de731497eca",
+      "git_blob": "02040d82e0b51c7f48664728941c24e383f057cf",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/bidder_material_intake/skill.py",
+      "canonical_sha256": "fa049b531a5b25a06b9452feaa0485b4feca9b7c15676ad4d90d4993b1592976",
+      "git_blob": "cf496905ed8a7291a4e7b17fb1e726faf19de697",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/compliance_review/__init__.py",
+      "canonical_sha256": "d9533621be88e5a3c654ff7c091dd08432ae7856fddb412db8af29d71ac36c44",
+      "git_blob": "3a2c749a51b351776154a7dcda57f15d39ec7f08",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/compliance_review/skill.py",
+      "canonical_sha256": "6014f8b49a328cfd5494e48c3ded94d1866f4c6fae37e83deeb377df7da005cc",
+      "git_blob": "c9a3dc617f99523154e3b6aa14ee480edbef6fa9",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/consistency_review/__init__.py",
+      "canonical_sha256": "d1d52e58be5b65a04e91e3dea9af689314ee7db100e828ddd6412a7f00e230d8",
+      "git_blob": "ac23dbea600eadfc1bd687a549e7ea9a7d7ea41f",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/consistency_review/skill.py",
+      "canonical_sha256": "786434c3639585a9e9ffba1adad9213135e91ac991b728a25b4f8be40dc577a7",
+      "git_blob": "5457868a02fa451079fe24619c3bf8a0c3f62a02",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/__init__.py",
+      "canonical_sha256": "caa5203fcb9deeefd10eab4ee58a63d83335b5240f09f66bb0697da5627636b2",
+      "git_blob": "3f6ddee920594fd615e33537dca547dd2b0df87f",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/models.py",
+      "canonical_sha256": "83fb618fd0d676aaeaf251dc8fb5d27f838a76ece23e69add68e0c2dbde8634d",
+      "git_blob": "bcfe78aae7b8b47b6cbf7ebf541b701c432dca6a",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_preprocess/skill.py",
+      "canonical_sha256": "cfb5e3e1bba65bf945dcd658c82ac5fd3940c9cbdf53de6257f8917e87b411ad",
+      "git_blob": "9d3057723145f9df9b3ff97c47bc19d3dce8777a",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/__init__.py",
+      "canonical_sha256": "1e53095afaeef49279ec610bdb3745ace5f1c7d8ef8baa6b8ac7900ff3295f8c",
+      "git_blob": "35185a59b8f7f2432d5dd675b78f24974acf5121",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/models.py",
+      "canonical_sha256": "32050fc24421f0c9d803f543014b9e877e3add8019696c117279fe25a4ae1c57",
+      "git_blob": "16a7e89b7f253452cad9bd106d03cfd5c403ade3",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_profile/skill.py",
+      "canonical_sha256": "e71821e42e7ecb4faa99859801fd85abd7623363f4bc87f7e231ad0dabc46979",
+      "git_blob": "682bea5826583eb358c438a88670384e549b1fbe",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/__init__.py",
+      "canonical_sha256": "e185a3737f650645816c94e9e4cf1beb26e9ab2f9ce2115dfeb28810a98fafc6",
+      "git_blob": "a0fda70b2a9a31f21d2de1a696b435695ee958d9",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/skill.py",
+      "canonical_sha256": "c9237e4a384d7326ea0793553dcfc8058a53c3e2ae60244e5dcb9eab3fb6c799",
+      "git_blob": "d6a26b09901f3a17b54e4ee6bb40c3a8edfa535b",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/document_writing/verification.py",
+      "canonical_sha256": "2f35d940b5c3f021c2ff1ae17a4fb7eb3117caa689ba3668ff5cd0106999e451",
+      "git_blob": "98b8282abf3f6d31465a12ff0f7e1e167c7c26f3",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/evidence_matching/__init__.py",
+      "canonical_sha256": "a5b3a14a311d07112403d627c357afc8104f1bb034c7d4e22b0c4c1d1e642ea9",
+      "git_blob": "5ea341ef004436d34673d4fc428800a8e7fd1c09",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/evidence_matching/skill.py",
+      "canonical_sha256": "50f51798046dc8881936d5f7625d5321b09d0eda3f553bb29843b44a7a95a850",
+      "git_blob": "9c23413d91701cedda3ef0fe58f4c14ee6c984c7",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/__init__.py",
+      "canonical_sha256": "73b3695238f4e2006fd08962b07064ca06c0d45e1f1083a72eb08647c74b793d",
+      "git_blob": "c041107863e9fe0fee13cd26fd35c71bda48d7ab",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/models.py",
+      "canonical_sha256": "3f9f88babf91bbcc1a70c9365b01fa07299040385db96dee142786e9d89dff62",
+      "git_blob": "84c8096d46ebb5b10a85c4274dd40067fe5af07c",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/ragflow_backend.py",
+      "canonical_sha256": "3f1e4b1144a4dae06c4d910b92ad9206ce49a4f0dd7c5b90c18018751728c050",
+      "git_blob": "86d5b2128a67dac2c14549321803c0d095c9ca0e",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/knowledge_retrieval/skill.py",
+      "canonical_sha256": "4f2cf67f2bf4bf9b85eef65040c161267215a49329ca9fcf51a7cdaf39c6c11e",
+      "git_blob": "448ff8fd64ab9276a8dbbb3ba75e4f88854f6012",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/local_backends.py",
+      "canonical_sha256": "829a4c06ffde65fe0d62fa9860ed745aff431cdbb5b4a75536ac093b12c1eb2d",
+      "git_blob": "621bcfbf1b14c84c5ba02cd2e12295e6abd6c2ea",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/local_requirement_groups.py",
+      "canonical_sha256": "8c169c2ac129f13c3e528d110222c4c0127b443588e681851a346abdaa16cef5",
+      "git_blob": "9a822c8e32352119f58f8de16633b088ec54e305",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/local_requirement_logic.py",
+      "canonical_sha256": "0293115b4662ada65237c0e1daded355fc32cd2e0f6ccae408e0768560fefa3b",
+      "git_blob": "011d9b22668fc23435a2cdfb75df653a5d472d21",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/quotation_check/__init__.py",
+      "canonical_sha256": "ff55d602d9b3d9705d10ecdd3fc04d74c183c0037582dfff2c0e38daca8ad691",
+      "git_blob": "aaae404962d7348143a7223f82e560fe4a957045",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/quotation_check/skill.py",
+      "canonical_sha256": "030de33b9a9fb7bbf6db356292e25e9ec255640ccf63f271d87525c5238d519b",
+      "git_blob": "d17846f6774f201b6c5ec26e4ac3ff64635a608b",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/requirement_ledger/__init__.py",
+      "canonical_sha256": "c418824bf2a76f4a9a2e51daad1e0ffe8a018ec931d72614b966197b99b069e8",
+      "git_blob": "ca2322eac7653c19fcb5bbc1af44446f2694134c",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/requirement_ledger/skill.py",
+      "canonical_sha256": "0642c529c423bb22dc89b7189f8376e04d5aa316251985d76cba19f74ea36adf",
+      "git_blob": "c8d9dd434f03feee36763191f2d40c9a162ace5d",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/rule_engine.py",
+      "canonical_sha256": "135bf428e30ae81a15808fab102badde06bd5f28a422af93f907f5c0dc237f65",
+      "git_blob": "db88a02eb699bf55384c59bd0c1dc768aad5a13d",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/scoring_strategy/__init__.py",
+      "canonical_sha256": "b16d0c3a3209dfb4ab18535b69eb37167c2ab4079b57045268487ca7de4b0263",
+      "git_blob": "128565fc69787319585568b325462bb0f0183d83",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/scoring_strategy/skill.py",
+      "canonical_sha256": "21d48dd2974231bd7270f3a9fc03ed66f7a2fce5c4eba1a6ebc03272b5f77781",
+      "git_blob": "0749047d9c69915ffbbf23a143019b437aef370e",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_common.py",
+      "canonical_sha256": "6b655a19ec19deabb6e66177bc3556f02258e8db5e259e62233cd5a8f1ddb1fa",
+      "git_blob": "d7a4a7094f67948a89d937d1fa2665ee5be22cd1",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_decomposition/__init__.py",
+      "canonical_sha256": "5d3ea118e12ab480e94f46e443b7f1c6051d253b5dc086026554d2db4e9aa4f9",
+      "git_blob": "93052e14354407ec5b4967cb626b05237b2cd5f2",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_decomposition/skill.py",
+      "canonical_sha256": "73b50639565893e25725fce68a310c56fa889ed3ca94ae1512546cf3c34dc528",
+      "git_blob": "ef71b426d566c3ada6ff55ef71720383ff42b118",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_intake/__init__.py",
+      "canonical_sha256": "66d52c46552c58d8a82f8ec37519606f23316a537df6e2b7b3a96a28a777a70a",
+      "git_blob": "16e555e22c3be25ae2174623690f2faa49d7b783",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/skills/tender_intake/skill.py",
+      "canonical_sha256": "c746ddcfbdadb1fac388f0ee636182df93e28a57776478dea75a6431fa407424",
+      "git_blob": "23abd4c7021c6f0c8b94d9f48ef65d602f45eb81",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_boundary_rescore.py",
+      "canonical_sha256": "f6d744198b043ba055d972edfbb5f33fa4a01884afbd9846a50a66102f541730",
+      "git_blob": "0fd3934ed0a5d250c9c5127999f51ae236355dc0",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_current_rescore.py",
+      "canonical_sha256": "23a632b2c37062d48b596540d49b60ab6f115f735599832e4ece1b5cdeff27b4",
+      "git_blob": "251b7057560d77469b43019c80b4315ff91359f2",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_eval.py",
+      "canonical_sha256": "7fb5e3694d8614e962c6061e50d2de8b15c29a2bc6d02e808048f161ac371228",
+      "git_blob": "f18fcc0aec0e6afbea1e002f1aceb11065e4d05c",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_negation_eval.py",
+      "canonical_sha256": "1b7637a57c2c941e933870907f829f8031646364f22a96671a97c53d38a5cbed",
+      "git_blob": "b9a33e2c8c2aba6ae2fe5eb41f9de64da8207fa6",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_nested_eval.py",
+      "canonical_sha256": "8ca99f35f7899c4a4e35c0a9a963f13013f6441ef0fca860167e8bf5446dc0ea",
+      "git_blob": "785bcb3499c52c48c5b92627dbbc9ad7a1c086cf",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_rescore.py",
+      "canonical_sha256": "2380bea8b28ba10a6b35123daa0723f254156f56366677f67a5bb3719aa1e0d8",
+      "git_blob": "597f5b5056c490b5a07696e914036e52939e86ea",
+      "matches": true
+    },
+    {
+      "path": "tests/evals/test_document_relations_snapshot_rescore.py",
+      "canonical_sha256": "bfb2f6295983481671692de6acb6bb65a21554358d52ca6e195af2512586d59e",
+      "git_blob": "127b0649e9de7320f11ee758f4fd64afd2139011",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations.py",
+      "canonical_sha256": "024c9edf30c311a20dace5e0fd30b457f404bd51fe33019dadb1c8eeb7712edf",
+      "git_blob": "4febba89f93b3372b5e0c11ce9e4bd745d652e96",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_attributes.py",
+      "canonical_sha256": "b47067c1223ae9e0aa619a2bfbc126677e7bb64ac3e1744f3c2b76b7559ae6e0",
+      "git_blob": "8421c76234f316681667ffb9c3c3aa0d81b8c021",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_copy_alternatives.py",
+      "canonical_sha256": "7abff5c899d5f1c4d4e3d9c19d9e3df1077a246740c1f5908b7fdb8b31b60879",
+      "git_blob": "f6fe7e2612db76d901642727f7ab3d2fa6f852c5",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_inheritance_pipeline.py",
+      "canonical_sha256": "84383acf8820ca94f603c25d0eb9820d433996d42dcc25ff568bf623297a26d0",
+      "git_blob": "9f6d409ae488fe15bf182b3f871e36f404f7d77a",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_nested_pipeline.py",
+      "canonical_sha256": "37e7b103fe32da4e1135d4a2be3c36f77b9f7c573f20b87df422980fdc86f704",
+      "git_blob": "f470309e8c5e379b802937d3eb542ba245ab74e8",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_pipeline.py",
+      "canonical_sha256": "d0a1d739595adb64c71783c081c696c86d7db74c037960b7ce3d529f34f4face",
+      "git_blob": "8286ae052de59842371608fd135c22006c59c510",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_proof_headers.py",
+      "canonical_sha256": "99ea98a3675d7b305b8d62f4d451da7b436bcb7ccfae0338b0db021aa16df76a",
+      "git_blob": "9b7c4cfb1d58e9f8c2a642b75dcc2a9340244246",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_source_roles.py",
+      "canonical_sha256": "1a7de4fde9db7bb2c8d531cfdf4b6f78dc01ca81da993f1dedd4a260cfd6bf32",
+      "git_blob": "13a6ff6e9ef790b4070008c6da03db2ea2f35393",
+      "matches": true
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".gitattributes",
+      "working_sha256": "c864b31d174bc0b763cc3465f96191b2edf0750028cdc116a0c7530bba40095d",
+      "git_blob": "abfba32bca36f4dbde6b15bf6a250aac664ad83d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/cases.json",
+      "working_sha256": "f5163a7a4ef3a052e4bfb07ec10e9e1d39ab89bdc34c3415785481b1a894f9d6",
+      "git_blob": "bb2def76cedefe9ad99d2eeb17e8f42a14be6144",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/contract.md",
+      "working_sha256": "5e0863bc5f9fe961fe2685c5460c0a7baf38867cdf0f195febe598734d9d757d",
+      "git_blob": "9df4e8e12907cb5abecdecdea23e0352ebb146a8",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/reviewer-public-probes.json",
+      "working_sha256": "872f5345a9719b8bf2473af0a588f5f1458065c7405fed655bc39b22bb03b157",
+      "git_blob": "e216cc680a89df015049b6adf176f28927c06c68",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/scope-freeze.json",
+      "working_sha256": "1417d89f9750bda7b017b9e02796271457e7ba616dde866dc95b9e06fe59a921",
+      "git_blob": "747789df7f202b29f240e1353e87bb0cf4fdf1ce",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/verify-snapshot.py",
+      "working_sha256": "20a15bb4e6f82f7c704b4630284578fd1e849d6a9a28e23f3a1ebadfd079352e",
+      "git_blob": "08ef25071a08cdffaa2dcc0d99843f36caa86f8e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/README.md",
+      "working_sha256": "511ce2ca67ca39ef2a14b10956d9cbedd5e115348fa79f5d40b8d9815b902a4c",
+      "git_blob": "48afba85008154abf35f0e2f4b653ebd76c7af99",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-additional-public.json",
+      "working_sha256": "1b8ab32f652884dae1475fe3a922b12e877ec918db7405cb2a4e42d1a9285e4a",
+      "git_blob": "db8681134e5950d1e6e8a1b9d7f9871df2a9e30a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-comparison.json",
+      "working_sha256": "7e2bf7fdc16766046443628048d7b2fe91fb69ab5117a7c5527474ce6800b302",
+      "git_blob": "2321ded3c4b77c173eff910c305fa04ee4e4c565",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-export-proof.json",
+      "working_sha256": "1510705c8f8fe8861f4699d7bd25623ef321804d7ab947edbb05b5a50180cd1b",
+      "git_blob": "2aed135e4b0b2a7a85f94ef1cfaaa28025ac51f9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-first-failure.json",
+      "working_sha256": "29de5c182602ed7b2c0838183aca3d3a3d50c4b5f6c5f8cc31b1f03fc50ea816",
+      "git_blob": "95943bc3f5bbcee7619eeeeceb1d060c3c770308",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/canonical-public-checks.json",
+      "working_sha256": "44334c00410ee14e39db6ad4558f04777a5b0e4f2501c9404cd66ceb636ee40e",
+      "git_blob": "0e2e9e4a3a15b692ab98cb9c3560bbae95aa4db7",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/canonical-tests.xml",
+      "working_sha256": "86e46c2a9de6eddbf1a8c8a80644b4a85e4a46f22631a9069cc17b793d68241b",
+      "git_blob": "365ecbaeb0cc211f8d7eeca2d04f55fdf11479d9",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/canonical-three-view-scores.json",
+      "working_sha256": "7437d782b4544917f254b13fcac39ef825a264f6542739b4ba5dd69c62477753",
+      "git_blob": "4d2c288bc94e22f6d3cb69224f5a61efc364a8d2",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/final-checks.json",
+      "working_sha256": "723435bc5e8b2e7b008fd0d76013ee46e960e79f785dd8212da0a038a18a6cc0",
+      "git_blob": "a2f732ceee71b38cf620528d1b65464418ceac19",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/final-code-proof.json",
+      "working_sha256": "dc04432626b44bc056d1ff3cddc91b612c9e7a0c713e792f8a2849dd0b584c3e",
+      "git_blob": "ba4f5f0601e7137a628a10e7497797076801fd66",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/product-v2-capture-1.0.3.json",
+      "working_sha256": "b7c292ebf4a3d6a38461822d571ac25613aa8b49de3dde0e32b6a731c974d221",
+      "git_blob": "75022766c4179158efd15b74acd0cde207a4cecd",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/document_relations.py.txt",
+      "working_sha256": "416892a6e967f4ab43cb60125e6263c28e799e2392375bdb1acf8b3f63372d64",
+      "git_blob": "b654d35dfc704efa61d5306c07e130835fbe3322",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/finite-copy-green-20261014.xml",
+      "working_sha256": "55f7117aaf8d5d9f373d23833307bd0fb0e433b147e7a5006e07c8f7566f4cc0",
+      "git_blob": "815951f52d78db63c61b94bddee6bae73e1e432d",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/finite-copy-red-20261014.xml",
+      "working_sha256": "a258f305232ca850a98c402d0def11cf2ee30b503159d0ff16520ca5fda5dd23",
+      "git_blob": "52c81e9a98a1f1a12d52155cd2b4528bc539832e",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/pytest-green-20261014.xml",
+      "working_sha256": "248f487ec90a7e04ad394f7f61b5bd9566437f6eafdce2a8a609d4c89c6cd4b1",
+      "git_blob": "e9357d93849ae4a464556987290d433b4fcb155a",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/pytest-red-20261014.xml",
+      "working_sha256": "deddf8af2fcb2086c66c339f80e11017bde26fa1d5131db53943650290622b0f",
+      "git_blob": "77c6a36ab85a0041cd51b2a21ad11fe763e74749",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/summary.json",
+      "working_sha256": "783ee7310de7c0b6d73320b11d752054c93e32299da51c87a7b9738209d7a527",
+      "git_blob": "11acd17c167d9cd420a56cb41a386768b943874c",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/test_document_relations_copy_alternatives.formatted.txt",
+      "working_sha256": "7abff5c899d5f1c4d4e3d9c19d9e3df1077a246740c1f5908b7fdb8b31b60879",
+      "git_blob": "f6fe7e2612db76d901642727f7ab3d2fa6f852c5",
+      "matches": true
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/test_document_relations_copy_alternatives.py.txt",
+      "working_sha256": "49d618906a2220f66ab59167cbfc4a7b4da7146ea3a15506f5ba7894cc1963e5",
+      "git_blob": "468302f2e203d8660e72c4e2da336bb1892d0ef1",
+      "matches": true
+    },
+    {
+      "path": "docs/document_relations_acceptance.md",
+      "working_sha256": "d114f0137c921ea2a2a0647789009934699529f9a2712355c008608579820512",
+      "git_blob": "5417e940842b075423e7e7f134c5823a3a6f8469",
+      "matches": true
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/document_relations.py",
+      "working_sha256": "416892a6e967f4ab43cb60125e6263c28e799e2392375bdb1acf8b3f63372d64",
+      "git_blob": "b654d35dfc704efa61d5306c07e130835fbe3322",
+      "matches": true
+    },
+    {
+      "path": "tests/test_document_relations_copy_alternatives.py",
+      "working_sha256": "7abff5c899d5f1c4d4e3d9c19d9e3df1077a246740c1f5908b7fdb8b31b60879",
+      "git_blob": "f6fe7e2612db76d901642727f7ab3d2fa6f852c5",
+      "matches": true
+    }
+  ],
+  "diff_check": "passed with exact original red traceback whitespace preserved"
+}

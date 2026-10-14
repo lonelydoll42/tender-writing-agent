@@ -1,0 +1,50 @@
+{
+  "schema": "copy-alternative-final-checks-v1",
+  "run_from_canonical_export": true,
+  "archive_tree": "2a6991e2abe07f52b02d71b78b995149e2e75e0a",
+  "source_tree_sha256": "122ddbd58a0004732c2b0a26a392dce36a3a7ff739ba5fffb47609b4fbb3532c",
+  "test_command": "python -m pytest -q -p no:cacheprovider --basetemp=<new ignored scratch> --junitxml=<new canonical-tests.xml>",
+  "pytest": {
+    "exit_code": 0,
+    "passed": 1026,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observed_existing_warnings": 1,
+    "warning": "StarletteDeprecationWarning: httpx with starlette.testclient",
+    "duration_seconds": 65.25
+  },
+  "ruff": {
+    "command": "ruff check .",
+    "exit_code": 0,
+    "new_code_format_check_exit_code": 0
+  },
+  "actual_public": {
+    "total": 33,
+    "passed": 33,
+    "executed": 33,
+    "semantic_mutations_rejected": 15,
+    "semantic_mutations_total": 15,
+    "source_mutations_rejected": 2,
+    "source_mutations_total": 2,
+    "source_invalid": 0,
+    "source_checked": 720
+  },
+  "actual_14": {
+    "executed": 14,
+    "execution_failed": 0,
+    "not_run": 0,
+    "source_tree_matches_git_proof": true,
+    "scoring_exit_code": 1,
+    "exit_code_reason": "Remaining fixed scoring failures, not an execution failure",
+    "replay_fingerprints_consistent": 14
+  },
+  "uv_lock": {
+    "tracked": false,
+    "before_sha256": "862aeb3309a2b33fdafddae857a73455c57f82f687cccfb51c38d841611837b9",
+    "after_sha256": "862aeb3309a2b33fdafddae857a73455c57f82f687cccfb51c38d841611837b9",
+    "unchanged": true
+  },
+  "unseen_evaluation": "not_run",
+  "production_accepted": false
+}

@@ -2,7 +2,34 @@
 
 ## 状态与边界
 
-### 当前 case-09 有限属性关联（2026-10-14）
+### 当前备选先行对象边界补修（2026-10-14）
+
+**备选对象唯一性的有限补修通过；第2步整体仍不关闭。** 修改智能体实施，主审独立验收。仅产品 `document_relations.py` 收紧先行句判断：不再用“复印件”词频与未命中少量连接词推断唯一性，改为整句匹配有限的肯定单对象形式。冻结评分器、oracle、旧测试和历史报告不改；本批不进入 case-13。
+
+当前形式支持可选“投标人”主体、必须/须/应当/应/需要/需、提交/提供/出具，后接法定代表人身份证、项目经理证书、税务登记证明、营业执照、身份证五类对象之一及“复印件”，允许空白和可选中文句号。其他对象、未支持修饰语、选项、替代、附加用途或复合表达保留候选关系，不能把“未命中有限语法”写成已判定不满足。该有限语法不证明任意证件、企业、人员或时间关联，也不扩大业务权限。
+
+先从 `1b50e96f810209dde21989ad4b25b2e39df40ed9` 导出，**798/798 Git 文件字节匹配**，真实 Registry → Runtime 保存两例首次失败：scope 和 `attribute_parent` 均错误确认、44/44 引用有效。修复后两者均为 `candidate`，原句保留，30/30 引用有效并继续人工复核；未证实业务误放行。确认节点接口不再重复暴露候选 scope，引用检查分母变化不表示解析覆盖提升。首次失败、额外公开探针旧输出和红测均另存，没有覆盖旧报告。
+
+| 独立 canonical 检查 | 结果 |
+| --- | --- |
+| 本次用户两例 | 2/2 执行并转为候选复核 |
+| 既有公开专项 | 21/21；六个确认正例、十五个复核例保持 |
+| 另存公开探针 | 10/10；两个确认正例、八个复核例 |
+| 全部实际公开专项 | 33/33；8 个确认、25 个复核，720/720 引用有效 |
+| 既有实际图变异 | 15/15 语义变异、2/2 来源变异拒绝；原始正例仍通过冻结评分 |
+| 新测试红/绿 | 原实现 8 passed、8 failed；修复后新旧属性测试合计 48/48 |
+| 最终全量 | 1026 passed、1 条既有 Starlette 警告，无失败/错误/跳过 |
+| Ruff、差异检查 | 通过；仅两份原样红测 traceback 单独保留空白 |
+
+主审从最终代码快照重新采集十四例，**14 executed、0 execution_failed、0 not_run**。三版对同一份 graph/context/runtime/执行状态重评仍为 **10/14、10/14、11/14**，case-09 保持通过；各例状态及全部指标与 `1b50e96` 输出一致，引用 1095/1095 有效，三版材料指纹逐例一致。见 [baseline-comparison.json](../benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-comparison.json)。本批修复不增加总体固定成绩，case-07、12、13 继续失败。
+
+65 个产品源码的汇总 SHA-256 为 `122ddbd58a0004732c2b0a26a392dce36a3a7ff739ba5fffb47609b4fbb3532c`。**93/93 代码、815/815 导出文件**匹配代码及发布前资产 tree `2a6991e2abe07f52b02d71b78b995149e2e75e0a`；**793 件受保护历史文件**工作区字节与 Git blob 未变，原发布记录22个字段值保留。该 tree 不包含随后补充的最终报告、文档和元数据；最终提交另核对同一代码 blob。worker 的最终产品/格式化后测试快照与 canonical 字节相同；格式化前快照留存。见 [final-code-proof.json](../benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/final-code-proof.json)。
+
+资产与复验入口位于 [copy-alternative-regression/20261014](../benchmarks/document_relations/copy-alternative-regression/20261014) 和 [reports/copy-alternative-followup-20261014](../benchmarks/document_relations/reports/copy-alternative-followup-20261014)，索引见 [copy-alternative-publication-record.json](../benchmarks/document_relations/copy-alternative-publication-record.json)。`verify-snapshot.py` 验证 Git/历史字节；实际专项复用未改的 `attribute-regression/20261014/check-acceptance.py`，传入原四份 fixture 及本批两份 fixture；十四例复用原采集脚本和冻结评分 API 适配器，先核对捕获源码 hash 与独立 Git proof，再重评。所有输出必须使用新路径。
+
+**新增样例全部为公开回归，未见环境未建立、未见验收 `not_run`。** 旧公开原始文件 **0/8** 未重跑，企业材料未运行，通用完整性、生产验收及第2步整体仍未通过。更广对象或修饰语的正确确认率没有在本批测量；`uv.lock` 继续独立处理、未纳入提交。
+
+### 历史 case-09 有限属性关联（2026-10-14）
 
 **case-09 的公开回归按有限范围通过；本批整体仍不关闭。** 修改智能体实施，主审从 Git canonical 导出独立验收。产品仅修改 `document_relations.py`，冻结的三版评分器、v2 输入、oracle 和历史报告不改。开发前冻结的 [contract.md](../benchmarks/document_relations/attribute-regression/20261014/contract.md)、十二例及范围清单保持原字节；后续九例公开审查探针单独保存，均不宣称未见。
 

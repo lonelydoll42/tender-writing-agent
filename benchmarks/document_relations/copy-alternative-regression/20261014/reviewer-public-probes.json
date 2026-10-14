@@ -1,0 +1,68 @@
+{
+  "schema": "finite-copy-attribute-cases-v1",
+  "classification": "main reviewer public probes recorded during implementation; not unseen",
+  "cases": [
+    {
+      "case_id": "AR01-bare-slash",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证/营业执照复印件。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "AR02-fullwidth-slash",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证／营业执照复印件。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "AR03-ascii-substitution",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证复印件(可用护照替代)。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "AR04-internal-choice",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证（护照亦可）复印件。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "AR05-comma-substitution",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证复印件，营业执照可替代。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "AR06-selection-prefix",
+      "expectation": "review_attribute",
+      "input_text": "任选一种提交身份证复印件。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "AR07-shared-copy-suffix",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证、营业执照的复印件。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "AR08-unsupported-purpose-suffix",
+      "expectation": "review_attribute",
+      "input_text": "须提交身份证复印件（仅供格式参考）。\n该复印件必须加盖公章。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "AP01-issued-single-copy",
+      "expectation": "confirmed_attribute",
+      "input_text": "须出具营业执照复印件。\n该复印件必须加盖公章。",
+      "antecedent_text": "须出具营业执照复印件。",
+      "attribute_text": "该复印件必须加盖公章。"
+    },
+    {
+      "case_id": "AP02-provided-single-copy",
+      "expectation": "confirmed_attribute",
+      "input_text": "投标人应当提供营业执照复印件。\n该复印件应加盖公章。",
+      "antecedent_text": "投标人应当提供营业执照复印件。",
+      "attribute_text": "该复印件应加盖公章。"
+    }
+  ]
+}

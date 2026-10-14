@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="8" skipped="0" tests="16" time="0.495" timestamp="2026-10-14T11:35:34.994113+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.test_document_relations_copy_alternatives" name="test_finite_single_copy_antecedent_confirms_typed_attribute_parent[P01-original]" time="0.005" /><testcase classname="tests.test_document_relations_copy_alternatives" name="test_finite_single_copy_antecedent_confirms_typed_attribute_parent[P02-license]" time="0.003" /><testcase classname="tests.test_document_relations_copy_alternatives" name="test_finite_single_copy_antecedent_confirms_typed_attribute_parent[P03-certificate]" time="0.002" /><testcase classname="tests.test_document_relations_copy_alternatives" name="test_finite_single_copy_antecedent_confirms_typed_attribute_parent[P04-blank]" time="0.002" /><testcase classname="tests.test_document_relations_copy_alternatives" name="test_finite_single_copy_antecedent_confirms_typed_attribute_parent[RP01-provided-copy]" time="0.002" /><testcase classname="tests.test_document_relations_copy_alternatives" name="test_finite_single_copy_antecedent_confirms_typed_attribute_parent[RP02-whitespace-block]" time="0.003" /><testcase classname="tests.test_document_relations_copy_alternatives" name="test_finite_single_copy_antecedent_confirms_typed_attribute_parent[AP01-issued-single-copy]" time="0.002" /><testcase classname="tests.test_document_relations_copy_alternatives" name="test_finite_single_copy_antecedent_confirms_typed_attribute_parent[AP02-provided-single-copy]" time="0.002" /><testcase classname="tests.test_document_relations_copy_alternatives" name="test_choice_substitution_and_unparsed_antecedents_remain_candidates[ALT01-slash-selection]" time="0.001"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">case = {'case_id': 'ALT01-slash-selection', 'expectation': 'review_attribute', 'input_text': '须提交身份证/营业执照复印件（任选一种）。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize("case", _review_cases(), ids=lambda case: case["case_id"])
+    def test_choice_substitution_and_unparsed_antecedents_remain_candidates(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+        graph = build_document_relations(structure)
+        attribute = _block(structure, case["attribute_text"])
+        antecedent_text = case.get("antecedent_text") or _antecedent_text(
+            case["input_text"], case["attribute_text"]
+        )
+        scope = _scope(graph, attribute)
+        attribute_nodes = _nodes(graph, attribute)
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_copy_alternatives.py:217: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_copy_alternatives" name="test_choice_substitution_and_unparsed_antecedents_remain_candidates[ALT02-substitution]" time="0.001"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">case = {'case_id': 'ALT02-substitution', 'expectation': 'review_attribute', 'input_text': '须提交身份证复印件（也可以用护照代替）。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize("case", _review_cases(), ids=lambda case: case["case_id"])
+    def test_choice_substitution_and_unparsed_antecedents_remain_candidates(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+        graph = build_document_relations(structure)
+        attribute = _block(structure, case["attribute_text"])
+        antecedent_text = case.get("antecedent_text") or _antecedent_text(
+            case["input_text"], case["attribute_text"]
+        )
+        scope = _scope(graph, attribute)
+        attribute_nodes = _nodes(graph, attribute)
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_copy_alternatives.py:217: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_copy_alternatives" name="test_choice_substitution_and_unparsed_antecedents_remain_candidates[AR02-fullwidth-slash]" time="0.001"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">case = {'case_id': 'AR02-fullwidth-slash', 'expectation': 'review_attribute', 'input_text': '须提交身份证／营业执照复印件。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize("case", _review_cases(), ids=lambda case: case["case_id"])
+    def test_choice_substitution_and_unparsed_antecedents_remain_candidates(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+        graph = build_document_relations(structure)
+        attribute = _block(structure, case["attribute_text"])
+        antecedent_text = case.get("antecedent_text") or _antecedent_text(
+            case["input_text"], case["attribute_text"]
+        )
+        scope = _scope(graph, attribute)
+        attribute_nodes = _nodes(graph, attribute)
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_copy_alternatives.py:217: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_copy_alternatives" name="test_choice_substitution_and_unparsed_antecedents_remain_candidates[AR03-ascii-substitution]" time="0.001"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">case = {'case_id': 'AR03-ascii-substitution', 'expectation': 'review_attribute', 'input_text': '须提交身份证复印件(可用护照替代)。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize("case", _review_cases(), ids=lambda case: case["case_id"])
+    def test_choice_substitution_and_unparsed_antecedents_remain_candidates(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+        graph = build_document_relations(structure)
+        attribute = _block(structure, case["attribute_text"])
+        antecedent_text = case.get("antecedent_text") or _antecedent_text(
+            case["input_text"], case["attribute_text"]
+        )
+        scope = _scope(graph, attribute)
+        attribute_nodes = _nodes(graph, attribute)
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_copy_alternatives.py:217: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_copy_alternatives" name="test_choice_substitution_and_unparsed_antecedents_remain_candidates[AR04-internal-choice]" time="0.001"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">case = {'case_id': 'AR04-internal-choice', 'expectation': 'review_attribute', 'input_text': '须提交身份证（护照亦可）复印件。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize("case", _review_cases(), ids=lambda case: case["case_id"])
+    def test_choice_substitution_and_unparsed_antecedents_remain_candidates(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+        graph = build_document_relations(structure)
+        attribute = _block(structure, case["attribute_text"])
+        antecedent_text = case.get("antecedent_text") or _antecedent_text(
+            case["input_text"], case["attribute_text"]
+        )
+        scope = _scope(graph, attribute)
+        attribute_nodes = _nodes(graph, attribute)
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_copy_alternatives.py:217: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_copy_alternatives" name="test_choice_substitution_and_unparsed_antecedents_remain_candidates[AR06-selection-prefix]" time="0.001"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">case = {'case_id': 'AR06-selection-prefix', 'expectation': 'review_attribute', 'input_text': '任选一种提交身份证复印件。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize("case", _review_cases(), ids=lambda case: case["case_id"])
+    def test_choice_substitution_and_unparsed_antecedents_remain_candidates(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+        graph = build_document_relations(structure)
+        attribute = _block(structure, case["attribute_text"])
+        antecedent_text = case.get("antecedent_text") or _antecedent_text(
+            case["input_text"], case["attribute_text"]
+        )
+        scope = _scope(graph, attribute)
+        attribute_nodes = _nodes(graph, attribute)
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_copy_alternatives.py:217: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_copy_alternatives" name="test_choice_substitution_and_unparsed_antecedents_remain_candidates[AR08-unsupported-purpose-suffix]" time="0.001"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">case = {'case_id': 'AR08-unsupported-purpose-suffix', 'expectation': 'review_attribute', 'input_text': '须提交身份证复印件（仅供格式参考）。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize("case", _review_cases(), ids=lambda case: case["case_id"])
+    def test_choice_substitution_and_unparsed_antecedents_remain_candidates(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+        graph = build_document_relations(structure)
+        attribute = _block(structure, case["attribute_text"])
+        antecedent_text = case.get("antecedent_text") or _antecedent_text(
+            case["input_text"], case["attribute_text"]
+        )
+        scope = _scope(graph, attribute)
+        attribute_nodes = _nodes(graph, attribute)
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_copy_alternatives.py:217: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_copy_alternatives" name="test_choice_substitution_and_unparsed_antecedents_remain_candidates[ALT03-unknown-compound]" time="0.001"><failure message="AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}">case = {'case_id': 'ALT03-unknown-compound', 'expectation': 'review_attribute', 'input_text': '须提交身份证复印件等相关材料。\n该复印件必须加盖公章。', 'attribute_text': '该复印件必须加盖公章。'}
+
+    @pytest.mark.parametrize("case", _review_cases(), ids=lambda case: case["case_id"])
+    def test_choice_substitution_and_unparsed_antecedents_remain_candidates(
+        case: dict[str, str],
+    ) -&gt; None:
+        structure = _structure(case["input_text"])
+        graph = build_document_relations(structure)
+        attribute = _block(structure, case["attribute_text"])
+        antecedent_text = case.get("antecedent_text") or _antecedent_text(
+            case["input_text"], case["attribute_text"]
+        )
+        scope = _scope(graph, attribute)
+        attribute_nodes = _nodes(graph, attribute)
+    
+&gt;       assert scope["status"] in {"candidate", "unresolved"}
+E       AssertionError: assert 'confirmed' in {'candidate', 'unresolved'}
+
+tests\test_document_relations_copy_alternatives.py:217: AssertionError</failure></testcase></testsuite></testsuites>

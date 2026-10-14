@@ -98,13 +98,15 @@ _AFFIRMATIVE_SEAL_RE = re.compile(
     r"\s*该复印件\s*(?:必须|须|应当|应|需要|需)\s*加盖\s*公章"
     r"\s*[。；;]?\s*"
 )
+_FINITE_COPY_ANTECEDENT_RE = re.compile(
+    r"\s*(?:投标人\s*)?(?:必须|须|应当|应|需要|需)\s*"
+    r"(?:提交|提供|出具)\s*"
+    r"(?:法定代表人身份证|项目经理证书|税务登记证明|营业执照|身份证)"
+    r"\s*复印件\s*[。]?\s*"
+)
 _ATTRIBUTE_CONDITION_RE = re.compile(
     r"如果|假如|倘若|若|如|仅当|除非|"
     r"当.{1,16}时|在.{1,16}情况下|前提是|条件是"
-)
-_COPY_OBJECT_INTRO_RE = re.compile(r"(?:提交|提供|出具)[^。；;！？!?]{0,40}复印件")
-_MULTIPLE_COPY_OBJECT_CUE_RE = re.compile(
-    r"、|及|和|与|或|或者|以及|并|同时|另行"
 )
 _LOGIC_RE = re.compile(r"并且|或者|且|或|及|以及|并")
 _NAMED_GROUP_RE = re.compile(r"第(?P<label>[一二三四五六七八九十0-9]+)组")
@@ -5153,15 +5155,10 @@ def _finite_copy_attribute_decision(
     if antecedent_node.get("status") != "confirmed":
         return False, "antecedent requirement is not confirmed"
     antecedent_text = str(antecedent_record["raw_text"])
-    copy_mentions = list(re.finditer("复印件", antecedent_text))
-    if (
-        len(copy_mentions) != 1
-        or not _COPY_OBJECT_INTRO_RE.search(antecedent_text)
-        or _MULTIPLE_COPY_OBJECT_CUE_RE.search(antecedent_text)
-    ):
+    if _FINITE_COPY_ANTECEDENT_RE.fullmatch(antecedent_text) is None:
         return (
             False,
-            "antecedent does not explicitly introduce exactly one copy object",
+            "antecedent is outside the finite single-copy affirmative form",
         )
     if (
         len(attribute_roots) != 1

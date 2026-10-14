@@ -1,0 +1,496 @@
+{
+  "schema": "copy-alternative-publication-v1",
+  "published_at": "2026-10-14T11:46:30.8837456+08:00",
+  "base_commit": "1b50e96f810209dde21989ad4b25b2e39df40ed9",
+  "classification": "public regression; independently reviewed actual Registry/Runtime output; not unseen",
+  "accepted_scope": "Finite single-copy antecedent confirmation; options, substitutes and unparsed compound expressions remain candidates",
+  "implementation_by": "delegated implementation worker; main reviewer independently accepts and publishes",
+  "product_source": {
+    "path": "src/qiaowenshu_agent/domain/document_relations.py",
+    "canonical_sha256": "416892a6e967f4ab43cb60125e6263c28e799e2392375bdb1acf8b3f63372d64",
+    "source_tree_sha256": "122ddbd58a0004732c2b0a26a392dce36a3a7ff739ba5fffb47609b4fbb3532c",
+    "source_files": 65,
+    "code_files": 93,
+    "archive_tree": "2a6991e2abe07f52b02d71b78b995149e2e75e0a",
+    "exported_files": 815,
+    "proof": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/final-code-proof.json"
+  },
+  "baseline": {
+    "actual_first_failures": 2,
+    "original_valid_references": 44,
+    "export_matches": 798,
+    "report": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-first-failure.json",
+    "all_original_outputs_preserved": true
+  },
+  "actual_checks": {
+    "original_two_passed": 2,
+    "original_two_scope_and_parent": "candidate",
+    "original_two_valid_references": 30,
+    "existing_21_passed": 21,
+    "existing_positive_six_passed": 6,
+    "additional_public_10_passed": 10,
+    "public_33": {
+      "total": 33,
+      "passed": 33,
+      "executed": 33,
+      "semantic_mutations_rejected": 15,
+      "semantic_mutations_total": 15,
+      "source_mutations_rejected": 2,
+      "source_mutations_total": 2,
+      "source_invalid": 0,
+      "source_checked": 720
+    },
+    "confirmed_positive": 8,
+    "review_negative": 25,
+    "semantic_mutations_rejected": 15,
+    "source_mutations_rejected": 2
+  },
+  "tests": {
+    "exit_code": 0,
+    "passed": 1026,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observed_existing_warnings": 1,
+    "warning": "StarletteDeprecationWarning: httpx with starlette.testclient",
+    "duration_seconds": 65.25
+  },
+  "scoring": {
+    "views": {
+      "1.0.3": {
+        "case_count": 14,
+        "passed": 10,
+        "failed": 4,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 5,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 5,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 2,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 16,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1095,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 37,
+          "group_structure_error_events": 6
+        },
+        "method": "frozen 1.0.3 score_case",
+        "overlay_case_ids": []
+      },
+      "1.0.4": {
+        "case_count": 14,
+        "passed": 10,
+        "failed": 4,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 2,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 5,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 5,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 2,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 16,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1095,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 35,
+          "group_structure_error_events": 6
+        },
+        "method": "frozen 1.0.4 score_case",
+        "overlay_case_ids": []
+      },
+      "1.0.5": {
+        "case_count": 14,
+        "passed": 11,
+        "failed": 3,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 2,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 3,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 2,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 8,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1095,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 20,
+          "group_structure_error_events": 3
+        },
+        "method": "frozen 1.0.5 on case-03/case-11; 1.0.4 fallback elsewhere",
+        "overlay_case_ids": [
+          "case-03",
+          "case-11"
+        ]
+      }
+    },
+    "all_14_executed": true,
+    "case09": "passed in all three views",
+    "changed_cases_vs_1b50e96": [],
+    "comparison": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-comparison.json",
+    "frozen_graders_and_oracle_unchanged": true
+  },
+  "preservation": {
+    "protected_historical_files": 793,
+    "historical_working_and_git_bytes_unchanged": true,
+    "parent_existing_keys_unchanged": 22,
+    "worker_final_source_and_test_snapshots_match_canonical": true
+  },
+  "scope_freeze_sha256": "1417d89f9750bda7b017b9e02796271457e7ba616dde866dc95b9e06fe59a921",
+  "limitations": {
+    "finite_object_names": [
+      "法定代表人身份证",
+      "项目经理证书",
+      "税务登记证明",
+      "营业执照",
+      "身份证"
+    ],
+    "unknown_objects_or_prefix_suffix": "candidate review; wider affirmative recall not measured",
+    "case13": "not addressed",
+    "new_unseen_files": 0,
+    "unseen_environment": "not_established",
+    "unseen_evaluation": "not_run",
+    "business_materials": "not_run/14",
+    "old_public_files": "0/8 historical; not rerun",
+    "production_accepted": false,
+    "general_completeness_accepted": false,
+    "overall_step2_closed": false,
+    "uv_lock": "untracked, unchanged, excluded"
+  },
+  "inventory_exclusions": [
+    "This publication record: avoids self hash",
+    "Parent publication record: append-only values verified separately",
+    "reviewer/final-staged-audit.json: post-publication audit, avoids a cycle"
+  ],
+  "artifacts": [
+    {
+      "path": ".gitattributes",
+      "working_sha256": "c864b31d174bc0b763cc3465f96191b2edf0750028cdc116a0c7530bba40095d",
+      "bytes": 15024
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/cases.json",
+      "working_sha256": "f5163a7a4ef3a052e4bfb07ec10e9e1d39ab89bdc34c3415785481b1a894f9d6",
+      "bytes": 743
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/contract.md",
+      "working_sha256": "5e0863bc5f9fe961fe2685c5460c0a7baf38867cdf0f195febe598734d9d757d",
+      "bytes": 1961
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/reviewer-public-probes.json",
+      "working_sha256": "872f5345a9719b8bf2473af0a588f5f1458065c7405fed655bc39b22bb03b157",
+      "bytes": 2919
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/scope-freeze.json",
+      "working_sha256": "1417d89f9750bda7b017b9e02796271457e7ba616dde866dc95b9e06fe59a921",
+      "bytes": 199616
+    },
+    {
+      "path": "benchmarks/document_relations/copy-alternative-regression/20261014/verify-snapshot.py",
+      "working_sha256": "20a15bb4e6f82f7c704b4630284578fd1e849d6a9a28e23f3a1ebadfd079352e",
+      "bytes": 6392
+    },
+    {
+      "path": "benchmarks/document_relations/README.md",
+      "working_sha256": "511ce2ca67ca39ef2a14b10956d9cbedd5e115348fa79f5d40b8d9815b902a4c",
+      "bytes": 29724
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-additional-public.json",
+      "working_sha256": "1b8ab32f652884dae1475fe3a922b12e877ec918db7405cb2a4e42d1a9285e4a",
+      "bytes": 253056
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-comparison.json",
+      "working_sha256": "7e2bf7fdc16766046443628048d7b2fe91fb69ab5117a7c5527474ce6800b302",
+      "bytes": 9292
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-export-proof.json",
+      "working_sha256": "1510705c8f8fe8861f4699d7bd25623ef321804d7ab947edbb05b5a50180cd1b",
+      "bytes": 231917
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/baseline-first-failure.json",
+      "working_sha256": "29de5c182602ed7b2c0838183aca3d3a3d50c4b5f6c5f8cc31b1f03fc50ea816",
+      "bytes": 47091
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/canonical-public-checks.json",
+      "working_sha256": "44334c00410ee14e39db6ad4558f04777a5b0e4f2501c9404cd66ceb636ee40e",
+      "bytes": 725985
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/canonical-tests.xml",
+      "working_sha256": "86e46c2a9de6eddbf1a8c8a80644b4a85e4a46f22631a9069cc17b793d68241b",
+      "bytes": 166817
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/canonical-three-view-scores.json",
+      "working_sha256": "7437d782b4544917f254b13fcac39ef825a264f6542739b4ba5dd69c62477753",
+      "bytes": 952685
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/final-checks.json",
+      "working_sha256": "723435bc5e8b2e7b008fd0d76013ee46e960e79f785dd8212da0a038a18a6cc0",
+      "bytes": 1656
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/final-code-proof.json",
+      "working_sha256": "dc04432626b44bc056d1ff3cddc91b612c9e7a0c713e792f8a2849dd0b584c3e",
+      "bytes": 248902
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/reviewer/product-v2-capture-1.0.3.json",
+      "working_sha256": "b7c292ebf4a3d6a38461822d571ac25613aa8b49de3dde0e32b6a731c974d221",
+      "bytes": 796193
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/document_relations.py.txt",
+      "working_sha256": "416892a6e967f4ab43cb60125e6263c28e799e2392375bdb1acf8b3f63372d64",
+      "bytes": 204076
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/finite-copy-green-20261014.xml",
+      "working_sha256": "55f7117aaf8d5d9f373d23833307bd0fb0e433b147e7a5006e07c8f7566f4cc0",
+      "bytes": 8358
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/finite-copy-red-20261014.xml",
+      "working_sha256": "a258f305232ca850a98c402d0def11cf2ee30b503159d0ff16520ca5fda5dd23",
+      "bytes": 12640
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/pytest-green-20261014.xml",
+      "working_sha256": "248f487ec90a7e04ad394f7f61b5bd9566437f6eafdce2a8a609d4c89c6cd4b1",
+      "bytes": 3150
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/pytest-red-20261014.xml",
+      "working_sha256": "deddf8af2fcb2086c66c339f80e11017bde26fa1d5131db53943650290622b0f",
+      "bytes": 12640
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/summary.json",
+      "working_sha256": "783ee7310de7c0b6d73320b11d752054c93e32299da51c87a7b9738209d7a527",
+      "bytes": 1916
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/test_document_relations_copy_alternatives.formatted.txt",
+      "working_sha256": "7abff5c899d5f1c4d4e3d9c19d9e3df1077a246740c1f5908b7fdb8b31b60879",
+      "bytes": 7258
+    },
+    {
+      "path": "benchmarks/document_relations/reports/copy-alternative-followup-20261014/worker/test_document_relations_copy_alternatives.py.txt",
+      "working_sha256": "49d618906a2220f66ab59167cbfc4a7b4da7146ea3a15506f5ba7894cc1963e5",
+      "bytes": 7333
+    },
+    {
+      "path": "docs/document_relations_acceptance.md",
+      "working_sha256": "d114f0137c921ea2a2a0647789009934699529f9a2712355c008608579820512",
+      "bytes": 80326
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/document_relations.py",
+      "working_sha256": "416892a6e967f4ab43cb60125e6263c28e799e2392375bdb1acf8b3f63372d64",
+      "bytes": 204076
+    },
+    {
+      "path": "tests/test_document_relations_copy_alternatives.py",
+      "working_sha256": "7abff5c899d5f1c4d4e3d9c19d9e3df1077a246740c1f5908b7fdb8b31b60879",
+      "bytes": 7258
+    }
+  ]
+}

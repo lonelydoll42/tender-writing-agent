@@ -1,0 +1,1192 @@
+{
+  "schema": "finite-copy-attribute-main-acceptance-v1",
+  "generated_at": "2026-10-14T11:21:54.189560+08:00",
+  "classification": "independent public actual product checks; not unseen",
+  "acceptance_tool_sha256": "0f2943e0e3d230b04cbe2fd6f291ba5fe00967b737d7decc721e1e88d6c431f7",
+  "source_tree_sha256": "06558a5194ff789acf8b7136bfe776c3587678e068bb233c3d80be3ff929bb39",
+  "cases": [
+    {
+      "case_id": "ALT01-slash-selection",
+      "expectation": "review_attribute",
+      "input_sha256": "d02a551f5785980e2cd41d45361e01b60bb396eb26e5da361aec6cd49afebfa2",
+      "execution_state": "executed",
+      "status": "failed",
+      "errors": [
+        "explicit attribute review relation missing",
+        "review attribute incorrectly confirmed",
+        "review attribute node scope incorrectly confirmed",
+        "review attribute has a confirmed semantic binding"
+      ],
+      "source_checked": 22,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_1e1879c20b10412f",
+        "source_version": "file_1e1879c20b10412f:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_023f25b0bdf62383582e8067",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c0-21",
+                  "char_start": 0,
+                  "char_end": 21,
+                  "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c0-21",
+                  "char_start": 0,
+                  "char_end": 21,
+                  "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [],
+            "reference_relations": [],
+            "list_membership_relations": []
+          },
+          {
+            "block_id": "blk_c333553e723de91182429f76",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c22-33",
+                  "char_start": 22,
+                  "char_end": 33,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c22-33",
+                  "char_start": 22,
+                  "char_end": 33,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_b41ffdafff28d3f3394ee6ff",
+                "relation_type": "anaphoric_attribute_scope",
+                "kind": "attribute_scope",
+                "operator": "ATTRIBUTE",
+                "status": "confirmed",
+                "operator_status": "confirmed",
+                "scope_status": "confirmed",
+                "basis": "adjacent_explicit_single_copy_attribute",
+                "target_block_ids": [
+                  "blk_023f25b0bdf62383582e8067",
+                  "blk_c333553e723de91182429f76"
+                ],
+                "target_node_ids": [
+                  "cond_dc49d56f1ef0b2396c0d7b5c",
+                  "cond_03a8025f04ac349232b3998f"
+                ],
+                "member_node_ids": [
+                  "cond_dc49d56f1ef0b2396c0d7b5c",
+                  "cond_03a8025f04ac349232b3998f"
+                ],
+                "trigger_text": "该复印件必须加盖公章。",
+                "source_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c0-21",
+                    "char_start": 0,
+                    "char_end": 21,
+                    "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                  },
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c22-33",
+                    "char_start": 22,
+                    "char_end": 33,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "scope_source_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c0-21",
+                    "char_start": 0,
+                    "char_end": 21,
+                    "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                  },
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c22-33",
+                    "char_start": 22,
+                    "char_end": 33,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "candidate_target_source_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c0-21",
+                    "char_start": 0,
+                    "char_end": 21,
+                    "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                  }
+                ],
+                "operator_source_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c22-33",
+                    "char_start": 22,
+                    "char_end": 33,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c0-21",
+                    "char_start": 0,
+                    "char_end": 21,
+                    "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                  },
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c22-33",
+                    "char_start": 22,
+                    "char_end": 33,
+                    "quote": "该复印件必须加盖公章。"
+                  },
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c32-33",
+                    "char_start": 32,
+                    "char_end": 33,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "one adjacent source-verified copy antecedent is explicitly bound"
+              }
+            ],
+            "reference_relations": [
+              {
+                "reference_id": "cond_fd6c13b8e6efd60f6f3ecec0",
+                "reference_kind": "anaphora",
+                "reference_text": "该复印件",
+                "source_block_id": "blk_c333553e723de91182429f76",
+                "status": "confirmed",
+                "target_block_ids": [
+                  "blk_023f25b0bdf62383582e8067"
+                ],
+                "target_node_ids": [
+                  "cond_dc49d56f1ef0b2396c0d7b5c"
+                ],
+                "source_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c22-26",
+                    "char_start": 22,
+                    "char_end": 26,
+                    "quote": "该复印件"
+                  },
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c22-33",
+                    "char_start": 22,
+                    "char_end": 33,
+                    "quote": "该复印件必须加盖公章。"
+                  },
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c0-21",
+                    "char_start": 0,
+                    "char_end": 21,
+                    "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                  }
+                ],
+                "expression_source_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c22-26",
+                    "char_start": 22,
+                    "char_end": 26,
+                    "quote": "该复印件"
+                  }
+                ],
+                "context_source_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c22-33",
+                    "char_start": 22,
+                    "char_end": 33,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "candidate_source_references": [],
+                "candidate_target_context_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c0-21",
+                    "char_start": 0,
+                    "char_end": 21,
+                    "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                  }
+                ],
+                "reason": "referential expression has one source-verified antecedent"
+              }
+            ],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_dc49d56f1ef0b2396c0d7b5c",
+            "op": "ATOM",
+            "status": "confirmed",
+            "text": "须提交身份证/营业执照复印件（任选一种）。",
+            "children": [],
+            "source_block_ids": [
+              "blk_023f25b0bdf62383582e8067"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_1e1879c20b10412f",
+                "source_version": "file_1e1879c20b10412f:v1",
+                "page": 1,
+                "locator": "p1:c0-21",
+                "char_start": 0,
+                "char_end": 21,
+                "quote": "须提交身份证/营业执照复印件（任选一种）。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "explicit requirement predicate is source-verified"
+          },
+          {
+            "node_id": "cond_03a8025f04ac349232b3998f",
+            "op": "ATOM",
+            "status": "confirmed",
+            "text": "该复印件必须加盖公章。",
+            "children": [],
+            "source_block_ids": [
+              "blk_c333553e723de91182429f76"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_1e1879c20b10412f",
+                "source_version": "file_1e1879c20b10412f:v1",
+                "page": 1,
+                "locator": "p1:c22-33",
+                "char_start": 22,
+                "char_end": 33,
+                "quote": "该复印件必须加盖公章。"
+              }
+            ],
+            "parent_relations": [
+              {
+                "relation_id": "cond_6716c957ad61128fe009ee54",
+                "status": "confirmed",
+                "layer": "attribute_parent",
+                "basis": "explicit_adjacent_single_copy_attribute",
+                "target_block_ids": [
+                  "blk_023f25b0bdf62383582e8067"
+                ],
+                "target_node_ids": [
+                  "cond_dc49d56f1ef0b2396c0d7b5c"
+                ],
+                "source_references": [
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c0-21",
+                    "char_start": 0,
+                    "char_end": 21,
+                    "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                  },
+                  {
+                    "document_id": "file_1e1879c20b10412f",
+                    "source_version": "file_1e1879c20b10412f:v1",
+                    "page": 1,
+                    "locator": "p1:c22-33",
+                    "char_start": 22,
+                    "char_end": 33,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "reason": "one adjacent source-verified copy antecedent is explicitly bound"
+              }
+            ],
+            "reason": "explicit requirement predicate is source-verified",
+            "scope_relation": {
+              "relation_id": "cond_b41ffdafff28d3f3394ee6ff",
+              "relation_type": "anaphoric_attribute_scope",
+              "kind": "attribute_scope",
+              "operator": "ATTRIBUTE",
+              "status": "confirmed",
+              "operator_status": "confirmed",
+              "scope_status": "confirmed",
+              "basis": "adjacent_explicit_single_copy_attribute",
+              "target_block_ids": [
+                "blk_023f25b0bdf62383582e8067",
+                "blk_c333553e723de91182429f76"
+              ],
+              "target_node_ids": [
+                "cond_dc49d56f1ef0b2396c0d7b5c",
+                "cond_03a8025f04ac349232b3998f"
+              ],
+              "member_node_ids": [
+                "cond_dc49d56f1ef0b2396c0d7b5c",
+                "cond_03a8025f04ac349232b3998f"
+              ],
+              "trigger_text": "该复印件必须加盖公章。",
+              "source_references": [
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c0-21",
+                  "char_start": 0,
+                  "char_end": 21,
+                  "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                },
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c22-33",
+                  "char_start": 22,
+                  "char_end": 33,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "scope_source_references": [
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c0-21",
+                  "char_start": 0,
+                  "char_end": 21,
+                  "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                },
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c22-33",
+                  "char_start": 22,
+                  "char_end": 33,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "candidate_target_source_references": [
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c0-21",
+                  "char_start": 0,
+                  "char_end": 21,
+                  "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                }
+              ],
+              "operator_source_references": [
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c22-33",
+                  "char_start": 22,
+                  "char_end": 33,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "boundary_source_references": [
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c0-21",
+                  "char_start": 0,
+                  "char_end": 21,
+                  "quote": "须提交身份证/营业执照复印件（任选一种）。"
+                },
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c22-33",
+                  "char_start": 22,
+                  "char_end": 33,
+                  "quote": "该复印件必须加盖公章。"
+                },
+                {
+                  "document_id": "file_1e1879c20b10412f",
+                  "source_version": "file_1e1879c20b10412f:v1",
+                  "page": 1,
+                  "locator": "p1:c32-33",
+                  "char_start": 32,
+                  "char_end": 33,
+                  "quote": "。"
+                }
+              ],
+              "reason": "one adjacent source-verified copy antecedent is explicitly bound"
+            }
+          }
+        ],
+        "roots": [
+          "cond_dc49d56f1ef0b2396c0d7b5c",
+          "cond_03a8025f04ac349232b3998f"
+        ],
+        "references": [
+          {
+            "reference_id": "cond_fd6c13b8e6efd60f6f3ecec0",
+            "reference_kind": "anaphora",
+            "reference_text": "该复印件",
+            "source_block_id": "blk_c333553e723de91182429f76",
+            "status": "confirmed",
+            "target_block_ids": [
+              "blk_023f25b0bdf62383582e8067"
+            ],
+            "target_node_ids": [
+              "cond_dc49d56f1ef0b2396c0d7b5c"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_1e1879c20b10412f",
+                "source_version": "file_1e1879c20b10412f:v1",
+                "page": 1,
+                "locator": "p1:c22-26",
+                "char_start": 22,
+                "char_end": 26,
+                "quote": "该复印件"
+              },
+              {
+                "document_id": "file_1e1879c20b10412f",
+                "source_version": "file_1e1879c20b10412f:v1",
+                "page": 1,
+                "locator": "p1:c22-33",
+                "char_start": 22,
+                "char_end": 33,
+                "quote": "该复印件必须加盖公章。"
+              },
+              {
+                "document_id": "file_1e1879c20b10412f",
+                "source_version": "file_1e1879c20b10412f:v1",
+                "page": 1,
+                "locator": "p1:c0-21",
+                "char_start": 0,
+                "char_end": 21,
+                "quote": "须提交身份证/营业执照复印件（任选一种）。"
+              }
+            ],
+            "expression_source_references": [
+              {
+                "document_id": "file_1e1879c20b10412f",
+                "source_version": "file_1e1879c20b10412f:v1",
+                "page": 1,
+                "locator": "p1:c22-26",
+                "char_start": 22,
+                "char_end": 26,
+                "quote": "该复印件"
+              }
+            ],
+            "context_source_references": [
+              {
+                "document_id": "file_1e1879c20b10412f",
+                "source_version": "file_1e1879c20b10412f:v1",
+                "page": 1,
+                "locator": "p1:c22-33",
+                "char_start": 22,
+                "char_end": 33,
+                "quote": "该复印件必须加盖公章。"
+              }
+            ],
+            "candidate_source_references": [],
+            "candidate_target_context_references": [
+              {
+                "document_id": "file_1e1879c20b10412f",
+                "source_version": "file_1e1879c20b10412f:v1",
+                "page": 1,
+                "locator": "p1:c0-21",
+                "char_start": 0,
+                "char_end": 21,
+                "quote": "须提交身份证/营业执照复印件（任选一种）。"
+              }
+            ],
+            "reason": "referential expression has one source-verified antecedent"
+          }
+        ],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_1e1879c20b10412f",
+        "source_version": "file_1e1879c20b10412f:v1",
+        "pages": [
+          "须提交身份证/营业执照复印件（任选一种）。\n该复印件必须加盖公章。"
+        ],
+        "raw_input_sha256": "d02a551f5785980e2cd41d45361e01b60bb396eb26e5da361aec6cd49afebfa2"
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success",
+        "step_failures": []
+      }
+    },
+    {
+      "case_id": "ALT02-substitution",
+      "expectation": "review_attribute",
+      "input_sha256": "d3d3abb4962ff6e360764c70182ae9fb9c8b0b834110aa15fedc6a456226c9cf",
+      "execution_state": "executed",
+      "status": "failed",
+      "errors": [
+        "explicit attribute review relation missing",
+        "review attribute incorrectly confirmed",
+        "review attribute node scope incorrectly confirmed",
+        "review attribute has a confirmed semantic binding"
+      ],
+      "source_checked": 22,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_71e7eb3971ec490c",
+        "source_version": "file_71e7eb3971ec490c:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_9d970bdb0150d5199020cb74",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c0-20",
+                  "char_start": 0,
+                  "char_end": 20,
+                  "quote": "须提交身份证复印件（也可以用护照代替）。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c0-20",
+                  "char_start": 0,
+                  "char_end": 20,
+                  "quote": "须提交身份证复印件（也可以用护照代替）。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [],
+            "reference_relations": [],
+            "list_membership_relations": []
+          },
+          {
+            "block_id": "blk_7d8dcaa10aabde052a1141b5",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c21-32",
+                  "char_start": 21,
+                  "char_end": 32,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c21-32",
+                  "char_start": 21,
+                  "char_end": 32,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_8bf50effd902cdfc455bddbc",
+                "relation_type": "anaphoric_attribute_scope",
+                "kind": "attribute_scope",
+                "operator": "ATTRIBUTE",
+                "status": "confirmed",
+                "operator_status": "confirmed",
+                "scope_status": "confirmed",
+                "basis": "adjacent_explicit_single_copy_attribute",
+                "target_block_ids": [
+                  "blk_9d970bdb0150d5199020cb74",
+                  "blk_7d8dcaa10aabde052a1141b5"
+                ],
+                "target_node_ids": [
+                  "cond_8ae3dabb3c38dc1d051f1191",
+                  "cond_69648773fe88891619f41064"
+                ],
+                "member_node_ids": [
+                  "cond_8ae3dabb3c38dc1d051f1191",
+                  "cond_69648773fe88891619f41064"
+                ],
+                "trigger_text": "该复印件必须加盖公章。",
+                "source_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c0-20",
+                    "char_start": 0,
+                    "char_end": 20,
+                    "quote": "须提交身份证复印件（也可以用护照代替）。"
+                  },
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c21-32",
+                    "char_start": 21,
+                    "char_end": 32,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "scope_source_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c0-20",
+                    "char_start": 0,
+                    "char_end": 20,
+                    "quote": "须提交身份证复印件（也可以用护照代替）。"
+                  },
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c21-32",
+                    "char_start": 21,
+                    "char_end": 32,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "candidate_target_source_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c0-20",
+                    "char_start": 0,
+                    "char_end": 20,
+                    "quote": "须提交身份证复印件（也可以用护照代替）。"
+                  }
+                ],
+                "operator_source_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c21-32",
+                    "char_start": 21,
+                    "char_end": 32,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c0-20",
+                    "char_start": 0,
+                    "char_end": 20,
+                    "quote": "须提交身份证复印件（也可以用护照代替）。"
+                  },
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c21-32",
+                    "char_start": 21,
+                    "char_end": 32,
+                    "quote": "该复印件必须加盖公章。"
+                  },
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c31-32",
+                    "char_start": 31,
+                    "char_end": 32,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "one adjacent source-verified copy antecedent is explicitly bound"
+              }
+            ],
+            "reference_relations": [
+              {
+                "reference_id": "cond_71e221fb9c1c9bd63619a110",
+                "reference_kind": "anaphora",
+                "reference_text": "该复印件",
+                "source_block_id": "blk_7d8dcaa10aabde052a1141b5",
+                "status": "confirmed",
+                "target_block_ids": [
+                  "blk_9d970bdb0150d5199020cb74"
+                ],
+                "target_node_ids": [
+                  "cond_8ae3dabb3c38dc1d051f1191"
+                ],
+                "source_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c21-25",
+                    "char_start": 21,
+                    "char_end": 25,
+                    "quote": "该复印件"
+                  },
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c21-32",
+                    "char_start": 21,
+                    "char_end": 32,
+                    "quote": "该复印件必须加盖公章。"
+                  },
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c0-20",
+                    "char_start": 0,
+                    "char_end": 20,
+                    "quote": "须提交身份证复印件（也可以用护照代替）。"
+                  }
+                ],
+                "expression_source_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c21-25",
+                    "char_start": 21,
+                    "char_end": 25,
+                    "quote": "该复印件"
+                  }
+                ],
+                "context_source_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c21-32",
+                    "char_start": 21,
+                    "char_end": 32,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "candidate_source_references": [],
+                "candidate_target_context_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c0-20",
+                    "char_start": 0,
+                    "char_end": 20,
+                    "quote": "须提交身份证复印件（也可以用护照代替）。"
+                  }
+                ],
+                "reason": "referential expression has one source-verified antecedent"
+              }
+            ],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_8ae3dabb3c38dc1d051f1191",
+            "op": "ATOM",
+            "status": "confirmed",
+            "text": "须提交身份证复印件（也可以用护照代替）。",
+            "children": [],
+            "source_block_ids": [
+              "blk_9d970bdb0150d5199020cb74"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_71e7eb3971ec490c",
+                "source_version": "file_71e7eb3971ec490c:v1",
+                "page": 1,
+                "locator": "p1:c0-20",
+                "char_start": 0,
+                "char_end": 20,
+                "quote": "须提交身份证复印件（也可以用护照代替）。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "explicit requirement predicate is source-verified"
+          },
+          {
+            "node_id": "cond_69648773fe88891619f41064",
+            "op": "ATOM",
+            "status": "confirmed",
+            "text": "该复印件必须加盖公章。",
+            "children": [],
+            "source_block_ids": [
+              "blk_7d8dcaa10aabde052a1141b5"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_71e7eb3971ec490c",
+                "source_version": "file_71e7eb3971ec490c:v1",
+                "page": 1,
+                "locator": "p1:c21-32",
+                "char_start": 21,
+                "char_end": 32,
+                "quote": "该复印件必须加盖公章。"
+              }
+            ],
+            "parent_relations": [
+              {
+                "relation_id": "cond_2072111d2179dd8f1f29b2dd",
+                "status": "confirmed",
+                "layer": "attribute_parent",
+                "basis": "explicit_adjacent_single_copy_attribute",
+                "target_block_ids": [
+                  "blk_9d970bdb0150d5199020cb74"
+                ],
+                "target_node_ids": [
+                  "cond_8ae3dabb3c38dc1d051f1191"
+                ],
+                "source_references": [
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c0-20",
+                    "char_start": 0,
+                    "char_end": 20,
+                    "quote": "须提交身份证复印件（也可以用护照代替）。"
+                  },
+                  {
+                    "document_id": "file_71e7eb3971ec490c",
+                    "source_version": "file_71e7eb3971ec490c:v1",
+                    "page": 1,
+                    "locator": "p1:c21-32",
+                    "char_start": 21,
+                    "char_end": 32,
+                    "quote": "该复印件必须加盖公章。"
+                  }
+                ],
+                "reason": "one adjacent source-verified copy antecedent is explicitly bound"
+              }
+            ],
+            "reason": "explicit requirement predicate is source-verified",
+            "scope_relation": {
+              "relation_id": "cond_8bf50effd902cdfc455bddbc",
+              "relation_type": "anaphoric_attribute_scope",
+              "kind": "attribute_scope",
+              "operator": "ATTRIBUTE",
+              "status": "confirmed",
+              "operator_status": "confirmed",
+              "scope_status": "confirmed",
+              "basis": "adjacent_explicit_single_copy_attribute",
+              "target_block_ids": [
+                "blk_9d970bdb0150d5199020cb74",
+                "blk_7d8dcaa10aabde052a1141b5"
+              ],
+              "target_node_ids": [
+                "cond_8ae3dabb3c38dc1d051f1191",
+                "cond_69648773fe88891619f41064"
+              ],
+              "member_node_ids": [
+                "cond_8ae3dabb3c38dc1d051f1191",
+                "cond_69648773fe88891619f41064"
+              ],
+              "trigger_text": "该复印件必须加盖公章。",
+              "source_references": [
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c0-20",
+                  "char_start": 0,
+                  "char_end": 20,
+                  "quote": "须提交身份证复印件（也可以用护照代替）。"
+                },
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c21-32",
+                  "char_start": 21,
+                  "char_end": 32,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "scope_source_references": [
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c0-20",
+                  "char_start": 0,
+                  "char_end": 20,
+                  "quote": "须提交身份证复印件（也可以用护照代替）。"
+                },
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c21-32",
+                  "char_start": 21,
+                  "char_end": 32,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "candidate_target_source_references": [
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c0-20",
+                  "char_start": 0,
+                  "char_end": 20,
+                  "quote": "须提交身份证复印件（也可以用护照代替）。"
+                }
+              ],
+              "operator_source_references": [
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c21-32",
+                  "char_start": 21,
+                  "char_end": 32,
+                  "quote": "该复印件必须加盖公章。"
+                }
+              ],
+              "boundary_source_references": [
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c0-20",
+                  "char_start": 0,
+                  "char_end": 20,
+                  "quote": "须提交身份证复印件（也可以用护照代替）。"
+                },
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c21-32",
+                  "char_start": 21,
+                  "char_end": 32,
+                  "quote": "该复印件必须加盖公章。"
+                },
+                {
+                  "document_id": "file_71e7eb3971ec490c",
+                  "source_version": "file_71e7eb3971ec490c:v1",
+                  "page": 1,
+                  "locator": "p1:c31-32",
+                  "char_start": 31,
+                  "char_end": 32,
+                  "quote": "。"
+                }
+              ],
+              "reason": "one adjacent source-verified copy antecedent is explicitly bound"
+            }
+          }
+        ],
+        "roots": [
+          "cond_8ae3dabb3c38dc1d051f1191",
+          "cond_69648773fe88891619f41064"
+        ],
+        "references": [
+          {
+            "reference_id": "cond_71e221fb9c1c9bd63619a110",
+            "reference_kind": "anaphora",
+            "reference_text": "该复印件",
+            "source_block_id": "blk_7d8dcaa10aabde052a1141b5",
+            "status": "confirmed",
+            "target_block_ids": [
+              "blk_9d970bdb0150d5199020cb74"
+            ],
+            "target_node_ids": [
+              "cond_8ae3dabb3c38dc1d051f1191"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_71e7eb3971ec490c",
+                "source_version": "file_71e7eb3971ec490c:v1",
+                "page": 1,
+                "locator": "p1:c21-25",
+                "char_start": 21,
+                "char_end": 25,
+                "quote": "该复印件"
+              },
+              {
+                "document_id": "file_71e7eb3971ec490c",
+                "source_version": "file_71e7eb3971ec490c:v1",
+                "page": 1,
+                "locator": "p1:c21-32",
+                "char_start": 21,
+                "char_end": 32,
+                "quote": "该复印件必须加盖公章。"
+              },
+              {
+                "document_id": "file_71e7eb3971ec490c",
+                "source_version": "file_71e7eb3971ec490c:v1",
+                "page": 1,
+                "locator": "p1:c0-20",
+                "char_start": 0,
+                "char_end": 20,
+                "quote": "须提交身份证复印件（也可以用护照代替）。"
+              }
+            ],
+            "expression_source_references": [
+              {
+                "document_id": "file_71e7eb3971ec490c",
+                "source_version": "file_71e7eb3971ec490c:v1",
+                "page": 1,
+                "locator": "p1:c21-25",
+                "char_start": 21,
+                "char_end": 25,
+                "quote": "该复印件"
+              }
+            ],
+            "context_source_references": [
+              {
+                "document_id": "file_71e7eb3971ec490c",
+                "source_version": "file_71e7eb3971ec490c:v1",
+                "page": 1,
+                "locator": "p1:c21-32",
+                "char_start": 21,
+                "char_end": 32,
+                "quote": "该复印件必须加盖公章。"
+              }
+            ],
+            "candidate_source_references": [],
+            "candidate_target_context_references": [
+              {
+                "document_id": "file_71e7eb3971ec490c",
+                "source_version": "file_71e7eb3971ec490c:v1",
+                "page": 1,
+                "locator": "p1:c0-20",
+                "char_start": 0,
+                "char_end": 20,
+                "quote": "须提交身份证复印件（也可以用护照代替）。"
+              }
+            ],
+            "reason": "referential expression has one source-verified antecedent"
+          }
+        ],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_71e7eb3971ec490c",
+        "source_version": "file_71e7eb3971ec490c:v1",
+        "pages": [
+          "须提交身份证复印件（也可以用护照代替）。\n该复印件必须加盖公章。"
+        ],
+        "raw_input_sha256": "d3d3abb4962ff6e360764c70182ae9fb9c8b0b834110aa15fedc6a456226c9cf"
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success",
+        "step_failures": []
+      }
+    }
+  ],
+  "graph_mutations": [],
+  "mutation_execution": "not_run_original_positive_unavailable",
+  "input_fixtures": [
+    {
+      "path": "E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\copy-alternative-regression\\20261014\\cases.json",
+      "sha256": "f5163a7a4ef3a052e4bfb07ec10e9e1d39ab89bdc34c3415785481b1a894f9d6"
+    }
+  ],
+  "summary": {
+    "total": 2,
+    "passed": 0,
+    "executed": 2,
+    "semantic_mutations_rejected": 0,
+    "semantic_mutations_total": 0,
+    "source_mutations_rejected": 0,
+    "source_mutations_total": 0,
+    "source_invalid": 0,
+    "source_checked": 44
+  },
+  "unseen_evaluation": "not_run",
+  "production_accepted": false
+}
