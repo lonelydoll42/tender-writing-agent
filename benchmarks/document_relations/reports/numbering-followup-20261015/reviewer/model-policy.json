@@ -1,0 +1,24 @@
+{
+  "schema": "numbering-agent-model-policy-v1",
+  "changed_at": "2026-10-15T13:54:38.1601849+08:00",
+  "user_requirement": "All main/subagents and future delegations use only gpt-6.1-sol with high reasoning; no fallback",
+  "default_model": "gpt-6.1-sol",
+  "default_reasoning_effort": "high",
+  "default_subagent_model": "gpt-6.1-sol",
+  "default_subagent_reasoning_effort": "high",
+  "configuration_reparsed": true,
+  "unrelated_configuration_preserved": true,
+  "previous_global_instructions_preserved": true,
+  "global_instructions_now_require_explicit_spawn_model_and_effort": true,
+  "previous_worker": "01a13e13-44b9-7380-a36a-2ac43e065461",
+  "previous_worker_closed": true,
+  "replacement_worker": "01a13e1d-1d58-7582-9672-bedf3963cff0",
+  "replacement_spawn_arguments": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high"
+  },
+  "replacement_spawn_succeeded": true,
+  "existing_main_runtime_model": "not attested; config change does not prove a live model switch",
+  "pre_policy_red_output": "worker/pytest-baseline-red.xml; retained, not relabelled as replacement worker output",
+  "global_configuration_in_repository": false
+}

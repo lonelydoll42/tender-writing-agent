@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="23" time="0.320" timestamp="2026-10-15T13:44:14.605664+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_explicit_pairs_emit_two_source_verified_atoms[P01-original-case12]" time="0.003"><failure message="assert 0 == 1&#10; +  where 0 = len([])">case = {'case_id': 'P01-original-case12', 'expectation': 'confirmed_pair', 'input_text': '仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。', 'labels': ['1.9', '1.10']}
+
+    @pytest.mark.parametrize("case", POSITIVE_CASES, ids=lambda case: case["case_id"])
+    def test_frozen_explicit_pairs_emit_two_source_verified_atoms(case: dict) -&gt; None:
+        text = case["input_text"]
+        structure, graph = _run(text)
+        block = structure["blocks"][0]
+        nodes = _nodes_for_block(graph, block["block_id"])
+        groups = [node for node in nodes if node["op"] in {"AND", "OR"}]
+&gt;       assert len(groups) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_document_relations_numbering_semantics.py:74: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_explicit_pairs_emit_two_source_verified_atoms[P02-arabic-count]" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = len([])">case = {'case_id': 'P02-arabic-count', 'expectation': 'confirmed_pair', 'input_text': '仅按材料编号理解：“编号2.9至2.10”表示编号2.9项和编号2.10项，共2项材料均须提交。', 'labels': ['2.9', '2.10']}
+
+    @pytest.mark.parametrize("case", POSITIVE_CASES, ids=lambda case: case["case_id"])
+    def test_frozen_explicit_pairs_emit_two_source_verified_atoms(case: dict) -&gt; None:
+        text = case["input_text"]
+        structure, graph = _run(text)
+        block = structure["blocks"][0]
+        nodes = _nodes_for_block(graph, block["block_id"])
+        groups = [node for node in nodes if node["op"] in {"AND", "OR"}]
+&gt;       assert len(groups) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_document_relations_numbering_semantics.py:74: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_explicit_pairs_emit_two_source_verified_atoms[P03-explicit-nonconsecutive-pair]" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = len([])">case = {'case_id': 'P03-explicit-nonconsecutive-pair', 'expectation': 'confirmed_pair', 'input_text': '仅按材料编号理解：“编号1.9至1.11”表示编号1.9项和编号1.11项，共两项材料均须提交。', 'labels': ['1.9', '1.11'], ...}
+
+    @pytest.mark.parametrize("case", POSITIVE_CASES, ids=lambda case: case["case_id"])
+    def test_frozen_explicit_pairs_emit_two_source_verified_atoms(case: dict) -&gt; None:
+        text = case["input_text"]
+        structure, graph = _run(text)
+        block = structure["blocks"][0]
+        nodes = _nodes_for_block(graph, block["block_id"])
+        groups = [node for node in nodes if node["op"] in {"AND", "OR"}]
+&gt;       assert len(groups) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_document_relations_numbering_semantics.py:74: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_explicit_pairs_emit_two_source_verified_atoms[P04-multilevel-labels]" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = len([])">case = {'case_id': 'P04-multilevel-labels', 'expectation': 'confirmed_pair', 'input_text': '仅按材料编号理解：“编号3.1.9至3.1.10”表示编号3.1.9项和编号3.1.10项，共二项材料均须提交。', 'labels': ['3.1.9', '3.1.10']}
+
+    @pytest.mark.parametrize("case", POSITIVE_CASES, ids=lambda case: case["case_id"])
+    def test_frozen_explicit_pairs_emit_two_source_verified_atoms(case: dict) -&gt; None:
+        text = case["input_text"]
+        structure, graph = _run(text)
+        block = structure["blocks"][0]
+        nodes = _nodes_for_block(graph, block["block_id"])
+        groups = [node for node in nodes if node["op"] in {"AND", "OR"}]
+&gt;       assert len(groups) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_document_relations_numbering_semantics.py:74: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N01-bare-interval]" time="0.001"><failure message="assert not True&#10; +  where True = any(&lt;generator object test_frozen_ambiguous_numbering_is_retained_for_review.&lt;locals&gt;.&lt;genexpr&gt; at 0x0000000004763850&gt;)">case = {'case_id': 'N01-bare-interval', 'expectation': 'review_numbering', 'input_text': '须提交编号1.9至1.10项材料。'}
+
+    @pytest.mark.parametrize("case", REVIEW_CASES, ids=lambda case: case["case_id"])
+    def test_frozen_ambiguous_numbering_is_retained_for_review(case: dict) -&gt; None:
+        text = case["input_text"]
+        structure, graph = _run(text)
+        expected_source_texts = (
+            text.splitlines() if case["case_id"] == "N11-split-obligation" else [text]
+        )
+        block = structure["blocks"][0]
+        nodes = _nodes_for_block(graph, block["block_id"])
+&gt;       assert not any(node["status"] == "confirmed" for node in nodes)
+E       assert not True
+E        +  where True = any(&lt;generator object test_frozen_ambiguous_numbering_is_retained_for_review.&lt;locals&gt;.&lt;genexpr&gt; at 0x0000000004763850&gt;)
+
+tests\test_document_relations_numbering_semantics.py:125: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N02-explanation-without-obligation]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N03-count-mismatch]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N04-duplicate-listed-label]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N05-endpoint-list-mismatch]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N06-currency-unit-in-number-range]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N07-negated-submission]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N08-choice-instead-of-AND]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N09-conditional-obligation]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N10-trailing-independent-condition]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N11-split-obligation]" time="0.001"><failure message="assert False&#10; +  where False = all(&lt;generator object test_frozen_ambiguous_numbering_is_retained_for_review.&lt;locals&gt;.&lt;genexpr&gt; at 0x00000000047F18C0&gt;)">case = {'case_id': 'N11-split-obligation', 'expectation': 'review_numbering', 'input_text': '仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，\n共两项材料均须提交。'}
+
+    @pytest.mark.parametrize("case", REVIEW_CASES, ids=lambda case: case["case_id"])
+    def test_frozen_ambiguous_numbering_is_retained_for_review(case: dict) -&gt; None:
+        text = case["input_text"]
+        structure, graph = _run(text)
+        expected_source_texts = (
+            text.splitlines() if case["case_id"] == "N11-split-obligation" else [text]
+        )
+        block = structure["blocks"][0]
+        nodes = _nodes_for_block(graph, block["block_id"])
+        assert not any(node["status"] == "confirmed" for node in nodes)
+        source_quotes = [quote for node in nodes for quote in _quotes(node)]
+&gt;       assert all(
+            any(expected in quote for quote in source_quotes)
+            for expected in expected_source_texts
+        )
+E       assert False
+E        +  where False = all(&lt;generator object test_frozen_ambiguous_numbering_is_retained_for_review.&lt;locals&gt;.&lt;genexpr&gt; at 0x00000000047F18C0&gt;)
+
+tests\test_document_relations_numbering_semantics.py:127: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_ambiguous_numbering_is_retained_for_review[N12-three-item-range-without-enumeration]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_amounts_and_single_material_keep_existing_semantics[C01-decimal-amount]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_amounts_and_single_material_keep_existing_semantics[C02-monetary-range]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_amounts_and_single_material_keep_existing_semantics[C03-single-material-label]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_frozen_amounts_and_single_material_keep_existing_semantics[C04-material-and-money-separate]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_invalid_source_identity_or_location_never_confirms[\u4ec5\u6309\u6750\u6599\u7f16\u53f7\u7406\u89e3\uff1a\u201c\u7f16\u53f71.9\u81f31.10\u201d\u8868\u793a\u7f16\u53f71.9\u9879\u548c\u7f16\u53f71.10\u9879\uff0c\u5171\u4e24\u9879\u6750\u6599\u5747\u987b\u63d0\u4ea4\u3002-coordinates]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_invalid_source_identity_or_location_never_confirms[\u4ec5\u6309\u6750\u6599\u7f16\u53f7\u7406\u89e3\uff1a\u201c\u7f16\u53f71.9\u81f31.10\u201d\u8868\u793a\u7f16\u53f71.9\u9879\u548c\u7f16\u53f71.10\u9879\uff0c\u5171\u4e24\u9879\u6750\u6599\u5747\u987b\u63d0\u4ea4\u3002-duplicate_block_id]" time="0.001" /><testcase classname="tests.test_document_relations_numbering_semantics" name="test_invalid_source_identity_or_location_never_confirms[\u4ec5\u6309\u6750\u6599\u7f16\u53f7\u7406\u89e3\uff1a\u201c\u7f16\u53f71.9\u81f31.10\u201d\u8868\u793a\u7f16\u53f71.9\u9879\u548c\u7f16\u53f71.10\u9879\uff0c\u5171\u4e24\u9879\u6750\u6599\u5747\u987b\u63d0\u4ea4\u3002-identity]" time="0.001" /></testsuite></testsuites>

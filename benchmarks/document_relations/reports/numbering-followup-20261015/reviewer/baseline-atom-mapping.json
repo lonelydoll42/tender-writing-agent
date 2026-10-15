@@ -1,0 +1,302 @@
+{
+  "schema": "numbering-frozen-mapping-v1",
+  "capture_sha256": "0ac8d147ac86528ac6b3fe25210e7285cdf281c0a455e43f013d89c2c094c2d4",
+  "source_tree_sha256": "8141956da6314058e73a3c1f64b0f8c058d4fdb5a3c0a1b7068aa1e9e7be45d4",
+  "case_id": "case-12",
+  "views": {
+    "1.0.3": {
+      "mapping": {},
+      "candidates": [
+        {
+          "expected_id": "A1",
+          "candidate_node_ids": []
+        },
+        {
+          "expected_id": "A2",
+          "candidate_node_ids": []
+        }
+      ],
+      "score": {
+        "case_id": "case-12",
+        "status": "failed",
+        "expected_confirmed_atom_ids": [
+          "A1",
+          "A2"
+        ],
+        "matched_atom_ids": [],
+        "confirmed_group_ids": [
+          "S1"
+        ],
+        "matched_group_ids": [],
+        "group_status_review_count": 0,
+        "actual_source_validation": {
+          "checked_references": 4,
+          "unique_references": 2,
+          "raw_offsets_checked": 4,
+          "invalid_references": 0,
+          "line_numbers_derived": 4,
+          "line_numbers_supplied": 0
+        },
+        "event_counts": {
+          "error_events": 6,
+          "group_structure_error_events": 1
+        },
+        "metrics": {
+          "condition_omission": {
+            "numerator": 2,
+            "denominator": 2
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 2
+          },
+          "scope_membership_decisions": {
+            "numerator": 2,
+            "denominator": 2
+          },
+          "operator_group_structure": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "parent_relations": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "reference_relations": {
+            "numerator": 0,
+            "denominator": 0
+          },
+          "forbidden_claims": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 0,
+            "raw_needs_review_items": 0
+          },
+          "source_coverage": {
+            "numerator": 2,
+            "denominator": 2
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 4
+          }
+        },
+        "errors": [
+          {
+            "metric": "condition_omission",
+            "expected_id": "A1",
+            "reason": "no unique source-anchored ATOM matched"
+          },
+          {
+            "metric": "condition_omission",
+            "expected_id": "A2",
+            "reason": "no unique source-anchored ATOM matched"
+          },
+          {
+            "metric": "group_structure",
+            "expected_group_id": "S1",
+            "expected_operator": "AND",
+            "expected_direct_members": [
+              "A1",
+              "A2"
+            ],
+            "reason": "expected nested member could not be resolved"
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A1",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A2",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "parent_relations",
+            "expected_children": [
+              "A1",
+              "A2"
+            ],
+            "expected_parent_kind": "semantic",
+            "missing_locators": [
+              "oracle parent does not identify one condition node"
+            ],
+            "reason": "confirmed semantic parent/scope relation missing"
+          }
+        ],
+        "evaluator_version": "1.0.3"
+      }
+    },
+    "1.0.4": {
+      "mapping": {},
+      "candidates": [
+        {
+          "expected_id": "A1",
+          "candidate_node_ids": []
+        },
+        {
+          "expected_id": "A2",
+          "candidate_node_ids": []
+        }
+      ],
+      "score": {
+        "case_id": "case-12",
+        "status": "failed",
+        "expected_confirmed_atom_ids": [
+          "A1",
+          "A2"
+        ],
+        "matched_atom_ids": [],
+        "confirmed_group_ids": [
+          "S1"
+        ],
+        "matched_group_ids": [],
+        "group_status_review_count": 0,
+        "actual_source_validation": {
+          "checked_references": 4,
+          "unique_references": 2,
+          "raw_offsets_checked": 4,
+          "invalid_references": 0,
+          "line_numbers_derived": 4,
+          "line_numbers_supplied": 0
+        },
+        "event_counts": {
+          "error_events": 6,
+          "group_structure_error_events": 1
+        },
+        "metrics": {
+          "condition_omission": {
+            "numerator": 2,
+            "denominator": 2
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 2
+          },
+          "scope_membership_decisions": {
+            "numerator": 2,
+            "denominator": 2
+          },
+          "operator_group_structure": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "parent_relations": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "reference_relations": {
+            "numerator": 0,
+            "denominator": 0
+          },
+          "forbidden_claims": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 0,
+            "raw_needs_review_items": 0
+          },
+          "source_coverage": {
+            "numerator": 2,
+            "denominator": 2
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 4
+          }
+        },
+        "errors": [
+          {
+            "metric": "condition_omission",
+            "expected_id": "A1",
+            "reason": "no unique source-anchored ATOM matched"
+          },
+          {
+            "metric": "condition_omission",
+            "expected_id": "A2",
+            "reason": "no unique source-anchored ATOM matched"
+          },
+          {
+            "metric": "group_structure",
+            "expected_group_id": "S1",
+            "expected_operator": "AND",
+            "expected_direct_members": [
+              "A1",
+              "A2"
+            ],
+            "reason": "expected nested member could not be resolved"
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A1",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A2",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "parent_relations",
+            "expected_children": [
+              "A1",
+              "A2"
+            ],
+            "expected_parent_kind": "semantic",
+            "missing_locators": [
+              "oracle parent does not identify one condition node"
+            ],
+            "reason": "confirmed semantic parent/scope relation missing"
+          }
+        ],
+        "evaluator_version": "1.0.4"
+      }
+    }
+  }
+}

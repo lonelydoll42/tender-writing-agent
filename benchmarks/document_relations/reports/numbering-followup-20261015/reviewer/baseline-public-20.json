@@ -1,0 +1,3111 @@
+{
+  "schema": "numbering-public-acceptance-v1",
+  "generated_at": "2026-10-15T13:42:43.245815+08:00",
+  "classification": "actual public Registry/Runtime output; not unseen",
+  "product_root": "E:\\project\\tender-writing-agent\\.qiaowenshu\\acceptance\\numbering-followup-20261015\\base-c08edec",
+  "source_tree_sha256": "8141956da6314058e73a3c1f64b0f8c058d4fdb5a3c0a1b7068aa1e9e7be45d4",
+  "acceptance_tool_sha256": "4314d97238c042ef63b97461eb64d70954d66ba9a7a569091fb09ae3fe65c00f",
+  "input_fixtures": [
+    {
+      "path": "E:\\project\\tender-writing-agent\\benchmarks\\document_relations\\numbering-regression\\20261015\\cases.json",
+      "sha256": "ca7fb541219acdb53c680bddb0928696d26adf1fbd292e5f123b2b475c8112c0"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "P01-original-case12",
+      "expectation": "confirmed_pair",
+      "execution_state": "executed",
+      "input_sha256": "6ea791a6fcb1334dadb5b7987a1c485cfa4e6ce16d3cc991b29dc0fadd1c478d",
+      "status": "failed",
+      "errors": [
+        "one exact source material ATOM required: 编号1.9项",
+        "one exact source material ATOM required: 编号1.10项",
+        "exactly two explicit material leaves required"
+      ],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_651462b9b2fd44a2",
+        "source_version": "file_651462b9b2fd44a2:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_43b3cbbc09338a2e322d5249",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_651462b9b2fd44a2",
+                  "source_version": "file_651462b9b2fd44a2:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_651462b9b2fd44a2",
+                  "source_version": "file_651462b9b2fd44a2:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_d5aa2704b447efe738d75298",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_537cf1879bc225038d73db4a"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_651462b9b2fd44a2",
+                    "source_version": "file_651462b9b2fd44a2:v1",
+                    "page": 1,
+                    "locator": "p1:c0-48",
+                    "char_start": 0,
+                    "char_end": 48,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_651462b9b2fd44a2",
+                    "source_version": "file_651462b9b2fd44a2:v1",
+                    "page": 1,
+                    "locator": "p1:c47-48",
+                    "char_start": 47,
+                    "char_end": 48,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_537cf1879bc225038d73db4a",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_43b3cbbc09338a2e322d5249"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_651462b9b2fd44a2",
+                "source_version": "file_651462b9b2fd44a2:v1",
+                "page": 1,
+                "locator": "p1:c0-48",
+                "char_start": 0,
+                "char_end": 48,
+                "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_537cf1879bc225038d73db4a"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_651462b9b2fd44a2",
+        "source_version": "file_651462b9b2fd44a2:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "P02-arabic-count",
+      "expectation": "confirmed_pair",
+      "execution_state": "executed",
+      "input_sha256": "12549253195e8832cb0776ce8dfd6c1588c4462d680a8c67e51197f1c21099e0",
+      "status": "failed",
+      "errors": [
+        "one exact source material ATOM required: 编号2.9项",
+        "one exact source material ATOM required: 编号2.10项",
+        "exactly two explicit material leaves required"
+      ],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_1e2c59a20f654085",
+        "source_version": "file_1e2c59a20f654085:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_7c3dfb078728ed215c189a6b",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_1e2c59a20f654085",
+                  "source_version": "file_1e2c59a20f654085:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号2.9至2.10”表示编号2.9项和编号2.10项，共2项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_1e2c59a20f654085",
+                  "source_version": "file_1e2c59a20f654085:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号2.9至2.10”表示编号2.9项和编号2.10项，共2项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_55d9245b6362b3d60f61fb43",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_80c2ca1f4012144de880d554"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号2.9至2.10”表示编号2.9项和编号2.10项，共2项材料均须提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_1e2c59a20f654085",
+                    "source_version": "file_1e2c59a20f654085:v1",
+                    "page": 1,
+                    "locator": "p1:c0-48",
+                    "char_start": 0,
+                    "char_end": 48,
+                    "quote": "仅按材料编号理解：“编号2.9至2.10”表示编号2.9项和编号2.10项，共2项材料均须提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_1e2c59a20f654085",
+                    "source_version": "file_1e2c59a20f654085:v1",
+                    "page": 1,
+                    "locator": "p1:c47-48",
+                    "char_start": 47,
+                    "char_end": 48,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_80c2ca1f4012144de880d554",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号2.9至2.10”表示编号2.9项和编号2.10项，共2项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_7c3dfb078728ed215c189a6b"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_1e2c59a20f654085",
+                "source_version": "file_1e2c59a20f654085:v1",
+                "page": 1,
+                "locator": "p1:c0-48",
+                "char_start": 0,
+                "char_end": 48,
+                "quote": "仅按材料编号理解：“编号2.9至2.10”表示编号2.9项和编号2.10项，共2项材料均须提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_80c2ca1f4012144de880d554"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_1e2c59a20f654085",
+        "source_version": "file_1e2c59a20f654085:v1",
+        "pages": [
+          "仅按材料编号理解：“编号2.9至2.10”表示编号2.9项和编号2.10项，共2项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "P03-explicit-nonconsecutive-pair",
+      "expectation": "confirmed_pair",
+      "execution_state": "executed",
+      "input_sha256": "63aad4aae2a748cc75fd1e7c4c802f9b357a6439df4ae103243414721788b814",
+      "status": "failed",
+      "errors": [
+        "one exact source material ATOM required: 编号1.9项",
+        "one exact source material ATOM required: 编号1.11项",
+        "exactly two explicit material leaves required"
+      ],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_a85d47a819e348a6",
+        "source_version": "file_a85d47a819e348a6:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_c88277f71ccf8b3392927c81",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_a85d47a819e348a6",
+                  "source_version": "file_a85d47a819e348a6:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号1.9至1.11”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_a85d47a819e348a6",
+                  "source_version": "file_a85d47a819e348a6:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号1.9至1.11”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_a63ba1fb803a0bbc9dfd05e6",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_5ef1ef918a79930929b1395a"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.11”表示编号1.9项和编号1.11项，共两项材料均须提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_a85d47a819e348a6",
+                    "source_version": "file_a85d47a819e348a6:v1",
+                    "page": 1,
+                    "locator": "p1:c0-48",
+                    "char_start": 0,
+                    "char_end": 48,
+                    "quote": "仅按材料编号理解：“编号1.9至1.11”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_a85d47a819e348a6",
+                    "source_version": "file_a85d47a819e348a6:v1",
+                    "page": 1,
+                    "locator": "p1:c47-48",
+                    "char_start": 47,
+                    "char_end": 48,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_5ef1ef918a79930929b1395a",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.11”表示编号1.9项和编号1.11项，共两项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_c88277f71ccf8b3392927c81"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_a85d47a819e348a6",
+                "source_version": "file_a85d47a819e348a6:v1",
+                "page": 1,
+                "locator": "p1:c0-48",
+                "char_start": 0,
+                "char_end": 48,
+                "quote": "仅按材料编号理解：“编号1.9至1.11”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_5ef1ef918a79930929b1395a"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_a85d47a819e348a6",
+        "source_version": "file_a85d47a819e348a6:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.11”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "P04-multilevel-labels",
+      "expectation": "confirmed_pair",
+      "execution_state": "executed",
+      "input_sha256": "27ddac95a0439bb4b6c72dc2af33cae53261586ed8c0d9ef58886dd981f13c06",
+      "status": "failed",
+      "errors": [
+        "one exact source material ATOM required: 编号3.1.9项",
+        "one exact source material ATOM required: 编号3.1.10项",
+        "exactly two explicit material leaves required"
+      ],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_ee54af7a74994e43",
+        "source_version": "file_ee54af7a74994e43:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_216f80ff34dd5ce0067e822e",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_ee54af7a74994e43",
+                  "source_version": "file_ee54af7a74994e43:v1",
+                  "page": 1,
+                  "locator": "p1:c0-56",
+                  "char_start": 0,
+                  "char_end": 56,
+                  "quote": "仅按材料编号理解：“编号3.1.9至3.1.10”表示编号3.1.9项和编号3.1.10项，共二项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_ee54af7a74994e43",
+                  "source_version": "file_ee54af7a74994e43:v1",
+                  "page": 1,
+                  "locator": "p1:c0-56",
+                  "char_start": 0,
+                  "char_end": 56,
+                  "quote": "仅按材料编号理解：“编号3.1.9至3.1.10”表示编号3.1.9项和编号3.1.10项，共二项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_5d54cb594b08aa7e4216ddaa",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_d30ff93fe6cec7c9eb2741f0"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号3.1.9至3.1.10”表示编号3.1.9项和编号3.1.10项，共二项材料均须提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_ee54af7a74994e43",
+                    "source_version": "file_ee54af7a74994e43:v1",
+                    "page": 1,
+                    "locator": "p1:c0-56",
+                    "char_start": 0,
+                    "char_end": 56,
+                    "quote": "仅按材料编号理解：“编号3.1.9至3.1.10”表示编号3.1.9项和编号3.1.10项，共二项材料均须提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_ee54af7a74994e43",
+                    "source_version": "file_ee54af7a74994e43:v1",
+                    "page": 1,
+                    "locator": "p1:c55-56",
+                    "char_start": 55,
+                    "char_end": 56,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_d30ff93fe6cec7c9eb2741f0",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号3.1.9至3.1.10”表示编号3.1.9项和编号3.1.10项，共二项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_216f80ff34dd5ce0067e822e"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_ee54af7a74994e43",
+                "source_version": "file_ee54af7a74994e43:v1",
+                "page": 1,
+                "locator": "p1:c0-56",
+                "char_start": 0,
+                "char_end": 56,
+                "quote": "仅按材料编号理解：“编号3.1.9至3.1.10”表示编号3.1.9项和编号3.1.10项，共二项材料均须提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_d30ff93fe6cec7c9eb2741f0"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_ee54af7a74994e43",
+        "source_version": "file_ee54af7a74994e43:v1",
+        "pages": [
+          "仅按材料编号理解：“编号3.1.9至3.1.10”表示编号3.1.9项和编号3.1.10项，共二项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N01-bare-interval",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "8b7f3f17f75cfd65fb4cbe308c0cc6605e64d35cde25585d276cdff61c2f6bd0",
+      "status": "failed",
+      "errors": [
+        "unsupported numbered expression is confirmed",
+        "numbering needs explicit review state and original text"
+      ],
+      "source_checked": 2,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_972d87cce13044de",
+        "source_version": "file_972d87cce13044de:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_8fe593fcfc01080556c2569c",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_972d87cce13044de",
+                  "source_version": "file_972d87cce13044de:v1",
+                  "page": 1,
+                  "locator": "p1:c0-17",
+                  "char_start": 0,
+                  "char_end": 17,
+                  "quote": "须提交编号1.9至1.10项材料。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_972d87cce13044de",
+                  "source_version": "file_972d87cce13044de:v1",
+                  "page": 1,
+                  "locator": "p1:c0-17",
+                  "char_start": 0,
+                  "char_end": 17,
+                  "quote": "须提交编号1.9至1.10项材料。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_bf6e622235ab19b9b6099c33",
+            "op": "ATOM",
+            "status": "confirmed",
+            "text": "须提交编号1.9至1.10项材料。",
+            "children": [],
+            "source_block_ids": [
+              "blk_8fe593fcfc01080556c2569c"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_972d87cce13044de",
+                "source_version": "file_972d87cce13044de:v1",
+                "page": 1,
+                "locator": "p1:c0-17",
+                "char_start": 0,
+                "char_end": 17,
+                "quote": "须提交编号1.9至1.10项材料。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "explicit requirement predicate is source-verified"
+          }
+        ],
+        "roots": [
+          "cond_bf6e622235ab19b9b6099c33"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_972d87cce13044de",
+        "source_version": "file_972d87cce13044de:v1",
+        "pages": [
+          "须提交编号1.9至1.10项材料。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N02-explanation-without-obligation",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "73f61a772088cd42b581b123d1929252b8e493e44a79334221623d4d5a3734d9",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_c14b5dae1a5c4be9",
+        "source_version": "file_c14b5dae1a5c4be9:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_fd5d51015b7d4acf557108c5",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_c14b5dae1a5c4be9",
+                  "source_version": "file_c14b5dae1a5c4be9:v1",
+                  "page": 1,
+                  "locator": "p1:c0-30",
+                  "char_start": 0,
+                  "char_end": 30,
+                  "quote": "本条仅按材料编号理解，编号1.9至1.10表示相应资格要求。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_c14b5dae1a5c4be9",
+                  "source_version": "file_c14b5dae1a5c4be9:v1",
+                  "page": 1,
+                  "locator": "p1:c0-30",
+                  "char_start": 0,
+                  "char_end": 30,
+                  "quote": "本条仅按材料编号理解，编号1.9至1.10表示相应资格要求。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_b8479ff0eed0495ef5b3889f",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_7145225110c56171e8135dbb"
+                ],
+                "trigger_text": "本条仅按材料编号理解，编号1.9至1.10表示相应资格要求。",
+                "source_references": [
+                  {
+                    "document_id": "file_c14b5dae1a5c4be9",
+                    "source_version": "file_c14b5dae1a5c4be9:v1",
+                    "page": 1,
+                    "locator": "p1:c0-30",
+                    "char_start": 0,
+                    "char_end": 30,
+                    "quote": "本条仅按材料编号理解，编号1.9至1.10表示相应资格要求。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_c14b5dae1a5c4be9",
+                    "source_version": "file_c14b5dae1a5c4be9:v1",
+                    "page": 1,
+                    "locator": "p1:c29-30",
+                    "char_start": 29,
+                    "char_end": 30,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_7145225110c56171e8135dbb",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "本条仅按材料编号理解，编号1.9至1.10表示相应资格要求。",
+            "children": [],
+            "source_block_ids": [
+              "blk_fd5d51015b7d4acf557108c5"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_c14b5dae1a5c4be9",
+                "source_version": "file_c14b5dae1a5c4be9:v1",
+                "page": 1,
+                "locator": "p1:c0-30",
+                "char_start": 0,
+                "char_end": 30,
+                "quote": "本条仅按材料编号理解，编号1.9至1.10表示相应资格要求。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_7145225110c56171e8135dbb"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_c14b5dae1a5c4be9",
+        "source_version": "file_c14b5dae1a5c4be9:v1",
+        "pages": [
+          "本条仅按材料编号理解，编号1.9至1.10表示相应资格要求。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N03-count-mismatch",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "b5a31f8dd757f20dc500a65c22bcea777c20a8a1dd6ecd361f9141deacc37af7",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_1efac877d86d44e6",
+        "source_version": "file_1efac877d86d44e6:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_c0421429da7542fb47855b3c",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_1efac877d86d44e6",
+                  "source_version": "file_1efac877d86d44e6:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共三项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_1efac877d86d44e6",
+                  "source_version": "file_1efac877d86d44e6:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共三项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_594e3505306527133639f122",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_d7ca981ba7e089566fba1dec"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共三项材料均须提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_1efac877d86d44e6",
+                    "source_version": "file_1efac877d86d44e6:v1",
+                    "page": 1,
+                    "locator": "p1:c0-48",
+                    "char_start": 0,
+                    "char_end": 48,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共三项材料均须提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_1efac877d86d44e6",
+                    "source_version": "file_1efac877d86d44e6:v1",
+                    "page": 1,
+                    "locator": "p1:c47-48",
+                    "char_start": 47,
+                    "char_end": 48,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_d7ca981ba7e089566fba1dec",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共三项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_c0421429da7542fb47855b3c"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_1efac877d86d44e6",
+                "source_version": "file_1efac877d86d44e6:v1",
+                "page": 1,
+                "locator": "p1:c0-48",
+                "char_start": 0,
+                "char_end": 48,
+                "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共三项材料均须提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_d7ca981ba7e089566fba1dec"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_1efac877d86d44e6",
+        "source_version": "file_1efac877d86d44e6:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共三项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N04-duplicate-listed-label",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "2d818224b340f3c30d07c565064a3ab7d4188fb0414cb427aab5054d007645df",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_273a31623bef495d",
+        "source_version": "file_273a31623bef495d:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_211b675f09121ab421a0448c",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_273a31623bef495d",
+                  "source_version": "file_273a31623bef495d:v1",
+                  "page": 1,
+                  "locator": "p1:c0-47",
+                  "char_start": 0,
+                  "char_end": 47,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.9项，共两项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_273a31623bef495d",
+                  "source_version": "file_273a31623bef495d:v1",
+                  "page": 1,
+                  "locator": "p1:c0-47",
+                  "char_start": 0,
+                  "char_end": 47,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.9项，共两项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_cd9def22dd57d97a928170b2",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_936c055a4794a668e66d00c2"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.9项，共两项材料均须提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_273a31623bef495d",
+                    "source_version": "file_273a31623bef495d:v1",
+                    "page": 1,
+                    "locator": "p1:c0-47",
+                    "char_start": 0,
+                    "char_end": 47,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.9项，共两项材料均须提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_273a31623bef495d",
+                    "source_version": "file_273a31623bef495d:v1",
+                    "page": 1,
+                    "locator": "p1:c46-47",
+                    "char_start": 46,
+                    "char_end": 47,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_936c055a4794a668e66d00c2",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.9项，共两项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_211b675f09121ab421a0448c"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_273a31623bef495d",
+                "source_version": "file_273a31623bef495d:v1",
+                "page": 1,
+                "locator": "p1:c0-47",
+                "char_start": 0,
+                "char_end": 47,
+                "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.9项，共两项材料均须提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_936c055a4794a668e66d00c2"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_273a31623bef495d",
+        "source_version": "file_273a31623bef495d:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.9项，共两项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N05-endpoint-list-mismatch",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "3ae75014761b222ea54fcfa618e4da0b8474a3d80e60c3db76281bde4053efc9",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_e10828282ae24285",
+        "source_version": "file_e10828282ae24285:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_4aa9fabe065bbc2f1b29d142",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_e10828282ae24285",
+                  "source_version": "file_e10828282ae24285:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_e10828282ae24285",
+                  "source_version": "file_e10828282ae24285:v1",
+                  "page": 1,
+                  "locator": "p1:c0-48",
+                  "char_start": 0,
+                  "char_end": 48,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_942cc95b555c84508a5d2187",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_f839206b6291bd090d000dd2"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.11项，共两项材料均须提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_e10828282ae24285",
+                    "source_version": "file_e10828282ae24285:v1",
+                    "page": 1,
+                    "locator": "p1:c0-48",
+                    "char_start": 0,
+                    "char_end": 48,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_e10828282ae24285",
+                    "source_version": "file_e10828282ae24285:v1",
+                    "page": 1,
+                    "locator": "p1:c47-48",
+                    "char_start": 47,
+                    "char_end": 48,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_f839206b6291bd090d000dd2",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.11项，共两项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_4aa9fabe065bbc2f1b29d142"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_e10828282ae24285",
+                "source_version": "file_e10828282ae24285:v1",
+                "page": 1,
+                "locator": "p1:c0-48",
+                "char_start": 0,
+                "char_end": 48,
+                "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_f839206b6291bd090d000dd2"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_e10828282ae24285",
+        "source_version": "file_e10828282ae24285:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N06-currency-unit-in-number-range",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "7e3a25b9fb8eeec333fc328d613b1244febf1c5fbd6fc017b18df9a103059059",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_ef7196a9028e4a56",
+        "source_version": "file_ef7196a9028e4a56:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_0c5816f5ddb03e2449d26a83",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_ef7196a9028e4a56",
+                  "source_version": "file_ef7196a9028e4a56:v1",
+                  "page": 1,
+                  "locator": "p1:c0-50",
+                  "char_start": 0,
+                  "char_end": 50,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10万元”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_ef7196a9028e4a56",
+                  "source_version": "file_ef7196a9028e4a56:v1",
+                  "page": 1,
+                  "locator": "p1:c0-50",
+                  "char_start": 0,
+                  "char_end": 50,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10万元”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_f026d700db481b6bc720b449",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_9cc5cede1c6d59c737b605f9"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10万元”表示编号1.9项和编号1.10项，共两项材料均须提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_ef7196a9028e4a56",
+                    "source_version": "file_ef7196a9028e4a56:v1",
+                    "page": 1,
+                    "locator": "p1:c0-50",
+                    "char_start": 0,
+                    "char_end": 50,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10万元”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_ef7196a9028e4a56",
+                    "source_version": "file_ef7196a9028e4a56:v1",
+                    "page": 1,
+                    "locator": "p1:c49-50",
+                    "char_start": 49,
+                    "char_end": 50,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_9cc5cede1c6d59c737b605f9",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10万元”表示编号1.9项和编号1.10项，共两项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_0c5816f5ddb03e2449d26a83"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_ef7196a9028e4a56",
+                "source_version": "file_ef7196a9028e4a56:v1",
+                "page": 1,
+                "locator": "p1:c0-50",
+                "char_start": 0,
+                "char_end": 50,
+                "quote": "仅按材料编号理解：“编号1.9至1.10万元”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_9cc5cede1c6d59c737b605f9"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_ef7196a9028e4a56",
+        "source_version": "file_ef7196a9028e4a56:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10万元”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N07-negated-submission",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "2927dd9464b2ba52e80515b819ca62eccd2cbf0fccec95e4a0f9fba43e443ccc",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 5,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_3ccacbc6b16d4866",
+        "source_version": "file_3ccacbc6b16d4866:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_8dfe7bea72d427ae29708602",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_3ccacbc6b16d4866",
+                  "source_version": "file_3ccacbc6b16d4866:v1",
+                  "page": 1,
+                  "locator": "p1:c0-50",
+                  "char_start": 0,
+                  "char_end": 50,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料无需同时提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_3ccacbc6b16d4866",
+                  "source_version": "file_3ccacbc6b16d4866:v1",
+                  "page": 1,
+                  "locator": "p1:c0-50",
+                  "char_start": 0,
+                  "char_end": 50,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料无需同时提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_68a301eb149ccbd5cff03803",
+                "operator": "UNRESOLVED",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_811a1122c26dc972961e447c"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料无需同时提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_3ccacbc6b16d4866",
+                    "source_version": "file_3ccacbc6b16d4866:v1",
+                    "page": 1,
+                    "locator": "p1:c0-50",
+                    "char_start": 0,
+                    "char_end": 50,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料无需同时提交。"
+                  }
+                ],
+                "operator_source_references": [
+                  {
+                    "document_id": "file_3ccacbc6b16d4866",
+                    "source_version": "file_3ccacbc6b16d4866:v1",
+                    "page": 1,
+                    "locator": "p1:c43-45",
+                    "char_start": 43,
+                    "char_end": 45,
+                    "quote": "无需"
+                  }
+                ],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [
+                    {
+                      "document_id": "file_3ccacbc6b16d4866",
+                      "source_version": "file_3ccacbc6b16d4866:v1",
+                      "page": 1,
+                      "locator": "p1:c43-45",
+                      "char_start": 43,
+                      "char_end": 45,
+                      "quote": "无需"
+                    }
+                  ],
+                  "reason": "unsupported NOT is retained for manual review"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_3ccacbc6b16d4866",
+                    "source_version": "file_3ccacbc6b16d4866:v1",
+                    "page": 1,
+                    "locator": "p1:c49-50",
+                    "char_start": 49,
+                    "char_end": 50,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_811a1122c26dc972961e447c",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料无需同时提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_8dfe7bea72d427ae29708602"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_3ccacbc6b16d4866",
+                "source_version": "file_3ccacbc6b16d4866:v1",
+                "page": 1,
+                "locator": "p1:c0-50",
+                "char_start": 0,
+                "char_end": 50,
+                "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料无需同时提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_811a1122c26dc972961e447c"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_3ccacbc6b16d4866",
+        "source_version": "file_3ccacbc6b16d4866:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料无需同时提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "blocked",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N08-choice-instead-of-AND",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "a0219cfddbaa56f90fa580a26240dd0e63450955badcb33d2060621e1d344fe8",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_4820f3c8580747d3",
+        "source_version": "file_4820f3c8580747d3:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_49041800badd1df2400a6279",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_4820f3c8580747d3",
+                  "source_version": "file_4820f3c8580747d3:v1",
+                  "page": 1,
+                  "locator": "p1:c0-50",
+                  "char_start": 0,
+                  "char_end": 50,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料任选一项提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_4820f3c8580747d3",
+                  "source_version": "file_4820f3c8580747d3:v1",
+                  "page": 1,
+                  "locator": "p1:c0-50",
+                  "char_start": 0,
+                  "char_end": 50,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料任选一项提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_a027e946d8f628c658dc1a62",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_41856a83fa5b4a61be75c12d"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料任选一项提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_4820f3c8580747d3",
+                    "source_version": "file_4820f3c8580747d3:v1",
+                    "page": 1,
+                    "locator": "p1:c0-50",
+                    "char_start": 0,
+                    "char_end": 50,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料任选一项提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_4820f3c8580747d3",
+                    "source_version": "file_4820f3c8580747d3:v1",
+                    "page": 1,
+                    "locator": "p1:c49-50",
+                    "char_start": 49,
+                    "char_end": 50,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_41856a83fa5b4a61be75c12d",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料任选一项提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_49041800badd1df2400a6279"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_4820f3c8580747d3",
+                "source_version": "file_4820f3c8580747d3:v1",
+                "page": 1,
+                "locator": "p1:c0-50",
+                "char_start": 0,
+                "char_end": 50,
+                "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料任选一项提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_41856a83fa5b4a61be75c12d"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_4820f3c8580747d3",
+        "source_version": "file_4820f3c8580747d3:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料任选一项提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "blocked",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N09-conditional-obligation",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "9155bf03925f9ac45b966179f00b1e19e42fa83f0b960bf83a90e649d171f446",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_56120d27cd274418",
+        "source_version": "file_56120d27cd274418:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_2392439ea84c83f076eaf50d",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_56120d27cd274418",
+                  "source_version": "file_56120d27cd274418:v1",
+                  "page": 1,
+                  "locator": "p1:c0-52",
+                  "char_start": 0,
+                  "char_end": 52,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，若中标，共两项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_56120d27cd274418",
+                  "source_version": "file_56120d27cd274418:v1",
+                  "page": 1,
+                  "locator": "p1:c0-52",
+                  "char_start": 0,
+                  "char_end": 52,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，若中标，共两项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_3b009443e95eb3302a0af196",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_161d2aed68a1b60c4091850c"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，若中标，共两项材料均须提交。",
+                "source_references": [
+                  {
+                    "document_id": "file_56120d27cd274418",
+                    "source_version": "file_56120d27cd274418:v1",
+                    "page": 1,
+                    "locator": "p1:c0-52",
+                    "char_start": 0,
+                    "char_end": 52,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，若中标，共两项材料均须提交。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_56120d27cd274418",
+                    "source_version": "file_56120d27cd274418:v1",
+                    "page": 1,
+                    "locator": "p1:c51-52",
+                    "char_start": 51,
+                    "char_end": 52,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_161d2aed68a1b60c4091850c",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，若中标，共两项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_2392439ea84c83f076eaf50d"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_56120d27cd274418",
+                "source_version": "file_56120d27cd274418:v1",
+                "page": 1,
+                "locator": "p1:c0-52",
+                "char_start": 0,
+                "char_end": 52,
+                "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，若中标，共两项材料均须提交。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_161d2aed68a1b60c4091850c"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_56120d27cd274418",
+        "source_version": "file_56120d27cd274418:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，若中标，共两项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N10-trailing-independent-condition",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "13cde57c5a3a24e1be20dce8c3bef5f73d3daab809837a3e6437c81af1a943fa",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_504dfc08d75047a3",
+        "source_version": "file_504dfc08d75047a3:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_c8338615c2fc74ec29b3deac",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_504dfc08d75047a3",
+                  "source_version": "file_504dfc08d75047a3:v1",
+                  "page": 1,
+                  "locator": "p1:c0-57",
+                  "char_start": 0,
+                  "char_end": 57,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。另需提交资质证明。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_504dfc08d75047a3",
+                  "source_version": "file_504dfc08d75047a3:v1",
+                  "page": 1,
+                  "locator": "p1:c0-57",
+                  "char_start": 0,
+                  "char_end": 57,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。另需提交资质证明。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_558527bfe0cc7a68504b3ce4",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_ff54b84ce5621bc57753f52a"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。另需提交资质证明。",
+                "source_references": [
+                  {
+                    "document_id": "file_504dfc08d75047a3",
+                    "source_version": "file_504dfc08d75047a3:v1",
+                    "page": 1,
+                    "locator": "p1:c0-57",
+                    "char_start": 0,
+                    "char_end": 57,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。另需提交资质证明。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_504dfc08d75047a3",
+                    "source_version": "file_504dfc08d75047a3:v1",
+                    "page": 1,
+                    "locator": "p1:c56-57",
+                    "char_start": 56,
+                    "char_end": 57,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_ff54b84ce5621bc57753f52a",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。另需提交资质证明。",
+            "children": [],
+            "source_block_ids": [
+              "blk_c8338615c2fc74ec29b3deac"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_504dfc08d75047a3",
+                "source_version": "file_504dfc08d75047a3:v1",
+                "page": 1,
+                "locator": "p1:c0-57",
+                "char_start": 0,
+                "char_end": 57,
+                "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。另需提交资质证明。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          }
+        ],
+        "roots": [
+          "cond_ff54b84ce5621bc57753f52a"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: numbering explanation is metadata, not a material condition"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_504dfc08d75047a3",
+        "source_version": "file_504dfc08d75047a3:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。另需提交资质证明。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N11-split-obligation",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "c5b9abf787017c0066ff28967ca26f0a0d3c1e2478d344bb672d724f01927e9f",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 14,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_25a54aff284647cd",
+        "source_version": "file_25a54aff284647cd:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_76a57a03b750ab6a76fffc09",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_25a54aff284647cd",
+                  "source_version": "file_25a54aff284647cd:v1",
+                  "page": 1,
+                  "locator": "p1:c0-38",
+                  "char_start": 0,
+                  "char_end": 38,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_25a54aff284647cd",
+                  "source_version": "file_25a54aff284647cd:v1",
+                  "page": 1,
+                  "locator": "p1:c0-38",
+                  "char_start": 0,
+                  "char_end": 38,
+                  "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_a1c77d258e5c4913a001c92c",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_9ee1bb903dd24430a9b87b4a"
+                ],
+                "trigger_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，",
+                "source_references": [
+                  {
+                    "document_id": "file_25a54aff284647cd",
+                    "source_version": "file_25a54aff284647cd:v1",
+                    "page": 1,
+                    "locator": "p1:c0-38",
+                    "char_start": 0,
+                    "char_end": 38,
+                    "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [],
+                "reason": "numbering explanation is metadata, not a material condition"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          },
+          {
+            "block_id": "blk_73e5c995b85e0c0e0038f68d",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_25a54aff284647cd",
+                  "source_version": "file_25a54aff284647cd:v1",
+                  "page": 1,
+                  "locator": "p1:c39-49",
+                  "char_start": 39,
+                  "char_end": 49,
+                  "quote": "共两项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_25a54aff284647cd",
+                  "source_version": "file_25a54aff284647cd:v1",
+                  "page": 1,
+                  "locator": "p1:c39-49",
+                  "char_start": 39,
+                  "char_end": 49,
+                  "quote": "共两项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_a08364f63bf1d10aaa290db1",
+                "operator": "AND",
+                "status": "candidate",
+                "operator_status": "confirmed",
+                "scope_status": "candidate",
+                "trigger_text": "共两项材料均须提交。",
+                "operator_source_references": [
+                  {
+                    "document_id": "file_25a54aff284647cd",
+                    "source_version": "file_25a54aff284647cd:v1",
+                    "page": 1,
+                    "locator": "p1:c44-48",
+                    "char_start": 44,
+                    "char_end": 48,
+                    "quote": "均须提交"
+                  }
+                ],
+                "requirement_source_references": [],
+                "operator_relation": {
+                  "status": "confirmed",
+                  "source_references": [
+                    {
+                      "document_id": "file_25a54aff284647cd",
+                      "source_version": "file_25a54aff284647cd:v1",
+                      "page": 1,
+                      "locator": "p1:c44-48",
+                      "char_start": 44,
+                      "char_end": 48,
+                      "quote": "均须提交"
+                    }
+                  ],
+                  "reason": "explicit operator is supported by the source",
+                  "kind": "explicit_logical_operator",
+                  "basis": "explicit_operator_cue"
+                },
+                "scope_source_references": [
+                  {
+                    "document_id": "file_25a54aff284647cd",
+                    "source_version": "file_25a54aff284647cd:v1",
+                    "page": 1,
+                    "locator": "p1:c39-44",
+                    "char_start": 39,
+                    "char_end": 44,
+                    "quote": "共两项材料"
+                  }
+                ],
+                "member_source_references": [],
+                "target_block_ids": [],
+                "target_node_ids": [],
+                "source_references": [
+                  {
+                    "document_id": "file_25a54aff284647cd",
+                    "source_version": "file_25a54aff284647cd:v1",
+                    "page": 1,
+                    "locator": "p1:c39-44",
+                    "char_start": 39,
+                    "char_end": 44,
+                    "quote": "共两项材料"
+                  }
+                ],
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_25a54aff284647cd",
+                    "source_version": "file_25a54aff284647cd:v1",
+                    "page": 1,
+                    "locator": "p1:c39-49",
+                    "char_start": 39,
+                    "char_end": 49,
+                    "quote": "共两项材料均须提交。"
+                  }
+                ],
+                "terminal_boundary_source_references": [],
+                "following_nonlist_boundary_source_references": [],
+                "reason": "explicit scope has fewer than two numbered members"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_9ee1bb903dd24430a9b87b4a",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，",
+            "children": [],
+            "source_block_ids": [
+              "blk_76a57a03b750ab6a76fffc09"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_25a54aff284647cd",
+                "source_version": "file_25a54aff284647cd:v1",
+                "page": 1,
+                "locator": "p1:c0-38",
+                "char_start": 0,
+                "char_end": 38,
+                "quote": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "numbering explanation is metadata, not a material condition",
+            "role": "opaque"
+          },
+          {
+            "node_id": "cond_dea4ebdf7d6b8d5d82376581",
+            "op": "AND",
+            "status": "candidate",
+            "text": "共两项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_73e5c995b85e0c0e0038f68d"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_25a54aff284647cd",
+                "source_version": "file_25a54aff284647cd:v1",
+                "page": 1,
+                "locator": "p1:c44-48",
+                "char_start": 44,
+                "char_end": 48,
+                "quote": "均须提交"
+              },
+              {
+                "document_id": "file_25a54aff284647cd",
+                "source_version": "file_25a54aff284647cd:v1",
+                "page": 1,
+                "locator": "p1:c39-44",
+                "char_start": 39,
+                "char_end": 44,
+                "quote": "共两项材料"
+              },
+              {
+                "document_id": "file_25a54aff284647cd",
+                "source_version": "file_25a54aff284647cd:v1",
+                "page": 1,
+                "locator": "p1:c39-49",
+                "char_start": 39,
+                "char_end": 49,
+                "quote": "共两项材料均须提交。"
+              }
+            ],
+            "operator_relation": {
+              "status": "confirmed",
+              "source_references": [
+                {
+                  "document_id": "file_25a54aff284647cd",
+                  "source_version": "file_25a54aff284647cd:v1",
+                  "page": 1,
+                  "locator": "p1:c44-48",
+                  "char_start": 44,
+                  "char_end": 48,
+                  "quote": "均须提交"
+                }
+              ],
+              "reason": "explicit operator is supported by the source",
+              "kind": "explicit_logical_operator",
+              "basis": "explicit_operator_cue"
+            },
+            "operator_source_references": [
+              {
+                "document_id": "file_25a54aff284647cd",
+                "source_version": "file_25a54aff284647cd:v1",
+                "page": 1,
+                "locator": "p1:c44-48",
+                "char_start": 44,
+                "char_end": 48,
+                "quote": "均须提交"
+              }
+            ],
+            "scope_relation": {
+              "status": "candidate",
+              "operator_status": "confirmed",
+              "operator_relation": {
+                "status": "confirmed",
+                "source_references": [
+                  {
+                    "document_id": "file_25a54aff284647cd",
+                    "source_version": "file_25a54aff284647cd:v1",
+                    "page": 1,
+                    "locator": "p1:c44-48",
+                    "char_start": 44,
+                    "char_end": 48,
+                    "quote": "均须提交"
+                  }
+                ],
+                "reason": "explicit operator is supported by the source",
+                "kind": "explicit_logical_operator",
+                "basis": "explicit_operator_cue"
+              },
+              "target_node_ids": [],
+              "trigger_text": "共两项材料均须提交。",
+              "scope_source_references": [
+                {
+                  "document_id": "file_25a54aff284647cd",
+                  "source_version": "file_25a54aff284647cd:v1",
+                  "page": 1,
+                  "locator": "p1:c39-44",
+                  "char_start": 39,
+                  "char_end": 44,
+                  "quote": "共两项材料"
+                }
+              ],
+              "member_source_references": [],
+              "source_references": [
+                {
+                  "document_id": "file_25a54aff284647cd",
+                  "source_version": "file_25a54aff284647cd:v1",
+                  "page": 1,
+                  "locator": "p1:c39-44",
+                  "char_start": 39,
+                  "char_end": 44,
+                  "quote": "共两项材料"
+                }
+              ],
+              "requirement_source_references": [],
+              "boundary_source_references": [
+                {
+                  "document_id": "file_25a54aff284647cd",
+                  "source_version": "file_25a54aff284647cd:v1",
+                  "page": 1,
+                  "locator": "p1:c39-49",
+                  "char_start": 39,
+                  "char_end": 49,
+                  "quote": "共两项材料均须提交。"
+                }
+              ],
+              "terminal_boundary_source_references": [],
+              "following_nonlist_boundary_source_references": [],
+              "reason": "explicit scope has fewer than two numbered members"
+            },
+            "parent_relations": []
+          }
+        ],
+        "roots": [
+          "cond_9ee1bb903dd24430a9b87b4a",
+          "cond_dea4ebdf7d6b8d5d82376581"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "explicit scope requires review: explicit scope has fewer than two numbered members",
+          "scope relation requires review: numbering explanation is metadata, not a material condition",
+          "scope relation requires review: explicit scope has fewer than two numbered members"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_25a54aff284647cd",
+        "source_version": "file_25a54aff284647cd:v1",
+        "pages": [
+          "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，\n共两项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "N12-three-item-range-without-enumeration",
+      "expectation": "review_numbering",
+      "execution_state": "executed",
+      "input_sha256": "a9c3b7392187412c62141744d27c877b9222215fe5f6122b61c1b46376c1df48",
+      "status": "failed",
+      "errors": [
+        "numbering needs explicit review state and original text"
+      ],
+      "source_checked": 11,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_ee519eed17524afb",
+        "source_version": "file_ee519eed17524afb:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_79076431a2be8ed5a91df067",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_ee519eed17524afb",
+                  "source_version": "file_ee519eed17524afb:v1",
+                  "page": 1,
+                  "locator": "p1:c0-27",
+                  "char_start": 0,
+                  "char_end": 27,
+                  "quote": "须提交编号1.9至1.11项材料，共三项材料均须提交。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_ee519eed17524afb",
+                  "source_version": "file_ee519eed17524afb:v1",
+                  "page": 1,
+                  "locator": "p1:c0-27",
+                  "char_start": 0,
+                  "char_end": 27,
+                  "quote": "须提交编号1.9至1.11项材料，共三项材料均须提交。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_adc727672df6006e791f81c5",
+                "operator": "AND",
+                "status": "candidate",
+                "operator_status": "confirmed",
+                "scope_status": "candidate",
+                "trigger_text": "须提交编号1.9至1.11项材料，共三项材料均须提交。",
+                "operator_source_references": [
+                  {
+                    "document_id": "file_ee519eed17524afb",
+                    "source_version": "file_ee519eed17524afb:v1",
+                    "page": 1,
+                    "locator": "p1:c22-26",
+                    "char_start": 22,
+                    "char_end": 26,
+                    "quote": "均须提交"
+                  }
+                ],
+                "requirement_source_references": [],
+                "operator_relation": {
+                  "status": "confirmed",
+                  "source_references": [
+                    {
+                      "document_id": "file_ee519eed17524afb",
+                      "source_version": "file_ee519eed17524afb:v1",
+                      "page": 1,
+                      "locator": "p1:c22-26",
+                      "char_start": 22,
+                      "char_end": 26,
+                      "quote": "均须提交"
+                    }
+                  ],
+                  "reason": "explicit operator is supported by the source",
+                  "kind": "explicit_logical_operator",
+                  "basis": "explicit_operator_cue"
+                },
+                "scope_source_references": [
+                  {
+                    "document_id": "file_ee519eed17524afb",
+                    "source_version": "file_ee519eed17524afb:v1",
+                    "page": 1,
+                    "locator": "p1:c13-16",
+                    "char_start": 13,
+                    "char_end": 16,
+                    "quote": "项材料"
+                  }
+                ],
+                "member_source_references": [],
+                "target_block_ids": [],
+                "target_node_ids": [],
+                "source_references": [
+                  {
+                    "document_id": "file_ee519eed17524afb",
+                    "source_version": "file_ee519eed17524afb:v1",
+                    "page": 1,
+                    "locator": "p1:c13-16",
+                    "char_start": 13,
+                    "char_end": 16,
+                    "quote": "项材料"
+                  }
+                ],
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_ee519eed17524afb",
+                    "source_version": "file_ee519eed17524afb:v1",
+                    "page": 1,
+                    "locator": "p1:c0-27",
+                    "char_start": 0,
+                    "char_end": 27,
+                    "quote": "须提交编号1.9至1.11项材料，共三项材料均须提交。"
+                  }
+                ],
+                "terminal_boundary_source_references": [],
+                "following_nonlist_boundary_source_references": [],
+                "reason": "explicit scope has fewer than two numbered members"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_a686c3549dcad6cf094d5a3e",
+            "op": "AND",
+            "status": "candidate",
+            "text": "须提交编号1.9至1.11项材料，共三项材料均须提交。",
+            "children": [],
+            "source_block_ids": [
+              "blk_79076431a2be8ed5a91df067"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_ee519eed17524afb",
+                "source_version": "file_ee519eed17524afb:v1",
+                "page": 1,
+                "locator": "p1:c22-26",
+                "char_start": 22,
+                "char_end": 26,
+                "quote": "均须提交"
+              },
+              {
+                "document_id": "file_ee519eed17524afb",
+                "source_version": "file_ee519eed17524afb:v1",
+                "page": 1,
+                "locator": "p1:c13-16",
+                "char_start": 13,
+                "char_end": 16,
+                "quote": "项材料"
+              },
+              {
+                "document_id": "file_ee519eed17524afb",
+                "source_version": "file_ee519eed17524afb:v1",
+                "page": 1,
+                "locator": "p1:c0-27",
+                "char_start": 0,
+                "char_end": 27,
+                "quote": "须提交编号1.9至1.11项材料，共三项材料均须提交。"
+              }
+            ],
+            "operator_relation": {
+              "status": "confirmed",
+              "source_references": [
+                {
+                  "document_id": "file_ee519eed17524afb",
+                  "source_version": "file_ee519eed17524afb:v1",
+                  "page": 1,
+                  "locator": "p1:c22-26",
+                  "char_start": 22,
+                  "char_end": 26,
+                  "quote": "均须提交"
+                }
+              ],
+              "reason": "explicit operator is supported by the source",
+              "kind": "explicit_logical_operator",
+              "basis": "explicit_operator_cue"
+            },
+            "operator_source_references": [
+              {
+                "document_id": "file_ee519eed17524afb",
+                "source_version": "file_ee519eed17524afb:v1",
+                "page": 1,
+                "locator": "p1:c22-26",
+                "char_start": 22,
+                "char_end": 26,
+                "quote": "均须提交"
+              }
+            ],
+            "scope_relation": {
+              "status": "candidate",
+              "operator_status": "confirmed",
+              "operator_relation": {
+                "status": "confirmed",
+                "source_references": [
+                  {
+                    "document_id": "file_ee519eed17524afb",
+                    "source_version": "file_ee519eed17524afb:v1",
+                    "page": 1,
+                    "locator": "p1:c22-26",
+                    "char_start": 22,
+                    "char_end": 26,
+                    "quote": "均须提交"
+                  }
+                ],
+                "reason": "explicit operator is supported by the source",
+                "kind": "explicit_logical_operator",
+                "basis": "explicit_operator_cue"
+              },
+              "target_node_ids": [],
+              "trigger_text": "须提交编号1.9至1.11项材料，共三项材料均须提交。",
+              "scope_source_references": [
+                {
+                  "document_id": "file_ee519eed17524afb",
+                  "source_version": "file_ee519eed17524afb:v1",
+                  "page": 1,
+                  "locator": "p1:c13-16",
+                  "char_start": 13,
+                  "char_end": 16,
+                  "quote": "项材料"
+                }
+              ],
+              "member_source_references": [],
+              "source_references": [
+                {
+                  "document_id": "file_ee519eed17524afb",
+                  "source_version": "file_ee519eed17524afb:v1",
+                  "page": 1,
+                  "locator": "p1:c13-16",
+                  "char_start": 13,
+                  "char_end": 16,
+                  "quote": "项材料"
+                }
+              ],
+              "requirement_source_references": [],
+              "boundary_source_references": [
+                {
+                  "document_id": "file_ee519eed17524afb",
+                  "source_version": "file_ee519eed17524afb:v1",
+                  "page": 1,
+                  "locator": "p1:c0-27",
+                  "char_start": 0,
+                  "char_end": 27,
+                  "quote": "须提交编号1.9至1.11项材料，共三项材料均须提交。"
+                }
+              ],
+              "terminal_boundary_source_references": [],
+              "following_nonlist_boundary_source_references": [],
+              "reason": "explicit scope has fewer than two numbered members"
+            },
+            "parent_relations": []
+          }
+        ],
+        "roots": [
+          "cond_a686c3549dcad6cf094d5a3e"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "explicit scope requires review: explicit scope has fewer than two numbered members",
+          "scope relation requires review: explicit scope has fewer than two numbered members"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_ee519eed17524afb",
+        "source_version": "file_ee519eed17524afb:v1",
+        "pages": [
+          "须提交编号1.9至1.11项材料，共三项材料均须提交。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "C01-decimal-amount",
+      "expectation": "preserve",
+      "execution_state": "executed",
+      "input_sha256": "0a04e515dbe228cb585f79dc6501e4a396faeba11359b263b63eb7a6ea9eb643",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 2,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_cf5ef23fbbaa4a95",
+        "source_version": "file_cf5ef23fbbaa4a95:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_68ffd8f1c79d0864f97e19a4",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_cf5ef23fbbaa4a95",
+                  "source_version": "file_cf5ef23fbbaa4a95:v1",
+                  "page": 1,
+                  "locator": "p1:c0-18",
+                  "char_start": 0,
+                  "char_end": 18,
+                  "quote": "投标报价应不少于人民币1.10万元。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_cf5ef23fbbaa4a95",
+                  "source_version": "file_cf5ef23fbbaa4a95:v1",
+                  "page": 1,
+                  "locator": "p1:c0-18",
+                  "char_start": 0,
+                  "char_end": 18,
+                  "quote": "投标报价应不少于人民币1.10万元。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_5ade360c860ff6853854e9ee",
+            "op": "ATOM",
+            "status": "confirmed",
+            "text": "投标报价应不少于人民币1.10万元。",
+            "children": [],
+            "source_block_ids": [
+              "blk_68ffd8f1c79d0864f97e19a4"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_cf5ef23fbbaa4a95",
+                "source_version": "file_cf5ef23fbbaa4a95:v1",
+                "page": 1,
+                "locator": "p1:c0-18",
+                "char_start": 0,
+                "char_end": 18,
+                "quote": "投标报价应不少于人民币1.10万元。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "explicit requirement predicate is source-verified"
+          }
+        ],
+        "roots": [
+          "cond_5ade360c860ff6853854e9ee"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_cf5ef23fbbaa4a95",
+        "source_version": "file_cf5ef23fbbaa4a95:v1",
+        "pages": [
+          "投标报价应不少于人民币1.10万元。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "C02-monetary-range",
+      "expectation": "preserve",
+      "execution_state": "executed",
+      "input_sha256": "115a37da2abe098bf7fa0a041b8129529c56dce74c111db72f5348d5a9417a8b",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_4dec3f55eed94e57",
+        "source_version": "file_4dec3f55eed94e57:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_ff15530c0cb9db7eb55182aa",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_4dec3f55eed94e57",
+                  "source_version": "file_4dec3f55eed94e57:v1",
+                  "page": 1,
+                  "locator": "p1:c0-19",
+                  "char_start": 0,
+                  "char_end": 19,
+                  "quote": "预算金额为人民币1.9至1.10万元。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_4dec3f55eed94e57",
+                  "source_version": "file_4dec3f55eed94e57:v1",
+                  "page": 1,
+                  "locator": "p1:c0-19",
+                  "char_start": 0,
+                  "char_end": 19,
+                  "quote": "预算金额为人民币1.9至1.10万元。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [
+              {
+                "relation_id": "cond_54bdf73b5698ab6814b8361c",
+                "operator": "UNKNOWN",
+                "status": "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [
+                  "cond_ad2131da7c1cfba9a2e50de7"
+                ],
+                "trigger_text": "预算金额为人民币1.9至1.10万元。",
+                "source_references": [
+                  {
+                    "document_id": "file_4dec3f55eed94e57",
+                    "source_version": "file_4dec3f55eed94e57:v1",
+                    "page": 1,
+                    "locator": "p1:c0-19",
+                    "char_start": 0,
+                    "char_end": 19,
+                    "quote": "预算金额为人民币1.9至1.10万元。"
+                  }
+                ],
+                "operator_source_references": [],
+                "operator_relation": {
+                  "status": "candidate",
+                  "source_references": [],
+                  "reason": "operator and member scope are not explicit"
+                },
+                "boundary_source_references": [
+                  {
+                    "document_id": "file_4dec3f55eed94e57",
+                    "source_version": "file_4dec3f55eed94e57:v1",
+                    "page": 1,
+                    "locator": "p1:c18-19",
+                    "char_start": 18,
+                    "char_end": 19,
+                    "quote": "。"
+                  }
+                ],
+                "reason": "condition completeness is not explicit outside a confirmed scope"
+              }
+            ],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_ad2131da7c1cfba9a2e50de7",
+            "op": "ATOM",
+            "status": "candidate",
+            "text": "预算金额为人民币1.9至1.10万元。",
+            "children": [],
+            "source_block_ids": [
+              "blk_ff15530c0cb9db7eb55182aa"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_4dec3f55eed94e57",
+                "source_version": "file_4dec3f55eed94e57:v1",
+                "page": 1,
+                "locator": "p1:c0-19",
+                "char_start": 0,
+                "char_end": 19,
+                "quote": "预算金额为人民币1.9至1.10万元。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "condition completeness is not explicit outside a confirmed scope"
+          }
+        ],
+        "roots": [
+          "cond_ad2131da7c1cfba9a2e50de7"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [
+          "scope relation requires review: condition completeness is not explicit outside a confirmed scope"
+        ],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_4dec3f55eed94e57",
+        "source_version": "file_4dec3f55eed94e57:v1",
+        "pages": [
+          "预算金额为人民币1.9至1.10万元。"
+        ]
+      },
+      "runtime": {
+        "run_status": "blocked",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "C03-single-material-label",
+      "expectation": "preserve",
+      "execution_state": "executed",
+      "input_sha256": "ebe26d545553ff7cbc68f4ad3e897cdab9b9d3ee0396e9cb6dd5a9fb7a3df3a2",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 2,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_58731f00a76d4919",
+        "source_version": "file_58731f00a76d4919:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_3df3cc301bea3be65a0204f3",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_58731f00a76d4919",
+                  "source_version": "file_58731f00a76d4919:v1",
+                  "page": 1,
+                  "locator": "p1:c0-13",
+                  "char_start": 0,
+                  "char_end": 13,
+                  "quote": "请提交编号1.10项材料。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_58731f00a76d4919",
+                  "source_version": "file_58731f00a76d4919:v1",
+                  "page": 1,
+                  "locator": "p1:c0-13",
+                  "char_start": 0,
+                  "char_end": 13,
+                  "quote": "请提交编号1.10项材料。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_8e12d5046d7982a2a9913698",
+            "op": "ATOM",
+            "status": "confirmed",
+            "text": "请提交编号1.10项材料。",
+            "children": [],
+            "source_block_ids": [
+              "blk_3df3cc301bea3be65a0204f3"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_58731f00a76d4919",
+                "source_version": "file_58731f00a76d4919:v1",
+                "page": 1,
+                "locator": "p1:c0-13",
+                "char_start": 0,
+                "char_end": 13,
+                "quote": "请提交编号1.10项材料。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "explicit requirement predicate is source-verified"
+          }
+        ],
+        "roots": [
+          "cond_8e12d5046d7982a2a9913698"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_58731f00a76d4919",
+        "source_version": "file_58731f00a76d4919:v1",
+        "pages": [
+          "请提交编号1.10项材料。"
+        ]
+      },
+      "runtime": {
+        "run_status": "blocked",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    },
+    {
+      "case_id": "C04-material-and-money-separate",
+      "expectation": "preserve",
+      "execution_state": "executed",
+      "input_sha256": "695d04537f0195896a0d844dc8d7193c8ba9e0cac51f2c1b65ed4b94efdba4c0",
+      "status": "passed",
+      "errors": [],
+      "source_checked": 4,
+      "source_invalid": 0,
+      "actual_graph": {
+        "schema_version": "document-relations-v1",
+        "document_id": "file_9bdc77e3af0849f9",
+        "source_version": "file_9bdc77e3af0849f9:v1",
+        "block_relations": [
+          {
+            "block_id": "blk_fad00c34bb9508dc40d91b1d",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_9bdc77e3af0849f9",
+                  "source_version": "file_9bdc77e3af0849f9:v1",
+                  "page": 1,
+                  "locator": "p1:c0-12",
+                  "char_start": 0,
+                  "char_end": 12,
+                  "quote": "请提交编号1.9项材料。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_9bdc77e3af0849f9",
+                  "source_version": "file_9bdc77e3af0849f9:v1",
+                  "page": 1,
+                  "locator": "p1:c0-12",
+                  "char_start": 0,
+                  "char_end": 12,
+                  "quote": "请提交编号1.9项材料。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [],
+            "reference_relations": [],
+            "list_membership_relations": []
+          },
+          {
+            "block_id": "blk_115b1e7746f939f0461928cc",
+            "parent_relation": {
+              "status": "unresolved",
+              "target_block_ids": [],
+              "position_references": [
+                {
+                  "document_id": "file_9bdc77e3af0849f9",
+                  "source_version": "file_9bdc77e3af0849f9:v1",
+                  "page": 1,
+                  "locator": "p1:c13-29",
+                  "char_start": 13,
+                  "char_end": 29,
+                  "quote": "报价应不少于人民币1.10万元。"
+                }
+              ],
+              "source_references": [
+                {
+                  "document_id": "file_9bdc77e3af0849f9",
+                  "source_version": "file_9bdc77e3af0849f9:v1",
+                  "page": 1,
+                  "locator": "p1:c13-29",
+                  "char_start": 13,
+                  "char_end": 29,
+                  "quote": "报价应不少于人民币1.10万元。"
+                }
+              ],
+              "reason": "no legacy parent pointer"
+            },
+            "scope_relations": [],
+            "reference_relations": [],
+            "list_membership_relations": []
+          }
+        ],
+        "condition_nodes": [
+          {
+            "node_id": "cond_cd31dab19af7a6afcc186112",
+            "op": "ATOM",
+            "status": "confirmed",
+            "text": "请提交编号1.9项材料。",
+            "children": [],
+            "source_block_ids": [
+              "blk_fad00c34bb9508dc40d91b1d"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_9bdc77e3af0849f9",
+                "source_version": "file_9bdc77e3af0849f9:v1",
+                "page": 1,
+                "locator": "p1:c0-12",
+                "char_start": 0,
+                "char_end": 12,
+                "quote": "请提交编号1.9项材料。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "explicit requirement predicate is source-verified"
+          },
+          {
+            "node_id": "cond_b876557c4b284fefa7165cf9",
+            "op": "ATOM",
+            "status": "confirmed",
+            "text": "报价应不少于人民币1.10万元。",
+            "children": [],
+            "source_block_ids": [
+              "blk_115b1e7746f939f0461928cc"
+            ],
+            "source_references": [
+              {
+                "document_id": "file_9bdc77e3af0849f9",
+                "source_version": "file_9bdc77e3af0849f9:v1",
+                "page": 1,
+                "locator": "p1:c13-29",
+                "char_start": 13,
+                "char_end": 29,
+                "quote": "报价应不少于人民币1.10万元。"
+              }
+            ],
+            "parent_relations": [],
+            "reason": "explicit requirement predicate is source-verified"
+          }
+        ],
+        "roots": [
+          "cond_cd31dab19af7a6afcc186112",
+          "cond_b876557c4b284fefa7165cf9"
+        ],
+        "references": [],
+        "coverage_status": "partial",
+        "needs_human_review": true,
+        "warnings": [],
+        "source_identity_status": "registry_verified",
+        "source_reference_status": "verified"
+      },
+      "source_context": {
+        "document_id": "file_9bdc77e3af0849f9",
+        "source_version": "file_9bdc77e3af0849f9:v1",
+        "pages": [
+          "请提交编号1.9项材料。\n报价应不少于人民币1.10万元。"
+        ]
+      },
+      "runtime": {
+        "run_status": "partial",
+        "intake_status": "success",
+        "decomposition_status": "success"
+      }
+    }
+  ],
+  "graph_mutations": [],
+  "mutation_execution": "not_run_positive_unavailable",
+  "summary": {
+    "total": 20,
+    "passed": 14,
+    "executed": 20,
+    "source_checked": 92,
+    "source_invalid": 0,
+    "semantic_mutations_rejected": 0,
+    "semantic_mutations_total": 0,
+    "source_mutations_rejected": 0,
+    "source_mutations_total": 0
+  },
+  "unseen_evaluation": "not_run",
+  "production_accepted": false
+}

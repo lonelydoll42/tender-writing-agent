@@ -1,0 +1,668 @@
+{
+  "schema": "numbering-baseline-product-comparison-v1",
+  "generated_at": "2026-10-15T14:01:12.2947720+08:00",
+  "baseline_report": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/canonical-three-view-scores.json",
+  "baseline_report_sha256": "3ae0b77a24aa2cc5449edeed9a91b9a9e74566583c5a1c86f66ee36f16aff8c8",
+  "product_report": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/canonical-three-view-scores.json",
+  "product_report_sha256": "db7444963a8ca9257f342647d44dbe41c70f630ff45d0121ed9503cad7c6497e",
+  "baseline_source_tree_sha256": "8141956da6314058e73a3c1f64b0f8c058d4fdb5a3c0a1b7068aa1e9e7be45d4",
+  "current_source_tree_sha256": "27af318f62035782d4db08e1d029dfc0a57248c4069afe40b33bb37094f0a7cc",
+  "baseline_scores": [
+    "11/14",
+    "11/14",
+    "12/14"
+  ],
+  "current_scores": [
+    "12/14",
+    "12/14",
+    "13/14"
+  ],
+  "executed": 14,
+  "execution_failed": 0,
+  "not_run": 0,
+  "changed_cases": [
+    "case-12"
+  ],
+  "other_cases_status_and_all_metrics_unchanged": 13,
+  "frozen_scorers_and_oracle_unchanged": "verified separately by protected Git blob proof",
+  "identity_note": "Independent Registry captures allocate new document IDs. Cross-capture graph/context hashes are not expected to match; input bytes and raw page text do match. Three score views within each capture use identical graph/context/runtime fingerprints.",
+  "cases": [
+    {
+      "case_id": "case-01",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-02",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-03",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-04",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-05",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-06",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-07",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "before_error_events": 8,
+          "after_error_events": 8,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "before_error_events": 8,
+          "after_error_events": 8,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "before_error_events": 8,
+          "after_error_events": 8,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-08",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-09",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-10",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-11",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "before_error_events": 17,
+          "after_error_events": 17,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "failed",
+          "after_status": "failed",
+          "before_error_events": 15,
+          "after_error_events": 15,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-12",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "failed",
+          "after_status": "passed",
+          "before_error_events": 6,
+          "after_error_events": 0,
+          "metric_changes": [
+            {
+              "metric": "condition_omission",
+              "before": {
+                "numerator": 2,
+                "denominator": 2
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 2
+              }
+            },
+            {
+              "metric": "scope_membership_decisions",
+              "before": {
+                "numerator": 2,
+                "denominator": 2
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 2
+              }
+            },
+            {
+              "metric": "operator_group_structure",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "parent_relations",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "source_coverage",
+              "before": {
+                "numerator": 2,
+                "denominator": 2
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 2
+              }
+            },
+            {
+              "metric": "source_invalid",
+              "before": {
+                "numerator": 0,
+                "denominator": 4
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 27
+              }
+            }
+          ]
+        },
+        "1.0.4": {
+          "before_status": "failed",
+          "after_status": "passed",
+          "before_error_events": 6,
+          "after_error_events": 0,
+          "metric_changes": [
+            {
+              "metric": "condition_omission",
+              "before": {
+                "numerator": 2,
+                "denominator": 2
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 2
+              }
+            },
+            {
+              "metric": "scope_membership_decisions",
+              "before": {
+                "numerator": 2,
+                "denominator": 2
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 2
+              }
+            },
+            {
+              "metric": "operator_group_structure",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "parent_relations",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "source_coverage",
+              "before": {
+                "numerator": 2,
+                "denominator": 2
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 2
+              }
+            },
+            {
+              "metric": "source_invalid",
+              "before": {
+                "numerator": 0,
+                "denominator": 4
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 27
+              }
+            }
+          ]
+        },
+        "1.0.5": {
+          "before_status": "failed",
+          "after_status": "passed",
+          "before_error_events": 6,
+          "after_error_events": 0,
+          "metric_changes": [
+            {
+              "metric": "condition_omission",
+              "before": {
+                "numerator": 2,
+                "denominator": 2
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 2
+              }
+            },
+            {
+              "metric": "scope_membership_decisions",
+              "before": {
+                "numerator": 2,
+                "denominator": 2
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 2
+              }
+            },
+            {
+              "metric": "operator_group_structure",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "parent_relations",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "source_coverage",
+              "before": {
+                "numerator": 2,
+                "denominator": 2
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 2
+              }
+            },
+            {
+              "metric": "source_invalid",
+              "before": {
+                "numerator": 0,
+                "denominator": 4
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 27
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case_id": "case-13",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    },
+    {
+      "case_id": "case-14",
+      "input_bytes_unchanged": true,
+      "raw_pages_unchanged": true,
+      "execution_state": "executed",
+      "within_capture_view_fingerprints_equal": true,
+      "raw_graph_equal_between_independent_captures": false,
+      "views": {
+        "1.0.3": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.4": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        },
+        "1.0.5": {
+          "before_status": "passed",
+          "after_status": "passed",
+          "before_error_events": 0,
+          "after_error_events": 0,
+          "metric_changes": []
+        }
+      }
+    }
+  ],
+  "unseen_evaluation": "not_run",
+  "production_accepted": false
+}

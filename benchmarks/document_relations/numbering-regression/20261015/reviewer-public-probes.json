@@ -1,0 +1,38 @@
+{
+  "schema": "finite-material-numbering-cases-v1",
+  "classification": "additional main-reviewer public probes; not unseen",
+  "cases": [
+    {
+      "case_id": "RP01-whitespace-offsets",
+      "expectation": "confirmed_pair",
+      "input_text": "  仅按材料编号理解：“编号4.9至4.10”表示编号4.9项和编号4.10项，共两项材料均须提交。  ",
+      "labels": ["4.9", "4.10"]
+    },
+    {
+      "case_id": "RP02-label-string-identity",
+      "expectation": "confirmed_pair",
+      "input_text": "仅按材料编号理解：“编号1.01至1.1”表示编号1.01项和编号1.1项，共两项材料均须提交。",
+      "labels": ["1.01", "1.1"]
+    },
+    {
+      "case_id": "RN01-normalized-endpoint-mismatch",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.1项，共两项材料均须提交。"
+    },
+    {
+      "case_id": "RN02-unsupported-prefix",
+      "expectation": "review_numbering",
+      "input_text": "无需按材料编号提交，仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+    },
+    {
+      "case_id": "RN03-obligation-removed",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料。"
+    },
+    {
+      "case_id": "RN04-unlisted-endpoints-with-count",
+      "expectation": "review_numbering",
+      "input_text": "编号1.9至1.10共两项材料均须提交。"
+    }
+  ]
+}

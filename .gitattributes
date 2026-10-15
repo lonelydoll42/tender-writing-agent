@@ -159,3 +159,7 @@ benchmarks/document_relations/financial-context-publication-record.json -text wh
 # Preserve the original failing pytest traces for this batch.
 benchmarks/document_relations/reports/financial-context-followup-20261015/worker/pytest-baseline-red-20261015.xml -whitespace
 benchmarks/document_relations/reports/financial-context-followup-20261015/worker/pytest-green-iteration1-20261015.xml -whitespace
+benchmarks/document_relations/numbering-regression/20261015/** -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/numbering-followup-20261015/** -text whitespace=cr-at-eol
+benchmarks/document_relations/numbering-publication-record.json -text whitespace=cr-at-eol
+benchmarks/document_relations/reports/numbering-followup-20261015/worker/pytest-baseline-red.xml -whitespace

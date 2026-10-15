@@ -1,0 +1,692 @@
+{
+  "schema": "numbering-publication-v1",
+  "published_at": "2026-10-15T14:04:33.5942931+08:00",
+  "base_commit": "c08edeca695071976d990e7cc4f21b12779b8fc2",
+  "classification": "public regression; actual independent Registry/Runtime output; not unseen",
+  "implementation_by": "delegated worker; main reviewer accepts and publishes",
+  "accepted_scope": "Finite complete affirmative two-item material-number interpretation. Distinct literal labels match explicit endpoints and enumeration; original two leaves and direct AND with separate operator, member and terminal source evidence.",
+  "label_boundary": "Segmented strings, not decimal numbers; preserve exact labels and add no unstated middle items. Unsupported ranges, conditions, negation, counts, extra qualifiers and cross-block interpretation require review.",
+  "product_source": {
+    "path": "src/qiaowenshu_agent/domain/document_relations.py",
+    "canonical_sha256": "5ac7c3bd518c65b05564ac31cad49263bf8c9525b0dc690d2a7f8794e966de19",
+    "source_tree_sha256": "27af318f62035782d4db08e1d029dfc0a57248c4069afe40b33bb37094f0a7cc",
+    "source_files": 65,
+    "code_files": 99,
+    "archive_tree": "ca9f0df66235b05765705ecb048db2c3b3854727",
+    "exported_files": 870,
+    "archive_scope": "Canonical code and pre-publication assets. Later reports/docs/metadata are outside this tree; final commit must retain all code blobs.",
+    "proof": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/final-code-proof.json"
+  },
+  "mapping": {
+    "frozen_versions": [
+      "1.0.3",
+      "1.0.4"
+    ],
+    "baseline_atoms_mapped_each": 0,
+    "final_atoms_mapped_each": 2,
+    "atoms_expected": 2,
+    "baseline_errors_each": 6,
+    "final_errors_each": 0,
+    "diagnosis": "Product extraction missing in baseline, not an atom-mapping defect. Frozen graders unchanged.",
+    "baseline_report": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/baseline-atom-mapping.json",
+    "final_report": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/canonical-atom-mapping.json"
+  },
+  "actual_checks": {
+    "new_public": {
+      "total": 27,
+      "passed": 27,
+      "executed": 27,
+      "source_checked": 292,
+      "source_invalid": 0,
+      "semantic_mutations_rejected": 21,
+      "semantic_mutations_total": 21,
+      "source_mutations_rejected": 2,
+      "source_mutations_total": 2
+    },
+    "finite_confirmed": 6,
+    "review_cases": 16,
+    "preserved_behavior_controls": 5,
+    "semantic_mutation_raw_source_invalid": 0,
+    "existing_financial": {
+      "total": 22,
+      "passed": 22,
+      "executed": 22,
+      "source_checked": 1315,
+      "source_invalid": 0,
+      "semantic_mutations_rejected": 23,
+      "semantic_mutations_total": 23,
+      "source_mutations_rejected": 2,
+      "source_mutations_total": 2
+    },
+    "existing_attributes": {
+      "total": 33,
+      "passed": 33,
+      "executed": 33,
+      "semantic_mutations_rejected": 15,
+      "semantic_mutations_total": 15,
+      "source_mutations_rejected": 2,
+      "source_mutations_total": 2,
+      "source_invalid": 0,
+      "source_checked": 720
+    },
+    "all_fixtures_public": true
+  },
+  "checker_correction": {
+    "initial_actual": "21/27",
+    "corrected_actual": "27/27",
+    "reason": "Initial main checker conflated operator and scope evidence and required one concatenated member quote. Corrected to frozen role contract; each member is separately supported and count scope is distinct from obligation.",
+    "product_or_frozen_grader_changed_for_this_correction": false,
+    "first_output_preserved": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/working-public-27.json",
+    "checker_snapshot_preserved": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/acceptance-tool-initial-role-check.py.txt",
+    "corrected_live_output": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/working-public-27-role-corrected.json",
+    "immutable_final_output": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/canonical-actual-public-27.json"
+  },
+  "tests": {
+    "exit_code": 0,
+    "passed": 1087,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observed_warnings": 1,
+    "warning": "StarletteDeprecationWarning: httpx with starlette.testclient",
+    "stdout_duration_seconds": 70.25,
+    "junit_duration_seconds": 70.137,
+    "junit": "pytest-canonical-final.xml",
+    "run_from": "immutable canonical-v1 export",
+    "cacheprovider": "disabled"
+  },
+  "validation": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/final-validation.json",
+  "model_policy": {
+    "only_permitted_model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "global_defaults_and_instructions_verified": true,
+    "replacement_spawn_explicit": true,
+    "previous_worker_closed": true,
+    "live_main_runtime_model": "not_attested",
+    "local_config_backup_created": true,
+    "report": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/model-policy.json",
+    "local_user_configuration_in_repository": false
+  },
+  "scoring": {
+    "baseline_scores": [
+      "11/14",
+      "11/14",
+      "12/14"
+    ],
+    "current_scores": [
+      "12/14",
+      "12/14",
+      "13/14"
+    ],
+    "current_views": {
+      "1.0.3": {
+        "case_count": 14,
+        "passed": 12,
+        "failed": 2,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 4,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 4,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 3,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 1,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 11,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 4,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1130,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 25,
+          "group_structure_error_events": 4
+        },
+        "method": "frozen 1.0.3 score_case",
+        "overlay_case_ids": []
+      },
+      "1.0.4": {
+        "case_count": 14,
+        "passed": 12,
+        "failed": 2,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 2,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 4,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 3,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 1,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 11,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1130,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 23,
+          "group_structure_error_events": 4
+        },
+        "method": "frozen 1.0.4 score_case",
+        "overlay_case_ids": []
+      },
+      "1.0.5": {
+        "case_count": 14,
+        "passed": 13,
+        "failed": 1,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 1,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 1,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 3,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1130,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 8,
+          "group_structure_error_events": 1
+        },
+        "method": "frozen 1.0.5 on case-03/case-11; 1.0.4 fallback elsewhere",
+        "overlay_case_ids": [
+          "case-03",
+          "case-11"
+        ]
+      }
+    },
+    "changed_cases": [
+      "case-12"
+    ],
+    "unchanged_other_cases": 13,
+    "actual_executed": 14,
+    "execution_failed": 0,
+    "not_run": 0,
+    "raw_source_valid": 1130,
+    "frozen_1_0_5_remaining_failed": [
+      "case-07"
+    ],
+    "frozen_scorers_unchanged": true,
+    "input_bytes_and_raw_pages_unchanged": true,
+    "within_capture_view_fingerprints_equal": true,
+    "independent_registry_capture_raw_graph_identity": "new IDs; not byte identical",
+    "report": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/canonical-three-view-scores.json",
+    "comparison": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/baseline-to-product-comparison.json"
+  },
+  "history": {
+    "tracked_at_freeze": 861,
+    "protected_files": 856,
+    "previous_publication_fields_preserved": 24,
+    "final_staged_audit": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/final-staged-audit.json"
+  },
+  "limitations": {
+    "all_new_fixtures_public": true,
+    "unseen_isolation": "not_established",
+    "unseen_evaluation": "not_run",
+    "old_public_original_files": "historical 0/8; not rerun",
+    "business_materials": "not_run",
+    "step_2_overall_closed": false,
+    "general_completeness_accepted": false,
+    "production_accepted": false,
+    "case_07": "separate future batch",
+    "uv_lock": "unchanged, untracked, separate environment reproduction task"
+  },
+  "inventory_excludes": [
+    "benchmarks/document_relations/numbering-publication-record.json",
+    "benchmarks/document_relations/publication-record.json",
+    "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/final-staged-audit.json"
+  ],
+  "inventory_note": "SHA-256 records working file bytes; git_blob records staged canonical bytes. Self, parent publication index and final staged audit excluded to avoid hash cycles.",
+  "inventory": [
+    {
+      "path": ".gitattributes",
+      "sha256": "b863e1f7e30b39cb07e74244dd98973f1ca747580c843202bd5b0ae35eecade4",
+      "git_blob": "13f12b81f279fdc11f734341bd882de1fc1472a9",
+      "bytes": 16029
+    },
+    {
+      "path": "benchmarks/document_relations/numbering-regression/20261015/cases.json",
+      "sha256": "ca7fb541219acdb53c680bddb0928696d26adf1fbd292e5f123b2b475c8112c0",
+      "git_blob": "8fb899c907cd3d225d17cbc05d5a63865a8334ee",
+      "bytes": 5174
+    },
+    {
+      "path": "benchmarks/document_relations/numbering-regression/20261015/check-acceptance.py",
+      "sha256": "f9052e4280c5bdca6e7f88603ccedf1036bbf8cb43973ca8256fbbc7d5375522",
+      "git_blob": "f069025c7664696faf5bd62d0d60f447a40db224",
+      "bytes": 23938
+    },
+    {
+      "path": "benchmarks/document_relations/numbering-regression/20261015/contract.md",
+      "sha256": "1c793e46bfa79352704d90ea212e2f36c909046893445b84914bfc443b07f7f2",
+      "git_blob": "a4273da46a264826d8180f36c9edce57d6765e97",
+      "bytes": 3394
+    },
+    {
+      "path": "benchmarks/document_relations/numbering-regression/20261015/README.md",
+      "sha256": "68767348bda9d9271aae17850fa881d3c21b9e5e0c883a8b7dd25a090c28dec6",
+      "git_blob": "c28d9d913290080025fed4e6864653117a2def57",
+      "bytes": 2939
+    },
+    {
+      "path": "benchmarks/document_relations/numbering-regression/20261015/reviewer-boundary-probes.json",
+      "sha256": "f2763b21747946ab44e4730f42b6b5886b2fb23a9f7513b30efdd5dbe209d848",
+      "git_blob": "9733c3eb193d2c38cef208628867d2db8eb76f54",
+      "bytes": 416
+    },
+    {
+      "path": "benchmarks/document_relations/numbering-regression/20261015/reviewer-public-probes.json",
+      "sha256": "2cf92fee90fcdbf49f9f582212408baa2603a072d065593a96db83760559349a",
+      "git_blob": "6f5988518972cfa2ffffeb0178d652380921adeb",
+      "bytes": 1603
+    },
+    {
+      "path": "benchmarks/document_relations/numbering-regression/20261015/scope-freeze.json",
+      "sha256": "bec42f2ad03563f69e34e03f7374cd7ee7026b0cd88493927e2ce54125f4a737",
+      "git_blob": "102e5db3d6325620fc9da86454bfcdc76dfcfd55",
+      "bytes": 217030
+    },
+    {
+      "path": "benchmarks/document_relations/numbering-regression/20261015/verify-snapshot.py",
+      "sha256": "98bbd2e0944f86881e89cfc2bb143630c859a6f864adb6d2aa679421202ab7d8",
+      "git_blob": "0cee1699101ca84149eb87a1d770e23bf501be06",
+      "bytes": 2300
+    },
+    {
+      "path": "benchmarks/document_relations/README.md",
+      "sha256": "4ed053c5162b70990846ca0872f725e4fbb4ca20fe24bc0a34c8f5d2f88e0ef3",
+      "git_blob": "f4a72757cd83a7087f6590575ceb4e61bd14e236",
+      "bytes": 34651
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/acceptance-tool-before-generic-control.py.txt",
+      "sha256": "20ef20f1d420343c989d67e49cc101c42f8333ab136f842b28e50c5a47f42f9d",
+      "git_blob": "f6c565c1ffaaaea18521cb6dc5573de84f23bd13",
+      "bytes": 23299
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/acceptance-tool-initial-role-check.py.txt",
+      "sha256": "3e1b2d8ea888cba760ed1ea468c872f63140404ddc27480610273033ad307649",
+      "git_blob": "8a80caeecb08f54a8d35d15faf3b38b74d6b99f3",
+      "bytes": 23955
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/acceptance-tool-initial.py.txt",
+      "sha256": "4314d97238c042ef63b97461eb64d70954d66ba9a7a569091fb09ae3fe65c00f",
+      "git_blob": "c986cad14e0eec633db9c1ba41a0555740485568",
+      "bytes": 22007
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/baseline-atom-mapping.json",
+      "sha256": "e11f843641728f2566a82da1732183c6145d561efc78f6194c2cfc98082851a3",
+      "git_blob": "899990b2244a053915030e09fc7ede9cc40f2a6f",
+      "bytes": 8269
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/baseline-export-proof.json",
+      "sha256": "153ce77f2d069977da9a472070a3fe744a91a15944022ff2df595a3983d68015",
+      "git_blob": "d58695668f7fa54b80d409e098b17599aaa45929",
+      "bytes": 218232
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/baseline-public-20.json",
+      "sha256": "9b520408ee42bb8b6bbc8342c7c94c32e2f588bce3021606ddb76448c72c86d7",
+      "git_blob": "81a0c1f44c946e0e3c96b450b328a4226bbb90e3",
+      "bytes": 121759
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/baseline-public-26.json",
+      "sha256": "2a0e5eb552f8ae6d37bdab7e9f2821ee979394845c97b4780fe069f2406b3f5c",
+      "git_blob": "b30e906ac3cf88eee9fe4ead0a05fb702bdc94a3",
+      "bytes": 162133
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/baseline-public-27.json",
+      "sha256": "057811103e321e45a2606fe1d729502ce2473f7d4b0302154f1451eb08be87a6",
+      "git_blob": "488a621e4047eef4a2b24faa0f256fffe711c544",
+      "bytes": 188198
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/baseline-to-product-comparison.json",
+      "sha256": "1fabb9d2abf6edfe7ef0743241d6c954ea2623c231ff37f3381d14dee4861805",
+      "git_blob": "25f82f3d18cd07146d80d8c7c550da6b1636bc96",
+      "bytes": 20082
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/canonical-actual-public-27.json",
+      "sha256": "3758a4cc4f971c52b0062a3c706990f024312715da53c6c8c49aa2531014652e",
+      "git_blob": "c33b012045fb722f0e905048a797bac3c1e1a2a3",
+      "bytes": 275091
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/canonical-atom-mapping.json",
+      "sha256": "f1c4cfd6ab35c0f9832bf6623a3978173e041c804a0cc2e4371e1b55153220bc",
+      "git_blob": "38f12e793d9ad379af32adf8fe2f356188073d9c",
+      "bytes": 5893
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/canonical-existing-public-22.json",
+      "sha256": "f2153fa38ae9be008e94e2ee7da4bc3453b316c19446c2966871541ab1c197b5",
+      "git_blob": "ec4ebeddd587228d431163ccd6df8eec7d97caf6",
+      "bytes": 1083207
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/canonical-existing-public-33.json",
+      "sha256": "24f6cab52f521f67212ced1d2f15c10b36ef43f50fb9ba41604d5803f118c918",
+      "git_blob": "3d63c6a88c65ccd7a3dd7d9a8ab2767700833a5d",
+      "bytes": 725325
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/canonical-three-view-scores.json",
+      "sha256": "db7444963a8ca9257f342647d44dbe41c70f630ff45d0121ed9503cad7c6497e",
+      "git_blob": "b32bfaeb8fded6f71f5d31378b58ba90e6b47d40",
+      "bytes": 962026
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/final-code-proof.json",
+      "sha256": "1e121300adb70d6105b007387ed6191128e266290b82443fbd0782d8d74f0b90",
+      "git_blob": "fff133e3743eaad6b01f6b03386300b467f5dbb9",
+      "bytes": 270175
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/final-validation.json",
+      "sha256": "007fda3d11e8654df73dbb5cb86e9b21a654e27869f33bd29219f411632a66cd",
+      "git_blob": "883df3ac41847efbcaaa3a8693695f97fb1deb75",
+      "bytes": 1921
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/model-policy.json",
+      "sha256": "b8c2d254075ebb4cd07fe82c127c4c28a0da8e3b1942914a9ad86900a4fadc0f",
+      "git_blob": "d2a42296c72afd553726e007bf730c9c59965eb7",
+      "bytes": 1172
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/product-v2-capture-1.0.3.json",
+      "sha256": "af59e996037f92fe365cb803551a152264acedad921b2f05a65a93ad0dd70709",
+      "git_blob": "02eb0c57bb392a721e2a666d18b66edf21a8a108",
+      "bytes": 818290
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/pytest-canonical-final.xml",
+      "sha256": "ca4e80fe3e6bf1890654891560efc9831e57b3af7741e0c4b89d917c0d9b749a",
+      "git_blob": "b328e7690a489ef68ab985c24bc599ead624e280",
+      "bytes": 177438
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/working-public-27-role-corrected.json",
+      "sha256": "e866e6d39c383bf0cdac5e836b1c7ce1bc05b9a8c6906e0a66222d37f3b3ebcd",
+      "git_blob": "c15642373eb9786dea8b572d83099125b5733756",
+      "bytes": 275023
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/reviewer/working-public-27.json",
+      "sha256": "a97b76006744edd33f3e1b5367724b4b59e0a3f66b7c509fcd499d9d82fe4177",
+      "git_blob": "a30264953396178217f874a1cf58d00c0a2fa268",
+      "bytes": 268916
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/document_relations.final.py.txt",
+      "sha256": "5ac7c3bd518c65b05564ac31cad49263bf8c9525b0dc690d2a7f8794e966de19",
+      "git_blob": "60ddc30c70ceeaa7c2f207c7871f9bb1407f65f2",
+      "bytes": 221750
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/pytest-baseline-red.xml",
+      "sha256": "461c0eea809f2339eac64803b1e2745ed0e2381b1cdf64f286ad351fceddf225",
+      "git_blob": "a7c1540dbe2cfdea156ab8ff06668cd731541d75",
+      "bytes": 11268
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/pytest-existing-01.xml",
+      "sha256": "0c265afec9fa8953cfa45615c56916620582a97b849dccdc17253c550a3fd181",
+      "git_blob": "6abf4c0f6f36fa82128710c236d69feb9a1af224",
+      "bytes": 33962
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/pytest-green-final-01.log",
+      "sha256": "0dfb7215eb3982db3e73354cf1f02c444813ab329e37da95ee2fcc39f2cfffab",
+      "git_blob": "3f8621c7443ce543a550f29db3374cb75fe6f689",
+      "bytes": 345
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/pytest-green-final-01.xml",
+      "sha256": "a9bbab7928df3f30038652201d5e4dd8175efbfd17e6707f8de06c798fb56a11",
+      "git_blob": "38198315753b50b1d0a22ba11388868bfa4da366",
+      "bytes": 39947
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/pytest-implementation-01.xml",
+      "sha256": "8cc74fbfd9798598fab8838452e0b931727f6920ca590ed8a00936baadf0f702",
+      "git_blob": "ef5ceb79cf033901da07063cd77f3dfb8023d31a",
+      "bytes": 6088
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/pytest-implementation-02.xml",
+      "sha256": "9018d29c6e279cf2939c20f0e62e9c0692efd98dd2f082a0cff0a98152cbc56a",
+      "git_blob": "bc57bc1d9f0ec5847b87f8bdd0ebebdf385895cb",
+      "bytes": 6241
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/ruff-check-final-01.log",
+      "sha256": "a4443afdcfb6d7363adb285762515ccf7cf50473b1a05c20c1a50f6bed4d26b0",
+      "git_blob": "7f6ba294132e156ccce54256b2567c8763f1b628",
+      "bytes": 20
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/ruff-format-final-01.log",
+      "sha256": "7688ae71c60af2e4266827abb3678cc2145655f587daf33dfa649dbac2c619c3",
+      "git_blob": "b28d3a346fec1188416da49a38af0e0b458433c4",
+      "bytes": 26
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/summary.md",
+      "sha256": "7c28d29ca2a6bb02e7e7bfe41fb121b231174505e5bb07f9027825f14b4b7a30",
+      "git_blob": "f7621d11f43db000c3b35861ccd0401c44846a6e",
+      "bytes": 5729
+    },
+    {
+      "path": "benchmarks/document_relations/reports/numbering-followup-20261015/worker/test_document_relations_numbering_semantics.final.py.txt",
+      "sha256": "73a552055e3b373de46806bfd27501ceaaf24a809d1a4eca5f8301a848ba456b",
+      "git_blob": "f6695b33aaf73164b9b9b90974e8c1a484eed6ef",
+      "bytes": 10493
+    },
+    {
+      "path": "docs/document_relations_acceptance.md",
+      "sha256": "add4073e851230944eb754190dc696e0df155c532c094317bc7379296dd0439e",
+      "git_blob": "57a7b51024caa60b6993c0e9820d05ab0314e403",
+      "bytes": 91363
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/document_relations.py",
+      "sha256": "5ac7c3bd518c65b05564ac31cad49263bf8c9525b0dc690d2a7f8794e966de19",
+      "git_blob": "60ddc30c70ceeaa7c2f207c7871f9bb1407f65f2",
+      "bytes": 221750
+    },
+    {
+      "path": "tests/test_document_relations_numbering_semantics.py",
+      "sha256": "73a552055e3b373de46806bfd27501ceaaf24a809d1a4eca5f8301a848ba456b",
+      "git_blob": "f6695b33aaf73164b9b9b90974e8c1a484eed6ef",
+      "bytes": 10493
+    }
+  ]
+}

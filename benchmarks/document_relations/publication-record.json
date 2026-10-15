@@ -802,5 +802,22 @@
     "overall_closed": false,
     "unseen_evaluation": "not_run",
     "production_accepted": false
+  },
+  "numbering_semantics_followup_20261015": {
+    "record": "benchmarks/document_relations/numbering-publication-record.json",
+    "sha256": "d7bbc63194b6e78c61c02e0deba35b312bcf872ae36a225309761634a4526a64",
+    "limited_public_regression": "passed",
+    "actual_public": "27/27; six finite confirmations, sixteen review cases, five controls; previous 22/22 and 33/33 retained",
+    "canonical_tests": 1087,
+    "current_three_view_scores": [
+      "12/14",
+      "12/14",
+      "13/14"
+    ],
+    "changed_case": "case-12 product extraction; frozen scorers unchanged",
+    "agent_model_policy": "gpt-6.1-sol only; high reasoning; explicit replacement spawn; live main runtime not attested",
+    "overall_closed": false,
+    "unseen_evaluation": "not_run",
+    "production_accepted": false
   }
 }

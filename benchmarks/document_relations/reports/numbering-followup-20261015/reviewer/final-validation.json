@@ -1,0 +1,54 @@
+{
+  "schema": "numbering-final-validation-v1",
+  "generated_at": "2026-10-15T14:03:02.1410271+08:00",
+  "product_archive_tree": "ca9f0df66235b05765705ecb048db2c3b3854727",
+  "source_tree_sha256": "27af318f62035782d4db08e1d029dfc0a57248c4069afe40b33bb37094f0a7cc",
+  "full_tests": {
+    "exit_code": 0,
+    "passed": 1087,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observed_warnings": 1,
+    "warning": "StarletteDeprecationWarning: httpx with starlette.testclient",
+    "stdout_duration_seconds": 70.25,
+    "junit_duration_seconds": 70.137,
+    "junit": "pytest-canonical-final.xml",
+    "run_from": "immutable canonical-v1 export",
+    "cacheprovider": "disabled"
+  },
+  "ruff": {
+    "command": "ruff check .",
+    "exit_code": 0,
+    "output": "All checks passed!"
+  },
+  "new_code_format": {
+    "exit_code": 0,
+    "files": 3,
+    "output": "3 files already formatted",
+    "paths": [
+      "tests/test_document_relations_numbering_semantics.py",
+      "benchmarks/document_relations/numbering-regression/20261015/check-acceptance.py",
+      "benchmarks/document_relations/numbering-regression/20261015/verify-snapshot.py"
+    ]
+  },
+  "staged_whitespace": {
+    "exit_code": 0,
+    "command": "git diff --cached --check",
+    "raw_failed_traceback_exceptions": [
+      "worker/pytest-baseline-red.xml"
+    ]
+  },
+  "agent_model_policy": {
+    "only_permitted_model": "gpt-6.1-sol",
+    "only_permitted_reasoning_effort": "high",
+    "main_and_subagent_defaults_verified": true,
+    "explicit_replacement_spawn_verified": true,
+    "previous_worker_closed": true,
+    "current_main_runtime_model": "not_attested",
+    "policy_report": "model-policy.json"
+  },
+  "model_services": "No real model service called; actual Registry/Runtime deterministic parsing and model-free tests",
+  "unseen_evaluation": "not_run",
+  "production_accepted": false
+}

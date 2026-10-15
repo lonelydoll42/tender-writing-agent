@@ -135,6 +135,20 @@ _NUMBERING_META_RE = re.compile(
     r".{0,12}?(?:理解|解释|认定)|"
     r"(?:编号|序号).{0,24}?(?:表示|对应|含义|解释为)"
 )
+_MATERIAL_LABEL = r"[0-9]+(?:\.[0-9]+)+"
+_FINITE_MATERIAL_NUMBERING_RE = re.compile(
+    rf"\s*仅按材料编号理解："
+    rf"“(?P<range_prefix>编号)(?P<range_start>{_MATERIAL_LABEL})"
+    rf"至(?P<range_end>{_MATERIAL_LABEL})”表示"
+    rf"(?P<first_prefix>编号)(?P<first_label>{_MATERIAL_LABEL})项和"
+    rf"(?P<second_prefix>编号)(?P<second_label>{_MATERIAL_LABEL})项，"
+    rf"(?P<count_span>共(?:两|二|2)项材料)"
+    rf"(?P<operator_span>均须提交)。\s*"
+)
+_NUMBERING_REVIEW_RE = re.compile(
+    rf"(?:编号|序号)\s*{_MATERIAL_LABEL}\s*"
+    rf"(?:至|到|[-~～])\s*{_MATERIAL_LABEL}"
+)
 _LIST_INTRO_RE = re.compile(
     r"材料项如下|材料如下|(?:材料|证明|条件)清单(?:如下)?|"
     r"(?:以下|下列).{0,10}(?:类|项|材料|证明|条件)"
@@ -350,6 +364,18 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
                 }
             )
             continue
+        numbering_ast = _parse_finite_material_numbering(record["raw_text"])
+        if numbering_ast is not None:
+            root_id = node_builder.emit(numbering_ast, record)
+            roots_by_block[record["index"]] = [root_id]
+            _add_inline_scope_relations(
+                numbering_ast,
+                root_id,
+                record,
+                node_builder,
+                block_relation_by_index[record["index"]],
+            )
+            continue
         if _K_OF_N_RE.search(record["raw_text"]):
             unsupported_selection_indices.append(record["index"])
             opaque_reason = _opaque_clause_reason(record["raw_text"])
@@ -363,6 +389,25 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
                 record,
             )
             roots_by_block[record["index"]] = [root_id]
+            continue
+        numbering_reason = _numbering_review_reason(record["raw_text"])
+        if numbering_reason:
+            root_id = node_builder.emit(
+                _atom_ast(
+                    record["raw_text"],
+                    0,
+                    len(record["raw_text"]),
+                    numbering_reason,
+                ),
+                record,
+            )
+            roots_by_block[record["index"]] = [root_id]
+            _add_unknown_scope_relation(
+                record,
+                block_relation_by_index[record["index"]],
+                roots_by_block,
+                node_builder.by_id,
+            )
             continue
         opaque_reason = _opaque_clause_reason(record["raw_text"])
         if opaque_reason:
@@ -2984,6 +3029,54 @@ def _add_unknown_scope_relation(
             ),
         }
     )
+
+
+def _parse_finite_material_numbering(text: str) -> dict[str, Any] | None:
+    match = _FINITE_MATERIAL_NUMBERING_RE.fullmatch(text)
+    if match is None:
+        return None
+    first = match.group("first_label")
+    second = match.group("second_label")
+    if (
+        first == second
+        or first != match.group("range_start")
+        or second != match.group("range_end")
+    ):
+        return None
+    # Labels remain literal strings; only the two listed source spans are members.
+    children = [
+        _atom_ast(text, match.start(prefix), match.end(label) + 1)
+        for prefix, label in (
+            ("first_prefix", "first_label"),
+            ("second_prefix", "second_label"),
+        )
+    ]
+    return {
+        "op": "AND",
+        "start": 0,
+        "end": len(text),
+        "text": text,
+        "children": children,
+        "operator_spans": [match.span("operator_span")],
+        "scope_spans": [
+            (match.start("range_prefix"), match.end("count_span")),
+        ],
+        "boundary_spans": [(0, len(text))],
+        "scope_ok": True,
+        "scope_reason": (
+            "literal range endpoints match exactly two distinct listed material "
+            "labels in a complete affirmative submission sentence"
+        ),
+    }
+
+
+def _numbering_review_reason(text: str) -> str | None:
+    if _NUMBERING_META_RE.search(text) or _NUMBERING_REVIEW_RE.search(text):
+        return (
+            "material numbering requires review: the complete affirmative two-item "
+            "grammar, distinct literal endpoints, or matching enumeration is missing"
+        )
+    return None
 
 
 def _parse_inline_numbered_group(

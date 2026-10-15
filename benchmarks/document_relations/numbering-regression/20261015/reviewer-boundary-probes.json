@@ -1,0 +1,12 @@
+{
+  "schema": "finite-material-numbering-cases-v1",
+  "classification": "public control for preservation of existing ordinary lists; not unseen",
+  "cases": [
+    {
+      "case_id": "RC01-generic-list-with-count",
+      "expectation": "preserve_explicit_group",
+      "input_text": "共两项材料均须提交：营业执照；审计报告。",
+      "preserved_atoms": ["营业执照", "审计报告"]
+    }
+  ]
+}

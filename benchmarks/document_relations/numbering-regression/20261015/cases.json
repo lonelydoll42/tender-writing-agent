@@ -1,0 +1,117 @@
+{
+  "schema": "finite-material-numbering-cases-v1",
+  "classification": "public regression frozen before implementation; not unseen",
+  "cases": [
+    {
+      "case_id": "P01-original-case12",
+      "expectation": "confirmed_pair",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。",
+      "labels": ["1.9", "1.10"]
+    },
+    {
+      "case_id": "P02-arabic-count",
+      "expectation": "confirmed_pair",
+      "input_text": "仅按材料编号理解：“编号2.9至2.10”表示编号2.9项和编号2.10项，共2项材料均须提交。",
+      "labels": ["2.9", "2.10"]
+    },
+    {
+      "case_id": "P03-explicit-nonconsecutive-pair",
+      "expectation": "confirmed_pair",
+      "input_text": "仅按材料编号理解：“编号1.9至1.11”表示编号1.9项和编号1.11项，共两项材料均须提交。",
+      "labels": ["1.9", "1.11"],
+      "forbidden_labels": ["1.10"]
+    },
+    {
+      "case_id": "P04-multilevel-labels",
+      "expectation": "confirmed_pair",
+      "input_text": "仅按材料编号理解：“编号3.1.9至3.1.10”表示编号3.1.9项和编号3.1.10项，共二项材料均须提交。",
+      "labels": ["3.1.9", "3.1.10"]
+    },
+    {
+      "case_id": "N01-bare-interval",
+      "expectation": "review_numbering",
+      "input_text": "须提交编号1.9至1.10项材料。"
+    },
+    {
+      "case_id": "N02-explanation-without-obligation",
+      "expectation": "review_numbering",
+      "input_text": "本条仅按材料编号理解，编号1.9至1.10表示相应资格要求。"
+    },
+    {
+      "case_id": "N03-count-mismatch",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共三项材料均须提交。"
+    },
+    {
+      "case_id": "N04-duplicate-listed-label",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.9项，共两项材料均须提交。"
+    },
+    {
+      "case_id": "N05-endpoint-list-mismatch",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.11项，共两项材料均须提交。"
+    },
+    {
+      "case_id": "N06-currency-unit-in-number-range",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10万元”表示编号1.9项和编号1.10项，共两项材料均须提交。"
+    },
+    {
+      "case_id": "N07-negated-submission",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料无需同时提交。"
+    },
+    {
+      "case_id": "N08-choice-instead-of-AND",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料任选一项提交。"
+    },
+    {
+      "case_id": "N09-conditional-obligation",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，若中标，共两项材料均须提交。"
+    },
+    {
+      "case_id": "N10-trailing-independent-condition",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，共两项材料均须提交。另需提交资质证明。"
+    },
+    {
+      "case_id": "N11-split-obligation",
+      "expectation": "review_numbering",
+      "input_text": "仅按材料编号理解：“编号1.9至1.10”表示编号1.9项和编号1.10项，\n共两项材料均须提交。"
+    },
+    {
+      "case_id": "N12-three-item-range-without-enumeration",
+      "expectation": "review_numbering",
+      "input_text": "须提交编号1.9至1.11项材料，共三项材料均须提交。"
+    },
+    {
+      "case_id": "C01-decimal-amount",
+      "expectation": "preserve",
+      "input_text": "投标报价应不少于人民币1.10万元。",
+      "preserved_atoms": ["投标报价应不少于人民币1.10万元。"]
+    },
+    {
+      "case_id": "C02-monetary-range",
+      "expectation": "preserve",
+      "input_text": "预算金额为人民币1.9至1.10万元。",
+      "preserved_atoms": ["预算金额为人民币1.9至1.10万元。"]
+    },
+    {
+      "case_id": "C03-single-material-label",
+      "expectation": "preserve",
+      "input_text": "请提交编号1.10项材料。",
+      "preserved_atoms": ["请提交编号1.10项材料。"],
+      "confirmed_atoms": ["请提交编号1.10项材料。"]
+    },
+    {
+      "case_id": "C04-material-and-money-separate",
+      "expectation": "preserve",
+      "input_text": "请提交编号1.9项材料。\n报价应不少于人民币1.10万元。",
+      "preserved_atoms": ["请提交编号1.9项材料。", "报价应不少于人民币1.10万元。"],
+      "confirmed_atoms": ["请提交编号1.9项材料。", "报价应不少于人民币1.10万元。"]
+    }
+  ]
+}
