@@ -786,5 +786,21 @@
     "overall_closed": false,
     "unseen_evaluation": "not_run",
     "production_accepted": false
+  },
+  "financial_context_followup_20261015": {
+    "record": "benchmarks/document_relations/financial-context-publication-record.json",
+    "sha256": "ff0f143e41cfbabfe3f57dc9da907ec4c6cba8a684a63ff997b97c71dfef3a53",
+    "limited_public_regression": "passed",
+    "actual_public": "22/22; five confirmed and seventeen review; previous 33/33 retained",
+    "canonical_tests": 1053,
+    "current_three_view_scores": [
+      "11/14",
+      "11/14",
+      "12/14"
+    ],
+    "changed_case": "case-13 product relations; frozen scorers unchanged",
+    "overall_closed": false,
+    "unseen_evaluation": "not_run",
+    "production_accepted": false
   }
 }

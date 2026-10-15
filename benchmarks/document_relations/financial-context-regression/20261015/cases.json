@@ -1,0 +1,102 @@
+{
+  "schema": "finite-financial-context-cases-v1",
+  "classification": "public regression frozen before implementation; not unseen",
+  "cases": [
+    {
+      "case_id": "F01-original-case13",
+      "expectation": "confirmed_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n营业收入应不少于人民币1.10万元。",
+      "anchor_text": "请提交编号1.9的财务说明，",
+      "field_text": "在说明中列明营业收入",
+      "threshold_text": "营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "F02-other-number-and-amount",
+      "expectation": "confirmed_context",
+      "input_text": "请提供编号2.4的财务说明，并在说明中列明营业收入。\n营业收入应不少于人民币20.50万元。",
+      "anchor_text": "请提供编号2.4的财务说明，",
+      "field_text": "在说明中列明营业收入",
+      "threshold_text": "营业收入应不少于人民币20.50万元。"
+    },
+    {
+      "case_id": "F03-blank-line",
+      "expectation": "confirmed_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n \n营业收入应不少于人民币1.10万元。",
+      "anchor_text": "请提交编号1.9的财务说明，",
+      "field_text": "在说明中列明营业收入",
+      "threshold_text": "营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "FN01-subject-switch",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n乙公司的营业收入应不少于人民币1.10万元。",
+      "threshold_text": "乙公司的营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "FN02-two-financial-fields",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n请提交编号2.1的财务说明，并在说明中列明营业收入。\n营业收入应不少于人民币1.10万元。",
+      "threshold_text": "营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "FN03-same-metric-other-report",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n请提交审计报告，并在报告中列明营业收入。\n营业收入应不少于人民币1.10万元。",
+      "threshold_text": "营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "FN04-substantive-interruption",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n须提供审计报告。\n营业收入应不少于人民币1.10万元。",
+      "threshold_text": "营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "FN05-heading-boundary",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n第二章 技术要求\n营业收入应不少于人民币1.10万元。",
+      "threshold_text": "营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "FN06-page-boundary",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\f营业收入应不少于人民币1.10万元。",
+      "threshold_text": "营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "FN07-two-fields-in-statement",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入及净利润。\n营业收入应不少于人民币1.10万元。",
+      "threshold_text": "营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "FN08-conditional-threshold",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n若甲公司参与，营业收入应不少于人民币1.10万元。",
+      "threshold_text": "若甲公司参与，营业收入应不少于人民币1.10万元。"
+    },
+    {
+      "case_id": "FN09-negated-threshold",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n营业收入无需达到人民币1.10万元。",
+      "threshold_text": "营业收入无需达到人民币1.10万元。"
+    },
+    {
+      "case_id": "FN10-substitute-metric",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n营业收入应不少于人民币1.10万元（或以净资产替代）。",
+      "threshold_text": "营业收入应不少于人民币1.10万元（或以净资产替代）。"
+    },
+    {
+      "case_id": "FN11-trailing-subject",
+      "expectation": "review_context",
+      "input_text": "请提交编号1.9的财务说明，并在说明中列明营业收入。\n营业收入应不少于人民币1.10万元，系指乙公司。",
+      "threshold_text": "营业收入应不少于人民币1.10万元，系指乙公司。"
+    },
+    {
+      "case_id": "FN12-unparsed-statement-owner",
+      "expectation": "review_context",
+      "input_text": "甲公司须提交编号1.9的财务说明，并在说明中列明营业收入。\n营业收入应不少于人民币1.10万元。",
+      "threshold_text": "营业收入应不少于人民币1.10万元。"
+    }
+  ]
+}

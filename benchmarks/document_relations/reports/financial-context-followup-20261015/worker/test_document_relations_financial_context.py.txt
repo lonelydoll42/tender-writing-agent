@@ -1,0 +1,272 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+
+from scripts import run_document_relations_eval as existing_eval
+from qiaowenshu_agent.domain.document_relations import build_document_relations
+from qiaowenshu_agent.domain.document_structure import build_document_structure
+
+
+ROOT = Path(__file__).resolve().parents[1]
+REGRESSION_DIR = (
+    ROOT
+    / "benchmarks"
+    / "document_relations"
+    / "financial-context-regression"
+    / "20261015"
+)
+CASES = json.loads((REGRESSION_DIR / "cases.json").read_text(encoding="utf-8"))["cases"]
+PUBLIC_PROBES = json.loads(
+    (REGRESSION_DIR / "reviewer-public-probes.json").read_text(encoding="utf-8")
+)["cases"]
+ALL_CASES = [*CASES, *PUBLIC_PROBES]
+
+
+def _structure(text: str, *, version: str = "v1") -> dict:
+    return build_document_structure(
+        [
+            {"page_number": page_number, "text": page}
+            for page_number, page in enumerate(text.split("\f"), start=1)
+        ],
+        document_id="financial-context-test",
+        source_version=version,
+        source_checksum="public-regression",
+    )
+
+
+def _run(text: str, *, version: str = "v1") -> tuple[dict, dict]:
+    structure = _structure(text, version=version)
+    return structure, build_document_relations(structure)
+
+
+def _financial_scope(graph: dict) -> dict:
+    matches = [
+        scope
+        for relation in graph["block_relations"]
+        for scope in relation["scope_relations"]
+        if scope.get("relation_type") == "financial_context_scope"
+    ]
+    assert len(matches) == 1
+    return matches[0]
+
+
+def _financial_reference(graph: dict, threshold_text: str | None = None) -> dict:
+    matches = [
+        reference
+        for reference in graph["references"]
+        if reference.get("reference_text") == "营业收入"
+        and (
+            threshold_text is None
+            or any(
+                threshold_text in source.get("quote", "")
+                for source in reference.get("context_source_references", [])
+            )
+        )
+    ]
+    assert len(matches) == 1
+    return matches[0]
+
+
+def _atoms(graph: dict) -> list[dict]:
+    return [node for node in graph["condition_nodes"] if node["op"] == "ATOM"]
+
+
+@pytest.mark.parametrize(
+    "case",
+    [case for case in ALL_CASES if case["expectation"] == "confirmed_context"],
+    ids=lambda case: case["case_id"],
+)
+def test_frozen_positive_cases_expose_one_finite_context(case: dict) -> None:
+    structure, graph = _run(case["input_text"])
+    scope = _financial_scope(graph)
+    assert scope["status"] == "confirmed"
+    assert scope["operator"] not in {"AND", "OR", "REQUIRED"}
+
+    atoms = _atoms(graph)
+    assert len(atoms) == 3
+    assert {node["status"] for node in atoms} == {"confirmed"}
+    member_ids = {node["node_id"] for node in atoms}
+    assert set(scope["member_node_ids"]) == member_ids
+    assert set(scope["target_node_ids"]) == member_ids
+    assert len(scope["member_node_ids"]) == 3
+
+    anchor_block = next(
+        block
+        for block in structure["blocks"]
+        if case["anchor_text"] in block["raw_text"]
+    )
+    threshold_atom = next(
+        node
+        for node in atoms
+        if any(
+            "人民币" in ref["quote"] and case["threshold_text"] in ref["quote"]
+            for ref in node["source_references"]
+        )
+    )
+    field_atom = next(
+        node
+        for node in atoms
+        if any(case["field_text"] in ref["quote"] for ref in node["source_references"])
+    )
+    anchor_atoms = [
+        node for node in atoms if anchor_block["block_id"] in node["source_block_ids"]
+    ]
+    anchor_atom_ids = {node["node_id"] for node in anchor_atoms}
+    original_and = next(
+        node
+        for node in graph["condition_nodes"]
+        if node["op"] == "AND" and set(node.get("children", [])) == anchor_atom_ids
+    )
+    assert anchor_atom_ids <= member_ids
+    parent = next(
+        parent
+        for parent in threshold_atom["parent_relations"]
+        if parent.get("layer") == "contextual_parent"
+    )
+    assert parent["status"] == "confirmed"
+    assert parent["target_node_ids"] == [field_atom["node_id"]]
+    assert _financial_reference(graph, case["threshold_text"])["target_node_ids"] == [
+        field_atom["node_id"]
+    ]
+
+    node_scope = threshold_atom["scope_relation"]
+    assert node_scope == scope
+    for key in (
+        "source_references",
+        "scope_source_references",
+        "boundary_source_references",
+    ):
+        quotes = [ref["quote"] for ref in scope[key]]
+        anchor = anchor_block["raw_text"]
+        assert any(anchor in quote for quote in quotes)
+        assert any(case["threshold_text"] in quote for quote in quotes)
+    assert original_and["status"] == "confirmed"
+    source_check = existing_eval._validate_graph_source_references(
+        graph,
+        {
+            "document_id": structure["document_id"],
+            "source_version": structure["source_version"],
+            "pages": [case["input_text"].split("\f")[0]],
+        },
+    )
+    assert source_check["checked_references"] > 0
+    assert source_check["invalid_references"] == 0
+    assert structure["document_id"] == "financial-context-test"
+    assert not any(
+        node["op"] in {"AND", "OR"} and set(node.get("children", [])) == member_ids
+        for node in graph["condition_nodes"]
+    )
+
+
+@pytest.mark.parametrize(
+    "case",
+    [case for case in ALL_CASES if case["expectation"] == "review_context"],
+    ids=lambda case: case["case_id"],
+)
+def test_frozen_negative_cases_never_confirm_financial_binding(case: dict) -> None:
+    _, graph = _run(case["input_text"])
+    scopes = [
+        scope
+        for relation in graph["block_relations"]
+        for scope in relation["scope_relations"]
+        if scope.get("relation_type") == "financial_context_scope"
+    ]
+    assert len(scopes) == 1
+    assert scopes[0]["status"] in {"candidate", "unresolved"}
+    reference = _financial_reference(graph, case["threshold_text"])
+    assert reference["status"] in {"candidate", "unresolved"}
+    assert reference.get("reason")
+    assert all(
+        item["status"] != "confirmed"
+        for item in graph["references"]
+        if item.get("reference_text") == "营业收入"
+    )
+    assert all(
+        parent.get("status") != "confirmed"
+        for node in _atoms(graph)
+        for parent in node["parent_relations"]
+        if parent.get("layer") == "contextual_parent"
+    )
+
+
+@pytest.mark.parametrize(
+    "tamper",
+    [
+        "document_id",
+        "source_version",
+        "coordinates",
+        "duplicate_block_id",
+        "multi_target",
+    ],
+)
+def test_invalid_or_nonunique_financial_sources_never_confirm(tamper: str) -> None:
+    text = next(
+        case["input_text"]
+        for case in ALL_CASES
+        if case["expectation"] == "confirmed_context"
+    )
+    structure = _structure(text)
+    if tamper == "document_id":
+        structure["blocks"][0]["source_references"][0]["document_id"] = "other"
+    elif tamper == "source_version":
+        structure["blocks"][0]["source_references"][0]["source_version"] = "other"
+    elif tamper == "coordinates":
+        structure["blocks"][0]["source_references"][0]["char_end"] += 1
+        structure["blocks"][0]["source_span"]["end"] += 1
+    elif tamper == "duplicate_block_id":
+        structure["blocks"][1]["block_id"] = structure["blocks"][0]["block_id"]
+    else:
+        extra = _structure("请提交编号2.1的财务说明，并在说明中列明营业收入。")[
+            "blocks"
+        ][0]
+        extra["block_id"] = "extra-financial-field"
+        extra["source_references"] = [
+            dict(ref, document_id=structure["document_id"], source_version="v1")
+            for ref in structure["blocks"][0]["source_references"]
+        ]
+        structure["blocks"].insert(1, extra)
+    graph = build_document_relations(structure)
+    scopes = [
+        scope
+        for relation in graph["block_relations"]
+        for scope in relation["scope_relations"]
+        if scope.get("relation_type") == "financial_context_scope"
+    ]
+    assert all(scope["status"] != "confirmed" for scope in scopes)
+    assert all(
+        reference["status"] != "confirmed"
+        for reference in graph["references"]
+        if reference.get("reference_text") == "营业收入"
+    )
+
+
+def test_distant_same_name_source_blocks_confirmation() -> None:
+    text = (
+        "甲公司须披露营业收入。\n"
+        "请提交资格证明。\n"
+        "请提供项目团队名单。\n"
+        "须提供售后服务方案。\n"
+        "请提交编号1.9的财务说明，并在说明中列明营业收入。\n"
+        "营业收入应不少于人民币1.10万元。"
+    )
+    _, graph = _run(text)
+    scope = _financial_scope(graph)
+    assert scope["status"] in {"candidate", "unresolved"}
+    assert all(
+        reference["status"] != "confirmed"
+        for reference in graph["references"]
+        if reference.get("reference_text") == "营业收入"
+    )
+    assert (
+        len(
+            {
+                reference["reference_id"]
+                for reference in graph["references"]
+                if reference.get("reference_text") == "营业收入"
+            }
+        )
+        >= 1
+    )

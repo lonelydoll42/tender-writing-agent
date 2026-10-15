@@ -1,0 +1,45 @@
+{
+  "schema": "financial-context-final-validation-v1",
+  "generated_at": "2026-10-15T12:14:02.0236712+08:00",
+  "product_archive_tree": "4e330214cea8ff81195b347125d1d361239c70ae",
+  "source_tree_sha256": "8141956da6314058e73a3c1f64b0f8c058d4fdb5a3c0a1b7068aa1e9e7be45d4",
+  "full_tests": {
+    "exit_code": 0,
+    "passed": 1053,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observed_warnings": 1,
+    "warning": "StarletteDeprecationWarning: httpx with starlette.testclient",
+    "stdout_duration_seconds": 67.82,
+    "junit": "pytest-canonical-final.xml",
+    "run_from": "immutable canonical-v1 export",
+    "cacheprovider": "disabled"
+  },
+  "ruff": {
+    "command": "python -m ruff check .",
+    "exit_code": 0,
+    "output": "All checks passed!"
+  },
+  "new_code_format": {
+    "exit_code": 0,
+    "files": 3,
+    "output": "3 files already formatted",
+    "paths": [
+      "tests/test_document_relations_financial_context.py",
+      "benchmarks/document_relations/financial-context-regression/20261015/check-acceptance.py",
+      "benchmarks/document_relations/financial-context-regression/20261015/verify-snapshot.py"
+    ]
+  },
+  "staged_whitespace": {
+    "exit_code": 0,
+    "command": "git diff --cached --check",
+    "raw_failed_traceback_exceptions": [
+      "worker/pytest-baseline-red-20261015.xml",
+      "worker/pytest-green-iteration1-20261015.xml"
+    ]
+  },
+  "model_services": "No real model service called; actual Registry/Runtime deterministic parsing and simulated/model-free tests",
+  "unseen_evaluation": "not_run",
+  "production_accepted": false
+}

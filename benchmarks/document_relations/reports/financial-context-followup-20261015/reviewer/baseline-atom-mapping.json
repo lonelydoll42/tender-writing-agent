@@ -1,0 +1,365 @@
+{
+  "schema": "financial-context-frozen-mapping-v1",
+  "capture_sha256": "b7cbf945819f1930e3252ad9c3a5cb877efe5c1158a5fdc14507c39035ab4ece",
+  "source_tree_sha256": "122ddbd58a0004732c2b0a26a392dce36a3a7ff739ba5fffb47609b4fbb3532c",
+  "case_id": "case-13",
+  "frozen_scorers_unchanged": true,
+  "views": {
+    "1.0.3": {
+      "mapping": {
+        "A1": {
+          "node_id": "cond_df3497447666d0d0cc1afffb",
+          "text": "请提交编号1.9的财务说明，"
+        },
+        "A2": {
+          "node_id": "cond_5921e391074d86b2a4f6d67d",
+          "text": "在说明中列明营业收入"
+        },
+        "A3": {
+          "node_id": "cond_f8b231e84dfe0860f0b10c28",
+          "text": "营业收入应不少于人民币1.10万元。"
+        }
+      },
+      "candidates": [
+        {
+          "expected_id": "A1",
+          "candidate_node_ids": [
+            "cond_df3497447666d0d0cc1afffb"
+          ]
+        },
+        {
+          "expected_id": "A2",
+          "candidate_node_ids": [
+            "cond_5921e391074d86b2a4f6d67d"
+          ]
+        },
+        {
+          "expected_id": "A3",
+          "candidate_node_ids": [
+            "cond_f8b231e84dfe0860f0b10c28"
+          ]
+        }
+      ],
+      "score": {
+        "case_id": "case-13",
+        "status": "failed",
+        "expected_confirmed_atom_ids": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "matched_atom_ids": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "confirmed_group_ids": [
+          "S1"
+        ],
+        "matched_group_ids": [],
+        "group_status_review_count": 0,
+        "actual_source_validation": {
+          "checked_references": 38,
+          "unique_references": 8,
+          "raw_offsets_checked": 38,
+          "invalid_references": 0,
+          "line_numbers_derived": 38,
+          "line_numbers_supplied": 0
+        },
+        "event_counts": {
+          "error_events": 6,
+          "group_structure_error_events": 1
+        },
+        "metrics": {
+          "condition_omission": {
+            "numerator": 0,
+            "denominator": 3
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 3
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 3
+          },
+          "scope_membership_decisions": {
+            "numerator": 3,
+            "denominator": 3
+          },
+          "operator_group_structure": {
+            "numerator": 0,
+            "denominator": 0
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 0
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "parent_relations": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "reference_relations": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "forbidden_claims": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 0,
+            "raw_needs_review_items": 0
+          },
+          "source_coverage": {
+            "numerator": 0,
+            "denominator": 3
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 38
+          }
+        },
+        "errors": [
+          {
+            "metric": "group_structure",
+            "expected_group_id": "S1",
+            "expected_operator": "contextual_scope_no_flat_operator",
+            "expected_direct_members": [
+              "A1",
+              "A2",
+              "A3"
+            ],
+            "reason": "expected nested member could not be resolved"
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A2",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A3",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A1",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "parent_relations",
+            "expected_children": [
+              "A3"
+            ],
+            "expected_parent_kind": "semantic",
+            "missing_locators": [
+              "no confirmed directed parent relation for A3"
+            ],
+            "reason": "confirmed semantic parent/scope relation missing"
+          },
+          {
+            "metric": "reference_relations",
+            "missing_locators": [
+              "confirmed reference status/source/target mismatch"
+            ]
+          }
+        ],
+        "evaluator_version": "1.0.3"
+      }
+    },
+    "1.0.4": {
+      "mapping": {
+        "A1": {
+          "node_id": "cond_df3497447666d0d0cc1afffb",
+          "text": "请提交编号1.9的财务说明，"
+        },
+        "A2": {
+          "node_id": "cond_5921e391074d86b2a4f6d67d",
+          "text": "在说明中列明营业收入"
+        },
+        "A3": {
+          "node_id": "cond_f8b231e84dfe0860f0b10c28",
+          "text": "营业收入应不少于人民币1.10万元。"
+        }
+      },
+      "candidates": [
+        {
+          "expected_id": "A1",
+          "candidate_node_ids": [
+            "cond_df3497447666d0d0cc1afffb"
+          ]
+        },
+        {
+          "expected_id": "A2",
+          "candidate_node_ids": [
+            "cond_5921e391074d86b2a4f6d67d"
+          ]
+        },
+        {
+          "expected_id": "A3",
+          "candidate_node_ids": [
+            "cond_f8b231e84dfe0860f0b10c28"
+          ]
+        }
+      ],
+      "score": {
+        "case_id": "case-13",
+        "status": "failed",
+        "expected_confirmed_atom_ids": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "matched_atom_ids": [
+          "A1",
+          "A2",
+          "A3"
+        ],
+        "confirmed_group_ids": [
+          "S1"
+        ],
+        "matched_group_ids": [],
+        "group_status_review_count": 0,
+        "actual_source_validation": {
+          "checked_references": 38,
+          "unique_references": 8,
+          "raw_offsets_checked": 38,
+          "invalid_references": 0,
+          "line_numbers_derived": 38,
+          "line_numbers_supplied": 0
+        },
+        "event_counts": {
+          "error_events": 6,
+          "group_structure_error_events": 1
+        },
+        "metrics": {
+          "condition_omission": {
+            "numerator": 0,
+            "denominator": 3
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 3
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 3
+          },
+          "scope_membership_decisions": {
+            "numerator": 3,
+            "denominator": 3
+          },
+          "operator_group_structure": {
+            "numerator": 0,
+            "denominator": 0
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 0
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "parent_relations": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "reference_relations": {
+            "numerator": 1,
+            "denominator": 1
+          },
+          "forbidden_claims": {
+            "numerator": 0,
+            "denominator": 1
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 0,
+            "raw_needs_review_items": 0
+          },
+          "source_coverage": {
+            "numerator": 0,
+            "denominator": 3
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 38
+          }
+        },
+        "errors": [
+          {
+            "metric": "group_structure",
+            "expected_group_id": "S1",
+            "expected_operator": "contextual_scope_no_flat_operator",
+            "expected_direct_members": [
+              "A1",
+              "A2",
+              "A3"
+            ],
+            "reason": "expected nested member could not be resolved"
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A2",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A3",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "scope_membership_decisions",
+            "group_id": "S1",
+            "condition_id": "A1",
+            "expected_member": true,
+            "actual_member": false
+          },
+          {
+            "metric": "parent_relations",
+            "expected_children": [
+              "A3"
+            ],
+            "expected_parent_kind": "semantic",
+            "missing_locators": [
+              "no confirmed directed parent relation for A3"
+            ],
+            "reason": "confirmed semantic parent/scope relation missing"
+          },
+          {
+            "metric": "reference_relations",
+            "missing_locators": [
+              "confirmed reference status/source/target mismatch"
+            ]
+          }
+        ],
+        "evaluator_version": "1.0.4"
+      }
+    }
+  }
+}

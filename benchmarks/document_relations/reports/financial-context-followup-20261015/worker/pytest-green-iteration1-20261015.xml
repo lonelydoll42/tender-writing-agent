@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="7" skipped="0" tests="20" time="0.367" timestamp="2026-10-15T11:51:34.405373+08:00" hostname="捡垃圾换的2060"><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_positive_cases_expose_one_finite_context[F01-original-case13]" time="0.003"><failure message="assert 0 == 1&#10; +  where 0 = len([])">case = {'case_id': 'F01-original-case13', 'expectation': 'confirmed_context', 'input_text': '请提交编号1.9的财务说明，并在说明中列明营业收入。\n营业收入应不少于人民币1.10万元。', 'anchor_text': '请提交编号1.9的财务说明，', ...}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in CASES if case["expectation"] == "confirmed_context"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_positive_cases_expose_one_finite_context(case: dict) -&gt; None:
+        structure, graph = _run(case["input_text"])
+&gt;       scope = _financial_scope(graph)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_financial_context.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'financial-context-test', 'source_version': 'v1', 'block_re...ence_kind': 'anaphora', 'reference_text': '营业收入', 'source_block_id': 'blk_cf5dc1916c6315588094fc80', ...}], ...}], ...}
+
+    def _financial_scope(graph: dict) -&gt; dict:
+        matches = [
+            scope
+            for relation in graph["block_relations"]
+            for scope in relation["scope_relations"]
+            if scope.get("relation_type") == "financial_context_scope"
+        ]
+&gt;       assert len(matches) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_document_relations_financial_context.py:45: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_positive_cases_expose_one_finite_context[F02-other-number-and-amount]" time="0.002"><failure message="assert 0 == 1&#10; +  where 0 = len([])">case = {'case_id': 'F02-other-number-and-amount', 'expectation': 'confirmed_context', 'input_text': '请提供编号2.4的财务说明，并在说明中列明营业收入。\n营业收入应不少于人民币20.50万元。', 'anchor_text': '请提供编号2.4的财务说明，', ...}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in CASES if case["expectation"] == "confirmed_context"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_positive_cases_expose_one_finite_context(case: dict) -&gt; None:
+        structure, graph = _run(case["input_text"])
+&gt;       scope = _financial_scope(graph)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_financial_context.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'financial-context-test', 'source_version': 'v1', 'block_re...ence_kind': 'anaphora', 'reference_text': '营业收入', 'source_block_id': 'blk_598181701b59f0551b4437de', ...}], ...}], ...}
+
+    def _financial_scope(graph: dict) -&gt; dict:
+        matches = [
+            scope
+            for relation in graph["block_relations"]
+            for scope in relation["scope_relations"]
+            if scope.get("relation_type") == "financial_context_scope"
+        ]
+&gt;       assert len(matches) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_document_relations_financial_context.py:45: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_positive_cases_expose_one_finite_context[F03-blank-line]" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = len([])">case = {'case_id': 'F03-blank-line', 'expectation': 'confirmed_context', 'input_text': '请提交编号1.9的财务说明，并在说明中列明营业收入。\n \n营业收入应不少于人民币1.10万元。', 'anchor_text': '请提交编号1.9的财务说明，', ...}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in CASES if case["expectation"] == "confirmed_context"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_positive_cases_expose_one_finite_context(case: dict) -&gt; None:
+        structure, graph = _run(case["input_text"])
+&gt;       scope = _financial_scope(graph)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_financial_context.py:70: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'financial-context-test', 'source_version': 'v1', 'block_re...ence_kind': 'anaphora', 'reference_text': '营业收入', 'source_block_id': 'blk_0dd3a1813e1b68d33b9bedbb', ...}], ...}], ...}
+
+    def _financial_scope(graph: dict) -&gt; dict:
+        matches = [
+            scope
+            for relation in graph["block_relations"]
+            for scope in relation["scope_relations"]
+            if scope.get("relation_type") == "financial_context_scope"
+        ]
+&gt;       assert len(matches) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_document_relations_financial_context.py:45: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN01-subject-switch]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN02-two-financial-fields]" time="0.002"><failure message="AssertionError: assert 2 == 1&#10; +  where 2 = len([{'reference_id': 'cond_32921539d9a01a21531ca0cd', 'reference_kind': 'anaphora', 'reference_text': '营业收入', 'source_blo...588b', 'reference_kind': 'anaphora', 'reference_text': '营业收入', 'source_block_id': 'blk_95fa8a55227e949bafed906c', ...}])">case = {'case_id': 'FN02-two-financial-fields', 'expectation': 'review_context', 'input_text': '请提交编号1.9的财务说明，并在说明中列明营业收入。\n请提交编号2.1的财务说明，并在说明中列明营业收入。\n营业收入应不少于人民币1.10万元。', 'threshold_text': '营业收入应不少于人民币1.10万元。'}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in CASES if case["expectation"] == "review_context"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_negative_cases_never_confirm_financial_binding(case: dict) -&gt; None:
+        _, graph = _run(case["input_text"])
+        scopes = [
+            scope
+            for relation in graph["block_relations"]
+            for scope in relation["scope_relations"]
+            if scope.get("relation_type") == "financial_context_scope"
+        ]
+        assert all(scope["status"] != "confirmed" for scope in scopes)
+&gt;       reference = _financial_reference(graph)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_financial_context.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'financial-context-test', 'source_version': 'v1', 'block_re...ence_kind': 'anaphora', 'reference_text': '营业收入', 'source_block_id': 'blk_95fa8a55227e949bafed906c', ...}], ...}], ...}
+
+    def _financial_reference(graph: dict) -&gt; dict:
+        matches = [
+            reference
+            for reference in graph["references"]
+            if reference.get("reference_text") == "营业收入"
+        ]
+&gt;       assert len(matches) == 1
+E       AssertionError: assert 2 == 1
+E        +  where 2 = len([{'reference_id': 'cond_32921539d9a01a21531ca0cd', 'reference_kind': 'anaphora', 'reference_text': '营业收入', 'source_blo...588b', 'reference_kind': 'anaphora', 'reference_text': '营业收入', 'source_block_id': 'blk_95fa8a55227e949bafed906c', ...}])
+
+tests\test_document_relations_financial_context.py:55: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN03-same-metric-other-report]" time="0.002"><failure message="AssertionError: assert 2 == 1&#10; +  where 2 = len([{'reference_id': 'cond_e7a7716fcb972a428dd72806', 'reference_kind': 'anaphora', 'reference_text': '营业收入', 'source_blo...bd54', 'reference_kind': 'anaphora', 'reference_text': '营业收入', 'source_block_id': 'blk_4fecda901347f5790f0726c9', ...}])">case = {'case_id': 'FN03-same-metric-other-report', 'expectation': 'review_context', 'input_text': '请提交编号1.9的财务说明，并在说明中列明营业收入。\n请提交审计报告，并在报告中列明营业收入。\n营业收入应不少于人民币1.10万元。', 'threshold_text': '营业收入应不少于人民币1.10万元。'}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in CASES if case["expectation"] == "review_context"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_negative_cases_never_confirm_financial_binding(case: dict) -&gt; None:
+        _, graph = _run(case["input_text"])
+        scopes = [
+            scope
+            for relation in graph["block_relations"]
+            for scope in relation["scope_relations"]
+            if scope.get("relation_type") == "financial_context_scope"
+        ]
+        assert all(scope["status"] != "confirmed" for scope in scopes)
+&gt;       reference = _financial_reference(graph)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_financial_context.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'financial-context-test', 'source_version': 'v1', 'block_re...ence_kind': 'anaphora', 'reference_text': '营业收入', 'source_block_id': 'blk_4fecda901347f5790f0726c9', ...}], ...}], ...}
+
+    def _financial_reference(graph: dict) -&gt; dict:
+        matches = [
+            reference
+            for reference in graph["references"]
+            if reference.get("reference_text") == "营业收入"
+        ]
+&gt;       assert len(matches) == 1
+E       AssertionError: assert 2 == 1
+E        +  where 2 = len([{'reference_id': 'cond_e7a7716fcb972a428dd72806', 'reference_kind': 'anaphora', 'reference_text': '营业收入', 'source_blo...bd54', 'reference_kind': 'anaphora', 'reference_text': '营业收入', 'source_block_id': 'blk_4fecda901347f5790f0726c9', ...}])
+
+tests\test_document_relations_financial_context.py:55: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN04-substantive-interruption]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN05-heading-boundary]" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = len([])">case = {'case_id': 'FN05-heading-boundary', 'expectation': 'review_context', 'input_text': '请提交编号1.9的财务说明，并在说明中列明营业收入。\n第二章 技术要求\n营业收入应不少于人民币1.10万元。', 'threshold_text': '营业收入应不少于人民币1.10万元。'}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in CASES if case["expectation"] == "review_context"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_negative_cases_never_confirm_financial_binding(case: dict) -&gt; None:
+        _, graph = _run(case["input_text"])
+        scopes = [
+            scope
+            for relation in graph["block_relations"]
+            for scope in relation["scope_relations"]
+            if scope.get("relation_type") == "financial_context_scope"
+        ]
+        assert all(scope["status"] != "confirmed" for scope in scopes)
+&gt;       reference = _financial_reference(graph)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_financial_context.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'financial-context-test', 'source_version': 'v1', 'block_re...n': 'v1', 'page': 1, 'locator': 'p1:c27-35', ...}], ...}, 'scope_relations': [], 'reference_relations': [], ...}], ...}
+
+    def _financial_reference(graph: dict) -&gt; dict:
+        matches = [
+            reference
+            for reference in graph["references"]
+            if reference.get("reference_text") == "营业收入"
+        ]
+&gt;       assert len(matches) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_document_relations_financial_context.py:55: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN06-page-boundary]" time="0.001"><failure message="assert 0 == 1&#10; +  where 0 = len([])">case = {'case_id': 'FN06-page-boundary', 'expectation': 'review_context', 'input_text': '请提交编号1.9的财务说明，并在说明中列明营业收入。\x0c营业收入应不少于人民币1.10万元。', 'threshold_text': '营业收入应不少于人民币1.10万元。'}
+
+    @pytest.mark.parametrize(
+        "case",
+        [case for case in CASES if case["expectation"] == "review_context"],
+        ids=lambda case: case["case_id"],
+    )
+    def test_frozen_negative_cases_never_confirm_financial_binding(case: dict) -&gt; None:
+        _, graph = _run(case["input_text"])
+        scopes = [
+            scope
+            for relation in graph["block_relations"]
+            for scope in relation["scope_relations"]
+            if scope.get("relation_type") == "financial_context_scope"
+        ]
+        assert all(scope["status"] != "confirmed" for scope in scopes)
+&gt;       reference = _financial_reference(graph)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_document_relations_financial_context.py:138: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+graph = {'schema_version': 'document-relations-v1', 'document_id': 'financial-context-test', 'source_version': 'v1', 'block_re...on': 'v1', 'page': 2, 'locator': 'p2:c0-18', ...}], ...}, 'scope_relations': [], 'reference_relations': [], ...}], ...}
+
+    def _financial_reference(graph: dict) -&gt; dict:
+        matches = [
+            reference
+            for reference in graph["references"]
+            if reference.get("reference_text") == "营业收入"
+        ]
+&gt;       assert len(matches) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_document_relations_financial_context.py:55: AssertionError</failure></testcase><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN07-two-fields-in-statement]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN08-conditional-threshold]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN09-negated-threshold]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN10-substitute-metric]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN11-trailing-subject]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_frozen_negative_cases_never_confirm_financial_binding[FN12-unparsed-statement-owner]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_invalid_or_nonunique_financial_sources_never_confirm[document_id]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_invalid_or_nonunique_financial_sources_never_confirm[source_version]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_invalid_or_nonunique_financial_sources_never_confirm[coordinates]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_invalid_or_nonunique_financial_sources_never_confirm[duplicate_block_id]" time="0.001" /><testcase classname="tests.test_document_relations_financial_context" name="test_invalid_or_nonunique_financial_sources_never_confirm[multi_target]" time="0.001" /></testsuite></testsuites>

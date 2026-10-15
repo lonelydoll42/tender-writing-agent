@@ -771,6 +771,14 @@ def build_document_relations(structure: Mapping[str, Any]) -> dict[str, Any]:
         node_builder.by_id,
         id_counts,
     )
+    _add_finite_financial_context_relations(
+        records,
+        reference_nodes,
+        block_relation_by_index,
+        roots_by_block,
+        node_builder.by_id,
+        id_counts,
+    )
     _add_cross_page_candidate_relations(
         records,
         block_relation_by_index,
@@ -4855,6 +4863,383 @@ def _is_finite_copy_attribute_reference(
         reference_text == "该复印件"
         or (reference_text == "该材料" and reference_status == "confirmed")
     )
+
+
+_FINITE_FINANCIAL_STATEMENT_RE = re.compile(
+    r"请(?:提交|提供)编号\d+(?:\.\d+)?的财务说明，"
+    r"并在说明中列明营业收入。"
+)
+_FINITE_FINANCIAL_THRESHOLD_RE = re.compile(
+    r"营业收入应不少于人民币\d+(?:\.\d+)?(?:元|万元|亿元)。"
+)
+_FINANCIAL_THRESHOLD_CUES = ("应不少于", "人民币", "万元", "亿元")
+
+
+def _add_finite_financial_context_relations(
+    records: list[dict[str, Any]],
+    references: list[dict[str, Any]],
+    block_relations: Mapping[int, dict[str, Any]],
+    roots_by_block: Mapping[int, list[str]],
+    nodes_by_id: Mapping[str, dict[str, Any]],
+    id_counts: Mapping[str, int],
+) -> None:
+    records_by_id = {
+        record["block_id"]: record
+        for record in records
+        if isinstance(record["block_id"], str)
+        and id_counts.get(record["block_id"]) == 1
+    }
+    anchors = [
+        record
+        for record in records
+        if record["kind"] in _CONDITION_KINDS
+        and _FINITE_FINANCIAL_STATEMENT_RE.fullmatch(record["raw_text"].strip())
+    ]
+    revenue_occurrences = [
+        (record, match)
+        for record in records
+        for match in re.finditer("营业收入", record["raw_text"])
+    ]
+    has_financial_context = bool(anchors) or any(
+        any(cue in record["raw_text"] for cue in _FINANCIAL_THRESHOLD_CUES)
+        for record, _ in revenue_occurrences
+    )
+    field_records = (
+        list(
+            {
+                record["index"]: record
+                for record, _ in revenue_occurrences
+            }.values()
+        )
+        if has_financial_context
+        else []
+    )
+    financial_records = [
+        record
+        for record in field_records
+        if any(cue in record["raw_text"] for cue in _FINANCIAL_THRESHOLD_CUES)
+    ]
+    financial_references = []
+    for record in financial_records:
+        reference = next(
+            (
+                item
+                for item in references
+                if item.get("reference_kind") == "anaphora"
+                and item.get("reference_text") == "营业收入"
+                and item.get("source_block_id") == record["block_id"]
+            ),
+            None,
+        )
+        if reference is None:
+            match = re.search("营业收入", record["raw_text"])
+            if match is None:
+                continue
+            expression_refs = _refs_for_span(record, match.start(), match.end())
+            reference = {
+                "reference_id": _stable_id(
+                    "reference",
+                    record["block_id"],
+                    match.start(),
+                    match.end(),
+                    match.group(),
+                    [],
+                ),
+                "reference_kind": "anaphora",
+                "reference_text": match.group(),
+                "source_block_id": record["block_id"],
+                "status": "unresolved" if not record["source_valid"] else "candidate",
+                "target_block_ids": [],
+                "target_node_ids": [],
+                "source_references": expression_refs,
+                "expression_source_references": expression_refs,
+                "context_source_references": record["source_references"],
+                "candidate_source_references": [],
+                "candidate_target_context_references": [],
+                "reason": "financial threshold requires finite-context review",
+            }
+            references.append(reference)
+            block_relations[record["index"]]["reference_relations"].append(
+                dict(reference)
+            )
+        financial_references.append(reference)
+    financial_context_records = {record["block_id"]: record for record in field_records}
+    for reference in references:
+        if (
+            reference.get("reference_kind") == "anaphora"
+            and reference.get("reference_text") == "营业收入"
+            and reference.get("source_block_id") in financial_context_records
+        ):
+            source_record = financial_context_records[reference["source_block_id"]]
+            reference["status"] = (
+                "unresolved" if not source_record["source_valid"] else "candidate"
+            )
+            reference["reason"] = (
+                "financial field mention requires finite-context resolution"
+            )
+            relation = block_relations[source_record["index"]]
+            for block_reference in relation["reference_relations"]:
+                if block_reference.get("reference_id") == reference.get("reference_id"):
+                    block_reference.update(reference)
+                    break
+
+    for reference in financial_references:
+        threshold = records_by_id.get(reference.get("source_block_id"))
+        previous = _unique_adjacent_antecedent(
+            records,
+            threshold["index"],
+        ) if threshold is not None else None
+        valid_pair = (
+            threshold is not None
+            and previous is not None
+            and previous in anchors
+            and len(anchors) == 1
+            and len(
+                [
+                    record
+                    for record in field_records
+                    if record["block_id"] != threshold["block_id"]
+                ]
+            )
+            == 1
+            and len(revenue_occurrences) == 2
+            and previous["block_id"]
+            == next(
+                record["block_id"]
+                for record in field_records
+                if record["block_id"] != threshold["block_id"]
+            )
+            and previous["block"].get("page_number")
+            == threshold["block"].get("page_number")
+            and previous["source_valid"]
+            and threshold["source_valid"]
+            and id_counts.get(previous["block_id"]) == 1
+            and id_counts.get(threshold["block_id"]) == 1
+            and _FINITE_FINANCIAL_THRESHOLD_RE.fullmatch(
+                threshold["raw_text"].strip()
+            )
+            is not None
+        )
+        possible_anchor_records = [
+            record
+            for record in field_records
+            if threshold is None or record["block_id"] != threshold["block_id"]
+        ]
+        anchor_nodes = [
+            node
+            for node in nodes_by_id.values()
+            if node.get("op") == "ATOM"
+            and any(
+                anchor["block_id"] in node.get("source_block_ids", [])
+                for anchor in possible_anchor_records
+            )
+        ]
+        threshold_nodes = [
+            node
+            for node in nodes_by_id.values()
+            if node.get("op") == "ATOM"
+            and threshold is not None
+            and threshold["block_id"] in node.get("source_block_ids", [])
+        ]
+        field_nodes = [
+            node
+            for node in anchor_nodes
+            if any(
+                "列明营业收入" in source.get("quote", "")
+                for source in node.get("source_references", [])
+            )
+        ]
+        anchor_members = [
+            node
+            for node in anchor_nodes
+            if any(
+                "编号" in source.get("quote", "")
+                and "财务说明" in source.get("quote", "")
+                for source in node.get("source_references", [])
+            )
+        ]
+        threshold_members = [
+            node
+            for node in threshold_nodes
+            if any(
+                _FINITE_FINANCIAL_THRESHOLD_RE.fullmatch(
+                    source.get("quote", "").strip()
+                )
+                for source in node.get("source_references", [])
+            )
+        ]
+        positive = (
+            valid_pair
+            and len(field_nodes) == 1
+            and len(anchor_members) == 1
+            and len(threshold_members) == 1
+        )
+        field_node = field_nodes[0] if len(field_nodes) == 1 else None
+        threshold_node = (
+            threshold_members[0] if len(threshold_members) == 1 else None
+        )
+        evidence = _merge_refs(
+            *[
+                anchor["source_references"]
+                for anchor in possible_anchor_records
+            ],
+            threshold["source_references"] if threshold is not None else [],
+        )
+
+        if threshold is not None:
+            reference["status"] = (
+                "confirmed"
+                if positive
+                else "unresolved"
+                if not threshold["source_valid"]
+                else "candidate"
+            )
+            reference["target_block_ids"] = (
+                [previous["block_id"]]
+                if positive and previous is not None
+                else [
+                    record["block_id"]
+                    for record in possible_anchor_records
+                    if record["block_id"] and id_counts.get(record["block_id"]) == 1
+                ]
+            )
+            reference["target_node_ids"] = (
+                [field_node["node_id"]]
+                if positive and field_node is not None
+                else _unique(
+                    node["node_id"]
+                    for record in possible_anchor_records
+                    for node in nodes_by_id.values()
+                    if record["block_id"] in node.get("source_block_ids", [])
+                    and node.get("op") == "ATOM"
+                )
+            )
+            reference["source_references"] = _merge_refs(
+                reference.get("expression_source_references", []),
+                evidence,
+            )
+            reference["candidate_source_references"] = (
+                [] if positive else evidence
+            )
+            reference["reason"] = (
+                "营业收入 has one finite same-page financial statement antecedent"
+                if positive
+                else (
+                    "营业收入 financial threshold does not meet "
+                    "the finite context contract"
+                )
+            )
+            relation = block_relations[threshold["index"]]
+            for block_reference in relation["reference_relations"]:
+                if block_reference.get("reference_id") == reference.get("reference_id"):
+                    block_reference.update(reference)
+                    break
+
+        if threshold is None:
+            continue
+
+        candidate_member_ids = _unique(
+            [
+                *[node["node_id"] for node in anchor_nodes],
+                *[node["node_id"] for node in threshold_nodes],
+            ]
+        )
+        member_ids = (
+            [
+                anchor_members[0]["node_id"],
+                field_node["node_id"],
+                threshold_node["node_id"],
+            ]
+            if positive and field_node is not None and threshold_node is not None
+            else candidate_member_ids
+        )
+        scope_status = (
+            "confirmed"
+            if positive
+            else "unresolved"
+            if not threshold["source_valid"]
+            else "candidate"
+        )
+        scope_id = _stable_id(
+            "financial_context_scope",
+            reference.get("reference_id"),
+            member_ids,
+        )
+        scope = {
+            "relation_id": scope_id,
+            "relation_type": "financial_context_scope",
+            "kind": "context_scope",
+            "operator": "CONTEXT",
+            "status": scope_status,
+            "scope_status": scope_status,
+            "basis": (
+                "finite_same_page_financial_statement_and_threshold"
+                if positive
+                else "unresolved_financial_context_candidate"
+            ),
+            "target_block_ids": _unique(
+                [
+                    *[
+                        anchor["block_id"]
+                        for anchor in possible_anchor_records
+                        if anchor["block_id"]
+                    ],
+                    threshold["block_id"],
+                ]
+            ),
+            "target_node_ids": member_ids,
+            "member_node_ids": member_ids,
+            "trigger_text": "".join(
+                [anchor["raw_text"] for anchor in possible_anchor_records]
+                + [threshold["raw_text"]]
+            ),
+            "source_references": evidence,
+            "scope_source_references": evidence,
+            "boundary_source_references": evidence,
+            "reason": (
+                "explicit financial statement field and adjacent affirmative RMB floor"
+                if positive
+                else "financial threshold or its antecedent requires human review"
+            ),
+        }
+        relation = block_relations[threshold["index"]]
+        relation["scope_relations"].append(dict(scope))
+        if threshold_node is not None:
+            threshold_node["scope_relation"] = dict(scope)
+        parent = {
+            "relation_id": _stable_id(
+                "financial_contextual_parent",
+                (
+                    threshold_node["node_id"]
+                    if threshold_node
+                    else reference["reference_id"]
+                ),
+                field_node["node_id"] if field_node else candidate_member_ids,
+            ),
+            "status": scope_status,
+            "layer": "contextual_parent",
+            "basis": (
+                "finite_financial_statement_field"
+                if positive
+                else "unresolved_financial_context_candidate"
+            ),
+            "target_block_ids": [
+                anchor["block_id"] for anchor in possible_anchor_records
+            ],
+            "target_node_ids": (
+                [field_node["node_id"]]
+                if positive and field_node is not None
+                else [node["node_id"] for node in anchor_nodes]
+            ),
+            "source_references": evidence,
+            "reason": (
+                "financial threshold refers to the unique listed revenue field"
+                if positive
+                else "financial field antecedent is not uniquely confirmed"
+            ),
+        }
+        if threshold_node is not None:
+            threshold_node["parent_relations"].append(parent)
 
 
 def _add_finite_copy_attribute_relations(

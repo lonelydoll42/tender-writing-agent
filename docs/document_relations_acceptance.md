@@ -2,7 +2,35 @@
 
 ## 状态与边界
 
-### 当前备选先行对象边界补修（2026-10-14）
+### 当前 case-13 有限财务上下文关联（2026-10-15）
+
+**case-13 的有限公开回归通过；第2步整体仍不关闭。** 修改智能体实施，主审从固定 Git 字节导出独立验收。开发前冻结十五例、合同及修改范围；主体切换、多个同名指标、跨段中断等后续探针另存为公开回归。评分器、oracle、既有测试和历史报告未改。
+
+先对 `57f1a8f` 的实际输出核对映射：冻结 1.0.3、1.0.4 都能一一映射三个原子条件，遗漏为 **0/3**。基线失败来自上下文分组、三个成员、A3 的有向父级和指代证据，不能归因为原子映射。首次真实输出、红测、失败迭代及原始历史报告分别保留。
+
+本批只确认完整、肯定的有限句式：“请提交/提供编号 X 的财务说明，并在说明中列明营业收入。”后接“营业收入应不少于人民币 X 元/万元/亿元。”编号和金额保留原文；同页、相邻实质块可以隔空行，不能跨过标题、其他要求或分页。完整结构中必须恰有这两处“营业收入”，出现额外同名提及即复核；不以局部邻接或未命中少量关键词证明唯一性。其他主体、限定语、条件、否定、选择、替代及未支持句式不作确认。
+
+保留三个 ATOM 和原 `AND(A1,A2)`，增加非逻辑 `financial_context_scope`，直接成员恰为 A1、A2、A3。A3 的 `contextual_parent` 和营业收入指代只指向 A2 字段，不指向说明提交动作、整组或自身。节点与块层提供相同 scope；成员、终止、关系本身、父级及指代均留存说明句与门槛句的原文证据。全局 `partial` 和人工复核保留，不表示企业材料已满足金额要求，也不提供通用主体或时间推断。
+
+| 独立 canonical 检查 | 结果 |
+| --- | --- |
+| 新实际公开专项 | **22/22**；5 个确认正例、17 个复核例，1315/1315 引用有效 |
+| 实际图语义变异 | **23/23 拒绝**，变异原始引用均有效；独立核对有向目标、成员、唯一 ID 和证据职责 |
+| 来源变异 | **2/2 拒绝**；版本及坐标损坏单独统计 |
+| 原有属性公开专项 | **33/33**；8 个确认、25 个复核，720/720 引用有效；15 个语义、2 个来源变异继续拒绝 |
+| 新测试红/绿 | 初始20项中15失败、5通过；最终27项财务测试加32项既有属性测试，59/59 |
+| 最终全量 | **1053 passed、1 条既有 Starlette 警告**，无失败、错误、跳过 |
+| Ruff、差异检查 | 通过；两份失败测试原始 traceback 只按精确文件保留空白 |
+
+从最终产品源码重新实际采集十四例，**14 executed、0 execution_failed、0 not_run**。三版对同一份新捕获重评为 **11/14、11/14、12/14**，基线新捕获为 **10/14、10/14、11/14**。只有 case-13 的状态和语义错误数改善：scope 成员错误 3/3 → 0/3，父级与指代错误各 1/1 → 0/1，整例六项错误归零；原始引用由38增加到50，均有效。其余十三例状态及全部指标保持；总体引用 **1107/1107** 有效。1.0.5 仍有 case-07、12 失败。
+
+每次独立 Registry 采集会生成新文档身份，所以前后两次 graph/context 的原始哈希不相同，不能声称它们逐字节相同。十四例的输入字节、原文页保持一致；同一捕获内三版 graph/context/runtime 指纹逐例一致。见 [baseline-to-product-comparison.json](../benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-to-product-comparison.json) 和 [comparison-identity-note.json](../benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/comparison-identity-note.json)。变异拒绝由主审独立职责检查器验证，不声称冻结评分器覆盖所有变异。
+
+65 个产品源码汇总 SHA-256 为 `8141956da6314058e73a3c1f64b0f8c058d4fdb5a3c0a1b7068aa1e9e7be45d4`。**96/96 代码、832/832 导出文件**匹配代码 tree `4e330214cea8ff81195b347125d1d361239c70ae`，**819 件受保护历史文件**工作区字节和 Git blob 未变；原发布记录23个字段值保留。该 tree 只包含最终代码及冻结用例，不包含后补报告、文档和发布元数据；最终提交继续核对相同代码 blob。worker 最终产品/测试快照与 canonical 原字节一致；工作区迭代报告仅供诊断，不冒充固定源码验收。见 [final-code-proof.json](../benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/final-code-proof.json)。
+
+资产、复验命令与 hash 索引见 [financial-context-regression/20261015](../benchmarks/document_relations/financial-context-regression/20261015/README.md) 和 [financial-context-publication-record.json](../benchmarks/document_relations/financial-context-publication-record.json)。**新增样例全部为公开回归；未见环境未建立，未见验收仍为 `not_run`。** 旧公开原始文件 **0/8** 未重跑，企业材料未运行，通用完整性、生产验收及第2步整体仍未通过。更广财务措辞的正确确认率未在本批测量；`uv.lock` 未纳入提交，继续独立处理。
+
+### 历史备选先行对象边界补修（2026-10-14）
 
 **备选对象唯一性的有限补修通过；第2步整体仍不关闭。** 修改智能体实施，主审独立验收。仅产品 `document_relations.py` 收紧先行句判断：不再用“复印件”词频与未命中少量连接词推断唯一性，改为整句匹配有限的肯定单对象形式。冻结评分器、oracle、旧测试和历史报告不改；本批不进入 case-13。
 

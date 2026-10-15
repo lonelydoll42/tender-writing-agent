@@ -1,0 +1,620 @@
+{
+  "schema": "financial-context-publication-v1",
+  "published_at": "2026-10-15T12:14:06.1171030+08:00",
+  "base_commit": "57f1a8fec8718cadab31d31822ae593f41ac2d4b",
+  "classification": "public regression; actual independent Registry/Runtime output; not unseen",
+  "implementation_by": "delegated worker; main reviewer accepts and publishes",
+  "accepted_scope": "Finite adjacent same-page numbered financial statement, listed unique revenue field and affirmative RMB floor. Original three atoms and AND(A1,A2) retained; A3 directed to A2 with bilateral source evidence.",
+  "unique_field_boundary": "Exactly two revenue occurrences across the complete structure; other mentions, subjects, qualifiers or interruptions require review",
+  "product_source": {
+    "path": "src/qiaowenshu_agent/domain/document_relations.py",
+    "canonical_sha256": "5a53009df177fefb4fe603a7a424828641ec9c59bdf4e87830b4904f230f75a4",
+    "source_tree_sha256": "8141956da6314058e73a3c1f64b0f8c058d4fdb5a3c0a1b7068aa1e9e7be45d4",
+    "source_files": 65,
+    "code_files": 96,
+    "archive_tree": "4e330214cea8ff81195b347125d1d361239c70ae",
+    "exported_files": 832,
+    "archive_scope": "Canonical code and pre-publication assets. Later reports/docs/metadata are outside this tree; final commit must retain all code blobs.",
+    "proof": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/final-code-proof.json"
+  },
+  "mapping": {
+    "baseline_versions": [
+      "1.0.3",
+      "1.0.4"
+    ],
+    "atoms_mapped_each": 3,
+    "atoms_expected": 3,
+    "omissions_each": 0,
+    "diagnosis": "Product scope/parent/reference evidence missing; not an atom-mapping defect",
+    "report": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-atom-mapping.json"
+  },
+  "actual_checks": {
+    "new_public": {
+      "total": 22,
+      "passed": 22,
+      "executed": 22,
+      "source_checked": 1315,
+      "source_invalid": 0,
+      "semantic_mutations_rejected": 23,
+      "semantic_mutations_total": 23,
+      "source_mutations_rejected": 2,
+      "source_mutations_total": 2
+    },
+    "confirmed_positive": 5,
+    "review_cases": 17,
+    "semantic_mutation_raw_source_invalid": 0,
+    "existing_public": {
+      "total": 33,
+      "passed": 33,
+      "executed": 33,
+      "semantic_mutations_rejected": 15,
+      "semantic_mutations_total": 15,
+      "source_mutations_rejected": 2,
+      "source_mutations_total": 2,
+      "source_invalid": 0,
+      "source_checked": 720
+    },
+    "all_fixtures_public": true
+  },
+  "tests": {
+    "exit_code": 0,
+    "passed": 1053,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "observed_warnings": 1,
+    "warning": "StarletteDeprecationWarning: httpx with starlette.testclient",
+    "stdout_duration_seconds": 67.82,
+    "junit": "pytest-canonical-final.xml",
+    "run_from": "immutable canonical-v1 export",
+    "cacheprovider": "disabled"
+  },
+  "validation": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/final-validation.json",
+  "scoring": {
+    "baseline_scores": [
+      "10/14",
+      "10/14",
+      "11/14"
+    ],
+    "current_scores": [
+      "11/14",
+      "11/14",
+      "12/14"
+    ],
+    "current_views": {
+      "1.0.3": {
+        "case_count": 14,
+        "passed": 11,
+        "failed": 3,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 5,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 4,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 1,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 13,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 6,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1107,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 31,
+          "group_structure_error_events": 5
+        },
+        "method": "frozen 1.0.3 score_case",
+        "overlay_case_ids": []
+      },
+      "1.0.4": {
+        "case_count": 14,
+        "passed": 11,
+        "failed": 3,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 2,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 5,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 4,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 1,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 13,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1107,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 29,
+          "group_structure_error_events": 5
+        },
+        "method": "frozen 1.0.4 score_case",
+        "overlay_case_ids": []
+      },
+      "1.0.5": {
+        "case_count": 14,
+        "passed": 12,
+        "failed": 2,
+        "not_run": 0,
+        "metrics": {
+          "boundary_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "condition_omission": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "forbidden_claims": {
+            "numerator": 1,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "operator_evidence": {
+            "numerator": 0,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "operator_group_structure": {
+            "numerator": 2,
+            "denominator": 14,
+            "status": "measured"
+          },
+          "parent_relations": {
+            "numerator": 2,
+            "denominator": 16,
+            "status": "measured"
+          },
+          "reference_relations": {
+            "numerator": 1,
+            "denominator": 3,
+            "status": "measured"
+          },
+          "review_handling": {
+            "numerator": 0,
+            "denominator": 19,
+            "status": "measured"
+          },
+          "scope_evidence": {
+            "numerator": 0,
+            "denominator": 17,
+            "status": "measured"
+          },
+          "scope_membership_decisions": {
+            "numerator": 5,
+            "denominator": 50,
+            "status": "measured"
+          },
+          "source_coverage": {
+            "numerator": 2,
+            "denominator": 37,
+            "status": "measured"
+          },
+          "source_invalid": {
+            "numerator": 0,
+            "denominator": 1107,
+            "status": "measured"
+          },
+          "wrong_merge_pairs": {
+            "numerator": 0,
+            "denominator": 34,
+            "status": "measured"
+          },
+          "wrong_split_atom_units": {
+            "numerator": 0,
+            "denominator": 37,
+            "status": "measured"
+          }
+        },
+        "event_counts": {
+          "error_events": 14,
+          "group_structure_error_events": 2
+        },
+        "method": "frozen 1.0.5 on case-03/case-11; 1.0.4 fallback elsewhere",
+        "overlay_case_ids": [
+          "case-03",
+          "case-11"
+        ]
+      }
+    },
+    "actual_executed": 14,
+    "execution_failed": 0,
+    "not_run": 0,
+    "only_changed_case": "case-13",
+    "case13_errors_before": 6,
+    "case13_errors_after": 0,
+    "frozen_scorers_changed": false,
+    "oracle_changed": false,
+    "comparison": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-to-product-comparison.json",
+    "recapture_identity_note": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/comparison-identity-note.json"
+  },
+  "preservation": {
+    "base_tracked_files": 824,
+    "protected_files": 819,
+    "protected_unchanged": 819,
+    "previous_parent_fields_preserved": 23,
+    "canonical_code_files": 96,
+    "frozen_contract_and_cases_unchanged": true,
+    "red_and_failed_iteration_outputs_retained": true,
+    "worker_final_snapshots_match": true,
+    "live_iteration_reports_are_diagnostics_only": true
+  },
+  "limits": {
+    "overall_step2_closed": false,
+    "unseen_environment": "not established",
+    "unseen_evaluation": "not_run",
+    "new_unseen_files": 0,
+    "old_public_raw_files": "0/8 historical; not rerun",
+    "business_materials": "not_run",
+    "general_completeness_accepted": false,
+    "production_accepted": false,
+    "real_model_service_called": false,
+    "uv_lock": "separate untracked task; excluded and unchanged",
+    "uv_lock_sha256": "862aeb3309a2b33fdafddae857a73455c57f82f687cccfb51c38d841611837b9",
+    "out_of_scope": [
+      "case-07",
+      "case-12",
+      "general financial semantic parsing",
+      "subject/time binding",
+      "bidder-material satisfaction"
+    ]
+  },
+  "inventory_scope": "Includes batch fixtures/reports and changed code/docs/attributes; excludes this record, parent publication pointer and final-staged-audit.json to avoid hash cycles",
+  "inventory": [
+    {
+      "path": ".gitattributes",
+      "sha256": "5871b3bd1627bf466b1f2855de17847b92388ac9baa3d8b2a8299939473ea005",
+      "git_blob": "a4b4417fc5fbc499f6b5ece76cbcbbe9ac041ade",
+      "bytes": 15643
+    },
+    {
+      "path": "benchmarks/document_relations/financial-context-regression/20261015/cases.json",
+      "sha256": "ff3ac4e029762e0b8bd92ff9ed7033568dd11372f4ae9ef5c9b9d208334f592d",
+      "git_blob": "d79e736ca007a5c08912fd2d3103c71cdc3c586c",
+      "bytes": 5572
+    },
+    {
+      "path": "benchmarks/document_relations/financial-context-regression/20261015/check-acceptance.py",
+      "sha256": "9f20183ff2a6e6b1680b33085ccb913dd7425194eba087de58c8a9f882b42d83",
+      "git_blob": "a616e7650bbb51251051c67e0b1e2a60fa065456",
+      "bytes": 23537
+    },
+    {
+      "path": "benchmarks/document_relations/financial-context-regression/20261015/contract.md",
+      "sha256": "fbff1d2fc05850f1d9ed27873e7174138f8d5248bf527dc55127e22e8f450f7a",
+      "git_blob": "1e515ec83296f73249e4e6a55ac377e84e842710",
+      "bytes": 3186
+    },
+    {
+      "path": "benchmarks/document_relations/financial-context-regression/20261015/README.md",
+      "sha256": "3a0cc352cbd53946d9304d694dcca33139188768d2a9b80c662398f288de567b",
+      "git_blob": "93f48b8e9152fe8afa4df0c05cba4e575fc64d28",
+      "bytes": 3152
+    },
+    {
+      "path": "benchmarks/document_relations/financial-context-regression/20261015/reviewer-boundary-probes.json",
+      "sha256": "015640c97f23344369b44c593ec3fb254b69f832f5bfb1f8a9bcfd8143289b9c",
+      "git_blob": "966ec00fc13ff2a00ae63ff9167bca09c12e4e78",
+      "bytes": 588
+    },
+    {
+      "path": "benchmarks/document_relations/financial-context-regression/20261015/reviewer-public-probes.json",
+      "sha256": "a28f5e77a492c6c6d9f98efb6a06ec3ac3d03748d19b9e525f37d70b4d80617b",
+      "git_blob": "fa1dac31786ea4a523c41cef561d13f530fc9ed5",
+      "bytes": 2418
+    },
+    {
+      "path": "benchmarks/document_relations/financial-context-regression/20261015/scope-freeze.json",
+      "sha256": "47214c52faff7a3b8bc9232ce221a0d27385a1d21a1a7f11b72f16899c0ce1f3",
+      "git_blob": "19aa4d29a422b96f22e89f76a2c61968be2acb0b",
+      "bytes": 206721
+    },
+    {
+      "path": "benchmarks/document_relations/financial-context-regression/20261015/verify-snapshot.py",
+      "sha256": "a336e5a54aad6368099f6ff3ff96e574ee16d39dc76693c27a88fb69d5032cd0",
+      "git_blob": "57e1fe10dfbf1adf5537ad260bcdcab9303fd3f3",
+      "bytes": 2330
+    },
+    {
+      "path": "benchmarks/document_relations/README.md",
+      "sha256": "5a4b1c2475b056e613c616ad447ae7961ccbab9dd80a9d3cf7742cfbc01801e9",
+      "git_blob": "f908a5e8d217236823862289e354b75355696611",
+      "bytes": 32007
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/acceptance-tool-initial.py.txt",
+      "sha256": "5e60ec7109cc3bb470c5e80bbc7c5bb777e62a6b03c03f6df0ad565f1fb5c745",
+      "git_blob": "08a2dc1ad5afa92fbc1b69e3b4ebc9eb5d3f83f1",
+      "bytes": 22264
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-additional-public.json",
+      "sha256": "bd69ea3b27632a1211ce02242e17a152f145553fbb5160b5d0ab5744426160e8",
+      "git_blob": "6b2290f559ed00190f61df1c75d869e33116989f",
+      "bytes": 244394
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-atom-mapping.json",
+      "sha256": "fb81f563a583564b3b1dd774a61d6b0726bbf725e9f73c01fe3d5670507d2d99",
+      "git_blob": "03d681ad5d7cee9b89b5c8c0cfcb488c8e561263",
+      "bytes": 9999
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-boundary-public.json",
+      "sha256": "761c468faf8ba038d16231917e59bfdb904dde725ada947eac368fd7fcbd0750",
+      "git_blob": "a6a752b2ed541b67aac7d1b6eea18a4bd586f564",
+      "bytes": 71552
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-capture-1.0.3.json",
+      "sha256": "b7cbf945819f1930e3252ad9c3a5cb877efe5c1158a5fdc14507c39035ab4ece",
+      "git_blob": "899e364590a0bff0e64b5dc4997753d1321835c7",
+      "bytes": 796193
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-export-proof.json",
+      "sha256": "71a05b1407e0d07c020f5abbef68b3cf012771f7bdf059adbd464a17d45d685c",
+      "git_blob": "264c5e0bb7fcc23759c70caafb15aa1310e66093",
+      "bytes": 240289
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-first-public-checks.json",
+      "sha256": "8dd002752b906af92d290012b414e852e4be75dab83c2b66dac63becbf867141",
+      "git_blob": "fc4942599d417968f3140426918f63a1bbfe42b9",
+      "bytes": 572262
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-three-view-scores.json",
+      "sha256": "bc22612d254027803e626c9be861aff7aa6e0a205d1a912b88e24d77a7e88e82",
+      "git_blob": "ff9d24a03bb9c1985a7e10cbcee899730c32a18d",
+      "bytes": 952684
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-to-product-comparison.json",
+      "sha256": "8db1e74a57fe0b213dd7f12fb9ca706001661a36d1b38a684bf379fa70a49f00",
+      "git_blob": "c0a037b59c7a2b5f807dce29a002b405cac1bfb8",
+      "bytes": 36474
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/canonical-actual-public-22.json",
+      "sha256": "7b47ce51a441feb638a03de2d94920713ecf0da13626df7b673aee1c83430edf",
+      "git_blob": "80e8561ed41d4b4c2be8519f19318f0035a6932d",
+      "bytes": 1083215
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/canonical-existing-public-33.json",
+      "sha256": "e45ab82836f5629dcc252a47f6908de3aa7b629bf9052c7191d79a940fb99a93",
+      "git_blob": "916e800bfb3065c87b0760ca2a249eaa5603e022",
+      "bytes": 725325
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/canonical-three-view-scores.json",
+      "sha256": "3ae0b77a24aa2cc5449edeed9a91b9a9e74566583c5a1c86f66ee36f16aff8c8",
+      "git_blob": "9ab99c80c76b7eef881db247c111bf238a4af618",
+      "bytes": 954501
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/comparison-identity-note.json",
+      "sha256": "ec821cfae6b62d490ae8a3304aa599160295d1f4261093624716ec175d5e2366",
+      "git_blob": "c2a6901a26784e9eeb4f8cf261824f3d771eb6b9",
+      "bytes": 5755
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/final-code-proof.json",
+      "sha256": "5123ec0be0272a37710b023d59e91815faee3006d92d8b057554747816ddb937",
+      "git_blob": "08913c880fca921287becec8c6bb966b73dcf68e",
+      "bytes": 257832
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/final-validation.json",
+      "sha256": "8d4d20dc48588f36b475174fbc5708fc9a2b1114f3fde8df9d6e08c784033d06",
+      "git_blob": "39b04cb4aec6b9febfdcf0f798884664413abf37",
+      "bytes": 1632
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/product-v2-capture-1.0.3.json",
+      "sha256": "0ac8d147ac86528ac6b3fe25210e7285cdf281c0a455e43f013d89c2c094c2d4",
+      "git_blob": "3df071a8d487a6509b99dd30550fc35cbeaf8a19",
+      "bytes": 804556
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/pytest-canonical-final.xml",
+      "sha256": "25fd2d0738943bc3c730a6e0e8d0085844e04bfd15e8b81732d1d616f590033a",
+      "git_blob": "7cefdd48f7091e8c1ef8e03f6916ec11bc91283f",
+      "bytes": 171453
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/working-iteration1-public-checks.json",
+      "sha256": "fe80b7aebac402e5fbb60b3f29f56f50cbc59ab6384da1b6d5b16e17b8510222",
+      "git_blob": "a05a2d76134300949e97c8f036f55027b7bd8ab5",
+      "bytes": 573912
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/working-iteration2-public-checks.json",
+      "sha256": "a7df6cf8b120ef86ca151327046d94ae8cf38db19e32a2ed912a7689bb8f7999",
+      "git_blob": "8f3ff780917810fd6a9c7a3fb53402be33119ed0",
+      "bytes": 1083139
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/worker/document_relations.py.txt",
+      "sha256": "5a53009df177fefb4fe603a7a424828641ec9c59bdf4e87830b4904f230f75a4",
+      "git_blob": "9afde5aa3799c393d8ca8a6b845f37c6dec38351",
+      "bytes": 218373
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/worker/pytest-baseline-red-20261015.xml",
+      "sha256": "ff2d99bb089c3e500922b3d757ae38e35b74081523b937ed656e0599df6c8dc7",
+      "git_blob": "35904d8f0f5e66426a2423e6d757f03ebe01e515",
+      "bytes": 27652
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/worker/pytest-green-20261015.xml",
+      "sha256": "93bfdaa764abe4241e9c0da53a1a3af8f9524fb8538f4fe429f8478098c8f249",
+      "git_blob": "a4ed8f46c8d821d325bda85a21ebd1dca61ead9a",
+      "bytes": 10100
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/worker/pytest-green-iteration1-20261015.xml",
+      "sha256": "672bffaa6a3dfa4dd610dada7e3e88c16a1ba7840ddb57b4e00fc662392c23a6",
+      "git_blob": "b482db47e5dad8180e2a60893da3f4cc1310e419",
+      "bytes": 17252
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/worker/summary.md",
+      "sha256": "b6c898f0fc461f1e9d44747f1216c84101b2b137b39b0a35d131636c344e91c1",
+      "git_blob": "485113c621e0a226d043de1b6758665f2d3dc3d3",
+      "bytes": 2252
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/worker/test_document_relations_financial_context.intermediate.py.txt",
+      "sha256": "9aff07097bda00896e0cfba7d2f8bf2f324fe6766cc20e6e81e8d4e837772cc9",
+      "git_blob": "4936653fe9f1df451998fe82b5decfa8065bd08a",
+      "bytes": 9080
+    },
+    {
+      "path": "benchmarks/document_relations/reports/financial-context-followup-20261015/worker/test_document_relations_financial_context.py.txt",
+      "sha256": "b772f696b230badf13055d3634d62862a1f8bb098cb1557af96bcc89ff6ea1fb",
+      "git_blob": "68d5bae231a3bc3e1b933f1c2d5069d33b05b1d0",
+      "bytes": 9253
+    },
+    {
+      "path": "docs/document_relations_acceptance.md",
+      "sha256": "ea3d3d4e6bc7f63cd99ae1d9a08418b309d1e73a8d887ca1ec64ff8a1094602d",
+      "git_blob": "05cb49e482aea8d81a138e92c9af1e7984394398",
+      "bytes": 85493
+    },
+    {
+      "path": "src/qiaowenshu_agent/domain/document_relations.py",
+      "sha256": "5a53009df177fefb4fe603a7a424828641ec9c59bdf4e87830b4904f230f75a4",
+      "git_blob": "9afde5aa3799c393d8ca8a6b845f37c6dec38351",
+      "bytes": 218373
+    },
+    {
+      "path": "tests/test_document_relations_financial_context.py",
+      "sha256": "b772f696b230badf13055d3634d62862a1f8bb098cb1557af96bcc89ff6ea1fb",
+      "git_blob": "68d5bae231a3bc3e1b933f1c2d5069d33b05b1d0",
+      "bytes": 9253
+    }
+  ]
+}

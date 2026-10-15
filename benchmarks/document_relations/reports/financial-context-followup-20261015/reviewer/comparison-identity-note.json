@@ -1,0 +1,140 @@
+{
+  "schema": "financial-context-recapture-identity-note-v1",
+  "comparison": "baseline-to-product-comparison.json",
+  "comparison_sha256": "8db1e74a57fe0b213dd7f12fb9ca706001661a36d1b38a684bf379fa70a49f00",
+  "interpretation": "Each independent Registry recapture assigns a fresh document identity. Therefore cross-capture graph/context hashes differ, including the thirteen cases with identical scores and metrics. They are not asserted byte-identical. Raw input bytes/pages are checked below. Within each new capture all three scoring views use identical graph/context/runtime fingerprints.",
+  "cases": [
+    {
+      "case_id": "case-01",
+      "raw_input_sha256": "cd2110251d92484a5d963191c1c0a09939a559e398d97082772f844da7ce1a03",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_a84b58bde38f4497",
+      "current_document_id": "file_973502da4587443c",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-02",
+      "raw_input_sha256": "2d2b5673cbbe1cf1401b571f758feaf36052ca2b9010c839f3b55f86c2b36c9e",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_349e0b3a1c4645d3",
+      "current_document_id": "file_a49da5192cd24b9c",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-03",
+      "raw_input_sha256": "c8b9cfdd5d645f522cad6c05a08666ff0f23322352b775637cdf3cc39ef0e732",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_ae30dd68c34f4759",
+      "current_document_id": "file_4f3f181f109b44e3",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-04",
+      "raw_input_sha256": "25573beb369fc9e4f6a987d841a987a1d901ef74f5085eeed0250b5d32bd3e8a",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_7ed118f006bc4f83",
+      "current_document_id": "file_99f4052a30574a36",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-05",
+      "raw_input_sha256": "3aef03b168540f155e06001c37e50db0e9d0d7cfa8ac6bf2fd87ca66e07151f5",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_cfe23539b708422f",
+      "current_document_id": "file_3d24f9fc119f410a",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-06",
+      "raw_input_sha256": "5399efff2a1b2e6b6b3f9d02c8bfce4000a40e6e6975d1777ad82a2477cde841",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_3fb61344a7284a28",
+      "current_document_id": "file_79c801636c8d424a",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-07",
+      "raw_input_sha256": "da739873ce9ba42b2c1401cf0ae3cb5b1e50fd719ec06819c16b9bcdf0b23f73",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_f55f6ee2236f48b4",
+      "current_document_id": "file_c2c30ffd23e34886",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-08",
+      "raw_input_sha256": "3aaf208ed06673fb24e69ae2a12a1b2e3b5d120b33b06f443c6ff1f17bd71ae2",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_3ebb3012e7a042b3",
+      "current_document_id": "file_d738d84b95ee45cb",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-09",
+      "raw_input_sha256": "41b364624ee0b41eeb281cff1d03bba2e5b2a9fdd560c0f5a35b3357c0f0c8c5",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_4a7f9107fedf48e7",
+      "current_document_id": "file_46e9568bf3234154",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-10",
+      "raw_input_sha256": "1b58f8222c8260251a44efc70dc43bffb8a3ffd06368b4d9ad7f23373118a1ff",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_49516e398fa64974",
+      "current_document_id": "file_80256237294d4b83",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-11",
+      "raw_input_sha256": "40ad4e00f70972566b3696078601455e815bf9fa5787ea500aa7d29fe823ba86",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_eb28f34df312478e",
+      "current_document_id": "file_479673504b4443ff",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-12",
+      "raw_input_sha256": "6ea791a6fcb1334dadb5b7987a1c485cfa4e6ce16d3cc991b29dc0fadd1c478d",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_a148ae22379b49ee",
+      "current_document_id": "file_3f25988a451a412e",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-13",
+      "raw_input_sha256": "602c972bbcfa424204660fa48cd89820cf46af9029a62580883c2f4091d9f8ed",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_d4fee976a7124ce7",
+      "current_document_id": "file_e9604844393443bc",
+      "three_view_same_capture": true
+    },
+    {
+      "case_id": "case-14",
+      "raw_input_sha256": "6d337296e80caf344c39bd11203e125df0938e31860988e72d5e17dfb42eda18",
+      "raw_input_matches": true,
+      "raw_pages_match": true,
+      "baseline_document_id": "file_c1452d92a47f4962",
+      "current_document_id": "file_ca080d8668ab4da5",
+      "three_view_same_capture": true
+    }
+  ],
+  "raw_input_matches": 14,
+  "raw_pages_match": 14,
+  "scoring_changed_case_ids": [
+    "case-13"
+  ],
+  "other_case_statuses_and_all_metrics_unchanged": 13
+}

@@ -1,0 +1,1313 @@
+{
+  "schema": "financial-context-baseline-comparison-v1",
+  "generated_at": "2026-10-15T12:10:29.2505203+08:00",
+  "classification": "fresh public captures; frozen scorers; not unseen",
+  "baseline_source_sha256": "122ddbd58a0004732c2b0a26a392dce36a3a7ff739ba5fffb47609b4fbb3532c",
+  "current_source_sha256": "8141956da6314058e73a3c1f64b0f8c058d4fdb5a3c0a1b7068aa1e9e7be45d4",
+  "baseline_capture": {
+    "path": "E:/project/tender-writing-agent/benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/baseline-capture-1.0.3.json",
+    "sha256": "b7cbf945819f1930e3252ad9c3a5cb877efe5c1158a5fdc14507c39035ab4ece",
+    "classification": "shared-filesystem synthetic evaluation; not certified blind",
+    "capture_base_commit_metadata": "bbb8309a342574c4cc138584170791e05f2d205e",
+    "capture_repository_context": "archive/no_local_git_root",
+    "git_revision_at_capture": null,
+    "evaluator_version": "1.0.3",
+    "evaluator_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+    "source_tree_sha256": "122ddbd58a0004732c2b0a26a392dce36a3a7ff739ba5fffb47609b4fbb3532c",
+    "execution_summary": {
+      "case_count": 14,
+      "passed": 10,
+      "failed": 4,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 5,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 5,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 2,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 16,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1095,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 37,
+        "group_structure_error_events": 6
+      }
+    }
+  },
+  "current_capture": {
+    "path": "E:/project/tender-writing-agent/benchmarks/document_relations/reports/financial-context-followup-20261015/reviewer/product-v2-capture-1.0.3.json",
+    "sha256": "0ac8d147ac86528ac6b3fe25210e7285cdf281c0a455e43f013d89c2c094c2d4",
+    "classification": "shared-filesystem synthetic evaluation; not certified blind",
+    "capture_base_commit_metadata": "bbb8309a342574c4cc138584170791e05f2d205e",
+    "capture_repository_context": "archive/no_local_git_root",
+    "git_revision_at_capture": null,
+    "evaluator_version": "1.0.3",
+    "evaluator_sha256": "26330942263746e6794deb7def70e17f4848bb64f2fe7ebb4011f5784ca57483",
+    "source_tree_sha256": "8141956da6314058e73a3c1f64b0f8c058d4fdb5a3c0a1b7068aa1e9e7be45d4",
+    "execution_summary": {
+      "case_count": 14,
+      "passed": 11,
+      "failed": 3,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 5,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 4,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 1,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 13,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1107,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 31,
+        "group_structure_error_events": 5
+      }
+    }
+  },
+  "fresh_baseline_matches_previous_accepted_summaries": true,
+  "baseline_views": {
+    "1.0.3": {
+      "case_count": 14,
+      "passed": 10,
+      "failed": 4,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 5,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 5,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 2,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 16,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1095,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 37,
+        "group_structure_error_events": 6
+      },
+      "method": "frozen 1.0.3 score_case",
+      "overlay_case_ids": []
+    },
+    "1.0.4": {
+      "case_count": 14,
+      "passed": 10,
+      "failed": 4,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 2,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 5,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 5,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 2,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 16,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1095,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 35,
+        "group_structure_error_events": 6
+      },
+      "method": "frozen 1.0.4 score_case",
+      "overlay_case_ids": []
+    },
+    "1.0.5": {
+      "case_count": 14,
+      "passed": 11,
+      "failed": 3,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 2,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 3,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 2,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 8,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1095,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 20,
+        "group_structure_error_events": 3
+      },
+      "method": "frozen 1.0.5 on case-03/case-11; 1.0.4 fallback elsewhere",
+      "overlay_case_ids": [
+        "case-03",
+        "case-11"
+      ]
+    }
+  },
+  "current_views": {
+    "1.0.3": {
+      "case_count": 14,
+      "passed": 11,
+      "failed": 3,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 5,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 4,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 1,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 13,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 6,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1107,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 31,
+        "group_structure_error_events": 5
+      },
+      "method": "frozen 1.0.3 score_case",
+      "overlay_case_ids": []
+    },
+    "1.0.4": {
+      "case_count": 14,
+      "passed": 11,
+      "failed": 3,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 2,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 5,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 4,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 1,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 13,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1107,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 29,
+        "group_structure_error_events": 5
+      },
+      "method": "frozen 1.0.4 score_case",
+      "overlay_case_ids": []
+    },
+    "1.0.5": {
+      "case_count": 14,
+      "passed": 12,
+      "failed": 2,
+      "not_run": 0,
+      "metrics": {
+        "boundary_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "condition_omission": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "forbidden_claims": {
+          "numerator": 1,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "operator_evidence": {
+          "numerator": 0,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "operator_group_structure": {
+          "numerator": 2,
+          "denominator": 14,
+          "status": "measured"
+        },
+        "parent_relations": {
+          "numerator": 2,
+          "denominator": 16,
+          "status": "measured"
+        },
+        "reference_relations": {
+          "numerator": 1,
+          "denominator": 3,
+          "status": "measured"
+        },
+        "review_handling": {
+          "numerator": 0,
+          "denominator": 19,
+          "status": "measured"
+        },
+        "scope_evidence": {
+          "numerator": 0,
+          "denominator": 17,
+          "status": "measured"
+        },
+        "scope_membership_decisions": {
+          "numerator": 5,
+          "denominator": 50,
+          "status": "measured"
+        },
+        "source_coverage": {
+          "numerator": 2,
+          "denominator": 37,
+          "status": "measured"
+        },
+        "source_invalid": {
+          "numerator": 0,
+          "denominator": 1107,
+          "status": "measured"
+        },
+        "wrong_merge_pairs": {
+          "numerator": 0,
+          "denominator": 34,
+          "status": "measured"
+        },
+        "wrong_split_atom_units": {
+          "numerator": 0,
+          "denominator": 37,
+          "status": "measured"
+        }
+      },
+      "event_counts": {
+        "error_events": 14,
+        "group_structure_error_events": 2
+      },
+      "method": "frozen 1.0.5 on case-03/case-11; 1.0.4 fallback elsewhere",
+      "overlay_case_ids": [
+        "case-03",
+        "case-11"
+      ]
+    }
+  },
+  "changed_score_cases": [
+    "case-13"
+  ],
+  "interpretation": "Only case-13 product relations improved. Both frozen 1.0.3/1.0.4 already mapped its three atoms before development. Graders and oracle unchanged. All other actual graph/context/runtime fingerprints remain recorded separately.",
+  "cases": [
+    {
+      "case_id": "case-01",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-02",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-03",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-04",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-05",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-06",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-07",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "failed",
+          "after": "failed",
+          "metric_differences": [],
+          "errors_before": 8,
+          "errors_after": 8
+        },
+        "1.0.4": {
+          "before": "failed",
+          "after": "failed",
+          "metric_differences": [],
+          "errors_before": 8,
+          "errors_after": 8
+        },
+        "1.0.5": {
+          "before": "failed",
+          "after": "failed",
+          "metric_differences": [],
+          "errors_before": 8,
+          "errors_after": 8
+        }
+      }
+    },
+    {
+      "case_id": "case-08",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-09",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-10",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-11",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "failed",
+          "after": "failed",
+          "metric_differences": [],
+          "errors_before": 17,
+          "errors_after": 17
+        },
+        "1.0.4": {
+          "before": "failed",
+          "after": "failed",
+          "metric_differences": [],
+          "errors_before": 15,
+          "errors_after": 15
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-12",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "failed",
+          "after": "failed",
+          "metric_differences": [],
+          "errors_before": 6,
+          "errors_after": 6
+        },
+        "1.0.4": {
+          "before": "failed",
+          "after": "failed",
+          "metric_differences": [],
+          "errors_before": 6,
+          "errors_after": 6
+        },
+        "1.0.5": {
+          "before": "failed",
+          "after": "failed",
+          "metric_differences": [],
+          "errors_before": 6,
+          "errors_after": 6
+        }
+      }
+    },
+    {
+      "case_id": "case-13",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": true,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "failed",
+          "after": "passed",
+          "metric_differences": [
+            {
+              "metric": "scope_membership_decisions",
+              "before": {
+                "numerator": 3,
+                "denominator": 3
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 3
+              }
+            },
+            {
+              "metric": "parent_relations",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "reference_relations",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "source_invalid",
+              "before": {
+                "numerator": 0,
+                "denominator": 38
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 50
+              }
+            }
+          ],
+          "errors_before": 6,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "failed",
+          "after": "passed",
+          "metric_differences": [
+            {
+              "metric": "scope_membership_decisions",
+              "before": {
+                "numerator": 3,
+                "denominator": 3
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 3
+              }
+            },
+            {
+              "metric": "parent_relations",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "reference_relations",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "source_invalid",
+              "before": {
+                "numerator": 0,
+                "denominator": 38
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 50
+              }
+            }
+          ],
+          "errors_before": 6,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "failed",
+          "after": "passed",
+          "metric_differences": [
+            {
+              "metric": "scope_membership_decisions",
+              "before": {
+                "numerator": 3,
+                "denominator": 3
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 3
+              }
+            },
+            {
+              "metric": "parent_relations",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "reference_relations",
+              "before": {
+                "numerator": 1,
+                "denominator": 1
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 1
+              }
+            },
+            {
+              "metric": "source_invalid",
+              "before": {
+                "numerator": 0,
+                "denominator": 38
+              },
+              "after": {
+                "numerator": 0,
+                "denominator": 50
+              }
+            }
+          ],
+          "errors_before": 6,
+          "errors_after": 0
+        }
+      }
+    },
+    {
+      "case_id": "case-14",
+      "execution_before": "executed",
+      "execution_after": "executed",
+      "scoring_changed": false,
+      "raw_graph_unchanged": false,
+      "source_context_unchanged": false,
+      "runtime_unchanged": true,
+      "three_view_fingerprints_consistent": true,
+      "views": {
+        "1.0.3": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.4": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        },
+        "1.0.5": {
+          "before": "passed",
+          "after": "passed",
+          "metric_differences": [],
+          "errors_before": 0,
+          "errors_after": 0
+        }
+      }
+    }
+  ],
+  "unseen_evaluation": "not_run",
+  "production_accepted": false
+}
